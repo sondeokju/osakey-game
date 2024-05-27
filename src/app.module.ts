@@ -1,0 +1,134 @@
+import {
+  ClassSerializerInterceptor,
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from './users/users.module';
+import { UsersModel } from './users/entity/users.entity';
+import { CommonModule } from './common/common.module';
+import { AuthModule } from './auth/auth.module';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { ConfigModule } from '@nestjs/config';
+import {
+  ENV_DB_DATABASE_KEY,
+  ENV_DB_HOST_KEY,
+  ENV_DB_PASSWORD_KEY,
+  ENV_DB_PORT_KEY,
+  ENV_DB_SCHEMA_KEY,
+  ENV_DB_USERNAME_KEY,
+  ENV_SYNCHRONIZE_KEY,
+  ENV_KEEPCONNECTIONALIVE_KEY,
+} from './common/const/env-keys.const';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { PUBLIC_FOLDER_PATH } from './common/const/path.const';
+import { LogMiddleware } from './common/middleware/log.middleware';
+import { RolesGuard } from './users/guard/roles.guard';
+import { AccessTokenGuard } from './auth/guard/bearer-token.guard';
+import { ItemModule } from './static-table/item/item.module';
+import { Item } from './static-table/item/entities/item.entity';
+import { ItemEquipslotModule } from './static-table/item-equipslot/item-equipslot.module';
+import { ItemEquipslot } from './static-table/item-equipslot/entities/item-equipslot.entity';
+import { ItemGradeModule } from './static-table/item-grade/item-grade.module';
+import { ItemGrade } from './static-table/item-grade/entities/item-grade.entity';
+import { EquipStatModule } from './static-table/equip-stat/equip-stat.module';
+import { EquipStat } from './static-table/equip-stat/entities/equip-stat.entity';
+import { UserEquipmentModule } from './user-equipment/user-equipment.module';
+import { UserEquipment } from './user-equipment/entities/user-equipment.entity';
+import { UserEquipmentSlotModule } from './user-equipment-slot/user-equipment-slot.module';
+import { UserEquipmentSlot } from './user-equipment-slot/entities/user-equipment-slot.entity';
+import { Gacha } from './static-table/gacha/entities/gacha.entity';
+import { GachaModule } from './static-table/gacha/gacha.module';
+import { UserItemModule } from './user_item/user_item.module';
+import { UserItem } from './user_item/entities/user_item.entity';
+import { RedisModule } from '@liaoliaots/nestjs-redis';
+
+@Module({
+  imports: [
+    ServeStaticModule.forRoot({
+      rootPath: PUBLIC_FOLDER_PATH,
+      serveRoot: '/public',
+    }),
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true,
+    }),
+
+    RedisModule.forRoot({
+      readyLog: true,
+      config: {
+        host: 'localhost',
+        port: 6379,
+        //password: 'bitnami',
+      },
+    }),
+
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env[ENV_DB_HOST_KEY],
+      port: parseInt(process.env[ENV_DB_PORT_KEY]),
+      username: process.env[ENV_DB_USERNAME_KEY],
+      password: process.env[ENV_DB_PASSWORD_KEY],
+      database: process.env[ENV_DB_DATABASE_KEY],
+      schema: process.env[ENV_DB_SCHEMA_KEY],
+      //schema: 'test',
+      //schema: 'osakey',
+      entities: [
+        UsersModel,
+        Item,
+        ItemEquipslot,
+        ItemGrade,
+        EquipStat,
+        UserEquipment,
+        UserEquipmentSlot,
+        Gacha,
+        UserItem,
+      ],
+      // synchronize: false,
+      // keepConnectionAlive: true,
+      synchronize: process.env[ENV_SYNCHRONIZE_KEY] === 'true' ? true : false,
+      keepConnectionAlive:
+        process.env[ENV_KEEPCONNECTIONALIVE_KEY] === 'true' ? true : false,
+    }),
+    UsersModule,
+    AuthModule,
+    CommonModule,
+    ItemModule,
+    ItemEquipslotModule,
+    ItemGradeModule,
+    EquipStatModule,
+    UserEquipmentModule,
+    UserEquipmentSlotModule,
+    GachaModule,
+    UserItemModule,
+  ],
+  controllers: [AppController],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: AccessTokenGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
+})
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LogMiddleware).forRoutes({
+      //path: 'posts*',
+      path: '*',
+      method: RequestMethod.ALL,
+    });
+  }
+}
