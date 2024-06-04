@@ -48,6 +48,8 @@ import { UserItem } from './user_item/entities/user_item.entity';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { UserAdModule } from './user_ad/user_ad.module';
 import { UserAd } from './user_ad/entities/user_ad.entity';
+import { UserEventAttendanceModule } from './user_event_attendance/user_event_attendance.module';
+import { UserEventAttendance } from './user_event_attendance/entities/user_event_attendance.entity';
 
 @Module({
   imports: [
@@ -90,6 +92,7 @@ import { UserAd } from './user_ad/entities/user_ad.entity';
         Gacha,
         UserItem,
         UserAd,
+        UserEventAttendance,
       ],
       // synchronize: false,
       // keepConnectionAlive: true,
@@ -109,6 +112,7 @@ import { UserAd } from './user_ad/entities/user_ad.entity';
     GachaModule,
     UserItemModule,
     UserAdModule,
+    UserEventAttendanceModule,
   ],
   controllers: [AppController],
   providers: [
