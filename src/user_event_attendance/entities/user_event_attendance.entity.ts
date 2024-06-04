@@ -1,13 +1,16 @@
+import { truncateSync } from 'fs';
 import { BaseModel } from 'src/common/entity/base.entity';
 import { Column, Entity, Index } from 'typeorm';
 
 @Entity()
-@Index('IDX_USERID_ATTENDANCETYPE', ['user_id', 'attendance_type'])
+@Index('IDX_USERID_ATTENDANCETYPE', ['user_id', 'attendance_type'], {
+  unique: true,
+})
 export class UserEventAttendance extends BaseModel {
   @Column({
-    unique: true,
     default: 0,
   })
+  @Index({ unique: true })
   user_id: number;
 
   @Column({
