@@ -47,6 +47,7 @@ import { UserItemModule } from './user_item/user_item.module';
 import { UserItem } from './user_item/entities/user_item.entity';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { UserAdModule } from './user_ad/user_ad.module';
+import { UserAd } from './user_ad/entities/user_ad.entity';
 
 @Module({
   imports: [
@@ -88,6 +89,7 @@ import { UserAdModule } from './user_ad/user_ad.module';
         UserEquipmentSlot,
         Gacha,
         UserItem,
+        UserAd,
       ],
       // synchronize: false,
       // keepConnectionAlive: true,
