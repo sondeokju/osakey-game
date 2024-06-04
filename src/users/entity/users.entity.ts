@@ -2,6 +2,7 @@ import {
   Column,
   Double,
   Entity,
+  Index,
   JoinTable,
   ManyToMany,
   OneToMany,
@@ -24,7 +25,6 @@ import { BaseModel } from 'src/common/entity/base.entity';
 export class UsersModel extends BaseModel {
   @Column({
     length: 20,
-    unique: true,
   })
   @IsString({
     message: stringValidatioMessage,
@@ -36,11 +36,10 @@ export class UsersModel extends BaseModel {
     message: lengthValidationMessage,
   })
   //@Expose()
+  @Index({ unique: true })
   nickname: string;
 
-  @Column({
-    unique: true,
-  })
+  @Column({})
   @IsString({
     message: stringValidatioMessage,
   })
@@ -50,6 +49,7 @@ export class UsersModel extends BaseModel {
       message: emailValidationMessage,
     },
   )
+  @Index({ unique: true })
   email: string;
 
   @Column()

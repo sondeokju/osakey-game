@@ -4,9 +4,9 @@ import { Column, Entity, Index } from 'typeorm';
 @Entity()
 export class UserAd extends BaseModel {
   @Column({
-    unique: true,
     default: 0,
   })
+  @Index({ unique: true })
   user_id: number;
 
   @Column({

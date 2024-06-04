@@ -2,6 +2,7 @@ import { BaseModel } from 'src/common/entity/base.entity';
 import {
   Column,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
@@ -14,6 +15,7 @@ export class UserEquipment extends BaseModel {
   @Column({
     default: 0,
   })
+  @Index({ unique: true })
   user_id: number;
 
   @Column({
