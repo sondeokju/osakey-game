@@ -46,6 +46,7 @@ import { GachaModule } from './static-table/gacha/gacha.module';
 import { UserItemModule } from './user_item/user_item.module';
 import { UserItem } from './user_item/entities/user_item.entity';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
+import { UserAdModule } from './user_ad/user_ad.module';
 
 @Module({
   imports: [
@@ -105,6 +106,7 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
     UserEquipmentSlotModule,
     GachaModule,
     UserItemModule,
+    UserAdModule,
   ],
   controllers: [AppController],
   providers: [
