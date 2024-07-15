@@ -68,7 +68,7 @@ export class UsersService {
     });
 
     if (emailExists) {
-      throw new BadRequestException('이미 가입한 미메일입니다.!');
+      throw new BadRequestException('이미 가입한 이메일입니다.!');
     }
     const userObject = this.usersRepository.create({
       nickname: user.nickname,
@@ -420,7 +420,7 @@ export class UsersService {
       diamond_free: userData.diamond_free + diamond_free,
       revive_coin: userData.revive_coin + revive_coin,
     });
-
+    
     const obj = {
       diamond_paid: { diamond_paid: diamond_paid },
       diamond_free: { diamond_free: diamond_free },

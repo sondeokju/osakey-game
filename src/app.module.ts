@@ -72,13 +72,14 @@ import { UserEventAttendance } from './user_event_attendance/entities/user_event
     }),
 
     TypeOrmModule.forRoot({
-      type: 'postgres',
+      //type: 'postgres',
+      type: 'mysql',
       host: process.env[ENV_DB_HOST_KEY],
       port: parseInt(process.env[ENV_DB_PORT_KEY]),
       username: process.env[ENV_DB_USERNAME_KEY],
       password: process.env[ENV_DB_PASSWORD_KEY],
       database: process.env[ENV_DB_DATABASE_KEY],
-      schema: process.env[ENV_DB_SCHEMA_KEY],
+      //schema: process.env[ENV_DB_SCHEMA_KEY],
       //schema: 'test',
       //schema: 'osakey',
       entities: [
@@ -94,7 +95,7 @@ import { UserEventAttendance } from './user_event_attendance/entities/user_event
         UserAd,
         UserEventAttendance,
       ],
-      // synchronize: false,
+      //synchronize: true,
       // keepConnectionAlive: true,
       synchronize: process.env[ENV_SYNCHRONIZE_KEY] === 'true' ? true : false,
       keepConnectionAlive:
