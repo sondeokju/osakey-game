@@ -496,12 +496,11 @@ export class UsersService {
     const currentLevel = userData.level;
     const nextLevel = currentLevel + 1;
     let updateLevel = currentLevel;
+    let obj = {};
 
     const accountLevelData = await this.accountLevelService.getAccountLevel(
       +nextLevel,
     );
-
-    console.log(accountLevelData);
 
     if (!accountLevelData) return -1;
 
@@ -512,9 +511,12 @@ export class UsersService {
     await usersRepository.save({
       ...userData,
       level: updateLevel,
+      diamond_free: userData.diamond_free + accountLevelData.reward_diamond,
+      gord: userData.gord + accountLevelData.reward_diamond,
+      battery: userData.battery + accountLevelData.reward_battery,
     });
 
-    const obj = {
+    obj = {
       reward_diamond: { reward_diamond: accountLevelData.reward_diamond },
       reward_battery: { reward_battery: accountLevelData.reward_battery },
       additional_reward_id: {
