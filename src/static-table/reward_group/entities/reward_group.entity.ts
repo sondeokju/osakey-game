@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+@Entity()
 export class RewardGroup {
   @PrimaryColumn()
   reward_group_id: number;

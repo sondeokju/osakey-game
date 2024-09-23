@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+@Entity()
 export class AccountLevel {
   @PrimaryColumn()
   equipment_id: number;
