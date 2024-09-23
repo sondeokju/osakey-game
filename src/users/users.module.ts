@@ -7,7 +7,7 @@ import { AccountLevel } from 'src/static-table/account_level/entities/account_le
 import { AccountLevelService } from 'src/static-table/account_level/account_level.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UsersModel, AccountLevel])],
+  imports: [TypeOrmModule.forFeature([UsersModel])],
   exports: [UsersService],
   controllers: [UsersController],
   providers: [UsersService, AccountLevelService],
