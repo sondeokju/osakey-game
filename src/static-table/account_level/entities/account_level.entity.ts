@@ -11,11 +11,6 @@ import {
 @Entity()
 export class AccountLevel {
   @PrimaryColumn()
-  equipment_id: number;
-
-  @Column({
-    default: 0,
-  })
   account_level_id: number;
 
   @Column({
