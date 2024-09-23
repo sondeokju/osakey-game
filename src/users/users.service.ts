@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersModel } from './entity/users.entity';
-import { DataSource, QueryRunner, Repository } from 'typeorm';
+import { DataSource, IsNull, QueryRunner, Repository } from 'typeorm';
 import { BadRequestException } from '@nestjs/common';
 import { TakeMoneyDto } from './dto/take-money.dto';
 import Redis from 'ioredis';
@@ -500,6 +500,10 @@ export class UsersService {
     const accountLevelData = await this.accountLevelService.getAccountLevel(
       +nextLevel,
     );
+
+    console.log(accountLevelData);
+
+    if (!accountLevelData) return -1;
 
     if (currentExp >= accountLevelData.total_exp) {
       updateLevel = currentLevel + 1;
