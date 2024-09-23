@@ -263,7 +263,6 @@ export class UsersController {
     return result;
   }
 
-  //@Post('pay/diamondpaid-diamondfree-revivecoin')
   @Post('userlevelup')
   @UseInterceptors(TransactionInterceptor)
   async userLevelUp(
@@ -272,6 +271,7 @@ export class UsersController {
     // @Body('revive_coin', ParseIntPipe) revive_coin: number,
     @QueryRunner() qr: QR,
   ) {
+    console.log('userlevelup');
     const result = await this.usersService.userLevelUp(user.id, qr);
 
     return result;
