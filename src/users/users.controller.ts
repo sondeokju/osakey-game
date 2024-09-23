@@ -106,7 +106,7 @@ export class UsersController {
   ) {
     const result = await this.usersService.patchTakeGord(user.id, gord, qr);
 
-    return result;
+    return JSON.stringify(result);
   }
 
   @Patch('take/exp')
