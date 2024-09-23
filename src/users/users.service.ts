@@ -420,7 +420,7 @@ export class UsersService {
       diamond_free: userData.diamond_free + diamond_free,
       revive_coin: userData.revive_coin + revive_coin,
     });
-    
+
     const obj = {
       diamond_paid: { diamond_paid: diamond_paid },
       diamond_free: { diamond_free: diamond_free },

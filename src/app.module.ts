@@ -50,6 +50,10 @@ import { UserAdModule } from './user_ad/user_ad.module';
 import { UserAd } from './user_ad/entities/user_ad.entity';
 import { UserEventAttendanceModule } from './user_event_attendance/user_event_attendance.module';
 import { UserEventAttendance } from './user_event_attendance/entities/user_event_attendance.entity';
+import { AccountLevelModule } from './static-table/account_level/account_level.module';
+import { AccountLevel } from './static-table/account_level/entities/account_level.entity';
+import { RewardGroupModule } from './static-table/reward_group/reward_group.module';
+import { RewardGroup } from './static-table/reward_group/entities/reward_group.entity';
 
 @Module({
   imports: [
@@ -91,6 +95,8 @@ import { UserEventAttendance } from './user_event_attendance/entities/user_event
         UserEquipment,
         UserEquipmentSlot,
         Gacha,
+        AccountLevel,
+        RewardGroup,
         UserItem,
         UserAd,
         UserEventAttendance,
@@ -114,6 +120,8 @@ import { UserEventAttendance } from './user_event_attendance/entities/user_event
     UserItemModule,
     UserAdModule,
     UserEventAttendanceModule,
+    AccountLevelModule,
+    RewardGroupModule,
   ],
   controllers: [AppController],
   providers: [
