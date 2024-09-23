@@ -263,6 +263,20 @@ export class UsersController {
     return result;
   }
 
+  //@Post('pay/diamondpaid-diamondfree-revivecoin')
+  @Post('userlevelup')
+  @UseInterceptors(TransactionInterceptor)
+  async userLevelUp(
+    @User() user: UsersModel,
+    // @Body('diamond_paid', ParseIntPipe) diamond_paid: number,
+    // @Body('revive_coin', ParseIntPipe) revive_coin: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.usersService.userLevelUp(user.id, qr);
+
+    return result;
+  }
+
   // @Patch('gord/:qty/update')
   // @UseInterceptors(TransactionInterceptor)
   // async patchUpdateGord(

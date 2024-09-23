@@ -21,6 +21,11 @@ export class AccountLevel {
   @Column({
     default: 0,
   })
+  total_exp: number;
+
+  @Column({
+    default: 0,
+  })
   reward_diamond: number;
 
   @Column({

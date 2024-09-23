@@ -6,6 +6,7 @@ import { BadRequestException } from '@nestjs/common';
 import { TakeMoneyDto } from './dto/take-money.dto';
 import Redis from 'ioredis';
 import { InjectRedis, RedisService } from '@liaoliaots/nestjs-redis';
+import { AccountLevelService } from 'src/static-table/account_level/account_level.service';
 
 @Injectable()
 export class UsersService {
@@ -15,6 +16,7 @@ export class UsersService {
     @InjectRepository(UsersModel)
     private readonly usersRepository: Repository<UsersModel>,
     private readonly redisService: RedisService,
+    private readonly accountLevelService: AccountLevelService,
   ) {
     this.redisClient = redisService.getClient();
   }
@@ -479,6 +481,44 @@ export class UsersService {
 
     const result = Object.values(obj);
 
+    return result;
+  }
+
+  async userLevelUp(id: number, qr?: QueryRunner) {
+    const usersRepository = this.getUsersRepository(qr);
+    const userData = await usersRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    const currentExp = userData.exp;
+    const currentLevel = userData.level;
+    const nextLevel = currentLevel + 1;
+    let updateLevel = currentLevel;
+
+    const accountLevelData = await this.accountLevelService.getAccountLevel(
+      +nextLevel,
+    );
+
+    if (currentExp >= accountLevelData.total_exp) {
+      updateLevel = currentLevel + 1;
+    }
+
+    await usersRepository.save({
+      ...userData,
+      level: updateLevel,
+    });
+
+    const obj = {
+      reward_diamond: { reward_diamond: accountLevelData.reward_diamond },
+      reward_battery: { reward_battery: accountLevelData.reward_battery },
+      additional_reward_id: {
+        additional_reward_id: accountLevelData.additional_reward_id,
+      },
+    };
+
+    const result = Object.values(obj);
     return result;
   }
 
