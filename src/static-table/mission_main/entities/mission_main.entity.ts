@@ -21,7 +21,7 @@ export class MissionMain {
   @Column({
     default: 0,
   })
-  mission_main_openrank: number;
+  mission_main_open_rank: number;
 
   @Column({
     default: 0,
@@ -41,7 +41,7 @@ export class MissionMain {
   @Column({
     default: 0,
   })
-  mission_main_typevalue: number;
+  mission_main_type_value: number;
 
   @Column({
     default: 0,
