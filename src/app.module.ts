@@ -56,8 +56,8 @@ import { RewardGroupModule } from './static-table/reward_group/reward_group.modu
 import { RewardGroup } from './static-table/reward_group/entities/reward_group.entity';
 import { MissionRoutineModule } from './static-table/mission_routine/mission_routine.module';
 import { MissionRoutine } from './static-table/mission_routine/entities/mission_routine.entity';
-import { MissionRoutinebonusIdModule } from './static-table/mission_routinebonus_id/mission_routinebonus_id.module';
-import { MissionRoutinebonusId } from './static-table/mission_routinebonus_id/entities/mission_routinebonus_id.entity';
+import { MissionRoutineBonusModule } from './static-table/mission_routine_bonus/mission_routine_bonus.module';
+import { MissionRoutinebonus } from './static-table/mission_routine_bonus/entities/mission_routine_bonus.entity';
 
 @Module({
   imports: [
@@ -105,7 +105,7 @@ import { MissionRoutinebonusId } from './static-table/mission_routinebonus_id/en
         UserAd,
         UserEventAttendance,
         MissionRoutine,
-        MissionRoutinebonusId,
+        MissionRoutinebonus,
       ],
       //synchronize: true,
       // keepConnectionAlive: true,
@@ -129,7 +129,7 @@ import { MissionRoutinebonusId } from './static-table/mission_routinebonus_id/en
     AccountLevelModule,
     RewardGroupModule,
     MissionRoutineModule,
-    MissionRoutinebonusIdModule,
+    MissionRoutineBonusModule,
   ],
   controllers: [AppController],
   providers: [
