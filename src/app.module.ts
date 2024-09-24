@@ -60,6 +60,8 @@ import { MissionRoutineBonusModule } from './static-table/mission_routine_bonus/
 import { MissionRoutinebonus } from './static-table/mission_routine_bonus/entities/mission_routine_bonus.entity';
 import { MissionMainModule } from './static-table/mission_main/mission_main.module';
 import { MissionMain } from './static-table/mission_main/entities/mission_main.entity';
+import { MissionSubModule } from './static-table/mission_sub/mission_sub.module';
+import { MissionSub } from './static-table/mission_sub/entities/mission_sub.entity';
 
 @Module({
   imports: [
@@ -109,6 +111,7 @@ import { MissionMain } from './static-table/mission_main/entities/mission_main.e
         MissionRoutine,
         MissionRoutinebonus,
         MissionMain,
+        MissionSub,
       ],
       //synchronize: true,
       // keepConnectionAlive: true,
@@ -134,6 +137,7 @@ import { MissionMain } from './static-table/mission_main/entities/mission_main.e
     MissionRoutineModule,
     MissionRoutineBonusModule,
     MissionMainModule,
+    MissionSubModule,
   ],
   controllers: [AppController],
   providers: [
