@@ -58,6 +58,8 @@ import { MissionRoutineModule } from './static-table/mission_routine/mission_rou
 import { MissionRoutine } from './static-table/mission_routine/entities/mission_routine.entity';
 import { MissionRoutineBonusModule } from './static-table/mission_routine_bonus/mission_routine_bonus.module';
 import { MissionRoutinebonus } from './static-table/mission_routine_bonus/entities/mission_routine_bonus.entity';
+import { MissionMainModule } from './static-table/mission_main/mission_main.module';
+import { MissionMain } from './static-table/mission_main/entities/mission_main.entity';
 
 @Module({
   imports: [
@@ -106,6 +108,7 @@ import { MissionRoutinebonus } from './static-table/mission_routine_bonus/entiti
         UserEventAttendance,
         MissionRoutine,
         MissionRoutinebonus,
+        MissionMain,
       ],
       //synchronize: true,
       // keepConnectionAlive: true,
@@ -130,6 +133,7 @@ import { MissionRoutinebonus } from './static-table/mission_routine_bonus/entiti
     RewardGroupModule,
     MissionRoutineModule,
     MissionRoutineBonusModule,
+    MissionMainModule,
   ],
   controllers: [AppController],
   providers: [
