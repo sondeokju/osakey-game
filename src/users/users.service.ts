@@ -491,6 +491,7 @@ export class UsersService {
         id,
       },
     });
+    if (!userData) return -1;
 
     const currentExp = userData.exp;
     const currentLevel = userData.level;
@@ -519,7 +520,7 @@ export class UsersService {
     obj = {
       reward_diamond: { reward_diamond: accountLevelData.reward_diamond },
       reward_battery: { reward_battery: accountLevelData.reward_battery },
-      additional_reward_id: {
+      reward_id: {
         additional_reward_id: accountLevelData.additional_reward_id,
       },
     };

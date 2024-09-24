@@ -54,6 +54,8 @@ import { AccountLevelModule } from './static-table/account_level/account_level.m
 import { AccountLevel } from './static-table/account_level/entities/account_level.entity';
 import { RewardGroupModule } from './static-table/reward_group/reward_group.module';
 import { RewardGroup } from './static-table/reward_group/entities/reward_group.entity';
+import { MissionRoutineModule } from './static-table/mission_routine/mission_routine.module';
+import { MissionRoutine } from './static-table/mission_routine/entities/mission_routine.entity';
 
 @Module({
   imports: [
@@ -100,6 +102,7 @@ import { RewardGroup } from './static-table/reward_group/entities/reward_group.e
         UserItem,
         UserAd,
         UserEventAttendance,
+        MissionRoutine,
       ],
       //synchronize: true,
       // keepConnectionAlive: true,
@@ -122,6 +125,7 @@ import { RewardGroup } from './static-table/reward_group/entities/reward_group.e
     UserEventAttendanceModule,
     AccountLevelModule,
     RewardGroupModule,
+    MissionRoutineModule,
   ],
   controllers: [AppController],
   providers: [
