@@ -1,34 +1,30 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseInterceptors,
+} from '@nestjs/common';
 import { MissionSubService } from './mission_sub.service';
 import { CreateMissionSubDto } from './dto/create-mission_sub.dto';
 import { UpdateMissionSubDto } from './dto/update-mission_sub.dto';
+import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
+import { QueryRunner as QR } from 'typeorm';
+import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
+import { UsersModel } from 'src/users/entity/users.entity';
+import { User } from 'src/users/decorator/user.decorator';
 
-@Controller('mission-sub')
+@Controller('missionsub')
 export class MissionSubController {
   constructor(private readonly missionSubService: MissionSubService) {}
 
-  @Post()
-  create(@Body() createMissionSubDto: CreateMissionSubDto) {
-    return this.missionSubService.create(createMissionSubDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.missionSubService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.missionSubService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMissionSubDto: UpdateMissionSubDto) {
-    return this.missionSubService.update(+id, updateMissionSubDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.missionSubService.remove(+id);
+  @Get(':mission_sub_id')
+  @UseInterceptors(TransactionInterceptor)
+  async getUserBase(@User() user: UsersModel, @QueryRunner() qr: QR) {
+    const result = await this.missionSubService.getMissionSub(user.id, qr);
+    return JSON.stringify(result);
   }
 }
