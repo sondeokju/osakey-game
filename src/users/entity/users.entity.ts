@@ -118,6 +118,16 @@ export class UsersModel extends BaseModel {
   })
   level: number;
 
+  @Column({
+    default: 0,
+  })
+  status: number;
+
+  @Column({
+    default: 0,
+  })
+  seca_coin: number;
+
   //test
   // @Expose()
   // get nicknameAndEmail() {
