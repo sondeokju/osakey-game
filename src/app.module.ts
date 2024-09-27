@@ -64,6 +64,8 @@ import { MissionSubModule } from './static-table/mission_sub/mission_sub.module'
 import { MissionSub } from './static-table/mission_sub/entities/mission_sub.entity';
 import { UserQuestModule } from './user_quest/user_quest.module';
 import { UserQuest } from './user_quest/entity/user_quest.entity';
+import { UserBattleModule } from './user_battle/user_battle.module';
+import { UserBattle } from './user_battle/entities/user_battle.entity';
 
 @Module({
   imports: [
@@ -115,6 +117,7 @@ import { UserQuest } from './user_quest/entity/user_quest.entity';
         MissionMain,
         MissionSub,
         UserQuest,
+        UserBattle,
       ],
       //synchronize: true,
       // keepConnectionAlive: true,
@@ -142,6 +145,7 @@ import { UserQuest } from './user_quest/entity/user_quest.entity';
     MissionMainModule,
     MissionSubModule,
     UserQuestModule,
+    UserBattleModule,
   ],
   controllers: [AppController],
   providers: [
