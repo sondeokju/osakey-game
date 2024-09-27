@@ -63,6 +63,7 @@ import { MissionMain } from './static-table/mission_main/entities/mission_main.e
 import { MissionSubModule } from './static-table/mission_sub/mission_sub.module';
 import { MissionSub } from './static-table/mission_sub/entities/mission_sub.entity';
 import { UserQuestModule } from './user_quest/user_quest.module';
+import { UserQuest } from './user_quest/entity/user_quest.entity';
 
 @Module({
   imports: [
@@ -113,6 +114,7 @@ import { UserQuestModule } from './user_quest/user_quest.module';
         MissionRoutinebonus,
         MissionMain,
         MissionSub,
+        UserQuest,
       ],
       //synchronize: true,
       // keepConnectionAlive: true,
