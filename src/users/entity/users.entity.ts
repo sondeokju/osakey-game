@@ -39,6 +39,11 @@ export class UsersModel extends BaseModel {
   @Index({ unique: true })
   nickname: string;
 
+  @Column({
+    default: 0,
+  })
+  status: number;
+
   @Column({})
   @IsString({
     message: stringValidatioMessage,
@@ -84,6 +89,11 @@ export class UsersModel extends BaseModel {
   role: RolesEnum;
 
   @Column({
+    default: 0,
+  })
+  seca_coin: number;
+
+  @Column({
     default: 100,
   })
   gord: number;
@@ -117,16 +127,6 @@ export class UsersModel extends BaseModel {
     default: 0,
   })
   level: number;
-
-  @Column({
-    default: 0,
-  })
-  status: number;
-
-  @Column({
-    default: 0,
-  })
-  seca_coin: number;
 
   //test
   // @Expose()
