@@ -45,7 +45,7 @@ export class UsersModel extends BaseModel {
   @IsString({
     message: stringValidatioMessage,
   })
-  @Index({ unique: true })
+  //@Index({ unique: true })
   device_id: string;
 
   @Column({
@@ -54,7 +54,7 @@ export class UsersModel extends BaseModel {
   @IsString({
     message: stringValidatioMessage,
   })
-  @Index({ unique: true })
+  //@Index({ unique: true })
   pgs_id: string;
 
   @Column({
