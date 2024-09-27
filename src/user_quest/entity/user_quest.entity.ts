@@ -44,5 +44,10 @@ export class UserQuest extends BaseModel {
   @Column({
     default: 0,
   })
-  mission_max_qty: number;
+  mission_repeat_qty: number;
+
+  @Column({
+    default: 0,
+  })
+  mission_complete_yn: number;
 }
