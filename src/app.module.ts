@@ -62,6 +62,7 @@ import { MissionMainModule } from './static-table/mission_main/mission_main.modu
 import { MissionMain } from './static-table/mission_main/entities/mission_main.entity';
 import { MissionSubModule } from './static-table/mission_sub/mission_sub.module';
 import { MissionSub } from './static-table/mission_sub/entities/mission_sub.entity';
+import { UserQuestModule } from './user_quest/user_quest.module';
 
 @Module({
   imports: [
@@ -138,6 +139,7 @@ import { MissionSub } from './static-table/mission_sub/entities/mission_sub.enti
     MissionRoutineBonusModule,
     MissionMainModule,
     MissionSubModule,
+    UserQuestModule,
   ],
   controllers: [AppController],
   providers: [
