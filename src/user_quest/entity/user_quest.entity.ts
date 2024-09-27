@@ -39,11 +39,6 @@ export class UserQuest extends BaseModel {
   @Column({
     default: 0,
   })
-  monster_id: number;
-
-  @Column({
-    default: 0,
-  })
   qty: number;
 
   @Column({
