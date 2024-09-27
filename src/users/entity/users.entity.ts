@@ -40,6 +40,33 @@ export class UsersModel extends BaseModel {
   nickname: string;
 
   @Column({
+    length: 512,
+  })
+  @IsString({
+    message: stringValidatioMessage,
+  })
+  @Index({ unique: true })
+  device_id: string;
+
+  @Column({
+    length: 512,
+  })
+  @IsString({
+    message: stringValidatioMessage,
+  })
+  @Index({ unique: true })
+  pgs_id: string;
+
+  @Column({
+    length: 1,
+  })
+  @IsString({
+    message: stringValidatioMessage,
+  })
+  os_type: string;
+
+  // 0:일반, 1:신규, 2:복귀, 3:정지
+  @Column({
     default: 0,
   })
   status: number;
