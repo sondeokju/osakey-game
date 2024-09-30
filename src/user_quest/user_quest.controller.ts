@@ -16,21 +16,20 @@ import { QueryRunner as QR } from 'typeorm';
 export class UserQuestController {
   constructor(private readonly userQuestService: UserQuestService) {}
 
-  @Get('all')
+  @Get('/all')
   @UseInterceptors(TransactionInterceptor)
   async getUserQuestAll(@User() user: UsersModel, @QueryRunner() qr: QR) {
     const result = await this.userQuestService.getUserQuestAll(user.id, qr);
     return JSON.stringify(result);
   }
 
-  @Get(':mission_type')
+  @Get('/:mission_type')
   @UseInterceptors(TransactionInterceptor)
   async getUserQuestTypeList(
     @User() user: UsersModel,
     @Param('mission_type') mission_type: number,
     @QueryRunner() qr: QR,
   ) {
-    console.log(mission_type);
     const result = await this.userQuestService.getUserQuestTypeList(
       user.id,
       mission_type,
