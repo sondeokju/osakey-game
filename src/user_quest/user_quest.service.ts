@@ -95,6 +95,13 @@ export class UserQuestService {
     //   battery: userData.battery + battery,
     // });
 
+
+
+    await userQuestRepository.save({
+      ...userQuestData,
+      mission_complete_yn: 'Y',
+    });
+
     // 1 : currency, 2:material, 3:equipment, 4:package, 5:event
     const obj = {
       item_id: { item_id: itemData.item_id },
