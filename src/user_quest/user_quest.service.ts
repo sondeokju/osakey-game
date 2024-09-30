@@ -6,6 +6,7 @@ import { UsersService } from 'src/users/users.service';
 import { UsersModel } from 'src/users/entity/users.entity';
 import { RewardGroupService } from 'src/static-table/reward_group/reward_group.service';
 import { MissionRoutineService } from 'src/static-table/mission_routine/mission_routine.service';
+import { ItemService } from 'src/static-table/item/item.service';
 
 @Injectable()
 export class UserQuestService {
@@ -14,6 +15,7 @@ export class UserQuestService {
     private readonly userQuestRepository: Repository<UserQuest>,
     private readonly rewardGroupService: RewardGroupService,
     private readonly missionRoutineService: MissionRoutineService,
+    private readonly itemService: ItemService,
   ) {}
 
   getUserQuestRepository(qr?: QueryRunner) {
@@ -72,6 +74,8 @@ export class UserQuestService {
     const rewardData = await this.rewardGroupService.getReward(
       missionRoutineData.mission_type_reward,
     );
+
+    const itemData = await this.itemService.getItem(rewardData.reward_item_id);
 
     // await usersRepository.save({
     //   ...userData,

@@ -30,36 +30,13 @@ export class ItemService {
   //   return result;
   // }
 
-  async getItem(id: number) {
-    // const result = await this.itemsRepository.findOne({
-    //   select: {
-    //     index: true,
-    //     name: true,
-    //     item_category_name: true,
-    //     item_category_value: true,
-    //     debug_name: true,
-    //     str_name: true,
-    //     str_desc: true,
-    //     res_icon_name: true,
-    //     item_level: true,
-    //   },
-    //   where: {
-    //     index: id,
-    //   },
-    //   relations: {
-    //     item_equipslot_idx: true,
-    //     item_grade_idx: true,
-    //   },
-    // });
-
-    //console.log('item:', result);
-    //const newItem = item.itemEquipslot;
-
-    //const result = { ...item, ...newItem };
-    //const result = Object.assign({}, item, { newItem });
-
-    //return Object.assign({}, item, { newItem });
-    return 0;
+  async getItem(item_id: number) {
+    const result = await this.itemsRepository.findOne({
+      where: {
+        item_id,
+      },
+    });
+    return result;
   }
 
   update(id: number, _updateItemDto: UpdateItemDto) {
@@ -70,3 +47,12 @@ export class ItemService {
     return `This action removes a #${id} item`;
   }
 }
+
+// console.log('item:', result);
+// const newItem = item.itemEquipslot;
+
+// const result = { ...item, ...newItem };
+// const result = Object.assign({}, item, { newItem });
+
+// return Object.assign({}, item, { newItem });
+// return 0;

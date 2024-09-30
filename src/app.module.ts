@@ -117,7 +117,7 @@ import { UserQuestModule } from './user_quest/user_quest.module';
         MissionMain,
         MissionSub,
         UserQuest,
-        UserBattle,
+        UserBattle,    
       ],
       //synchronize: true,
       // keepConnectionAlive: true,
