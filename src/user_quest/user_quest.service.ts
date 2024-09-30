@@ -73,11 +73,18 @@ export class UserQuestService {
         userQuestData.mission_id,
       );
 
+    console.log('userQuestData.mission_id:', userQuestData.mission_id);
+
     const rewardData = await this.rewardGroupService.getReward(
       missionRoutineData.mission_type_reward,
     );
 
-    console.log(rewardData.reward_item_id);
+    console.log(
+      'missionRoutineData.mission_type_reward:',
+      missionRoutineData.mission_type_reward,
+    );
+
+    console.log('rewardData.reward_item_id:', rewardData.reward_item_id);
     const itemData = await this.itemService.getItem(rewardData.reward_item_id);
 
     // await usersRepository.save({
