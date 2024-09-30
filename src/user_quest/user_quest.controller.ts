@@ -23,16 +23,16 @@ export class UserQuestController {
     return JSON.stringify(result);
   }
 
-  @Get('/type')
+  @Get(':mission_type')
   @UseInterceptors(TransactionInterceptor)
   async getUserQuestTypeList(
     @User() user: UsersModel,
-    @Param('mission_type') mission_type: number,
+    @Param('mission_type') mission_type: string,
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userQuestService.getUserQuestTypeList(
       user.id,
-      mission_type,
+      +mission_type,
       qr,
     );
     return JSON.stringify(result);
