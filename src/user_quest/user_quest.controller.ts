@@ -30,6 +30,7 @@ export class UserQuestController {
     @Param('mission_type', ParseIntPipe) mission_type: number,
     @QueryRunner() qr: QR,
   ) {
+    console.log(mission_type);
     const result = await this.userQuestService.getUserQuestTypeList(
       user.id,
       mission_type,
