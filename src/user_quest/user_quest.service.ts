@@ -55,19 +55,24 @@ export class UserQuestService {
     return result;
   }
 
-  async questDayReward(id: number, qr?: QueryRunner) {
+  async questDayReward(
+    user_id: number,
+    user_quest_id: number,
+    qr?: QueryRunner,
+  ) {
     // if (gord < 0) return -1;
     // if (exp < 0) return -1;
     // if (battery < 0) return -1;
 
-    console.log('1');
-
     const userQuestRepository = this.getUserQuestRepository(qr);
     const userQuestData = await userQuestRepository.findOne({
       where: {
-        id,
+        id: user_quest_id,
       },
     });
+
+    console.log('user_quest_id 1:', user_quest_id);
+    console.log('user_quest_id 2:', userQuestData.id);
 
     const missionRoutineData =
       await this.missionRoutineService.getMissionRoutine(
@@ -94,8 +99,6 @@ export class UserQuestService {
     //   exp: userData.exp + exp,
     //   battery: userData.battery + battery,
     // });
-
-
 
     await userQuestRepository.save({
       ...userQuestData,

@@ -44,10 +44,14 @@ export class UserQuestController {
   @UseInterceptors(TransactionInterceptor)
   async patchPayGordExpBattery(
     @User() user: UsersModel,
-    // @Body('gord', ParseIntPipe) gord: number,
+    @Body('user_quest_id', ParseIntPipe) user_quest_id: number,
     @QueryRunner() qr: QR,
   ) {
-    const result = await this.userQuestService.questDayReward(user.id, qr);
+    const result = await this.userQuestService.questDayReward(
+      user.id,
+      user_quest_id,
+      qr,
+    );
 
     return result;
   }
