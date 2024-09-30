@@ -59,6 +59,8 @@ export class UserQuestService {
     // if (exp < 0) return -1;
     // if (battery < 0) return -1;
 
+    console.log('1');
+
     const userQuestRepository = this.getUserQuestRepository(qr);
     const userQuestData = await userQuestRepository.findOne({
       where: {
