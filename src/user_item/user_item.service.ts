@@ -49,23 +49,23 @@ export class UserItemService {
     console.log('userItemData:', userItemData);
 
     let userObject = {};
-    if (!userItemData) {
-      console.log('1');
-      userObject = await userItemRepository.create({
-        user_id: user_id,
-        item_id: item_id,
-        item_level: 1,
-        item_type: 0, //itemData.item_category_value,
-        item_count: item_count,
-      });
-      await userItemRepository.save(userObject);
-    } else {
-      console.log('2');
-      await userItemRepository.save({
-        ...userItemData,
-        item_count: userItemData.item_count + item_count,
-      });
-    }
+    // if (!userItemData) {
+    //   console.log('1');
+    //   userObject = await userItemRepository.create({
+    //     user_id: user_id,
+    //     item_id: item_id,
+    //     item_level: 1,
+    //     item_type: 0, //itemData.item_category_value,
+    //     item_count: item_count,
+    //   });
+    //   await userItemRepository.save(userObject);
+    // } else {
+    //   console.log('2');
+    //   await userItemRepository.save({
+    //     ...userItemData,
+    //     item_count: userItemData.item_count + item_count,
+    //   });
+    // }
 
     return true;
   }
