@@ -4,13 +4,16 @@ import { QueryRunner, Repository } from 'typeorm';
 import { UserQuest } from './entity/user_quest.entity';
 import { UsersService } from 'src/users/users.service';
 import { UsersModel } from 'src/users/entity/users.entity';
-import { RewardGroup } from 'src/static-table/reward_group/entities/reward_group.entity';
+import { RewardGroupService } from 'src/static-table/reward_group/reward_group.service';
+import { MissionRoutineService } from 'src/static-table/mission_routine/mission_routine.service';
 
 @Injectable()
 export class UserQuestService {
   constructor(
     @InjectRepository(UserQuest)
-    private readonly userQuestRepository: Repository<UserQuest>, //private readonly usersRepository: Repository<UsersModel>, //private readonly rewardRepository: Repository<RewardGroup>,
+    private readonly userQuestRepository: Repository<UserQuest>,
+    private readonly rewardGroupService: RewardGroupService,
+    private readonly missionRoutineService: MissionRoutineService,
   ) {}
 
   getUserQuestRepository(qr?: QueryRunner) {
@@ -23,12 +26,6 @@ export class UserQuestService {
   //     return qr
   //       ? qr.manager.getRepository<UsersModel>(UsersModel)
   //       : this.usersRepository;
-  //   }
-
-  //   getRewardRepository(qr?: QueryRunner) {
-  //     return qr
-  //       ? qr.manager.getRepository<RewardGroup>(RewardGroup)
-  //       : this.rewardRepository;
   //   }
 
   async getUserQuestAll(user_id: number, qr?: QueryRunner) {
@@ -55,29 +52,26 @@ export class UserQuestService {
   //     return result;
   //   }
 
-  async questDayReward(
-    user_id: number,
-    type,
-    reward_group_id,
-    qr?: QueryRunner,
-  ) {
+  async questDayReward(user_id: number, type, mission_id, qr?: QueryRunner) {
     // if (gord < 0) return -1;
     // if (exp < 0) return -1;
     // if (battery < 0) return -1;
 
-    // const rewardRepository = this.getRewardRepository(qr);
-    // const rewardData = await rewardRepository.findOne({
-    //   where: {
-    //     reward_group_id,
-    //   },
-    // });
+    const userQuestRepository = this.getUserQuestRepository(qr);
+    const userQuestData = await userQuestRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
 
-    // const usersRepository = this.getUserQuestRepository(qr);
-    // const userData = await usersRepository.findOne({
-    //   where: {
-    //     user_id,
-    //   },
-    // });
+    const missionRoutineData =
+      await this.missionRoutineService.getMissionRoutine(
+        userQuestData.mission_id,
+      );
+
+    const rewardData = await this.rewardGroupService.getReward(
+      missionRoutineData.mission_type_reward,
+    );
 
     // await usersRepository.save({
     //   ...userData,

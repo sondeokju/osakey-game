@@ -1,9 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRewardGroupDto } from './dto/create-reward_group.dto';
 import { UpdateRewardGroupDto } from './dto/update-reward_group.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { RewardGroup } from './entities/reward_group.entity';
 
 @Injectable()
 export class RewardGroupService {
+  constructor(
+    @InjectRepository(RewardGroup)
+    private readonly rewardGroupRepository: Repository<RewardGroup>,
+  ) {}  
+
+  async getReward(reward_id: number) {
+    const result = await this.rewardGroupRepository.findOne({
+      where: {
+        reward_id,
+      },
+    });
+
+    return result;
+  }
+
   create(createRewardGroupDto: CreateRewardGroupDto) {
     return 'This action adds a new rewardGroup';
   }
