@@ -8,14 +8,12 @@ import { RewardGroup } from 'src/static-table/reward_group/entities/reward_group
 
 @Injectable()
 export class UserQuestService {
-  //private readonly redisClient: Redis;
-
   constructor(
     @InjectRepository(UserQuest)
     private readonly userQuestRepository: Repository<UserQuest>,
     private readonly usersRepository: Repository<UsersModel>,
-    private readonly rewardRepository: Repository<RewardGroup>,
-  ) {}
+  ) //private readonly rewardRepository: Repository<RewardGroup>,
+  {}
 
   getUserQuestRepository(qr?: QueryRunner) {
     return qr
@@ -29,11 +27,11 @@ export class UserQuestService {
       : this.usersRepository;
   }
 
-  getRewardRepository(qr?: QueryRunner) {
-    return qr
-      ? qr.manager.getRepository<RewardGroup>(RewardGroup)
-      : this.rewardRepository;
-  }
+  //   getRewardRepository(qr?: QueryRunner) {
+  //     return qr
+  //       ? qr.manager.getRepository<RewardGroup>(RewardGroup)
+  //       : this.rewardRepository;
+  //   }
 
   async getUserQuestAll(user_id: number, qr?: QueryRunner) {
     const userQuestRepository = this.getUserQuestRepository(qr);
@@ -59,17 +57,22 @@ export class UserQuestService {
     return result;
   }
 
-  async questDayReward(user_id: number, type, reward_group_id, qr?: QueryRunner) {
+  async questDayReward(
+    user_id: number,
+    type,
+    reward_group_id,
+    qr?: QueryRunner,
+  ) {
     // if (gord < 0) return -1;
     // if (exp < 0) return -1;
     // if (battery < 0) return -1;
 
-    const rewardRepository = this.getRewardRepository(qr);
-    const rewardData = await rewardRepository.findOne({
-      where: {
-        reward_group_id,
-      },
-    });
+    // const rewardRepository = this.getRewardRepository(qr);
+    // const rewardData = await rewardRepository.findOne({
+    //   where: {
+    //     reward_group_id,
+    //   },
+    // });
 
     const usersRepository = this.getUserQuestRepository(qr);
     const userData = await usersRepository.findOne({
