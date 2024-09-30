@@ -27,7 +27,7 @@ export class UserQuestController {
   @UseInterceptors(TransactionInterceptor)
   async getUserQuestTypeList(
     @User() user: UsersModel,
-    @Param('mission_type', ParseIntPipe) mission_type: number,
+    @Param('mission_type') mission_type: number,
     @QueryRunner() qr: QR,
   ) {
     console.log(mission_type);
