@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Post,
   UseInterceptors,
 } from '@nestjs/common';
 import { UserQuestService } from './user_quest.service';
@@ -37,5 +38,17 @@ export class UserQuestController {
       qr,
     );
     return JSON.stringify(result);
+  }
+
+  @Post('reward')
+  @UseInterceptors(TransactionInterceptor)
+  async patchPayGordExpBattery(
+    @User() user: UsersModel,
+    // @Body('gord', ParseIntPipe) gord: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userQuestService.questDayReward(user.id, qr);
+
+    return result;
   }
 }
