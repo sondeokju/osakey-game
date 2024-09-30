@@ -22,8 +22,8 @@ export class Item {
   @Column({})
   item_grade: number;
 
-  // @Column({})
-  // name: string;
+  @Column({})
+  item_name: string;
 
   // @Column({})
   // item_category_name: string;
