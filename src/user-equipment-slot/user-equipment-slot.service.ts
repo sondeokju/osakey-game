@@ -71,37 +71,30 @@ export class UserEquipmentSlotService {
 
     const itemData = await this.itemService.getItem(userEquipment.equipment_id);
 
-    console.log('item:', itemData);
+    // const slot_id = itemData.item_equipslot_idx.index;
 
-    console.log('existing:', existing);
-    console.log('userEquipment:', userEquipment);
-    console.log('userEquipment.id:', userEquipment.id);
-
-    console.log('item_equipslot_idx:', itemData.item_equipslot_idx.index);
-    const slot_id = itemData.item_equipslot_idx.index;
-
-    switch (slot_id) {
-      case 202:
-        existing.equip_1 = userEquipment.id;
-        break;
-      case 203:
-        existing.equip_2 = userEquipment.id;
-        break;
-      case 204:
-        existing.equip_3 = userEquipment.id;
-        break;
-      case 205:
-        existing.equip_4 = userEquipment.id;
-        break;
-      case 206:
-        existing.equip_5 = userEquipment.id;
-        break;
-      case 207:
-        existing.equip_6 = userEquipment.id;
-        break;
-      default:
-        console.log('error');
-    }
+    // switch (slot_id) {
+    //   case 202:
+    //     existing.equip_1 = userEquipment.id;
+    //     break;
+    //   case 203:
+    //     existing.equip_2 = userEquipment.id;
+    //     break;
+    //   case 204:
+    //     existing.equip_3 = userEquipment.id;
+    //     break;
+    //   case 205:
+    //     existing.equip_4 = userEquipment.id;
+    //     break;
+    //   case 206:
+    //     existing.equip_5 = userEquipment.id;
+    //     break;
+    //   case 207:
+    //     existing.equip_6 = userEquipment.id;
+    //     break;
+    //   default:
+    //     console.log('error');
+    // }
 
     await userEquipmentslotRepository.save({
       ...existing,
