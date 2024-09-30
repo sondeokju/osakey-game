@@ -12,7 +12,7 @@ export class UserQuestService {
   constructor(
     @InjectRepository(UserQuest)
     private readonly userQuestRepository: Repository<UserQuest>,
-    private readonly rewardGroupService: RewardGroupService,
+    //private readonly rewardGroupService: RewardGroupService,
     private readonly missionRoutineService: MissionRoutineService,
   ) {}
 
