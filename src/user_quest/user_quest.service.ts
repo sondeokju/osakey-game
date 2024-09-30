@@ -10,9 +10,8 @@ import { RewardGroup } from 'src/static-table/reward_group/entities/reward_group
 export class UserQuestService {
   constructor(
     @InjectRepository(UserQuest)
-    private readonly userQuestRepository: Repository<UserQuest>,
-  ) //private readonly usersRepository: Repository<UsersModel>, //private readonly rewardRepository: Repository<RewardGroup>,
-  {}
+    private readonly userQuestRepository: Repository<UserQuest>, //private readonly usersRepository: Repository<UsersModel>, //private readonly rewardRepository: Repository<RewardGroup>,
+  ) {}
 
   getUserQuestRepository(qr?: QueryRunner) {
     return qr
@@ -42,19 +41,19 @@ export class UserQuestService {
     return result;
   }
 
-  async getUserQuestTypeList(
-    id: number,
-    mission_type: number,
-    qr?: QueryRunner,
-  ) {
-    const usersRepository = this.getUsersRepository(qr);
-    const result = await usersRepository.find({
-      where: {
-        id,
-      },
-    });
-    return result;
-  }
+  //   async getUserQuestTypeList(
+  //     id: number,
+  //     mission_type: number,
+  //     qr?: QueryRunner,
+  //   ) {
+  //     const usersRepository = this.getUsersRepository(qr);
+  //     const result = await usersRepository.find({
+  //       where: {
+  //         id,
+  //       },
+  //     });
+  //     return result;
+  //   }
 
   async questDayReward(
     user_id: number,
