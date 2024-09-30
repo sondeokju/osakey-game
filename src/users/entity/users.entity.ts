@@ -25,20 +25,20 @@ import { BaseModel } from 'src/common/entity/base.entity';
 export class UsersModel extends BaseModel {
   @Column({
     length: 20,
+    default: '',
   })
   @IsString({
     message: stringValidatioMessage,
   })
   // @Length(1, 20, {
-  //   message: '닉네임은 1~20자 사로 입ㅕ해주세요.',
+  //   message: '닉네임은 1~20자 사로 입력해주세요.',
   // })
   @Length(1, 30, {
     message: lengthValidationMessage,
   })
-  //@Expose()
+  //@Expose
   @Index({ unique: true })
   nickname: string;
-
   @Column({
     length: 512,
   })
@@ -50,6 +50,7 @@ export class UsersModel extends BaseModel {
 
   @Column({
     length: 512,
+    default: '',
   })
   @IsString({
     message: stringValidatioMessage,
@@ -59,6 +60,7 @@ export class UsersModel extends BaseModel {
 
   @Column({
     length: 1,
+    default: '',
   })
   @IsString({
     message: stringValidatioMessage,
