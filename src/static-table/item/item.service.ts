@@ -31,26 +31,26 @@ export class ItemService {
   // }
 
   async getItem(id: number) {
-    const result = await this.itemsRepository.findOne({
-      select: {
-        index: true,
-        name: true,
-        item_category_name: true,
-        item_category_value: true,
-        debug_name: true,
-        str_name: true,
-        str_desc: true,
-        res_icon_name: true,
-        item_level: true,
-      },
-      where: {
-        index: id,
-      },
-      relations: {
-        item_equipslot_idx: true,
-        item_grade_idx: true,
-      },
-    });
+    // const result = await this.itemsRepository.findOne({
+    //   select: {
+    //     index: true,
+    //     name: true,
+    //     item_category_name: true,
+    //     item_category_value: true,
+    //     debug_name: true,
+    //     str_name: true,
+    //     str_desc: true,
+    //     res_icon_name: true,
+    //     item_level: true,
+    //   },
+    //   where: {
+    //     index: id,
+    //   },
+    //   relations: {
+    //     item_equipslot_idx: true,
+    //     item_grade_idx: true,
+    //   },
+    // });
 
     //console.log('item:', result);
     //const newItem = item.itemEquipslot;
@@ -59,7 +59,7 @@ export class ItemService {
     //const result = Object.assign({}, item, { newItem });
 
     //return Object.assign({}, item, { newItem });
-    return result;
+    return 0;
   }
 
   update(id: number, _updateItemDto: UpdateItemDto) {
