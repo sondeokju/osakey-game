@@ -10,12 +10,12 @@ export class RewardGroupService {
   constructor(
     @InjectRepository(RewardGroup)
     private readonly rewardGroupRepository: Repository<RewardGroup>,
-  ) {}  
+  ) {}
 
-  async getReward(reward_id: number) {
+  async getReward(reward_item_id: number) {
     const result = await this.rewardGroupRepository.findOne({
       where: {
-        reward_id,
+        reward_item_id,
       },
     });
 
