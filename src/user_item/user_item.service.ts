@@ -55,7 +55,7 @@ export class UserItemService {
         user_id: user_id,
         item_id: item_id,
         item_level: 1,
-        item_type: itemData.item_category_value,
+        item_type: 0, //itemData.item_category_value,
         item_count: item_count,
       });
       await userItemRepository.save(userObject);
