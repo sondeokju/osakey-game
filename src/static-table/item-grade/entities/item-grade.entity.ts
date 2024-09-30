@@ -21,6 +21,6 @@ export class ItemGrade {
   @Column({})
   eslot_iconback_res_name: string;
 
-  @OneToMany(() => Item, (item) => item.item_grade_idx)
-  items: Item[];
+  // @OneToMany(() => Item, (item) => item.item_grade_idx)
+  // items: Item[];
 }
