@@ -17,7 +17,7 @@ import { QueryRunner as QR } from 'typeorm';
 export class UserQuestController {
   constructor(private readonly userQuestService: UserQuestService) {}
 
-  @Get('/all')
+  @Get('all')
   @UseInterceptors(TransactionInterceptor)
   async getUserQuestAll(@User() user: UsersModel, @QueryRunner() qr: QR) {
     const result = await this.userQuestService.getUserQuestAll(user.id, qr);
