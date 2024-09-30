@@ -24,18 +24,18 @@ export class UserQuestController {
     return JSON.stringify(result);
   }
 
-  // @Get('mission_type')
-  // @UseInterceptors(TransactionInterceptor)
-  // async getUserQuestTypeList(
-  //   @User() user: UsersModel,
-  //   @Body('mission_type', ParseIntPipe) mission_type: number,
-  //   @QueryRunner() qr: QR,
-  // ) {
-  //   const result = await this.userQuestService.getUserQuestTypeList(
-  //     user.id,
-  //     mission_type,
-  //     qr,
-  //   );
-  //   return JSON.stringify(result);
-  // }
+  @Get('mission_type')
+  @UseInterceptors(TransactionInterceptor)
+  async getUserQuestTypeList(
+    @User() user: UsersModel,
+    @Body('mission_type', ParseIntPipe) mission_type: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userQuestService.getUserQuestTypeList(
+      user.id,
+      mission_type,
+      qr,
+    );
+    return JSON.stringify(result);
+  }
 }

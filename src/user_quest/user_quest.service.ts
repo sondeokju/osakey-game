@@ -40,21 +40,21 @@ export class UserQuestService {
     return result;
   }
 
-  //   async getUserQuestTypeList(
-  //     id: number,
-  //     mission_type: number,
-  //     qr?: QueryRunner,
-  //   ) {
-  //     const usersRepository = this.getUsersRepository(qr);
-  //     const result = await usersRepository.find({
-  //       where: {
-  //         id,
-  //       },
-  //     });
-  //     return result;
-  //   }
+  async getUserQuestTypeList(
+    id: number,
+    mission_type: number,
+    qr?: QueryRunner,
+  ) {
+    const userQuestRepository = this.getUserQuestRepository(qr);
+    const result = await userQuestRepository.findOne({
+      where: {
+        id,
+      },
+    });
+    return result;
+  }
 
-  async questDayReward(user_id: number, type, mission_id, qr?: QueryRunner) {
+  async questDayReward(id: number, qr?: QueryRunner) {
     // if (gord < 0) return -1;
     // if (exp < 0) return -1;
     // if (battery < 0) return -1;
@@ -62,7 +62,7 @@ export class UserQuestService {
     const userQuestRepository = this.getUserQuestRepository(qr);
     const userQuestData = await userQuestRepository.findOne({
       where: {
-        user_id,
+        id,
       },
     });
 
@@ -85,9 +85,8 @@ export class UserQuestService {
     // });
 
     const obj = {
-      gord: { gord: 1 },
-      exp: { exp: 1 },
-      battery: { battery: 1 },
+      item_id: { item_id: itemData.item_id },
+      item_name: { item_name: itemData.item_name },
     };
 
     const result = Object.values(obj);
