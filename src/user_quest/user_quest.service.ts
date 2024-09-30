@@ -94,9 +94,11 @@ export class UserQuestService {
     //   battery: userData.battery + battery,
     // });
 
+    // 1 : currency, 2:material, 3:equipment, 4:package, 5:event
     const obj = {
       item_id: { item_id: itemData.item_id },
       item_name: { item_name: itemData.item_name },
+      item_qty: { item_qty: rewardData.reward_item_qty },
     };
 
     const result = Object.values(obj);
