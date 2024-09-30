@@ -1,4 +1,10 @@
-import { Controller, Get, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  UseInterceptors,
+} from '@nestjs/common';
 import { UserQuestService } from './user_quest.service';
 import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
 import { UsersModel } from 'src/users/entity/users.entity';
@@ -14,6 +20,21 @@ export class UserQuestController {
   @UseInterceptors(TransactionInterceptor)
   async getUserQuestAll(@User() user: UsersModel, @QueryRunner() qr: QR) {
     const result = await this.userQuestService.getUserQuestAll(user.id, qr);
+    return JSON.stringify(result);
+  }
+
+  @Get('type')
+  @UseInterceptors(TransactionInterceptor)
+  async getUserQuestTypeList(
+    @User() user: UsersModel,
+    @Param('mission_type', ParseIntPipe) mission_type: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userQuestService.getUserQuestTypeList(
+      user.id,
+      mission_type,
+      qr,
+    );
     return JSON.stringify(result);
   }
 }

@@ -27,4 +27,19 @@ export class UserQuestService {
     });
     return result;
   }
+
+  async getUserQuestTypeList(
+    user_id: number,
+    mission_type: number,
+    qr?: QueryRunner,
+  ) {
+    const userQuestRepository = this.getUserQuestRepository(qr);
+    const result = await userQuestRepository.find({
+      where: {
+        user_id,
+        mission_type,
+      },
+    });
+    return result;
+  }
 }
