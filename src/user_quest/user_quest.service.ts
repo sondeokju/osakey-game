@@ -18,11 +18,11 @@ export class UserQuestService {
       : this.userQuestRepository;
   }
 
-  async getUserQuestAll(id: number, qr?: QueryRunner) {
+  async getUserQuestAll(user_id: number, qr?: QueryRunner) {
     const userQuestRepository = this.getUserQuestRepository(qr);
     const result = await userQuestRepository.find({
       where: {
-        id,
+        user_id,
       },
     });
     return result;
