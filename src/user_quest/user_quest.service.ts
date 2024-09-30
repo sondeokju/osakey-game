@@ -11,8 +11,7 @@ export class UserQuestService {
   constructor(
     @InjectRepository(UserQuest)
     private readonly userQuestRepository: Repository<UserQuest>,
-    private readonly usersRepository: Repository<UsersModel>,
-  ) //private readonly rewardRepository: Repository<RewardGroup>,
+  ) //private readonly usersRepository: Repository<UsersModel>, //private readonly rewardRepository: Repository<RewardGroup>,
   {}
 
   getUserQuestRepository(qr?: QueryRunner) {
@@ -21,11 +20,11 @@ export class UserQuestService {
       : this.userQuestRepository;
   }
 
-  getUsersRepository(qr?: QueryRunner) {
-    return qr
-      ? qr.manager.getRepository<UsersModel>(UsersModel)
-      : this.usersRepository;
-  }
+  //   getUsersRepository(qr?: QueryRunner) {
+  //     return qr
+  //       ? qr.manager.getRepository<UsersModel>(UsersModel)
+  //       : this.usersRepository;
+  //   }
 
   //   getRewardRepository(qr?: QueryRunner) {
   //     return qr
@@ -74,12 +73,12 @@ export class UserQuestService {
     //   },
     // });
 
-    const usersRepository = this.getUserQuestRepository(qr);
-    const userData = await usersRepository.findOne({
-      where: {
-        user_id,
-      },
-    });
+    // const usersRepository = this.getUserQuestRepository(qr);
+    // const userData = await usersRepository.findOne({
+    //   where: {
+    //     user_id,
+    //   },
+    // });
 
     // await usersRepository.save({
     //   ...userData,
