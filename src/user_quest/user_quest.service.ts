@@ -75,6 +75,7 @@ export class UserQuestService {
       missionRoutineData.mission_type_reward,
     );
 
+    console.log(rewardData.reward_item_id);
     const itemData = await this.itemService.getItem(rewardData.reward_item_id);
 
     // await usersRepository.save({
