@@ -69,9 +69,9 @@ export class UserQuestService {
         userQuestData.mission_id,
       );
 
-    const rewardData = await this.rewardGroupService.getReward(
-      missionRoutineData.mission_type_reward,
-    );
+    // const rewardData = await this.rewardGroupService.getReward(
+    //   missionRoutineData.mission_type_reward,
+    // );
 
     // await usersRepository.save({
     //   ...userData,
