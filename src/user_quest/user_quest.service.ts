@@ -41,13 +41,14 @@ export class UserQuestService {
   }
 
   async getUserQuestTypeList(
-    id: number,
+    user_id: number,
     mission_type: number,
     qr?: QueryRunner,
   ) {
     const userQuestRepository = this.getUserQuestRepository(qr);
     const result = await userQuestRepository.find({
       where: {
+        user_id,
         mission_type,
       },
     });
