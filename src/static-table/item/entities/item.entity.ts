@@ -7,43 +7,47 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  PrimaryColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity()
 export class Item {
-  @PrimaryGeneratedColumn()
-  index: number;
+  @PrimaryColumn()
+  item_id: number;
 
   @Column({})
-  name: string;
+  item_type: number;
 
   @Column({})
-  item_category_name: string;
+  item_grade: number;
 
-  @Column({})
-  item_category_value: string;
+  // @Column({})
+  // name: string;
 
-  @Column({})
-  debug_name: string;
+  // @Column({})
+  // item_category_name: string;
 
-  @Column({})
-  str_name: number;
+  // @Column({})
+  // item_category_value: string;
 
-  @Column({})
-  str_desc: number;
+  // @Column({})
+  // debug_name: string;
 
-  @Column({})
-  res_icon_name: string;
+  // @Column({})
+  // str_desc: number;
 
-  @Column({})
-  item_level: number;
+  // @Column({})
+  // res_icon_name: string;
 
-  @ManyToOne(() => ItemEquipslot, (itemequipslot) => itemequipslot.items)
-  @JoinColumn({ name: 'item_equipslot_idx' })
-  item_equipslot_idx: ItemEquipslot;
+  // @Column({})
+  // item_level: number;
 
-  @ManyToOne(() => ItemGrade, (itemgrade) => itemgrade.items)
-  @JoinColumn({ name: 'item_grade_idx' })
-  item_grade_idx: ItemGrade;
+  // @ManyToOne(() => ItemEquipslot, (itemequipslot) => itemequipslot.items)
+  // @JoinColumn({ name: 'item_equipslot_idx' })
+  // item_equipslot_idx: ItemEquipslot;
+
+  // @ManyToOne(() => ItemGrade, (itemgrade) => itemgrade.items)
+  // @JoinColumn({ name: 'item_grade_idx' })
+  // item_grade_idx: ItemGrade;
 }
