@@ -24,7 +24,7 @@ export class UserQuestController {
     return JSON.stringify(result);
   }
 
-  @Get('/mission_type')
+  @Get('mission_type')
   @UseInterceptors(TransactionInterceptor)
   async getUserQuestTypeList(
     @User() user: UsersModel,
