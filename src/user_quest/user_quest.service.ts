@@ -34,6 +34,7 @@ export class UserQuestService {
     qr?: QueryRunner,
   ) {
     const userQuestRepository = this.getUserQuestRepository(qr);
+    console.log(user_id, mission_type);
     const result = await userQuestRepository.find({
       where: {
         user_id,
