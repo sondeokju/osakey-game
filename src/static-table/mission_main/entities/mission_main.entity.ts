@@ -16,7 +16,7 @@ export class MissionMain {
   @Column({
     default: 0,
   })
-  mission_type: number;
+  mission_kind: number;
 
   @Column({
     default: 0,
@@ -26,7 +26,7 @@ export class MissionMain {
   @Column({
     default: 0,
   })
-  open_rank: number;
+  open_exp: number;
 
   @Column({
     default: 0,
@@ -46,10 +46,10 @@ export class MissionMain {
   @Column({
     default: 0,
   })
-  mission_condition: number;
+  mission_goal: number;
 
   @Column({
     default: 0,
   })
-  mission_reward: number;
+  reward: number;
 }
