@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class MissionType {
+export class MissionKind {
   @PrimaryColumn()
   mission_type_id: number;
 
