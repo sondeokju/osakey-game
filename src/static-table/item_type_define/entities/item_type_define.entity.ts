@@ -11,10 +11,10 @@ import {
 @Entity()
 export class ItemTypeDefine {
   @PrimaryColumn()
-  mission_type_defineid: number;
+  item_type: number;
 
   @Column({
     default: 0,
   })
-  item_type_enum: string;
+  item_enum: string;
 }
