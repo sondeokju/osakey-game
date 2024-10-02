@@ -12,15 +12,15 @@ export class MissionRoutineService {
     private readonly missionRoutineRepository: Repository<MissionRoutine>,
   ) {}
 
-  async getMissionRoutine(mission_type: number) {
-    const result = await this.missionRoutineRepository.findOne({
-      where: {
-        mission_type,
-      },
-    });
+  // async getMissionRoutine(mission_type: number) {
+  //   const result = await this.missionRoutineRepository.findOne({
+  //     where: {
+  //       1,
+  //     },
+  //   });
 
-    return result;
-  }
+  //   return result;
+  // }
   create(createMissionRoutineDto: CreateMissionRoutineDto) {
     return 'This action adds a new missionRoutine';
   }
