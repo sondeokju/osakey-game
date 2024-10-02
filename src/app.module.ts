@@ -68,10 +68,10 @@ import { UserBattle } from './user_battle/entities/user_battle.entity';
 import { UserQuestModule } from './user_quest/user_quest.module';
 import { MissionKindDefineModule } from './static-table/mission_kind_define/mission_kind_define.module';
 import { MissionKindDefine } from './static-table/mission_kind_define/entities/mission_kind_define.entity';
-import { MissionTypeDefineModule } from './static-table/mission_type_define/mission_type_define.module';
-import { MissionTypeDefine } from './static-table/mission_type_define/entities/mission_type_define.entity';
 import { ItemTypeDefineModule } from './static-table/item_type_define/item_type_define.module';
 import { ItemTypeDefine } from './static-table/item_type_define/entities/item_type_define.entity';
+import { MissionModule } from './static-table/mission/mission.module';
+import { Mission } from './static-table/mission/entities/mission.entity';
 
 @Module({
   imports: [
@@ -116,8 +116,8 @@ import { ItemTypeDefine } from './static-table/item_type_define/entities/item_ty
         AccountLevel,
         RewardGroup,
         MissionKindDefine,
-        MissionTypeDefine,
         ItemTypeDefine,
+        Mission,
         UserItem,
         UserAd,
         UserEventAttendance,
@@ -156,8 +156,8 @@ import { ItemTypeDefine } from './static-table/item_type_define/entities/item_ty
     UserQuestModule,
     UserBattleModule,
     MissionKindDefineModule,
-    MissionTypeDefineModule,
     ItemTypeDefineModule,
+    MissionModule,
   ],
   controllers: [AppController],
   providers: [
