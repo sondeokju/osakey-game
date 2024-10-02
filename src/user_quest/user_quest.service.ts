@@ -48,17 +48,18 @@ export class UserQuestService {
 
     console.log('userQuestData.mission_id:', userQuestData.mission_id);
 
-    const rewardData = await this.rewardGroupService.getReward(
-      missionRoutineData.reward,
-    );
+    // const rewardData = await this.rewardGroupService.getReward(
+    //   missionRoutineData.reward,
+    // );
 
-    console.log(
-      'missionRoutineData.mission_type_reward:',
-      missionRoutineData.reward,
-    );
+    // // console.log(
+    // //   'missionRoutineData.mission_type_reward:',
+    // //   missionRoutineData.reward,
+    // // );
 
-    console.log('rewardData.reward_item_id:', rewardData.reward_item_id);
-    return await this.itemService.getItem(rewardData.reward_item_id);
+    // console.log('rewardData.reward_item_id:', rewardData.reward_item_id);
+    //return await this.itemService.getItem(rewardData.reward_item_id);
+    return 0;
   }
 
   async getUserQuestAll(user_id: number, qr?: QueryRunner) {

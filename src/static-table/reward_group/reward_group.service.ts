@@ -12,14 +12,14 @@ export class RewardGroupService {
     private readonly rewardGroupRepository: Repository<RewardGroup>,
   ) {}
 
-  async getReward(reward_item_id: number) {
-    const result = await this.rewardGroupRepository.findOne({
-      where: {
-        reward_item_id,
-      },
-    });
+  async getReward(reward: number) {
+    // const result = await this.rewardGroupRepository.findOne({
+    //   where: {
+    //     reward,
+    //   },
+    // });
 
-    return result;
+    return 0;
   }
 
   create(createRewardGroupDto: CreateRewardGroupDto) {
