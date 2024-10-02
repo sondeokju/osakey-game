@@ -28,4 +28,14 @@ export class MissionSubService {
 
     return result;
   }
+
+  async getReward(mission_id: number) {
+    const result = await this.rewardGroupRepository.findOne({
+      where: {
+        mission_id,
+      },
+    });
+
+    return result;
+  }
 }

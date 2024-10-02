@@ -106,7 +106,7 @@ export class UserQuestService {
     //console.log('userQuestData.mission_id:', userQuestData.mission_id);
 
     const rewardData = await this.rewardGroupService.getReward(
-      missionRoutineData.mission_type_reward,
+      missionRoutineData.mission_routine_id,
     );
 
     // console.log(
@@ -153,13 +153,12 @@ export class UserQuestService {
       },
     });
 
-    const missionRoutineData =
-      await this.missionRoutineService.getMissionRoutine(
-        userQuestData.mission_id,
-      );
+    const missionSubData = await this.missionRoutineService.getMissionRoutine(
+      userQuestData.mission_id,
+    );
 
     const rewardData = await this.rewardGroupService.getReward(
-      missionRoutineData.mission_type_reward,
+      missionSubData.mission_routine_id,
     );
     const itemData = this.itemService.getItem(rewardData.reward_item_id);
 

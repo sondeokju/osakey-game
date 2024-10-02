@@ -66,6 +66,8 @@ import { UserQuest } from './user_quest/entity/user_quest.entity';
 import { UserBattleModule } from './user_battle/user_battle.module';
 import { UserBattle } from './user_battle/entities/user_battle.entity';
 import { UserQuestModule } from './user_quest/user_quest.module';
+import { MissionKindDefineModule } from './static-table/mission_kind_define/mission_kind_define.module';
+import { MissionKindDefine } from './static-table/mission_kind_define/entities/mission_kind_define.entity';
 
 @Module({
   imports: [
@@ -109,6 +111,7 @@ import { UserQuestModule } from './user_quest/user_quest.module';
         Gacha,
         AccountLevel,
         RewardGroup,
+        MissionKindDefine,
         UserItem,
         UserAd,
         UserEventAttendance,
@@ -117,7 +120,7 @@ import { UserQuestModule } from './user_quest/user_quest.module';
         MissionMain,
         MissionSub,
         UserQuest,
-        UserBattle,    
+        UserBattle,
       ],
       //synchronize: true,
       // keepConnectionAlive: true,
@@ -146,6 +149,7 @@ import { UserQuestModule } from './user_quest/user_quest.module';
     MissionSubModule,
     UserQuestModule,
     UserBattleModule,
+    MissionKindDefineModule,
   ],
   controllers: [AppController],
   providers: [
