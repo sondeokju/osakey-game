@@ -16,20 +16,20 @@ export class MissionRoutine {
   @Column({
     default: 0,
   })
-  mission_routine_kind: number;
+  mission_kind: number;
 
   @Column({
     default: 0,
   })
-  mission_type: number;
+  mission_id: number;
 
   @Column({
     default: 0,
   })
-  mission_type_value: number;
+  mission_goal: number;
 
   @Column({
     default: 0,
   })
-  mission_type_reward: number;
+  reward: number;
 }
