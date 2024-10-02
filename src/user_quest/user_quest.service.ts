@@ -30,40 +30,7 @@ export class UserQuestService {
   //       : this.usersRepository;
   //   }
 
-  async getUserQuestAll(user_id: number, qr?: QueryRunner) {
-    const userQuestRepository = this.getUserQuestRepository(qr);
-    const result = await userQuestRepository.find({
-      where: {
-        user_id,
-      },
-    });
-    return result;
-  }
-
-  async getUserQuestTypeList(
-    user_id: number,
-    mission_type: number,
-    qr?: QueryRunner,
-  ) {
-    const userQuestRepository = this.getUserQuestRepository(qr);
-    const result = await userQuestRepository.find({
-      where: {
-        user_id,
-        mission_type,
-      },
-    });
-    return result;
-  }
-
-  async questDayReward(
-    user_id: number,
-    user_quest_id: number,
-    qr?: QueryRunner,
-  ) {
-    // if (gord < 0) return -1;
-    // if (exp < 0) return -1;
-    // if (battery < 0) return -1;
-
+  async getQuestRewardList(user_quest_id: number, qr?: QueryRunner) {
     const userQuestRepository = this.getUserQuestRepository(qr);
     const userQuestData = await userQuestRepository.findOne({
       where: {
@@ -91,7 +58,64 @@ export class UserQuestService {
     );
 
     console.log('rewardData.reward_item_id:', rewardData.reward_item_id);
-    const itemData = await this.itemService.getItem(rewardData.reward_item_id);
+    return await this.itemService.getItem(rewardData.reward_item_id);
+  }
+
+  async getUserQuestAll(user_id: number, qr?: QueryRunner) {
+    const userQuestRepository = this.getUserQuestRepository(qr);
+    const result = await userQuestRepository.find({
+      where: {
+        user_id,
+      },
+    });
+    return result;
+  }
+
+  async getUserQuestTypeList(
+    user_id: number,
+    mission_type: number,
+    qr?: QueryRunner,
+  ) {
+    const userQuestRepository = this.getUserQuestRepository(qr);
+    const result = await userQuestRepository.find({
+      where: {
+        user_id,
+        mission_type,
+      },
+    });
+    return result;
+  }
+
+  async questDayWeekReward(
+    user_id: number,
+    user_quest_id: number,
+    qr?: QueryRunner,
+  ) {
+    const userQuestRepository = this.getUserQuestRepository(qr);
+    const userQuestData = await userQuestRepository.findOne({
+      where: {
+        id: user_quest_id,
+      },
+    });
+
+    const missionRoutineData =
+      await this.missionRoutineService.getMissionRoutine(
+        userQuestData.mission_id,
+      );
+
+    //console.log('userQuestData.mission_id:', userQuestData.mission_id);
+
+    const rewardData = await this.rewardGroupService.getReward(
+      missionRoutineData.mission_type_reward,
+    );
+
+    // console.log(
+    //   'missionRoutineData.mission_type_reward:',
+    //   missionRoutineData.mission_type_reward,
+    // );
+
+    //console.log('rewardData.reward_item_id:', rewardData.reward_item_id);
+    const itemData = this.itemService.getItem(rewardData.reward_item_id);
 
     // await usersRepository.save({
     //   ...userData,
@@ -107,8 +131,8 @@ export class UserQuestService {
 
     // 1 : currency, 2:material, 3:equipment, 4:package, 5:event
     const obj = {
-      item_id: { item_id: itemData.item_id },
-      item_name: { item_name: itemData.item_name },
+      item_id: { item_id: (await itemData).item_id },
+      item_name: { item_name: (await itemData).item_name },
       item_qty: { item_qty: rewardData.reward_item_qty },
     };
 
@@ -117,15 +141,95 @@ export class UserQuestService {
     return result;
   }
 
-  async questWeekReward(id: number, type, battery, qr?: QueryRunner) {
-    return 1;
+  async questSubReward(
+    user_id: number,
+    user_quest_id: number,
+    qr?: QueryRunner,
+  ) {
+    const userQuestRepository = this.getUserQuestRepository(qr);
+    const userQuestData = await userQuestRepository.findOne({
+      where: {
+        id: user_quest_id,
+      },
+    });
+
+    const missionRoutineData =
+      await this.missionRoutineService.getMissionRoutine(
+        userQuestData.mission_id,
+      );
+
+    const rewardData = await this.rewardGroupService.getReward(
+      missionRoutineData.mission_type_reward,
+    );
+    const itemData = this.itemService.getItem(rewardData.reward_item_id);
+
+    // await usersRepository.save({
+    //   ...userData,
+    //   gord: userData.gord + gord,
+    //   exp: userData.exp + exp,
+    //   battery: userData.battery + battery,
+    // });
+
+    await userQuestRepository.save({
+      ...userQuestData,
+      mission_complete_yn: 'Y',
+    });
+
+    // 1 : currency, 2:material, 3:equipment, 4:package, 5:event
+    const obj = {
+      item_id: { item_id: (await itemData).item_id },
+      item_name: { item_name: (await itemData).item_name },
+      item_qty: { item_qty: rewardData.reward_item_qty },
+    };
+
+    const result = Object.values(obj);
+
+    return result;
   }
 
-  async questSubReward(id: number, type, battery, qr?: QueryRunner) {
-    return 1;
-  }
+  async questMainReward(
+    user_id: number,
+    user_quest_id: number,
+    qr?: QueryRunner,
+  ) {
+    const userQuestRepository = this.getUserQuestRepository(qr);
+    const userQuestData = await userQuestRepository.findOne({
+      where: {
+        id: user_quest_id,
+      },
+    });
 
-  async questMainReward(id: number, type, battery, qr?: QueryRunner) {
-    return 1;
+    const missionRoutineData =
+      await this.missionRoutineService.getMissionRoutine(
+        userQuestData.mission_id,
+      );
+
+    const rewardData = await this.rewardGroupService.getReward(
+      missionRoutineData.mission_type_reward,
+    );
+    const itemData = this.itemService.getItem(rewardData.reward_item_id);
+
+    // await usersRepository.save({
+    //   ...userData,
+    //   gord: userData.gord + gord,
+    //   exp: userData.exp + exp,
+    //   battery: userData.battery + battery,
+    // });
+
+    await userQuestRepository.save({
+      ...userQuestData,
+      mission_complete_yn: 'Y',
+    });
+
+    // 1 : currency, 2:material, 3:equipment, 4:package, 5:event
+    const obj = {
+      item_id: { item_id: (await itemData).item_id },
+      item_name: { item_name: (await itemData).item_name },
+      item_qty: { item_qty: rewardData.reward_item_qty },
+    };
+
+    const result = Object.values(obj);
+
+    return result;
   }
 }
