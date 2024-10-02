@@ -11,10 +11,10 @@ import {
 @Entity()
 export class MissionKind {
   @PrimaryColumn()
-  mission_type_id: number;
+  mission_kind_id: number;
 
   @Column({
     default: 0,
   })
-  type: string;
+  mission_kind_desc: string;
 }
