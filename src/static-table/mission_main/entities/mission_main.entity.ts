@@ -11,22 +11,22 @@ import {
 @Entity()
 export class MissionMain {
   @PrimaryColumn()
-  mission_main_index: number;
+  mission_main_id: number;
 
   @Column({
     default: 0,
   })
-  mission_kind: number;
+  mission_type: number;
 
   @Column({
     default: 0,
   })
-  mission_main_npc: number;
+  npc: number;
 
   @Column({
     default: 0,
   })
-  mission_main_open_rank: number;
+  open_rank: number;
 
   @Column({
     default: 0,
@@ -41,15 +41,15 @@ export class MissionMain {
   @Column({
     default: 0,
   })
-  mission_main_type: number;
+  mission_id: number;
 
   @Column({
     default: 0,
   })
-  mission_main_type_value: number;
+  mission_condition: number;
 
   @Column({
     default: 0,
   })
-  mission_main_reward: number;
+  mission_reward: number;
 }
