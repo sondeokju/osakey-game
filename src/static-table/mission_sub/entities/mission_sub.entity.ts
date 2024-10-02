@@ -21,37 +21,37 @@ export class MissionSub {
   @Column({
     default: 0,
   })
-  mission_sub_npc: number;
+  npc: number;
 
   @Column({
     default: 0,
   })
-  mission_sub_level: number;
+  mission_level: number;
 
   @Column({
     default: 0,
   })
-  open_condition: number;
+  open_mission_id: number;
 
   @Column({
     default: 0,
   })
-  open_condition_value: number;
+  open_mission_goal: number;
 
   @Column({
     default: 0,
   })
-  mission_sub_dialog: number;
+  dialog: number;
 
   @Column({
     default: 0,
   })
-  mission_sub_mission_type: number;
+  mission_id: number;
 
   @Column({
     default: 0,
   })
-  mission_sub_mission_type_value: number;
+  mission_goal: number;
 
   @Column({
     default: 0,
@@ -66,5 +66,5 @@ export class MissionSub {
   @Column({
     default: 0,
   })
-  mission_sub_reward: number;
+  reward: number;
 }
