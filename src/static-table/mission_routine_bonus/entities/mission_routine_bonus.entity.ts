@@ -16,7 +16,7 @@ export class MissionRoutinebonus {
   @Column({
     default: 0,
   })
-  mission_routine_kind: number;
+  mission_kind: number;
 
   @Column({
     default: 0,
@@ -26,5 +26,5 @@ export class MissionRoutinebonus {
   @Column({
     default: 0,
   })
-  mission_routine_bonus_reward: number;
+  reward: number;
 }
