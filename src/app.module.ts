@@ -70,6 +70,8 @@ import { MissionKindDefineModule } from './static-table/mission_kind_define/miss
 import { MissionKindDefine } from './static-table/mission_kind_define/entities/mission_kind_define.entity';
 import { MissionTypeDefineModule } from './static-table/mission_type_define/mission_type_define.module';
 import { MissionTypeDefine } from './static-table/mission_type_define/entities/mission_type_define.entity';
+import { ItemTypeDefineModule } from './static-table/item_type_define/item_type_define.module';
+import { ItemTypeDefine } from './static-table/item_type_define/entities/item_type_define.entity';
 
 @Module({
   imports: [
@@ -115,6 +117,7 @@ import { MissionTypeDefine } from './static-table/mission_type_define/entities/m
         RewardGroup,
         MissionKindDefine,
         MissionTypeDefine,
+        ItemTypeDefine,
         UserItem,
         UserAd,
         UserEventAttendance,
@@ -154,6 +157,7 @@ import { MissionTypeDefine } from './static-table/mission_type_define/entities/m
     UserBattleModule,
     MissionKindDefineModule,
     MissionTypeDefineModule,
+    ItemTypeDefineModule,
   ],
   controllers: [AppController],
   providers: [
