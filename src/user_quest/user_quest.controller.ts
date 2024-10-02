@@ -47,7 +47,7 @@ export class UserQuestController {
     @Body('user_quest_id', ParseIntPipe) user_quest_id: number,
     @QueryRunner() qr: QR,
   ) {
-    const result = await this.userQuestService.questDayReward(
+    const result = await this.userQuestService.questDayWeekReward(
       user.id,
       user_quest_id,
       qr,
