@@ -16,6 +16,11 @@ export class MissionMain {
   @Column({
     default: 0,
   })
+  mission_kind: number;
+
+  @Column({
+    default: 0,
+  })
   mission_main_npc: number;
 
   @Column({
