@@ -18,41 +18,41 @@ import { QueryRunner as QR } from 'typeorm';
 export class UserQuestController {
   constructor(private readonly userQuestService: UserQuestService) {}
 
-  @Get('all')
-  @UseInterceptors(TransactionInterceptor)
-  async getUserQuestAll(@User() user: UsersModel, @QueryRunner() qr: QR) {
-    const result = await this.userQuestService.getUserQuestAll(user.id, qr);
-    return JSON.stringify(result);
-  }
+  // @Get('all')
+  // @UseInterceptors(TransactionInterceptor)
+  // async getUserQuestAll(@User() user: UsersModel, @QueryRunner() qr: QR) {
+  //   const result = await this.userQuestService.getUserQuestAll(user.id, qr);
+  //   return JSON.stringify(result);
+  // }
 
-  @Get('mission_type')
-  @UseInterceptors(TransactionInterceptor)
-  async getUserQuestTypeList(
-    @User() user: UsersModel,
-    @Body('mission_type', ParseIntPipe) mission_type: number,
-    @QueryRunner() qr: QR,
-  ) {
-    const result = await this.userQuestService.getUserQuestTypeList(
-      user.id,
-      mission_type,
-      qr,
-    );
-    return JSON.stringify(result);
-  }
+  // @Get('mission_type')
+  // @UseInterceptors(TransactionInterceptor)
+  // async getUserQuestTypeList(
+  //   @User() user: UsersModel,
+  //   @Body('mission_type', ParseIntPipe) mission_type: number,
+  //   @QueryRunner() qr: QR,
+  // ) {
+  //   const result = await this.userQuestService.getUserQuestTypeList(
+  //     user.id,
+  //     mission_type,
+  //     qr,
+  //   );
+  //   return JSON.stringify(result);
+  // }
 
-  @Post('reward')
-  @UseInterceptors(TransactionInterceptor)
-  async patchPayGordExpBattery(
-    @User() user: UsersModel,
-    @Body('user_quest_id', ParseIntPipe) user_quest_id: number,
-    @QueryRunner() qr: QR,
-  ) {
-    const result = await this.userQuestService.questDayWeekReward(
-      user.id,
-      user_quest_id,
-      qr,
-    );
+  // @Post('reward')
+  // @UseInterceptors(TransactionInterceptor)
+  // async patchPayGordExpBattery(
+  //   @User() user: UsersModel,
+  //   @Body('user_quest_id', ParseIntPipe) user_quest_id: number,
+  //   @QueryRunner() qr: QR,
+  // ) {
+  //   const result = await this.userQuestService.questDayWeekReward(
+  //     user.id,
+  //     user_quest_id,
+  //     qr,
+  //   );
 
-    return result;
-  }
+  //   return result;
+  // }
 }
