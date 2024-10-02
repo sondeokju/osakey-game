@@ -9,9 +9,9 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class MissionTypeDefine {
+export class Mission {
   @PrimaryColumn()
-  mission_type_defineid: number;
+  mission_id: number;
 
   @Column({
     default: 0,
@@ -21,10 +21,10 @@ export class MissionTypeDefine {
   @Column({
     default: 0,
   })
-  mission_kind_value: number;
+  mission_condition: number;
 
   @Column({
     default: 0,
   })
-  mission_type_enum: string;
+  mission_desc: string;
 }
