@@ -66,14 +66,14 @@ import { UserQuest } from './user_quest/entity/user_quest.entity';
 import { UserBattleModule } from './user_battle/user_battle.module';
 import { UserBattle } from './user_battle/entities/user_battle.entity';
 import { UserQuestModule } from './user_quest/user_quest.module';
-import { MissionKindDefineModule } from './static-table/mission_kind_define/mission_kind_define.module';
-import { MissionKindDefine } from './static-table/mission_kind_define/entities/mission_kind_define.entity';
 import { ItemTypeDefineModule } from './static-table/item_type_define/item_type_define.module';
 import { ItemTypeDefine } from './static-table/item_type_define/entities/item_type_define.entity';
 import { MissionModule } from './static-table/mission/mission.module';
 import { Mission } from './static-table/mission/entities/mission.entity';
 import { ItemTypeModule } from './static-table/item_type/item_type.module';
 import { ItemType } from './static-table/item_type/entities/item_type.entity';
+import { MissionTypeModule } from './static-table/mission_type/mission_type.module';
+import { MissionType } from './static-table/mission_type/entities/mission_type.entity';
 
 @Module({
   imports: [
@@ -117,10 +117,10 @@ import { ItemType } from './static-table/item_type/entities/item_type.entity';
         Gacha,
         AccountLevel,
         RewardGroup,
-        MissionKindDefine,
         ItemTypeDefine,
         Mission,
         ItemType,
+        MissionType,
         UserItem,
         UserAd,
         UserEventAttendance,
@@ -158,10 +158,10 @@ import { ItemType } from './static-table/item_type/entities/item_type.entity';
     MissionSubModule,
     UserQuestModule,
     UserBattleModule,
-    MissionKindDefineModule,
     ItemTypeDefineModule,
     MissionModule,
     ItemTypeModule,
+    MissionTypeModule,
   ],
   controllers: [AppController],
   providers: [
