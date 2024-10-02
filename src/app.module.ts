@@ -66,8 +66,6 @@ import { UserQuest } from './user_quest/entity/user_quest.entity';
 import { UserBattleModule } from './user_battle/user_battle.module';
 import { UserBattle } from './user_battle/entities/user_battle.entity';
 import { UserQuestModule } from './user_quest/user_quest.module';
-import { ItemTypeDefineModule } from './static-table/item_type_define/item_type_define.module';
-import { ItemTypeDefine } from './static-table/item_type_define/entities/item_type_define.entity';
 import { MissionModule } from './static-table/mission/mission.module';
 import { Mission } from './static-table/mission/entities/mission.entity';
 import { ItemTypeModule } from './static-table/item_type/item_type.module';
@@ -117,7 +115,6 @@ import { MissionType } from './static-table/mission_type/entities/mission_type.e
         Gacha,
         AccountLevel,
         RewardGroup,
-        ItemTypeDefine,
         Mission,
         ItemType,
         MissionType,
@@ -158,7 +155,6 @@ import { MissionType } from './static-table/mission_type/entities/mission_type.e
     MissionSubModule,
     UserQuestModule,
     UserBattleModule,
-    ItemTypeDefineModule,
     MissionModule,
     ItemTypeModule,
     MissionTypeModule,
