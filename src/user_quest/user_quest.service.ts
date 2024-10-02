@@ -49,12 +49,12 @@ export class UserQuestService {
     console.log('userQuestData.mission_id:', userQuestData.mission_id);
 
     const rewardData = await this.rewardGroupService.getReward(
-      missionRoutineData.mission_type_reward,
+      missionRoutineData.reward,
     );
 
     console.log(
       'missionRoutineData.mission_type_reward:',
-      missionRoutineData.mission_type_reward,
+      missionRoutineData.reward,
     );
 
     console.log('rewardData.reward_item_id:', rewardData.reward_item_id);
@@ -204,7 +204,7 @@ export class UserQuestService {
       );
 
     const rewardData = await this.rewardGroupService.getReward(
-      missionRoutineData.mission_type_reward,
+      missionRoutineData.reward,
     );
     const itemData = this.itemService.getItem(rewardData.reward_item_id);
 
