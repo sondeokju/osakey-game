@@ -41,33 +41,24 @@ export class UserQuestService {
   //   }
 
   async getMissionAll(qr?: QueryRunner) {
-    const missionKind = await Object.values(
-      this.missionMainService.getMissionMainAll(qr),
-    );
-    //const missionKind = await this.missionMainService.getMissionMainAll(qr);
-    console.log('missionKind:', missionKind);
-
     const obj = {
-      mssion: { mission: this.missionService.getMissionAll(qr) },
+      mssion: { mission: await this.missionService.getMissionAll(qr) },
       mission_kind: {
-        mission_kind: Object.values(
-          this.missionKindService.getMissionKindAll(qr),
-        ),
+        mission_kind: await this.missionKindService.getMissionKindAll(qr),
       },
       mission_main: {
-        mission_main: Object.values(
-          this.missionMainService.getMissionMainAll(qr),
-        ),
+        mission_main: await this.missionMainService.getMissionMainAll(qr),
       },
       mission_routine: {
-        mission_routine: this.missionRoutineService.getMissionRoutineAll(qr),
+        mission_routine:
+          await this.missionRoutineService.getMissionRoutineAll(qr),
       },
       mission_routine_bonus: {
         mission_routine_bonus:
-          this.missionRoutineBonusService.getMissionRoutineBonusAll(qr),
+          await this.missionRoutineBonusService.getMissionRoutineBonusAll(qr),
       },
       mission_sub: {
-        mission_sub: this.missionSubService.getMissionSubAll(qr),
+        mission_sub: await this.missionSubService.getMissionSubAll(qr),
       },
     };
 
