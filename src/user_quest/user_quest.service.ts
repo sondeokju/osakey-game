@@ -62,7 +62,8 @@ export class UserQuestService {
       },
     };
 
-    const result = Object.values(obj);
+    //const result = Object.values(obj);
+    const result = obj;
 
     return result;
   }
