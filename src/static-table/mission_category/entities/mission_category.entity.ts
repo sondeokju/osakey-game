@@ -15,8 +15,9 @@ export class MissionCategory {
 
   @Column({
     default: 0,
+    nullable: true,
   })
-  category_name: string;
+  category_name: string | null;
 
   @Column({
     default: 0,
@@ -26,6 +27,7 @@ export class MissionCategory {
 
   @Column({
     default: 0,
+    nullable: true,
   })
-  mission_desc: string;
+  mission_desc: string | null;
 }
