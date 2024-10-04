@@ -42,7 +42,7 @@ export class UserQuestService {
 
   async getMissionAll(qr?: QueryRunner) {
     //Object.values(this.missionMainService.getMissionMainAll(qr));
-    const missionKind = this.missionMainService.getMissionMainAll(qr);
+    const missionKind = await this.missionMainService.getMissionMainAll(qr);
     console.log(missionKind);
 
     const obj = {
