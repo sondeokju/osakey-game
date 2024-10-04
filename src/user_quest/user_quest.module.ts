@@ -11,6 +11,14 @@ import { ItemService } from 'src/static-table/item/item.service';
 import { Item } from 'src/static-table/item/entities/item.entity';
 import { MissionService } from 'src/static-table/mission/mission.service';
 import { Mission } from 'src/static-table/mission/entities/mission.entity';
+import { MissionKind } from 'src/static-table/mission_kind/entities/mission_kind.entity';
+import { MissionMain } from 'src/static-table/mission_main/entities/mission_main.entity';
+import { MissionRoutineBonus } from 'src/static-table/mission_routine_bonus/entities/mission_routine_bonus.entity';
+import { MissionSub } from 'src/static-table/mission_sub/entities/mission_sub.entity';
+import { MissionKindService } from 'src/static-table/mission_kind/mission_kind.service';
+import { MissionMainService } from 'src/static-table/mission_main/mission_main.service';
+import { MissionRoutineBonusService } from 'src/static-table/mission_routine_bonus/mission_routine_bonus.service';
+import { MissionSubService } from 'src/static-table/mission_sub/mission_sub.service';
 
 @Module({
   imports: [
@@ -20,6 +28,11 @@ import { Mission } from 'src/static-table/mission/entities/mission.entity';
       MissionRoutine,
       Item,
       Mission,
+      MissionKind,
+      MissionMain,
+      MissionRoutine,
+      MissionRoutineBonus,
+      MissionSub,
     ]),
   ],
   exports: [UserQuestService],
@@ -27,9 +40,13 @@ import { Mission } from 'src/static-table/mission/entities/mission.entity';
   providers: [
     UserQuestService,
     RewardGroupService,
-    MissionRoutineService,
     ItemService,
     MissionService,
+    MissionKindService,
+    MissionMainService,
+    MissionRoutineService,
+    MissionRoutineBonusService,
+    MissionSubService,
   ],
 })
 export class UserQuestModule {}
