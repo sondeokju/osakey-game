@@ -42,30 +42,44 @@ export class UserQuestService {
 
   async getMissionAll(qr?: QueryRunner) {
     const obj = {
-      mssion: { mission: await this.missionService.getMissionAll(qr) },
-      mission_kind: {
-        mission_kind: await this.missionKindService.getMissionKindAll(qr),
-      },
-      mission_main: {
-        mission_main: await this.missionMainService.getMissionMainAll(qr),
-      },
-      mission_routine: {
-        mission_routine:
-          await this.missionRoutineService.getMissionRoutineAll(qr),
-      },
-      mission_routine_bonus: {
-        mission_routine_bonus:
-          await this.missionRoutineBonusService.getMissionRoutineBonusAll(qr),
-      },
-      mission_sub: {
-        mission_sub: await this.missionSubService.getMissionSubAll(qr),
-      },
+      mission: await this.missionService.getMissionAll(qr),
+      mission_kind: await this.missionKindService.getMissionKindAll(qr),
+
+      mission_main: await this.missionMainService.getMissionMainAll(qr),
+
+      mission_routine:
+        await this.missionRoutineService.getMissionRoutineAll(qr),
+
+      mission_routine_bonus:
+        await this.missionRoutineBonusService.getMissionRoutineBonusAll(qr),
+
+      mission_sub: await this.missionSubService.getMissionSubAll(qr),
     };
 
-    //const result = Object.values(obj);
-    const result = obj;
+    // const obj = {
+    //   mssion: { mission: await this.missionService.getMissionAll(qr) },
+    //   mission_kind: {
+    //     mission_kind: await this.missionKindService.getMissionKindAll(qr),
+    //   },
+    //   mission_main: {
+    //     mission_main: await this.missionMainService.getMissionMainAll(qr),
+    //   },
+    //   mission_routine: {
+    //     mission_routine:
+    //       await this.missionRoutineService.getMissionRoutineAll(qr),
+    //   },
+    //   mission_routine_bonus: {
+    //     mission_routine_bonus:
+    //       await this.missionRoutineBonusService.getMissionRoutineBonusAll(
+    //         qr,
+    //       ),
+    //   },
+    //   mission_sub: {
+    //     mission_sub: await this.missionSubService.getMissionSubAll(qr),
+    //   },
+    // };
 
-    return result;
+    return obj;
   }
 
   // async getQuestRewardList(user_quest_id: number, qr?: QueryRunner) {
