@@ -21,7 +21,7 @@ export class MissionKindService {
   async getMissionKindAll(qr?: QueryRunner) {
     const missionKindRepository = this.getMissionKindRepository(qr);
     const result = await missionKindRepository.find({});
-    console.log(result);
+
     return result;
   }
 }
