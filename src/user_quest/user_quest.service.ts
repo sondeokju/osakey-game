@@ -44,7 +44,9 @@ export class UserQuestService {
     const obj = {
       mssion: { mission: this.missionService.getMissionAll(qr) },
       mission_kind: {
-        mission_kind: this.missionKindService.getMissionKindAll(qr),
+        mission_kind: Object.values(
+          this.missionKindService.getMissionKindAll(qr),
+        ),
       },
       mission_main: {
         mission_main: this.missionMainService.getMissionMainAll(qr),
