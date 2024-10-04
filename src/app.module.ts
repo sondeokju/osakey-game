@@ -72,6 +72,8 @@ import { ItemTypeModule } from './static-table/item_type/item_type.module';
 import { ItemType } from './static-table/item_type/entities/item_type.entity';
 import { MissionKindModule } from './static-table/mission_kind/mission_kind.module';
 import { MissionKind } from './static-table/mission_kind/entities/mission_kind.entity';
+import { MissionCategoryModule } from './static-table/mission_category/mission_category.module';
+import { MissionCategory } from './static-table/mission_category/entities/mission_category.entity';
 
 @Module({
   imports: [
@@ -118,6 +120,7 @@ import { MissionKind } from './static-table/mission_kind/entities/mission_kind.e
         Mission,
         ItemType,
         MissionKind,
+        MissionCategory,
         UserItem,
         UserAd,
         UserEventAttendance,
@@ -158,6 +161,7 @@ import { MissionKind } from './static-table/mission_kind/entities/mission_kind.e
     MissionModule,
     ItemTypeModule,
     MissionKindModule,
+    MissionCategoryModule,
   ],
   controllers: [AppController],
   providers: [
