@@ -16,5 +16,5 @@ export class Mission {
   @Column({
     default: 0,
   })
-  category_id: number;
+  category_id: string;
 }
