@@ -16,7 +16,7 @@ export class MissionSub {
   @Column({
     default: 0,
   })
-  mission_kind: number;
+  mission_kind: string;
 
   @Column({
     default: 0,
