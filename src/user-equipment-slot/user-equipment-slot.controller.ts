@@ -17,7 +17,7 @@ import { TransactionInterceptor } from 'src/common/interceptor/transaction.inter
 import { QueryRunner as QR } from 'typeorm';
 import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
 import { UserEquipmentSlotService } from './user-equipment-slot.service';
-import { UsersModel } from 'src/users/entity/users.entity';
+import { Users } from 'src/users/entity/users.entity';
 import { User } from 'src/users/decorator/user.decorator';
 
 @Controller('user-equipment-slot')
@@ -27,7 +27,7 @@ export class UserEquipmentSlotController {
   ) {}
 
   @Get('/info')
-  async findOne(@User() user: UsersModel) {
+  async findOne(@User() user: Users) {
     const result = await this.userEquipmentSlotService.getUserEquipmentSlot(
       user.id,
     );
@@ -38,7 +38,7 @@ export class UserEquipmentSlotController {
   @Post('/createequip')
   @UseInterceptors(TransactionInterceptor)
   async CreateEquipmentSlot(
-    @User() user: UsersModel,
+    @User() user: Users,
     //@Param('equipment_id', ParseIntPipe) equipment_id: number,
     @QueryRunner() qr: QR,
   ) {
@@ -53,7 +53,7 @@ export class UserEquipmentSlotController {
   @Patch('/:user_equipment_id')
   @UseInterceptors(TransactionInterceptor)
   async patchEquipmentSlot(
-    @User() user: UsersModel,
+    @User() user: Users,
     //@Param('equipslot_id', ParseIntPipe) equipslot_id: number,
     @Param('user_equipment_id', ParseIntPipe) user_equipment_id: number,
     @QueryRunner() qr: QR,

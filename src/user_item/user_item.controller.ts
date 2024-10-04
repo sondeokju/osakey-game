@@ -15,7 +15,7 @@ import { UpdateUserItemDto } from './dto/update-user_item.dto';
 import { QueryRunner as QR } from 'typeorm';
 import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
 import { User } from 'src/users/decorator/user.decorator';
-import { UsersModel } from 'src/users/entity/users.entity';
+import { Users } from 'src/users/entity/users.entity';
 import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
 
 @Controller('user-item')
@@ -25,7 +25,7 @@ export class UserItemController {
   @Get('/all')
   @UseInterceptors(TransactionInterceptor)
   async getUserItemtAll(
-    @User() user: UsersModel,
+    @User() user: Users,
     //@Param('user_id') user_id: string,
     @QueryRunner() qr: QR,
   ) {
@@ -37,7 +37,7 @@ export class UserItemController {
   @Post(':item_id/:item_count')
   @UseInterceptors(TransactionInterceptor)
   async createItem(
-    @User() user: UsersModel,
+    @User() user: Users,
     @Param('item_id', ParseIntPipe) item_id: number,
     @Param('item_count', ParseIntPipe) item_count: number,
     @QueryRunner() qr: QR,
@@ -55,7 +55,7 @@ export class UserItemController {
   @Delete(':id')
   @UseInterceptors(TransactionInterceptor)
   async deleteItem(
-    @User() user: UsersModel,
+    @User() user: Users,
     @Param('id', ParseIntPipe) id: number,
     @QueryRunner() qr: QR,
   ) {
@@ -67,7 +67,7 @@ export class UserItemController {
   @Patch('/:id/:item_count')
   @UseInterceptors(TransactionInterceptor)
   async patchEquipmentSlot(
-    @User() user: UsersModel,
+    @User() user: Users,
     @Param('id', ParseIntPipe) id: number,
     @Param('item_count', ParseIntPipe) item_count: number,
     @QueryRunner() qr: QR,

@@ -2,7 +2,7 @@ import { UsersService } from './../users/users.service';
 import { Injectable } from '@nestjs/common';
 import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UsersModel } from 'src/users/entity/users.entity';
+import { Users } from 'src/users/entity/users.entity';
 
 import * as bcrypt from 'bcrypt';
 import { RegisterUserDto } from './dto/register-user.dto';
@@ -170,7 +170,7 @@ export class AuthService {
    * 3) type : 'access' | 'refresh'
    *
    */
-  signToken(user: Pick<UsersModel, 'email' | 'id'>, isRefreshToken: boolean) {
+  signToken(user: Pick<Users, 'email' | 'id'>, isRefreshToken: boolean) {
     const payload = {
       email: user.email,
       sub: user.id,
@@ -185,7 +185,7 @@ export class AuthService {
     });
   }
 
-  loginUser(user: Pick<UsersModel, 'email' | 'id'>) {
+  loginUser(user: Pick<Users, 'email' | 'id'>) {
     const result = {
       accessToken: this.signToken(user, false),
     };
@@ -200,7 +200,7 @@ export class AuthService {
   }
 
   async authenticateWithEmailAndPassword(
-    user: Pick<UsersModel, 'email' | 'password'>,
+    user: Pick<Users, 'email' | 'password'>,
   ) {
     /**
      *    1.사용자가 존재하는지 확인 (email)
@@ -243,7 +243,7 @@ export class AuthService {
     return existingUser;
   }
 
-  async loginWithEmail(user: Pick<UsersModel, 'email' | 'password'>) {
+  async loginWithEmail(user: Pick<Users, 'email' | 'password'>) {
     const existingUser = await this.authenticateWithEmailAndPassword(user);
     //console.log('existingUser', existingUser);
 

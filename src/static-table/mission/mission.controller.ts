@@ -15,7 +15,7 @@ import { TransactionInterceptor } from 'src/common/interceptor/transaction.inter
 import { QueryRunner as QR } from 'typeorm';
 import { User } from 'src/users/decorator/user.decorator';
 import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
-import { UsersModel } from 'src/users/entity/users.entity';
+import { Users } from 'src/users/entity/users.entity';
 
 @Controller('mission')
 export class MissionController {
@@ -23,7 +23,7 @@ export class MissionController {
 
   // @Get('all')
   // @UseInterceptors(TransactionInterceptor)
-  // async getUserBase(@User() user: UsersModel, @QueryRunner() qr: QR) {
+  // async getUserBase(@User() user: Users, @QueryRunner() qr: QR) {
   //   const result = await this.missionService.getMissionAll(qr);
   //   return JSON.stringify(result);
   // }

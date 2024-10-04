@@ -14,7 +14,7 @@ import { UpdateMissionSubDto } from './dto/update-mission_sub.dto';
 import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
 import { QueryRunner as QR } from 'typeorm';
 import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
-import { UsersModel } from 'src/users/entity/users.entity';
+import { Users } from 'src/users/entity/users.entity';
 import { User } from 'src/users/decorator/user.decorator';
 
 @Controller('missionsub')
@@ -23,7 +23,7 @@ export class MissionSubController {
 
   @Get(':mission_sub_id')
   @UseInterceptors(TransactionInterceptor)
-  async getUserBase(@User() user: UsersModel, @QueryRunner() qr: QR) {
+  async getUserBase(@User() user: Users, @QueryRunner() qr: QR) {
     const result = await this.missionSubService.getMissionSub(user.id, qr);
     return JSON.stringify(result);
   }

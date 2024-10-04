@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UsersModel } from './entity/users.entity';
+import { Users } from './entity/users.entity';
 import { DataSource, IsNull, QueryRunner, Repository } from 'typeorm';
 import { BadRequestException } from '@nestjs/common';
 import { TakeMoneyDto } from './dto/take-money.dto';
@@ -13,8 +13,8 @@ export class UsersService {
   private readonly redisClient: Redis;
 
   constructor(
-    @InjectRepository(UsersModel)
-    private readonly usersRepository: Repository<UsersModel>,
+    @InjectRepository(Users)
+    private readonly usersRepository: Repository<Users>,
     private readonly redisService: RedisService,
     private readonly accountLevelService: AccountLevelService,
   ) {
@@ -22,9 +22,7 @@ export class UsersService {
   }
 
   getUsersRepository(qr?: QueryRunner) {
-    return qr
-      ? qr.manager.getRepository<UsersModel>(UsersModel)
-      : this.usersRepository;
+    return qr ? qr.manager.getRepository<Users>(Users) : this.usersRepository;
   }
 
   someFunctionThatMightThrow() {
@@ -50,7 +48,7 @@ export class UsersService {
     return result;
   }
 
-  async createUser(user: Pick<UsersModel, 'email' | 'nickname' | 'password'>) {
+  async createUser(user: Pick<Users, 'email' | 'nickname' | 'password'>) {
     // 1) nickname 중복이 없는지 확인
     // exist() -> 만약에 조건에 해당되는 값이 있으면 true 반환
     const nicknameExists = await this.usersRepository.exist({

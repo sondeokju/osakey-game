@@ -9,7 +9,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
-import { UsersModel } from './users/entity/users.entity';
+import { Users } from './users/entity/users.entity';
 import { CommonModule } from './common/common.module';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
@@ -105,7 +105,7 @@ import { MissionKind } from './static-table/mission_kind/entities/mission_kind.e
       //schema: 'test',
       //schema: 'osakey',
       entities: [
-        UsersModel,
+        Users,
         Item,
         ItemEquipslot,
         ItemGrade,

@@ -17,7 +17,7 @@ import { UsersService } from './users.service';
 import { Roles } from './decorator/roles.decorator';
 import { RolesEnum } from './const/roles.const';
 import { User } from './decorator/user.decorator';
-import { UsersModel } from './entity/users.entity';
+import { Users } from './entity/users.entity';
 import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
 import { QueryRunner as QR } from 'typeorm';
 import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
@@ -35,7 +35,7 @@ export class UsersController {
      *                       -> class의 object에서 JSON 포맷으로 변환
      * deserialization -> 역직렬화
   환   */
-  // getUsers(@User() user: UsersModel) {
+  // getUsers(@User() user: Users) {
   //   return this.usersService.getAllUsers();
   // }
 
@@ -74,7 +74,7 @@ export class UsersController {
   @Get('me')
   @UseInterceptors(TransactionInterceptor)
   async getMeTest(
-    @User() user: UsersModel,
+    @User() user: Users,
     @QueryRunner() qr: QR,
     //@Query('includeNotConfirmed', new DefaultValuePipe(false), ParseBoolPipe)
     //includeNotConfirmed: boolean,
@@ -85,14 +85,14 @@ export class UsersController {
 
   @Get('base')
   @UseInterceptors(TransactionInterceptor)
-  async getUserBase(@User() user: UsersModel, @QueryRunner() qr: QR) {
+  async getUserBase(@User() user: Users, @QueryRunner() qr: QR) {
     const result = await this.usersService.getUserBase(user.id, qr);
     return JSON.stringify(result);
   }
 
   @Get('money')
   @UseInterceptors(TransactionInterceptor)
-  async getUserMoney(@User() user: UsersModel, @QueryRunner() qr: QR) {
+  async getUserMoney(@User() user: Users, @QueryRunner() qr: QR) {
     const result = await this.usersService.getUserMoney(user.id, qr);
     return JSON.stringify(result);
   }
@@ -100,7 +100,7 @@ export class UsersController {
   @Patch('take/gord')
   @UseInterceptors(TransactionInterceptor)
   async patchTakeGord(
-    @User() user: UsersModel,
+    @User() user: Users,
     @Body('gord', ParseIntPipe) gord: number,
     @QueryRunner() qr: QR,
   ) {
@@ -112,7 +112,7 @@ export class UsersController {
   @Patch('take/exp')
   @UseInterceptors(TransactionInterceptor)
   async patchTakeGordExp(
-    @User() user: UsersModel,
+    @User() user: Users,
     @Body('exp', ParseIntPipe) exp: number,
     @QueryRunner() qr: QR,
   ) {
@@ -124,7 +124,7 @@ export class UsersController {
   @Patch('take/diamondpaid')
   @UseInterceptors(TransactionInterceptor)
   async patchTakeDiamond(
-    @User() user: UsersModel,
+    @User() user: Users,
     @Body('diamond_paid', ParseIntPipe) diamond_paid: number,
     @QueryRunner() qr: QR,
   ) {
@@ -140,7 +140,7 @@ export class UsersController {
   @Patch('take/diamondfree')
   @UseInterceptors(TransactionInterceptor)
   async patchTakeDiamondFree(
-    @User() user: UsersModel,
+    @User() user: Users,
     @Body('diamond_free', ParseIntPipe) diamond_free: number,
     @QueryRunner() qr: QR,
   ) {
@@ -156,7 +156,7 @@ export class UsersController {
   @Patch('take/battery')
   @UseInterceptors(TransactionInterceptor)
   async patchTakeBattery(
-    @User() user: UsersModel,
+    @User() user: Users,
     @Body('battery', ParseIntPipe) battery: number,
     @QueryRunner() qr: QR,
   ) {
@@ -172,7 +172,7 @@ export class UsersController {
   @Patch('take/revivecoin')
   @UseInterceptors(TransactionInterceptor)
   async patchTakeReviveCoin(
-    @User() user: UsersModel,
+    @User() user: Users,
     @Body('revive_coin', ParseIntPipe) revive_coin: number,
     @QueryRunner() qr: QR,
   ) {
@@ -188,7 +188,7 @@ export class UsersController {
   @Patch('take/gord-exp-battery')
   @UseInterceptors(TransactionInterceptor)
   async patchTakeGordExpBattery(
-    @User() user: UsersModel,
+    @User() user: Users,
     @Body('gord', ParseIntPipe) gord: number,
     @Body('exp', ParseIntPipe) exp: number,
     @Body('battery', ParseIntPipe) battery: number,
@@ -208,7 +208,7 @@ export class UsersController {
   @Patch('pay/gord-exp-battery')
   @UseInterceptors(TransactionInterceptor)
   async patchPayGordExpBattery(
-    @User() user: UsersModel,
+    @User() user: Users,
     @Body('gord', ParseIntPipe) gord: number,
     @Body('exp', ParseIntPipe) exp: number,
     @Body('battery', ParseIntPipe) battery: number,
@@ -228,7 +228,7 @@ export class UsersController {
   @Patch('take/diamondpaid-diamondfree-revivecoin')
   @UseInterceptors(TransactionInterceptor)
   async patchTakeDiamondPaidFreeReviveCoin(
-    @User() user: UsersModel,
+    @User() user: Users,
     @Body('diamond_paid', ParseIntPipe) diamond_paid: number,
     @Body('diamond_free', ParseIntPipe) diamond_free: number,
     @Body('revive_coin', ParseIntPipe) revive_coin: number,
@@ -248,7 +248,7 @@ export class UsersController {
   @Patch('pay/diamondpaid-diamondfree-revivecoin')
   @UseInterceptors(TransactionInterceptor)
   async patchPayDiamondReviveCoin(
-    @User() user: UsersModel,
+    @User() user: Users,
     @Body('diamond_paid', ParseIntPipe) diamond_paid: number,
     @Body('revive_coin', ParseIntPipe) revive_coin: number,
     @QueryRunner() qr: QR,
@@ -266,7 +266,7 @@ export class UsersController {
   @Post('userlevelup')
   @UseInterceptors(TransactionInterceptor)
   async userLevelUp(
-    @User() user: UsersModel,
+    @User() user: Users,
     // @Body('diamond_paid', ParseIntPipe) diamond_paid: number,
     // @Body('revive_coin', ParseIntPipe) revive_coin: number,
     @QueryRunner() qr: QR,
@@ -280,7 +280,7 @@ export class UsersController {
   // @Patch('gord/:qty/update')
   // @UseInterceptors(TransactionInterceptor)
   // async patchUpdateGord(
-  //   @User() user: UsersModel,
+  //   @User() user: Users,
   //   @Param('qty', ParseIntPipe) gord: number,
   //   @QueryRunner() qr: QR,
   // ) {

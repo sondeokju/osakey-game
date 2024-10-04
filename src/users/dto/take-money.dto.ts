@@ -1,7 +1,7 @@
 import { PickType } from '@nestjs/mapped-types';
-import { UsersModel } from 'src/users/entity/users.entity';
+import { Users } from 'src/users/entity/users.entity';
 
-export class TakeMoneyDto extends PickType(UsersModel, [
+export class TakeMoneyDto extends PickType(Users, [
   'gord',
   'exp',
   'battery',

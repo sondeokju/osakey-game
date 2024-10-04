@@ -22,7 +22,8 @@ import { BaseModel } from 'src/common/entity/base.entity';
 
 @Entity()
 //@Exclude()
-export class UsersModel extends BaseModel {
+//export class Users extends BaseModel {
+export class Users extends BaseModel {
   @Column({
     length: 20,
     default: '',

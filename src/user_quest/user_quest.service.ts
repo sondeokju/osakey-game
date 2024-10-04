@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { UserQuest } from './entity/user_quest.entity';
 import { UsersService } from 'src/users/users.service';
-import { UsersModel } from 'src/users/entity/users.entity';
+import { Users } from 'src/users/entity/users.entity';
 import { RewardGroupService } from 'src/static-table/reward_group/reward_group.service';
 import { MissionRoutineService } from 'src/static-table/mission_routine/mission_routine.service';
 import { ItemService } from 'src/static-table/item/item.service';
@@ -36,7 +36,7 @@ export class UserQuestService {
 
   //   getUsersRepository(qr?: QueryRunner) {
   //     return qr
-  //       ? qr.manager.getRepository<UsersModel>(UsersModel)
+  //       ? qr.manager.getRepository<Users>(Users)
   //       : this.usersRepository;
   //   }
 
@@ -44,7 +44,6 @@ export class UserQuestService {
     const obj = {
       mission: await this.missionService.getMissionAll(qr),
       mission_kind: await this.missionKindService.getMissionKindAll(qr),
-
       mission_main: await this.missionMainService.getMissionMainAll(qr),
 
       mission_routine:
