@@ -28,3 +28,4 @@ export class MissionRoutinebonus {
   })
   reward: number;
 }
+

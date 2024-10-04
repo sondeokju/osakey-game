@@ -16,15 +16,5 @@ export class Mission {
   @Column({
     default: 0,
   })
-  major_category: number;
-
-  @Column({
-    default: 0,
-  })
-  sub_category: number;
-
-  @Column({
-    default: 0,
-  })
-  mission_desc: string;
+  category_id: number;
 }
