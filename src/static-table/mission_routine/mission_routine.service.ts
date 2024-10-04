@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateMissionRoutineDto } from './dto/create-mission_routine.dto';
 import { UpdateMissionRoutineDto } from './dto/update-mission_routine.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { QueryRunner, Repository } from 'typeorm';
 
 @Injectable()
 export class MissionRoutineService {
@@ -11,6 +11,18 @@ export class MissionRoutineService {
     @InjectRepository(MissionRoutine)
     private readonly missionRoutineRepository: Repository<MissionRoutine>,
   ) {}
+
+  getMissionRoutineRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<MissionRoutine>(MissionRoutine)
+      : this.missionRoutineRepository;
+  }
+
+  async getMissionRoutineAll(qr?: QueryRunner) {
+    const missionRoutineRepository = this.getMissionRoutineRepository(qr);
+    const result = await missionRoutineRepository.find({});
+    return result;
+  }
 
   async getMissionRoutine(mission_type: number) {
     // const result = await this.missionRoutineRepository.findOne({
@@ -20,24 +32,5 @@ export class MissionRoutineService {
     // });
 
     return 0;
-  }
-  create(createMissionRoutineDto: CreateMissionRoutineDto) {
-    return 'This action adds a new missionRoutine';
-  }
-
-  findAll() {
-    return `This action returns all missionRoutine`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} missionRoutine`;
-  }
-
-  update(id: number, updateMissionRoutineDto: UpdateMissionRoutineDto) {
-    return `This action updates a #${id} missionRoutine`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} missionRoutine`;
   }
 }

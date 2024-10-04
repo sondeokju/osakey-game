@@ -7,6 +7,7 @@ import { UsersModel } from 'src/users/entity/users.entity';
 import { RewardGroupService } from 'src/static-table/reward_group/reward_group.service';
 import { MissionRoutineService } from 'src/static-table/mission_routine/mission_routine.service';
 import { ItemService } from 'src/static-table/item/item.service';
+import { MissionService } from 'src/static-table/mission/mission.service';
 
 @Injectable()
 export class UserQuestService {
@@ -16,6 +17,7 @@ export class UserQuestService {
     private readonly rewardGroupService: RewardGroupService,
     private readonly missionRoutineService: MissionRoutineService,
     private readonly itemService: ItemService,
+    private readonly missionService: MissionService,
   ) {}
 
   getUserQuestRepository(qr?: QueryRunner) {
@@ -29,6 +31,17 @@ export class UserQuestService {
   //       ? qr.manager.getRepository<UsersModel>(UsersModel)
   //       : this.usersRepository;
   //   }
+
+  async getMissionAll(qr?: QueryRunner) {
+    const result = this.missionService.getMissionAll(qr);
+    //const result = this.missionKindService.getMissionKindAll(qr);
+    //const result = this.missionMainService.getMissionMainAll(qr);
+    //const result = this.missionSubService.getMissionSubAll(qr);
+    //const result = this.missionRoutineService.getMissionRoutineAll(qr);
+    //const result = this.missionRoutineBonusService.getMissionRoutineServiceAll(qr);
+
+    return result;
+  }
 
   // async getQuestRewardList(user_quest_id: number, qr?: QueryRunner) {
   //   const userQuestRepository = this.getUserQuestRepository(qr);

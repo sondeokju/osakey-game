@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class MissionRoutinebonus {
+export class MissionRoutineBonus {
   @PrimaryColumn()
   mission_routine_bonus_id: number;
 
@@ -28,4 +28,3 @@ export class MissionRoutinebonus {
   })
   reward: number;
 }
-

@@ -1,26 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMissionKindDto } from './dto/create-mission_kind.dto';
 import { UpdateMissionKindDto } from './dto/update-mission_kind.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { MissionKind } from './entities/mission_kind.entity';
+import { QueryRunner, Repository } from 'typeorm';
 
 @Injectable()
 export class MissionKindService {
-  create(createMissionKindDto: CreateMissionKindDto) {
-    return 'This action adds a new missionKind';
+  constructor(
+    @InjectRepository(MissionKind)
+    private readonly missionKindRepository: Repository<MissionKind>,
+  ) {}
+
+  getMissionKindRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<MissionKind>(MissionKind)
+      : this.missionKindRepository;
   }
 
-  findAll() {
-    return `This action returns all missionKind`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} missionKind`;
-  }
-
-  update(id: number, updateMissionKindDto: UpdateMissionKindDto) {
-    return `This action updates a #${id} missionKind`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} missionKind`;
+  async getMissionKindAll(qr?: QueryRunner) {
+    const missionKindRepository = this.getMissionKindRepository(qr);
+    const result = await missionKindRepository.find({});
+    return result;
   }
 }
