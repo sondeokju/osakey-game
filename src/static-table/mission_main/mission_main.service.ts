@@ -18,7 +18,7 @@ export class MissionMainService {
       : this.missionMainRepository;
   }
 
-  async getMissionKindAll(qr?: QueryRunner) {
+  async getMissionMainAll(qr?: QueryRunner) {
     const missionMainRepository = this.getMissionMainRepository(qr);
     const result = await missionMainRepository.find({});
     return result;

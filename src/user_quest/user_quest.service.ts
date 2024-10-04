@@ -8,6 +8,10 @@ import { RewardGroupService } from 'src/static-table/reward_group/reward_group.s
 import { MissionRoutineService } from 'src/static-table/mission_routine/mission_routine.service';
 import { ItemService } from 'src/static-table/item/item.service';
 import { MissionService } from 'src/static-table/mission/mission.service';
+import { MissionKindService } from 'src/static-table/mission_kind/mission_kind.service';
+import { MissionMainService } from 'src/static-table/mission_main/mission_main.service';
+import { MissionRoutineBonusService } from 'src/static-table/mission_routine_bonus/mission_routine_bonus.service';
+import { MissionSubService } from 'src/static-table/mission_sub/mission_sub.service';
 
 @Injectable()
 export class UserQuestService {
@@ -15,9 +19,13 @@ export class UserQuestService {
     @InjectRepository(UserQuest)
     private readonly userQuestRepository: Repository<UserQuest>,
     private readonly rewardGroupService: RewardGroupService,
-    private readonly missionRoutineService: MissionRoutineService,
     private readonly itemService: ItemService,
     private readonly missionService: MissionService,
+    private readonly missionKindService: MissionKindService,
+    private readonly missionMainService: MissionMainService,
+    private readonly missionRoutineService: MissionRoutineService,
+    private readonly missionRoutineBonusService: MissionRoutineBonusService,
+    private readonly missionSubService: MissionSubService,
   ) {}
 
   getUserQuestRepository(qr?: QueryRunner) {
@@ -33,12 +41,27 @@ export class UserQuestService {
   //   }
 
   async getMissionAll(qr?: QueryRunner) {
-    const result = this.missionService.getMissionAll(qr);
-    //const result = this.missionKindService.getMissionKindAll(qr);
-    //const result = this.missionMainService.getMissionMainAll(qr);
-    //const result = this.missionSubService.getMissionSubAll(qr);
-    //const result = this.missionRoutineService.getMissionRoutineAll(qr);
-    //const result = this.missionRoutineBonusService.getMissionRoutineServiceAll(qr);
+    const obj = {
+      mssion: { mission: this.missionService.getMissionAll(qr) },
+      mission_kind: {
+        mission_kind: this.missionKindService.getMissionKindAll(qr),
+      },
+      mission_main: {
+        mission_main: this.missionMainService.getMissionMainAll(qr),
+      },
+      mission_routine: {
+        mission_routine: this.missionRoutineService.getMissionRoutineAll(qr),
+      },
+      mission_routine_bonus: {
+        mission_routine_bonus:
+          this.missionRoutineBonusService.getMissionRoutineBonusAll(qr),
+      },
+      mission_sub: {
+        mission_sub: this.missionSubService.getMissionSubAll(qr),
+      },
+    };
+
+    const result = Object.values(obj);
 
     return result;
   }

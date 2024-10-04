@@ -18,6 +18,12 @@ export class MissionSubService {
       : this.missionSubRepository;
   }
 
+  async getMissionSubAll(qr?: QueryRunner) {
+    const missionSubRepository = this.getMissionSubRepository(qr);
+    const result = await missionSubRepository.find({});
+    return result;
+  }
+
   async getMissionSub(mission_sub_id: number, qr?: QueryRunner) {
     const missionSubRepository = this.getMissionSubRepository(qr);
     const result = await missionSubRepository.findOne({
