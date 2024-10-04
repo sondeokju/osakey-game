@@ -9,6 +9,7 @@ import { RewardGroup } from 'src/static-table/reward_group/entities/reward_group
 import { MissionRoutine } from 'src/static-table/mission_routine/entities/mission_routine.entity';
 import { ItemService } from 'src/static-table/item/item.service';
 import { Item } from 'src/static-table/item/entities/item.entity';
+import { MissionService } from 'src/static-table/mission/mission.service';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { Item } from 'src/static-table/item/entities/item.entity';
     RewardGroupService,
     MissionRoutineService,
     ItemService,
+    MissionService,
   ],
 })
 export class UserQuestModule {}
