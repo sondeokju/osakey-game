@@ -10,10 +10,17 @@ import { MissionRoutine } from 'src/static-table/mission_routine/entities/missio
 import { ItemService } from 'src/static-table/item/item.service';
 import { Item } from 'src/static-table/item/entities/item.entity';
 import { MissionService } from 'src/static-table/mission/mission.service';
+import { Mission } from 'src/static-table/mission/entities/mission.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserQuest, RewardGroup, MissionRoutine, Item]),
+    TypeOrmModule.forFeature([
+      UserQuest,
+      RewardGroup,
+      MissionRoutine,
+      Item,
+      Mission,
+    ]),
   ],
   exports: [UserQuestService],
   controllers: [UserQuestController],
