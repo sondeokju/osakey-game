@@ -49,7 +49,9 @@ export class UserQuestService {
         ),
       },
       mission_main: {
-        mission_main: this.missionMainService.getMissionMainAll(qr),
+        mission_main: Object.values(
+          this.missionMainService.getMissionMainAll(qr),
+        ),
       },
       mission_routine: {
         mission_routine: this.missionRoutineService.getMissionRoutineAll(qr),
