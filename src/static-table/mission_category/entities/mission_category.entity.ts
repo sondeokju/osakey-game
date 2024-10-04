@@ -20,8 +20,9 @@ export class MissionCategory {
 
   @Column({
     default: 0,
+    nullable: true,
   })
-  parent_category_id: string;
+  parent_category_id: string | null;
 
   @Column({
     default: 0,
