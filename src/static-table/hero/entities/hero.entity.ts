@@ -11,22 +11,22 @@ import {
 @Entity()
 export class Hero {
   @PrimaryColumn()
-  hero_id: number;
+  level: number;
 
   @Column({
     default: 0,
   })
-  hero_rank: string;
+  rank: string;
 
   @Column({
     default: 0,
   })
-  hero_level: number;
+  atribute: number;
 
   @Column({
     default: 0,
   })
-  hero_exp: number;
+  exp: number;
 
   @Column({
     default: 0,
