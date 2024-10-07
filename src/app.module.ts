@@ -74,6 +74,8 @@ import { MissionKindModule } from './static-table/mission_kind/mission_kind.modu
 import { MissionKind } from './static-table/mission_kind/entities/mission_kind.entity';
 import { MissionCategoryModule } from './static-table/mission_category/mission_category.module';
 import { MissionCategory } from './static-table/mission_category/entities/mission_category.entity';
+import { HeroModule } from './static-table/hero/hero.module';
+import { Hero } from './static-table/hero/entities/hero.entity';
 
 @Module({
   imports: [
@@ -121,6 +123,7 @@ import { MissionCategory } from './static-table/mission_category/entities/missio
         ItemType,
         MissionKind,
         MissionCategory,
+        Hero,
         UserItem,
         UserAd,
         UserEventAttendance,
@@ -162,6 +165,7 @@ import { MissionCategory } from './static-table/mission_category/entities/missio
     ItemTypeModule,
     MissionKindModule,
     MissionCategoryModule,
+    HeroModule,
   ],
   controllers: [AppController],
   providers: [
