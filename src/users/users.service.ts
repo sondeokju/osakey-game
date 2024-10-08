@@ -500,9 +500,9 @@ export class UsersService {
     let updateLevel = currentLevel;
 
     const heroLevelData = await this.heroService.getHeroLevel(+nextLevel);
-    const rewardData = await this.rewardService.getReward(
-      +heroLevelData.reward_id,
-    );
+    const rewardData = await this.rewardService.getReward(1001);
+
+    console.log(rewardData);
     const itemData = await this.itemService.getItem(+heroLevelData.reward_id);
 
     if (!heroLevelData) return -1;

@@ -11,7 +11,7 @@ export class RewardService {
   ) {}
 
   async getReward(reward_id: number) {
-    const result = await this.rewardGroupRepository.findOne({
+    const result = await this.rewardGroupRepository.find({
       where: {
         reward_id,
       },
