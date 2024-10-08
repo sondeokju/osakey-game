@@ -10,7 +10,7 @@ import {
 
 @Entity()
 export class Reward {
-  @PrimaryColumn()
+  @Column()
   reward_id: number;
 
   @Column({
