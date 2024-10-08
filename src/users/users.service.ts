@@ -519,48 +519,23 @@ export class UsersService {
     //   battery: userData.battery + 0,
     // });
 
-    // let resultArr = [];
-
-    // rewardData.forEach(async (reward, index) => {
-    //   let resultObj = {};
-    //   Object.entries(reward).forEach(([key, value]) => {
-    //     //console.log(`${key}: ${value}`);
-    //     resultObj[`${key}`] = `${value}`;
-    //   });
-    //   const itemData = await this.itemService.getItem(+resultObj['item_id']);
-    //   //console.log(itemData);
-    //   resultObj['item_type'] = itemData.item_type;
-    //   console.log(resultObj);
-    //   resultArr.push(Object.values(resultObj));
-    // });
-    // console.log('resultArr:', resultArr);
-
-    // const result = Object.values(resultArr);
-    // return result;
-
-    let resultArr = [];
+    let result = [];
 
     for (const reward of rewardData) {
-      let resultObj = {};
+      let Obj = {};
 
-      // reward의 키-값 쌍을 resultObj에 추가합니다.
       Object.entries(reward).forEach(([key, value]) => {
-        //resultObj[key] = value; // 문자열 변환 필요 없음
-        resultObj[`${key}`] = `${value}`;
+        Obj[`${key}`] = `${value}`;
       });
 
-      // 비동기 호출을 기다립니다.
-      const itemData = await this.itemService.getItem(+resultObj['item_id']);
-      resultObj['item_type'] = itemData.item_type;
-      resultObj['item_name'] = itemData.item_name;
+      const itemData = await this.itemService.getItem(+Obj['item_id']);
+      Obj['item_type'] = itemData.item_type;
+      Obj['item_name'] = itemData.item_name;
 
-      console.log(resultObj);
-      resultArr.push(resultObj); // resultArr에 추가
+      result.push(Obj);
     }
 
-    console.log('resultArr:', resultArr);
-
-    return resultArr;
+    return result;
   }
 
   // async updateGord(id: number, gord: number, qr?: QueryRunner) {
