@@ -554,7 +554,7 @@ export class UsersService {
       resultObj['item_type'] = itemData.item_type; // item_type 추가
 
       console.log(resultObj);
-      resultArr.push(Object.values(resultObj)); // resultArr에 추가
+      resultArr.push(resultObj); // resultArr에 추가
     }
 
     console.log('resultArr:', resultArr);
