@@ -52,8 +52,6 @@ import { UserEventAttendanceModule } from './user_event_attendance/user_event_at
 import { UserEventAttendance } from './user_event_attendance/entities/user_event_attendance.entity';
 import { AccountLevelModule } from './static-table/account_level/account_level.module';
 import { AccountLevel } from './static-table/account_level/entities/account_level.entity';
-import { RewardGroupModule } from './static-table/reward_group/reward_group.module';
-import { Reward } from './static-table/reward_group/entities/reward_group.entity';
 import { MissionRoutineModule } from './static-table/mission_routine/mission_routine.module';
 import { MissionRoutine } from './static-table/mission_routine/entities/mission_routine.entity';
 import { MissionRoutineBonusModule } from './static-table/mission_routine_bonus/mission_routine_bonus.module';
@@ -76,6 +74,8 @@ import { MissionCategoryModule } from './static-table/mission_category/mission_c
 import { MissionCategory } from './static-table/mission_category/entities/mission_category.entity';
 import { HeroModule } from './static-table/hero/hero.module';
 import { Hero } from './static-table/hero/entities/hero.entity';
+import { RewardModule } from './static-table/reward/reward.module';
+import { Reward } from './static-table/reward/entities/reward.entity';
 
 @Module({
   imports: [
@@ -154,7 +154,7 @@ import { Hero } from './static-table/hero/entities/hero.entity';
     UserAdModule,
     UserEventAttendanceModule,
     AccountLevelModule,
-    RewardGroupModule,
+    RewardModule,
     MissionRoutineModule,
     MissionRoutineBonusModule,
     MissionMainModule,
@@ -166,6 +166,7 @@ import { Hero } from './static-table/hero/entities/hero.entity';
     MissionKindModule,
     MissionCategoryModule,
     HeroModule,
+    RewardModule,
   ],
   controllers: [AppController],
   providers: [

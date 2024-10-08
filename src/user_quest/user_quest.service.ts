@@ -4,7 +4,6 @@ import { QueryRunner, Repository } from 'typeorm';
 import { UserQuest } from './entity/user_quest.entity';
 import { UsersService } from 'src/users/users.service';
 import { Users } from 'src/users/entity/users.entity';
-import { RewardGroupService } from 'src/static-table/reward_group/reward_group.service';
 import { MissionRoutineService } from 'src/static-table/mission_routine/mission_routine.service';
 import { ItemService } from 'src/static-table/item/item.service';
 import { MissionService } from 'src/static-table/mission/mission.service';
@@ -12,13 +11,14 @@ import { MissionKindService } from 'src/static-table/mission_kind/mission_kind.s
 import { MissionMainService } from 'src/static-table/mission_main/mission_main.service';
 import { MissionRoutineBonusService } from 'src/static-table/mission_routine_bonus/mission_routine_bonus.service';
 import { MissionSubService } from 'src/static-table/mission_sub/mission_sub.service';
+import { RewardService } from 'src/static-table/reward/reward.service';
 
 @Injectable()
 export class UserQuestService {
   constructor(
     @InjectRepository(UserQuest)
     private readonly userQuestRepository: Repository<UserQuest>,
-    private readonly rewardGroupService: RewardGroupService,
+    private readonly rewardGroupService: RewardService,
     private readonly itemService: ItemService,
     private readonly missionService: MissionService,
     private readonly missionKindService: MissionKindService,
