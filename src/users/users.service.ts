@@ -503,8 +503,6 @@ export class UsersService {
     const heroLevelData = await this.heroService.getHeroLevel(+nextLevel);
     const rewardData = await this.rewardService.getReward(1001);
 
-    console.log(JSON.stringify(rewardData));
-
     console.log(rewardData);
     const itemData = await this.itemService.getItem(+heroLevelData.reward_id);
 
@@ -533,7 +531,12 @@ export class UsersService {
       resultObj['reward'] = obj;
     }
 
-    console.log('obj:', resultObj);
+    // Object.keys() 사용
+    Object.keys(rewardData).forEach((key) => {
+      console.log(`${key}: ${rewardData[key]}`);
+    });
+
+    //console.log('obj:', resultObj);
 
     const result = Object.values(resultObj);
     return result;
