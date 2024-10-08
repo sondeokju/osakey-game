@@ -551,7 +551,8 @@ export class UsersService {
 
       // 비동기 호출을 기다립니다.
       const itemData = await this.itemService.getItem(+resultObj['item_id']);
-      resultObj['item_type'] = itemData.item_type; // item_type 추가
+      resultObj['item_type'] = itemData.item_type;
+      resultObj['item_name'] = itemData.item_name;
 
       console.log(resultObj);
       resultArr.push(resultObj); // resultArr에 추가
