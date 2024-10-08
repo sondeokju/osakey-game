@@ -503,7 +503,7 @@ export class UsersService {
     const heroLevelData = await this.heroService.getHeroLevel(+nextLevel);
     const rewardData = await this.rewardService.getReward(1001);
 
-    console.log(rewardData);
+    //console.log(rewardData);
 
     // if (!heroLevelData) return -1;
 
@@ -535,8 +535,8 @@ export class UsersService {
       console.log('resultArr:', resultArr);
     });
 
-    //const result = Object.values(resultArr);
-    return resultArr;
+    const result = Object.values(resultArr);
+    return result;
   }
 
   // async updateGord(id: number, gord: number, qr?: QueryRunner) {
