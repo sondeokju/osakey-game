@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserQuest } from './entity/user_quest.entity';
 import { RewardGroupService } from 'src/static-table/reward_group/reward_group.service';
 import { MissionRoutineService } from 'src/static-table/mission_routine/mission_routine.service';
-import { RewardGroup } from 'src/static-table/reward_group/entities/reward_group.entity';
+import { Reward } from 'src/static-table/reward_group/entities/reward_group.entity';
 import { MissionRoutine } from 'src/static-table/mission_routine/entities/mission_routine.entity';
 import { ItemService } from 'src/static-table/item/item.service';
 import { Item } from 'src/static-table/item/entities/item.entity';
@@ -24,7 +24,7 @@ import { MissionSubService } from 'src/static-table/mission_sub/mission_sub.serv
   imports: [
     TypeOrmModule.forFeature([
       UserQuest,
-      RewardGroup,
+      Reward,
       MissionRoutine,
       Item,
       Mission,
