@@ -519,7 +519,7 @@ export class UsersService {
     //   battery: userData.battery + 0,
     // });
 
-    const resultArr = [];
+    let resultArr = [];
 
     rewardData.forEach(async (reward, index) => {
       const resultObj = {};
