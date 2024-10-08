@@ -21,7 +21,7 @@ export class MissionRoutineService {
   async getMissionRoutineAll(qr?: QueryRunner) {
     const missionRoutineRepository = this.getMissionRoutineRepository(qr);
     const result = await missionRoutineRepository.find({});
-    return result;
+    return result;  
   }
 
   async getMissionRoutine(mission_type: number) {

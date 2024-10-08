@@ -2,49 +2,34 @@ import { Injectable } from '@nestjs/common';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { Item } from './entities/item.entity';
-import { Repository } from 'typeorm';
+import { QueryRunner, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class ItemService {
   constructor(
     @InjectRepository(Item)
-    private readonly itemsRepository: Repository<Item>,
+    private readonly itemRepository: Repository<Item>,
   ) {}
 
-  create(_createItemDto: CreateItemDto) {
-    return 'This action adds a new item';
+  getItemRepository(qr?: QueryRunner) {
+    return qr ? qr.manager.getRepository<Item>(Item) : this.itemRepository;
   }
 
-  findAll() {
-    return `This action returns all item`;
+  async getItemAll(qr?: QueryRunner) {
+    const itemRepository = this.getItemRepository(qr);
+    const result = await itemRepository.find({});
+    return result;
   }
 
-  // findOne(id: number) {
-  //   const result = this.itemsRepository.findOne({
-  //     where: {
-  //       id,
-  //     },
-  //   });
-
-  //   return result;
-  // }
-
-  async getItem(item_id: number) {
-    const result = await this.itemsRepository.findOne({
+  async getItem(item_id: number, qr?: QueryRunner) {
+    const itemRepository = this.getItemRepository(qr);
+    const result = await itemRepository.findOne({
       where: {
         item_id,
       },
     });
     return result;
-  }
-
-  update(id: number, _updateItemDto: UpdateItemDto) {
-    return `This action updates a #${id} item`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} item`;
   }
 }
 

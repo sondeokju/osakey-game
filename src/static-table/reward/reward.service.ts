@@ -10,13 +10,13 @@ export class RewardService {
     private readonly rewardGroupRepository: Repository<Reward>,
   ) {}
 
-  async getReward(reward: number) {
-    // const result = await this.rewardGroupRepository.findOne({
-    //   where: {
-    //     reward,
-    //   },
-    // });
+  async getReward(reward_id: number) {
+    const result = await this.rewardGroupRepository.findOne({
+      where: {
+        reward_id,
+      },
+    });
 
-    return 0;
+    return result;
   }
 }

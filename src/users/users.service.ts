@@ -3,9 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from './entity/users.entity';
 import { DataSource, IsNull, QueryRunner, Repository } from 'typeorm';
 import { BadRequestException } from '@nestjs/common';
-import { TakeMoneyDto } from './dto/take-money.dto';
 import Redis from 'ioredis';
 import { InjectRedis, RedisService } from '@liaoliaots/nestjs-redis';
+import { HeroService } from 'src/static-table/hero/hero.service';
+import { RewardService } from 'src/static-table/reward/reward.service';
+import { ItemService } from 'src/static-table/item/item.service';
 
 @Injectable()
 export class UsersService {
@@ -15,6 +17,9 @@ export class UsersService {
     @InjectRepository(Users)
     private readonly usersRepository: Repository<Users>,
     private readonly redisService: RedisService,
+    private readonly heroService: HeroService,
+    private readonly rewardService: RewardService,
+    private readonly itemService: ItemService,
   ) {
     this.redisClient = redisService.getClient();
   }
@@ -489,40 +494,38 @@ export class UsersService {
     });
     if (!userData) return -1;
 
-    // const currentExp = userData.exp;
-    // const currentLevel = userData.level;
-    // const nextLevel = currentLevel + 1;
-    // let updateLevel = currentLevel;
-    // let obj = {};
+    const currentExp = userData.exp;
+    const currentLevel = userData.level;
+    const nextLevel = currentLevel + 1;
+    let updateLevel = currentLevel;
 
-    // const accountLevelData = await this.accountLevelService.getAccountLevel(
-    //   +nextLevel,
-    // );
+    const heroLevelData = await this.heroService.getHeroLevel(+nextLevel);
+    const rewardData = await this.rewardService.getReward(
+      +heroLevelData.reward_id,
+    );
+    const itemData = await this.itemService.getItem(+heroLevelData.reward_id);
 
-    // if (!accountLevelData) return -1;
+    if (!heroLevelData) return -1;
 
-    // if (currentExp >= accountLevelData.total_exp) {
-    //   updateLevel = currentLevel + 1;
-    // }
+    if (currentExp >= heroLevelData.total_exp) {
+      updateLevel = currentLevel + 1;
+    }
 
-    // await usersRepository.save({
-    //   ...userData,
-    //   level: updateLevel,
-    //   diamond_free: userData.diamond_free + accountLevelData.reward_diamond,
-    //   gord: userData.gord + accountLevelData.reward_diamond,
-    //   battery: userData.battery + accountLevelData.reward_battery,
-    // });
+    await usersRepository.save({
+      ...userData,
+      level: updateLevel,
+      diamond_free: userData.diamond_free + 0,
+      gord: userData.gord + 0,
+      battery: userData.battery + 0,
+    });
 
-    // obj = {
-    //   reward_diamond: { reward_diamond: accountLevelData.reward_diamond },
-    //   reward_battery: { reward_battery: accountLevelData.reward_battery },
-    //   reward_id: {
-    //     additional_reward_id: accountLevelData.additional_reward_id,
-    //   },
-    // };
+    const obj = {
+      item_id: { item_id: itemData.item_id },
+      item_qty: { item_qty: rewardData.item_qty },
+    };
 
-    //const result = Object.values(obj);
-    return 0;
+    const result = Object.values(obj);
+    return result;
   }
 
   // async updateGord(id: number, gord: number, qr?: QueryRunner) {
