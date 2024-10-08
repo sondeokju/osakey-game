@@ -539,7 +539,7 @@ export class UsersService {
     rewardData.forEach((reward, index) => {
       Object.entries(reward).forEach(([key, value]) => {
         console.log(`${key}: ${value}`);
-        const uniqueKey = `${key}`;
+        const uniqueKey = `${key}_${value}`;
         resultObj[uniqueKey] = value;
       });
     });
