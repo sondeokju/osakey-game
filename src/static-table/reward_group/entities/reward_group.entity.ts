@@ -10,6 +10,9 @@ import {
 
 @Entity()
 export class Reward {
+  @PrimaryGeneratedColumn()
+  id: number;
+
   @Column()
   reward_id: number;
 
