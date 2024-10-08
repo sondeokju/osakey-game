@@ -498,6 +498,7 @@ export class UsersService {
     const currentLevel = userData.level;
     const nextLevel = currentLevel + 1;
     let updateLevel = currentLevel;
+    let obj = {};
 
     const heroLevelData = await this.heroService.getHeroLevel(+nextLevel);
     const rewardData = await this.rewardService.getReward(1001);
@@ -519,12 +520,19 @@ export class UsersService {
       battery: userData.battery + 0,
     });
 
-    const obj = {
-      item_id: { item_id: itemData.item_id },
-      item_qty: { item_qty: 0 },
-    };
+    const resultObj = {};
 
-    const result = Object.values(obj);
+    for (const key in rewardData) {
+      obj = {
+        item_id: { item_id: rewardData[key] },
+        item_name: { item_qty: itemData.item_name },
+      };
+      resultObj['reward'] = obj;
+    }
+
+    console.log('obj:', resultObj);
+
+    const result = Object.values(resultObj);
     return result;
   }
 
