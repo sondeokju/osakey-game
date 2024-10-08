@@ -541,12 +541,12 @@ export class UsersService {
 
       Object.entries(reward).forEach(([key, value]) => {
         console.log(`${key}: ${value}`);
+        resultObj[key] = value;
       });
-
       console.log('------------------');
     });
 
-    //console.log('obj:', resultObj);
+    console.log('obj:', resultObj);
 
     const result = Object.values(resultObj);
     return result;
