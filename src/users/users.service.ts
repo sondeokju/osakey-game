@@ -530,6 +530,7 @@ export class UsersService {
       const itemData = await this.itemService.getItem(+resultObj['item_id']);
       console.log(itemData);
       resultObj['item_type'] = itemData.item_type;
+      console.log(resultObj);
       resultArr.push(resultObj);
     });
     console.log('resultArr:', resultArr);
