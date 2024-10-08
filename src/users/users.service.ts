@@ -6,7 +6,6 @@ import { BadRequestException } from '@nestjs/common';
 import { TakeMoneyDto } from './dto/take-money.dto';
 import Redis from 'ioredis';
 import { InjectRedis, RedisService } from '@liaoliaots/nestjs-redis';
-import { AccountLevelService } from 'src/static-table/account_level/account_level.service';
 
 @Injectable()
 export class UsersService {
@@ -16,7 +15,6 @@ export class UsersService {
     @InjectRepository(Users)
     private readonly usersRepository: Repository<Users>,
     private readonly redisService: RedisService,
-    private readonly accountLevelService: AccountLevelService,
   ) {
     this.redisClient = redisService.getClient();
   }
@@ -491,40 +489,40 @@ export class UsersService {
     });
     if (!userData) return -1;
 
-    const currentExp = userData.exp;
-    const currentLevel = userData.level;
-    const nextLevel = currentLevel + 1;
-    let updateLevel = currentLevel;
-    let obj = {};
+    // const currentExp = userData.exp;
+    // const currentLevel = userData.level;
+    // const nextLevel = currentLevel + 1;
+    // let updateLevel = currentLevel;
+    // let obj = {};
 
-    const accountLevelData = await this.accountLevelService.getAccountLevel(
-      +nextLevel,
-    );
+    // const accountLevelData = await this.accountLevelService.getAccountLevel(
+    //   +nextLevel,
+    // );
 
-    if (!accountLevelData) return -1;
+    // if (!accountLevelData) return -1;
 
-    if (currentExp >= accountLevelData.total_exp) {
-      updateLevel = currentLevel + 1;
-    }
+    // if (currentExp >= accountLevelData.total_exp) {
+    //   updateLevel = currentLevel + 1;
+    // }
 
-    await usersRepository.save({
-      ...userData,
-      level: updateLevel,
-      diamond_free: userData.diamond_free + accountLevelData.reward_diamond,
-      gord: userData.gord + accountLevelData.reward_diamond,
-      battery: userData.battery + accountLevelData.reward_battery,
-    });
+    // await usersRepository.save({
+    //   ...userData,
+    //   level: updateLevel,
+    //   diamond_free: userData.diamond_free + accountLevelData.reward_diamond,
+    //   gord: userData.gord + accountLevelData.reward_diamond,
+    //   battery: userData.battery + accountLevelData.reward_battery,
+    // });
 
-    obj = {
-      reward_diamond: { reward_diamond: accountLevelData.reward_diamond },
-      reward_battery: { reward_battery: accountLevelData.reward_battery },
-      reward_id: {
-        additional_reward_id: accountLevelData.additional_reward_id,
-      },
-    };
+    // obj = {
+    //   reward_diamond: { reward_diamond: accountLevelData.reward_diamond },
+    //   reward_battery: { reward_battery: accountLevelData.reward_battery },
+    //   reward_id: {
+    //     additional_reward_id: accountLevelData.additional_reward_id,
+    //   },
+    // };
 
-    const result = Object.values(obj);
-    return result;
+    //const result = Object.values(obj);
+    return 0;
   }
 
   // async updateGord(id: number, gord: number, qr?: QueryRunner) {
