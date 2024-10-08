@@ -535,8 +535,8 @@ export class UsersService {
     });
     console.log('resultArr:', resultArr);
 
-    const result = Object.values(resultArr);
-    return result;
+    //const result = Object.values(resultArr);
+    return resultArr;
   }
 
   // async updateGord(id: number, gord: number, qr?: QueryRunner) {
