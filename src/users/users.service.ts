@@ -503,7 +503,7 @@ export class UsersService {
     const heroLevelData = await this.heroService.getHeroLevel(+nextLevel);
     const rewardData = await this.rewardService.getReward(heroLevelData.level);
 
-    //console.log(rewardData);
+    console.log(nextLevel);
 
     // if (!heroLevelData) return -1;
 
