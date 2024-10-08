@@ -534,19 +534,20 @@ export class UsersService {
     //   console.log(`${key}: ${rewardData[key]}`);
     // });
 
-    const resultObj = {};
+    
+    const resultArr = [];
 
     rewardData.forEach((reward, index) => {
+      const resultObj = {};
       Object.entries(reward).forEach(([key, value]) => {
-        console.log(`${key}: ${value}`);
-        const uniqueKey = `${key}_${value}`;
-        resultObj[uniqueKey] = value;
+        //console.log(`${key}: ${value}`);
+        resultObj[`${key}`] = `${value}`;
       });
+      resultArr.push(resultObj)
     });
+    console.log('resultArr:', resultArr);
 
-    console.log('resultObj:', resultObj);
-
-    const result = Object.values(resultObj);
+    const result = Object.values(resultArr);
     return result;
   }
 
