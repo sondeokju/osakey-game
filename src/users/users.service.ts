@@ -521,7 +521,7 @@ export class UsersService {
 
     const obj = {
       item_id: { item_id: itemData.item_id },
-      item_qty: { item_qty: rewardData.item_qty },
+      item_qty: { item_qty: 0 },
     };
 
     const result = Object.values(obj);
