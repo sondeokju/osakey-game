@@ -540,13 +540,13 @@ export class UsersService {
 
     let resultArr = [];
 
-    // forEach 대신 for...of를 사용하여 비동기 처리를 적절히 기다립니다.
     for (const reward of rewardData) {
       let resultObj = {};
 
       // reward의 키-값 쌍을 resultObj에 추가합니다.
       Object.entries(reward).forEach(([key, value]) => {
-        resultObj[key] = value; // 문자열 변환 필요 없음
+        //resultObj[key] = value; // 문자열 변환 필요 없음
+        resultObj[`${key}`] = `${value}`;
       });
 
       // 비동기 호출을 기다립니다.
