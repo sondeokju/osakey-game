@@ -3,13 +3,13 @@ import { CreateRewardGroupDto } from './dto/create-reward_group.dto';
 import { UpdateRewardGroupDto } from './dto/update-reward_group.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { RewardGroup } from './entities/reward_group.entity';
+import { Reward } from './entities/reward_group.entity';
 
 @Injectable()
 export class RewardGroupService {
   constructor(
-    @InjectRepository(RewardGroup)
-    private readonly rewardGroupRepository: Repository<RewardGroup>,
+    @InjectRepository(Reward)
+    private readonly rewardGroupRepository: Repository<Reward>,
   ) {}
 
   async getReward(reward: number) {
