@@ -532,8 +532,18 @@ export class UsersService {
     // }
 
     // Object.keys() 사용
-    Object.keys(rewardData).forEach((key) => {
-      console.log(`${key}: ${rewardData[key]}`);
+    // Object.keys(rewardData).forEach((key) => {
+    //   console.log(`${key}: ${rewardData[key]}`);
+    // });
+
+    rewardData.forEach((reward, index) => {
+      console.log(`Reward ${index}:`);
+
+      Object.entries(reward).forEach(([key, value]) => {
+        console.log(`${key}: ${value}`);
+      });
+
+      console.log('------------------');
     });
 
     //console.log('obj:', resultObj);
