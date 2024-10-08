@@ -520,8 +520,6 @@ export class UsersService {
     //   battery: userData.battery + 0,
     // });
 
-    const resultObj = {};
-
     // for (const key in rewardData) {
     //   console.log(key);
     //   obj = {
@@ -536,16 +534,14 @@ export class UsersService {
     //   console.log(`${key}: ${rewardData[key]}`);
     // });
 
-    rewardData.forEach((reward, index) => {
-      console.log(`Reward ${index}:`);
-      const obj = {};
+    const resultObj = {};
 
+    rewardData.forEach((reward, index) => {
       Object.entries(reward).forEach(([key, value]) => {
         console.log(`${key}: ${value}`);
-        obj[key] = value;
+        const uniqueKey = `${key}`;
+        resultObj[uniqueKey] = value;
       });
-      console.log('------------------');
-      resultObj['reward'] = obj;
     });
 
     console.log('resultObj:', resultObj);
