@@ -11,20 +11,15 @@ import {
 @Entity()
 export class Reward {
   @PrimaryColumn()
-  reward_group_id: number;
-
-  @Column({
-    default: 0,
-  })
   reward_id: number;
 
   @Column({
     default: 0,
   })
-  reward_item_id: number;
+  item_id: number;
 
   @Column({
     default: 0,
   })
-  reward_item_qty: number;
+  item_qty: number;
 }
