@@ -506,19 +506,19 @@ export class UsersService {
     console.log(rewardData);
     const itemData = await this.itemService.getItem(+heroLevelData.reward_id);
 
-    if (!heroLevelData) return -1;
+    // if (!heroLevelData) return -1;
 
-    if (currentExp >= heroLevelData.total_exp) {
-      updateLevel = currentLevel + 1;
-    }
+    // if (currentExp >= heroLevelData.total_exp) {
+    //   updateLevel = currentLevel + 1;
+    // }
 
-    await usersRepository.save({
-      ...userData,
-      level: updateLevel,
-      diamond_free: userData.diamond_free + 0,
-      gord: userData.gord + 0,
-      battery: userData.battery + 0,
-    });
+    // await usersRepository.save({
+    //   ...userData,
+    //   level: updateLevel,
+    //   diamond_free: userData.diamond_free + 0,
+    //   gord: userData.gord + 0,
+    //   battery: userData.battery + 0,
+    // });
 
     const resultObj = {};
 
