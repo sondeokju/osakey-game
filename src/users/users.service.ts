@@ -531,7 +531,7 @@ export class UsersService {
       //console.log(itemData);
       resultObj['item_type'] = itemData.item_type;
       console.log(resultObj);
-      resultArr.push(resultObj);
+      resultArr.push(Object.values(resultObj));
     });
     console.log('resultArr:', resultArr);
 
