@@ -522,14 +522,14 @@ export class UsersService {
 
     const resultObj = {};
 
-    for (const key in rewardData) {
-      console.log(key);
-      obj = {
-        item_id: { item_id: rewardData[key] },
-        item_name: { item_qty: itemData.item_name },
-      };
-      resultObj['reward'] = obj;
-    }
+    // for (const key in rewardData) {
+    //   console.log(key);
+    //   obj = {
+    //     item_id: { item_id: rewardData[key] },
+    //     item_name: { item_qty: itemData.item_name },
+    //   };
+    //   resultObj['reward'] = obj;
+    // }
 
     // Object.keys() 사용
     Object.keys(rewardData).forEach((key) => {
