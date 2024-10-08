@@ -504,7 +504,6 @@ export class UsersService {
     const rewardData = await this.rewardService.getReward(1001);
 
     console.log(rewardData);
-    const itemData = await this.itemService.getItem(+heroLevelData.reward_id);
 
     // if (!heroLevelData) return -1;
 
@@ -520,30 +519,17 @@ export class UsersService {
     //   battery: userData.battery + 0,
     // });
 
-    // for (const key in rewardData) {
-    //   console.log(key);
-    //   obj = {
-    //     item_id: { item_id: rewardData[key] },
-    //     item_name: { item_qty: itemData.item_name },
-    //   };
-    //   resultObj['reward'] = obj;
-    // }
-
-    // Object.keys() 사용
-    // Object.keys(rewardData).forEach((key) => {
-    //   console.log(`${key}: ${rewardData[key]}`);
-    // });
-
-    
     const resultArr = [];
 
-    rewardData.forEach((reward, index) => {
+    rewardData.forEach(async (reward, index) => {
       const resultObj = {};
       Object.entries(reward).forEach(([key, value]) => {
         //console.log(`${key}: ${value}`);
         resultObj[`${key}`] = `${value}`;
       });
-      resultArr.push(resultObj)
+      const itemData = await this.itemService.getItem(+resultObj['item_id']);
+      resultObj['item_type'] = itemData.item_type;
+      resultArr.push(resultObj);
     });
     console.log('resultArr:', resultArr);
 
