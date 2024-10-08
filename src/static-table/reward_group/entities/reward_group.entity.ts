@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class RewardGroup {
+export class Reward {
   @PrimaryColumn()
   reward_group_id: number;
 
