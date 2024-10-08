@@ -522,7 +522,7 @@ export class UsersService {
     let resultArr = [];
 
     rewardData.forEach(async (reward, index) => {
-      const resultObj = {};
+      let resultObj = {};
       Object.entries(reward).forEach(([key, value]) => {
         //console.log(`${key}: ${value}`);
         resultObj[`${key}`] = `${value}`;
