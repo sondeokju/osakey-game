@@ -527,7 +527,7 @@ export class UsersService {
         //console.log(`${key}: ${value}`);
         resultObj[`${key}`] = `${value}`;
       });
-      const itemData = await this.itemService.getItem(+resultObj['item_id']);
+      const itemData = await this.itemService.getItemOne(+resultObj['item_id']);
       //console.log(itemData);
       resultObj['item_type'] = itemData.item_type;
       console.log(resultObj);

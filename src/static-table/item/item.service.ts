@@ -31,6 +31,15 @@ export class ItemService {
     });
     return result;
   }
+
+  async getItemOne(item_id: number) {
+    const result = this.itemRepository.findOne({
+      where: {
+        item_id,
+      },
+    });
+    return result;
+  }
 }
 
 // console.log('item:', result);
