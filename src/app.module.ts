@@ -50,8 +50,6 @@ import { UserAdModule } from './user_ad/user_ad.module';
 import { UserAd } from './user_ad/entities/user_ad.entity';
 import { UserEventAttendanceModule } from './user_event_attendance/user_event_attendance.module';
 import { UserEventAttendance } from './user_event_attendance/entities/user_event_attendance.entity';
-import { AccountLevelModule } from './static-table/account_level/account_level.module';
-import { AccountLevel } from './static-table/account_level/entities/account_level.entity';
 import { MissionRoutineModule } from './static-table/mission_routine/mission_routine.module';
 import { MissionRoutine } from './static-table/mission_routine/entities/mission_routine.entity';
 import { MissionRoutineBonusModule } from './static-table/mission_routine_bonus/mission_routine_bonus.module';
@@ -117,7 +115,6 @@ import { Reward } from './static-table/reward/entities/reward.entity';
         UserEquipment,
         UserEquipmentSlot,
         Gacha,
-        AccountLevel,
         Reward,
         Mission,
         ItemType,
@@ -153,7 +150,6 @@ import { Reward } from './static-table/reward/entities/reward.entity';
     UserItemModule,
     UserAdModule,
     UserEventAttendanceModule,
-    AccountLevelModule,
     RewardModule,
     MissionRoutineModule,
     MissionRoutineBonusModule,
