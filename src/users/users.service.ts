@@ -538,15 +538,17 @@ export class UsersService {
 
     rewardData.forEach((reward, index) => {
       console.log(`Reward ${index}:`);
+      const obj = {};
 
       Object.entries(reward).forEach(([key, value]) => {
         console.log(`${key}: ${value}`);
-        resultObj[key] = value;
+        obj[key] = value;
       });
       console.log('------------------');
+      resultObj['reward'] = obj;
     });
 
-    console.log('obj:', resultObj);
+    console.log('resultObj:', resultObj);
 
     const result = Object.values(resultObj);
     return result;
