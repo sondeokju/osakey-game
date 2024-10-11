@@ -31,5 +31,5 @@ export class MissionRoutine {
   @Column({
     default: 0,
   })
-  reward: number;
+  reward_id: number;
 }
