@@ -6,9 +6,6 @@ import { BadRequestException } from '@nestjs/common';
 import Redis from 'ioredis';
 import { InjectRedis, RedisService } from '@liaoliaots/nestjs-redis';
 import { HeroService } from 'src/static-table/hero/hero.service';
-import { RewardService } from 'src/static-table/reward/reward.service';
-import { ItemService } from 'src/static-table/item/item.service';
-import { UserItemService } from 'src/user_item/user_item.service';
 
 @Injectable()
 export class UsersService {
@@ -17,13 +14,10 @@ export class UsersService {
   constructor(
     @InjectRepository(Users)
     private readonly usersRepository: Repository<Users>,
-    private readonly redisService: RedisService,
+    //private readonly redisService: RedisService,
     private readonly heroService: HeroService,
-    private readonly rewardService: RewardService,
-    private readonly itemService: ItemService,
-    private readonly userItemService: UserItemService,
   ) {
-    this.redisClient = redisService.getClient();
+    //this.redisClient = redisService.getClient();
   }
 
   getUsersRepository(qr?: QueryRunner) {
