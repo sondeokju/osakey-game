@@ -16,10 +16,10 @@ export class MissionKind {
   @Column({
     default: 0,
   })
-  mission_kind: string;
+  mission_kind_desc: string;
 
   @Column({
     default: 0,
   })
-  mission_kind_desc: string;
+  mission_kind: string;
 }
