@@ -10,7 +10,7 @@ import { UserItemService } from 'src/user_item/user_item.service';
 export class RewardService {
   constructor(
     @InjectRepository(Reward)
-    private readonly rewardGroupRepository: Repository<Reward>,
+    private readonly rewardRepository: Repository<Reward>,
     private readonly usersService: UsersService,
     private readonly itemService: ItemService,
     private readonly userItemService: UserItemService,
@@ -19,7 +19,7 @@ export class RewardService {
   getRewardRepository(qr?: QueryRunner) {
     return qr
       ? qr.manager.getRepository<Reward>(Reward)
-      : this.rewardGroupRepository;
+      : this.rewardRepository;
   }
 
   async getReward(reward_id: number, qr?: QueryRunner) {
