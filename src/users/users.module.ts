@@ -9,9 +9,9 @@ import { Item } from 'src/static-table/item/entities/item.entity';
 import { ItemService } from 'src/static-table/item/item.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Users, Hero, Item])],
+  imports: [TypeOrmModule.forFeature([Users, Hero])],
   exports: [UsersService],
   controllers: [UsersController],
-  providers: [UsersService, HeroService, ItemService],
+  providers: [UsersService, HeroService],
 })
 export class UsersModule {}
