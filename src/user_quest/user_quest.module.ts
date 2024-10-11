@@ -26,7 +26,7 @@ import { UserItem } from 'src/user_item/entities/user_item.entity';
   imports: [
     TypeOrmModule.forFeature([
       UserQuest,
-      //Reward,
+      Reward,
       MissionRoutine,
       Item,
       Mission,
@@ -42,7 +42,7 @@ import { UserItem } from 'src/user_item/entities/user_item.entity';
   controllers: [UserQuestController],
   providers: [
     UserQuestService,
-    //RewardService,
+    RewardService,
     ItemService,
     MissionService,
     MissionKindService,
