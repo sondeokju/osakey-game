@@ -17,4 +17,9 @@ export class ItemType {
     default: 0,
   })
   item_enum: string;
+
+  @Column({
+    default: 0,
+  })
+  type_desc: string;
 }
