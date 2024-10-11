@@ -11,7 +11,7 @@ import {
 @Entity()
 export class MissionRoutineBonus {
   @PrimaryColumn()
-  mission_routine_bonus_id: number;
+  id: number;
 
   @Column({
     default: 0,
@@ -26,5 +26,5 @@ export class MissionRoutineBonus {
   @Column({
     default: 0,
   })
-  reward: number;
+  reward_id: number;
 }
