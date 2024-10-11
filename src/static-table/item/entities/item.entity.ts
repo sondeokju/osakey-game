@@ -17,10 +17,13 @@ export class Item {
   item_id: number;
 
   @Column({})
-  item_type: number;
+  item_type: string;
 
   @Column({})
   item_grade: number;
+
+  @Column({})
+  item_grade_desc: string;
 
   @Column({})
   item_name: string;

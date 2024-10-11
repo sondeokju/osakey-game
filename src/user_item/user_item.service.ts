@@ -100,23 +100,45 @@ export class UserItemService {
     return true;
   }
 
-  // create(createUserItemDto: CreateUserItemDto) {
-  //   return 'This action adds a new userItem';
-  // }
+  async rewardItem(
+    user_id: number,
+    item_id: number,
+    item_leve: number,
+    item_type: string,
+    item_count: number,
+    qr?: QueryRunner,
+  ) {
+    const userItemRepository = this.getUserItemRepository(qr);
+    const userItemData = await userItemRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
 
-  findAll() {
-    return `This action returns all userItem`;
-  }
+    if (!userItemData) {
+      throw new Error('UserItem not found');
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} userItem`;
-  }
+    const updatedData = { ...userItemData };
 
-  // update(id: number, updateUserItemDto: UpdateUserItemDto) {
-  //   return `This action updates a #${id} userItem`;
-  // }
+    if (item_id !== undefined) {
+      updatedData.item_id = item_id;
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} userItem`;
+    if (item_leve !== undefined) {
+      updatedData.item_level = item_leve;
+    }
+
+    if (item_type !== undefined) {
+      updatedData.item_type = item_type;
+    }
+
+    if (item_count !== undefined) {
+      updatedData.item_count = updatedData.item_count + item_count;
+    }
+
+    await userItemRepository.save(updatedData);
+
+    return true;
   }
 }

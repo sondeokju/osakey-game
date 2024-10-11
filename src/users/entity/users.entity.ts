@@ -23,6 +23,9 @@ import { BaseModel } from 'src/common/entity/base.entity';
 @Entity()
 //@Exclude()
 export class Users extends BaseModel {
+  user_id(user_id: any) {
+    throw new Error('Method not implemented.');
+  }
   @Column({
     length: 20,
     default: '',

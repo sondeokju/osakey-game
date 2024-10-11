@@ -8,6 +8,7 @@ import { InjectRedis, RedisService } from '@liaoliaots/nestjs-redis';
 import { HeroService } from 'src/static-table/hero/hero.service';
 import { RewardService } from 'src/static-table/reward/reward.service';
 import { ItemService } from 'src/static-table/item/item.service';
+import { UserItemService } from 'src/user_item/user_item.service';
 
 @Injectable()
 export class UsersService {
@@ -20,6 +21,7 @@ export class UsersService {
     private readonly heroService: HeroService,
     private readonly rewardService: RewardService,
     private readonly itemService: ItemService,
+    private readonly userItemService: UserItemService,
   ) {
     this.redisClient = redisService.getClient();
   }
@@ -501,58 +503,13 @@ export class UsersService {
     let obj = {};
 
     const heroLevelData = await this.heroService.getHeroLevel(+nextLevel);
-    const rewardData = await this.rewardService.getReward(
-      heroLevelData.reward_id,
-    );
+    if (!heroLevelData) return -1;
 
-    console.log(nextLevel);
-
-    // if (!heroLevelData) return -1;
-
-    // if (currentExp >= heroLevelData.total_exp) {
-    //   updateLevel = currentLevel + 1;
-    // }
-
-    // await usersRepository.save({
-    //   ...userData,
-    //   level: updateLevel,
-    //   diamond_free: userData.diamond_free + 0,
-    //   gord: userData.gord + 0,
-    //   battery: userData.battery + 0,
-    // });
-
-    let result = [];
-
-    for (const reward of rewardData) {
-      let Obj = {};
-
-      Object.entries(reward).forEach(([key, value]) => {
-        Obj[`${key}`] = `${value}`;
-      });
-
-      const itemData = await this.itemService.getItem(+Obj['item_id']);
-      Obj['item_type'] = itemData.item_type;
-      Obj['item_name'] = itemData.item_name;
-
-      result.push(Obj);
+    if (currentExp >= heroLevelData.total_exp) {
+      updateLevel = currentLevel + 1;
     }
-
-    return result;
+    //await this.rewardService.reward()
   }
 
-  // async updateGord(id: number, gord: number, qr?: QueryRunner) {
-  //   const usersRepository = this.getUsersRepository(qr);
-  //   const existing = await usersRepository.findOne({
-  //     where: {
-  //       id,
-  //     },
-  //   });
-
-  //   await usersRepository.save({
-  //     ...existing,
-  //     gord: gord,
-  //   });
-
-  //   return true;
-  // }
+  //return 0;
 }

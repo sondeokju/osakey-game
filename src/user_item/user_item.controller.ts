@@ -77,32 +77,3 @@ export class UserItemController {
     return true;
   }
 }
-
-// @Post()
-// create(@Body() createUserItemDto: CreateUserItemDto) {
-//   return this.userItemService.create(createUserItemDto);
-// }
-
-// @Get()
-// findAll() {
-//   return this.userItemService.findAll();
-// }
-
-// @Get(':id')
-// findOne(@Param('id') id: string) {
-//   return this.userItemService.findOne(+id);
-// }
-
-// @Patch(':id')
-// update(
-//   @Param('id') id: string,
-//   @Body() updateUserItemDto: UpdateUserItemDto,
-// ) {
-//   return this.userItemService.update(+id, updateUserItemDto);
-// }
-
-// @Delete(':id')
-// remove(@Param('id') id: string) {
-//   return this.userItemService.remove(+id);
-// }
-//}
