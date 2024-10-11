@@ -66,5 +66,5 @@ export class MissionSub {
   @Column({
     default: 0,
   })
-  reward: number;
+  reward_id: number;
 }
