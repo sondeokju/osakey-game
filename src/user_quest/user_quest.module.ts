@@ -35,7 +35,7 @@ import { UserItem } from 'src/user_item/entities/user_item.entity';
       MissionRoutine,
       MissionRoutineBonus,
       MissionSub,
-      UserItem,
+      //UserItem,
     ]),
   ],
   exports: [UserQuestService],
@@ -50,7 +50,7 @@ import { UserItem } from 'src/user_item/entities/user_item.entity';
     MissionRoutineService,
     MissionRoutineBonusService,
     MissionSubService,
-    UserItemService,
+    //UserItemService,
   ],
 })
 export class UserQuestModule {}
