@@ -48,7 +48,7 @@ export class RewardService {
       const itemData = await this.itemService.getItem(+obj['item_id']);
 
       if (itemData.item_type == 'currency') {
-        await this.rewardCurrency(id, itemData.item_type, reward.item_qty, qr);
+        //await this.rewardCurrency(id, itemData.item_type, reward.item_qty, qr);
       }
 
       if (['material', 'equipment'].includes(itemData.item_type)) {
