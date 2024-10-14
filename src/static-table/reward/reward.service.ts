@@ -49,7 +49,7 @@ export class RewardService {
 
       console.log('item_type', itemData.item_type);
 
-      if (itemData.item_type == 'currency') {
+      if (itemData.item_type == 'C') {
         await this.rewardCurrency(
           user_id,
           itemData.item_name,
@@ -58,7 +58,7 @@ export class RewardService {
         );
       }
 
-      if (['material', 'equipment'].includes(itemData.item_type)) {
+      if (['M', 'E'].includes(itemData.item_type)) {
         await this.userItemService.rewardItem(
           user_id,
           itemData.item_id,
