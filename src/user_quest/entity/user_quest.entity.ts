@@ -19,7 +19,7 @@ export class UserQuest extends BaseModel {
   @Column({
     default: 0,
   })
-  mission_id: number;
+  progress_id: number;
 
   @Column({
     default: '',
