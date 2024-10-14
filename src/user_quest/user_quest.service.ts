@@ -152,6 +152,7 @@ export class UserQuestService {
     await userQuestRepository.save({
       ...userQuestData,
       mission_complete_yn: 'Y',
+      reward_yn: 'Y',
     });
 
     return rewardData;
