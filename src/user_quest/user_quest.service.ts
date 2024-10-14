@@ -114,6 +114,8 @@ export class UserQuestService {
         user_id,
       },
     });
+    console.log(result);
+    console.log(user_id);
 
     return result;
   }
