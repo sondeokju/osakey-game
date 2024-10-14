@@ -11,7 +11,7 @@ export class RewardService {
   constructor(
     @InjectRepository(Reward)
     private readonly rewardRepository: Repository<Reward>,
-    //private readonly usersService: UsersService,
+    private readonly usersService: UsersService,
     private readonly itemService: ItemService,
     private readonly userItemService: UserItemService,
   ) {}
@@ -48,7 +48,12 @@ export class RewardService {
       const itemData = await this.itemService.getItem(+obj['item_id']);
 
       if (itemData.item_type == 'currency') {
-        //await this.rewardCurrency(id, itemData.item_type, reward.item_qty, qr);
+        await this.rewardCurrency(
+          user_id,
+          itemData.item_name,
+          reward.item_qty,
+          qr,
+        );
       }
 
       if (['material', 'equipment'].includes(itemData.item_type)) {
@@ -72,54 +77,54 @@ export class RewardService {
     return result;
   }
 
-  // async rewardCurrency(
-  //   user_id: number,
-  //   item_name: string,
-  //   qty: number,
-  //   qr?: QueryRunner,
-  // ) {
-  //   const usersRepository = this.usersService.getUsersRepository(qr);
-  //   const userData = await usersRepository.findOne({
-  //     where: {
-  //       id: user_id,
-  //     },
-  //   });
+  async rewardCurrency(
+    user_id: number,
+    item_name: string,
+    qty: number,
+    qr?: QueryRunner,
+  ) {
+    const usersRepository = this.usersService.getUsersRepository(qr);
+    const userData = await usersRepository.findOne({
+      where: {
+        id: user_id,
+      },
+    });
 
-  //   if (!userData) {
-  //     throw new Error('User not found');
-  //   }
+    if (!userData) {
+      throw new Error('User not found');
+    }
 
-  //   const updatedData = { ...userData };
+    const updatedData = { ...userData };
 
-  //   switch (item_name) {
-  //     case 'seca_coin':
-  //       updatedData.seca_coin = qty;
-  //       break;
-  //     case 'gord':
-  //       updatedData.gord = qty;
-  //       break;
-  //     case 'diamond_paid':
-  //       updatedData.diamond_free = qty;
-  //       break;
-  //     case 'diamond_free':
-  //       updatedData.gord = qty;
-  //       break;
-  //     case 'exp':
-  //       updatedData.gord = qty;
-  //       break;
-  //     case 'battery':
-  //       updatedData.gord = qty;
-  //       break;
-  //     case 'revive_coin':
-  //       updatedData.gord = qty;
-  //       break;
-  //     // default:
-  //     //   response = 'Unknown item type.';
-  //     //   break;
-  //   }
+    switch (item_name) {
+      case 'seca_coin':
+        updatedData.seca_coin = qty;
+        break;
+      case 'gord':
+        updatedData.gord = qty;
+        break;
+      case 'diamond_paid':
+        updatedData.diamond_free = qty;
+        break;
+      case 'diamond_free':
+        updatedData.gord = qty;
+        break;
+      case 'exp':
+        updatedData.gord = qty;
+        break;
+      case 'battery':
+        updatedData.gord = qty;
+        break;
+      case 'revive_coin':
+        updatedData.gord = qty;
+        break;
+      // default:
+      //   response = 'Unknown item type.';
+      //   break;
+    }
 
-  //   await usersRepository.save(updatedData);
+    await usersRepository.save(updatedData);
 
-  //   return true;
-  // }
+    return true;
+  }
 }
