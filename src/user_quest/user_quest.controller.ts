@@ -48,7 +48,7 @@ export class UserQuestController {
   //   return JSON.stringify(result);
   // }
 
-  @Post('quest/dayweek/reward')
+  @Post('dayweek/reward')
   @UseInterceptors(TransactionInterceptor)
   async patchPayGordExpBattery(
     @User() user: Users,
@@ -58,7 +58,6 @@ export class UserQuestController {
     const result = await this.userQuestService.questDayWeekReward(
       user.id,
       user_quest_id,
-      qr,
     );
 
     return JSON.stringify(result);
