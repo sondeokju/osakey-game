@@ -96,6 +96,8 @@ export class RewardService {
 
     const updatedData = { ...userData };
 
+    console.log('item_name', item_name);
+
     switch (item_name) {
       case 'seca_coin':
         updatedData.seca_coin = qty;
