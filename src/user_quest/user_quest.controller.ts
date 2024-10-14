@@ -28,6 +28,7 @@ export class UserQuestController {
   @Get('userquest/all')
   @UseInterceptors(TransactionInterceptor)
   async getUserQuestAll(@User() user: Users, @QueryRunner() qr: QR) {
+    console.log(user.id);
     const result = await this.userQuestService.getUserQuestAll(user.id, qr);
     return JSON.stringify(result);
   }
