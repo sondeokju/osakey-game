@@ -20,17 +20,17 @@ export class UserQuestController {
 
   @Get('mission/all')
   @UseInterceptors(TransactionInterceptor)
-  async getUserQuestAll(@User() user: Users, @QueryRunner() qr: QR) {
+  async getMissionAll(@User() user: Users, @QueryRunner() qr: QR) {
     const result = await this.userQuestService.getMissionAll(qr);
     return JSON.stringify(result);
   }
 
-  // @Get('all')
-  // @UseInterceptors(TransactionInterceptor)
-  // async getUserQuestAll(@User() user: Users, @QueryRunner() qr: QR) {
-  //   const result = await this.userQuestService.getUserQuestAll(user.id, qr);
-  //   return JSON.stringify(result);
-  // }
+  @Get('userquest/all')
+  @UseInterceptors(TransactionInterceptor)
+  async getUserQuestAll(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = await this.userQuestService.getUserQuestAll(user.id, qr);
+    return JSON.stringify(result);
+  }
 
   // @Get('mission_type')
   // @UseInterceptors(TransactionInterceptor)

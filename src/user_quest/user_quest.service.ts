@@ -107,15 +107,16 @@ export class UserQuestService {
   //   return 0;
   // }
 
-  // async getUserQuestAll(user_id: number, qr?: QueryRunner) {
-  //   const userQuestRepository = this.getUserQuestRepository(qr);
-  //   const result = await userQuestRepository.find({
-  //     where: {
-  //       user_id,
-  //     },
-  //   });
-  //   return result;
-  // }
+  async getUserQuestAll(user_id: number, qr?: QueryRunner) {
+    const userQuestRepository = this.getUserQuestRepository(qr);
+    const result = await userQuestRepository.find({
+      where: {
+        user_id,
+      },
+    });
+
+    return result;
+  }
 
   // async getUserQuestTypeList(
   //   user_id: number,
