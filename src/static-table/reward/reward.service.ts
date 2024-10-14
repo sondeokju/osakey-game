@@ -102,25 +102,25 @@ export class RewardService {
 
     switch (item_name) {
       case 'seca_coin':
-        updatedData.seca_coin = qty;
+        updatedData.seca_coin = updatedData.seca_coin + qty;
         break;
       case 'gord':
-        updatedData.gord = qty;
+        updatedData.gord = updatedData.gord + qty;
         break;
       case 'diamond_paid':
-        updatedData.diamond_paid = qty;
+        updatedData.diamond_paid = updatedData.diamond_paid + qty;
         break;
       case 'diamond_free':
-        updatedData.diamond_free = qty;
+        updatedData.diamond_free = updatedData.diamond_free + qty;
         break;
       case 'exp':
-        updatedData.exp = qty;
+        updatedData.exp = updatedData.exp + qty;
         break;
       case 'battery':
-        updatedData.battery = qty;
+        updatedData.battery = updatedData.battery + qty;
         break;
       case 'revive_coin':
-        updatedData.revive_coin = qty;
+        updatedData.revive_coin = updatedData.revive_coin + qty;
         break;
       // default:
       //   response = 'Unknown item type.';
