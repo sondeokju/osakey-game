@@ -69,6 +69,34 @@ export class MissionSubService {
     return result;
   }
 
+  async getNextMissionSubID(
+    npc: number,
+    mission_level: number,
+    findNextNpc: boolean = false,
+    qr?: QueryRunner,
+  ) {
+    const missionSubRepository = this.getMissionSubRepository(qr);
+
+    let query = missionSubRepository
+      .createQueryBuilder('mission_sub')
+      .andWhere('mission_sub.mission_level = :mission_level', {
+        mission_level,
+      });
+
+    // findNextNpc가 true일 경우 npc > :npc 조건을 추가
+    if (findNextNpc) {
+      query = query
+        .where('mission_sub.npc > :npc', { npc })
+        .orderBy('mission_sub.npc', 'ASC')
+        .limit(1);
+    } else {
+      query = query.andWhere('mission_sub.npc = :npc', { npc });
+    }
+
+    const result = await query.getOne();
+    return result;
+  }
+
   // async getReward(mission_id: number) {
   //   const result = await this.rewardGroupRepository.findOne({
   //     where: {
