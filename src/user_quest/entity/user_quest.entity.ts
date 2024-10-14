@@ -26,11 +26,6 @@ export class UserQuest extends BaseModel {
   })
   mission_kind: string;
 
-  // @Column({
-  //   default: 0,
-  // })
-  // mission_kind_value: number;
-
   @Column({
     default: 0,
   })

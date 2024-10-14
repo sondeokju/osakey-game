@@ -33,7 +33,7 @@ export class RewardService {
     return result;
   }
 
-  async reward(id: number, reward_id: number, qr?: QueryRunner) {
+  async reward(user_id: number, reward_id: number, qr?: QueryRunner) {
     const rewardData = await this.getReward(reward_id);
 
     let result = [];
@@ -53,7 +53,7 @@ export class RewardService {
 
       if (['material', 'equipment'].includes(itemData.item_type)) {
         await this.userItemService.rewardItem(
-          id,
+          user_id,
           itemData.item_id,
           itemData.item_grade,
           itemData.item_type,
@@ -62,6 +62,7 @@ export class RewardService {
         );
       }
 
+      obj['item_id'] = itemData.item_id;
       obj['item_type'] = itemData.item_type;
       obj['item_name'] = itemData.item_name;
 

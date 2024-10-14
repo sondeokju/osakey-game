@@ -48,19 +48,19 @@ export class UserQuestController {
   //   return JSON.stringify(result);
   // }
 
-  // @Post('reward')
-  // @UseInterceptors(TransactionInterceptor)
-  // async patchPayGordExpBattery(
-  //   @User() user: Users,
-  //   @Body('user_quest_id', ParseIntPipe) user_quest_id: number,
-  //   @QueryRunner() qr: QR,
-  // ) {
-  //   const result = await this.userQuestService.questDayWeekReward(
-  //     user.id,
-  //     user_quest_id,
-  //     qr,
-  //   );
+  @Post('quest/dayweek/reward')
+  @UseInterceptors(TransactionInterceptor)
+  async patchPayGordExpBattery(
+    @User() user: Users,
+    @Body('user_quest_id', ParseIntPipe) user_quest_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userQuestService.questDayWeekReward(
+      user.id,
+      user_quest_id,
+      qr,
+    );
 
-  //   return result;
-  // }
+    return JSON.stringify(result);
+  }
 }

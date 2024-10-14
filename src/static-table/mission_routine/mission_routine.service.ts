@@ -21,16 +21,16 @@ export class MissionRoutineService {
   async getMissionRoutineAll(qr?: QueryRunner) {
     const missionRoutineRepository = this.getMissionRoutineRepository(qr);
     const result = await missionRoutineRepository.find({});
-    return result;  
+    return result;
   }
 
-  async getMissionRoutine(mission_type: number) {
-    // const result = await this.missionRoutineRepository.findOne({
-    //   where: {
-    //     1,
-    //   },
-    // });
+  async getMissionRoutine(mission_routine_id: number) {
+    const result = await this.missionRoutineRepository.findOne({
+      where: {
+        mission_routine_id,
+      },
+    });
 
-    return 0;
+    return result;
   }
 }
