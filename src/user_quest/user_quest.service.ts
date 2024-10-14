@@ -139,6 +139,7 @@ export class UserQuestService {
         userQuestData.progress_mission_id,
       );
 
+    console.log('missionRoutineData.reward_id', missionRoutineData.reward_id);
     const rewardData = await this.rewardService.reward(
       user_id,
       missionRoutineData.reward_id,
