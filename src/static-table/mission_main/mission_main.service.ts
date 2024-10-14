@@ -23,4 +23,15 @@ export class MissionMainService {
     const result = await missionMainRepository.find({});
     return result;
   }
+
+  async getMissionMain(mission_main_id: number, qr?: QueryRunner) {
+    const missionMainRepository = this.getMissionMainRepository(qr);
+    const result = await missionMainRepository.findOne({
+      where: {
+        mission_main_id,
+      },
+    });
+
+    return result;
+  }
 }

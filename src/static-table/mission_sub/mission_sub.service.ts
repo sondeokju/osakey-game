@@ -35,6 +35,40 @@ export class MissionSubService {
     return result;
   }
 
+  async getMissionSubNextLevel(
+    npc: number,
+    mission_level: number,
+    qr?: QueryRunner,
+  ) {
+    const missionSubRepository = this.getMissionSubRepository(qr);
+    const result = await missionSubRepository.findOne({
+      where: {
+        npc,
+        mission_level,
+      },
+    });
+
+    return result;
+  }
+
+  async getMissionSubNextNpc(
+    mission_level: number,
+    npc: number,
+    qr?: QueryRunner,
+  ) {
+    const missionSubRepository = this.getMissionSubRepository(qr);
+
+    const result = await missionSubRepository
+      .createQueryBuilder('mission_sub')
+      .where('mission_sub.npc > :npc', { npc })
+      .andWhere('mission_sub.mission_level = :mission_level', { mission_level })
+      .orderBy('mission_sub.npc', 'ASC')
+      .limit(1)
+      .getOne();
+
+    return result;
+  }
+
   // async getReward(mission_id: number) {
   //   const result = await this.rewardGroupRepository.findOne({
   //     where: {

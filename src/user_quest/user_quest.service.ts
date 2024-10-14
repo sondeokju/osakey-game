@@ -51,63 +51,8 @@ export class UserQuestService {
       mission_sub: await this.missionSubService.getMissionSubAll(qr),
     };
 
-    // const obj = {
-    //   mssion: { mission: await this.missionService.getMissionAll(qr) },
-    //   mission_kind: {
-    //     mission_kind: await this.missionKindService.getMissionKindAll(qr),
-    //   },
-    //   mission_main: {
-    //     mission_main: await this.missionMainService.getMissionMainAll(qr),
-    //   },
-    //   mission_routine: {
-    //     mission_routine:
-    //       await this.missionRoutineService.getMissionRoutineAll(qr),
-    //   },
-    //   mission_routine_bonus: {
-    //     mission_routine_bonus:
-    //       await this.missionRoutineBonusService.getMissionRoutineBonusAll(
-    //         qr,
-    //       ),
-    //   },
-    //   mission_sub: {
-    //     mission_sub: await this.missionSubService.getMissionSubAll(qr),
-    //   },
-    // };
-
     return obj;
   }
-
-  // async getQuestRewardList(user_quest_id: number, qr?: QueryRunner) {
-  //   const userQuestRepository = this.getUserQuestRepository(qr);
-  //   const userQuestData = await userQuestRepository.findOne({
-  //     where: {
-  //       id: user_quest_id,
-  //     },
-  //   });
-
-  //   console.log('user_quest_id 1:', user_quest_id);
-  //   console.log('user_quest_id 2:', userQuestData.id);
-
-  //   const missionRoutineData =
-  //     await this.missionRoutineService.getMissionRoutine(
-  //       userQuestData.mission_id,
-  //     );
-
-  //   console.log('userQuestData.mission_id:', userQuestData.mission_id);
-
-  //   // const rewardData = await this.rewardGroupService.getReward(
-  //   //   missionRoutineData.reward,
-  //   // );
-
-  //   // // console.log(
-  //   // //   'missionRoutineData.mission_type_reward:',
-  //   // //   missionRoutineData.reward,
-  //   // // );
-
-  //   // console.log('rewardData.reward_item_id:', rewardData.reward_item_id);
-  //   //return await this.itemService.getItem(rewardData.reward_item_id);
-  //   return 0;
-  // }
 
   async getUserQuestAll(user_id: number, qr?: QueryRunner) {
     const userQuestRepository = this.getUserQuestRepository(qr);
@@ -158,101 +103,98 @@ export class UserQuestService {
     return rewardData;
   }
 
-  // console.log(
-  //   'missionRoutineData.mission_type_reward:',
-  //   missionRoutineData.mission_type_reward,
-  // );
+  async questMainReward(
+    user_id: number,
+    user_quest_id: number,
+    qr?: QueryRunner,
+  ) {
+    console.log('user_id:', user_id);
+    console.log('user_quest_id:', user_quest_id);
 
-  // async questSubReward(
-  //   user_id: number,
-  //   user_quest_id: number,
-  //   qr?: QueryRunner,
-  // ) {
-  //   const userQuestRepository = this.getUserQuestRepository(qr);
-  //   const userQuestData = await userQuestRepository.findOne({
-  //     where: {
-  //       id: user_quest_id,
-  //     },
-  //   });
+    const userQuestRepository = this.getUserQuestRepository(qr);
+    const userQuestData = await userQuestRepository.findOne({
+      where: {
+        id: user_quest_id,
+      },
+    });
+    console.log('userQuestData:', userQuestData);
 
-  //   const missionSubData = await this.missionRoutineService.getMissionRoutine(
-  //     userQuestData.mission_id,
-  //   );
+    const missionMainData = await this.missionMainService.getMissionMain(
+      userQuestData.progress_mission_id,
+    );
 
-  //   const rewardData = await this.rewardGroupService.getReward(
-  //     missionSubData.mission_routine_id,
-  //   );
-  //   const itemData = this.itemService.getItem(rewardData.reward_item_id);
+    console.log('missionMainData.reward_id', missionMainData.reward_id);
+    const rewardData = await this.rewardService.reward(
+      user_id,
+      missionMainData.reward_id,
+    );
 
-  //   // await usersRepository.save({
-  //   //   ...userData,
-  //   //   gord: userData.gord + gord,
-  //   //   exp: userData.exp + exp,
-  //   //   battery: userData.battery + battery,
-  //   // });
+    await userQuestRepository.save({
+      ...userQuestData,
+      mission_complete_yn: 'Y',
+      reward_yn: 'Y',
+    });
 
-  //   await userQuestRepository.save({
-  //     ...userQuestData,
-  //     mission_complete_yn: 'Y',
-  //   });
+    return rewardData;
+  }
 
-  //   // 1 : currency, 2:material, 3:equipment, 4:package, 5:event
-  //   const obj = {
-  //     item_id: { item_id: (await itemData).item_id },
-  //     item_name: { item_name: (await itemData).item_name },
-  //     item_qty: { item_qty: rewardData.reward_item_qty },
-  //   };
+  async questSubReward(
+    user_id: number,
+    user_quest_id: number,
+    qr?: QueryRunner,
+  ) {
+    console.log('user_id:', user_id);
+    console.log('user_quest_id:', user_quest_id);
 
-  //   const result = Object.values(obj);
+    const userQuestRepository = this.getUserQuestRepository(qr);
+    const userQuestData = await userQuestRepository.findOne({
+      where: {
+        id: user_quest_id,
+      },
+    });
+    console.log('userQuestData:', userQuestData);
 
-  //   return result;
-  // }
+    const missionSubData = await this.missionSubService.getMissionSub(
+      userQuestData.progress_mission_id,
+    );
 
-  // async questMainReward(
-  //   user_id: number,
-  //   user_quest_id: number,
-  //   qr?: QueryRunner,
-  // ) {
-  //   const userQuestRepository = this.getUserQuestRepository(qr);
-  //   const userQuestData = await userQuestRepository.findOne({
-  //     where: {
-  //       id: user_quest_id,
-  //     },
-  //   });
+    console.log('missionRoutineData.reward_id', missionSubData.reward_id);
+    const rewardData = await this.rewardService.reward(
+      user_id,
+      missionSubData.reward_id,
+    );
 
-  //   const missionRoutineData =
-  //     await this.missionRoutineService.getMissionRoutine(
-  //       userQuestData.mission_id,
-  //     );
+    await userQuestRepository.save({
+      ...userQuestData,
+      mission_complete_yn: 'Y',
+      reward_yn: 'Y',
+    });
 
-  //   const rewardData = await this.rewardGroupService.getReward(
-  //     missionRoutineData.reward,
-  //   );
-  //   const itemData = this.itemService.getItem(rewardData.reward_item_id);
+    const missionLevelData =
+      await this.missionSubService.getMissionSubNextLevel(
+        missionSubData.npc,
+        missionSubData.mission_level + 1,
+      );
 
-  //   // await usersRepository.save({
-  //   //   ...userData,
-  //   //   gord: userData.gord + gord,
-  //   //   exp: userData.exp + exp,
-  //   //   battery: userData.battery + battery,
-  //   // });
+    let nextNpcMissionSubID = {};
 
-  //   await userQuestRepository.save({
-  //     ...userQuestData,
-  //     mission_complete_yn: 'Y',
-  //   });
+    if (!missionLevelData) {
+      const missionNpcData = await this.missionSubService.getMissionSubNextNpc(
+        missionSubData.npc,
+        missionSubData.mission_level + 1,
+      );
+      nextNpcMissionSubID['next_mission_sub_id'] =
+        missionNpcData.mission_sub_id;
+    } else {
+      nextNpcMissionSubID['next_mission_sub_id'] =
+        missionLevelData.mission_sub_id;
+    }
 
-  //   // 1 : currency, 2:material, 3:equipment, 4:package, 5:event
-  //   const obj = {
-  //     item_id: { item_id: (await itemData).item_id },
-  //     item_name: { item_name: (await itemData).item_name },
-  //     item_qty: { item_qty: rewardData.reward_item_qty },
-  //   };
-
-  //   const result = Object.values(obj);
-
-  //   return result;
-  // }
+    return {
+      rewardData,
+      ...nextNpcMissionSubID,
+    };
+  }
 
   // async getUserQuestTypeList(
   //   user_id: number,

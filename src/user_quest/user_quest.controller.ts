@@ -50,12 +50,42 @@ export class UserQuestController {
 
   @Post('dayweek/reward')
   @UseInterceptors(TransactionInterceptor)
-  async patchPayGordExpBattery(
+  async questDayWeekReward(
     @User() user: Users,
     @Body('user_quest_id', ParseIntPipe) user_quest_id: number,
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userQuestService.questDayWeekReward(
+      user.id,
+      user_quest_id,
+    );
+
+    return JSON.stringify(result);
+  }
+
+  @Post('main/reward')
+  @UseInterceptors(TransactionInterceptor)
+  async questMainReward(
+    @User() user: Users,
+    @Body('user_quest_id', ParseIntPipe) user_quest_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userQuestService.questMainReward(
+      user.id,
+      user_quest_id,
+    );
+
+    return JSON.stringify(result);
+  }
+
+  @Post('sub/reward')
+  @UseInterceptors(TransactionInterceptor)
+  async questSubReward(
+    @User() user: Users,
+    @Body('user_quest_id', ParseIntPipe) user_quest_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userQuestService.questSubReward(
       user.id,
       user_quest_id,
     );
