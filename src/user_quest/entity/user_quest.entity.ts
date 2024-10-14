@@ -34,10 +34,10 @@ export class UserQuest extends BaseModel {
   @Column({
     default: 'N',
   })
-  mission_complete_yn: boolean;
+  mission_complete_yn: string;
 
   @Column({
     default: 'N',
   })
-  reward_yn: boolean;
+  reward_yn: string;
 }
