@@ -47,6 +47,8 @@ export class RewardService {
 
       const itemData = await this.itemService.getItem(+obj['item_id']);
 
+      console.log('item_type', itemData.item_type);
+
       if (itemData.item_type == 'currency') {
         await this.rewardCurrency(
           user_id,
