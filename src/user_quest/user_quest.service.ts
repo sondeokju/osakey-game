@@ -127,12 +127,16 @@ export class UserQuestService {
     user_quest_id: number,
     qr?: QueryRunner,
   ) {
+    console.log('user_id:', user_id);
+    console.log('user_quest_id:', user_quest_id);
+
     const userQuestRepository = this.getUserQuestRepository(qr);
     const userQuestData = await userQuestRepository.findOne({
       where: {
         id: user_quest_id,
       },
     });
+    console.log('userQuestData:', userQuestData);
 
     const missionRoutineData =
       await this.missionRoutineService.getMissionRoutine(
