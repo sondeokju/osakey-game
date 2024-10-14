@@ -116,28 +116,36 @@ export class UserItemService {
     });
 
     if (!userItemData) {
-      throw new Error('UserItem not found');
+      const newUserItem = {
+        user_id,
+        item_id,
+        item_leve,
+        item_type,
+        item_count,
+      };
+
+      await userItemRepository.insert(newUserItem);
+    } else {
+      const updatedData = { ...userItemData };
+
+      if (item_id !== undefined) {
+        updatedData.item_id = item_id;
+      }
+
+      if (item_leve !== undefined) {
+        updatedData.item_level = item_leve;
+      }
+
+      if (item_type !== undefined) {
+        updatedData.item_type = item_type;
+      }
+
+      if (item_count !== undefined) {
+        updatedData.item_count = updatedData.item_count + item_count;
+      }
+
+      await userItemRepository.save(updatedData);
     }
-
-    const updatedData = { ...userItemData };
-
-    if (item_id !== undefined) {
-      updatedData.item_id = item_id;
-    }
-
-    if (item_leve !== undefined) {
-      updatedData.item_level = item_leve;
-    }
-
-    if (item_type !== undefined) {
-      updatedData.item_type = item_type;
-    }
-
-    if (item_count !== undefined) {
-      updatedData.item_count = updatedData.item_count + item_count;
-    }
-
-    await userItemRepository.save(updatedData);
 
     return true;
   }
