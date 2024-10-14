@@ -108,19 +108,19 @@ export class RewardService {
         updatedData.gord = qty;
         break;
       case 'diamond_paid':
-        updatedData.diamond_free = qty;
+        updatedData.diamond_paid = qty;
         break;
       case 'diamond_free':
-        updatedData.gord = qty;
+        updatedData.diamond_free = qty;
         break;
       case 'exp':
-        updatedData.gord = qty;
+        updatedData.exp = qty;
         break;
       case 'battery':
-        updatedData.gord = qty;
+        updatedData.battery = qty;
         break;
       case 'revive_coin':
-        updatedData.gord = qty;
+        updatedData.revive_coin = qty;
         break;
       // default:
       //   response = 'Unknown item type.';
