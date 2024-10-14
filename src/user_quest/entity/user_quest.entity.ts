@@ -26,20 +26,15 @@ export class UserQuest extends BaseModel {
   })
   mission_kind: string;
 
-  @Column({
-    default: 0,
-  })
-  mission_kind_value: number;
+  // @Column({
+  //   default: 0,
+  // })
+  // mission_kind_value: number;
 
   @Column({
     default: 0,
   })
   qty: number;
-
-  @Column({
-    default: 0,
-  })
-  mission_repeat_qty: number;
 
   @Column({
     default: 'N',
