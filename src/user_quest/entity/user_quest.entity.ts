@@ -32,11 +32,15 @@ export class UserQuest extends BaseModel {
   qty: number;
 
   @Column({
+    type: 'char',
+    length: 1,
     default: 'N',
   })
   mission_complete_yn: string;
 
   @Column({
+    type: 'char',
+    length: 1,
     default: 'N',
   })
   reward_yn: string;
