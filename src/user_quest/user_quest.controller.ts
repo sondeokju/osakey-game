@@ -25,7 +25,7 @@ export class UserQuestController {
     return JSON.stringify(result);
   }
 
-  @Get('/userquest/all')
+  @Get('/user/all')
   @UseInterceptors(TransactionInterceptor)
   async getUserQuestAll(@User() user: Users, @QueryRunner() qr: QR) {
     console.log(user.id);
