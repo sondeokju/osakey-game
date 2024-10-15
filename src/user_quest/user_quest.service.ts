@@ -170,28 +170,18 @@ export class UserQuestService {
       reward_yn: 'Y',
     });
 
-    // const missionLevelData =
-    //   await this.missionSubService.getMissionSubNextLevel(
-    //     missionSubData.npc,
-    //     missionSubData.mission_level + 1,
-    //   );
-
-    const missionLevelData = await this.missionSubService.getNextMissionSubID(
-      missionSubData.npc,
-      missionSubData.mission_level + 1,
-    );
-
     let nextNpcMissionSubID = {};
 
-    if (!missionLevelData) {
-      const missionNpcData = await this.missionSubService.getNextMissionSubID(
-        missionSubData.npc,
-        1,
-        true,
-      );
+    if (missionSubData.mission_level == 0) {
       nextNpcMissionSubID['next_mission_sub_id'] =
-        missionNpcData.mission_sub_id;
+        missionSubData.mission_sub_id;
     } else {
+      const missionLevelData =
+        await this.missionSubService.getMissionSubNextLevel(
+          missionSubData.npc,
+          missionSubData.mission_level + 1,
+        );
+
       nextNpcMissionSubID['next_mission_sub_id'] =
         missionLevelData.mission_sub_id;
     }
