@@ -139,20 +139,6 @@ export class UsersService {
   async getMe(id: number, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
     const result = await usersRepository.findOne({
-      select: {
-        id: true,
-        nickname: true,
-        email: true,
-        gord: true,
-        diamond_paid: true,
-        diamond_free: true,
-        exp: true,
-        battery: true,
-        revive_coin: true,
-        update_at: true,
-        created_at: true,
-        level: true,
-      },
       where: {
         id,
       },
