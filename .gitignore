@@ -3,6 +3,7 @@
 /node_modules
 /public/posts
 /data
+/src/code
 
 # Logs
 logs
