@@ -175,7 +175,10 @@ export class UserQuestService {
     let nextNpcMissionSubID = {};
     console.log('missionSubData.mission_level:', missionSubData.mission_level);
 
-    if (missionSubData.mission_level == 0) {
+    if (
+      missionSubData.mission_level == 0 ||
+      missionSubData.mission_level == 5
+    ) {
       nextNpcMissionSubID['next_mission_sub_id'] =
         missionSubData.mission_sub_id;
     } else {
