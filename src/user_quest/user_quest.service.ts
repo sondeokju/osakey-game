@@ -144,7 +144,6 @@ export class UserQuestService {
     qr?: QueryRunner,
   ) {
     const MISSION_LEVEL_ZERO = 0;
-    const MISSION_LEVEL_MAX = 5;
 
     console.log('user_id:', user_id);
     console.log('user_quest_id:', user_quest_id);
@@ -185,7 +184,7 @@ export class UserQuestService {
     } else {
       // 다음 레벨 계산
       const nextLevel =
-        missionSubData.mission_level === MISSION_LEVEL_MAX
+        missionSubData.mission_end_yn === 'Y'
           ? MISSION_LEVEL_ZERO
           : missionSubData.mission_level + 1;
 
