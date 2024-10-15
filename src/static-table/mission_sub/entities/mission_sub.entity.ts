@@ -29,6 +29,13 @@ export class MissionSub {
   mission_level: number;
 
   @Column({
+    type: 'char',
+    length: 1,
+    default: 'N',
+  })
+  mission_end_yn: string;
+
+  @Column({
     default: 0,
   })
   open_mission_id: number;

@@ -143,6 +143,9 @@ export class UserQuestService {
     user_quest_id: number,
     qr?: QueryRunner,
   ) {
+    const MISSION_LEVEL_ZERO = 0;
+    const MISSION_LEVEL_MAX = 5;
+
     console.log('user_id:', user_id);
     console.log('user_quest_id:', user_quest_id);
 
@@ -172,24 +175,33 @@ export class UserQuestService {
       reward_yn: 'Y',
     });
 
-    let nextNpcMissionSubID = {};
     console.log('missionSubData.mission_level:', missionSubData.mission_level);
+    const nextNpcMissionSubID = {};
 
-    if (
-      missionSubData.mission_level == 0 ||
-      missionSubData.mission_level == 5
-    ) {
+    // 미션 레벨이 0일 경우
+    if (missionSubData.mission_level === MISSION_LEVEL_ZERO) {
       nextNpcMissionSubID['next_mission_sub_id'] =
         missionSubData.mission_sub_id;
     } else {
-      const missionLevelData =
-        await this.missionSubService.getMissionSubNextLevel(
-          missionSubData.npc,
-          missionSubData.mission_level + 1,
-        );
+      // 다음 레벨 계산
+      const nextLevel =
+        missionSubData.mission_level === MISSION_LEVEL_MAX
+          ? MISSION_LEVEL_ZERO
+          : missionSubData.mission_level + 1;
 
-      nextNpcMissionSubID['next_mission_sub_id'] =
-        missionLevelData.mission_sub_id;
+      try {
+        // 다음 미션 서브 ID 가져오기
+        const missionNextLevelData =
+          await this.missionSubService.getMissionSubNextLevel(
+            missionSubData.npc,
+            nextLevel,
+          );
+        nextNpcMissionSubID['next_mission_sub_id'] =
+          missionNextLevelData.mission_sub_id;
+      } catch (error) {
+        console.error('다음 미션 서브 ID를 가져오는 데 실패했습니다:', error);
+        // 에러 처리 (예: 기본값 설정, 사용자에게 알리기 등)
+      }
     }
 
     return {
