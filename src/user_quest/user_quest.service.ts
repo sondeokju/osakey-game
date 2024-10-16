@@ -9,6 +9,7 @@ import { MissionMainService } from 'src/static-table/mission_main/mission_main.s
 import { MissionRoutineBonusService } from 'src/static-table/mission_routine_bonus/mission_routine_bonus.service';
 import { MissionSubService } from 'src/static-table/mission_sub/mission_sub.service';
 import { RewardService } from 'src/static-table/reward/reward.service';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class UserQuestService {
@@ -22,6 +23,7 @@ export class UserQuestService {
     private readonly missionRoutineBonusService: MissionRoutineBonusService,
     private readonly missionSubService: MissionSubService,
     private readonly rewardService: RewardService,
+    private readonly usersService: UsersService,
   ) {}
 
   getUserQuestRepository(qr?: QueryRunner) {
@@ -216,6 +218,34 @@ export class UserQuestService {
         id: user_quest_id,
       },
     });
+
+    await userQuestRepository.save({
+      ...userQuestData,
+      accept_yn: 'Y',
+    });
+
+    const result = await userQuestRepository.find({
+      where: {
+        user_id,
+      },
+    });
+
+    return result;
+  }
+
+  async questSubMissionSelect(
+    user_id: number,
+    user_quest_id: number,
+    qr?: QueryRunner,
+  ) {
+    const userQuestRepository = this.getUserQuestRepository(qr);
+    const userQuestData = await userQuestRepository.findOne({
+      where: {
+        id: user_quest_id,
+      },
+    });
+
+    const userData = await this.usersService.getMe(user_id);
 
     await userQuestRepository.save({
       ...userQuestData,
