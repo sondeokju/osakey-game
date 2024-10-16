@@ -16,7 +16,7 @@ export class ItemType {
   @Column({
     default: 0,
   })
-  item_enum: string;
+  item_type: string;
 
   @Column({
     default: 0,
