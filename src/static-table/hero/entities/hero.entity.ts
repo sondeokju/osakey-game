@@ -42,4 +42,10 @@ export class Hero {
     default: 0,
   })
   reward_id: number;
+
+  @Column({
+    length: 128,
+    default: '',
+  })
+  location: string;
 }
