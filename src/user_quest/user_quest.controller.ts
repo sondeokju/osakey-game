@@ -93,7 +93,7 @@ export class UserQuestController {
     return JSON.stringify(result);
   }
 
-  @Post('quest/accept')
+  @Post('accept')
   @UseInterceptors(TransactionInterceptor)
   async questAccept(
     @User() user: Users,
