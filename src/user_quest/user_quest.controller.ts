@@ -92,4 +92,19 @@ export class UserQuestController {
 
     return JSON.stringify(result);
   }
+
+  @Post('quest/accept')
+  @UseInterceptors(TransactionInterceptor)
+  async questAccept(
+    @User() user: Users,
+    @Body('user_quest_id', ParseIntPipe) user_quest_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userQuestService.questAccept(
+      user.id,
+      user_quest_id,
+    );
+
+    return JSON.stringify(result);
+  }
 }

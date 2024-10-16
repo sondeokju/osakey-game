@@ -209,6 +209,28 @@ export class UserQuestService {
     };
   }
 
+  async questAccept(user_id: number, user_quest_id: number, qr?: QueryRunner) {
+    const userQuestRepository = this.getUserQuestRepository(qr);
+    const userQuestData = await userQuestRepository.findOne({
+      where: {
+        id: user_quest_id,
+      },
+    });
+
+    await userQuestRepository.save({
+      ...userQuestData,
+      accept_yn: 'Y',
+    });
+
+    const result = await userQuestRepository.find({
+      where: {
+        user_id,
+      },
+    });
+
+    return result;
+  }
+
   // async getUserQuestTypeList(
   //   user_id: number,
   //   mission_type: number,
