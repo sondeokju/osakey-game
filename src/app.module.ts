@@ -74,6 +74,8 @@ import { HeroModule } from './static-table/hero/hero.module';
 import { Hero } from './static-table/hero/entities/hero.entity';
 import { RewardModule } from './static-table/reward/reward.module';
 import { Reward } from './static-table/reward/entities/reward.entity';
+import { NpcModule } from './static-table/npc/npc.module';
+import { Npc } from './static-table/npc/entities/npc.entity';
 
 @Module({
   imports: [
@@ -121,6 +123,7 @@ import { Reward } from './static-table/reward/entities/reward.entity';
         MissionKind,
         MissionCategory,
         Hero,
+        Npc,
         UserItem,
         UserAd,
         UserEventAttendance,
@@ -163,6 +166,7 @@ import { Reward } from './static-table/reward/entities/reward.entity';
     MissionCategoryModule,
     HeroModule,
     RewardModule,
+    NpcModule,
   ],
   controllers: [AppController],
   providers: [
