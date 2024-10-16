@@ -11,7 +11,7 @@ import {
 @Entity()
 export class ItemType {
   @PrimaryColumn()
-  item_type: number;
+  id: number;
 
   @Column({
     default: 0,
