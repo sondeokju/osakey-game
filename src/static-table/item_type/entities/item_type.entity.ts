@@ -10,7 +10,7 @@ import {
 
 @Entity()
 export class ItemType {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column({
