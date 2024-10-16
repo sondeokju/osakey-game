@@ -14,12 +14,12 @@ export class ItemType {
   id: number;
 
   @Column({
-    default: 0,
+    default: '',
   })
   item_type: string;
 
   @Column({
-    default: 0,
+    default: '',
   })
   type_desc: string;
 }
