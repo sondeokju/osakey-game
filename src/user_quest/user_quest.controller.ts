@@ -130,7 +130,10 @@ export class UserQuestController {
     //@Body('user_quest_id', ParseIntPipe) user_quest_id: number,
     @QueryRunner() qr: QR,
   ) {
-    const result = await this.userQuestService.questSubMissionSelect(user.id);
+    const result = await this.userQuestService.questSubMissionSelect(
+      user.id,
+      qr,
+    );
 
     return JSON.stringify(result);
   }
