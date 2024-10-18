@@ -122,4 +122,16 @@ export class UserQuestController {
 
     return JSON.stringify(result);
   }
+
+  @Post('subSelect')
+  @UseInterceptors(TransactionInterceptor)
+  async questSubMissionSelect(
+    @User() user: Users,
+    //@Body('user_quest_id', ParseIntPipe) user_quest_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userQuestService.questSubMissionSelect(user.id);
+
+    return JSON.stringify(result);
+  }
 }

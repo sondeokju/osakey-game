@@ -262,21 +262,10 @@ export class UserQuestService {
     return result;
   }
 
-  async questSubMissionSelect(
-    user_id: number,
-    user_quest_id: number,
-    qr?: QueryRunner,
-  ) {
-    const userQuestRepository = this.getUserQuestRepository(qr);
-    const userQuestData = await userQuestRepository.findOne({
-      where: {
-        id: user_quest_id,
-      },
-    });
+  async questSubMissionSelect(user_id: number, qr?: QueryRunner) {
+    const userData = await this.usersService.getMe(user_id, qr);
 
-    const userData = await this.usersService.getMe(user_id);
-
-    const heroData = await this.heroService.getHeroLevel(userData.level);
+    const heroData = await this.heroService.getHeroLevel(userData.level, qr);
 
     const subListData = await this.executeRawQuery(heroData.location);
 
@@ -284,9 +273,29 @@ export class UserQuestService {
   }
 
   async executeRawQuery(location: string) {
-    const query = ``;
+    const query = `SELECT uq.progress_mission_id, uq.reward_yn
+        FROM osakey-dev.user_quest uq
+        WHERE progress_mission_id IN (
+            SELECT mission_sub_id
+            FROM osakey-dev.mission_sub ms
+            WHERE npc IN (
+                SELECT n.npc_id
+                FROM npc n
+                WHERE n.location IN (
+                    SELECT location_name
+                    FROM osakey-dev.npc_location
+                    WHERE location_level >= (
+                        SELECT location_level
+                        FROM osakey-dev.npc_location
+                        WHERE location_name = $1
+                    )
+                )
+            )
+            AND ms.mission_level != 0
+        )
+        AND uq.reward_yn = 'N';`;
 
-    return await this.dataSource.query(query);
+    return await this.dataSource.query(query, [location]);
   }
 
   // async getUserQuestTypeList(
