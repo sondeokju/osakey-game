@@ -287,7 +287,7 @@ export class UserQuestService {
                     WHERE location_level >= (
                         SELECT location_level
                         FROM npc_location
-                        WHERE location_name = ?
+                        WHERE location_name = $1
                     )
                 )
             )
