@@ -274,19 +274,19 @@ export class UserQuestService {
 
   async executeRawQuery(location: string) {
     const query = `SELECT uq.progress_mission_id, uq.reward_yn
-        FROM osakey-dev.user_quest uq
+        FROM user_quest uq
         WHERE progress_mission_id IN (
             SELECT mission_sub_id
-            FROM osakey-dev.mission_sub ms
+            FROM mission_sub ms
             WHERE npc IN (
                 SELECT n.npc_id
                 FROM npc n
                 WHERE n.location IN (
                     SELECT location_name
-                    FROM osakey-dev.npc_location
+                    FROM npc_location
                     WHERE location_level >= (
                         SELECT location_level
-                        FROM osakey-dev.npc_location
+                        FROM npc_location
                         WHERE location_name = $1
                     )
                 )
