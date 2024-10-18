@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { QueryRunner, Repository } from 'typeorm';
+import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { UserQuest } from './entity/user_quest.entity';
 import { MissionRoutineService } from 'src/static-table/mission_routine/mission_routine.service';
 import { MissionService } from 'src/static-table/mission/mission.service';
@@ -10,6 +10,7 @@ import { MissionRoutineBonusService } from 'src/static-table/mission_routine_bon
 import { MissionSubService } from 'src/static-table/mission_sub/mission_sub.service';
 import { RewardService } from 'src/static-table/reward/reward.service';
 import { UsersService } from 'src/users/users.service';
+import { HeroService } from 'src/static-table/hero/hero.service';
 
 @Injectable()
 export class UserQuestService {
@@ -24,6 +25,8 @@ export class UserQuestService {
     private readonly missionSubService: MissionSubService,
     private readonly rewardService: RewardService,
     private readonly usersService: UsersService,
+    private dataSource: DataSource,
+    private readonly heroService: HeroService,
   ) {}
 
   getUserQuestRepository(qr?: QueryRunner) {
@@ -273,22 +276,17 @@ export class UserQuestService {
 
     const userData = await this.usersService.getMe(user_id);
 
-    const heroData = await this.usersService.getMe(userData.level);
-    //const npcData = await this.usersService.getMe(heroData.location);
-    //const missionSubData = await this.usersService.getMe(npcData);
+    const heroData = await this.heroService.getHeroLevel(userData.level);
 
-    await userQuestRepository.save({
-      ...userQuestData,
-      accept_yn: 'Y',
-    });
+    const subListData = await this.executeRawQuery(heroData.location);
 
-    const result = await userQuestRepository.find({
-      where: {
-        user_id,
-      },
-    });
+    return subListData;
+  }
 
-    return result;
+  async executeRawQuery(location: string) {
+    const query = ``;
+
+    return await this.dataSource.query(query);
   }
 
   // async getUserQuestTypeList(

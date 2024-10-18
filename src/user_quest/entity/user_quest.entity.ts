@@ -13,7 +13,7 @@ import { BaseModel } from 'src/common/entity/base.entity';
 
 @Entity()
 export class UserQuest extends BaseModel {
-  @PrimaryColumn()
+  @Index({ unique: true })
   user_id: number;
 
   @Column({
@@ -35,8 +35,7 @@ export class UserQuest extends BaseModel {
     type: 'char',
     length: 1,
     default: 'N',
-  })
-  mission_complete_yn: string;
+  })mission_complete_yn: string;
 
   @Column({
     type: 'char',
