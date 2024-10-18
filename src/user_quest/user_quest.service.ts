@@ -295,6 +295,8 @@ export class UserQuestService {
         )
         AND uq.reward_yn = 'N';`;
 
+    console.log(query);
+
     return await this.dataSource.query(query, [location]);
   }
 
