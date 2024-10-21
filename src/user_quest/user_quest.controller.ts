@@ -123,7 +123,7 @@ export class UserQuestController {
     return JSON.stringify(result);
   }
 
-  @Post('sub/select')
+  @Get('sub/select')
   @UseInterceptors(TransactionInterceptor)
   async questSubMissionSelect(
     @User() user: Users,
