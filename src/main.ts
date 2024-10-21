@@ -43,8 +43,11 @@ async function bootstrap() {
     SYNCHRONIZE +
     ' / ' +
     'KEEPCONNECTIONALIVE: ' +
-    KEEPCONNECTIONALIVE;
-  'SERVERDESC: ' + SERVERDESC + ' / ';
+    KEEPCONNECTIONALIVE +
+    ' / ' +
+    'SERVERDESC: ' +
+    SERVERDESC +
+    ' / ';
 
   console.log(
     '*********************************************************************************',
