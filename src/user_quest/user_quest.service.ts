@@ -267,12 +267,12 @@ export class UserQuestService {
 
     const heroData = await this.heroService.getHeroLevel(userData.level, qr);
 
-    const subListData = await this.executeRawQuery(heroData.location);
+    const subListData = await this.executeRawQuery(heroData.location, user_id);
 
     return subListData;
   }
 
-  async executeRawQuery(location: string) {
+  async executeRawQuery(location: string, user_id: number) {
     const query = `SELECT uq.progress_mission_id, uq.reward_yn
         FROM user_quest uq
         WHERE progress_mission_id IN (
@@ -293,7 +293,7 @@ export class UserQuestService {
             )
             AND ms.mission_level != 0
         )
-        AND uq.reward_yn = 'N';`;
+        AND uq.reward_yn = 'N' AND uq.user_id = ?;`;
 
     console.log(query);
 
