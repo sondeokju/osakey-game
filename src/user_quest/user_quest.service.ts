@@ -297,7 +297,7 @@ export class UserQuestService {
 
     console.log(query);
 
-    return await this.dataSource.query(query, [location]);
+    return await this.dataSource.query(query, [location, String(user_id)]);
   }
 
   // async getUserQuestTypeList(
