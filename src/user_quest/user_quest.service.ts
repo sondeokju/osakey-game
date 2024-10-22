@@ -262,6 +262,30 @@ export class UserQuestService {
     return result;
   }
 
+  async questReset(user_id: number, user_quest_id: number, qr?: QueryRunner) {
+    const userQuestRepository = this.getUserQuestRepository(qr);
+    const userQuestData = await userQuestRepository.findOne({
+      where: {
+        id: user_quest_id,
+      },
+    });
+
+    await userQuestRepository.save({
+      ...userQuestData,
+      mission_complete_yn: 'Y',
+      reward_yn: 'Y',
+      accept_yn: 'Y',
+    });
+
+    const result = await userQuestRepository.find({
+      where: {
+        user_id,
+      },
+    });
+
+    return result;
+  }
+
   async questSubMissionSelect(user_id: number, qr?: QueryRunner) {
     const userData = await this.usersService.getMe(user_id, qr);
 

@@ -123,6 +123,21 @@ export class UserQuestController {
     return JSON.stringify(result);
   }
 
+  @Post('reset')
+  @UseInterceptors(TransactionInterceptor)
+  async questReset(
+    @User() user: Users,
+    @Body('user_quest_id', ParseIntPipe) user_quest_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userQuestService.questReset(
+      user.id,
+      user_quest_id,
+    );
+
+    return JSON.stringify(result);
+  }
+
   @Get('sub/select')
   @UseInterceptors(TransactionInterceptor)
   async questSubMissionSelect(

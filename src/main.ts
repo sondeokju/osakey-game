@@ -58,8 +58,3 @@ async function bootstrap() {
   );
 }
 bootstrap();
-
-//test
-//test0222
-//test
-//test
