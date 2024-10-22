@@ -3,13 +3,11 @@ import { RewardService } from './reward.service';
 import { RewardController } from './reward.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Reward } from './entities/reward.entity';
-import { Hero } from '../hero/entities/hero.entity';
-import { HeroService } from '../hero/hero.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Reward, Hero])],
+  imports: [TypeOrmModule.forFeature([Reward])],
   exports: [RewardService],
   controllers: [RewardController],
-  providers: [RewardService, HeroService],
+  providers: [RewardService],
 })
 export class RewardModule {}
