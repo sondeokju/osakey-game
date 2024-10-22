@@ -27,10 +27,10 @@ export class ControlTableService {
 
   async getControlTableAll(qr?: QueryRunner) {
     const obj = {
-      mission: this.getMissionAll(qr),
-      item: this.getItemAll(qr),
-      hero: this.getHeroAll(qr),
-      npc: this.getNpcAll(qr),
+      mission: await this.getMissionAll(qr),
+      item: await this.getItemAll(qr),
+      hero: await this.getHeroAll(qr),
+      npc: await this.getNpcAll(qr),
       //reward: this.getRewardAll(qr),
     };
 
