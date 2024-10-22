@@ -20,9 +20,11 @@ import { MissionSubService } from '../mission_sub/mission_sub.service';
 import { RewardService } from '../reward/reward.service';
 import { ItemService } from '../item/item.service';
 import { HeroService } from '../hero/hero.service';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [
+    UsersModule,
     TypeOrmModule.forFeature([
       Mission,
       MissionKind,
