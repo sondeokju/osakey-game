@@ -20,6 +20,8 @@ import { MissionSubService } from '../mission_sub/mission_sub.service';
 import { RewardService } from '../reward/reward.service';
 import { ItemService } from '../item/item.service';
 import { HeroService } from '../hero/hero.service';
+import { NpcService } from '../npc/npc.service';
+import { Npc } from '../npc/entities/npc.entity';
 
 @Module({
   imports: [
@@ -34,6 +36,7 @@ import { HeroService } from '../hero/hero.service';
       MissionRoutine,
       Item,
       Hero,
+      Npc,
     ]),
   ],
   exports: [ControlTableService],
@@ -49,6 +52,7 @@ import { HeroService } from '../hero/hero.service';
     RewardService,
     ItemService,
     HeroService,
+    NpcService,
   ],
 })
 export class ControlTableModule {}
