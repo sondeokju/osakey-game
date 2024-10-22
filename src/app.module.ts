@@ -170,7 +170,6 @@ import { RewardInvenModule } from './super/reward_inven/reward_inven.module';
     RewardModule,
     NpcModule,
     ControlTableModule,
-    SuperModule,
     RewardInvenModule,
   ],
   controllers: [AppController],
