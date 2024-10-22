@@ -10,9 +10,11 @@ import { Reward } from 'src/static-table/reward/entities/reward.entity';
 import { Item } from 'src/static-table/item/entities/item.entity';
 import { RewardService } from 'src/static-table/reward/reward.service';
 import { ItemService } from 'src/static-table/item/item.service';
+import { HeroService } from 'src/static-table/hero/hero.service';
+import { Hero } from 'src/static-table/hero/entities/hero.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Reward, Item, UserItem, Users])],
+  imports: [TypeOrmModule.forFeature([Reward, Item, UserItem, Users, Hero])],
   exports: [RewardInvenService],
   controllers: [RewardInvenController],
   providers: [
@@ -21,6 +23,7 @@ import { ItemService } from 'src/static-table/item/item.service';
     ItemService,
     UserItemService,
     UsersService,
+    HeroService,
   ],
 })
 export class RewardInvenModule {}
