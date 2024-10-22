@@ -33,7 +33,7 @@ export class ControlTableService {
       item: await this.getItemAll(qr),
       hero: await this.getHeroAll(qr),
       npc: await this.getNpcAll(qr),
-      reward: this.getRewardAll(qr),
+      reward: await this.getRewardAll(qr),
     };
 
     return obj;
@@ -82,8 +82,6 @@ export class ControlTableService {
     const obj = {
       reward: await this.rewardService.getRewardAll(qr),
     };
-
-    console.log(obj);
 
     return obj;
   }
