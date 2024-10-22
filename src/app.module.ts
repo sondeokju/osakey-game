@@ -76,6 +76,7 @@ import { RewardModule } from './static-table/reward/reward.module';
 import { Reward } from './static-table/reward/entities/reward.entity';
 import { NpcModule } from './static-table/npc/npc.module';
 import { Npc } from './static-table/npc/entities/npc.entity';
+import { ControlTableModule } from './static-table/control_table/control_table.module';
 
 @Module({
   imports: [
@@ -167,6 +168,7 @@ import { Npc } from './static-table/npc/entities/npc.entity';
     HeroModule,
     RewardModule,
     NpcModule,
+    ControlTableModule,
   ],
   controllers: [AppController],
   providers: [

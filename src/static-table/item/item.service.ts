@@ -40,8 +40,6 @@ export class ItemService {
     });
     return result;
   }
-
-
 }
 
 // console.log('item:', result);

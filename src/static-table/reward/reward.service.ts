@@ -33,6 +33,13 @@ export class RewardService {
     return result;
   }
 
+  async getRewardAll(qr?: QueryRunner) {
+    const rewardRepository = this.getRewardRepository(qr);
+    const result = await rewardRepository.find({});
+
+    return result;
+  }
+
   async reward(user_id: number, reward_id: number, qr?: QueryRunner) {
     const rewardData = await this.getReward(reward_id);
 
