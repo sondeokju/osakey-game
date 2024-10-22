@@ -31,7 +31,7 @@ export class ControlTableService {
       item: this.getItemAll(qr),
       hero: this.getHeroAll(qr),
       npc: this.getNpcAll(qr),
-      reward: this.getRewardAll(qr),
+      //reward: this.getRewardAll(qr),
     };
 
     return obj;
