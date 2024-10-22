@@ -8,7 +8,7 @@ import { MissionMain } from '../mission_main/entities/mission_main.entity';
 import { MissionRoutine } from '../mission_routine/entities/mission_routine.entity';
 import { MissionRoutineBonus } from '../mission_routine_bonus/entities/mission_routine_bonus.entity';
 import { MissionSub } from '../mission_sub/entities/mission_sub.entity';
-//import { Reward } from '../reward/entities/reward.entity';
+import { Reward } from '../reward/entities/reward.entity';
 import { Item } from '../item/entities/item.entity';
 import { Hero } from '../hero/entities/hero.entity';
 import { MissionService } from '../mission/mission.service';
@@ -30,7 +30,7 @@ import { HeroService } from '../hero/hero.service';
       MissionRoutine,
       MissionRoutineBonus,
       MissionSub,
-      //Reward,
+      Reward,
       MissionRoutine,
       Item,
       Hero,
@@ -46,7 +46,7 @@ import { HeroService } from '../hero/hero.service';
     MissionRoutineService,
     MissionRoutineBonusService,
     MissionSubService,
-    //RewardService,
+    RewardService,
     ItemService,
     HeroService,
   ],

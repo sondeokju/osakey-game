@@ -6,7 +6,7 @@ import { MissionKindService } from 'src/static-table/mission_kind/mission_kind.s
 import { MissionMainService } from 'src/static-table/mission_main/mission_main.service';
 import { MissionRoutineBonusService } from 'src/static-table/mission_routine_bonus/mission_routine_bonus.service';
 import { MissionSubService } from 'src/static-table/mission_sub/mission_sub.service';
-//import { RewardService } from 'src/static-table/reward/reward.service';
+import { RewardService } from 'src/static-table/reward/reward.service';
 import { HeroService } from 'src/static-table/hero/hero.service';
 import { ItemService } from '../item/item.service';
 
@@ -20,7 +20,7 @@ export class ControlTableService {
     private readonly missionRoutineService: MissionRoutineService,
     private readonly missionRoutineBonusService: MissionRoutineBonusService,
     private readonly missionSubService: MissionSubService,
-    //  private readonly rewardService: RewardService,
+    private readonly rewardService: RewardService,
     private readonly heroService: HeroService,
     private readonly itemService: ItemService,
   ) {}
@@ -31,7 +31,7 @@ export class ControlTableService {
       item: await this.getItemAll(qr),
       hero: await this.getHeroAll(qr),
       npc: await this.getNpcAll(qr),
-      //reward: this.getRewardAll(qr),
+      reward: this.getRewardAll(qr),
     };
 
     return obj;
@@ -79,11 +79,11 @@ export class ControlTableService {
     return obj;
   }
 
-  // async getRewardAll(qr?: QueryRunner) {
-  //   const obj = {
-  //     mission: await this.rewardService.getRewardAll(qr),
-  //   };
+  async getRewardAll(qr?: QueryRunner) {
+    const obj = {
+      mission: await this.rewardService.getRewardAll(qr),
+    };
 
-  //   return obj;
-  // }
+    return obj;
+  }
 }
