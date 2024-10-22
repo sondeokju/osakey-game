@@ -41,14 +41,14 @@ export class ControlTableService {
 
   async getMissionAll(qr?: QueryRunner) {
     const obj = {
-      // mission: await this.missionService.getMissionAll(qr),
-      // mission_kind: await this.missionKindService.getMissionKindAll(qr),
-      // mission_main: await this.missionMainService.getMissionMainAll(qr),
-      // mission_routine:
-      //   await this.missionRoutineService.getMissionRoutineAll(qr),
-      // mission_routine_bonus:
-      //   await this.missionRoutineBonusService.getMissionRoutineBonusAll(qr),
-      // mission_sub: await this.missionSubService.getMissionSubAll(qr),
+      mission: await this.missionService.getMissionAll(qr),
+      mission_kind: await this.missionKindService.getMissionKindAll(qr),
+      mission_main: await this.missionMainService.getMissionMainAll(qr),
+      mission_routine:
+        await this.missionRoutineService.getMissionRoutineAll(qr),
+      mission_routine_bonus:
+        await this.missionRoutineBonusService.getMissionRoutineBonusAll(qr),
+      mission_sub: await this.missionSubService.getMissionSubAll(qr),
     };
 
     return obj;
@@ -80,7 +80,7 @@ export class ControlTableService {
 
   async getRewardAll(qr?: QueryRunner) {
     const obj = {
-      mission: await this.rewardService.getRewardAll(qr),
+      reward: await this.rewardService.getRewardAll(qr),
     };
 
     return obj;
