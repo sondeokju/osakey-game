@@ -11,6 +11,7 @@ import { UserItem } from 'src/user_item/entities/user_item.entity';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { Hero } from '../hero/entities/hero.entity';
 import { HeroService } from '../hero/hero.service';
+import { ControlTableService } from '../control_table/control_table.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Reward, Item, UserItem, Users, Hero])],
@@ -22,6 +23,7 @@ import { HeroService } from '../hero/hero.service';
     UserItemService,
     UsersService,
     HeroService,
+    ControlTableService,
   ],
 })
 export class RewardModule {}
