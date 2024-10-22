@@ -126,7 +126,7 @@ export class UserQuestController {
   @Post('reset')
   @UseInterceptors(TransactionInterceptor)
   async questReset(@User() user: Users, @QueryRunner() qr: QR) {
-    const result = await this.userQuestService.questReset(user.id);
+    const result = await this.userQuestService.questReset(user.id, qr);
 
     return JSON.stringify(result);
   }
