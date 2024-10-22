@@ -77,7 +77,6 @@ import { Reward } from './static-table/reward/entities/reward.entity';
 import { NpcModule } from './static-table/npc/npc.module';
 import { Npc } from './static-table/npc/entities/npc.entity';
 import { ControlTableModule } from './static-table/control_table/control_table.module';
-import { SuperModule } from './super/super.module';
 import { RewardInvenModule } from './super/reward_inven/reward_inven.module';
 
 @Module({
