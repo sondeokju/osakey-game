@@ -270,12 +270,14 @@ export class UserQuestService {
       },
     });
 
-    await userQuestRepository.save({
-      ...userQuestData,
+    const updatedUserQuestData = userQuestData.map((quest) => ({
+      ...quest,
       mission_complete_yn: 'N',
       reward_yn: 'N',
       accept_yn: 'N',
-    });
+    }));
+
+    await userQuestRepository.save(updatedUserQuestData);
 
     const result = await userQuestRepository.find({
       where: {
