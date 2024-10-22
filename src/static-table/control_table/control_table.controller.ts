@@ -24,4 +24,11 @@ export class ControlTableController {
     const result = await this.controlTableService.getControlTableAll(qr);
     return JSON.stringify(result);
   }
+
+  // @Get('/mission/all')
+  // @UseInterceptors(TransactionInterceptor)
+  // async getMissionTableAll(@QueryRunner() qr: QR) {
+  //   const result = await this.controlTableService.getMissionTableAll(qr);
+  //   return JSON.stringify(result);
+  // }
 }

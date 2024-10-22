@@ -40,102 +40,102 @@ export class RewardService {
     return result;
   }
 
-  async reward(user_id: number, reward_id: number, qr?: QueryRunner) {
-    const rewardData = await this.getReward(reward_id);
+  // async reward(user_id: number, reward_id: number, qr?: QueryRunner) {
+  //   const rewardData = await this.getReward(reward_id);
 
-    let result = [];
+  //   let result = [];
 
-    for (const reward of rewardData) {
-      let obj = {};
+  //   for (const reward of rewardData) {
+  //     let obj = {};
 
-      Object.entries(reward).forEach(([key, value]) => {
-        obj[`${key}`] = `${value}`;
-      });
+  //     Object.entries(reward).forEach(([key, value]) => {
+  //       obj[`${key}`] = `${value}`;
+  //     });
 
-      const itemData = await this.itemService.getItem(+obj['item_id']);
+  //     const itemData = await this.itemService.getItem(+obj['item_id']);
 
-      console.log('item_type', itemData.item_type);
+  //     console.log('item_type', itemData.item_type);
 
-      if (itemData.item_type == 'C') {
-        await this.rewardCurrency(
-          user_id,
-          itemData.item_name,
-          reward.item_qty,
-          qr,
-        );
-      }
+  //     if (itemData.item_type == 'C') {
+  //       await this.rewardCurrency(
+  //         user_id,
+  //         itemData.item_name,
+  //         reward.item_qty,
+  //         qr,
+  //       );
+  //     }
 
-      if (['M', 'E'].includes(itemData.item_type)) {
-        await this.userItemService.rewardItem(
-          user_id,
-          itemData.item_id,
-          itemData.item_grade,
-          itemData.item_type,
-          reward.item_qty,
-          qr,
-        );
-      }
+  //     if (['M', 'E'].includes(itemData.item_type)) {
+  //       await this.userItemService.rewardItem(
+  //         user_id,
+  //         itemData.item_id,
+  //         itemData.item_grade,
+  //         itemData.item_type,
+  //         reward.item_qty,
+  //         qr,
+  //       );
+  //     }
 
-      obj['item_id'] = itemData.item_id;
-      obj['item_type'] = itemData.item_type;
-      obj['item_name'] = itemData.item_name;
+  //     obj['item_id'] = itemData.item_id;
+  //     obj['item_type'] = itemData.item_type;
+  //     obj['item_name'] = itemData.item_name;
 
-      result.push(obj);
-    }
+  //     result.push(obj);
+  //   }
 
-    return result;
-  }
+  //   return result;
+  // }
 
-  async rewardCurrency(
-    user_id: number,
-    item_name: string,
-    qty: number,
-    qr?: QueryRunner,
-  ) {
-    const usersRepository = this.usersService.getUsersRepository(qr);
-    const userData = await usersRepository.findOne({
-      where: {
-        id: user_id,
-      },
-    });
+  // async rewardCurrency(
+  //   user_id: number,
+  //   item_name: string,
+  //   qty: number,
+  //   qr?: QueryRunner,
+  // ) {
+  //   const usersRepository = this.usersService.getUsersRepository(qr);
+  //   const userData = await usersRepository.findOne({
+  //     where: {
+  //       id: user_id,
+  //     },
+  //   });
 
-    if (!userData) {
-      throw new Error('User not found');
-    }
+  //   if (!userData) {
+  //     throw new Error('User not found');
+  //   }
 
-    const updatedData = { ...userData };
+  //   const updatedData = { ...userData };
 
-    console.log('item_name', item_name);
+  //   console.log('item_name', item_name);
 
-    switch (item_name) {
-      case 'seca_coin':
-        updatedData.seca_coin = updatedData.seca_coin + qty;
-        break;
-      case 'gord':
-        updatedData.gord = updatedData.gord + qty;
-        break;
-      case 'diamond_paid':
-        updatedData.diamond_paid = updatedData.diamond_paid + qty;
-        break;
-      case 'diamond_free':
-        updatedData.diamond_free = updatedData.diamond_free + qty;
-        break;
-      case 'exp':
-        updatedData.exp = updatedData.exp + qty;
-        break;
-      case 'battery':
-        updatedData.battery = updatedData.battery + qty;
-        break;
-      case 'revive_coin':
-        updatedData.revive_coin = updatedData.revive_coin + qty;
-        break;
-      // default:
-      //   response = 'Unknown item type.';
-      //   break;
-    }
+  //   switch (item_name) {
+  //     case 'seca_coin':
+  //       updatedData.seca_coin = updatedData.seca_coin + qty;
+  //       break;
+  //     case 'gord':
+  //       updatedData.gord = updatedData.gord + qty;
+  //       break;
+  //     case 'diamond_paid':
+  //       updatedData.diamond_paid = updatedData.diamond_paid + qty;
+  //       break;
+  //     case 'diamond_free':
+  //       updatedData.diamond_free = updatedData.diamond_free + qty;
+  //       break;
+  //     case 'exp':
+  //       updatedData.exp = updatedData.exp + qty;
+  //       break;
+  //     case 'battery':
+  //       updatedData.battery = updatedData.battery + qty;
+  //       break;
+  //     case 'revive_coin':
+  //       updatedData.revive_coin = updatedData.revive_coin + qty;
+  //       break;
+  //     // default:
+  //     //   response = 'Unknown item type.';
+  //     //   break;
+  //   }
 
-    await usersRepository.save(updatedData);
+  //   await usersRepository.save(updatedData);
 
-    return true;
-  }
+  //   return true;
+  // }
 }

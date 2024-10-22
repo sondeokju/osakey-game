@@ -59,6 +59,7 @@ import { HeroService } from 'src/static-table/hero/hero.service';
     UserItemService,
     UsersService,
     HeroService,
+    RewardService,
   ],
 })
 export class UserQuestModule {}
