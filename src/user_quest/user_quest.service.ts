@@ -272,9 +272,9 @@ export class UserQuestService {
 
     await userQuestRepository.save({
       ...userQuestData,
-      mission_complete_yn: 'Y',
-      reward_yn: 'Y',
-      accept_yn: 'Y',
+      mission_complete_yn: 'N',
+      reward_yn: 'N',
+      accept_yn: 'N',
     });
 
     const result = await userQuestRepository.find({
