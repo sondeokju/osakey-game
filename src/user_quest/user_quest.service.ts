@@ -262,11 +262,11 @@ export class UserQuestService {
     return result;
   }
 
-  async questReset(user_id: number, user_quest_id: number, qr?: QueryRunner) {
+  async questReset(user_id: number, qr?: QueryRunner) {
     const userQuestRepository = this.getUserQuestRepository(qr);
     const userQuestData = await userQuestRepository.findOne({
       where: {
-        id: user_quest_id,
+        user_id,
       },
     });
 
