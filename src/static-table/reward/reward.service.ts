@@ -31,6 +31,8 @@ export class RewardService {
     const rewardRepository = this.getRewardRepository(qr);
     const result = await rewardRepository.find({});
 
+    console.log(result);
+
     return result;
   }
 }
