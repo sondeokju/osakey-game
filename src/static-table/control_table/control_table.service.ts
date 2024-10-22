@@ -83,6 +83,8 @@ export class ControlTableService {
       reward: await this.rewardService.getRewardAll(qr),
     };
 
+    console.log(obj);
+
     return obj;
   }
 }
