@@ -64,7 +64,7 @@ export class ControlTableService {
 
   async getHeroAll(qr?: QueryRunner) {
     const obj = {
-      mission: await this.heroService.getHeroAll(qr),
+      hero: await this.heroService.getHeroAll(qr),
     };
 
     return obj;
@@ -72,7 +72,8 @@ export class ControlTableService {
 
   async getNpcAll(qr?: QueryRunner) {
     const obj = {
-      mission: await this.npcService.getNpcAll(qr),
+      npc: await this.npcService.getNpcAll(qr),
+      //npc_location: await this.npcService.getNpcAll(qr),
     };
 
     return obj;
