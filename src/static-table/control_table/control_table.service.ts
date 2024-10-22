@@ -9,6 +9,7 @@ import { MissionSubService } from 'src/static-table/mission_sub/mission_sub.serv
 import { RewardService } from 'src/static-table/reward/reward.service';
 import { HeroService } from 'src/static-table/hero/hero.service';
 import { ItemService } from '../item/item.service';
+import { NpcService } from '../npc/npc.service';
 
 @Injectable()
 export class ControlTableService {
@@ -23,6 +24,7 @@ export class ControlTableService {
     private readonly rewardService: RewardService,
     private readonly heroService: HeroService,
     private readonly itemService: ItemService,
+    private readonly npcService: NpcService,
   ) {}
 
   async getControlTableAll(qr?: QueryRunner) {
@@ -39,17 +41,14 @@ export class ControlTableService {
 
   async getMissionAll(qr?: QueryRunner) {
     const obj = {
-      mission: await this.missionService.getMissionAll(qr),
-      mission_kind: await this.missionKindService.getMissionKindAll(qr),
-      mission_main: await this.missionMainService.getMissionMainAll(qr),
-
-      mission_routine:
-        await this.missionRoutineService.getMissionRoutineAll(qr),
-
-      mission_routine_bonus:
-        await this.missionRoutineBonusService.getMissionRoutineBonusAll(qr),
-
-      mission_sub: await this.missionSubService.getMissionSubAll(qr),
+      // mission: await this.missionService.getMissionAll(qr),
+      // mission_kind: await this.missionKindService.getMissionKindAll(qr),
+      // mission_main: await this.missionMainService.getMissionMainAll(qr),
+      // mission_routine:
+      //   await this.missionRoutineService.getMissionRoutineAll(qr),
+      // mission_routine_bonus:
+      //   await this.missionRoutineBonusService.getMissionRoutineBonusAll(qr),
+      // mission_sub: await this.missionSubService.getMissionSubAll(qr),
     };
 
     return obj;
@@ -73,7 +72,7 @@ export class ControlTableService {
 
   async getNpcAll(qr?: QueryRunner) {
     const obj = {
-      mission: await this.missionService.getMissionAll(qr),
+      mission: await this.npcService.getNpcAll(qr),
     };
 
     return obj;

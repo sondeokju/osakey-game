@@ -1,26 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { CreateNpcDto } from './dto/create-npc.dto';
-import { UpdateNpcDto } from './dto/update-npc.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Npc } from './entities/npc.entity';
+import { QueryRunner, Repository } from 'typeorm';
 
 @Injectable()
 export class NpcService {
-  create(createNpcDto: CreateNpcDto) {
-    return 'This action adds a new npc';
+  constructor(
+    @InjectRepository(Npc)
+    private readonly npcRepository: Repository<Npc>,
+  ) {}
+
+  getNpcRepository(qr?: QueryRunner) {
+    return qr ? qr.manager.getRepository<Npc>(Npc) : this.npcRepository;
   }
 
-  findAll() {
-    return `This action returns all npc`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} npc`;
-  }
-
-  update(id: number, updateNpcDto: UpdateNpcDto) {
-    return `This action updates a #${id} npc`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} npc`;
+  async getNpcAll(qr?: QueryRunner) {
+    const npcRepository = this.getNpcRepository(qr);
+    const result = await npcRepository.find({});
+    return result;
   }
 }
