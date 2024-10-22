@@ -2,18 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { Reward } from './entities/reward.entity';
-import { UsersService } from 'src/users/users.service';
-import { ItemService } from '../item/item.service';
-import { UserItemService } from 'src/user_item/user_item.service';
 
 @Injectable()
 export class RewardService {
   constructor(
     @InjectRepository(Reward)
     private readonly rewardRepository: Repository<Reward>,
-    private readonly usersService: UsersService,
-    private readonly itemService: ItemService,
-    private readonly userItemService: UserItemService,
   ) {}
 
   getRewardRepository(qr?: QueryRunner) {
