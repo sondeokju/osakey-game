@@ -29,7 +29,12 @@ export class RewardService {
 
   async getRewardAll(qr?: QueryRunner) {
     const rewardRepository = this.getRewardRepository(qr);
-    const result = await rewardRepository.find({});
+    //const result = await rewardRepository.find({});
+
+    const result = await rewardRepository
+      .createQueryBuilder('reward')
+      .select(['reward.reward_id', 'reward.item_id', 'reward.item_qty']) // id를 제외하고 필요한 컬럼만 선택
+      .getMany();
 
     return result;
   }

@@ -12,7 +12,6 @@ import {
 @Entity()
 export class Reward {
   @PrimaryGeneratedColumn()
-  @Exclude()
   id: number;
 
   @Column()
