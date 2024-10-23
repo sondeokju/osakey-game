@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Users } from 'src/users/entity/users.entity';
+import { v4 as uuidv4 } from 'uuid'; // uuid v4를 가져옵니다.
 
 import * as bcrypt from 'bcrypt';
 import { RegisterUserDto } from './dto/register-user.dto';
@@ -190,7 +191,7 @@ export class AuthService {
       accessToken: this.signToken(user, false),
     };
 
-    //console.log('result', JSON.stringify(result));
+    console.log('uuid', uuidv4());
 
     return JSON.stringify(result);
     // return {
