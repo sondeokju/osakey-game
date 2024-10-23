@@ -161,10 +161,10 @@ export class Users extends BaseModel {
   })
   level: number;
 
-  @Column({
-    length: 128,
-    default: '',
-  })
-  @Index({ unique: false })
-  uuid: string;
+  // @Column({
+  //   length: 128,
+  //   default: '',
+  // })
+  // @Index({ unique: false })
+  // uuid: string;
 }
