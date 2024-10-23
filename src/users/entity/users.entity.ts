@@ -165,5 +165,6 @@ export class Users extends BaseModel {
     length: 128,
     default: '',
   })
-  uuid_s: string;
+  @Index({ unique: false })
+  uuid: string;
 }
