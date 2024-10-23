@@ -49,7 +49,7 @@ export class Users extends BaseModel {
   @IsString({
     message: stringValidatioMessage,
   })
-  @Index({ unique: true })
+  @Index({ unique: false })
   device_id: string;
 
   @Column({
@@ -59,7 +59,7 @@ export class Users extends BaseModel {
   @IsString({
     message: stringValidatioMessage,
   })
-  @Index({ unique: true })
+  @Index({ unique: false })
   pgs_id: string;
 
   @Column({
