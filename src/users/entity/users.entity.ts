@@ -87,7 +87,7 @@ export class Users extends BaseModel {
       message: emailValidationMessage,
     },
   )
-  @Index({ unique: true })
+  @Index({ unique: false })
   email: string;
 
   @Column()
