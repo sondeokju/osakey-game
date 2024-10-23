@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   Column,
   Entity,
@@ -11,6 +12,7 @@ import {
 @Entity()
 export class Reward {
   @PrimaryGeneratedColumn()
+  @Exclude()
   id: number;
 
   @Column()
