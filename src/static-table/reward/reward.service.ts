@@ -33,7 +33,7 @@ export class RewardService {
 
     const result = await rewardRepository
       .createQueryBuilder('reward')
-      .select(['reward.reward_id', 'reward.item_id', 'reward.item_qty']) // id를 제외하고 필요한 컬럼만 선택
+      .select(['reward.reward_id', 'reward.item_id', 'reward.item_qty'])
       .getMany();
 
     return result;

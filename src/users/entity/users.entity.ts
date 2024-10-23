@@ -161,9 +161,9 @@ export class Users extends BaseModel {
   })
   level: number;
 
-  //test
-  // @Expose()
-  // get nicknameAndEmail() {
-  //   return this.nickname + '/' + this.email;
-  // }
+  // @Column({
+  //   length: 128,
+  //   default: '',
+  // })
+  // uuid_s: string;
 }
