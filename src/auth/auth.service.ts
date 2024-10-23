@@ -191,7 +191,7 @@ export class AuthService {
       accessToken: this.signToken(user, false),
     };
 
-    console.log('uuid', uuidv4());
+    //console.log('uuid', uuidv4());
 
     return JSON.stringify(result);
     // return {

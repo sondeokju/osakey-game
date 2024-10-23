@@ -161,9 +161,9 @@ export class Users extends BaseModel {
   })
   level: number;
 
-  // @Column({
-  //   length: 128,
-  //   default: '',
-  // })
-  // uuid_s: string;
+  @Column({
+    length: 128,
+    default: '',
+  })
+  uuid_s: string;
 }
