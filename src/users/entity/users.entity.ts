@@ -40,8 +40,9 @@ export class Users extends BaseModel {
     message: lengthValidationMessage,
   })
   //@Expose
-  @Index({ unique: true })
+  @Index({ unique: false })
   nickname: string;
+
   @Column({
     length: 512,
   })
