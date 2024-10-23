@@ -52,4 +52,11 @@ export class UserQuest extends BaseModel {
     default: 'N',
   })
   accept_yn: string;
+
+  @Column({
+    length: 128,
+    default: '',
+  })
+  @Index({ unique: false })
+  uuid: string;
 }
