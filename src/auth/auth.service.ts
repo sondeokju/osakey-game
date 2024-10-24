@@ -210,6 +210,7 @@ export class AuthService {
      */
 
     const existingUser = await this.usersService.getUserByEmail(user.email);
+    console.log(existingUser);
 
     if (!existingUser) {
       throw new UnauthorizedException('존재하지 않는 사용자입니다.');
