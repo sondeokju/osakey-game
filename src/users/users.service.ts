@@ -80,6 +80,23 @@ export class UsersService {
     return newUser;
   }
 
+  // async createUserID(user: Pick<Users, 'email' | 'user_id'>) {
+  //   let userID = 0;
+
+  //   for (let i = 0; i < 100; i++) {
+  //     const userId = userID.toString().padStart(14, '0');
+
+  //     const userObject = this.usersRepository.create({
+  //       email: user.email,
+  //       user_id: userId,
+  //     });
+
+  //     const newUser = await this.usersRepository.save(userObject);
+  //   }
+
+  //   return 0;
+  // }
+
   // async getAllUsers() {
   //   return this.usersRepository.find({
   //     select: {

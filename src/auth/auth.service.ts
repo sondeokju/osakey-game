@@ -262,9 +262,9 @@ export class AuthService {
       password: hash,
     });
 
-    const newUserEquipmentSlot =
-      await this.userEquipmentSlotService.createEquipmentSlot(newUser.id);
-    console.log('newUserEquipmentSlot', newUserEquipmentSlot);
+    // const newUserEquipmentSlot =
+    //   await this.userEquipmentSlotService.createEquipmentSlot(newUser.id);
+    // console.log('newUserEquipmentSlot', newUserEquipmentSlot);
 
     return this.loginUser(newUser);
   }
