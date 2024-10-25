@@ -34,7 +34,7 @@ export class UserQuestController {
   }
 
   // @Get('mission_type')
-  // @UseInterceptors(TransactionInterceptor)
+  // @UseInerceptors(TransactionInterceptor)
   // async getUserQuestTypeList(
   //   @User() user: Users,
   //   @Body('mission_type', ParseIntPipe) mission_type: number,

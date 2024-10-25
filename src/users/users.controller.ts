@@ -39,6 +39,13 @@ export class UsersController {
   //   return this.usersService.getAllUsers();
   // }
 
+  @Get('/')
+  test() {
+    console.log('root');
+
+    return JSON.stringify('hello osakey');
+  }
+
   @Get('time')
   getMe() {
     console.log('time');
