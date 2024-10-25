@@ -1,5 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
+import { IsPublic } from 'src/common/decorator/is-public.decorator';
 
 @Controller()
 export class AppController {
@@ -8,6 +9,7 @@ export class AppController {
   }
   constructor(private readonly appService: AppService) {}
 
+  @IsPublic()
   @Get('/')
   test() {
     console.log('root');
