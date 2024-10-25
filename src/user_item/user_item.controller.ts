@@ -22,7 +22,7 @@ import { TransactionInterceptor } from 'src/common/interceptor/transaction.inter
 export class UserItemController {
   constructor(private readonly userItemService: UserItemService) {}
 
-  @Get('/all')
+  @Post('/all')
   @UseInterceptors(TransactionInterceptor)
   async getUserItemtAll(
     @User() user: Users,

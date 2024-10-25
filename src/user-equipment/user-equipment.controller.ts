@@ -24,7 +24,7 @@ import { User } from 'src/users/decorator/user.decorator';
 export class UserEquipmentController {
   constructor(private readonly userEquipmentService: UserEquipmentService) {}
 
-  @Get('/all')
+  @Post('/all')
   async getUserEquipmentAll(
     @User() user: Users,
     //@Param('user_id') user_id: string,

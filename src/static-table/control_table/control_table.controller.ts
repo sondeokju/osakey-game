@@ -18,7 +18,7 @@ import { QueryRunner as QR } from 'typeorm';
 export class ControlTableController {
   constructor(private readonly controlTableService: ControlTableService) {}
 
-  @Get('/all')
+  @Post('/all')
   @UseInterceptors(TransactionInterceptor)
   async getControlTableAll(@QueryRunner() qr: QR) {
     const result = await this.controlTableService.getControlTableAll(qr);

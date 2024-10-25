@@ -26,7 +26,7 @@ export class UserEquipmentSlotController {
     private readonly userEquipmentSlotService: UserEquipmentSlotService,
   ) {}
 
-  @Get('/info')
+  @Post('/info')
   async findOne(@User() user: Users) {
     const result = await this.userEquipmentSlotService.getUserEquipmentSlot(
       user.id,

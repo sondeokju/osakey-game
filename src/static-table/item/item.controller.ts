@@ -17,7 +17,7 @@ import { QueryRunner as QR } from 'typeorm';
 export class ItemController {
   constructor(private readonly itemService: ItemService) {}
 
-  @Get('/all')
+  @Post('/all')
   @UseInterceptors(TransactionInterceptor)
   async getItemAll(@QueryRunner() qr: QR) {
     const result = await this.itemService.getItemAll(qr);

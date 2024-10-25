@@ -46,7 +46,7 @@ export class UsersController {
     return JSON.stringify('hello osakey');
   }
 
-  @Get('time')
+  @Post('time')
   getMe() {
     console.log('time');
     const serverTime = new Date().toString();
@@ -78,7 +78,7 @@ export class UsersController {
     return JSON.stringify(result);
   }
 
-  @Get('me')
+  @Post('me')
   @UseInterceptors(TransactionInterceptor)
   async getMeTest(
     @User() user: Users,
@@ -90,14 +90,14 @@ export class UsersController {
     return JSON.stringify(result);
   }
 
-  @Get('base')
+  @Post('base')
   @UseInterceptors(TransactionInterceptor)
   async getUserBase(@User() user: Users, @QueryRunner() qr: QR) {
     const result = await this.usersService.getUserBase(user.id, qr);
     return JSON.stringify(result);
   }
 
-  @Get('money')
+  @Post('money')
   @UseInterceptors(TransactionInterceptor)
   async getUserMoney(@User() user: Users, @QueryRunner() qr: QR) {
     const result = await this.usersService.getUserMoney(user.id, qr);
