@@ -7,4 +7,11 @@ export class AppController {
     throw new Error('Method not implemented.');
   }
   constructor(private readonly appService: AppService) {}
+
+  @Get('/')
+  test() {
+    console.log('root');
+
+    return JSON.stringify('hello osakey');
+  }
 }
