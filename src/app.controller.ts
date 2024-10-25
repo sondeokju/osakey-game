@@ -11,9 +11,7 @@ export class AppController {
 
   @IsPublic()
   @Get('/')
-  test() {
-    console.log('root');
-
-    return JSON.stringify('hello osakey');
+  checkHealth() {
+    return 'ok';
   }
 }
