@@ -39,7 +39,7 @@ export class UsersController {
   //   return this.usersService.getAllUsers();
   // }
 
-  @Get('/')
+  @Get('/root')
   test() {
     console.log('root');
 
