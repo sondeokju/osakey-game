@@ -188,6 +188,33 @@ export class UsersService {
     return result;
   }
 
+  async resetUser(id: number, qr?: QueryRunner) {
+    const usersRepository = this.getUsersRepository(qr);
+    const userData = await usersRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    await usersRepository.save({
+      ...userData,
+      seca_coin: 100,
+      gord: 10000,
+      diamond_paid: 2000,
+      diamond_free: 1000,
+      exp: 0,
+      battery: 100,
+      revive_coin: 10,
+      level: 1,
+    });
+
+    return await usersRepository.findOne({
+      where: {
+        id,
+      },
+    });
+  }
+
   async patchTakeExp(id: number, exp: number, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({

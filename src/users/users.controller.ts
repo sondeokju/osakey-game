@@ -104,6 +104,13 @@ export class UsersController {
     return JSON.stringify(result);
   }
 
+  @Post('reset/user')
+  @UseInterceptors(TransactionInterceptor)
+  async resetUser(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = await this.usersService.resetUser(user.id, qr);
+    return JSON.stringify(result);
+  }
+
   @Patch('take/gord')
   @UseInterceptors(TransactionInterceptor)
   async patchTakeGord(
