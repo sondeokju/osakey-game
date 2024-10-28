@@ -8,6 +8,6 @@ import { LogUrl } from './entities/log_url.entity';
   imports: [TypeOrmModule.forFeature([LogUrl])],
   exports: [LogUrlService],
   controllers: [LogUrlController],
-  providers: [LogUrlService, LogUrl],
+  providers: [LogUrlService],
 })
 export class LogUrlModule {}

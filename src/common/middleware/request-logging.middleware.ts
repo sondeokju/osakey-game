@@ -6,18 +6,15 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class RequestLoggingMiddleware implements NestMiddleware {
-  constructor(
-    @InjectRepository(LogUrl)
-    private requestLogUrlRepository: Repository<LogUrl>,
-  ) {}
+  constructor(private readonly logUrlRepository: LogUrl) {}
 
   async use(req: Request, res: Response, next: NextFunction) {
-    const log = this.requestLogUrlRepository.create({
-      url: req.url,
-      method: req.method,
-      created_at: new Date(),
-    });
-    await this.requestLogUrlRepository.save(log);
+    // const log = this.logUrlRepository.create({
+    //   url: req.url,
+    //   method: req.method,
+    //   created_at: new Date(),
+    // });
+    // await this.logUrlRepository.save(log);
     next();
   }
 }
