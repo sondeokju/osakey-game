@@ -8,16 +8,23 @@ import {
   ManyToMany,
   OneToMany,
   PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { BaseModel } from 'src/common/entity/base.entity';
-
 @Entity()
-export class LogUrl extends BaseModel {
-  //@Index({ unique: true })
+@Index(['url', 'timestamp'], { unique: false })
+export class LogUrl {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Index()
   @Column()
   url: string;
 
-  @Column()
+  @Index()
   method: string;
+
+  @Index()
+  @CreateDateColumn()
+  created_at: Date;
 }
