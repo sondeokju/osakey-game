@@ -12,7 +12,7 @@ import {
 
 import { BaseModel } from 'src/common/entity/base.entity';
 
-@Entity()
+@Entity('z_log_url')
 export class LogUrl extends BaseModel {
   //@Index({ unique: true })
   @Column()
