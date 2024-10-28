@@ -7,9 +7,8 @@ export class RequestLoggingMiddleware implements NestMiddleware {
   constructor(private readonly logUrlService: LogUrlService) {}
 
   async use(req: Request, res: Response, next: NextFunction) {
-    const url = req.url;
+    const url = req.baseUrl;
     console.log(url);
-    console.log(req);
     const method = req.method;
     const create_at = new Date();
 
