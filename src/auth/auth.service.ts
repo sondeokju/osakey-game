@@ -209,7 +209,9 @@ export class AuthService {
      *    3.모두 통과되면 찾은 상용자 정보 반환
      */
 
-    const existingUser = await this.usersService.getUserByEmail(user.email);
+    const existingUser = await this.usersService.getUserByEmail(
+      user.email.replace(/\s+/g, ''),
+    );
     console.log(existingUser);
 
     if (!existingUser) {
