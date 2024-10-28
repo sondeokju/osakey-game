@@ -81,7 +81,6 @@ import { RewardInvenModule } from './super/reward_inven/reward_inven.module';
 import { LogUrlModule } from './common/log_url/log_url.module';
 import { LogUrl } from './common/log_url/entities/log_url.entity';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
-import { StatusMonitorModule } from 'nestjs-status-monitor';
 
 @Module({
   imports: [
