@@ -10,6 +10,7 @@ import {
 import { RolesEnum } from '../const/roles.const';
 import {
   IsEmail,
+  IsNotEmpty,
   IsString,
   Length,
   ValidationArguments,
@@ -94,6 +95,7 @@ export class Users extends BaseModel {
       message: emailValidationMessage,
     },
   )
+  @IsNotEmpty()
   @Index({ unique: false })
   email: string;
 
