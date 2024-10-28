@@ -80,6 +80,7 @@ import { ControlTableModule } from './static-table/control_table/control_table.m
 import { RewardInvenModule } from './super/reward_inven/reward_inven.module';
 import { LogUrlModule } from './common/log_url/log_url.module';
 import { LogUrl } from './common/log_url/entities/log_url.entity';
+import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
 
 @Module({
   imports: [
@@ -195,10 +196,11 @@ import { LogUrl } from './common/log_url/entities/log_url.entity';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LogMiddleware).forRoutes({
-      //path: 'posts*',
-      path: '*',
-      method: RequestMethod.ALL,
-    });
+    // consumer.apply(LogMiddleware).forRoutes({
+    //   //path: 'posts*',
+    //   path: '*',
+    //   method: RequestMethod.ALL,
+    // });
+    consumer.apply(RequestLoggingMiddleware).forRoutes('*'); // 모든 경로에 적용
   }
 }
