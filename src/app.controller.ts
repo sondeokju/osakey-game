@@ -12,6 +12,7 @@ export class AppController {
   @IsPublic()
   @Get('/')
   checkHealth() {
+    console.log('hello osakey');
     return 'ok';
   }
 }
