@@ -1,11 +1,23 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Request, Response, NextFunction } from 'express';
+import { LogUrl } from '../log_url/entities/log_url.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class RequestLoggingMiddleware implements NestMiddleware {
-  use(req: Request, res: Response, next: NextFunction) {
-    console.log(`Request URL: ${req.url}`);
-    // 실제 환경에서는 콘솔 대신 DB나 파일로 저장하는 방법을 권장합니다.
+  constructor(
+    @InjectRepository(LogUrl)
+    private requestLogUrlRepository: Repository<LogUrl>,
+  ) {}
+
+  async use(req: Request, res: Response, next: NextFunction) {
+    const log = this.requestLogUrlRepository.create({
+      url: req.url,
+      method: req.method,
+      created_at: new Date(),
+    });
+    await this.requestLogUrlRepository.save(log);
     next();
   }
 }
