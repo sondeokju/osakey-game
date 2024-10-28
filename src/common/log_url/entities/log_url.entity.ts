@@ -22,6 +22,7 @@ export class LogUrl {
   url: string;
 
   @Index()
+  @Column()
   method: string;
 
   @Index()
