@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { CreateLogUrlDto } from './dto/create-log_url.dto';
 import { UpdateLogUrlDto } from './dto/update-log_url.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { LogUrl } from './entities/log_url.entity';
+import { QueryRunner, Repository } from 'typeorm';
 
 @Injectable()
 export class LogUrlService {
-  create(createLogUrlDto: CreateLogUrlDto) {
-    return 'This action adds a new logUrl';
+  constructor(
+    @InjectRepository(LogUrl)
+    private readonly urlLogRepository: Repository<LogUrl>,
+  ) {}
+
+  getUrlLogRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<LogUrl>(LogUrl)
+      : this.urlLogRepository;
   }
 
-  findAll() {
-    return `This action returns all logUrl`;
-  }
+  // async logRequest(url: string, method: string, timestamp: Date) {
+  //   const log = this.logRepository.create({ url, method, timestamp });
+  //   await this.logRepository.save(log);
+  // }
 
-  findOne(id: number) {
-    return `This action returns a #${id} logUrl`;
-  }
+  async urlLog(url: string, method: string, create_at: Date, qr?: QueryRunner) {
+    const urlLogRepository = this.getUrlLogRepository(qr);
 
-  update(id: number, updateLogUrlDto: UpdateLogUrlDto) {
-    return `This action updates a #${id} logUrl`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} logUrl`;
+    await urlLogRepository.save({
+      url,
+      method,
+      create_at,
+    });
   }
 }
