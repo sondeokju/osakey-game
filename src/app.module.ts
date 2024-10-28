@@ -78,6 +78,8 @@ import { NpcModule } from './static-table/npc/npc.module';
 import { Npc } from './static-table/npc/entities/npc.entity';
 import { ControlTableModule } from './static-table/control_table/control_table.module';
 import { RewardInvenModule } from './super/reward_inven/reward_inven.module';
+import { LogUrlModule } from './common/log_url/log_url.module';
+import { LogUrl } from './common/log_url/entities/log_url.entity';
 
 @Module({
   imports: [
@@ -126,6 +128,7 @@ import { RewardInvenModule } from './super/reward_inven/reward_inven.module';
         MissionCategory,
         Hero,
         Npc,
+        LogUrl,
         UserItem,
         UserAd,
         UserEventAttendance,
@@ -171,6 +174,7 @@ import { RewardInvenModule } from './super/reward_inven/reward_inven.module';
     NpcModule,
     ControlTableModule,
     RewardInvenModule,
+    LogUrlModule,
   ],
   controllers: [AppController],
   providers: [
