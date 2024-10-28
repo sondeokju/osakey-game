@@ -4,7 +4,6 @@ import { Users } from './entity/users.entity';
 import { DataSource, IsNull, QueryRunner, Repository } from 'typeorm';
 import { BadRequestException } from '@nestjs/common';
 import Redis from 'ioredis';
-import { InjectRedis, RedisService } from '@liaoliaots/nestjs-redis';
 import { HeroService } from 'src/static-table/hero/hero.service';
 
 @Injectable()
