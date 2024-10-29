@@ -26,13 +26,11 @@ export class BearerTokenGuard implements CanActivate {
     console.log('isPublic', isPublic);
 
     const req = context.switchToHttp().getRequest();
-    console.log('req.path:', req.path);
-    console.log('req.url:', req.path);
 
-    if (req.url === '/metrics') {
-      console.log('path02:', req.path);
-      return true;
-    }
+    // if (req.url === '/metrics') {
+    //   console.log('path02:', req.path);
+    //   return true;
+    // }
 
     if (isPublic) {
       req.isRoutePublic = true;
