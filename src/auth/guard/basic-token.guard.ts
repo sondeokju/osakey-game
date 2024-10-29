@@ -30,6 +30,7 @@ export class BasicTokenGuard implements CanActivate {
     //console.log('BasicTokenGuard', req);
 
     if (req.path === '/metrics') {
+      console.log('path:', req.path);
       return true;
     }
 
