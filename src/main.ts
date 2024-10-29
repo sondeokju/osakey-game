@@ -24,10 +24,6 @@ async function bootstrap() {
     }),
   );
 
-  app.use('/metrics', (req, res, next) => {
-    next();
-  });
-
   app.useGlobalFilters(new HttpExceptionFilter());
   const PORT = process.env[ENV_SERVER_PORT_KEY];
   const SCHEMA = process.env[ENV_DB_SCHEMA_KEY];
