@@ -29,7 +29,7 @@ export class BearerTokenGuard implements CanActivate {
     console.log('req.path:', req.path);
     console.log('req.url:', req.path);
 
-    if (req.path === '/metrics') {
+    if (req.url === '/metrics') {
       console.log('path02:', req.path);
       return true;
     }
