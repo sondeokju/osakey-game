@@ -28,12 +28,6 @@ export class BasicTokenGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = context.switchToHttp().getRequest();
     //console.log('BasicTokenGuard', req);
-    console.log('path01:', req.path);
-
-    if (req.path === '/metrics') {
-      console.log('path02:', req.path);
-      return true;
-    }
 
     // {authorization: 'Basic adfdfdfdf}
     const rawToken = req.headers['authorization'];
