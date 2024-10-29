@@ -81,11 +81,11 @@ import { RewardInvenModule } from './super/reward_inven/reward_inven.module';
 import { LogUrlModule } from './common/log_url/log_url.module';
 import { LogUrl } from './common/log_url/entities/log_url.entity';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
-import { PrometheusModule } from '@willsoto/nestjs-prometheus';
+//import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 
 @Module({
   imports: [
-    PrometheusModule.register(),
+    //PrometheusModule.register(),
     ServeStaticModule.forRoot({
       rootPath: PUBLIC_FOLDER_PATH,
       serveRoot: '/public',
