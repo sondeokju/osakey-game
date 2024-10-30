@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { RewardInvenService } from './reward_inven.service';
-import { RewardInvenController } from './reward_inven.controller';
+import { RewardOfferService } from './reward_offer.service';
+import { RewardInvenController } from './reward_offer.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Users } from 'src/users/entity/users.entity';
 import { UsersService } from 'src/users/users.service';
@@ -15,10 +15,10 @@ import { Hero } from 'src/static-table/hero/entities/hero.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Reward, Item, UserItem, Users, Hero])],
-  exports: [RewardInvenService],
+  exports: [RewardOfferService],
   controllers: [RewardInvenController],
   providers: [
-    RewardInvenService,
+    RewardOfferService,
     RewardService,
     ItemService,
     UserItemService,
@@ -26,4 +26,4 @@ import { Hero } from 'src/static-table/hero/entities/hero.entity';
     HeroService,
   ],
 })
-export class RewardInvenModule {}
+export class RewardOfferModule {}

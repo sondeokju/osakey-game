@@ -10,7 +10,7 @@ import { MissionRoutineBonusService } from 'src/static-table/mission_routine_bon
 import { MissionSubService } from 'src/static-table/mission_sub/mission_sub.service';
 import { UsersService } from 'src/users/users.service';
 import { HeroService } from 'src/static-table/hero/hero.service';
-import { RewardInvenService } from 'src/supervisor/reward_inven/reward_inven.service';
+import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 
 @Injectable()
 export class UserQuestService {
@@ -23,7 +23,7 @@ export class UserQuestService {
     private readonly missionRoutineService: MissionRoutineService,
     private readonly missionRoutineBonusService: MissionRoutineBonusService,
     private readonly missionSubService: MissionSubService,
-    private readonly rewardInvenService: RewardInvenService,
+    private readonly rewardOfferService: RewardOfferService,
     private readonly usersService: UsersService,
     private dataSource: DataSource,
     private readonly heroService: HeroService,
@@ -94,7 +94,7 @@ export class UserQuestService {
       );
 
     console.log('missionRoutineData.reward_id', missionRoutineData.reward_id);
-    const rewardData = await this.rewardInvenService.reward(
+    const rewardData = await this.rewardOfferService.reward(
       user_id,
       missionRoutineData.reward_id,
     );
@@ -129,7 +129,7 @@ export class UserQuestService {
     );
 
     console.log('missionMainData.reward_id', missionMainData.reward_id);
-    const rewardData = await this.rewardInvenService.reward(
+    const rewardData = await this.rewardOfferService.reward(
       user_id,
       missionMainData.reward_id,
     );
@@ -168,7 +168,7 @@ export class UserQuestService {
     console.log('missionSubData:', missionSubData);
 
     console.log('missionRoutineData.reward_id', missionSubData.reward_id);
-    const rewardData = await this.rewardInvenService.reward(
+    const rewardData = await this.rewardOfferService.reward(
       user_id,
       missionSubData.reward_id,
     );

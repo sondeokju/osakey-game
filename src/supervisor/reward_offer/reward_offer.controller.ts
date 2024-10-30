@@ -7,9 +7,9 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { RewardInvenService } from './reward_inven.service';
+import { RewardOfferService } from './reward_offer.service';
 
 @Controller('reward-inven')
 export class RewardInvenController {
-  constructor(private readonly rewardInvenService: RewardInvenService) {}
+  constructor(private readonly rewardOfferService: RewardOfferService) {}
 }

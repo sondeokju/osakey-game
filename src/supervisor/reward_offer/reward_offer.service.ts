@@ -6,7 +6,7 @@ import { RewardService } from 'src/static-table/reward/reward.service';
 import { ItemService } from 'src/static-table/item/item.service';
 
 @Injectable()
-export class RewardInvenService {
+export class RewardOfferService {
   constructor(
     private readonly rewardService: RewardService,
     private readonly usersService: UsersService,
