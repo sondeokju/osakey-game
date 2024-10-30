@@ -77,7 +77,7 @@ import { Reward } from './static-table/reward/entities/reward.entity';
 import { NpcModule } from './static-table/npc/npc.module';
 import { Npc } from './static-table/npc/entities/npc.entity';
 import { ControlTableModule } from './static-table/control_table/control_table.module';
-import { RewardInvenModule } from './super/reward_inven/reward_inven.module';
+import { RewardInvenModule } from './supervisor/reward_inven/reward_inven.module';
 import { LogUrlModule } from './common/log_url/log_url.module';
 import { LogUrl } from './common/log_url/entities/log_url.entity';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';

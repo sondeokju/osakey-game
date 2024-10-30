@@ -10,7 +10,7 @@ import { MissionRoutineBonusService } from 'src/static-table/mission_routine_bon
 import { MissionSubService } from 'src/static-table/mission_sub/mission_sub.service';
 import { UsersService } from 'src/users/users.service';
 import { HeroService } from 'src/static-table/hero/hero.service';
-import { RewardInvenService } from 'src/super/reward_inven/reward_inven.service';
+import { RewardInvenService } from 'src/supervisor/reward_inven/reward_inven.service';
 
 @Injectable()
 export class UserQuestService {

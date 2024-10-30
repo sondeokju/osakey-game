@@ -25,7 +25,7 @@ import { Users } from 'src/users/entity/users.entity';
 import { UsersService } from 'src/users/users.service';
 import { Hero } from 'src/static-table/hero/entities/hero.entity';
 import { HeroService } from 'src/static-table/hero/hero.service';
-import { RewardInvenService } from 'src/super/reward_inven/reward_inven.service';
+import { RewardInvenService } from 'src/supervisor/reward_inven/reward_inven.service';
 
 @Module({
   imports: [
