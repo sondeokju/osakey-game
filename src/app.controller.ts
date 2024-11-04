@@ -12,7 +12,7 @@ export class AppController {
   @IsPublic()
   @Get('/')
   checkHealth() {
-    //console.log('hello osakey');
+    console.log('hello osakey');
     return `<!DOCTYPE html>
     <html lang="ko">
     <head>
