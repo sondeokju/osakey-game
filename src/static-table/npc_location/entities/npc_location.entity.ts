@@ -10,7 +10,7 @@ import {
 
 @Entity()
 export class NpcLocation {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   npc_id: number;
 
   @Column({
