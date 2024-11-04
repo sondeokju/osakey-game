@@ -22,6 +22,8 @@ import { ItemService } from '../item/item.service';
 import { HeroService } from '../hero/hero.service';
 import { NpcService } from '../npc/npc.service';
 import { Npc } from '../npc/entities/npc.entity';
+import { NpcLocation } from '../npc_location/entities/npc_location.entity';
+import { NpcLocationService } from '../npc_location/npc_location.service';
 
 @Module({
   imports: [
@@ -37,6 +39,7 @@ import { Npc } from '../npc/entities/npc.entity';
       Item,
       Hero,
       Npc,
+      NpcLocation,
     ]),
   ],
   exports: [ControlTableService],
@@ -53,6 +56,7 @@ import { Npc } from '../npc/entities/npc.entity';
     ItemService,
     HeroService,
     NpcService,
+    NpcLocationService,
   ],
 })
 export class ControlTableModule {}

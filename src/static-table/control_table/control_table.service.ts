@@ -10,6 +10,7 @@ import { RewardService } from 'src/static-table/reward/reward.service';
 import { HeroService } from 'src/static-table/hero/hero.service';
 import { ItemService } from '../item/item.service';
 import { NpcService } from '../npc/npc.service';
+import { NpcLocationService } from '../npc_location/npc_location.service';
 
 @Injectable()
 export class ControlTableService {
@@ -25,14 +26,16 @@ export class ControlTableService {
     private readonly heroService: HeroService,
     private readonly itemService: ItemService,
     private readonly npcService: NpcService,
+    private readonly npcLocationService: NpcLocationService,
   ) {}
 
   async getControlTableAll(qr?: QueryRunner) {
     const obj = {
-      mission: await this.getMissionAll(qr),
+      mission_all: await this.getMissionAll(qr),
       item: await this.getItemAll(qr),
       hero: await this.getHeroAll(qr),
       npc: await this.getNpcAll(qr),
+      npc_location: await this.getNpcLocationAll(qr),
       reward: await this.getRewardAll(qr),
     };
 
@@ -55,35 +58,22 @@ export class ControlTableService {
   }
 
   async getItemAll(qr?: QueryRunner) {
-    const obj = {
-      item: await this.itemService.getItemAll(qr),
-    };
-
-    return obj;
+    return await this.itemService.getItemAll(qr);
   }
 
   async getHeroAll(qr?: QueryRunner) {
-    const obj = {
-      hero: await this.heroService.getHeroAll(qr),
-    };
-
-    return obj;
+    return await this.heroService.getHeroAll(qr);
   }
 
   async getNpcAll(qr?: QueryRunner) {
-    const obj = {
-      npc: await this.npcService.getNpcAll(qr),
-      //npc_location: await this.npcService.getNpcAll(qr),
-    };
+    return await this.npcService.getNpcAll(qr);
+  }
 
-    return obj;
+  async getNpcLocationAll(qr?: QueryRunner) {
+    return await this.npcLocationService.getNpcLocationAll(qr);
   }
 
   async getRewardAll(qr?: QueryRunner) {
-    const obj = {
-      reward: await this.rewardService.getRewardAll(qr),
-    };
-
-    return obj;
+    return await this.rewardService.getRewardAll(qr);
   }
 }

@@ -11,15 +11,15 @@ export class NpcLocationService {
     private readonly npcLocationRepository: Repository<NpcLocation>,
   ) {}
 
-  getNpcRepository(qr?: QueryRunner) {
+  getNpcLocationRepository(qr?: QueryRunner) {
     return qr
       ? qr.manager.getRepository<NpcLocation>(NpcLocation)
       : this.npcLocationRepository;
   }
 
   async getNpcLocationAll(qr?: QueryRunner) {
-    const npcRepository = this.getNpcRepository(qr);
-    const result = await npcRepository.find({});
+    const npcLocationRepository = this.getNpcLocationRepository(qr);
+    const result = await npcLocationRepository.find({});
     return result;
   }
 }
