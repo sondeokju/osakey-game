@@ -82,6 +82,8 @@ import { LogUrlModule } from './common/log_url/log_url.module';
 import { LogUrl } from './common/log_url/entities/log_url.entity';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
 //import { PrometheusModule } from '@willsoto/nestjs-prometheus';
+import { NpcLocationModule } from './static-table/npc_location/npc_location.module';
+import { NpcLocation } from './static-table/npc_location/entities/npc_location.entity';
 
 @Module({
   imports: [
@@ -131,6 +133,7 @@ import { RequestLoggingMiddleware } from './common/middleware/request-logging.mi
         MissionCategory,
         Hero,
         Npc,
+        NpcLocation,
         LogUrl,
         UserItem,
         UserAd,
@@ -178,6 +181,7 @@ import { RequestLoggingMiddleware } from './common/middleware/request-logging.mi
     ControlTableModule,
     RewardOfferModule,
     LogUrlModule,
+    NpcLocationModule,
   ],
   controllers: [AppController],
   providers: [

@@ -11,6 +11,8 @@ import { MissionSubService } from 'src/static-table/mission_sub/mission_sub.serv
 import { UsersService } from 'src/users/users.service';
 import { HeroService } from 'src/static-table/hero/hero.service';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
+import { NpcService } from 'src/static-table/npc/npc.service';
+import { NpcLocationService } from 'src/static-table/npc_location/npc_location.service';
 
 @Injectable()
 export class UserQuestService {
@@ -27,6 +29,8 @@ export class UserQuestService {
     private readonly usersService: UsersService,
     private dataSource: DataSource,
     private readonly heroService: HeroService,
+    private readonly npcService: NpcService,
+    private readonly npcLocationService: NpcLocationService,
   ) {}
 
   getUserQuestRepository(qr?: QueryRunner) {
@@ -293,9 +297,16 @@ export class UserQuestService {
 
     const heroData = await this.heroService.getHeroLevel(userData.level, qr);
 
-    const subListData = await this.executeRawQuery(heroData.location, user_id);
+    const subListData = await this.getSubList(heroData.location, user_id, qr);
 
     return subListData;
+  }
+
+  async getSubList(location: string, user_id: number, qr?: QueryRunner) {
+    // 1.npc_location , location_level
+    // 2.npc , npc_id
+    // 3.mission_sub , mission_sub_id
+    // 4.user_quest , progress_mission_id, reward_yn
   }
 
   async executeRawQuery(location: string, user_id: number) {
