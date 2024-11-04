@@ -304,9 +304,7 @@ export class UserQuestService {
 
   async getSubList(location: string, user_id: number, qr?: QueryRunner) {
     // 1.npc_location , location_level
-    const heroData = await this.npcLocationService.
-    
-
+    //const heroData = await this.npcLocationService.
     // 2.npc , npc_id
     // 3.mission_sub , mission_sub_id
     // 4.user_quest , progress_mission_id, reward_yn
