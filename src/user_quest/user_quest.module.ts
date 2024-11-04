@@ -26,6 +26,8 @@ import { UsersService } from 'src/users/users.service';
 import { Hero } from 'src/static-table/hero/entities/hero.entity';
 import { HeroService } from 'src/static-table/hero/hero.service';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
+import { Npc } from 'src/static-table/npc/entities/npc.entity';
+import { NpcLocation } from 'src/static-table/npc_location/entities/npc_location.entity';
 
 @Module({
   imports: [
@@ -43,6 +45,8 @@ import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.ser
       UserItem,
       Users,
       Hero,
+      Npc,
+      NpcLocation,
     ]),
   ],
   exports: [UserQuestService],
