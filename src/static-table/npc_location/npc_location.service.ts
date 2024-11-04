@@ -22,4 +22,14 @@ export class NpcLocationService {
     const result = await npcLocationRepository.find({});
     return result;
   }
+
+  async geNpcLocationLevel(location_name: string, qr?: QueryRunner) {
+    const npcLocationRepository = this.getNpcLocationRepository(qr);
+    const result = await npcLocationRepository.findOne({
+      where: {
+        location_name,
+      },
+    });
+    return result;
+  }
 }
