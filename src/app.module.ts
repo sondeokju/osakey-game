@@ -99,7 +99,9 @@ const entities = readdirSync(entitiesDir)
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   .map((file) => require(join(entitiesDir, file)).default); // 해당 파일을 require
 
-console.log(entities); // 로드된 엔티티 확인
+console.log('---------------------------------------------------');
+console.log('로드된 엔티티 확인', entities); // 로드된 엔티티 확인
+console.log('---------------------------------------------------');
 
 @Module({
   imports: [
