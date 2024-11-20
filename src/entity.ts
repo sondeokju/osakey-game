@@ -25,7 +25,7 @@ import { UserItem } from './user_item/entities/user_item.entity';
 import { UserQuest } from './user_quest/entity/user_quest.entity';
 import { Users } from './users/entity/users.entity';
 
-entities: [
+export const entities = [
   Users,
   Item,
   ItemEquipslot,
