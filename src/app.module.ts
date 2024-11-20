@@ -91,7 +91,7 @@ import { SnsLikeRuleModule } from './static-table/sns/sns_like_rule/sns_like_rul
 import { readdirSync } from 'fs';
 import { join } from 'path';
 
-const entitiesDir = join(__dirname, '../src');
+const entitiesDir = join(__dirname, '../src/entities');
 
 // 디렉토리 내에서 `.entity.ts` 파일만 로드
 const entities = readdirSync(entitiesDir)
