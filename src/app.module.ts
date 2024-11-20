@@ -3,7 +3,7 @@ import {
   MiddlewareConsumer,
   Module,
   NestModule,
-  RequestMethod,
+  //RequestMethod,
 } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -15,25 +15,25 @@ import {
   ENV_DB_HOST_KEY,
   ENV_DB_PASSWORD_KEY,
   ENV_DB_PORT_KEY,
-  ENV_DB_SCHEMA_KEY,
+  //ENV_DB_SCHEMA_KEY,
   ENV_DB_USERNAME_KEY,
   ENV_SYNCHRONIZE_KEY,
   ENV_KEEPCONNECTIONALIVE_KEY,
 } from './common/const/env-keys.const';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { PUBLIC_FOLDER_PATH } from './common/const/path.const';
-import { LogMiddleware } from './common/middleware/log.middleware';
+//import { LogMiddleware } from './common/middleware/log.middleware';
 import { RolesGuard } from './users/guard/roles.guard';
 import { AccessTokenGuard } from './auth/guard/bearer-token.guard';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
-//import { PrometheusModule } from '@willsoto/nestjs-prometheus';
-import { entities } from './entity'; // entities를 export한 파일 경로
-import { entities_module } from './entity_module'; // entities를 export한 파일 경로
+import { entities } from './entity_group/entity';
+import { entities_module } from './entity_group/entity_module';
+import { RealTimeModule } from './real_time/real_time.module';
+import { RealtimeModule } from './realtime/realtime.module';
 
 @Module({
   imports: [
-    //PrometheusModule.register(),
     ServeStaticModule.forRoot({
       rootPath: PUBLIC_FOLDER_PATH,
       //rootPath: join(__dirname, '..', 'public'), // src와 dist 모두 지원
@@ -54,7 +54,6 @@ import { entities_module } from './entity_module'; // entities를 export한 파�
     }),
 
     TypeOrmModule.forRoot({
-      //type: 'postgres',
       type: 'mysql',
       host: process.env[ENV_DB_HOST_KEY],
       port: parseInt(process.env[ENV_DB_PORT_KEY]),
@@ -70,6 +69,8 @@ import { entities_module } from './entity_module'; // entities를 export한 파�
         process.env[ENV_KEEPCONNECTIONALIVE_KEY] === 'true' ? true : false,
     }),
     ...entities_module,
+    RealTimeModule,
+    RealtimeModule,
   ],
   controllers: [AppController],
   providers: [

@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { SnsConfigService } from './sns_config.service';
 
 @Controller('sns-config')

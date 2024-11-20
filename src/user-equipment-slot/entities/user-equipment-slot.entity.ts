@@ -1,13 +1,5 @@
 import { BaseModel } from 'src/common/entity/base.entity';
-import {
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, Index } from 'typeorm';
 
 @Entity()
 export class UserEquipmentSlot extends BaseModel {
