@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from './entity/users.entity';
-import { DataSource, IsNull, QueryRunner, Repository } from 'typeorm';
+import { QueryRunner, Repository } from 'typeorm';
 import { BadRequestException } from '@nestjs/common';
 import Redis from 'ioredis';
 import { HeroService } from 'src/static-table/hero/hero.service';
@@ -523,12 +523,13 @@ export class UsersService {
     const currentLevel = userData.level;
     const nextLevel = currentLevel + 1;
     let updateLevel = currentLevel;
-    let obj = {};
+    //let obj = {};
 
     const heroLevelData = await this.heroService.getHeroLevel(+nextLevel);
     if (!heroLevelData) return -1;
 
     if (currentExp >= heroLevelData.total_exp) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       updateLevel = currentLevel + 1;
     }
     //await this.rewardService.reward()

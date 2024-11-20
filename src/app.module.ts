@@ -114,9 +114,7 @@ import { NpcLocation } from './static-table/npc_location/entities/npc_location.e
       username: process.env[ENV_DB_USERNAME_KEY],
       password: process.env[ENV_DB_PASSWORD_KEY],
       database: process.env[ENV_DB_DATABASE_KEY],
-      //schema: process.env[ENV_DB_SCHEMA_KEY],
-      //schema: 'test',
-      //schema: 'osakey',
+      timezone: 'Asia/Seoul',
       entities: [
         Users,
         Item,
