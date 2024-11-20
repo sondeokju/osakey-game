@@ -127,7 +127,7 @@ const entities = readdirSync(join(__dirname, '**', 'entities'))
       password: process.env[ENV_DB_PASSWORD_KEY],
       database: process.env[ENV_DB_DATABASE_KEY],
       timezone: 'Asia/Seoul',
-      entities: entities,
+      entities: [join(__dirname, '**', '*.entity.{ts}')],
       //synchronize: true,
       // keepConnectionAlive: true,
       synchronize: process.env[ENV_SYNCHRONIZE_KEY] === 'true' ? true : false,
