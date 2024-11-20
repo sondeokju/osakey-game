@@ -101,8 +101,8 @@ const entities = readdirSync(join(__dirname, '**', 'entities'))
   imports: [
     //PrometheusModule.register(),
     ServeStaticModule.forRoot({
-      //rootPath: PUBLIC_FOLDER_PATH,
-      rootPath: join(__dirname, '..', 'public'), // src와 dist 모두 지원
+      rootPath: PUBLIC_FOLDER_PATH,
+      //rootPath: join(__dirname, '..', 'public'), // src와 dist 모두 지원
       serveRoot: '/public',
     }),
     ConfigModule.forRoot({
