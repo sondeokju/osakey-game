@@ -16,6 +16,10 @@ import { MissionSub } from './static-table/mission_sub/entities/mission_sub.enti
 import { Npc } from './static-table/npc/entities/npc.entity';
 import { NpcLocation } from './static-table/npc_location/entities/npc_location.entity';
 import { Reward } from './static-table/reward/entities/reward.entity';
+import { SnsConfigModule } from './static-table/sns/sns_config/sns_config.module';
+import { SnsLevelModule } from './static-table/sns/sns_level/sns_level.module';
+import { SnsLikeRuleModule } from './static-table/sns/sns_like_rule/sns_like_rule.module';
+import { SnsRewardModule } from './static-table/sns/sns_reward/sns_reward.module';
 import { UserEquipmentSlot } from './user-equipment-slot/entities/user-equipment-slot.entity';
 import { UserEquipment } from './user-equipment/entities/user-equipment.entity';
 import { UserAd } from './user_ad/entities/user_ad.entity';
@@ -24,10 +28,6 @@ import { UserEventAttendance } from './user_event_attendance/entities/user_event
 import { UserItem } from './user_item/entities/user_item.entity';
 import { UserQuest } from './user_quest/entity/user_quest.entity';
 import { Users } from './users/entity/users.entity';
-import { SnsConfigModule } from './static-table/sns/sns_config/sns_config.module';
-import { SnsRewardModule } from './static-table/sns/sns_reward/sns_reward.module';
-import { SnsLevelModule } from './static-table/sns/sns_level/sns_level.module';
-import { SnsLikeRuleModule } from './static-table/sns/sns_like_rule/sns_like_rule.module';
 
 export const entities = [
   Users,
