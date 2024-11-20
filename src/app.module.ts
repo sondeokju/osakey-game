@@ -29,8 +29,6 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
 import { entities } from './entity_group/entity';
 import { entities_module } from './entity_group/entity_module';
-import { RealTimeModule } from './real_time/real_time.module';
-import { RealtimeModule } from './realtime/realtime.module';
 
 @Module({
   imports: [
@@ -69,8 +67,6 @@ import { RealtimeModule } from './realtime/realtime.module';
         process.env[ENV_KEEPCONNECTIONALIVE_KEY] === 'true' ? true : false,
     }),
     ...entities_module,
-    RealTimeModule,
-    RealtimeModule,
   ],
   controllers: [AppController],
   providers: [
