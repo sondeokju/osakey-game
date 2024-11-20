@@ -1,6 +1,7 @@
 import { AuthModule } from 'src/auth/auth.module';
 import { CommonModule } from 'src/common/common.module';
 import { LogUrlModule } from 'src/common/log_url/log_url.module';
+import { RealtimeModule } from 'src/realtime/realtime.module';
 import { ControlTableModule } from 'src/static-table/control_table/control_table.module';
 import { EquipStatModule } from 'src/static-table/equip-stat/equip-stat.module';
 import { GachaModule } from 'src/static-table/gacha/gacha.module';
@@ -68,4 +69,5 @@ export const entities_module = [
   SnsRewardModule,
   SnsLevelModule,
   SnsLikeRuleModule,
+  RealtimeModule,
 ];
