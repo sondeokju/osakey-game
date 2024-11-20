@@ -92,7 +92,7 @@ import { readdirSync } from 'fs';
 import { join } from 'path';
 
 const entities = readdirSync(join(__dirname, '**', 'entities'))
-  .filter((file) => file.endsWith('.entity.js'))
+  .filter((file) => file.endsWith('.entity.ts'))
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   .map((file) => require(join(__dirname, '**', 'entities', file)).default);
 
