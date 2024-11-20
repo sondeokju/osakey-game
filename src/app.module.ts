@@ -91,6 +91,7 @@ import { SnsLikeRuleModule } from './static-table/sns/sns_like_rule/sns_like_rul
 import { readdirSync } from 'fs';
 import { join } from 'path';
 
+console.log(__dirname);
 const entities = readdirSync(join(__dirname, '**', 'entities'))
   .filter((file) => file.endsWith('.entity.ts'))
   // eslint-disable-next-line @typescript-eslint/no-var-requires
