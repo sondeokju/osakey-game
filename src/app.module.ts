@@ -91,10 +91,15 @@ import { SnsLikeRuleModule } from './static-table/sns/sns_like_rule/sns_like_rul
 import { readdirSync } from 'fs';
 import { join } from 'path';
 
-// const entities = readdirSync(join(__dirname, '../src/entity.ts'))
-//   .filter((file) => file.endsWith('.entity.ts'))
-//   // eslint-disable-next-line @typescript-eslint/no-var-requires
-//   .map((file) => require(join(__dirname, '**', 'entities', file)).default);
+const entitiesDir = join(__dirname, '../src');
+
+// 디렉토리 내에서 `.entity.ts` 파일만 로드
+const entities = readdirSync(entitiesDir)
+  .filter((file) => file.endsWith('.entity.ts')) // `.entity.ts` 파일만 필터링
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  .map((file) => require(join(entitiesDir, file)).default); // 해당 파일을 require
+
+console.log(entities); // 로드된 엔티티 확인
 
 @Module({
   imports: [
@@ -127,8 +132,7 @@ import { join } from 'path';
       password: process.env[ENV_DB_PASSWORD_KEY],
       database: process.env[ENV_DB_DATABASE_KEY],
       timezone: 'Asia/Seoul',
-      entities: [join(__dirname, '../src/entity.ts')],
-      //entities: entities,
+      entities: entities,
       //synchronize: true,
       // keepConnectionAlive: true,
       synchronize: process.env[ENV_SYNCHRONIZE_KEY] === 'true' ? true : false,
