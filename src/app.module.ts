@@ -86,6 +86,10 @@ import { NpcLocationModule } from './static-table/npc_location/npc_location.modu
 //import { NpcLocation } from './static-table/npc_location/entities/npc_location.entity';
 
 import { entities } from './entity'; // entities를 export한 파일 경로
+import { SnsConfigModule } from './static-table/sns/sns_config/sns_config.module';
+import { SnsRewardModule } from './static-table/sns/sns_reward/sns_reward.module';
+import { SnsLevelModule } from './static-table/sns/sns_level/sns_level.module';
+import { SnsLikeRuleModule } from './static-table/sns/sns_like_rule/sns_like_rule.module';
 
 @Module({
   imports: [
