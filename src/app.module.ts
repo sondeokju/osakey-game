@@ -101,7 +101,8 @@ const entities = readdirSync(join(__dirname, '**', 'entities'))
   imports: [
     //PrometheusModule.register(),
     ServeStaticModule.forRoot({
-      rootPath: PUBLIC_FOLDER_PATH,
+      //rootPath: PUBLIC_FOLDER_PATH,
+      rootPath: join(__dirname, '..', 'public'), // src와 dist 모두 지원
       serveRoot: '/public',
     }),
     ConfigModule.forRoot({
@@ -127,7 +128,7 @@ const entities = readdirSync(join(__dirname, '**', 'entities'))
       password: process.env[ENV_DB_PASSWORD_KEY],
       database: process.env[ENV_DB_DATABASE_KEY],
       timezone: 'Asia/Seoul',
-      entities: [join(__dirname, '**', '*.entity.{ts}')],
+      entities: [join(__dirname, '**', '*.entity.{ts,js}')],
       //synchronize: true,
       // keepConnectionAlive: true,
       synchronize: process.env[ENV_SYNCHRONIZE_KEY] === 'true' ? true : false,
