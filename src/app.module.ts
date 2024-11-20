@@ -91,10 +91,10 @@ import { SnsLikeRuleModule } from './static-table/sns/sns_like_rule/sns_like_rul
 import { readdirSync } from 'fs';
 import { join } from 'path';
 
-const entities = readdirSync(join(__dirname, '../src/entity.ts'))
-  .filter((file) => file.endsWith('.entity.ts'))
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  .map((file) => require(join(__dirname, '**', 'entities', file)).default);
+// const entities = readdirSync(join(__dirname, '../src/entity.ts'))
+//   .filter((file) => file.endsWith('.entity.ts'))
+//   // eslint-disable-next-line @typescript-eslint/no-var-requires
+//   .map((file) => require(join(__dirname, '**', 'entities', file)).default);
 
 @Module({
   imports: [
