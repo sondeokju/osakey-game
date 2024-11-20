@@ -16,10 +16,10 @@ import { MissionSub } from './static-table/mission_sub/entities/mission_sub.enti
 import { Npc } from './static-table/npc/entities/npc.entity';
 import { NpcLocation } from './static-table/npc_location/entities/npc_location.entity';
 import { Reward } from './static-table/reward/entities/reward.entity';
-import { SnsConfigModule } from './static-table/sns/sns_config/sns_config.module';
-import { SnsLevelModule } from './static-table/sns/sns_level/sns_level.module';
-import { SnsLikeRuleModule } from './static-table/sns/sns_like_rule/sns_like_rule.module';
-import { SnsRewardModule } from './static-table/sns/sns_reward/sns_reward.module';
+import { SnsConfig } from './static-table/sns/sns_config/entities/sns_config.entity';
+import { SnsLevel } from './static-table/sns/sns_level/entities/sns_level.entity';
+import { SnsLikeRule } from './static-table/sns/sns_like_rule/entities/sns_like_rule.entity';
+import { SnsReward } from './static-table/sns/sns_reward/entities/sns_reward.entity';
 import { UserEquipmentSlot } from './user-equipment-slot/entities/user-equipment-slot.entity';
 import { UserEquipment } from './user-equipment/entities/user-equipment.entity';
 import { UserAd } from './user_ad/entities/user_ad.entity';
@@ -47,10 +47,10 @@ export const entities = [
   Npc,
   NpcLocation,
   LogUrl,
-  SnsConfigModule,
-  SnsRewardModule,
-  SnsLevelModule,
-  SnsLikeRuleModule,
+  SnsConfig,
+  SnsReward,
+  SnsLevel,
+  SnsLikeRule,
   UserItem,
   UserAd,
   UserEventAttendance,
