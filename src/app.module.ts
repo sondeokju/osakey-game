@@ -83,28 +83,9 @@ import { LogUrl } from './common/log_url/entities/log_url.entity';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
 //import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 import { NpcLocationModule } from './static-table/npc_location/npc_location.module';
-import { NpcLocation } from './static-table/npc_location/entities/npc_location.entity';
-import { SnsConfigModule } from './static-table/sns/sns_config/sns_config.module';
-import { SnsRewardModule } from './static-table/sns/sns_reward/sns_reward.module';
-import { SnsLevelModule } from './static-table/sns/sns_level/sns_level.module';
-import { SnsLikeRuleModule } from './static-table/sns/sns_like_rule/sns_like_rule.module';
-import { readdirSync } from 'fs';
-import { join } from 'path';
+//import { NpcLocation } from './static-table/npc_location/entities/npc_location.entity';
+
 import { entities } from './entity'; // entities를 export한 파일 경로
-
-console.log(entities); // 엔티티 배열 출력
-
-//const entitiesDir = join(__dirname, '../src');
-
-// 디렉토리 내에서 `.entity.ts` 파일만 로드
-// const entities = readdirSync(entitiesDir)
-//   .filter((file) => file.endsWith('entity.ts')) // `.entity.ts` 파일만 필터링
-//   // eslint-disable-next-line @typescript-eslint/no-var-requires
-//   .map((file) => require(join(entitiesDir, '**', 'entitles', file)).default); // 해당 파일을 require
-
-// console.log('---------------------------------------------------');
-// console.log('로드된 엔티티 확인', entities); // 로드된 엔티티 확인
-// console.log('---------------------------------------------------');
 
 @Module({
   imports: [
