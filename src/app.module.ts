@@ -84,6 +84,17 @@ import { RequestLoggingMiddleware } from './common/middleware/request-logging.mi
 //import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 import { NpcLocationModule } from './static-table/npc_location/npc_location.module';
 import { NpcLocation } from './static-table/npc_location/entities/npc_location.entity';
+import { SnsConfigModule } from './static-table/sns/sns_config/sns_config.module';
+import { SnsRewardModule } from './static-table/sns/sns_reward/sns_reward.module';
+import { SnsLevelModule } from './static-table/sns/sns_level/sns_level.module';
+import { SnsLikeRuleModule } from './static-table/sns/sns_like_rule/sns_like_rule.module';
+import { readdirSync } from 'fs';
+import { join } from 'path';
+
+const entities = readdirSync(join(__dirname, '**', 'entities'))
+  .filter((file) => file.endsWith('.entity.js'))
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  .map((file) => require(join(__dirname, '**', 'entities', file)).default);
 
 @Module({
   imports: [
@@ -115,34 +126,7 @@ import { NpcLocation } from './static-table/npc_location/entities/npc_location.e
       password: process.env[ENV_DB_PASSWORD_KEY],
       database: process.env[ENV_DB_DATABASE_KEY],
       timezone: 'Asia/Seoul',
-      entities: [
-        Users,
-        Item,
-        ItemEquipslot,
-        ItemGrade,
-        EquipStat,
-        UserEquipment,
-        UserEquipmentSlot,
-        Gacha,
-        Reward,
-        Mission,
-        ItemType,
-        MissionKind,
-        MissionCategory,
-        Hero,
-        Npc,
-        NpcLocation,
-        LogUrl,
-        UserItem,
-        UserAd,
-        UserEventAttendance,
-        MissionRoutine,
-        MissionRoutineBonus,
-        MissionMain,
-        MissionSub,
-        UserQuest,
-        UserBattle,
-      ],
+      entities: entities,
       //synchronize: true,
       // keepConnectionAlive: true,
       synchronize: process.env[ENV_SYNCHRONIZE_KEY] === 'true' ? true : false,
@@ -174,12 +158,15 @@ import { NpcLocation } from './static-table/npc_location/entities/npc_location.e
     MissionKindModule,
     MissionCategoryModule,
     HeroModule,
-    RewardModule,
     NpcModule,
     ControlTableModule,
     RewardOfferModule,
     LogUrlModule,
     NpcLocationModule,
+    SnsConfigModule,
+    SnsRewardModule,
+    SnsLevelModule,
+    SnsLikeRuleModule,
   ],
   controllers: [AppController],
   providers: [
