@@ -10,10 +10,12 @@ import { RewardService } from 'src/static-table/reward/reward.service';
 import { Reward } from 'src/static-table/reward/entities/reward.entity';
 import { UsersService } from 'src/users/users.service';
 import { Users } from 'src/users/entity/users.entity';
+import { ItemService } from 'src/static-table/item/item.service';
+import { Item } from 'src/static-table/item/entities/item.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserSnsReward, SnsReward, Reward, Users]),
+    TypeOrmModule.forFeature([UserSnsReward, SnsReward, Reward, Users, Item]),
   ],
   exports: [UserSnsRewardService],
   controllers: [UserSnsRewardController],
@@ -23,6 +25,7 @@ import { Users } from 'src/users/entity/users.entity';
     RewardOfferService,
     RewardService,
     UsersService,
+    ItemService,
   ],
 })
 export class UserSnsRewardModule {}
