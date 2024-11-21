@@ -16,7 +16,7 @@ export class SnsConfigService {
       : this.snsConfigRepository;
   }
 
-  async getNpcAll(qr?: QueryRunner) {
+  async getSnsConfigAll(qr?: QueryRunner) {
     const snsConfigRepository = this.getSnsConfigRepository(qr);
     const result = await snsConfigRepository.find({});
     return result;

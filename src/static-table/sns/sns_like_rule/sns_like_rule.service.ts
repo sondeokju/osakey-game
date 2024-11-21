@@ -16,7 +16,7 @@ export class SnsLikeRuleService {
       : this.snsLikeRuleRepository;
   }
 
-  async getNpcAll(qr?: QueryRunner) {
+  async getSnsLikeRuleAll(qr?: QueryRunner) {
     const snsLikeRuleRepository = this.getLikeRuleRepository(qr);
     const result = await snsLikeRuleRepository.find({});
     return result;

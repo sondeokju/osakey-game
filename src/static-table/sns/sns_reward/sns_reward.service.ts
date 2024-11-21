@@ -16,7 +16,7 @@ export class SnsRewardService {
       : this.snsRewardRepository;
   }
 
-  async getNpcAll(qr?: QueryRunner) {
+  async getSnsRewardAll(qr?: QueryRunner) {
     const snsRewardRepository = this.getSnsRewardRepository(qr);
     const result = await snsRewardRepository.find({});
     return result;

@@ -16,7 +16,7 @@ export class SnsLevelService {
       : this.snsLevelRepository;
   }
 
-  async getNpcAll(qr?: QueryRunner) {
+  async getSnsLevelAll(qr?: QueryRunner) {
     const snsLevelRepository = this.getSnsLevelRepository(qr);
     const result = await snsLevelRepository.find({});
     return result;

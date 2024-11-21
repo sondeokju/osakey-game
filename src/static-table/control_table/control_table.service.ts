@@ -88,10 +88,10 @@ export class ControlTableService {
 
   async getSnsAll(qr?: QueryRunner) {
     const obj = {
-      sns_config: await this.missionService.getMissionAll(qr),
-      sns_level: await this.missionKindService.getMissionKindAll(qr),
-      sns_like_rule: await this.missionMainService.getMissionMainAll(qr),
-      sns_reward: await this.missionMainService.getMissionMainAll(qr),
+      sns_config: await this.snsConfigService.getSnsConfigAll(qr),
+      sns_level: await this.snsLevelService.getSnsLevelAll(qr),
+      sns_like_rule: await this.snsLikeRuleService.getSnsLikeRuleAll(qr),
+      sns_reward: await this.snsRewardService.getSnsRewardAll(qr),
     };
 
     return obj;
