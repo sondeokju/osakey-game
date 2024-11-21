@@ -1,5 +1,5 @@
 import { LogUrl } from 'src/common/log_url/entities/log_url.entity';
-import { UserFollow } from 'src/inventory/sns/user_follow/entities/user_follow.entity';
+import { UserSnsFollow } from 'src/inventory/sns/user_sns_follow/entities/user_sns_follow.entity';
 import { UserSnsLevel } from 'src/inventory/sns/user_sns_level/entities/user_sns_level.entity';
 import { UserSnsReward } from 'src/inventory/sns/user_sns_reward/entities/user_sns_reward.entity';
 import { UserTunaTv } from 'src/inventory/sns/user_tuna_tv/entities/user_tuna_tv.entity';
@@ -64,7 +64,7 @@ export const entities = [
   MissionSub,
   UserQuest,
   UserBattle,
-  UserFollow,
+  UserSnsFollow,
   UserSnsLevel,
   UserSnsReward,
   UserTunaTv,
