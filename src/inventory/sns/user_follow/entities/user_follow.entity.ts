@@ -2,7 +2,7 @@ import { BaseModel } from 'src/common/entity/base.entity';
 import { Column, Entity, Index } from 'typeorm';
 
 @Entity()
-export class UserItem extends BaseModel {
+export class UserFollow extends BaseModel {
   @Column({
     default: 0,
   })
@@ -12,18 +12,6 @@ export class UserItem extends BaseModel {
   @Column({
     default: 0,
   })
-  item_id: number;
-
-  @Column({
-    default: 0,
-  })
-  item_level: number;
-
-  @Column({})
-  item_type: string;
-
-  @Column({
-    default: 0,
-  })
-  item_count: number;
+  @Index({ unique: false })
+  follow_user_id: number;
 }

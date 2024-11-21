@@ -2,7 +2,7 @@ import { BaseModel } from 'src/common/entity/base.entity';
 import { Column, Entity, Index } from 'typeorm';
 
 @Entity()
-export class UserItem extends BaseModel {
+export class UserSnsLevel extends BaseModel {
   @Column({
     default: 0,
   })
@@ -12,18 +12,15 @@ export class UserItem extends BaseModel {
   @Column({
     default: 0,
   })
-  item_id: number;
+  sns_level: number;
 
   @Column({
     default: 0,
   })
-  item_level: number;
-
-  @Column({})
-  item_type: string;
+  sns_exp: number;
 
   @Column({
-    default: 0,
+    default: '',
   })
-  item_count: number;
+  reward_yn: string;
 }

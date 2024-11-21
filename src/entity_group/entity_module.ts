@@ -1,6 +1,10 @@
 import { AuthModule } from 'src/auth/auth.module';
 import { CommonModule } from 'src/common/common.module';
 import { LogUrlModule } from 'src/common/log_url/log_url.module';
+import { UserFollowModule } from 'src/inventory/sns/user_follow/user_follow.module';
+import { UserSnsLevelModule } from 'src/inventory/sns/user_sns_level/user_sns_level.module';
+import { UserSnsRewardModule } from 'src/inventory/sns/user_sns_reward/user_sns_reward.module';
+import { UserTunaTvModule } from 'src/inventory/sns/user_tuna_tv/user_tuna_tv.module';
 import { RealtimeModule } from 'src/SocketIO/realtime/realtime.module';
 import { ControlTableModule } from 'src/static-table/control_table/control_table.module';
 import { EquipStatModule } from 'src/static-table/equip-stat/equip-stat.module';
@@ -70,4 +74,8 @@ export const entities_module = [
   SnsLevelModule,
   SnsLikeRuleModule,
   RealtimeModule,
+  UserTunaTvModule,
+  UserSnsRewardModule,
+  UserSnsLevelModule,
+  UserFollowModule,
 ];

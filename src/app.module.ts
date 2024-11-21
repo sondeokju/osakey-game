@@ -29,6 +29,10 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
 import { entities } from './entity_group/entity';
 import { entities_module } from './entity_group/entity_module';
+import { UserFollowModule } from './inventory/sns/user_follow/user_follow.module';
+import { UserTunaTvModule } from './inventory/sns/user_tuna_tv/user_tuna_tv.module';
+import { UserSnsLevelModule } from './inventory/sns/user_sns_level/user_sns_level.module';
+import { UserSnsRewardModule } from './inventory/sns/user_sns_reward/user_sns_reward.module';
 
 @Module({
   imports: [
@@ -67,6 +71,10 @@ import { entities_module } from './entity_group/entity_module';
         process.env[ENV_KEEPCONNECTIONALIVE_KEY] === 'true' ? true : false,
     }),
     ...entities_module,
+    UserFollowModule,
+    UserTunaTvModule,
+    UserSnsLevelModule,
+    UserSnsRewardModule,
   ],
   controllers: [AppController],
   providers: [

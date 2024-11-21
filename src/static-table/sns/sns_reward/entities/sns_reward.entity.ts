@@ -18,7 +18,7 @@ export class SnsReward {
   @Column({
     default: 0,
   })
-  sns_reward: number;
+  sns_reward_exp: number;
 
   @Column({
     default: 0,
