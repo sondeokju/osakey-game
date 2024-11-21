@@ -1,26 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserSnsLevelDto } from './dto/create-user_sns_level.dto';
-import { UpdateUserSnsLevelDto } from './dto/update-user_sns_level.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { SnsLevelService } from 'src/static-table/sns/sns_level/sns_level.service';
+import { SnsConfigService } from 'src/static-table/sns/sns_config/sns_config.service';
+import { SnsLikeRuleService } from 'src/static-table/sns/sns_like_rule/sns_like_rule.service';
+import { SnsRewardService } from 'src/static-table/sns/sns_reward/sns_reward.service';
+import { UserSnsLevel } from './entities/user_sns_level.entity';
 
 @Injectable()
 export class UserSnsLevelService {
-  create(createUserSnsLevelDto: CreateUserSnsLevelDto) {
-    return 'This action adds a new userSnsLevel';
-  }
+  constructor(
+    @InjectRepository(UserSnsLevel)
+    private readonly userSnsLevelRepository: Repository<UserSnsLevel>,
+    private readonly snsConfigService: SnsConfigService,
+    private readonly snsLevelService: SnsLevelService,
+    private readonly snsLikeRuleService: SnsLikeRuleService,
+    private readonly snsRewardService: SnsRewardService,
+  ) {}
 
-  findAll() {
-    return `This action returns all userSnsLevel`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} userSnsLevel`;
-  }
-
-  update(id: number, updateUserSnsLevelDto: UpdateUserSnsLevelDto) {
-    return `This action updates a #${id} userSnsLevel`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} userSnsLevel`;
+  getUserSnsLevelRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<UserSnsLevel>(UserSnsLevel)
+      : this.userSnsLevelRepository;
   }
 }

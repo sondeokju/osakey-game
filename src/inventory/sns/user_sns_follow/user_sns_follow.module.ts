@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
-import { UserSnsLevelService } from './user_sns_level.service';
-import { UserSnsLevelController } from './user_sns_level.controller';
+
 import { SnsConfig } from 'src/static-table/sns/sns_config/entities/sns_config.entity';
 import { SnsLevel } from 'src/static-table/sns/sns_level/entities/sns_level.entity';
 import { SnsLikeRule } from 'src/static-table/sns/sns_like_rule/entities/sns_like_rule.entity';
@@ -9,27 +8,29 @@ import { SnsConfigService } from 'src/static-table/sns/sns_config/sns_config.ser
 import { SnsLevelService } from 'src/static-table/sns/sns_level/sns_level.service';
 import { SnsLikeRuleService } from 'src/static-table/sns/sns_like_rule/sns_like_rule.service';
 import { SnsRewardService } from 'src/static-table/sns/sns_reward/sns_reward.service';
-import { UserSnsLevel } from './entities/user_sns_level.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserSnsFollow } from './entities/user_sns_follow.entity';
+import { UserSnsFollowService } from './user_sns_follow.service';
+import { UserSnsFollowController } from './user_sns_follow.controller';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-      UserSnsLevel,
+      UserSnsFollow,
       SnsConfig,
       SnsLevel,
       SnsLikeRule,
       SnsReward,
     ]),
   ],
-  exports: [UserSnsLevelService],
-  controllers: [UserSnsLevelController],
+  exports: [UserSnsFollowService],
+  controllers: [UserSnsFollowController],
   providers: [
-    UserSnsLevelService,
+    UserSnsFollowService,
     SnsConfigService,
     SnsLevelService,
     SnsLikeRuleService,
     SnsRewardService,
   ],
 })
-export class UserSnsLevelModule {}
+export class UserSnsFollowModule {}

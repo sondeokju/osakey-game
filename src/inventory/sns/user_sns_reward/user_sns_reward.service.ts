@@ -1,26 +1,28 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserSnsRewardDto } from './dto/create-user_sns_reward.dto';
-import { UpdateUserSnsRewardDto } from './dto/update-user_sns_reward.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { SnsLevelService } from 'src/static-table/sns/sns_level/sns_level.service';
+import { SnsConfigService } from 'src/static-table/sns/sns_config/sns_config.service';
+import { SnsLikeRuleService } from 'src/static-table/sns/sns_like_rule/sns_like_rule.service';
+import { SnsRewardService } from 'src/static-table/sns/sns_reward/sns_reward.service';
+import { UserSnsReward } from './entities/user_sns_reward.entity';
+import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 
 @Injectable()
 export class UserSnsRewardService {
-  create(createUserSnsRewardDto: CreateUserSnsRewardDto) {
-    return 'This action adds a new userSnsReward';
-  }
+  constructor(
+    @InjectRepository(UserSnsReward)
+    private readonly userSnsRewardRepository: Repository<UserSnsReward>,
+    private readonly snsConfigService: SnsConfigService,
+    private readonly snsLevelService: SnsLevelService,
+    private readonly snsLikeRuleService: SnsLikeRuleService,
+    private readonly snsRewardService: SnsRewardService,
+    private readonly rewardOfferService: RewardOfferService,
+  ) {}
 
-  findAll() {
-    return `This action returns all userSnsReward`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} userSnsReward`;
-  }
-
-  update(id: number, updateUserSnsRewardDto: UpdateUserSnsRewardDto) {
-    return `This action updates a #${id} userSnsReward`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} userSnsReward`;
+  getSnsRewardRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<UserSnsReward>(UserSnsReward)
+      : this.userSnsRewardRepository;
   }
 }

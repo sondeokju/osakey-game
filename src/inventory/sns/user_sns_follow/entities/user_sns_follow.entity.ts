@@ -2,7 +2,7 @@ import { BaseModel } from 'src/common/entity/base.entity';
 import { Column, Entity, Index } from 'typeorm';
 
 @Entity()
-export class UserFollow extends BaseModel {
+export class UserSnsFollow extends BaseModel {
   @Column({
     default: 0,
   })

@@ -66,7 +66,6 @@ import { NpcLocationService } from 'src/static-table/npc_location/npc_location.s
     UserItemService,
     UsersService,
     HeroService,
-    RewardService,
     RewardOfferService,
     NpcService,
     NpcLocationService,
