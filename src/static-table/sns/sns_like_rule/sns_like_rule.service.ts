@@ -21,4 +21,15 @@ export class SnsLikeRuleService {
     const result = await snsLikeRuleRepository.find({});
     return result;
   }
+
+  async getSnsLikeRule(sns_level: number, qr?: QueryRunner) {
+    const snsLikeRuleRepository = this.getLikeRuleRepository(qr);
+    const result = await snsLikeRuleRepository.findOne({
+      where: {
+        sns_level,
+      },
+    });
+
+    return result;
+  }
 }

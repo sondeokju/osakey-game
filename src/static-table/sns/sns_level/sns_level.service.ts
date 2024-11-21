@@ -21,4 +21,15 @@ export class SnsLevelService {
     const result = await snsLevelRepository.find({});
     return result;
   }
+
+  async getSnsLevel(sns_level: number, qr?: QueryRunner) {
+    const snsLevelRepository = this.getSnsLevelRepository(qr);
+    const result = await snsLevelRepository.findOne({
+      where: {
+        sns_level,
+      },
+    });
+
+    return result;
+  }
 }

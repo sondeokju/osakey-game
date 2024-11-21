@@ -4,7 +4,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
+//import { Observable } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { UsersService } from 'src/users/users.service';
 import { Reflector } from '@nestjs/core';
@@ -23,7 +23,7 @@ export class BearerTokenGuard implements CanActivate {
       context.getClass(),
     ]);
 
-    console.log('isPublic', isPublic);
+    //console.log('isPublic', isPublic);
 
     const req = context.switchToHttp().getRequest();
 

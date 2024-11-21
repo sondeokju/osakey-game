@@ -21,4 +21,15 @@ export class SnsConfigService {
     const result = await snsConfigRepository.find({});
     return result;
   }
+
+  async getSnsConfig(config_type: string, qr?: QueryRunner) {
+    const snsConfigRepository = this.getSnsConfigRepository(qr);
+    const result = await snsConfigRepository.findOne({
+      where: {
+        config_type,
+      },
+    });
+
+    return result;
+  }
 }
