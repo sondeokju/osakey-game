@@ -14,6 +14,8 @@ import { ItemService } from 'src/static-table/item/item.service';
 import { Item } from 'src/static-table/item/entities/item.entity';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { UserItem } from 'src/user_item/entities/user_item.entity';
+import { HeroService } from 'src/static-table/hero/hero.service';
+import { Hero } from 'src/static-table/hero/entities/hero.entity';
 
 @Module({
   imports: [
@@ -24,6 +26,7 @@ import { UserItem } from 'src/user_item/entities/user_item.entity';
       Users,
       Item,
       UserItem,
+      Hero,
     ]),
   ],
   exports: [UserSnsRewardService],
@@ -36,6 +39,7 @@ import { UserItem } from 'src/user_item/entities/user_item.entity';
     UsersService,
     ItemService,
     UserItemService,
+    HeroService,
   ],
 })
 export class UserSnsRewardModule {}
