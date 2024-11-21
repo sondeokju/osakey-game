@@ -8,9 +8,13 @@ import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.ser
 import { SnsRewardService } from 'src/static-table/sns/sns_reward/sns_reward.service';
 import { RewardService } from 'src/static-table/reward/reward.service';
 import { Reward } from 'src/static-table/reward/entities/reward.entity';
+import { UsersService } from 'src/users/users.service';
+import { Users } from 'src/users/entity/users.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserSnsReward, SnsReward, Reward])],
+  imports: [
+    TypeOrmModule.forFeature([UserSnsReward, SnsReward, Reward, Users]),
+  ],
   exports: [UserSnsRewardService],
   controllers: [UserSnsRewardController],
   providers: [
@@ -18,6 +22,7 @@ import { Reward } from 'src/static-table/reward/entities/reward.entity';
     SnsRewardService,
     RewardOfferService,
     RewardService,
+    UsersService,
   ],
 })
 export class UserSnsRewardModule {}
