@@ -1,26 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSnsLevelDto } from './dto/create-sns_level.dto';
-import { UpdateSnsLevelDto } from './dto/update-sns_level.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { SnsLevel } from './entities/sns_level.entity';
 
 @Injectable()
 export class SnsLevelService {
-  create(createSnsLevelDto: CreateSnsLevelDto) {
-    return 'This action adds a new snsLevel';
+  constructor(
+    @InjectRepository(SnsLevel)
+    private readonly snsLevelRepository: Repository<SnsLevel>,
+  ) {}
+
+  getSnsLevelRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<SnsLevel>(SnsLevel)
+      : this.snsLevelRepository;
   }
 
-  findAll() {
-    return `This action returns all snsLevel`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} snsLevel`;
-  }
-
-  update(id: number, updateSnsLevelDto: UpdateSnsLevelDto) {
-    return `This action updates a #${id} snsLevel`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} snsLevel`;
+  async getNpcAll(qr?: QueryRunner) {
+    const snsLevelRepository = this.getSnsLevelRepository(qr);
+    const result = await snsLevelRepository.find({});
+    return result;
   }
 }

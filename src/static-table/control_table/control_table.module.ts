@@ -24,6 +24,14 @@ import { NpcService } from '../npc/npc.service';
 import { Npc } from '../npc/entities/npc.entity';
 import { NpcLocation } from '../npc_location/entities/npc_location.entity';
 import { NpcLocationService } from '../npc_location/npc_location.service';
+import { SnsConfigService } from '../sns/sns_config/sns_config.service';
+import { SnsLevelService } from '../sns/sns_level/sns_level.service';
+import { SnsLikeRuleService } from '../sns/sns_like_rule/sns_like_rule.service';
+import { SnsRewardService } from '../sns/sns_reward/sns_reward.service';
+import { SnsConfig } from '../sns/sns_config/entities/sns_config.entity';
+import { SnsLevel } from '../sns/sns_level/entities/sns_level.entity';
+import { SnsLikeRule } from '../sns/sns_like_rule/entities/sns_like_rule.entity';
+import { SnsReward } from '../sns/sns_reward/entities/sns_reward.entity';
 
 @Module({
   imports: [
@@ -40,6 +48,10 @@ import { NpcLocationService } from '../npc_location/npc_location.service';
       Hero,
       Npc,
       NpcLocation,
+      SnsConfig,
+      SnsLevel,
+      SnsLikeRule,
+      SnsReward,
     ]),
   ],
   exports: [ControlTableService],
@@ -57,6 +69,10 @@ import { NpcLocationService } from '../npc_location/npc_location.service';
     HeroService,
     NpcService,
     NpcLocationService,
+    SnsConfigService,
+    SnsLevelService,
+    SnsLikeRuleService,
+    SnsRewardService,
   ],
 })
 export class ControlTableModule {}

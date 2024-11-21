@@ -1,13 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Controller, Post, UseInterceptors } from '@nestjs/common';
 import { ControlTableService } from './control_table.service';
 
 import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';

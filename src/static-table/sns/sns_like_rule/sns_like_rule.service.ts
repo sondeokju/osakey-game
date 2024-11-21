@@ -1,26 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSnsLikeRuleDto } from './dto/create-sns_like_rule.dto';
-import { UpdateSnsLikeRuleDto } from './dto/update-sns_like_rule.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { SnsLikeRule } from './entities/sns_like_rule.entity';
 
 @Injectable()
 export class SnsLikeRuleService {
-  create(createSnsLikeRuleDto: CreateSnsLikeRuleDto) {
-    return 'This action adds a new snsLikeRule';
+  constructor(
+    @InjectRepository(SnsLikeRule)
+    private readonly snsLikeRuleRepository: Repository<SnsLikeRule>,
+  ) {}
+
+  getLikeRuleRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<SnsLikeRule>(SnsLikeRule)
+      : this.snsLikeRuleRepository;
   }
 
-  findAll() {
-    return `This action returns all snsLikeRule`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} snsLikeRule`;
-  }
-
-  update(id: number, updateSnsLikeRuleDto: UpdateSnsLikeRuleDto) {
-    return `This action updates a #${id} snsLikeRule`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} snsLikeRule`;
+  async getNpcAll(qr?: QueryRunner) {
+    const snsLikeRuleRepository = this.getLikeRuleRepository(qr);
+    const result = await snsLikeRuleRepository.find({});
+    return result;
   }
 }

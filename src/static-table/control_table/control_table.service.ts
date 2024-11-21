@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { QueryRunner, Repository } from 'typeorm';
+import { QueryRunner } from 'typeorm';
 import { MissionRoutineService } from 'src/static-table/mission_routine/mission_routine.service';
 import { MissionService } from 'src/static-table/mission/mission.service';
 import { MissionKindService } from 'src/static-table/mission_kind/mission_kind.service';
@@ -11,6 +11,10 @@ import { HeroService } from 'src/static-table/hero/hero.service';
 import { ItemService } from '../item/item.service';
 import { NpcService } from '../npc/npc.service';
 import { NpcLocationService } from '../npc_location/npc_location.service';
+import { SnsConfigService } from '../sns/sns_config/sns_config.service';
+import { SnsLevelService } from '../sns/sns_level/sns_level.service';
+import { SnsLikeRuleService } from '../sns/sns_like_rule/sns_like_rule.service';
+import { SnsRewardService } from '../sns/sns_reward/sns_reward.service';
 
 @Injectable()
 export class ControlTableService {
@@ -27,6 +31,10 @@ export class ControlTableService {
     private readonly itemService: ItemService,
     private readonly npcService: NpcService,
     private readonly npcLocationService: NpcLocationService,
+    private readonly snsConfigService: SnsConfigService,
+    private readonly snsLevelService: SnsLevelService,
+    private readonly snsLikeRuleService: SnsLikeRuleService,
+    private readonly snsRewardService: SnsRewardService,
   ) {}
 
   async getControlTableAll(qr?: QueryRunner) {
@@ -37,6 +45,7 @@ export class ControlTableService {
       npc: await this.getNpcAll(qr),
       npc_location: await this.getNpcLocationAll(qr),
       reward: await this.getRewardAll(qr),
+      sns: await this.getSnsAll(qr),
     };
 
     return obj;
@@ -75,5 +84,16 @@ export class ControlTableService {
 
   async getRewardAll(qr?: QueryRunner) {
     return await this.rewardService.getRewardAll(qr);
+  }
+
+  async getSnsAll(qr?: QueryRunner) {
+    const obj = {
+      sns_config: await this.missionService.getMissionAll(qr),
+      sns_level: await this.missionKindService.getMissionKindAll(qr),
+      sns_like_rule: await this.missionMainService.getMissionMainAll(qr),
+      sns_reward: await this.missionMainService.getMissionMainAll(qr),
+    };
+
+    return obj;
   }
 }

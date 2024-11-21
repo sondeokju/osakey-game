@@ -1,26 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSnsRewardDto } from './dto/create-sns_reward.dto';
-import { UpdateSnsRewardDto } from './dto/update-sns_reward.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { SnsReward } from './entities/sns_reward.entity';
 
 @Injectable()
 export class SnsRewardService {
-  create(createSnsRewardDto: CreateSnsRewardDto) {
-    return 'This action adds a new snsReward';
+  constructor(
+    @InjectRepository(SnsReward)
+    private readonly snsRewardRepository: Repository<SnsReward>,
+  ) {}
+
+  getSnsRewardRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<SnsReward>(SnsReward)
+      : this.snsRewardRepository;
   }
 
-  findAll() {
-    return `This action returns all snsReward`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} snsReward`;
-  }
-
-  update(id: number, updateSnsRewardDto: UpdateSnsRewardDto) {
-    return `This action updates a #${id} snsReward`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} snsReward`;
+  async getNpcAll(qr?: QueryRunner) {
+    const snsRewardRepository = this.getSnsRewardRepository(qr);
+    const result = await snsRewardRepository.find({});
+    return result;
   }
 }

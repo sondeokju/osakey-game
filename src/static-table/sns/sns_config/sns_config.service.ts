@@ -1,4 +1,24 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { SnsConfig } from './entities/sns_config.entity';
 
 @Injectable()
-export class SnsConfigService {}
+export class SnsConfigService {
+  constructor(
+    @InjectRepository(SnsConfig)
+    private readonly snsConfigRepository: Repository<SnsConfig>,
+  ) {}
+
+  getSnsConfigRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<SnsConfig>(SnsConfig)
+      : this.snsConfigRepository;
+  }
+
+  async getNpcAll(qr?: QueryRunner) {
+    const snsConfigRepository = this.getSnsConfigRepository(qr);
+    const result = await snsConfigRepository.find({});
+    return result;
+  }
+}
