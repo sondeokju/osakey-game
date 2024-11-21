@@ -12,6 +12,7 @@ import { RewardService } from 'src/static-table/reward/reward.service';
 import { ItemService } from 'src/static-table/item/item.service';
 import { HeroService } from 'src/static-table/hero/hero.service';
 import { Hero } from 'src/static-table/hero/entities/hero.entity';
+import { UserSnsRewardService } from 'src/inventory/sns/user_sns_reward/user_sns_reward.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Reward, Item, UserItem, Users, Hero])],
@@ -24,6 +25,7 @@ import { Hero } from 'src/static-table/hero/entities/hero.entity';
     UserItemService,
     UsersService,
     HeroService,
+    UserSnsRewardService,
   ],
 })
 export class RewardOfferModule {}
