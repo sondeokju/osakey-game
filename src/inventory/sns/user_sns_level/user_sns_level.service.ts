@@ -5,6 +5,7 @@ import { SnsLevelService } from 'src/static-table/sns/sns_level/sns_level.servic
 import { SnsRewardService } from 'src/static-table/sns/sns_reward/sns_reward.service';
 import { UserSnsLevel } from './entities/user_sns_level.entity';
 import { UserTunaTvService } from '../user_tuna_tv/user_tuna_tv.service';
+import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 
 @Injectable()
 export class UserSnsLevelService {
@@ -14,6 +15,7 @@ export class UserSnsLevelService {
     private readonly snsLevelService: SnsLevelService,
     private readonly snsRewardService: SnsRewardService,
     private readonly userTunaTvService: UserTunaTvService,
+    private readonly rewardOfferService: RewardOfferService,
   ) {}
 
   getUserSnsLevelRepository(qr?: QueryRunner) {
@@ -33,9 +35,9 @@ export class UserSnsLevelService {
       return { message: 'sns level no data' };
     }
 
-    const tuna_tv_data = await this.userTunaTvService.getTunaTv(tuna_tv_id);
+    const tunaTvData = await this.userTunaTvService.getTunaTv(tuna_tv_id);
     const snsReward = await this.snsRewardService.getSnsReward(
-      tuna_tv_data.like_cnt,
+      tunaTvData.like_cnt,
     );
 
     const levelUpExp = userSnsLevelData.sns_exp + snsReward.sns_reward_exp;
@@ -49,11 +51,22 @@ export class UserSnsLevelService {
       });
     }
 
+    const rewardData = await this.rewardOfferService.reward(
+      user_id,
+      snsReward.reward_id,
+    );
+
     const updatedUserSnsLevelData = await userSnsLevelRepository.findOne({
       where: { user_id },
     });
 
-    return updatedUserSnsLevelData;
+    const result = {
+      sns_exp: snsReward.sns_reward_exp,
+      reward: rewardData,
+      user_sns_level: updatedUserSnsLevelData,
+    };
+
+    return result;
   }
 
   // async snsReward(user_id: number, tuna_tv_id: number, qr?: QueryRunner) {
