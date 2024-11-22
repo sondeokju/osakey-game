@@ -20,16 +20,15 @@ import { UserItem } from 'src/user_item/entities/user_item.entity';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { Users } from 'src/users/entity/users.entity';
 import { UsersService } from 'src/users/users.service';
-import { SnsConfigService } from 'src/static-table/sns/sns_config/sns_config.service';
-import { SnsLikeRuleService } from 'src/static-table/sns/sns_like_rule/sns_like_rule.service';
-import { SnsConfig } from 'src/static-table/sns/sns_config/entities/sns_config.entity';
-import { SnsLikeRule } from 'src/static-table/sns/sns_like_rule/entities/sns_like_rule.entity';
+// import { SnsConfigService } from 'src/static-table/sns/sns_config/sns_config.service';
+// import { SnsLikeRuleService } from 'src/static-table/sns/sns_like_rule/sns_like_rule.service';
+// import { SnsConfig } from 'src/static-table/sns/sns_config/entities/sns_config.entity';
+// import { SnsLikeRule } from 'src/static-table/sns/sns_like_rule/entities/sns_like_rule.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       UserSnsLevel,
-      SnsReward,
       Reward,
       Users,
       Item,
@@ -37,15 +36,15 @@ import { SnsLikeRule } from 'src/static-table/sns/sns_like_rule/entities/sns_lik
       Hero,
       UserTunaTv,
       SnsLevel,
-      SnsConfig,
-      SnsLikeRule,
+      SnsReward,
+      // SnsConfig,
+      // SnsLikeRule,
     ]),
   ],
   exports: [UserSnsLevelService],
   controllers: [UserSnsLevelController],
   providers: [
     UserSnsLevelService,
-    SnsRewardService,
     RewardOfferService,
     RewardService,
     UsersService,
@@ -54,8 +53,9 @@ import { SnsLikeRule } from 'src/static-table/sns/sns_like_rule/entities/sns_lik
     HeroService,
     UserTunaTvService,
     SnsLevelService,
-    SnsConfigService,
-    SnsLikeRuleService,
+    SnsRewardService,
+    // SnsConfigService,
+    // SnsLikeRuleService,
   ],
 })
 export class UserSnsLevelModule {}
