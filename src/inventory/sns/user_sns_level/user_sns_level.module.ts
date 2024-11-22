@@ -21,6 +21,7 @@ import { UserItemService } from 'src/user_item/user_item.service';
 import { Users } from 'src/users/entity/users.entity';
 import { UsersService } from 'src/users/users.service';
 import { SnsConfigService } from 'src/static-table/sns/sns_config/sns_config.service';
+import { SnsLikeRuleService } from 'src/static-table/sns/sns_like_rule/sns_like_rule.service';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { SnsConfigService } from 'src/static-table/sns/sns_config/sns_config.ser
     UserTunaTvService,
     SnsLevelService,
     SnsConfigService,
+    SnsLikeRuleService,
   ],
 })
 export class UserSnsLevelModule {}
