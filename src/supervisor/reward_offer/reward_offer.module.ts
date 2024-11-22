@@ -13,19 +13,8 @@ import { ItemService } from 'src/static-table/item/item.service';
 import { HeroService } from 'src/static-table/hero/hero.service';
 import { Hero } from 'src/static-table/hero/entities/hero.entity';
 
-
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([
-      Reward,
-      Item,
-      UserItem,
-      Users,
-      Hero,
-      //UserSnsReward,
-      //SnsReward,
-    ]),
-  ],
+  imports: [TypeOrmModule.forFeature([Reward, Item, UserItem, Users, Hero])],
   exports: [RewardOfferService],
   controllers: [RewardInvenController],
   providers: [
@@ -35,8 +24,6 @@ import { Hero } from 'src/static-table/hero/entities/hero.entity';
     UserItemService,
     UsersService,
     HeroService,
-    //UserSnsRewardService,
-    //SnsRewardService,
   ],
 })
 export class RewardOfferModule {}
