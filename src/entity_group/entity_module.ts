@@ -1,6 +1,7 @@
 import { AuthModule } from 'src/auth/auth.module';
 import { CommonModule } from 'src/common/common.module';
 import { LogUrlModule } from 'src/common/log_url/log_url.module';
+import { UserTunaTvOnlineModule } from 'src/inventory/sns/user-tuna-tv-online/user-tuna-tv-online.module';
 import { UserSnsFollowModule } from 'src/inventory/sns/user_sns_follow/user_sns_follow.module';
 import { UserSnsLevelModule } from 'src/inventory/sns/user_sns_level/user_sns_level.module';
 import { UserSnsRewardModule } from 'src/inventory/sns/user_sns_reward/user_sns_reward.module';
@@ -78,4 +79,5 @@ export const entities_module = [
   UserSnsRewardModule,
   UserSnsLevelModule,
   UserSnsFollowModule,
+  UserTunaTvOnlineModule,
 ];

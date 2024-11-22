@@ -35,6 +35,11 @@ export class UserTunaTv extends BaseModel {
   select_3: number;
 
   @Column({
+    default: '0',
+  })
+  score: number;
+
+  @Column({
     default: 'N',
   })
   upload_yn: string;

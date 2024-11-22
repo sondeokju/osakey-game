@@ -25,40 +25,121 @@ export class UserTunaTvService {
       : this.userTunaTvRepository;
   }
 
-  async tunaTvSave(user_id: number, user_quest_id: number, qr?: QueryRunner) {
-  
+  async tunaTvSave(
+    user_id: number,
+    tuna_tile: string,
+    ingame_kind: string,
+    select_1: number,
+    select_2: number,
+    select_3: number,
+    score: number,
+    qr?: QueryRunner,
+  ) {
+    const userTunaTvRepository = this.getUserTunaTvRepository(qr);
 
+    const tunaTvData = {
+      user_id,
+      tuna_tile,
+      ingame_kind,
+      select_1,
+      select_2,
+      select_3,
+      score,
+      upload_yn: 'N',
+      upload_txt: 'N',
+      like_cnt: 0,
+    };
+
+    await userTunaTvRepository.insert(tunaTvData);
+
+    return tunaTvData;
   }
 
-  // async tunaTvSave(user_id: number, user_quest_id: number, qr?: QueryRunner) {
-  //   console.log('user_id:', user_id);
-  //   console.log('user_quest_id:', user_quest_id);
+  async tunaTvUpload(tunaTv_id: number, upload_txt: string, qr?: QueryRunner) {
+    const userTunaTvRepository = this.getUserTunaTvRepository(qr);
+    const userTunaTvData = await userTunaTvRepository.findOne({
+      where: {
+        id: tunaTv_id,
+      },
+    });
 
-  //   const userQuestRepository = this.getUserQuestRepository(qr);
-  //   const userQuestData = await userQuestRepository.findOne({
-  //     where: {
-  //       id: user_quest_id,
-  //     },
-  //   });
-  //   console.log('userQuestData:', userQuestData);
+    if (!userTunaTvData) {
+      return { message: 'tuna tv no data' };
+    } else {
+      await userTunaTvRepository.save({
+        ...userTunaTvData,
+        upload_yn: 'Y',
+        upload_txt,
+      });
 
-  //   const missionRoutineData =
-  //     await this.missionRoutineService.getMissionRoutine(
-  //       userQuestData.progress_mission_id,
-  //     );
+      const result = await userTunaTvRepository.find({
+        where: {
+          upload_yn: 'Y',
+        },
+      });
 
-  //   console.log('missionRoutineData.reward_id', missionRoutineData.reward_id);
-  //   const rewardData = await this.rewardOfferService.reward(
-  //     user_id,
-  //     missionRoutineData.reward_id,
-  //   );
+      return result;
+    }
+  }
 
-  //   await userQuestRepository.save({
-  //     ...userQuestData,
-  //     mission_complete_yn: 'Y',
-  //     reward_yn: 'Y',
-  //   });
+  async tunaTvOnlineList(qr?: QueryRunner) {
+    const onlineTvData = {
+      hot: this.tunaTvHotOne(qr),
+      trend: this.tunaTvHotOne(qr),
+      new: this.tunaTvHotOne(qr),
+    };
 
-  //   return rewardData;
-  // }
+    return onlineTvData;
+  }
+
+  async tunaTvHotOne(qr?: QueryRunner) {
+    const userTunaTvRepository = this.getUserTunaTvRepository(qr);
+
+    const TunaTvHotData = await userTunaTvRepository
+      .createQueryBuilder('user_tuna_tv')
+      .where('user_tuna_tv.createdAt >= :startTime', {
+        startTime: new Date(Date.now() - 48 * 60 * 60 * 1000),
+      })
+      .orderBy('user_tuna_tv.like_cnt', 'DESC')
+      .limit(100)
+      .getMany();
+
+    const randomOne = TunaTvHotData.sort(() => Math.random() - 0.5).slice(0, 1);
+
+    return randomOne;
+  }
+
+  async tunaTvTrendTwo(qr?: QueryRunner) {
+    const userTunaTvRepository = this.getUserTunaTvRepository(qr);
+
+    const TunaTvHotData = await userTunaTvRepository
+      .createQueryBuilder('user_tuna_tv')
+      .where('user_tuna_tv.createdAt >= :startTime', {
+        startTime: new Date(Date.now() - 24 * 60 * 60 * 1000),
+      })
+      .orderBy('user_tuna_tv.like_cnt', 'DESC')
+      .limit(100)
+      .getMany();
+
+    const randomTwo = TunaTvHotData.sort(() => Math.random() - 0.5).slice(0, 2);
+
+    return randomTwo;
+  }
+
+  async tunaTvNewTwo(qr?: QueryRunner) {
+    const userTunaTvRepository = this.getUserTunaTvRepository(qr);
+
+    const TunaTvHotData = await userTunaTvRepository
+      .createQueryBuilder('user_tuna_tv')
+      .where('user_tuna_tv.createdAt >= :startTime', {
+        startTime: new Date(Date.now() - 6 * 60 * 60 * 1000),
+      })
+      .orderBy('user_tuna_tv.like_cnt', 'DESC')
+      .limit(100)
+      .getMany();
+
+    const randomTwo = TunaTvHotData.sort(() => Math.random() - 0.5).slice(0, 2);
+
+    return randomTwo;
+  }
 }

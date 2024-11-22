@@ -14,4 +14,9 @@ export class UserSnsFollow extends BaseModel {
   })
   @Index({ unique: false })
   follow_user_id: number;
+
+  @Column({
+    default: 'N',
+  })
+  follow_yn: string;
 }

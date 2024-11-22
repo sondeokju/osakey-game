@@ -23,4 +23,68 @@ export class UserSnsFollowService {
       ? qr.manager.getRepository<UserSnsFollow>(UserSnsFollow)
       : this.userSnsFollowRepository;
   }
+
+  async followAdd(user_id: number, follow_user_id: number, qr?: QueryRunner) {
+    const userSnsFollowRepository = this.getUserSnsFollowRepository(qr);
+    const userSnsFollowData = await userSnsFollowRepository.findOne({
+      where: {
+        user_id,
+        follow_user_id,
+      },
+    });
+
+    const result = {
+      user_id,
+      follow_user_id,
+    };
+
+    if (!userSnsFollowData) {
+      await userSnsFollowRepository.save({
+        ...userSnsFollowData,
+        user_id,
+        follow_user_id,
+      });
+    }
+
+    return result;
+  }
+
+  async unFollow(user_id: number, follow_user_id: number, qr?: QueryRunner) {
+    const userSnsFollowRepository = this.getUserSnsFollowRepository(qr);
+    const userSnsFollowData = await userSnsFollowRepository.findOne({
+      where: {
+        user_id,
+        follow_user_id,
+      },
+    });
+
+    if (userSnsFollowData) {
+      await userSnsFollowRepository.save({
+        ...userSnsFollowData,
+        follow_yn: 'N',
+      });
+    }
+
+    const result = await userSnsFollowRepository.findOne({
+      where: {
+        user_id,
+        follow_user_id,
+      },
+    });
+
+    return result;
+  }
+  async followList(user_id: number, qr?: QueryRunner) {
+    const userSnsFollowRepository = this.getUserSnsFollowRepository(qr);
+    const userSnsFollowData = await userSnsFollowRepository.find({
+      where: {
+        user_id,
+      },
+    });
+
+    if (!userSnsFollowData) {
+    }
+
+    return userSnsFollowData;
+  }
 }
