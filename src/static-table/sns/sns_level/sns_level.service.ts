@@ -22,13 +22,13 @@ export class SnsLevelService {
     return result;
   }
 
-  async getSnsLevel(sns_level: number, qr?: QueryRunner) {
+  async getSnsExp(sns_exp: number, qr?: QueryRunner) {
     const snsLevelRepository = this.getSnsLevelRepository(qr);
-    const result = await snsLevelRepository.findOne({
-      where: {
-        sns_level,
-      },
-    });
+    const result = await snsLevelRepository
+      .createQueryBuilder('sns_level')
+      .where('sns_level.total_exp >= :sns_exp', { sns_exp })
+      .orderBy('sns_level.total_exp', 'ASC')
+      .getOne();
 
     return result;
   }

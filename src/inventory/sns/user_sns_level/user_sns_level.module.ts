@@ -11,6 +11,8 @@ import { SnsLikeRuleService } from 'src/static-table/sns/sns_like_rule/sns_like_
 import { SnsRewardService } from 'src/static-table/sns/sns_reward/sns_reward.service';
 import { UserSnsLevel } from './entities/user_sns_level.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserTunaTvService } from '../user_tuna_tv/user_tuna_tv.service';
+import { UserTunaTv } from '../user_tuna_tv/entities/user_tuna_tv.entity';
 
 @Module({
   imports: [
@@ -20,6 +22,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       SnsLevel,
       SnsLikeRule,
       SnsReward,
+      UserTunaTv,
     ]),
   ],
   exports: [UserSnsLevelService],
@@ -30,6 +33,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     SnsLevelService,
     SnsLikeRuleService,
     SnsRewardService,
+    UserTunaTvService,
   ],
 })
 export class UserSnsLevelModule {}

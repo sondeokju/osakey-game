@@ -20,6 +20,11 @@ export class UserSnsLevel extends BaseModel {
   sns_exp: number;
 
   @Column({
+    default: 0,
+  })
+  sns_reward_id: number;
+
+  @Column({
     default: '',
   })
   reward_yn: string;

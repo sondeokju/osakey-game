@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserTunaTv } from './entities/user_tuna_tv.entity';
 import { QueryRunner, Repository } from 'typeorm';
@@ -80,6 +80,21 @@ export class UserTunaTvService {
 
       return result;
     }
+  }
+
+  async getTunaTv(tunaTv_id: number, qr?: QueryRunner) {
+    const userTunaTvRepository = this.getUserTunaTvRepository(qr);
+    const userTunaTvData = await userTunaTvRepository.findOne({
+      where: {
+        id: tunaTv_id,
+      },
+    });
+
+    if (!userTunaTvData) {
+      throw new NotFoundException('Tuna TV not found');
+    }
+
+    return userTunaTvData;
   }
 
   async tunaTvOnlineList(qr?: QueryRunner) {
