@@ -10,20 +10,14 @@ export class UserTunaTv extends BaseModel {
   user_id: number;
 
   @Column({
-    default: '',
+    default: '0',
   })
-  @Index({ unique: false })
-  tuna_tv_id: string;
+  tuna_title: number;
 
   @Column({
     default: '',
   })
   ingame_kind: string;
-
-  @Column({
-    default: '0',
-  })
-  tuna_title: number;
 
   @Column({
     default: '0',

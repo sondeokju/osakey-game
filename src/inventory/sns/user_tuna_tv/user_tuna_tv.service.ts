@@ -24,4 +24,41 @@ export class UserTunaTvService {
       ? qr.manager.getRepository<UserTunaTv>(UserTunaTv)
       : this.userTunaTvRepository;
   }
+
+  async tunaTvSave(user_id: number, user_quest_id: number, qr?: QueryRunner) {
+  
+
+  }
+
+  // async tunaTvSave(user_id: number, user_quest_id: number, qr?: QueryRunner) {
+  //   console.log('user_id:', user_id);
+  //   console.log('user_quest_id:', user_quest_id);
+
+  //   const userQuestRepository = this.getUserQuestRepository(qr);
+  //   const userQuestData = await userQuestRepository.findOne({
+  //     where: {
+  //       id: user_quest_id,
+  //     },
+  //   });
+  //   console.log('userQuestData:', userQuestData);
+
+  //   const missionRoutineData =
+  //     await this.missionRoutineService.getMissionRoutine(
+  //       userQuestData.progress_mission_id,
+  //     );
+
+  //   console.log('missionRoutineData.reward_id', missionRoutineData.reward_id);
+  //   const rewardData = await this.rewardOfferService.reward(
+  //     user_id,
+  //     missionRoutineData.reward_id,
+  //   );
+
+  //   await userQuestRepository.save({
+  //     ...userQuestData,
+  //     mission_complete_yn: 'Y',
+  //     reward_yn: 'Y',
+  //   });
+
+  //   return rewardData;
+  // }
 }
