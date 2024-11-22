@@ -68,43 +68,4 @@ export class UserSnsLevelService {
 
     return result;
   }
-
-  // async snsReward(user_id: number, tuna_tv_id: number, qr?: QueryRunner) {
-  //   const userSnsLevelRepository = this.getUserSnsLevelRepository(qr);
-  //   const userSnsLevelData = await userSnsLevelRepository.findOne({
-  //     where: {
-  //       user_id: user_id,
-  //     },
-  //   });
-
-  //   const tuna_tv_data = await this.userTunaTvService.getTunaTv(tuna_tv_id);
-
-  //   const snsReward = await this.snsRewardService.getSnsReward(
-  //     tuna_tv_data.like_cnt,
-  //   );
-
-  //   const levelUpExp = userSnsLevelData.sns_exp + snsReward.sns_reward_exp;
-
-  //   const snsLevel = await this.snsLevelService.getSnsExp(levelUpExp);
-
-  //   if (!userSnsLevelData) {
-  //     return { message: 'sns level no data' };
-  //   } else {
-  //     if (userSnsLevelData.sns_exp >= snsReward.sns_reward_exp) {
-  //       await userSnsLevelRepository.save({
-  //         ...userSnsLevelData,
-  //         sns_level: snsLevel.sns_level,
-  //         sns_exp: levelUpExp,
-  //       });
-  //     }
-
-  //     const result = await userSnsLevelRepository.findOne({
-  //       where: {
-  //         user_id: user_id,
-  //       },
-  //     });
-
-  //     return result;
-  //   }
-  // }
 }

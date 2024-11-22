@@ -1,11 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  ParseIntPipe,
-  Post,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
 import { UserSnsLevelService } from './user_sns_level.service';
 
 import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
