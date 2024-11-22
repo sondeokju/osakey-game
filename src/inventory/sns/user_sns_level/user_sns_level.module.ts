@@ -16,8 +16,8 @@ import { Item } from 'src/static-table/item/entities/item.entity';
 import { ItemService } from 'src/static-table/item/item.service';
 import { Reward } from 'src/static-table/reward/entities/reward.entity';
 import { RewardService } from 'src/static-table/reward/reward.service';
-// import { UserItem } from 'src/user_item/entities/user_item.entity';
-// import { UserItemService } from 'src/user_item/user_item.service';
+import { UserItem } from 'src/user_item/entities/user_item.entity';
+import { UserItemService } from 'src/user_item/user_item.service';
 import { Users } from 'src/users/entity/users.entity';
 import { UsersService } from 'src/users/users.service';
 
@@ -28,7 +28,7 @@ import { UsersService } from 'src/users/users.service';
       Reward,
       Users,
       Item,
-      //UserItem,
+      UserItem,
       Hero,
       UserTunaTv,
       SnsLevel,
@@ -43,7 +43,7 @@ import { UsersService } from 'src/users/users.service';
     RewardService,
     UsersService,
     ItemService,
-    //UserItemService,
+    UserItemService,
     HeroService,
     UserTunaTvService,
     SnsLevelService,
