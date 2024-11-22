@@ -22,6 +22,8 @@ import { Users } from 'src/users/entity/users.entity';
 import { UsersService } from 'src/users/users.service';
 import { SnsConfigService } from 'src/static-table/sns/sns_config/sns_config.service';
 import { SnsLikeRuleService } from 'src/static-table/sns/sns_like_rule/sns_like_rule.service';
+import { SnsConfig } from 'src/static-table/sns/sns_config/entities/sns_config.entity';
+import { SnsLikeRule } from 'src/static-table/sns/sns_like_rule/entities/sns_like_rule.entity';
 
 @Module({
   imports: [
@@ -35,6 +37,8 @@ import { SnsLikeRuleService } from 'src/static-table/sns/sns_like_rule/sns_like_
       Hero,
       UserTunaTv,
       SnsLevel,
+      SnsConfig,
+      SnsLikeRule,
     ]),
   ],
   exports: [UserSnsLevelService],
