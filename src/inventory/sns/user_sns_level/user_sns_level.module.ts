@@ -10,8 +10,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserTunaTvService } from '../user_tuna_tv/user_tuna_tv.service';
 import { UserTunaTv } from '../user_tuna_tv/entities/user_tuna_tv.entity';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
-import { Hero } from 'src/static-table/hero/entities/hero.entity';
-import { HeroService } from 'src/static-table/hero/hero.service';
+// import { Hero } from 'src/static-table/hero/entities/hero.entity';
+// import { HeroService } from 'src/static-table/hero/hero.service';
 import { Item } from 'src/static-table/item/entities/item.entity';
 import { ItemService } from 'src/static-table/item/item.service';
 import { Reward } from 'src/static-table/reward/entities/reward.entity';
@@ -20,10 +20,6 @@ import { UserItem } from 'src/user_item/entities/user_item.entity';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { Users } from 'src/users/entity/users.entity';
 import { UsersService } from 'src/users/users.service';
-// import { SnsConfigService } from 'src/static-table/sns/sns_config/sns_config.service';
-// import { SnsLikeRuleService } from 'src/static-table/sns/sns_like_rule/sns_like_rule.service';
-// import { SnsConfig } from 'src/static-table/sns/sns_config/entities/sns_config.entity';
-// import { SnsLikeRule } from 'src/static-table/sns/sns_like_rule/entities/sns_like_rule.entity';
 
 @Module({
   imports: [
@@ -33,12 +29,10 @@ import { UsersService } from 'src/users/users.service';
       Users,
       Item,
       UserItem,
-      Hero,
+      //Hero,
       UserTunaTv,
       SnsLevel,
       SnsReward,
-      // SnsConfig,
-      // SnsLikeRule,
     ]),
   ],
   exports: [UserSnsLevelService],
@@ -50,12 +44,10 @@ import { UsersService } from 'src/users/users.service';
     UsersService,
     ItemService,
     UserItemService,
-    HeroService,
+    //HeroService,
     UserTunaTvService,
     SnsLevelService,
     SnsRewardService,
-    // SnsConfigService,
-    // SnsLikeRuleService,
   ],
 })
 export class UserSnsLevelModule {}
