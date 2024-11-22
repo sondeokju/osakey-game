@@ -12,10 +12,7 @@ import { RewardService } from 'src/static-table/reward/reward.service';
 import { ItemService } from 'src/static-table/item/item.service';
 import { HeroService } from 'src/static-table/hero/hero.service';
 import { Hero } from 'src/static-table/hero/entities/hero.entity';
-import { UserSnsRewardService } from 'src/inventory/sns/user_sns_reward/user_sns_reward.service';
-import { UserSnsReward } from 'src/inventory/sns/user_sns_reward/entities/user_sns_reward.entity';
-import { SnsRewardService } from 'src/static-table/sns/sns_reward/sns_reward.service';
-import { SnsReward } from 'src/static-table/sns/sns_reward/entities/sns_reward.entity';
+
 
 @Module({
   imports: [
@@ -25,8 +22,8 @@ import { SnsReward } from 'src/static-table/sns/sns_reward/entities/sns_reward.e
       UserItem,
       Users,
       Hero,
-      UserSnsReward,
-      SnsReward,
+      //UserSnsReward,
+      //SnsReward,
     ]),
   ],
   exports: [RewardOfferService],
@@ -38,8 +35,8 @@ import { SnsReward } from 'src/static-table/sns/sns_reward/entities/sns_reward.e
     UserItemService,
     UsersService,
     HeroService,
-    UserSnsRewardService,
-    SnsRewardService,
+    //UserSnsRewardService,
+    //SnsRewardService,
   ],
 })
 export class RewardOfferModule {}
