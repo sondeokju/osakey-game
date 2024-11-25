@@ -25,6 +25,7 @@ export class UserTunaTvOnlineService {
       .select('user_tuna_tv_online.tuna_tv_id', 'user_tuna_tv.ingame_kind')
       .from(UserTunaTv, 'user_tuna_tv')
       .addSelect('user_tuna_tv.select_1', 'user_tuna_tv.select_2')
+      .addSelect('user_tuna_tv.select_3')
       .innerJoin(
         UserTunaTvOnline,
         'user_tuna_tv_online',
