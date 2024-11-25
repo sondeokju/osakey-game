@@ -26,7 +26,7 @@ export class SnsLevelService {
     const snsLevelRepository = this.getSnsLevelRepository(qr);
     const result = await snsLevelRepository
       .createQueryBuilder('sns_level')
-      .where('sns_level.total_exp >= :sns_exp', { sns_exp })
+      .where('sns_level.total_exp <= :sns_exp', { sns_exp })
       .orderBy('sns_level.total_exp', 'ASC')
       .getOne();
 
