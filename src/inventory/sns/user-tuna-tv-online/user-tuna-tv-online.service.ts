@@ -24,10 +24,10 @@ export class UserTunaTvOnlineService {
       .createQueryBuilder('tv_online') // 기본 테이블 별칭 설정
       .select('tv_online.tuna_tv_id', 'tunaTvId') // 첫 번째 컬럼 선택
       .addSelect([
-        'user_tuna_tv.ingame_kind',
-        'user_tuna_tv.select_1',
-        'user_tuna_tv.select_2',
-        'user_tuna_tv.select_3',
+        'tunaTv.ingame_kind',
+        'tunaTv.select_1',
+        'tunaTv.select_2',
+        'tunaTv.select_3',
       ]) // 추가 컬럼 선택
       .innerJoin(
         'user_tuna_tv', // 조인 대상 테이블
