@@ -88,6 +88,21 @@ export class UserTunaTvService {
     return userTunaTvData;
   }
 
+  async TunaTvList(user_id: number, qr?: QueryRunner) {
+    const userTunaTvRepository = this.getUserTunaTvRepository(qr);
+    const userTunaTvData = await userTunaTvRepository.find({
+      where: {
+        user_id: user_id,
+      },
+    });
+
+    if (!userTunaTvData) {
+      throw new NotFoundException('Tuna TV not found');
+    }
+
+    return userTunaTvData;
+  }
+
   async tunaTvOnlineList(qr?: QueryRunner) {
     const onlineTvData = {
       hot: this.tunaTvHotOne(qr),

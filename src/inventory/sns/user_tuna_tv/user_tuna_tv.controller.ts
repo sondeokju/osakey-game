@@ -58,4 +58,12 @@ export class UserTunaTvController {
 
     return JSON.stringify(result);
   }
+
+  @Get('list')
+  @UseInterceptors(TransactionInterceptor)
+  async TunaTvList(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = await this.userTunaTvService.TunaTvList(user.id, qr);
+
+    return JSON.stringify(result);
+  }
 }

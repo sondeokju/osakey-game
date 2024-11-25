@@ -1,26 +1,37 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDispatchEquipGradeDto } from './dto/create-dispatch_equip_grade.dto';
-import { UpdateDispatchEquipGradeDto } from './dto/update-dispatch_equip_grade.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { DispatchEquipGrade } from './entities/dispatch_equip_grade.entity';
 
 @Injectable()
 export class DispatchEquipGradeService {
-  create(createDispatchEquipGradeDto: CreateDispatchEquipGradeDto) {
-    return 'This action adds a new dispatchEquipGrade';
+  constructor(
+    @InjectRepository(DispatchEquipGrade)
+    private readonly dispatchEquipGradeRepository: Repository<DispatchEquipGrade>,
+  ) {}
+
+  getDispatchEquipGradeRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<DispatchEquipGrade>(DispatchEquipGrade)
+      : this.dispatchEquipGradeRepository;
   }
 
-  findAll() {
-    return `This action returns all dispatchEquipGrade`;
+  async getDispatchEquipGradeAll(qr?: QueryRunner) {
+    const dispatchEquipGradeRepository =
+      this.getDispatchEquipGradeRepository(qr);
+    const result = await dispatchEquipGradeRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} dispatchEquipGrade`;
-  }
+  async getDispatchEquipGrade(equip_grade: string, qr?: QueryRunner) {
+    const dispatchEquipGradeRepository =
+      this.getDispatchEquipGradeRepository(qr);
+    const result = await dispatchEquipGradeRepository.findOne({
+      where: {
+        equip_grade,
+      },
+    });
 
-  update(id: number, updateDispatchEquipGradeDto: UpdateDispatchEquipGradeDto) {
-    return `This action updates a #${id} dispatchEquipGrade`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} dispatchEquipGrade`;
+    return result;
   }
 }

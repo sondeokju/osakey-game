@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDispatchConfigDto } from './dto/create-dispatch_config.dto';
-import { UpdateDispatchConfigDto } from './dto/update-dispatch_config.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { DispatchConfig } from './entities/dispatch_config.entity';
 
 @Injectable()
 export class DispatchConfigService {
-  create(createDispatchConfigDto: CreateDispatchConfigDto) {
-    return 'This action adds a new dispatchConfig';
+  constructor(
+    @InjectRepository(DispatchConfig)
+    private readonly dispatchConfigRepository: Repository<DispatchConfig>,
+  ) {}
+
+  getDispatchConfigRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<DispatchConfig>(DispatchConfig)
+      : this.dispatchConfigRepository;
   }
 
-  findAll() {
-    return `This action returns all dispatchConfig`;
+  async getDispatchConfigAll(qr?: QueryRunner) {
+    const dispatchConfigRepository = this.getDispatchConfigRepository(qr);
+    const result = await dispatchConfigRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} dispatchConfig`;
-  }
+  async getDispatchConfig(config_type: string, qr?: QueryRunner) {
+    const dispatchRepository = this.getDispatchConfigRepository(qr);
+    const result = await dispatchRepository.findOne({
+      where: {
+        config_type,
+      },
+    });
 
-  update(id: number, updateDispatchConfigDto: UpdateDispatchConfigDto) {
-    return `This action updates a #${id} dispatchConfig`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} dispatchConfig`;
+    return result;
   }
 }

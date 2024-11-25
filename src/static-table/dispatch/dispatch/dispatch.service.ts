@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDispatchDto } from './dto/create-dispatch.dto';
-import { UpdateDispatchDto } from './dto/update-dispatch.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { Dispatch } from './entities/dispatch.entity';
 
 @Injectable()
 export class DispatchService {
-  create(createDispatchDto: CreateDispatchDto) {
-    return 'This action adds a new dispatch';
+  constructor(
+    @InjectRepository(Dispatch)
+    private readonly dispatchRepository: Repository<Dispatch>,
+  ) {}
+
+  getDispatchRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<Dispatch>(Dispatch)
+      : this.dispatchRepository;
   }
 
-  findAll() {
-    return `This action returns all dispatch`;
+  async getDispatchAll(qr?: QueryRunner) {
+    const dispatchRepository = this.getDispatchRepository(qr);
+    const result = await dispatchRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} dispatch`;
-  }
+  async getDispatch(dispatch_exp_total: number, qr?: QueryRunner) {
+    const dispatchRepository = this.getDispatchRepository(qr);
+    const result = await dispatchRepository.findOne({
+      where: {
+        dispatch_exp_total,
+      },
+    });
 
-  update(id: number, updateDispatchDto: UpdateDispatchDto) {
-    return `This action updates a #${id} dispatch`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} dispatch`;
+    return result;
   }
 }
