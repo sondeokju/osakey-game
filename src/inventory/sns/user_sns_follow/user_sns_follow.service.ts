@@ -12,8 +12,8 @@ export class UserSnsFollowService {
   constructor(
     @InjectRepository(UserSnsFollow)
     private readonly userSnsFollowRepository: Repository<UserSnsFollow>, // private readonly snsConfigService: SnsConfigService,
-    // private readonly snsLevelService: SnsLevelService,
-  ) // private readonly snsLikeRuleService: SnsLikeRuleService,
+    // private readonly snsLikeRuleService: SnsLikeRuleService,
+  ) // private readonly snsLevelService: SnsLevelService,
   // private readonly snsRewardService: SnsRewardService,
   {}
 
@@ -82,12 +82,6 @@ export class UserSnsFollowService {
         user_id,
       },
     });
-
-    console.log(user_id);
-    console.log(userSnsFollowData);
-
-    // if (!userSnsFollowData) {
-    // }
 
     return userSnsFollowData;
   }

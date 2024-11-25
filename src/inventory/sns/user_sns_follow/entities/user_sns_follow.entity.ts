@@ -6,7 +6,7 @@ export class UserSnsFollow extends BaseModel {
   @Column({
     default: 0,
   })
-  @Index({ unique: true })
+  @Index({ unique: false })
   user_id: number;
 
   @Column({
