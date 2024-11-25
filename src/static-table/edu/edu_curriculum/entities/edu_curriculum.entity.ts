@@ -6,12 +6,12 @@ export class EduCurriculum {
   id: number;
 
   @Column({
-    default: '',
+    default: 0,
   })
   curriculum_id: number;
 
   @Column({
-    default: '',
+    default: 0,
   })
   curriculum_level: number;
 
