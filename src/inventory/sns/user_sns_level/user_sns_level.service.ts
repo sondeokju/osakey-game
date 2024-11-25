@@ -52,7 +52,7 @@ export class UserSnsLevelService {
     console.log('sns_reward_exp:', snsReward.sns_reward_exp);
     console.log('sns_exp:', userSnsLevelData.sns_exp);
 
-    if (userSnsLevelData.sns_exp < snsReward.sns_reward_exp) {
+    if (levelUpExp >= snsLevel.total_exp) {
       await userSnsLevelRepository.save({
         ...userSnsLevelData,
         sns_level: snsLevel.sns_level,
