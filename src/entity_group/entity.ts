@@ -4,6 +4,11 @@ import { UserSnsFollow } from 'src/inventory/sns/user_sns_follow/entities/user_s
 import { UserSnsLevel } from 'src/inventory/sns/user_sns_level/entities/user_sns_level.entity';
 import { UserSnsReward } from 'src/inventory/sns/user_sns_reward/entities/user_sns_reward.entity';
 import { UserTunaTv } from 'src/inventory/sns/user_tuna_tv/entities/user_tuna_tv.entity';
+import { Dispatch } from 'src/static-table/dispatch/dispatch/entities/dispatch.entity';
+import { DispatchConfig } from 'src/static-table/dispatch/dispatch_config/entities/dispatch_config.entity';
+import { DispatchEquipGrade } from 'src/static-table/dispatch/dispatch_equip_grade/entities/dispatch_equip_grade.entity';
+import { DispatchEquipLevel } from 'src/static-table/dispatch/dispatch_equip_level/entities/dispatch_equip_level.entity';
+import { DispatchUpgrade } from 'src/static-table/dispatch/dispatch_upgrade/entities/dispatch_upgrade.entity';
 import { Edu } from 'src/static-table/edu/edu/entities/edu.entity';
 import { EduCurriculum } from 'src/static-table/edu/edu_curriculum/entities/edu_curriculum.entity';
 import { EduList } from 'src/static-table/edu/edu_list/entities/edu_list.entity';
@@ -78,4 +83,9 @@ export const entities = [
   EduCurriculum,
   EduReduceTime,
   EduList,
+  Dispatch,
+  DispatchConfig,
+  DispatchEquipGrade,
+  DispatchEquipLevel,
+  DispatchUpgrade,
 ];

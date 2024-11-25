@@ -8,6 +8,11 @@ import { UserSnsRewardModule } from 'src/inventory/sns/user_sns_reward/user_sns_
 import { UserTunaTvModule } from 'src/inventory/sns/user_tuna_tv/user_tuna_tv.module';
 import { RealtimeModule } from 'src/SocketIO/realtime/realtime.module';
 import { ControlTableModule } from 'src/static-table/control_table/control_table.module';
+import { DispatchModule } from 'src/static-table/dispatch/dispatch/dispatch.module';
+import { DispatchConfigModule } from 'src/static-table/dispatch/dispatch_config/dispatch_config.module';
+import { DispatchEquipGradeModule } from 'src/static-table/dispatch/dispatch_equip_grade/dispatch_equip_grade.module';
+import { DispatchEquipLevelModule } from 'src/static-table/dispatch/dispatch_equip_level/dispatch_equip_level.module';
+import { DispatchUpgradeModule } from 'src/static-table/dispatch/dispatch_upgrade/dispatch_upgrade.module';
 import { EduModule } from 'src/static-table/edu/edu/edu.module';
 import { EduCurriculumModule } from 'src/static-table/edu/edu_curriculum/edu_curriculum.module';
 import { EduListModule } from 'src/static-table/edu/edu_list/edu_list.module';
@@ -89,4 +94,9 @@ export const entities_module = [
   EduCurriculumModule,
   EduListModule,
   EduReduceTime,
+  DispatchModule,
+  DispatchUpgradeModule,
+  DispatchEquipLevelModule,
+  DispatchEquipGradeModule,
+  DispatchConfigModule,
 ];
