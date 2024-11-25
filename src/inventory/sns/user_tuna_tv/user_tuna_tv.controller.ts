@@ -42,4 +42,19 @@ export class UserTunaTvController {
 
     return JSON.stringify(result);
   }
+  @Post('online/upload')
+  @UseInterceptors(TransactionInterceptor)
+  async tunaTvUpload(
+    @User() user: Users,
+    @Body('upload_txt') upload_txt: string,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userTunaTvService.tunaTvUpload(
+      user.id,
+      upload_txt,
+      qr,
+    );
+
+    return JSON.stringify(result);
+  }
 }

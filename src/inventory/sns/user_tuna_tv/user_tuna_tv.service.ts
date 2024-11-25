@@ -12,12 +12,7 @@ export class UserTunaTvService {
   constructor(
     @InjectRepository(UserTunaTv)
     private readonly userTunaTvRepository: Repository<UserTunaTv>,
-  ) //private readonly redisService: RedisService,
-  // private readonly snsConfigService: SnsConfigService,
-  // private readonly snsLevelService: SnsLevelService,
-  // private readonly snsLikeRuleService: SnsLikeRuleService,
-  // private readonly snsRewardService: SnsRewardService,
-  {}
+  ) {}
 
   getUserTunaTvRepository(qr?: QueryRunner) {
     return qr
@@ -84,7 +79,7 @@ export class UserTunaTvService {
 
   async getTunaTv(tunaTv_id: number, qr?: QueryRunner) {
     const userTunaTvRepository = this.getUserTunaTvRepository(qr);
-    const userTunaTvData = await userTunaTvRepository.findOne({
+    const userTunaTvData = await userTunaTvRepository.find({
       where: {
         id: tunaTv_id,
       },
