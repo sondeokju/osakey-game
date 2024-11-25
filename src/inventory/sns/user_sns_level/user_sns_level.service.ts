@@ -56,19 +56,20 @@ export class UserSnsLevelService {
       ...userSnsLevelData,
       sns_level: snsLevel.sns_level,
       sns_exp: levelUpExp,
+      sns_reward_id: snsLevel.reward_id,
+      rward_yn: 'Y',
     });
 
-    // if (levelUpExp >= snsLevel.total_exp) {
-    //   await userSnsLevelRepository.save({
-    //     ...userSnsLevelData,
-    //     sns_level: snsLevel.sns_level,
-    //     sns_exp: levelUpExp,
-    //   });
-    // }
-    const rewardData = await this.rewardOfferService.reward(
-      user_id,
-      snsReward.reward_id,
-    );
+    const rewards = [snsReward.reward_id, snsLevel.reward_id];
+    const rewardDataList = [];
+
+    for (const rewardId of rewards) {
+      const rewardData = await this.rewardOfferService.reward(
+        user_id,
+        rewardId,
+      );
+      rewardDataList.push(rewardData);
+    }
 
     const updatedUserSnsLevelData = await userSnsLevelRepository.findOne({
       where: { user_id },
@@ -76,7 +77,8 @@ export class UserSnsLevelService {
 
     const result = {
       sns_exp: snsReward.sns_reward_exp,
-      reward: rewardData,
+      like_reward: rewardDataList[0],
+      level_reward: rewardDataList[1],
       user_sns_level: updatedUserSnsLevelData,
     };
 
