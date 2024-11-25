@@ -19,20 +19,18 @@ export class UserTunaTvOnlineService {
 
   async tunaTvOnlineList(qr?: QueryRunner) {
     const userTunaTvOnlineRepository = this.getUserTunaTvOnlineRepository(qr);
-    //const userTunaTvOnlineData = await userTunaTvOnlineRepository.find();
     const result = await userTunaTvOnlineRepository
-      .createQueryBuilder('tv_online') // 기본 테이블 별칭 설정
-      .select('tv_online.tuna_tv_id', 'tunaTvId') // 첫 번째 컬럼 선택
-      .addSelect([
-        'tunaTv.ingame_kind',
-        'tunaTv.select_1',
-        'tunaTv.select_2',
-        'tunaTv.select_3',
-      ]) // 추가 컬럼 선택
+      .createQueryBuilder('a') // `user_tuna_tv_online` 테이블의 별칭을 `a`로 설정
+      .select('a.tuna_tv_id', 'tunaTvId') // 첫 번째 테이블에서 tuna_tv_id 선택
+      .addSelect('b.ingame_kind', 'ingameKind') // 두 번째 테이블에서 ingame_kind 선택
+      .addSelect('b.select_1', 'select1')
+      .addSelect('b.select_2', 'select2')
+      .addSelect('b.select_3', 'select3')
+      .addSelect('b.score', 'score') // 추가 선택
       .innerJoin(
         'user_tuna_tv', // 조인 대상 테이블
-        'tunaTv', // 조인 대상 테이블의 별칭
-        'tv_online.tuna_tv_id = tunaTv.id', // 조인 조건
+        'b', // 조인 대상 테이블의 별칭
+        'a.tuna_tv_id = b.id', // 조인 조건
       )
       .getRawMany(); // Raw 데이터 가져오기
 
