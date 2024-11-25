@@ -43,6 +43,9 @@ export class UserSnsLevelService {
     const levelUpExp = userSnsLevelData.sns_exp + snsReward.sns_reward_exp;
     const snsLevel = await this.snsLevelService.getSnsExp(levelUpExp);
 
+    console.log('sns_reward_exp:', snsReward.sns_reward_exp);
+    console.log('sns_exp:', userSnsLevelData.sns_exp);
+
     if (userSnsLevelData.sns_exp < snsReward.sns_reward_exp) {
       await userSnsLevelRepository.save({
         ...userSnsLevelData,
