@@ -16,7 +16,6 @@ import { DispatchUpgradeModule } from 'src/static-table/dispatch/dispatch_upgrad
 import { EduModule } from 'src/static-table/edu/edu/edu.module';
 import { EduCurriculumModule } from 'src/static-table/edu/edu_curriculum/edu_curriculum.module';
 import { EduListModule } from 'src/static-table/edu/edu_list/edu_list.module';
-import { EduReduceTimeModule } from 'src/static-table/edu/edu_reduce_time/edu_reduce_time.module';
 import { EduReduceTime } from 'src/static-table/edu/edu_reduce_time/entities/edu_reduce_time.entity';
 import { EquipStatModule } from 'src/static-table/equip-stat/equip-stat.module';
 import { GachaModule } from 'src/static-table/gacha/gacha.module';
