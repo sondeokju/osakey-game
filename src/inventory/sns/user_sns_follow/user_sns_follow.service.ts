@@ -12,8 +12,8 @@ export class UserSnsFollowService {
   constructor(
     @InjectRepository(UserSnsFollow)
     private readonly userSnsFollowRepository: Repository<UserSnsFollow>, // private readonly snsConfigService: SnsConfigService,
+    // private readonly snsLikeRuleService: SnsLikeRuleService,
   ) // private readonly snsLevelService: SnsLevelService,
-  // private readonly snsLikeRuleService: SnsLikeRuleService,
   // private readonly snsRewardService: SnsRewardService,
   {}
 
@@ -32,11 +32,6 @@ export class UserSnsFollowService {
       },
     });
 
-    const result = {
-      user_id,
-      follow_user_id,
-    };
-
     if (!userSnsFollowData) {
       await userSnsFollowRepository.save({
         ...userSnsFollowData,
@@ -45,6 +40,12 @@ export class UserSnsFollowService {
         follow_yn: 'Y',
       });
     }
+    const result = await userSnsFollowRepository.findOne({
+      where: {
+        user_id,
+        follow_user_id,
+      },
+    });
 
     return result;
   }
