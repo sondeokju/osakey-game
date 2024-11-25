@@ -11,9 +11,8 @@ import { UserSnsFollow } from './entities/user_sns_follow.entity';
 export class UserSnsFollowService {
   constructor(
     @InjectRepository(UserSnsFollow)
-    private readonly userSnsFollowRepository: Repository<UserSnsFollow>,
-  ) // private readonly snsConfigService: SnsConfigService,
-  // private readonly snsLevelService: SnsLevelService,
+    private readonly userSnsFollowRepository: Repository<UserSnsFollow>, // private readonly snsConfigService: SnsConfigService,
+  ) // private readonly snsLevelService: SnsLevelService,
   // private readonly snsLikeRuleService: SnsLikeRuleService,
   // private readonly snsRewardService: SnsRewardService,
   {}
@@ -43,6 +42,7 @@ export class UserSnsFollowService {
         ...userSnsFollowData,
         user_id,
         follow_user_id,
+        follow_yn: 'Y',
       });
     }
 

@@ -1,12 +1,5 @@
 import { UserSnsFollowService } from './user_sns_follow.service';
-import {
-  Body,
-  Controller,
-  Get,
-  ParseIntPipe,
-  Post,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
 
 import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
 import { User } from 'src/users/decorator/user.decorator';
