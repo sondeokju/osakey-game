@@ -20,6 +20,8 @@ import { UserItem } from 'src/user_item/entities/user_item.entity';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { Users } from 'src/users/entity/users.entity';
 import { UsersService } from 'src/users/users.service';
+import { SnsConfig } from 'src/static-table/sns/sns_config/entities/sns_config.entity';
+import { SnsConfigService } from 'src/static-table/sns/sns_config/sns_config.service';
 
 @Module({
   imports: [
@@ -33,6 +35,7 @@ import { UsersService } from 'src/users/users.service';
       UserTunaTv,
       SnsLevel,
       SnsReward,
+      SnsConfig,
     ]),
   ],
   exports: [UserSnsLevelService],
@@ -48,6 +51,7 @@ import { UsersService } from 'src/users/users.service';
     UserTunaTvService,
     SnsLevelService,
     SnsRewardService,
+    SnsConfigService,
   ],
 })
 export class UserSnsLevelModule {}
