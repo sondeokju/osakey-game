@@ -12,7 +12,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-@Index(['url', 'created_at'], { unique: false })
+@Index(['url', 'created_at'], { unique: true })
 export class LogUrl {
   @PrimaryGeneratedColumn()
   id: number;
