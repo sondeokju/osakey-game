@@ -79,7 +79,7 @@ export class UserTunaTvService {
 
   async getTunaTv(tunaTv_id: number, qr?: QueryRunner) {
     const userTunaTvRepository = this.getUserTunaTvRepository(qr);
-    const userTunaTvData = await userTunaTvRepository.find({
+    const userTunaTvData = await userTunaTvRepository.findOne({
       where: {
         id: tunaTv_id,
       },
