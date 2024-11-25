@@ -47,6 +47,7 @@ export class UserSnsFollowController {
   @UseInterceptors(TransactionInterceptor)
   async FollowList(@User() user: Users, @QueryRunner() qr: QR) {
     const result = this.userSnsFollowService.followList(user.id, qr);
-    return JSON.stringify(result);
+    //return JSON.stringify(result);
+    return result;
   }
 }
