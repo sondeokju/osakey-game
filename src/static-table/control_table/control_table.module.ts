@@ -42,6 +42,10 @@ import { DispatchConfigService } from '../dispatch/dispatch_config/dispatch_conf
 import { DispatchEquipGradeService } from '../dispatch/dispatch_equip_grade/dispatch_equip_grade.service';
 import { DispatchEquipLevelService } from '../dispatch/dispatch_equip_level/dispatch_equip_level.service';
 import { DispatchUpgradeService } from '../dispatch/dispatch_upgrade/dispatch_upgrade.service';
+import { EduService } from '../edu/edu/edu.service';
+import { EduCurriculumService } from '../edu/edu_curriculum/edu_curriculum.service';
+import { EduListService } from '../edu/edu_list/edu_list.service';
+import { EduReduceTimeService } from '../edu/edu_reduce_time/edu_reduce_time.service';
 
 @Module({
   imports: [
@@ -93,6 +97,10 @@ import { DispatchUpgradeService } from '../dispatch/dispatch_upgrade/dispatch_up
     DispatchEquipGradeService,
     DispatchEquipLevelService,
     DispatchUpgradeService,
+    EduService,
+    EduCurriculumService,
+    EduListService,
+    EduReduceTimeService,
   ],
 })
 export class ControlTableModule {}

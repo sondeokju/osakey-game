@@ -20,6 +20,10 @@ import { DispatchConfigService } from '../dispatch/dispatch_config/dispatch_conf
 import { DispatchEquipGradeService } from '../dispatch/dispatch_equip_grade/dispatch_equip_grade.service';
 import { DispatchEquipLevelService } from '../dispatch/dispatch_equip_level/dispatch_equip_level.service';
 import { DispatchUpgradeService } from '../dispatch/dispatch_upgrade/dispatch_upgrade.service';
+import { EduService } from '../edu/edu/edu.service';
+import { EduCurriculumService } from '../edu/edu_curriculum/edu_curriculum.service';
+import { EduListService } from '../edu/edu_list/edu_list.service';
+import { EduReduceTimeService } from '../edu/edu_reduce_time/edu_reduce_time.service';
 
 @Injectable()
 export class ControlTableService {
@@ -45,6 +49,10 @@ export class ControlTableService {
     private readonly dispatchEquipGradeService: DispatchEquipGradeService,
     private readonly dispatchEquipLevelService: DispatchEquipLevelService,
     private readonly dispatchUpgradeService: DispatchUpgradeService,
+    private readonly eduService: EduService,
+    private readonly eduCurriculumService: EduCurriculumService,
+    private readonly eduListService: EduListService,
+    private readonly eduReduceTimeService: EduReduceTimeService,
   ) {}
 
   async getControlTableAll(qr?: QueryRunner) {
@@ -119,6 +127,17 @@ export class ControlTableService {
         await this.dispatchEquipLevelService.getDispatchEquipLevelAll(qr),
       dispatch_upgrade:
         await this.dispatchUpgradeService.getDispatchUpgradeAll(qr),
+    };
+
+    return obj;
+  }
+
+  async getEduAll(qr?: QueryRunner) {
+    const obj = {
+      edu: await this.eduService.getEduAll(qr),
+      edu_curriculum: await this.eduCurriculumService.getEduCurriculumAll(qr),
+      edu_list: await this.eduListService.getEduListAll(qr),
+      edu_reduce_time: await this.eduReduceTimeService.getEduReduceTimeAll(qr),
     };
 
     return obj;

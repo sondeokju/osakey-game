@@ -10,20 +10,20 @@ export class EduCurriculumService {
     private readonly eduRepository: Repository<EduCurriculum>,
   ) {}
 
-  getEduRepository(qr?: QueryRunner) {
+  getEduCurriculumRepository(qr?: QueryRunner) {
     return qr
       ? qr.manager.getRepository<EduCurriculum>(EduCurriculum)
       : this.eduRepository;
   }
 
-  async getEduAll(qr?: QueryRunner) {
-    const eduRepository = this.getEduRepository(qr);
+  async getEduCurriculumAll(qr?: QueryRunner) {
+    const eduRepository = this.getEduCurriculumRepository(qr);
     const result = await eduRepository.find({});
     return result;
   }
 
-  async getEdu(id: number, qr?: QueryRunner) {
-    const eduRepository = this.getEduRepository(qr);
+  async getEduCurriculum(id: number, qr?: QueryRunner) {
+    const eduRepository = this.getEduCurriculumRepository(qr);
     const result = await eduRepository.findOne({
       where: {
         id,
