@@ -11,7 +11,7 @@ export class EduList {
   edu_type: string;
 
   @Column({
-    default: '',
+    default: 0,
   })
   edu_curriculum_max: number;
 
