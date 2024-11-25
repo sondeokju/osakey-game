@@ -37,7 +37,7 @@ export class UserTunaTvOnlineService {
   //   return result;
   // }
 
-  async tunaTvOnlineList() {
+  async tunaTvOnlineList(qr?: QueryRunner) {
     const result = await this.executeRawQuery();
 
     return result;
