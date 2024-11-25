@@ -22,7 +22,7 @@ export class UserTunaTvOnlineService {
     //const userTunaTvOnlineData = await userTunaTvOnlineRepository.find();
     const result = await userTunaTvOnlineRepository
       .createQueryBuilder('tv_online') // 기본 테이블 별칭 설정
-      .select('user_tuna_tv_online.tuna_tv_id', 'tunaTvId') // 첫 번째 컬럼 선택
+      .select('tv_online.tuna_tv_id', 'tunaTvId') // 첫 번째 컬럼 선택
       .addSelect([
         'user_tuna_tv.ingame_kind',
         'user_tuna_tv.select_1',
