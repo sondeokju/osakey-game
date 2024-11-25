@@ -31,17 +31,23 @@ export class UserSnsLevelService {
       where: { user_id },
     });
 
+    console.log('userSnsLevelData:', userSnsLevelData);
+
     if (!userSnsLevelData) {
       return { message: 'sns level no data' };
     }
 
     const tunaTvData = await this.userTunaTvService.getTunaTv(tuna_tv_id);
+    console.log('tunaTvData:', tunaTvData);
     const snsReward = await this.snsRewardService.getSnsReward(
       tunaTvData.like_cnt,
     );
+    console.log('snsReward:', snsReward);
 
     const levelUpExp = userSnsLevelData.sns_exp + snsReward.sns_reward_exp;
+    console.log('levelUpExp:', levelUpExp);
     const snsLevel = await this.snsLevelService.getSnsExp(levelUpExp);
+    console.log('snsLevel:', snsLevel);
 
     console.log('sns_reward_exp:', snsReward.sns_reward_exp);
     console.log('sns_exp:', userSnsLevelData.sns_exp);
