@@ -37,7 +37,7 @@ export class UserTunaTvService {
       select_3,
       score,
       upload_yn: 'N',
-      upload_txt: 'N',
+      upload_txt: '',
       like_cnt: 0,
     };
 
