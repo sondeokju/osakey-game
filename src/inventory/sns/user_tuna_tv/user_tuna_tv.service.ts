@@ -2,12 +2,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserTunaTv } from './entities/user_tuna_tv.entity';
 import { QueryRunner, Repository } from 'typeorm';
+import { SnsConfigService } from 'src/static-table/sns/sns_config/sns_config.service';
 
 @Injectable()
 export class UserTunaTvService {
   constructor(
     @InjectRepository(UserTunaTv)
     private readonly userTunaTvRepository: Repository<UserTunaTv>,
+    private readonly snsConfigService: SnsConfigService,
   ) {}
 
   getUserTunaTvRepository(qr?: QueryRunner) {
@@ -27,6 +29,18 @@ export class UserTunaTvService {
     qr?: QueryRunner,
   ) {
     const userTunaTvRepository = this.getUserTunaTvRepository(qr);
+    const tunaTvCount = await userTunaTvRepository.count({
+      where: {
+        user_id,
+      },
+    });
+
+    const snsConfig =
+      await this.snsConfigService.getSnsConfig('save_thumbnail_max');
+
+    if (tunaTvCount === snsConfig.option) {
+      return { message: 'tuna tv over 15' };
+    }
 
     const tunaTvData = {
       user_id,

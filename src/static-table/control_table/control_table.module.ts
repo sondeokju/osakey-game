@@ -32,6 +32,16 @@ import { SnsConfig } from '../sns/sns_config/entities/sns_config.entity';
 import { SnsLevel } from '../sns/sns_level/entities/sns_level.entity';
 import { SnsLikeRule } from '../sns/sns_like_rule/entities/sns_like_rule.entity';
 import { SnsReward } from '../sns/sns_reward/entities/sns_reward.entity';
+import { Dispatch } from '../dispatch/dispatch/entities/dispatch.entity';
+import { DispatchConfig } from '../dispatch/dispatch_config/entities/dispatch_config.entity';
+import { DispatchEquipGrade } from '../dispatch/dispatch_equip_grade/entities/dispatch_equip_grade.entity';
+import { DispatchEquipLevel } from '../dispatch/dispatch_equip_level/entities/dispatch_equip_level.entity';
+import { DispatchUpgrade } from '../dispatch/dispatch_upgrade/entities/dispatch_upgrade.entity';
+import { DispatchService } from '../dispatch/dispatch/dispatch.service';
+import { DispatchConfigService } from '../dispatch/dispatch_config/dispatch_config.service';
+import { DispatchEquipGradeService } from '../dispatch/dispatch_equip_grade/dispatch_equip_grade.service';
+import { DispatchEquipLevelService } from '../dispatch/dispatch_equip_level/dispatch_equip_level.service';
+import { DispatchUpgradeService } from '../dispatch/dispatch_upgrade/dispatch_upgrade.service';
 
 @Module({
   imports: [
@@ -52,6 +62,11 @@ import { SnsReward } from '../sns/sns_reward/entities/sns_reward.entity';
       SnsLevel,
       SnsLikeRule,
       SnsReward,
+      Dispatch,
+      DispatchConfig,
+      DispatchEquipGrade,
+      DispatchEquipLevel,
+      DispatchUpgrade,
     ]),
   ],
   exports: [ControlTableService],
@@ -73,6 +88,11 @@ import { SnsReward } from '../sns/sns_reward/entities/sns_reward.entity';
     SnsLevelService,
     SnsLikeRuleService,
     SnsRewardService,
+    DispatchService,
+    DispatchConfigService,
+    DispatchEquipGradeService,
+    DispatchEquipLevelService,
+    DispatchUpgradeService,
   ],
 })
 export class ControlTableModule {}

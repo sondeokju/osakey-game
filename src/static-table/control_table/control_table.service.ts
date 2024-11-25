@@ -15,6 +15,11 @@ import { SnsConfigService } from '../sns/sns_config/sns_config.service';
 import { SnsLevelService } from '../sns/sns_level/sns_level.service';
 import { SnsLikeRuleService } from '../sns/sns_like_rule/sns_like_rule.service';
 import { SnsRewardService } from '../sns/sns_reward/sns_reward.service';
+import { DispatchService } from '../dispatch/dispatch/dispatch.service';
+import { DispatchConfigService } from '../dispatch/dispatch_config/dispatch_config.service';
+import { DispatchEquipGradeService } from '../dispatch/dispatch_equip_grade/dispatch_equip_grade.service';
+import { DispatchEquipLevelService } from '../dispatch/dispatch_equip_level/dispatch_equip_level.service';
+import { DispatchUpgradeService } from '../dispatch/dispatch_upgrade/dispatch_upgrade.service';
 
 @Injectable()
 export class ControlTableService {
@@ -35,6 +40,11 @@ export class ControlTableService {
     private readonly snsLevelService: SnsLevelService,
     private readonly snsLikeRuleService: SnsLikeRuleService,
     private readonly snsRewardService: SnsRewardService,
+    private readonly dispatchService: DispatchService,
+    private readonly dispatchConfigService: DispatchConfigService,
+    private readonly dispatchEquipGradeService: DispatchEquipGradeService,
+    private readonly dispatchEquipLevelService: DispatchEquipLevelService,
+    private readonly dispatchUpgradeService: DispatchUpgradeService,
   ) {}
 
   async getControlTableAll(qr?: QueryRunner) {
@@ -46,6 +56,7 @@ export class ControlTableService {
       npc_location: await this.getNpcLocationAll(qr),
       reward: await this.getRewardAll(qr),
       sns: await this.getSnsAll(qr),
+      dispatch: await this.getDispatchAll(qr),
     };
 
     return obj;
@@ -92,6 +103,22 @@ export class ControlTableService {
       sns_level: await this.snsLevelService.getSnsLevelAll(qr),
       sns_like_rule: await this.snsLikeRuleService.getSnsLikeRuleAll(qr),
       sns_reward: await this.snsRewardService.getSnsRewardAll(qr),
+    };
+
+    return obj;
+  }
+
+  async getDispatchAll(qr?: QueryRunner) {
+    const obj = {
+      dispatch: await this.dispatchService.getDispatchAll(qr),
+      dispatch_config:
+        await this.dispatchConfigService.getDispatchConfigAll(qr),
+      dispatch_equip_grade:
+        await this.dispatchEquipGradeService.getDispatchEquipGradeAll(qr),
+      dispatch_equip_level:
+        await this.dispatchEquipLevelService.getDispatchEquipLevelAll(qr),
+      dispatch_upgrade:
+        await this.dispatchUpgradeService.getDispatchUpgradeAll(qr),
     };
 
     return obj;

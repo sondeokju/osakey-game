@@ -16,13 +16,13 @@ export class DispatchUpgradeService {
       : this.dispatchUpgradeRepository;
   }
 
-  async getDispatchEquipGradeAll(qr?: QueryRunner) {
+  async getDispatchUpgradeAll(qr?: QueryRunner) {
     const dispatchUpgradeRepository = this.getDispatchUpgradeRepository(qr);
     const result = await dispatchUpgradeRepository.find({});
     return result;
   }
 
-  async getDispatchEquipGrade(suit_piece_grade: string, qr?: QueryRunner) {
+  async getDispatchUpgrade(suit_piece_grade: string, qr?: QueryRunner) {
     const dispatchUpgradeRepository = this.getDispatchUpgradeRepository(qr);
     const result = await dispatchUpgradeRepository.findOne({
       where: {

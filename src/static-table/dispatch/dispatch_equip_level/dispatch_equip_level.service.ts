@@ -16,14 +16,14 @@ export class DispatchEquipLevelService {
       : this.dispatchEquipLevelRepository;
   }
 
-  async getDispatchEquipGradeAll(qr?: QueryRunner) {
+  async getDispatchEquipLevelAll(qr?: QueryRunner) {
     const dispatchEquipLevelRepository =
       this.getDispatchEquipLevelRepository(qr);
     const result = await dispatchEquipLevelRepository.find({});
     return result;
   }
 
-  async getDispatchEquipGrade(equip_level: number, qr?: QueryRunner) {
+  async getDispatchEquipLevel(equip_level: number, qr?: QueryRunner) {
     const dispatchEquipLevelRepository =
       this.getDispatchEquipLevelRepository(qr);
     const result = await dispatchEquipLevelRepository.findOne({
