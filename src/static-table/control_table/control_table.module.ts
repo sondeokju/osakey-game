@@ -46,6 +46,10 @@ import { EduService } from '../edu/edu/edu.service';
 import { EduCurriculumService } from '../edu/edu_curriculum/edu_curriculum.service';
 import { EduListService } from '../edu/edu_list/edu_list.service';
 import { EduReduceTimeService } from '../edu/edu_reduce_time/edu_reduce_time.service';
+import { Edu } from '../edu/edu/entities/edu.entity';
+import { EduCurriculum } from '../edu/edu_curriculum/entities/edu_curriculum.entity';
+import { EduList } from '../edu/edu_list/entities/edu_list.entity';
+import { EduReduceTime } from '../edu/edu_reduce_time/entities/edu_reduce_time.entity';
 
 @Module({
   imports: [
@@ -71,6 +75,10 @@ import { EduReduceTimeService } from '../edu/edu_reduce_time/edu_reduce_time.ser
       DispatchEquipGrade,
       DispatchEquipLevel,
       DispatchUpgrade,
+      Edu,
+      EduCurriculum,
+      EduList,
+      EduReduceTime,
     ]),
   ],
   exports: [ControlTableService],
