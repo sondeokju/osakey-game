@@ -6,13 +6,13 @@ import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
 import { QueryRunner as QR } from 'typeorm';
 import { Users } from 'src/users/entity/users.entity';
 
-@Controller('tuna-tv-online')
+@Controller('tuna-tv')
 export class UserTunaTvOnlineController {
   constructor(
     private readonly userTunaTvOnlineService: UserTunaTvOnlineService,
   ) {}
 
-  @Get('data')
+  @Get('online')
   @UseInterceptors(TransactionInterceptor)
   async FollowList(@User() user: Users, @QueryRunner() qr: QR) {
     const result = this.userTunaTvOnlineService.tunaTvOnlineList(qr);
