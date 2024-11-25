@@ -32,7 +32,7 @@ export class UserTunaTvOnlineService {
       .innerJoin(
         UserTunaTv, // 조인 대상 테이블
         'user_tuna_tv', // 조인 대상 테이블의 별칭
-        'user_tuna_tv_online.tuna_tv_id = user_tuna_tv.tuna_tv_id', // 조인 조건
+        'user_tuna_tv_online.tuna_tv_id = user_tuna_tv.id', // 조인 조건
       )
       .getRawMany(); // Raw 데이터 가져오기
 
