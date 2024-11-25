@@ -22,14 +22,9 @@ export class UserTunaTvOnlineService {
     //const userTunaTvOnlineData = await userTunaTvOnlineRepository.find();
     const result = await userTunaTvOnlineRepository
       .createQueryBuilder()
-      .select('user_tuna_tv_online.tuna_tv_id')
-      .addSelect(
-        'user_tuna_tv.ingame_kind',
-        'user_tuna_tv.select_1',
-        'user_tuna_tv.select_2',
-        'user_tuna_tv.select_3',
-      )
+      .select('user_tuna_tv_online.tuna_tv_id', 'user_tuna_tv.ingame_kind')
       .from(UserTunaTv, 'user_tuna_tv')
+      .addSelect('user_tuna_tv.select_1', 'user_tuna_tv.select_2')
       .innerJoin(
         UserTunaTvOnline,
         'user_tuna_tv_online',
