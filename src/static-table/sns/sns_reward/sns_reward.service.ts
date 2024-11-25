@@ -1,6 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Between, QueryRunner, Repository } from 'typeorm';
+import {
+  Between,
+  LessThanOrEqual,
+  MoreThanOrEqual,
+  QueryRunner,
+  Repository,
+} from 'typeorm';
 import { SnsReward } from './entities/sns_reward.entity';
 
 @Injectable()
@@ -26,8 +32,8 @@ export class SnsRewardService {
     const snsRewardRepository = this.getSnsRewardRepository(qr);
     const result = await snsRewardRepository.findOne({
       where: {
-        like_min: Between(like_cnt, Number.MIN_SAFE_INTEGER),
-        like_max: Between(Number.MAX_SAFE_INTEGER, like_cnt),
+        like_min: LessThanOrEqual(like_cnt), // like_cnt >= like_min
+        like_max: MoreThanOrEqual(like_cnt), // like_cnt <= like_max
       },
     });
 
