@@ -52,14 +52,19 @@ export class UserSnsLevelService {
     console.log('sns_reward_exp:', snsReward.sns_reward_exp);
     console.log('sns_exp:', userSnsLevelData.sns_exp);
 
-    if (levelUpExp >= snsLevel.total_exp) {
-      await userSnsLevelRepository.save({
-        ...userSnsLevelData,
-        sns_level: snsLevel.sns_level,
-        sns_exp: levelUpExp,
-      });
-    }
+    await userSnsLevelRepository.save({
+      ...userSnsLevelData,
+      sns_level: snsLevel.sns_level,
+      sns_exp: levelUpExp,
+    });
 
+    // if (levelUpExp >= snsLevel.total_exp) {
+    //   await userSnsLevelRepository.save({
+    //     ...userSnsLevelData,
+    //     sns_level: snsLevel.sns_level,
+    //     sns_exp: levelUpExp,
+    //   });
+    // }
     const rewardData = await this.rewardOfferService.reward(
       user_id,
       snsReward.reward_id,
