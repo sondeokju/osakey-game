@@ -22,15 +22,15 @@ export class UserTunaTvOnlineService {
     //const userTunaTvOnlineData = await userTunaTvOnlineRepository.find();
     const result = await userTunaTvOnlineRepository
       .createQueryBuilder('user_tuna_tv_online') // 기본 테이블 별칭 설정
-      .select('user_tuna_tv_online.tuna_tv_id', 'tunaTvId') // 첫 번째 컬럼 선택
-      //.addSelect('user_tuna_tv.ingame_kind', 'ingameKind') // 조인된 테이블 컬럼 선택
+      .select('user_tuna_tv_online.tuna_tv_id') // 첫 번째 컬럼 선택
       .addSelect([
+        'user_tuna_tv.ingame_kind',
         'user_tuna_tv.select_1',
         'user_tuna_tv.select_2',
         'user_tuna_tv.select_3',
       ]) // 추가 컬럼 선택
       .innerJoin(
-        UserTunaTv, // 조인 대상 테이블
+        'user_tuna_tv', // 조인 대상 테이블
         'user_tuna_tv', // 조인 대상 테이블의 별칭
         'user_tuna_tv_online.tuna_tv_id = user_tuna_tv.id', // 조인 조건
       )
