@@ -46,11 +46,12 @@ export class UserTunaTvController {
   @UseInterceptors(TransactionInterceptor)
   async tunaTvUpload(
     @User() user: Users,
+    @Body('tunaTv_id') tunaTv_id: number,
     @Body('upload_txt') upload_txt: string,
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userTunaTvService.tunaTvUpload(
-      user.id,
+      tunaTv_id,
       upload_txt,
       qr,
     );
