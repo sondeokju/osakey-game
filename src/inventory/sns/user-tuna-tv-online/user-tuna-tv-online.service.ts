@@ -21,7 +21,7 @@ export class UserTunaTvOnlineService {
     const userTunaTvOnlineRepository = this.getUserTunaTvOnlineRepository(qr);
     const result = await userTunaTvOnlineRepository
       .createQueryBuilder('a') // `user_tuna_tv_online` 테이블의 별칭을 `a`로 설정
-      .select('a.tuna_tv_id', 'tunaTvId') // 첫 번째 테이블에서 tuna_tv_id 선택
+      .select('a.tuna_tv_id', 'tuna_tv_id') // 첫 번째 테이블에서 tuna_tv_id 선택
       .addSelect('b.ingame_kind', 'ingameKind') // 두 번째 테이블에서 ingame_kind 선택
       .addSelect('b.select_1', 'select1')
       .addSelect('b.select_2', 'select2')
