@@ -23,7 +23,7 @@ export class UserTunaTvOnlineService {
     const result = await userTunaTvOnlineRepository
       .createQueryBuilder('user_tuna_tv_online') // 기본 테이블 별칭 설정
       .select('user_tuna_tv_online.tuna_tv_id', 'tunaTvId') // 첫 번째 컬럼 선택
-      .addSelect('user_tuna_tv.ingame_kind', 'ingameKind') // 조인된 테이블 컬럼 선택
+      //.addSelect('user_tuna_tv.ingame_kind', 'ingameKind') // 조인된 테이블 컬럼 선택
       .addSelect([
         'user_tuna_tv.select_1',
         'user_tuna_tv.select_2',
