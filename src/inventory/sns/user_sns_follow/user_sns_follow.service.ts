@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { UserSnsFollow } from './entities/user_sns_follow.entity';
+import { SnsConfigService } from 'src/static-table/sns/sns_config/sns_config.service';
 
 @Injectable()
 export class UserSnsFollowService {
