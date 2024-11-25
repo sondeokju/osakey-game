@@ -16,6 +16,7 @@ export class UserTunaTvOnlineController {
   @UseInterceptors(TransactionInterceptor)
   async FollowList(@User() user: Users, @QueryRunner() qr: QR) {
     const result = this.userTunaTvOnlineService.tunaTvOnlineList(qr);
-    return JSON.stringify(result);
+    //return JSON.stringify(result);
+    return result;
   }
 }
