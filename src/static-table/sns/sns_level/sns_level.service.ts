@@ -27,7 +27,7 @@ export class SnsLevelService {
     const result = await snsLevelRepository
       .createQueryBuilder('sns_level')
       .where('sns_level.total_exp <= :sns_exp', { sns_exp })
-      .orderBy('sns_level.total_exp', 'DESC')
+      .orderBy('sns_level.sns_level', 'DESC')
       .getOne();
 
     return result;
