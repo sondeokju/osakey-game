@@ -8,6 +8,11 @@ import { UserSnsRewardModule } from 'src/inventory/sns/user_sns_reward/user_sns_
 import { UserTunaTvModule } from 'src/inventory/sns/user_tuna_tv/user_tuna_tv.module';
 import { RealtimeModule } from 'src/SocketIO/realtime/realtime.module';
 import { ControlTableModule } from 'src/static-table/control_table/control_table.module';
+import { EduModule } from 'src/static-table/edu/edu/edu.module';
+import { EduCurriculumModule } from 'src/static-table/edu/edu_curriculum/edu_curriculum.module';
+import { EduListModule } from 'src/static-table/edu/edu_list/edu_list.module';
+import { EduReduceTimeModule } from 'src/static-table/edu/edu_reduce_time/edu_reduce_time.module';
+import { EduReduceTime } from 'src/static-table/edu/edu_reduce_time/entities/edu_reduce_time.entity';
 import { EquipStatModule } from 'src/static-table/equip-stat/equip-stat.module';
 import { GachaModule } from 'src/static-table/gacha/gacha.module';
 import { HeroModule } from 'src/static-table/hero/hero.module';
@@ -80,4 +85,8 @@ export const entities_module = [
   UserSnsLevelModule,
   UserSnsFollowModule,
   UserTunaTvOnlineModule,
+  EduModule,
+  EduCurriculumModule,
+  EduListModule,
+  EduReduceTime,
 ];

@@ -4,6 +4,10 @@ import { UserSnsFollow } from 'src/inventory/sns/user_sns_follow/entities/user_s
 import { UserSnsLevel } from 'src/inventory/sns/user_sns_level/entities/user_sns_level.entity';
 import { UserSnsReward } from 'src/inventory/sns/user_sns_reward/entities/user_sns_reward.entity';
 import { UserTunaTv } from 'src/inventory/sns/user_tuna_tv/entities/user_tuna_tv.entity';
+import { Edu } from 'src/static-table/edu/edu/entities/edu.entity';
+import { EduCurriculum } from 'src/static-table/edu/edu_curriculum/entities/edu_curriculum.entity';
+import { EduList } from 'src/static-table/edu/edu_list/entities/edu_list.entity';
+import { EduReduceTime } from 'src/static-table/edu/edu_reduce_time/entities/edu_reduce_time.entity';
 import { EquipStat } from 'src/static-table/equip-stat/entities/equip-stat.entity';
 import { Gacha } from 'src/static-table/gacha/entities/gacha.entity';
 import { Hero } from 'src/static-table/hero/entities/hero.entity';
@@ -70,4 +74,8 @@ export const entities = [
   UserSnsReward,
   UserTunaTv,
   UserTunaTvOnline,
+  Edu,
+  EduCurriculum,
+  EduReduceTime,
+  EduList,
 ];
