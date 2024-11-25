@@ -59,6 +59,18 @@ export class UserTunaTvController {
     return JSON.stringify(result);
   }
 
+  @Post('delete')
+  @UseInterceptors(TransactionInterceptor)
+  async TunaTvDelete(
+    @User() user: Users,
+    @Body('tunaTv_id') tunaTv_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userTunaTvService.TunaTvDelete(tunaTv_id, qr);
+
+    return JSON.stringify(result);
+  }
+
   @Get('list')
   @UseInterceptors(TransactionInterceptor)
   async TunaTvList(@User() user: Users, @QueryRunner() qr: QR) {

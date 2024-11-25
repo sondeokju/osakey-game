@@ -1,26 +1,33 @@
 import { Injectable } from '@nestjs/common';
-import { CreateEduDto } from './dto/create-edu.dto';
-import { UpdateEduDto } from './dto/update-edu.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { Edu } from './entities/edu.entity';
 
 @Injectable()
 export class EduService {
-  create(createEduDto: CreateEduDto) {
-    return 'This action adds a new edu';
+  constructor(
+    @InjectRepository(Edu)
+    private readonly eduRepository: Repository<Edu>,
+  ) {}
+
+  getEduRepository(qr?: QueryRunner) {
+    return qr ? qr.manager.getRepository<Edu>(Edu) : this.eduRepository;
   }
 
-  findAll() {
-    return `This action returns all edu`;
+  async getEduAll(qr?: QueryRunner) {
+    const eduRepository = this.getEduRepository(qr);
+    const result = await eduRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} edu`;
-  }
+  async getEdu(edu_type: string, qr?: QueryRunner) {
+    const eduRepository = this.getEduRepository(qr);
+    const result = await eduRepository.findOne({
+      where: {
+        edu_type,
+      },
+    });
 
-  update(id: number, updateEduDto: UpdateEduDto) {
-    return `This action updates a #${id} edu`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} edu`;
+    return result;
   }
 }

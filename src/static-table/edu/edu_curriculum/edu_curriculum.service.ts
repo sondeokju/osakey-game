@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
-import { CreateEduCurriculumDto } from './dto/create-edu_curriculum.dto';
-import { UpdateEduCurriculumDto } from './dto/update-edu_curriculum.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { EduCurriculum } from './entities/edu_curriculum.entity';
 
 @Injectable()
 export class EduCurriculumService {
-  create(createEduCurriculumDto: CreateEduCurriculumDto) {
-    return 'This action adds a new eduCurriculum';
+  constructor(
+    @InjectRepository(EduCurriculum)
+    private readonly eduRepository: Repository<EduCurriculum>,
+  ) {}
+
+  getEduRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<EduCurriculum>(EduCurriculum)
+      : this.eduRepository;
   }
 
-  findAll() {
-    return `This action returns all eduCurriculum`;
+  async getEduAll(qr?: QueryRunner) {
+    const eduRepository = this.getEduRepository(qr);
+    const result = await eduRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} eduCurriculum`;
-  }
+  async getEdu(id: number, qr?: QueryRunner) {
+    const eduRepository = this.getEduRepository(qr);
+    const result = await eduRepository.findOne({
+      where: {
+        id,
+      },
+    });
 
-  update(id: number, updateEduCurriculumDto: UpdateEduCurriculumDto) {
-    return `This action updates a #${id} eduCurriculum`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} eduCurriculum`;
+    return result;
   }
 }

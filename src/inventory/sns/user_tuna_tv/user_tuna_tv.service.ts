@@ -102,6 +102,22 @@ export class UserTunaTvService {
     return userTunaTvData;
   }
 
+  async TunaTvDelete(tuna_tv_id: number, qr?: QueryRunner) {
+    const userTunaTvRepository = this.getUserTunaTvRepository(qr);
+    const userTunaTvData = await userTunaTvRepository.find({
+      where: {
+        id: tuna_tv_id,
+      },
+    });
+
+    if (!userTunaTvData) {
+      throw new NotFoundException('Tuna TV not found');
+    }
+
+    const deleteData = await userTunaTvRepository.remove(userTunaTvData);
+    return deleteData;
+  }
+
   async TunaTvList(user_id: number, qr?: QueryRunner) {
     const userTunaTvRepository = this.getUserTunaTvRepository(qr);
     const userTunaTvData = await userTunaTvRepository.find({
