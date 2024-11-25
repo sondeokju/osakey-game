@@ -65,6 +65,7 @@ export class ControlTableService {
       reward: await this.getRewardAll(qr),
       sns: await this.getSnsAll(qr),
       dispatch: await this.getDispatchAll(qr),
+      edu: await this.getEduAll(qr),
     };
 
     return obj;
