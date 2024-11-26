@@ -8,6 +8,7 @@ import { EduReduceTimeService } from 'src/static-table/edu/edu_reduce_time/edu_r
 import { ItemService } from 'src/static-table/item/item.service';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { UserItemService } from 'src/user_item/user_item.service';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class UserEduStatsService {
@@ -20,6 +21,7 @@ export class UserEduStatsService {
     private readonly itemService: ItemService,
     private readonly rewardOfferService: RewardOfferService,
     private readonly userItemService: UserItemService,
+    private readonly usersService: UsersService,
   ) {}
 
   getUserEduStatsRepository(qr?: QueryRunner) {
@@ -182,20 +184,20 @@ export class UserEduStatsService {
       throw new NotFoundException('item not found');
     }
 
-    const rewards = [
-      { type: 'gord', qty: eduReduceTime.gord },
-      { type: 'diamond_free', qty: eduReduceTime.diamond_free },
-    ];
+    await this.usersService.reduceGord(user_id, eduReduceTime.gord, qr);
 
-    let rewardItem = {};
-    for (const reward of rewards) {
-      rewardItem = await this.rewardOfferService.rewardCurrency(
-        user_id,
-        reward.type,
-        reward.qty,
-      );
-    }
-    return rewardItem;
+    await this.usersService.reduceDiamondFree(
+      user_id,
+      eduReduceTime.diamond_free,
+      qr,
+    );
+
+    const reduceData = {
+      gord: eduReduceTime.gord,
+      diamond_free: eduReduceTime.diamond_free,
+    };
+
+    return reduceData;
   }
 
   async learnComplete(user_id: number, edu_list_id: number, qr?: QueryRunner) {
@@ -225,3 +227,17 @@ export class UserEduStatsService {
     return result;
   }
 }
+
+// const rewards = [
+//   { type: 'gord', qty: eduReduceTime.gord },
+//   { type: 'diamond_free', qty: eduReduceTime.diamond_free },
+// ];
+
+// let rewardItem = {};
+// for (const reward of rewards) {
+//   rewardItem = await this.rewardOfferService.rewardCurrency(
+//     user_id,
+//     reward.type,
+//     reward.qty,
+//   );
+// }

@@ -300,6 +300,54 @@ export class UsersService {
     return result;
   }
 
+  async reduceDiamondFree(
+    user_id: number,
+    diamond_free: number,
+    qr?: QueryRunner,
+  ) {
+    const usersRepository = this.getUsersRepository(qr);
+    const userData = await usersRepository.findOne({
+      where: {
+        id: user_id,
+      },
+    });
+
+    if (diamond_free < 0) return -1;
+
+    await usersRepository.save({
+      ...userData,
+      diamond_free: userData.diamond_free - diamond_free,
+    });
+
+    const obj = {
+      diamond_free: { diamond_free: diamond_free },
+    };
+
+    return obj;
+  }
+
+  async reduceGord(user_id: number, gord: number, qr?: QueryRunner) {
+    const usersRepository = this.getUsersRepository(qr);
+    const userData = await usersRepository.findOne({
+      where: {
+        id: user_id,
+      },
+    });
+
+    if (gord < 0) return -1;
+
+    await usersRepository.save({
+      ...userData,
+      diamond_free: userData.gord - gord,
+    });
+
+    const obj = {
+      gord: { gord: gord },
+    };
+
+    return obj;
+  }
+
   async patchTakeBattery(id: number, battery: number, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({
