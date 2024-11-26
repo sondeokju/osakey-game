@@ -41,8 +41,6 @@ export class UserEduStatsService {
 
     const eduList = await this.eduListService.getEduList(edu_list_id, qr);
 
-    let reduceItemData = {};
-
     if (!eduList) {
       throw new NotFoundException('edu_list not found');
     }
@@ -86,6 +84,21 @@ export class UserEduStatsService {
         eduCurriculum.price_item_id,
         eduCurriculum.price_item_qty,
       );
+
+      const userData = await this.usersService.getMe(user_id, qr);
+      if (
+        userData.gord < eduCurriculum.gord ||
+        userData.diamond_free < eduCurriculum.diamond_free
+      ) {
+        throw new NotFoundException('gord, diamond_free not enough');
+      }
+      await this.usersService.reduceGord(user_id, eduCurriculum.gord, qr);
+
+      await this.usersService.reduceDiamondFree(
+        user_id,
+        eduCurriculum.diamond_free,
+        qr,
+      );
     } else {
       if (userEduStats.edu_curriculum_cnt >= eduList.edu_curriculum_max) {
         throw new NotFoundException('edu_curriculum_max over');
@@ -115,6 +128,21 @@ export class UserEduStatsService {
         user_id,
         eduCurriculum.price_item_id,
         eduCurriculum.price_item_qty,
+      );
+
+      const userData = await this.usersService.getMe(user_id, qr);
+      if (
+        userData.gord < eduCurriculum.gord ||
+        userData.diamond_free < eduCurriculum.diamond_free
+      ) {
+        throw new NotFoundException('gord, diamond_free not enough');
+      }
+      await this.usersService.reduceGord(user_id, eduCurriculum.gord, qr);
+
+      await this.usersService.reduceDiamondFree(
+        user_id,
+        eduCurriculum.diamond_free,
+        qr,
       );
     }
 
