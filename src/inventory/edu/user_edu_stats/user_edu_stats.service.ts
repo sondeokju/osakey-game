@@ -141,5 +141,13 @@ export class UserEduStatsService {
       ...userEduStats,
       edu_learn_yn: 'Y',
     });
+
+    const result = await userEduStatsRepository.find({
+      where: {
+        user_id,
+      },
+    });
+
+    return result;
   }
 }
