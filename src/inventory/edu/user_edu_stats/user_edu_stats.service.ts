@@ -199,7 +199,7 @@ export class UserEduStatsService {
   ) {
     console.log('eduList', eduList);
     const eduCurriculum = await this.eduCurriculumService.getEduCurriculum(
-      eduList.id,
+      eduList.edu_list_id,
       1,
       qr,
     );
@@ -209,7 +209,7 @@ export class UserEduStatsService {
 
     await this.getUserEduStatsRepository(qr).insert({
       user_id,
-      edu_list_id: eduList.id,
+      edu_list_id: eduList.edu_list_id,
       edu_type: eduList.edu_type,
       edu_curriculum_cnt: 1,
       edu_buff_type: eduList.edu_buff_type,
