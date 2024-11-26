@@ -23,20 +23,20 @@ export class EduCurriculum {
   @Column({
     default: 0,
   })
-  price1_item_id: number;
+  price_item_id: number;
 
   @Column({
     default: 0,
   })
-  price1_item_qty: number;
+  price_item_qty: number;
 
   @Column({
     default: 0,
   })
-  price2_item_id: number;
+  gord: number;
 
   @Column({
     default: 0,
   })
-  price2_item_qty: number;
+  diamond_free: number;
 }
