@@ -9,6 +9,9 @@ import { EduList } from 'src/static-table/edu/edu_list/entities/edu_list.entity'
 import { EduCurriculum } from 'src/static-table/edu/edu_curriculum/entities/edu_curriculum.entity';
 import { EduReduceTimeService } from 'src/static-table/edu/edu_reduce_time/edu_reduce_time.service';
 import { EduReduceTime } from 'src/static-table/edu/edu_reduce_time/entities/edu_reduce_time.entity';
+import { Item } from 'src/static-table/item/entities/item.entity';
+import { ItemService } from 'src/static-table/item/item.service';
+import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 
 @Module({
   imports: [
@@ -17,6 +20,7 @@ import { EduReduceTime } from 'src/static-table/edu/edu_reduce_time/entities/edu
       EduList,
       EduCurriculum,
       EduReduceTime,
+      Item,
     ]),
   ],
   exports: [UserEduStatsService],
@@ -26,6 +30,8 @@ import { EduReduceTime } from 'src/static-table/edu/edu_reduce_time/entities/edu
     EduListService,
     EduCurriculumService,
     EduReduceTimeService,
+    ItemService,
+    RewardOfferService,
   ],
 })
 export class UserEduStatsModule {}

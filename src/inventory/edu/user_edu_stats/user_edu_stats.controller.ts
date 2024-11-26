@@ -49,4 +49,40 @@ export class UserEduStatsController {
 
     return JSON.stringify(result);
   }
+
+  @Post('reduce/item')
+  @UseInterceptors(TransactionInterceptor)
+  async reduceLearnTimeItem(
+    @User() user: Users,
+    @Body('edu_list_id') edu_list_id: number,
+    @Body('edu_reduce_time_id') edu_reduce_time_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userEduStatsService.reduceLearnTimeItem(
+      user.id,
+      edu_list_id,
+      edu_reduce_time_id,
+      qr,
+    );
+
+    return JSON.stringify(result);
+  }
+
+  @Post('reduce/currency')
+  @UseInterceptors(TransactionInterceptor)
+  async reduceLearnTimeCurrency(
+    @User() user: Users,
+    @Body('edu_list_id') edu_list_id: number,
+    @Body('edu_reduce_time_id') edu_reduce_time_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userEduStatsService.reduceLearnTimeCurrency(
+      user.id,
+      edu_list_id,
+      edu_reduce_time_id,
+      qr,
+    );
+
+    return JSON.stringify(result);
+  }
 }

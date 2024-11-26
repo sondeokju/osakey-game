@@ -5,6 +5,8 @@ import { UserEduStats } from './entities/user_edu_stats.entity';
 import { EduListService } from 'src/static-table/edu/edu_list/edu_list.service';
 import { EduCurriculumService } from 'src/static-table/edu/edu_curriculum/edu_curriculum.service';
 import { EduReduceTimeService } from 'src/static-table/edu/edu_reduce_time/edu_reduce_time.service';
+import { ItemService } from 'src/static-table/item/item.service';
+import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 
 @Injectable()
 export class UserEduStatsService {
@@ -14,6 +16,8 @@ export class UserEduStatsService {
     private readonly eduListService: EduListService,
     private readonly eduCurriculumService: EduCurriculumService,
     private readonly eduReduceTimeService: EduReduceTimeService,
+    private readonly itemService: ItemService,
+    private readonly rewardOfferService: RewardOfferService,
   ) {}
 
   getUserEduStatsRepository(qr?: QueryRunner) {
@@ -83,7 +87,7 @@ export class UserEduStatsService {
     return result;
   }
 
-  async reduceLearnTime(
+  async reduceLearnTimeItem(
     user_id: number,
     edu_list_id: number,
     edu_reduce_time_id: number,
@@ -109,19 +113,69 @@ export class UserEduStatsService {
     if (!eduReduceTime) {
       throw new NotFoundException('edu_reduce_time not found');
     }
+    const item = await this.itemService.getItem(
+      eduReduceTime.reduce_item_id,
+      qr,
+    );
+    if (!item) {
+      throw new NotFoundException('item not found');
+    }
 
-    await userEduStatsRepository.save({
-      ...userEduStats,
-      //edu_learn_yn: 'Y',
-    });
+    const rewardItem = await this.rewardOfferService.reward(
+      user_id,
+      eduReduceTime.reduce_item_id,
+    );
+    return rewardItem;
+  }
 
-    const result = await userEduStatsRepository.find({
+  async reduceLearnTimeCurrency(
+    user_id: number,
+    edu_list_id: number,
+    edu_reduce_time_id: number,
+    qr?: QueryRunner,
+  ) {
+    const userEduStatsRepository = this.getUserEduStatsRepository(qr);
+    const userEduStats = await userEduStatsRepository.findOne({
       where: {
         user_id,
+        edu_list_id,
       },
     });
 
-    return result;
+    if (!userEduStats) {
+      throw new NotFoundException('user_edu_stats not found');
+    }
+
+    const eduReduceTime = await this.eduReduceTimeService.getEduReduceTime(
+      edu_reduce_time_id,
+      qr,
+    );
+
+    if (!eduReduceTime) {
+      throw new NotFoundException('edu_reduce_time not found');
+    }
+    const item = await this.itemService.getItem(
+      eduReduceTime.reduce_item_id,
+      qr,
+    );
+    if (!item) {
+      throw new NotFoundException('item not found');
+    }
+
+    const rewards = [
+      { type: 'gord', qty: eduReduceTime.gord },
+      { type: 'diamond_free', qty: eduReduceTime.diamond_free },
+    ];
+
+    let rewardItem = {};
+    for (const reward of rewards) {
+      rewardItem = await this.rewardOfferService.rewardCurrency(
+        user_id,
+        reward.type,
+        reward.qty,
+      );
+    }
+    return rewardItem;
   }
 
   async learnComplete(user_id: number, edu_list_id: number, qr?: QueryRunner) {

@@ -28,10 +28,10 @@ export class EduReduceTime {
   @Column({
     default: 0,
   })
-  price_gord: number;
+  gord: number;
 
   @Column({
     default: 0,
   })
-  price_dia: number;
+  diamond_free: number;
 }
