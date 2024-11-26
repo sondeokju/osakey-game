@@ -81,6 +81,31 @@ export class UserItemService {
 
     return true;
   }
+  async reduceItem(
+    user_id: number,
+    item_id: number,
+    qty: number,
+    qr?: QueryRunner,
+  ) {
+    const userItemRepository = this.getUserItemRepository(qr);
+    const userItemData = await userItemRepository.findOne({
+      where: {
+        user_id,
+        item_id,
+      },
+    });
+
+    if (!userItemData) {
+      return false;
+    }
+
+    await userItemRepository.save({
+      ...userItemData,
+      item_count: userItemData.item_count - qty,
+    });
+
+    return true;
+  }
 
   async patchItem(id: number, item_count: number, qr?: QueryRunner) {
     const userItemRepository = this.getUserItemRepository(qr);
