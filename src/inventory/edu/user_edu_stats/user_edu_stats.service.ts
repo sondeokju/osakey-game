@@ -432,7 +432,9 @@ export class UserEduStatsService {
       throw new NotFoundException('user_edu_stats not found');
     }
 
-    return userEduStats;
+    const jsonString = JSON.stringify(userEduStats);
+    console.log(jsonString); // JSON 문자열 출력
+    return jsonString;
   }
 }
 
