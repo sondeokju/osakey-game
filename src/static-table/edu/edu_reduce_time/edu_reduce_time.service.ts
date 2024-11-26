@@ -22,11 +22,11 @@ export class EduReduceTimeService {
     return result;
   }
 
-  async getEduReduceTime(id: number, qr?: QueryRunner) {
+  async getEduReduceTime(edu_reduce_time_id: number, qr?: QueryRunner) {
     const eduReduceTimeRepository = this.getEduReduceTimeRepository(qr);
     const result = await eduReduceTimeRepository.findOne({
       where: {
-        id,
+        id: edu_reduce_time_id,
       },
     });
 

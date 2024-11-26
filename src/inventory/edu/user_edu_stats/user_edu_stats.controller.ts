@@ -33,4 +33,20 @@ export class UserEduStatsController {
 
     return JSON.stringify(result);
   }
+
+  @Post('learn/complete')
+  @UseInterceptors(TransactionInterceptor)
+  async learnComplete(
+    @User() user: Users,
+    @Body('edu_list_id') edu_list_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userEduStatsService.learnComplete(
+      user.id,
+      edu_list_id,
+      qr,
+    );
+
+    return JSON.stringify(result);
+  }
 }

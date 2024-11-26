@@ -61,4 +61,9 @@ export class UserEduStats extends BaseModel {
     default: () => 'CURRENT_TIMESTAMP',
   })
   edu_end_date: Date;
+
+  @Column({
+    default: 'N',
+  })
+  edu_learn_yn: string;
 }
