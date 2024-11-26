@@ -418,6 +418,21 @@ export class UserEduStatsService {
 
     return result;
   }
+
+  async eduList(user_id: number, qr?: QueryRunner) {
+    const userEduStatsRepository = this.getUserEduStatsRepository(qr);
+    const userEduStats = await userEduStatsRepository.find({
+      where: {
+        user_id,
+      },
+    });
+
+    if (!userEduStats) {
+      throw new NotFoundException('user_edu_stats not found');
+    }
+
+    return userEduStats;
+  }
 }
 
 // const rewards = [

@@ -85,4 +85,11 @@ export class UserEduStatsController {
 
     return JSON.stringify(result);
   }
+
+  @Get('list')
+  @UseInterceptors(TransactionInterceptor)
+  async eduList(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = this.userEduStatsService.eduList(user.id, qr);
+    return JSON.stringify(result);
+  }
 }
