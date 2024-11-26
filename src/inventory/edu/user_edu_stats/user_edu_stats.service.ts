@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { UserEduStats } from './entities/user_edu_stats.entity';
@@ -30,129 +34,246 @@ export class UserEduStatsService {
       : this.userEduStatsRepository;
   }
 
+  // async eduLearn(user_id: number, edu_list_id: number, qr?: QueryRunner) {
+  //   const userEduStatsRepository = this.getUserEduStatsRepository(qr);
+  //   const userEduStats = await userEduStatsRepository.findOne({
+  //     where: {
+  //       user_id,
+  //       edu_list_id,
+  //     },
+  //   });
+
+  //   const eduList = await this.eduListService.getEduList(edu_list_id, qr);
+
+  //   if (!eduList) {
+  //     throw new NotFoundException('edu_list not found');
+  //   }
+
+  //   if (!userEduStats) {
+  //     const eduCurriculum = await this.eduCurriculumService.getEduCurriculum(
+  //       edu_list_id,
+  //       1,
+  //       qr,
+  //     );
+
+  //     const updatedDate = new Date();
+  //     updatedDate.setMilliseconds(0);
+
+  //     const userEduStatsInsert = {
+  //       user_id,
+  //       edu_list_id,
+  //       edu_type: eduList.edu_type,
+  //       edu_curriculum_cnt: 1,
+  //       edu_buff_type: eduList.edu_buff_type,
+  //       edu_buff_value: eduList.edu_buff_value,
+  //       edu_time: eduCurriculum.edu_time,
+  //       edu_start_date: updatedDate,
+  //       edu_end_date: new Date(
+  //         updatedDate.getTime() + eduCurriculum.edu_time * 60000,
+  //       ),
+  //     };
+
+  //     await userEduStatsRepository.insert(userEduStatsInsert);
+
+  //     const item = await this.itemService.getItem(
+  //       eduCurriculum.price_item_id,
+  //       qr,
+  //     );
+  //     if (!item) {
+  //       throw new NotFoundException('item not found');
+  //     }
+
+  //     await this.userItemService.reduceItem(
+  //       user_id,
+  //       eduCurriculum.price_item_id,
+  //       eduCurriculum.price_item_qty,
+  //     );
+
+  //     const userData = await this.usersService.getMe(user_id, qr);
+  //     if (
+  //       userData.gord < eduCurriculum.gord ||
+  //       userData.diamond_free < eduCurriculum.diamond_free
+  //     ) {
+  //       throw new NotFoundException('gord, diamond_free not enough');
+  //     }
+  //     await this.usersService.reduceGord(user_id, eduCurriculum.gord, qr);
+
+  //     await this.usersService.reduceDiamondFree(
+  //       user_id,
+  //       eduCurriculum.diamond_free,
+  //       qr,
+  //     );
+  //   } else {
+  //     if (userEduStats.edu_curriculum_cnt >= eduList.edu_curriculum_max) {
+  //       throw new NotFoundException('edu_curriculum_max over');
+  //     }
+
+  //     await userEduStatsRepository.save({
+  //       ...userEduStats,
+  //       edu_curriculum_cnt: userEduStats.edu_curriculum_cnt + 1,
+  //       edu_buff_value: userEduStats.edu_buff_value + eduList.edu_buff_value,
+  //     });
+
+  //     const eduCurriculum = await this.eduCurriculumService.getEduCurriculum(
+  //       edu_list_id,
+  //       userEduStats.edu_curriculum_cnt + 1,
+  //       qr,
+  //     );
+
+  //     const item = await this.itemService.getItem(
+  //       eduCurriculum.price_item_id,
+  //       qr,
+  //     );
+  //     if (!item) {
+  //       throw new NotFoundException('item not found');
+  //     }
+
+  //     await this.userItemService.reduceItem(
+  //       user_id,
+  //       eduCurriculum.price_item_id,
+  //       eduCurriculum.price_item_qty,
+  //     );
+
+  //     const userData = await this.usersService.getMe(user_id, qr);
+  //     if (
+  //       userData.gord < eduCurriculum.gord ||
+  //       userData.diamond_free < eduCurriculum.diamond_free
+  //     ) {
+  //       throw new NotFoundException('gord, diamond_free not enough');
+  //     }
+  //     await this.usersService.reduceGord(user_id, eduCurriculum.gord, qr);
+
+  //     await this.usersService.reduceDiamondFree(
+  //       user_id,
+  //       eduCurriculum.diamond_free,
+  //       qr,
+  //     );
+  //   }
+
+  //   const result = await userEduStatsRepository.find({
+  //     where: {
+  //       user_id,
+  //     },
+  //   });
+
+  //   return result;
+  // }
+
   async eduLearn(user_id: number, edu_list_id: number, qr?: QueryRunner) {
     const userEduStatsRepository = this.getUserEduStatsRepository(qr);
-    const userEduStats = await userEduStatsRepository.findOne({
-      where: {
-        user_id,
-        edu_list_id,
-      },
-    });
 
+    // 교육 리스트 확인
     const eduList = await this.eduListService.getEduList(edu_list_id, qr);
-
     if (!eduList) {
       throw new NotFoundException('edu_list not found');
     }
 
-    if (!userEduStats) {
-      const eduCurriculum = await this.eduCurriculumService.getEduCurriculum(
-        edu_list_id,
-        1,
-        qr,
-      );
-
-      const updatedDate = new Date();
-      updatedDate.setMilliseconds(0);
-
-      const userEduStatsInsert = {
-        user_id,
-        edu_list_id,
-        edu_type: eduList.edu_type,
-        edu_curriculum_cnt: 1,
-        edu_buff_type: eduList.edu_buff_type,
-        edu_buff_value: eduList.edu_buff_value,
-        edu_time: eduCurriculum.edu_time,
-        edu_start_date: updatedDate,
-        edu_end_date: new Date(
-          updatedDate.getTime() + eduCurriculum.edu_time * 60000,
-        ),
-      };
-
-      await userEduStatsRepository.insert(userEduStatsInsert);
-
-      const item = await this.itemService.getItem(
-        eduCurriculum.price_item_id,
-        qr,
-      );
-      if (!item) {
-        throw new NotFoundException('item not found');
-      }
-
-      await this.userItemService.reduceItem(
-        user_id,
-        eduCurriculum.price_item_id,
-        eduCurriculum.price_item_qty,
-      );
-
-      const userData = await this.usersService.getMe(user_id, qr);
-      if (
-        userData.gord < eduCurriculum.gord ||
-        userData.diamond_free < eduCurriculum.diamond_free
-      ) {
-        throw new NotFoundException('gord, diamond_free not enough');
-      }
-      await this.usersService.reduceGord(user_id, eduCurriculum.gord, qr);
-
-      await this.usersService.reduceDiamondFree(
-        user_id,
-        eduCurriculum.diamond_free,
-        qr,
-      );
-    } else {
-      if (userEduStats.edu_curriculum_cnt >= eduList.edu_curriculum_max) {
-        throw new NotFoundException('edu_curriculum_max over');
-      }
-
-      await userEduStatsRepository.save({
-        ...userEduStats,
-        edu_curriculum_cnt: userEduStats.edu_curriculum_cnt + 1,
-        edu_buff_value: userEduStats.edu_buff_value + eduList.edu_buff_value,
-      });
-
-      const eduCurriculum = await this.eduCurriculumService.getEduCurriculum(
-        edu_list_id,
-        userEduStats.edu_curriculum_cnt + 1,
-        qr,
-      );
-
-      const item = await this.itemService.getItem(
-        eduCurriculum.price_item_id,
-        qr,
-      );
-      if (!item) {
-        throw new NotFoundException('item not found');
-      }
-
-      await this.userItemService.reduceItem(
-        user_id,
-        eduCurriculum.price_item_id,
-        eduCurriculum.price_item_qty,
-      );
-
-      const userData = await this.usersService.getMe(user_id, qr);
-      if (
-        userData.gord < eduCurriculum.gord ||
-        userData.diamond_free < eduCurriculum.diamond_free
-      ) {
-        throw new NotFoundException('gord, diamond_free not enough');
-      }
-      await this.usersService.reduceGord(user_id, eduCurriculum.gord, qr);
-
-      await this.usersService.reduceDiamondFree(
-        user_id,
-        eduCurriculum.diamond_free,
-        qr,
-      );
-    }
-
-    const result = await userEduStatsRepository.find({
-      where: {
-        user_id,
-      },
+    // 사용자 교육 상태 조회
+    const userEduStats = await userEduStatsRepository.findOne({
+      where: { user_id, edu_list_id },
     });
 
-    return result;
+    // 새 교육 과정 생성
+    if (!userEduStats) {
+      return this.createEduLearn(user_id, eduList, qr);
+    }
+
+    // 기존 교육 과정 업데이트
+    if (userEduStats.edu_curriculum_cnt >= eduList.edu_curriculum_max) {
+      throw new NotFoundException('edu_curriculum_max over');
+    }
+
+    return this.updateEduLearn(user_id, eduList, userEduStats, qr);
+  }
+
+  private async createEduLearn(
+    user_id: number,
+    eduList: any,
+    qr?: QueryRunner,
+  ) {
+    const eduCurriculum = await this.eduCurriculumService.getEduCurriculum(
+      eduList.id,
+      1,
+      qr,
+    );
+
+    const updatedDate = new Date();
+    updatedDate.setMilliseconds(0);
+
+    await this.getUserEduStatsRepository(qr).insert({
+      user_id,
+      edu_list_id: eduList.id,
+      edu_type: eduList.edu_type,
+      edu_curriculum_cnt: 1,
+      edu_buff_type: eduList.edu_buff_type,
+      edu_buff_value: eduList.edu_buff_value,
+      edu_time: eduCurriculum.edu_time,
+      edu_start_date: updatedDate,
+      edu_end_date: new Date(
+        updatedDate.getTime() + eduCurriculum.edu_time * 60000,
+      ),
+    });
+
+    await this.processResources(user_id, eduCurriculum, qr);
+    return this.getUserEduStatsRepository(qr).find({ where: { user_id } });
+  }
+
+  private async updateEduLearn(
+    user_id: number,
+    eduList: any,
+    userEduStats: any,
+    qr?: QueryRunner,
+  ) {
+    const nextCurriculumCnt = userEduStats.edu_curriculum_cnt + 1;
+    const eduCurriculum = await this.eduCurriculumService.getEduCurriculum(
+      eduList.id,
+      nextCurriculumCnt,
+      qr,
+    );
+
+    await this.getUserEduStatsRepository(qr).save({
+      ...userEduStats,
+      edu_curriculum_cnt: nextCurriculumCnt,
+      edu_buff_value: userEduStats.edu_buff_value + eduList.edu_buff_value,
+    });
+
+    await this.processResources(user_id, eduCurriculum, qr);
+    return this.getUserEduStatsRepository(qr).find({ where: { user_id } });
+  }
+
+  private async processResources(
+    user_id: number,
+    eduCurriculum: any,
+    qr?: QueryRunner,
+  ) {
+    const item = await this.itemService.getItem(
+      eduCurriculum.price_item_id,
+      qr,
+    );
+    if (!item) {
+      throw new NotFoundException('item not found');
+    }
+
+    await this.userItemService.reduceItem(
+      user_id,
+      eduCurriculum.price_item_id,
+      eduCurriculum.price_item_qty,
+    );
+
+    const userData = await this.usersService.getMe(user_id, qr);
+    if (
+      userData.gord < eduCurriculum.gord ||
+      userData.diamond_free < eduCurriculum.diamond_free
+    ) {
+      throw new BadRequestException('gord or diamond_free not enough');
+    }
+
+    await this.usersService.reduceGord(user_id, eduCurriculum.gord, qr);
+    await this.usersService.reduceDiamondFree(
+      user_id,
+      eduCurriculum.diamond_free,
+      qr,
+    );
   }
 
   async reduceLearnTimeItem(
