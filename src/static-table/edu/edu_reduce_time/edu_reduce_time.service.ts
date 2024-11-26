@@ -26,7 +26,7 @@ export class EduReduceTimeService {
     const eduReduceTimeRepository = this.getEduReduceTimeRepository(qr);
     const result = await eduReduceTimeRepository.findOne({
       where: {
-        edu_list_id: id,
+        id,
       },
     });
 
