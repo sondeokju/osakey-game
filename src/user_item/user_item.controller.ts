@@ -29,6 +29,7 @@ export class UserItemController {
     //@Param('user_id') user_id: string,
     @QueryRunner() qr: QR,
   ) {
+    console.log('useritem');
     const result = await this.userItemService.getUserItemAll(user.id, qr);
 
     return JSON.stringify(result);
