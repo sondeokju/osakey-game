@@ -431,7 +431,8 @@ export class UserEduStatsService {
       throw new NotFoundException('user_edu_stats not found');
     }
 
-    return JSON.stringify(userEduStats);
+    //return JSON.stringify(userEduStats);
+    return userEduStats;
   }
 }
 
