@@ -161,6 +161,7 @@ export class UserEduStatsService {
 
   async eduLearn(user_id: number, edu_list_id: number, qr?: QueryRunner) {
     const userEduStatsRepository = this.getUserEduStatsRepository(qr);
+    console.log(edu_list_id);
 
     // 교육 리스트 확인
     const eduList = await this.eduListService.getEduList(edu_list_id, qr);
