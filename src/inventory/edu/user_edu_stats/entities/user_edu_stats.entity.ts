@@ -1,5 +1,5 @@
 import { BaseModel } from 'src/common/entity/base.entity';
-import { Column, Entity, Index } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index } from 'typeorm';
 
 @Entity()
 //@Index('IDX_NAME', ['columnA', 'columnB'], { unique: true }) // 복합 인덱스 설정
@@ -36,4 +36,12 @@ export class UserEduStats extends BaseModel {
     default: '0',
   })
   edu_buff_value: number;
+
+  @Column({
+    default: '0',
+  })
+  edu_time: number;
+
+  @CreateDateColumn()
+  edu_time_date: Date;
 }

@@ -22,11 +22,16 @@ export class EduCurriculumService {
     return result;
   }
 
-  async getEduCurriculum(id: number, qr?: QueryRunner) {
+  async getEduCurriculum(
+    curriculum_id: number,
+    curriculum_level: number,
+    qr?: QueryRunner,
+  ) {
     const eduRepository = this.getEduCurriculumRepository(qr);
     const result = await eduRepository.findOne({
       where: {
-        id,
+        curriculum_id,
+        curriculum_level,
       },
     });
 

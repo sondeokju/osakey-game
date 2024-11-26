@@ -20,11 +20,11 @@ export class EduService {
     return result;
   }
 
-  async getEdu(edu_type: string, qr?: QueryRunner) {
+  async getEdu(id: number, qr?: QueryRunner) {
     const eduRepository = this.getEduRepository(qr);
     const result = await eduRepository.findOne({
       where: {
-        edu_type,
+        id,
       },
     });
 

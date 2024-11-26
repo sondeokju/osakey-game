@@ -22,11 +22,11 @@ export class EduListService {
     return result;
   }
 
-  async getEduList(id: number, qr?: QueryRunner) {
+  async getEduList(edu_list_id: number, qr?: QueryRunner) {
     const eduListRepository = this.getEduListRepository(qr);
     const result = await eduListRepository.findOne({
       where: {
-        edu_list_id: id,
+        edu_list_id,
       },
     });
 
