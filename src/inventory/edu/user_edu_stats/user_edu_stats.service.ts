@@ -266,26 +266,33 @@ export class UserEduStatsService {
       throw new NotFoundException('item not found');
     }
 
-    await this.userItemService.reduceItem(
-      user_id,
-      eduCurriculum.price_item_id,
-      eduCurriculum.price_item_qty,
-    );
-
-    const userData = await this.usersService.getMe(user_id, qr);
-    if (
-      userData.gord < eduCurriculum.gord ||
-      userData.diamond_free < eduCurriculum.diamond_free
-    ) {
-      throw new BadRequestException('gord or diamond_free not enough');
+    if (eduCurriculum.price_item_id >= 0) {
+      await this.userItemService.reduceItem(
+        user_id,
+        eduCurriculum.price_item_id,
+        eduCurriculum.price_item_qty,
+      );
     }
 
-    await this.usersService.reduceGord(user_id, eduCurriculum.gord, qr);
-    await this.usersService.reduceDiamondFree(
-      user_id,
-      eduCurriculum.diamond_free,
-      qr,
-    );
+    const userData = await this.usersService.getMe(user_id, qr);
+
+    if (eduCurriculum.gord >= 0) {
+      if (userData.gord < eduCurriculum.gord) {
+        throw new BadRequestException('gord not enough');
+      }
+      await this.usersService.reduceGord(user_id, eduCurriculum.gord, qr);
+    }
+
+    if (eduCurriculum.diamond_free >= 0) {
+      if (userData.diamond_free < eduCurriculum.diamond_free) {
+        throw new BadRequestException('diamond_free not enough');
+      }
+      await this.usersService.reduceDiamondFree(
+        user_id,
+        eduCurriculum.diamond_free,
+        qr,
+      );
+    }
   }
 
   async reduceLearnTimeItem(
