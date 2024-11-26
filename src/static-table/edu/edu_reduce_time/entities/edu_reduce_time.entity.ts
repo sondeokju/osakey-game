@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryColumn } from 'typeorm';
 @Entity()
 export class EduReduceTime {
   @PrimaryColumn()
-  edu_list_id: number;
+  id: number;
 
   @Column({
     default: '',
