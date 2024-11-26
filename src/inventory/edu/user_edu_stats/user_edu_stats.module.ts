@@ -18,6 +18,8 @@ import { UsersService } from 'src/users/users.service';
 import { Users } from 'src/users/entity/users.entity';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { UserItem } from 'src/user_item/entities/user_item.entity';
+import { Hero } from 'src/static-table/hero/entities/hero.entity';
+import { HeroService } from 'src/static-table/hero/hero.service';
 
 @Module({
   imports: [
@@ -30,6 +32,7 @@ import { UserItem } from 'src/user_item/entities/user_item.entity';
       Reward,
       Users,
       UserItem,
+      Hero,
     ]),
   ],
   exports: [UserEduStatsService],
@@ -44,6 +47,7 @@ import { UserItem } from 'src/user_item/entities/user_item.entity';
     RewardService,
     UsersService,
     UserItemService,
+    HeroService,
   ],
 })
 export class UserEduStatsModule {}
