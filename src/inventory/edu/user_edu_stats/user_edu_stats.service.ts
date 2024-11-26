@@ -184,6 +184,13 @@ export class UserEduStatsService {
       throw new NotFoundException('item not found');
     }
 
+    const userData = await this.usersService.getMe(user_id, qr);
+    if (
+      userData.gord < eduReduceTime.gord ||
+      userData.diamond_free < eduReduceTime.diamond_free
+    ) {
+      throw new NotFoundException('gord, diamond_free not enough');
+    }
     await this.usersService.reduceGord(user_id, eduReduceTime.gord, qr);
 
     await this.usersService.reduceDiamondFree(
