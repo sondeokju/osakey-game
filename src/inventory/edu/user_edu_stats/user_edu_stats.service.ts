@@ -257,6 +257,7 @@ export class UserEduStatsService {
     eduCurriculum: any,
     qr?: QueryRunner,
   ) {
+    console.log(eduCurriculum.price_item_id);
     const item = await this.itemService.getItem(
       eduCurriculum.price_item_id,
       qr,
