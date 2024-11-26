@@ -43,5 +43,8 @@ export class UserEduStats extends BaseModel {
   edu_time: number;
 
   @CreateDateColumn()
-  edu_time_date: Date;
+  edu_start_date: Date;
+
+  @CreateDateColumn()
+  edu_end_date: Date;
 }

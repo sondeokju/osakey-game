@@ -52,7 +52,8 @@ export class UserEduStatsService {
         edu_buff_type: eduList.edu_buff_type,
         edu_buff_value: eduList.edu_buff_value,
         edu_time: eduCurriculum.edu_time,
-        edu_time_date: new Date(
+        edu_start_date: new Date(),
+        edu_end_date: new Date(
           updatedDate.getTime() + eduCurriculum.edu_time * 60000,
         ),
       };
