@@ -12,6 +12,8 @@ import { EduReduceTime } from 'src/static-table/edu/edu_reduce_time/entities/edu
 import { Item } from 'src/static-table/item/entities/item.entity';
 import { ItemService } from 'src/static-table/item/item.service';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
+import { RewardService } from 'src/static-table/reward/reward.service';
+import { Reward } from 'src/static-table/reward/entities/reward.entity';
 
 @Module({
   imports: [
@@ -21,6 +23,7 @@ import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.ser
       EduCurriculum,
       EduReduceTime,
       Item,
+      Reward,
     ]),
   ],
   exports: [UserEduStatsService],
@@ -32,6 +35,7 @@ import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.ser
     EduReduceTimeService,
     ItemService,
     RewardOfferService,
+    RewardService,
   ],
 })
 export class UserEduStatsModule {}
