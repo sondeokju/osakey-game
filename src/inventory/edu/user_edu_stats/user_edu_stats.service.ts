@@ -238,6 +238,9 @@ export class UserEduStatsService {
       qr,
     );
 
+    if (userEduStats.edu_learn_yn === 'N') {
+      return this.getUserEduStatsRepository(qr).find({ where: { user_id } });
+    }
     await this.getUserEduStatsRepository(qr).save({
       ...userEduStats,
       edu_curriculum_cnt: nextCurriculumCnt,
