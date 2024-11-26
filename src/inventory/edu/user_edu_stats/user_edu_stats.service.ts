@@ -7,6 +7,7 @@ import { EduCurriculumService } from 'src/static-table/edu/edu_curriculum/edu_cu
 import { EduReduceTimeService } from 'src/static-table/edu/edu_reduce_time/edu_reduce_time.service';
 import { ItemService } from 'src/static-table/item/item.service';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
+import { UserItemService } from 'src/user_item/user_item.service';
 
 @Injectable()
 export class UserEduStatsService {
@@ -18,6 +19,7 @@ export class UserEduStatsService {
     private readonly eduReduceTimeService: EduReduceTimeService,
     private readonly itemService: ItemService,
     private readonly rewardOfferService: RewardOfferService,
+    private readonly userItemService: UserItemService,
   ) {}
 
   getUserEduStatsRepository(qr?: QueryRunner) {
@@ -121,7 +123,7 @@ export class UserEduStatsService {
       throw new NotFoundException('item not found');
     }
 
-    const rewardItem = await this.rewardOfferService.rewardItem(
+    const deleteItem = await this.userItemService.deleteItem(
       user_id,
       eduReduceTime.reduce_item_id,
       1,

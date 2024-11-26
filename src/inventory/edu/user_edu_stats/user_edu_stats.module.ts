@@ -16,10 +16,11 @@ import { RewardService } from 'src/static-table/reward/reward.service';
 import { Reward } from 'src/static-table/reward/entities/reward.entity';
 import { UsersService } from 'src/users/users.service';
 import { Users } from 'src/users/entity/users.entity';
-import { UserItemService } from 'src/user_item/user_item.service';
+
 import { UserItem } from 'src/user_item/entities/user_item.entity';
 import { Hero } from 'src/static-table/hero/entities/hero.entity';
 import { HeroService } from 'src/static-table/hero/hero.service';
+import { UserItemService } from 'src/user_item/user_item.service';
 
 @Module({
   imports: [
