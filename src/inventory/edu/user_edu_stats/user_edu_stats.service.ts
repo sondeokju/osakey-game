@@ -41,6 +41,8 @@ export class UserEduStatsService {
 
     const eduList = await this.eduListService.getEduList(edu_list_id, qr);
 
+    let reduceItemData = {};
+
     if (!eduList) {
       throw new NotFoundException('edu_list not found');
     }
@@ -70,6 +72,20 @@ export class UserEduStatsService {
       };
 
       await userEduStatsRepository.insert(userEduStatsInsert);
+
+      const item = await this.itemService.getItem(
+        eduCurriculum.price_item_id,
+        qr,
+      );
+      if (!item) {
+        throw new NotFoundException('item not found');
+      }
+
+      await this.userItemService.reduceItem(
+        user_id,
+        eduCurriculum.price_item_id,
+        eduCurriculum.price_item_qty,
+      );
     } else {
       if (userEduStats.edu_curriculum_cnt >= eduList.edu_curriculum_max) {
         throw new NotFoundException('edu_curriculum_max over');
@@ -80,6 +96,26 @@ export class UserEduStatsService {
         edu_curriculum_cnt: userEduStats.edu_curriculum_cnt + 1,
         edu_buff_value: userEduStats.edu_buff_value + eduList.edu_buff_value,
       });
+
+      const eduCurriculum = await this.eduCurriculumService.getEduCurriculum(
+        edu_list_id,
+        userEduStats.edu_curriculum_cnt + 1,
+        qr,
+      );
+
+      const item = await this.itemService.getItem(
+        eduCurriculum.price_item_id,
+        qr,
+      );
+      if (!item) {
+        throw new NotFoundException('item not found');
+      }
+
+      await this.userItemService.reduceItem(
+        user_id,
+        eduCurriculum.price_item_id,
+        eduCurriculum.price_item_qty,
+      );
     }
 
     const result = await userEduStatsRepository.find({
