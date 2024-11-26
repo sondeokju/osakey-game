@@ -174,6 +174,8 @@ export class UserEduStatsService {
       where: { user_id, edu_list_id },
     });
 
+    console.log(userEduStats);
+
     // 새 교육 과정 생성
     if (!userEduStats) {
       return this.createEduLearn(user_id, eduList, qr);
