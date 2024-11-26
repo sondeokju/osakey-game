@@ -419,7 +419,7 @@ export class UserEduStatsService {
     return result;
   }
 
-  async eduList(user_id: number, qr?: QueryRunner) {
+  async userEduList(user_id: number, qr?: QueryRunner) {
     const userEduStatsRepository = this.getUserEduStatsRepository(qr);
     const userEduStats = await userEduStatsRepository.find({
       where: {
@@ -427,6 +427,7 @@ export class UserEduStatsService {
       },
     });
 
+    console.log(userEduStats);
     if (!userEduStats) {
       throw new NotFoundException('user_edu_stats not found');
     }
