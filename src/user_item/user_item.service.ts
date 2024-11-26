@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { UserItem } from './entities/user_item.entity';
@@ -95,8 +95,8 @@ export class UserItemService {
       },
     });
 
-    if (!userItemData) {
-      return false;
+    if (!userItemData || userItemData.item_count <= 0) {
+      throw new NotFoundException(`item ${item_id} not enough`);
     }
 
     await userItemRepository.save({
