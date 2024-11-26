@@ -1,7 +1,6 @@
 import { AuthModule } from 'src/auth/auth.module';
 import { CommonModule } from 'src/common/common.module';
 import { LogUrlModule } from 'src/common/log_url/log_url.module';
-import { UserEduAbilityModule } from 'src/inventory/edu/user_edu_ability/user_edu_ability.module';
 import { UserEduStatsModule } from 'src/inventory/edu/user_edu_stats/user_edu_stats.module';
 import { UserTunaTvOnlineModule } from 'src/inventory/sns/user-tuna-tv-online/user-tuna-tv-online.module';
 import { UserSnsFollowModule } from 'src/inventory/sns/user_sns_follow/user_sns_follow.module';
