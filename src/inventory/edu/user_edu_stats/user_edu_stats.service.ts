@@ -168,6 +168,7 @@ export class UserEduStatsService {
     if (!eduList) {
       throw new NotFoundException('edu_list not found');
     }
+    console.log(eduList);
 
     // 사용자 교육 상태 조회
     const userEduStats = await userEduStatsRepository.findOne({
@@ -196,6 +197,7 @@ export class UserEduStatsService {
     eduList: any,
     qr?: QueryRunner,
   ) {
+    console.log('eduList', eduList);
     const eduCurriculum = await this.eduCurriculumService.getEduCurriculum(
       eduList.id,
       1,
