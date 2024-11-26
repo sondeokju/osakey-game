@@ -28,4 +28,9 @@ export class UserAbilityStats extends BaseModel {
     default: 0,
   })
   knowledge: number;
+
+  @Column({
+    default: 0,
+  })
+  economic: number;
 }
