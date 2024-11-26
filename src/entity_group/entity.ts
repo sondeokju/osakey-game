@@ -4,6 +4,7 @@ import { UserSnsFollow } from 'src/inventory/sns/user_sns_follow/entities/user_s
 import { UserSnsLevel } from 'src/inventory/sns/user_sns_level/entities/user_sns_level.entity';
 import { UserSnsReward } from 'src/inventory/sns/user_sns_reward/entities/user_sns_reward.entity';
 import { UserTunaTv } from 'src/inventory/sns/user_tuna_tv/entities/user_tuna_tv.entity';
+import { UserAbilityStats } from 'src/inventory/stats/user_ability_stats/entities/user_ability_stats.entity';
 import { Dispatch } from 'src/static-table/dispatch/dispatch/entities/dispatch.entity';
 import { DispatchConfig } from 'src/static-table/dispatch/dispatch_config/entities/dispatch_config.entity';
 import { DispatchEquipGrade } from 'src/static-table/dispatch/dispatch_equip_grade/entities/dispatch_equip_grade.entity';
@@ -88,4 +89,5 @@ export const entities = [
   DispatchEquipGrade,
   DispatchEquipLevel,
   DispatchUpgrade,
+  UserAbilityStats,
 ];
