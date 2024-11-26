@@ -42,9 +42,9 @@ export class UserEduStats extends BaseModel {
   })
   edu_time: number;
 
-  @CreateDateColumn()
+  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   edu_start_date: Date;
 
-  @CreateDateColumn()
+  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   edu_end_date: Date;
 }

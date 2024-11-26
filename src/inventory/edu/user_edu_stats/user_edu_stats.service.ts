@@ -45,6 +45,7 @@ export class UserEduStatsService {
       const updatedDate = new Date();
       updatedDate.setMilliseconds(0);
 
+
       const userEduStatsInsert = {
         user_id,
         edu_list_id,
