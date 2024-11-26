@@ -123,7 +123,7 @@ export class UserEduStatsService {
       throw new NotFoundException('item not found');
     }
 
-    const reduceItem = await this.userItemService.reduceItem(
+    await this.userItemService.reduceItem(
       user_id,
       eduReduceTime.reduce_item_id,
       1,
