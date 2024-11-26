@@ -3,7 +3,7 @@ import { Column, Entity, Index } from 'typeorm';
 
 @Entity()
 //@Index('IDX_NAME', ['columnA', 'columnB'], { unique: true }) // 복합 인덱스 설정
-export class UserEduAbility extends BaseModel {
+export class UserEduStats extends BaseModel {
   @Column({
     default: 0,
   })
