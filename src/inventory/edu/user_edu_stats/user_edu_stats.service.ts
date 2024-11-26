@@ -427,14 +427,11 @@ export class UserEduStatsService {
       },
     });
 
-    console.log(userEduStats);
     if (!userEduStats) {
       throw new NotFoundException('user_edu_stats not found');
     }
 
-    const jsonString = JSON.stringify(userEduStats);
-    console.log(jsonString); // JSON 문자열 출력
-    return jsonString;
+    return JSON.stringify(userEduStats);
   }
 }
 

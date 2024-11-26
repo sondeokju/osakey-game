@@ -90,6 +90,6 @@ export class UserEduStatsController {
   @UseInterceptors(TransactionInterceptor)
   async userEduList(@User() user: Users, @QueryRunner() qr: QR) {
     const result = this.userEduStatsService.userEduList(user.id, qr);
-    return JSON.stringify(result);
+    return result;
   }
 }
