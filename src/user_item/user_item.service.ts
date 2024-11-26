@@ -23,9 +23,11 @@ export class UserItemService {
 
     const result = await userItemRepository.find({
       where: {
-        user_id: user_id,
+        user_id,
       },
     });
+
+    console.log('useritem:', result);
     return result;
   }
 
