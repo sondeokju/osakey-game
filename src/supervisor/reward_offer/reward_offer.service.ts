@@ -59,6 +59,47 @@ export class RewardOfferService {
     return result;
   }
 
+  async rewardItem(
+    user_id: number,
+    item_id: number,
+    qty: number,
+    qr?: QueryRunner,
+  ) {
+    let result = [];
+    let obj = {};
+
+    const itemData = await this.itemService.getItem(item_id);
+
+    console.log('item_type', itemData.item_type);
+
+    if (itemData.item_type == 'C') {
+      await this.rewardCurrency(user_id, itemData.item_name, qty, qr);
+    }
+
+    if (['M', 'E'].includes(itemData.item_type)) {
+      await this.userItemService.rewardItem(
+        user_id,
+        itemData.item_id,
+        itemData.item_grade,
+        itemData.item_type,
+        qty,
+        qr,
+      );
+    }
+
+    if (['C'].includes(itemData.item_type)) {
+      await this.rewardCurrency(user_id, itemData.item_type, qty, qr);
+    }
+
+    obj['item_id'] = itemData.item_id;
+    obj['item_type'] = itemData.item_type;
+    obj['item_name'] = itemData.item_name;
+
+    result.push(obj);
+
+    return result;
+  }
+
   async rewardCurrency(
     user_id: number,
     item_name: string,

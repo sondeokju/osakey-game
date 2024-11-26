@@ -121,11 +121,29 @@ export class UserEduStatsService {
       throw new NotFoundException('item not found');
     }
 
-    const rewardItem = await this.rewardOfferService.reward(
+    const rewardItem = await this.rewardOfferService.rewardItem(
       user_id,
       eduReduceTime.reduce_item_id,
+      1,
     );
-    return rewardItem;
+
+    const updatedDate = new Date();
+    updatedDate.setMilliseconds(0);
+
+    await userEduStatsRepository.save({
+      ...userEduStats,
+      edu_end_date: new Date(
+        updatedDate.getTime() + eduReduceTime.reduce_time * 60000,
+      ),
+    });
+
+    const result = await userEduStatsRepository.find({
+      where: {
+        user_id,
+      },
+    });
+
+    return result;
   }
 
   async reduceLearnTimeCurrency(
