@@ -245,6 +245,7 @@ export class UserEduStatsService {
       ...userEduStats,
       edu_curriculum_cnt: nextCurriculumCnt,
       edu_buff_value: userEduStats.edu_buff_value + eduList.edu_buff_value,
+      edu_learn_yn: 'N',
     });
 
     await this.processResources(user_id, eduCurriculum, qr);
