@@ -42,9 +42,23 @@ export class UserEduStats extends BaseModel {
   })
   edu_time: number;
 
-  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    type: 'datetime',
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: string) => new Date(value),
+    },
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   edu_start_date: Date;
 
-  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    type: 'datetime',
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: string) => new Date(value),
+    },
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   edu_end_date: Date;
 }
