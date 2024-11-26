@@ -338,7 +338,7 @@ export class UsersService {
 
     await usersRepository.save({
       ...userData,
-      diamond_free: userData.gord - gord,
+      gord: userData.gord - gord,
     });
 
     const obj = {
