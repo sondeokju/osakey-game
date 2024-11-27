@@ -5,11 +5,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserTunaTvOnline } from './entities/user-tuna-tv-online.entity';
 import { UserTunaTvService } from '../user_tuna_tv/user_tuna_tv.service';
 import { UserTunaTv } from '../user_tuna_tv/entities/user_tuna_tv.entity';
+import { SnsConfigService } from 'src/static-table/sns/sns_config/sns_config.service';
+import { SnsConfig } from 'src/static-table/sns/sns_config/entities/sns_config.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserTunaTvOnline, UserTunaTv])],
+  imports: [
+    TypeOrmModule.forFeature([UserTunaTvOnline, UserTunaTv, SnsConfig]),
+  ],
   exports: [UserTunaTvOnlineService],
   controllers: [UserTunaTvOnlineController],
-  providers: [UserTunaTvOnlineService, UserTunaTvService],
+  providers: [UserTunaTvOnlineService, UserTunaTvService, SnsConfigService],
 })
 export class UserTunaTvOnlineModule {}
