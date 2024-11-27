@@ -40,10 +40,11 @@ export class UserTunaTvService {
     const snsConfig =
       await this.snsConfigService.getSnsConfig('save_thumbnail_max');
 
-    if (tunaTvCount === snsConfig.option) {
+    if (tunaTvCount >= snsConfig.option) {
       return { message: 'tuna tv over 15' };
     }
 
+    console.log(tuna_tile);
     const tunaTvData = {
       user_id,
       tuna_tile,
@@ -56,6 +57,7 @@ export class UserTunaTvService {
       upload_txt: '',
       like_cnt: 0,
     };
+    console.log(tunaTvData);
 
     await userTunaTvRepository.insert(tunaTvData);
 
