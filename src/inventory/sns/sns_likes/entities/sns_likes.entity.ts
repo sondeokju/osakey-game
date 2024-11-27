@@ -14,14 +14,4 @@ export class SnsLikes extends BaseModel {
     default: 0,
   })
   tuna_tv_id: number;
-
-  @Column({
-    default: 0,
-  })
-  total_exp: number;
-
-  @Column({
-    default: 0,
-  })
-  reward_id: number;
 }
