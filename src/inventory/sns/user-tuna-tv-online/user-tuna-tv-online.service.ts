@@ -31,7 +31,7 @@ export class UserTunaTvOnlineService {
         'a.tuna_tv_id = b.id', // 조인 조건
       )
       .innerJoin(
-        'user', // `user` 테이블 조인
+        'users', // `user` 테이블 조인
         'c', // `user` 테이블의 별칭
         'b.user_id = c.id', // `user_tuna_tv`와 `user`의 조인 조건
       )
