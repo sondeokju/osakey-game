@@ -135,7 +135,7 @@ export class UserTunaTvService {
     return userTunaTvData;
   }
 
-  async TunaTvViewAdd(tuna_tv_id: number, qr?: QueryRunner): Promise<boolean> {
+  async TunaTvViewAdd(tuna_tv_id: number, qr?: QueryRunner) {
     const userTunaTvRepository = this.getUserTunaTvRepository(qr);
     const userTunaTvData = await userTunaTvRepository.findOne({
       where: {

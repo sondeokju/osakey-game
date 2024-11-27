@@ -29,7 +29,7 @@ export class UserTunaTvOnlineService {
 
     for (const online of userTunaTvOnline) {
       try {
-        await this.userTunaTvServer.TunaTvViewAdd(online.tuna_tv_id);
+        await this.userTunaTvServer.TunaTvViewAdd(online.tuna_tv_id, qr);
       } catch (error) {
         console.error(
           `Failed to increase view count for user_id: tuna_tv_id: ${online.tuna_tv_id}`,
