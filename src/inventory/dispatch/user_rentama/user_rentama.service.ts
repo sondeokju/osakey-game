@@ -30,9 +30,9 @@ export class UserRentamaService {
     });
 
     if (!userRentama) {
-      throw new NotFoundException('userRentama not found');
+      return this.createRentama(user_id, progress_mission_id, qr);
+      //throw new NotFoundException('userRentama not found');
     }
-    return this.createRentama(user_id, progress_mission_id, qr);
   }
 
   private async createRentama(
