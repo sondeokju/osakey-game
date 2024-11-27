@@ -1,26 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDispatchTestDto } from './dto/create-dispatch_test.dto';
-import { UpdateDispatchTestDto } from './dto/update-dispatch_test.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { DispatchTest } from './entities/dispatch_test.entity';
 
 @Injectable()
 export class DispatchTestService {
-  create(createDispatchTestDto: CreateDispatchTestDto) {
-    return 'This action adds a new dispatchTest';
+  constructor(
+    @InjectRepository(DispatchTest)
+    private readonly dispatchRepository: Repository<DispatchTest>,
+  ) {}
+
+  getDispatchTestRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<DispatchTest>(DispatchTest)
+      : this.dispatchRepository;
   }
 
-  findAll() {
-    return `This action returns all dispatchTest`;
-  }
+  async getDispatch(id: number, qr?: QueryRunner) {
+    const dispatchTestRepository = this.getDispatchTestRepository(qr);
+    const result = await dispatchTestRepository.findOne({
+      where: {
+        id,
+      },
+    });
 
-  findOne(id: number) {
-    return `This action returns a #${id} dispatchTest`;
-  }
-
-  update(id: number, updateDispatchTestDto: UpdateDispatchTestDto) {
-    return `This action updates a #${id} dispatchTest`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} dispatchTest`;
+    return result;
   }
 }
