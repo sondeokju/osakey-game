@@ -8,4 +8,9 @@ export class UserTunaTvOnline extends BaseModel {
   })
   @Index({ unique: true })
   tuna_tv_id: number;
+
+  @Column({
+    default: '',
+  })
+  online_type: string;
 }
