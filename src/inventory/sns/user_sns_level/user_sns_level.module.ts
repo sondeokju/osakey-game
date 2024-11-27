@@ -22,6 +22,8 @@ import { Users } from 'src/users/entity/users.entity';
 import { UsersService } from 'src/users/users.service';
 import { SnsConfig } from 'src/static-table/sns/sns_config/entities/sns_config.entity';
 import { SnsConfigService } from 'src/static-table/sns/sns_config/sns_config.service';
+import { SnsLikesService } from '../sns_likes/sns_likes.service';
+import { SnsLikes } from '../sns_likes/entities/sns_likes.entity';
 
 @Module({
   imports: [
@@ -36,6 +38,7 @@ import { SnsConfigService } from 'src/static-table/sns/sns_config/sns_config.ser
       SnsLevel,
       SnsReward,
       SnsConfig,
+      SnsLikes,
     ]),
   ],
   exports: [UserSnsLevelService],
@@ -52,6 +55,7 @@ import { SnsConfigService } from 'src/static-table/sns/sns_config/sns_config.ser
     SnsLevelService,
     SnsRewardService,
     SnsConfigService,
+    SnsLikesService,
   ],
 })
 export class UserSnsLevelModule {}
