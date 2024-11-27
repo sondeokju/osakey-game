@@ -27,10 +27,17 @@ export class UserTunaTvOnlineService {
       .addSelect('b.select_2', 'select2')
       .addSelect('b.select_3', 'select3')
       .addSelect('b.score', 'score') // 추가 선택
+      .addSelect('c.level', 'level') // user 테이블에서 level 컬럼 추가
+      .addSelect('c.nickname', 'nickname') // user 테이블에서 level 컬럼 추가
       .innerJoin(
         'user_tuna_tv', // 조인 대상 테이블
         'b', // 조인 대상 테이블의 별칭
         'a.tuna_tv_id = b.id', // 조인 조건
+      )
+      .innerJoin(
+        'user', // `user` 테이블 조인
+        'c', // `user` 테이블의 별칭
+        'b.user_id = c.id', // `user_tuna_tv`와 `user`의 조인 조건
       )
       .getRawMany(); // Raw 데이터 가져오기
 
