@@ -27,4 +27,16 @@ export class SnsLikesService {
     });
     return exists !== null;
   }
+
+  async addLike(
+    user_id: number,
+    tuna_tv_id: number,
+    qr?: QueryRunner,
+  ): Promise<void> {
+    const snsLikesRepository = this.getSnslikesRepository(qr);
+    await snsLikesRepository.save({
+      user_id,
+      tuna_tv_id,
+    });
+  }
 }

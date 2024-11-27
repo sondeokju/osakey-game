@@ -150,6 +150,7 @@ export class UserTunaTvService {
     const islike = await this.snsLikesService.isLiked(user_id, tuna_tv_id);
 
     if (!islike) {
+      await this.snsLikesService.addLike(user_id, tuna_tv_id);
       await userTunaTvRepository.increment({ id: tuna_tv_id }, 'like_cnt', 1);
     }
 
