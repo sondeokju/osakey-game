@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository, DataSource } from 'typeorm';
 import { UserTunaTvOnline } from './entities/user-tuna-tv-online.entity';
+import { UserTunaTvService } from '../user_tuna_tv/user_tuna_tv.service';
 
 @Injectable()
 export class UserTunaTvOnlineService {
@@ -9,8 +10,8 @@ export class UserTunaTvOnlineService {
     @InjectRepository(UserTunaTvOnline)
     private readonly userTunaTvOnlineRepository: Repository<UserTunaTvOnline>,
     private dataSource: DataSource,
+    private userTunaTvServer: UserTunaTvService,
   ) {}
-
   getUserTunaTvOnlineRepository(qr?: QueryRunner) {
     return qr
       ? qr.manager.getRepository<UserTunaTvOnline>(UserTunaTvOnline)
@@ -19,6 +20,24 @@ export class UserTunaTvOnlineService {
 
   async tunaTvOnlineList(qr?: QueryRunner) {
     const userTunaTvOnlineRepository = this.getUserTunaTvOnlineRepository(qr);
+    const userTunaTvOnline = await userTunaTvOnlineRepository.find({});
+
+    if (!userTunaTvOnline || userTunaTvOnline.length === 0) {
+      console.log('No online users found.');
+      return;
+    }
+
+    for (const online of userTunaTvOnline) {
+      try {
+        await this.userTunaTvServer.TunaTvViewAdd(online.tuna_tv_id);
+      } catch (error) {
+        console.error(
+          `Failed to increase view count for user_id: tuna_tv_id: ${online.tuna_tv_id}`,
+        );
+        console.error(error.message);
+      }
+    }
+
     const result = await userTunaTvOnlineRepository
       .createQueryBuilder('tuna_tv_online')
       .select('tuna_tv_online.tuna_tv_id', 'tuna_tv_id')

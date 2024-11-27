@@ -54,4 +54,9 @@ export class UserTunaTv extends BaseModel {
     default: '0',
   })
   like_cnt: number;
+
+  @Column({
+    default: '0',
+  })
+  view_cnt: number;
 }

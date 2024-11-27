@@ -135,6 +135,29 @@ export class UserTunaTvService {
     return userTunaTvData;
   }
 
+  async TunaTvViewAdd(tuna_tv_id: number, qr?: QueryRunner) {
+    const userTunaTvRepository = this.getUserTunaTvRepository(qr);
+    const userTunaTvData = await userTunaTvRepository.findOne({
+      where: {
+        id: tuna_tv_id,
+      },
+    });
+
+    if (!userTunaTvData) {
+      throw new NotFoundException('Tuna TV not found');
+    }
+
+    await userTunaTvRepository.increment({ id: tuna_tv_id }, 'view_cnt', 1);
+
+    const updateData = await userTunaTvRepository.findOne({
+      where: {
+        id: tuna_tv_id,
+      },
+    });
+
+    return updateData;
+  }
+
   async TunaTvLikeAdd(user_id: number, tuna_tv_id: number, qr?: QueryRunner) {
     const userTunaTvRepository = this.getUserTunaTvRepository(qr);
     const userTunaTvData = await userTunaTvRepository.findOne({
