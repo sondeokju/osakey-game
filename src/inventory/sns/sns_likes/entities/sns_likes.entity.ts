@@ -3,7 +3,7 @@ import { Column, Entity, Index } from 'typeorm';
 
 @Entity()
 @Index(['user_id', 'tuna_tv_id'], { unique: true })
-export class SnsLikes extends BaseModel {
+export class UserSnsLikes extends BaseModel {
   @Column({
     default: 0,
   })
