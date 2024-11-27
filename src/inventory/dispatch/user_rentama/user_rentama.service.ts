@@ -31,7 +31,8 @@ export class UserRentamaService {
 
     if (!userRentama) {
       return this.createRentama(user_id, progress_mission_id, qr);
-      //throw new NotFoundException('userRentama not found');
+    } else {
+      throw new NotFoundException('userRentama mission is exist');
     }
   }
 
