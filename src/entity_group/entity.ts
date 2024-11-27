@@ -1,5 +1,6 @@
 import { LogUrl } from 'src/common/log_url/entities/log_url.entity';
 import { UserEduStats } from 'src/inventory/edu/user_edu_stats/entities/user_edu_stats.entity';
+import { SnsLikes } from 'src/inventory/sns/sns_likes/entities/sns_likes.entity';
 import { UserTunaTvOnline } from 'src/inventory/sns/user-tuna-tv-online/entities/user-tuna-tv-online.entity';
 import { UserSnsFollow } from 'src/inventory/sns/user_sns_follow/entities/user_sns_follow.entity';
 import { UserSnsLevel } from 'src/inventory/sns/user_sns_level/entities/user_sns_level.entity';
@@ -90,4 +91,5 @@ export const entities = [
   DispatchEquipLevel,
   DispatchUpgrade,
   UserEduStats,
+  SnsLikes,
 ];

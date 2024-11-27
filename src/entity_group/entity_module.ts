@@ -2,6 +2,7 @@ import { AuthModule } from 'src/auth/auth.module';
 import { CommonModule } from 'src/common/common.module';
 import { LogUrlModule } from 'src/common/log_url/log_url.module';
 import { UserEduStatsModule } from 'src/inventory/edu/user_edu_stats/user_edu_stats.module';
+import { SnsLikesModule } from 'src/inventory/sns/sns_likes/sns_likes.module';
 import { UserTunaTvOnlineModule } from 'src/inventory/sns/user-tuna-tv-online/user-tuna-tv-online.module';
 import { UserSnsFollowModule } from 'src/inventory/sns/user_sns_follow/user_sns_follow.module';
 import { UserSnsLevelModule } from 'src/inventory/sns/user_sns_level/user_sns_level.module';
@@ -100,4 +101,5 @@ export const entities_module = [
   DispatchEquipGradeModule,
   DispatchConfigModule,
   UserEduStatsModule,
+  SnsLikesModule,
 ];

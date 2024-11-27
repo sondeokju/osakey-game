@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserTunaTv } from './entities/user_tuna_tv.entity';
 import { QueryRunner, Repository } from 'typeorm';
 import { SnsConfigService } from 'src/static-table/sns/sns_config/sns_config.service';
+import { SnsLikesService } from '../sns_likes/sns_likes.service';
 
 @Injectable()
 export class UserTunaTvService {
@@ -10,6 +11,7 @@ export class UserTunaTvService {
     @InjectRepository(UserTunaTv)
     private readonly userTunaTvRepository: Repository<UserTunaTv>,
     private readonly snsConfigService: SnsConfigService,
+    private readonly snsLikesService: SnsLikesService,
   ) {}
 
   getUserTunaTvRepository(qr?: QueryRunner) {
@@ -131,6 +133,33 @@ export class UserTunaTvService {
     }
 
     return userTunaTvData;
+  }
+
+  async TunaTvLikeAdd(user_id: number, tuna_tv_id: number, qr?: QueryRunner) {
+    const userTunaTvRepository = this.getUserTunaTvRepository(qr);
+    const userTunaTvData = await userTunaTvRepository.findOne({
+      where: {
+        id: tuna_tv_id,
+      },
+    });
+
+    if (!userTunaTvData) {
+      throw new NotFoundException('Tuna TV not found');
+    }
+
+    const islike = await this.snsLikesService.isLiked(user_id, tuna_tv_id);
+
+    if (!islike) {
+      await userTunaTvRepository.increment({ id: tuna_tv_id }, 'like_cnt', 1);
+    }
+
+    const updateData = await userTunaTvRepository.findOne({
+      where: {
+        id: tuna_tv_id,
+      },
+    });
+
+    return updateData;
   }
 
   async tunaTvOnlineList(qr?: QueryRunner) {
