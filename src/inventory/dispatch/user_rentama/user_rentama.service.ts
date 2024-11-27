@@ -32,7 +32,7 @@ export class UserRentamaService {
     if (!userRentama) {
       return this.createRentama(user_id, progress_mission_id, qr);
     } else {
-      throw new NotFoundException('userRentama mission is exist');
+      throw new NotFoundException('userRentama mission dispatch exist');
     }
   }
 
@@ -89,5 +89,18 @@ export class UserRentamaService {
     });
 
     return updateData;
+  }
+
+  async dispatchList(user_id: number, qr?: QueryRunner) {
+    const userRentamaRepository = this.getUserRentamaRepository(qr);
+    const userRentama = await userRentamaRepository.find({
+      where: { user_id },
+    });
+
+    if (!userRentama) {
+      throw new NotFoundException('userRentama not found');
+    }
+
+    return userRentama;
   }
 }
