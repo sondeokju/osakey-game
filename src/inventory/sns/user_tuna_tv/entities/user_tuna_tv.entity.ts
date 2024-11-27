@@ -10,9 +10,9 @@ export class UserTunaTv extends BaseModel {
   user_id: number;
 
   @Column({
-    default: '0',
+    default: '',
   })
-  tuna_title: number;
+  tuna_title: string;
 
   @Column({
     default: '',
