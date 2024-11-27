@@ -135,7 +135,7 @@ export class UserTunaTvService {
     return userTunaTvData;
   }
 
-  async TunaTvViewAdd(tuna_tv_id: number, qr?: QueryRunner) {
+  async TunaTvViewAdd(tuna_tv_id: number, qr?: QueryRunner): Promise<boolean> {
     const userTunaTvRepository = this.getUserTunaTvRepository(qr);
     const userTunaTvData = await userTunaTvRepository.findOne({
       where: {
@@ -149,13 +149,13 @@ export class UserTunaTvService {
 
     await userTunaTvRepository.increment({ id: tuna_tv_id }, 'view_cnt', 1);
 
-    const updateData = await userTunaTvRepository.findOne({
-      where: {
-        id: tuna_tv_id,
-      },
-    });
+    // const updateData = await userTunaTvRepository.findOne({
+    //   where: {
+    //     id: tuna_tv_id,
+    //   },
+    // });
 
-    return updateData;
+    return true;
   }
 
   async TunaTvLikeAdd(user_id: number, tuna_tv_id: number, qr?: QueryRunner) {
