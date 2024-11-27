@@ -16,7 +16,7 @@ export class DispatchTestService {
       : this.dispatchRepository;
   }
 
-  async getDispatch(id: number, qr?: QueryRunner) {
+  async getDispatchTest(id: number, qr?: QueryRunner) {
     const dispatchTestRepository = this.getDispatchTestRepository(qr);
     const result = await dispatchTestRepository.findOne({
       where: {

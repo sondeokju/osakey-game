@@ -2,7 +2,13 @@ import { BaseModel } from 'src/common/entity/base.entity';
 import { Column, Entity, Index } from 'typeorm';
 
 @Entity()
-//@Index('IDX_NAME', ['columnA', 'columnB'], { unique: true }) // 복합 인덱스 설정
+@Index(
+  'user_rentama_user_id_progress_mission_id',
+  ['user_id', 'progress_mission_id'],
+  {
+    unique: true,
+  },
+)
 export class UserRentama extends BaseModel {
   @Column({
     default: 0,
@@ -14,13 +20,19 @@ export class UserRentama extends BaseModel {
     default: '0',
     type: 'float',
   })
-  sucess: number;
+  progress_mission_id: number;
 
   @Column({
     default: '0',
     type: 'float',
   })
-  tama_sucess: number;
+  success: number;
+
+  @Column({
+    default: '0',
+    type: 'float',
+  })
+  tama_success: number;
 
   @Column({
     default: '0',
@@ -46,4 +58,9 @@ export class UserRentama extends BaseModel {
     default: () => 'CURRENT_TIMESTAMP',
   })
   dispatch_end_date: Date;
+
+  @Column({
+    default: 'N',
+  })
+  dispatch_yn: string;
 }
