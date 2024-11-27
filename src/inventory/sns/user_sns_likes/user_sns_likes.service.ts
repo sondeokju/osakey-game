@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
-import { SnsLikes } from './entities/sns_likes.entity';
+import { UserSnsLikes } from './entities/user_sns_likes.entity';
 
 @Injectable()
-export class SnsLikesService {
+export class UserSnsLikesService {
   constructor(
-    @InjectRepository(SnsLikes)
-    private readonly snsLikesRepository: Repository<SnsLikes>,
+    @InjectRepository(UserSnsLikes)
+    private readonly snsLikesRepository: Repository<UserSnsLikes>,
   ) {}
 
   getSnslikesRepository(qr?: QueryRunner) {
     return qr
-      ? qr.manager.getRepository<SnsLikes>(SnsLikes)
+      ? qr.manager.getRepository<UserSnsLikes>(UserSnsLikes)
       : this.snsLikesRepository;
   }
 

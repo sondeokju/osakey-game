@@ -1,12 +1,9 @@
 import { LogUrl } from 'src/common/log_url/entities/log_url.entity';
 import { UserEduStats } from 'src/inventory/edu/user_edu_stats/entities/user_edu_stats.entity';
-import {
-  SnsLikes,
-  UserSnsLikes,
-} from 'src/inventory/sns/sns_likes/entities/sns_likes.entity';
 import { UserTunaTvOnline } from 'src/inventory/sns/user-tuna-tv-online/entities/user-tuna-tv-online.entity';
 import { UserSnsFollow } from 'src/inventory/sns/user_sns_follow/entities/user_sns_follow.entity';
 import { UserSnsLevel } from 'src/inventory/sns/user_sns_level/entities/user_sns_level.entity';
+import { UserSnsLikes } from 'src/inventory/sns/user_sns_likes/entities/user_sns_likes.entity';
 import { UserSnsReward } from 'src/inventory/sns/user_sns_reward/entities/user_sns_reward.entity';
 import { UserTunaTv } from 'src/inventory/sns/user_tuna_tv/entities/user_tuna_tv.entity';
 import { Dispatch } from 'src/static-table/dispatch/dispatch/entities/dispatch.entity';

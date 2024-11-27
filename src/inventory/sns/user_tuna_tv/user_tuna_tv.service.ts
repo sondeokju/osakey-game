@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserTunaTv } from './entities/user_tuna_tv.entity';
 import { QueryRunner, Repository } from 'typeorm';
 import { SnsConfigService } from 'src/static-table/sns/sns_config/sns_config.service';
-import { SnsLikesService } from '../sns_likes/sns_likes.service';
+import { SnsLikesService } from '../user_sns_likes/sns_likes.service';
 
 @Injectable()
 export class UserTunaTvService {
