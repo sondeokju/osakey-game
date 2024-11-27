@@ -83,12 +83,12 @@ export class UserTunaTvController {
   @UseInterceptors(TransactionInterceptor)
   async TunaTvLikeAdd(
     @User() user: Users,
-    @Body('tunaTv_id') tunaTv_id: number,
+    @Body('tuna_tv_id') tuna_tv_id: number,
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userTunaTvService.TunaTvLikeAdd(
       user.id,
-      tunaTv_id,
+      tuna_tv_id,
       qr,
     );
 
