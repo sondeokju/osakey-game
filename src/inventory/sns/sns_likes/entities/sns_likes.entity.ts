@@ -2,7 +2,7 @@ import { BaseModel } from 'src/common/entity/base.entity';
 import { Column, Entity, Index } from 'typeorm';
 
 @Entity()
-@Index(['user_id', 'video_id'], { unique: true })
+@Index(['user_id', 'tuna_tv_id'], { unique: true })
 export class SnsLikes extends BaseModel {
   @Column({
     default: 0,
