@@ -20,20 +20,20 @@ export class UserTunaTvOnlineService {
   async tunaTvOnlineList(qr?: QueryRunner) {
     const userTunaTvOnlineRepository = this.getUserTunaTvOnlineRepository(qr);
     const result = await userTunaTvOnlineRepository
-      .createQueryBuilder('a') // `user_tuna_tv_online` 테이블의 별칭을 `a`로 설정
-      .select('a.tuna_tv_id', 'tuna_tv_id') // 첫 번째 테이블에서 tuna_tv_id 선택
+      .createQueryBuilder('tuna_tv_online') // `user_tuna_tv_online` 테이블의 별칭을 `a`로 설정
+      .select('tuna_tv_online.tuna_tv_id', 'tuna_tv_id') // 첫 번째 테이블에서 tuna_tv_id 선택
       .addSelect('b') // 두 번째 테이블에서 ingame_kind 선택
-      .addSelect('c.nickname', 'nickname') // user 테이블에서 level 컬럼 추가
-      .addSelect('c.level', 'level') // user 테이블에서 level 컬럼 추가
+      .addSelect('user.nickname', 'nickname') // user 테이블에서 level 컬럼 추가
+      .addSelect('user.level', 'level') // user 테이블에서 level 컬럼 추가
       .innerJoin(
         'user_tuna_tv', // 조인 대상 테이블
-        'b', // 조인 대상 테이블의 별칭
-        'a.tuna_tv_id = b.id', // 조인 조건
+        'tuna_tv', // 조인 대상 테이블의 별칭
+        'tuna_tv_online.tuna_tv_id = tuna_tv.id', // 조인 조건
       )
       .innerJoin(
         'users', // `user` 테이블 조인
-        'c', // `user` 테이블의 별칭
-        'b.user_id = c.id', // `user_tuna_tv`와 `user`의 조인 조건
+        'user', // `user` 테이블의 별칭
+        'tuna_tv.user_id = user.id', // `user_tuna_tv`와 `user`의 조인 조건
       )
       .getRawMany(); // Raw 데이터 가져오기
 
