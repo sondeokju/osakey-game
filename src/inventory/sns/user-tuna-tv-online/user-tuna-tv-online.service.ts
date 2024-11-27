@@ -22,7 +22,7 @@ export class UserTunaTvOnlineService {
     const result = await userTunaTvOnlineRepository
       .createQueryBuilder('tuna_tv_online') // `user_tuna_tv_online` 테이블의 별칭을 `a`로 설정
       .select('tuna_tv_online.tuna_tv_id', 'tuna_tv_id') // 첫 번째 테이블에서 tuna_tv_id 선택
-      .addSelect('b') // 두 번째 테이블에서 ingame_kind 선택
+      .addSelect('tuna_tv') // 두 번째 테이블에서 ingame_kind 선택
       .addSelect('user.nickname', 'nickname') // user 테이블에서 level 컬럼 추가
       .addSelect('user.level', 'level') // user 테이블에서 level 컬럼 추가
       .innerJoin(
