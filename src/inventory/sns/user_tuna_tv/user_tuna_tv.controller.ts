@@ -94,4 +94,20 @@ export class UserTunaTvController {
 
     return JSON.stringify(result);
   }
+
+  @Post('like/delete')
+  @UseInterceptors(TransactionInterceptor)
+  async TunaTvLikeDelete(
+    @User() user: Users,
+    @Body('tuna_tv_id') tuna_tv_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userTunaTvService.TunaTvLikeDelete(
+      user.id,
+      tuna_tv_id,
+      qr,
+    );
+
+    return JSON.stringify(result);
+  }
 }

@@ -39,4 +39,16 @@ export class SnsLikesService {
       tuna_tv_id,
     });
   }
+
+  async deleteLike(
+    user_id: number,
+    tuna_tv_id: number,
+    qr?: QueryRunner,
+  ): Promise<void> {
+    const snsLikesRepository = this.getSnslikesRepository(qr);
+    await snsLikesRepository.delete({
+      user_id,
+      tuna_tv_id,
+    });
+  }
 }

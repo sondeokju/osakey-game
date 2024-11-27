@@ -165,6 +165,40 @@ export class UserTunaTvService {
     return updateData;
   }
 
+  async TunaTvLikeDelete(
+    user_id: number,
+    tuna_tv_id: number,
+    qr?: QueryRunner,
+  ) {
+    const userTunaTvRepository = this.getUserTunaTvRepository(qr);
+    const userTunaTvData = await userTunaTvRepository.findOne({
+      where: {
+        id: tuna_tv_id,
+      },
+    });
+
+    if (!userTunaTvData) {
+      throw new NotFoundException('Tuna TV not found');
+    }
+
+    const islike = await this.snsLikesService.isLiked(user_id, tuna_tv_id);
+
+    if (islike) {
+      await this.snsLikesService.deleteLike(user_id, tuna_tv_id);
+      await userTunaTvRepository.decrement({ id: tuna_tv_id }, 'like_cnt', 1);
+    } else {
+      throw new NotFoundException('like not exist');
+    }
+
+    const updateData = await userTunaTvRepository.findOne({
+      where: {
+        id: tuna_tv_id,
+      },
+    });
+
+    return updateData;
+  }
+
   async tunaTvOnlineList(qr?: QueryRunner) {
     const onlineTvData = {
       hot: this.tunaTvHotOne(qr),
