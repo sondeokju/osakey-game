@@ -10,6 +10,7 @@ import { Dispatch } from 'src/static-table/dispatch/dispatch/entities/dispatch.e
 import { DispatchConfig } from 'src/static-table/dispatch/dispatch_config/entities/dispatch_config.entity';
 import { DispatchEquipGrade } from 'src/static-table/dispatch/dispatch_equip_grade/entities/dispatch_equip_grade.entity';
 import { DispatchEquipLevel } from 'src/static-table/dispatch/dispatch_equip_level/entities/dispatch_equip_level.entity';
+import { DispatchTest } from 'src/static-table/dispatch/dispatch_test/entities/dispatch_test.entity';
 import { DispatchUpgrade } from 'src/static-table/dispatch/dispatch_upgrade/entities/dispatch_upgrade.entity';
 import { Edu } from 'src/static-table/edu/edu/entities/edu.entity';
 import { EduCurriculum } from 'src/static-table/edu/edu_curriculum/entities/edu_curriculum.entity';
@@ -92,4 +93,5 @@ export const entities = [
   DispatchUpgrade,
   UserEduStats,
   UserSnsLikes,
+  DispatchTest,
 ];

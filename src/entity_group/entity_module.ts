@@ -49,6 +49,8 @@ import { UserItemModule } from 'src/user_item/user_item.module';
 import { UserQuestModule } from 'src/user_quest/user_quest.module';
 import { UsersModule } from 'src/users/users.module';
 import { UserSnsLikesModule } from 'src/inventory/sns/user_sns_likes/user_sns_likes.module';
+import { UserRentamaModule } from 'src/inventory/dispatch/user_rentama/user_rentama.module';
+import { DispatchTestModule } from 'src/static-table/dispatch/dispatch_test/dispatch_test.module';
 
 export const entities_module = [
   UsersModule,
@@ -102,4 +104,6 @@ export const entities_module = [
   DispatchConfigModule,
   UserEduStatsModule,
   UserSnsLikesModule,
+  UserRentamaModule,
+  DispatchTestModule,
 ];
