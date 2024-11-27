@@ -22,7 +22,7 @@ export class UserTunaTvService {
 
   async tunaTvSave(
     user_id: number,
-    tuna_tile: string,
+    tuna_title: string,
     ingame_kind: string,
     select_1: number,
     select_2: number,
@@ -44,10 +44,10 @@ export class UserTunaTvService {
       return { message: 'tuna tv over 15' };
     }
 
-    console.log(tuna_tile);
+    console.log(tuna_title);
     const tunaTvData = {
       user_id,
-      tuna_tile,
+      tuna_title,
       ingame_kind,
       select_1,
       select_2,

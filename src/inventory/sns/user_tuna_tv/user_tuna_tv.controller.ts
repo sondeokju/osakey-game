@@ -21,7 +21,7 @@ export class UserTunaTvController {
   @UseInterceptors(TransactionInterceptor)
   async tunaTvSave(
     @User() user: Users,
-    @Body('tuna_tile') tuna_tile: string,
+    @Body('tuna_title') tuna_title: string,
     @Body('ingame_kind') ingame_kind: string,
     @Body('select_1') select_1: number,
     @Body('select_2') select_2: number,
@@ -31,7 +31,7 @@ export class UserTunaTvController {
   ) {
     const result = await this.userTunaTvService.tunaTvSave(
       user.id,
-      tuna_tile,
+      tuna_title,
       ingame_kind,
       select_1,
       select_2,
