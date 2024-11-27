@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserTunaTv } from './entities/user_tuna_tv.entity';
 import { QueryRunner, Repository } from 'typeorm';
 import { SnsConfigService } from 'src/static-table/sns/sns_config/sns_config.service';
-import { SnsLikesService } from '../user_sns_likes/sns_likes.service';
+import { UserSnsLikesService } from '../user_sns_likes/user_sns_likes.service';
 
 @Injectable()
 export class UserTunaTvService {
@@ -11,7 +11,7 @@ export class UserTunaTvService {
     @InjectRepository(UserTunaTv)
     private readonly userTunaTvRepository: Repository<UserTunaTv>,
     private readonly snsConfigService: SnsConfigService,
-    private readonly snsLikesService: SnsLikesService,
+    private readonly userSnsLikesService: UserSnsLikesService,
   ) {}
 
   getUserTunaTvRepository(qr?: QueryRunner) {
@@ -147,10 +147,10 @@ export class UserTunaTvService {
       throw new NotFoundException('Tuna TV not found');
     }
 
-    const islike = await this.snsLikesService.isLiked(user_id, tuna_tv_id);
+    const islike = await this.userSnsLikesService.isLiked(user_id, tuna_tv_id);
 
     if (!islike) {
-      await this.snsLikesService.addLike(user_id, tuna_tv_id);
+      await this.userSnsLikesService.addLike(user_id, tuna_tv_id);
       await userTunaTvRepository.increment({ id: tuna_tv_id }, 'like_cnt', 1);
     } else {
       throw new NotFoundException('like exist');
@@ -181,10 +181,10 @@ export class UserTunaTvService {
       throw new NotFoundException('Tuna TV not found');
     }
 
-    const islike = await this.snsLikesService.isLiked(user_id, tuna_tv_id);
+    const islike = await this.userSnsLikesService.isLiked(user_id, tuna_tv_id);
 
     if (islike) {
-      await this.snsLikesService.deleteLike(user_id, tuna_tv_id);
+      await this.userSnsLikesService.deleteLike(user_id, tuna_tv_id);
       await userTunaTvRepository.decrement({ id: tuna_tv_id }, 'like_cnt', 1);
     } else {
       throw new NotFoundException('like not exist');
