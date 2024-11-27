@@ -51,7 +51,7 @@ export class UserRentamaController {
     return JSON.stringify(result);
   }
 
-  @Get('disptch/list')
+  @Get('dispatch/list')
   @UseInterceptors(TransactionInterceptor)
   async dispatchList(@User() user: Users, @QueryRunner() qr: QR) {
     const result = this.userRentamaService.dispatchList(user.id, qr);
