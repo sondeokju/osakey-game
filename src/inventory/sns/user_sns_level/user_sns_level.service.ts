@@ -40,7 +40,7 @@ export class UserSnsLevelService {
       await userSnsLevelRepository.save({
         user_id,
         sns_level: 0,
-        //sns_exp: 0,
+        sns_exp: 0,
         sns_reward_id: 0,
         reward_yn: 'N',
       });
@@ -48,13 +48,14 @@ export class UserSnsLevelService {
       //await userSnsLevelRepository.insert(userSnsLevelInsert);
     }
 
-    const tunaTvData = await this.userTunaTvService.getTunaTv(tuna_tv_id);
+    const tunaTvData = await this.userTunaTvService.getTunaTv(tuna_tv_id, qr);
     const snsReward = await this.snsRewardService.getSnsReward(
       tunaTvData.like_cnt,
+      qr,
     );
 
     const levelUpExp = userSnsLevelData.sns_exp + snsReward.sns_reward_exp;
-    const snsLevel = await this.snsLevelService.getSnsExp(levelUpExp);
+    const snsLevel = await this.snsLevelService.getSnsExp(levelUpExp, qr);
 
     await userSnsLevelRepository.save({
       ...userSnsLevelData,
@@ -67,6 +68,7 @@ export class UserSnsLevelService {
     const likeRewardData = await this.rewardOfferService.reward(
       user_id,
       snsReward.reward_id,
+      qr,
     );
 
     let levelRewardData = {};
@@ -75,6 +77,7 @@ export class UserSnsLevelService {
       levelRewardData = await this.rewardOfferService.reward(
         user_id,
         snsLevel.reward_id,
+        qr,
       );
     }
 
