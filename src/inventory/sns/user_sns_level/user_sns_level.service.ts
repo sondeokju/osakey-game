@@ -38,6 +38,7 @@ export class UserSnsLevelService {
       const userSnsLevelInsert = {
         user_id,
         sns_level: 0,
+        sns_exp: 0,
       };
 
       await userSnsLevelRepository.insert(userSnsLevelInsert);
