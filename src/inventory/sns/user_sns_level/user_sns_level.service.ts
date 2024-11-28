@@ -72,10 +72,10 @@ export class UserSnsLevelService {
 
     let levelRewardData = {};
 
-    if (snsLevel.sns_level > updateUserSnsLevelData.sns_level) {
+    if (updateSnsLevel > updateUserSnsLevelData.sns_level) {
       levelRewardData = await this.rewardOfferService.reward(
         user_id,
-        snsLevel.reward_id,
+        updateRewardId,
         qr,
       );
     }
