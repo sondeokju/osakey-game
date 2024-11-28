@@ -26,17 +26,11 @@ export class UserSnsLevelService {
 
   async snsReward(user_id: number, tuna_tv_id: number, qr?: QueryRunner) {
     const userSnsLevelRepository = this.getUserSnsLevelRepository(qr);
-
     const userSnsLevelData = await userSnsLevelRepository.findOne({
       where: { user_id },
     });
 
-    console.log('userSnsLevelData:', userSnsLevelData);
-
     if (!userSnsLevelData) {
-      //return { message: 'sns level no data' };
-      console.log('save:', user_id);
-
       await userSnsLevelRepository.save({
         user_id,
         sns_level: 0,
@@ -44,24 +38,24 @@ export class UserSnsLevelService {
         sns_reward_id: 0,
         reward_yn: 'N',
       });
-
-      //await userSnsLevelRepository.insert(userSnsLevelInsert);
     }
 
+    const updateUserSnsLevelData = await userSnsLevelRepository.findOne({
+      where: { user_id },
+    });
     const tunaTvData = await this.userTunaTvService.getTunaTv(tuna_tv_id, qr);
     const snsReward = await this.snsRewardService.getSnsReward(
       tunaTvData.like_cnt,
       qr,
     );
 
-    //const levelUpExp = userSnsLevelData.sns_exp + snsReward.sns_reward_exp;
     const levelUpExp =
-      (userSnsLevelData?.sns_exp || 0) + snsReward.sns_reward_exp;
+      (updateUserSnsLevelData?.sns_exp || 0) + snsReward.sns_reward_exp;
 
     const snsLevel = await this.snsLevelService.getSnsExp(levelUpExp, qr);
 
     await userSnsLevelRepository.save({
-      ...userSnsLevelData,
+      ...updateUserSnsLevelData,
       sns_level: snsLevel.sns_level,
       sns_exp: levelUpExp,
       sns_reward_id: snsLevel.reward_id,
@@ -84,7 +78,7 @@ export class UserSnsLevelService {
       );
     }
 
-    const updatedUserSnsLevelData = await userSnsLevelRepository.findOne({
+    const returnUserSnsLevelData = await userSnsLevelRepository.findOne({
       where: { user_id },
     });
 
@@ -92,7 +86,7 @@ export class UserSnsLevelService {
       sns_exp: snsReward.sns_reward_exp,
       like_reward: likeRewardData,
       level_reward: levelRewardData,
-      user_sns_level: updatedUserSnsLevelData,
+      user_sns_level: returnUserSnsLevelData,
     };
 
     return result;
