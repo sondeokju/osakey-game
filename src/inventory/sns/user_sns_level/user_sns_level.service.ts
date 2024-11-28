@@ -31,7 +31,7 @@ export class UserSnsLevelService {
     });
 
     if (!userSnsLevelData) {
-      await userSnsLevelRepository.save({
+      await userSnsLevelRepository.insert({
         user_id,
         sns_level: 1,
         sns_exp: 50,
