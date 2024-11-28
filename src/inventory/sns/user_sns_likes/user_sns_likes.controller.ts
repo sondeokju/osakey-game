@@ -6,11 +6,11 @@ import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
 import { QueryRunner as QR } from 'typeorm';
 import { Users } from 'src/users/entity/users.entity';
 
-@Controller('like')
+@Controller('tuna-tv')
 export class UserSnsLikesController {
   constructor(private readonly userSnsLikesService: UserSnsLikesService) {}
 
-  @Get('check')
+  @Get('like/check')
   @UseInterceptors(TransactionInterceptor)
   async TunaTvList(
     @User() user: Users,
