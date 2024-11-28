@@ -33,8 +33,8 @@ export class UserSnsLevelService {
     if (!userSnsLevelData) {
       await userSnsLevelRepository.save({
         user_id,
-        sns_level: 0,
-        sns_exp: 0,
+        sns_level: 1,
+        sns_exp: 50,
         sns_reward_id: 0,
         reward_yn: 'N',
       });
