@@ -81,17 +81,17 @@ export class Users extends BaseModel {
   @Index({ unique: false })
   email: string;
 
-  // @Column()
-  // @IsString({
-  //   message: stringValidatioMessage,
-  // })
-  // @Length(3, 8, {
-  //   message: lengthValidationMessage,
-  // })
-  // @Exclude({
-  //   toPlainOnly: true,
-  // })
-  // password: string;
+  @Column()
+  @IsString({
+    message: stringValidatioMessage,
+  })
+  @Length(3, 8, {
+    message: lengthValidationMessage,
+  })
+  @Exclude({
+    toPlainOnly: true,
+  })
+  password: string;
 
   @Column({
     //enum: Object.values(RolesEnum),
