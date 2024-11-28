@@ -35,13 +35,15 @@ export class UserSnsLevelService {
 
     if (!userSnsLevelData) {
       //return { message: 'sns level no data' };
-      const userSnsLevelInsert = {
+
+      await userSnsLevelRepository.save({
         user_id,
         sns_level: 0,
         sns_exp: 0,
-      };
+        reward_yn: 'N',
+      });
 
-      await userSnsLevelRepository.insert(userSnsLevelInsert);
+      //await userSnsLevelRepository.insert(userSnsLevelInsert);
     }
 
     const tunaTvData = await this.userTunaTvService.getTunaTv(tuna_tv_id);
