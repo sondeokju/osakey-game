@@ -10,15 +10,11 @@ import { BaseModel } from 'src/common/entity/base.entity';
 @Entity()
 //@Exclude()
 export class Users extends BaseModel {
-  // user_id(user_id: any) {
-  //   throw new Error('Method not implemented.');
-  // }
-
-  // @Column({
-  //   length: 10,
-  // })
-  // @Index({ unique: true })
-  // user_id: string;
+  @Column({
+    length: 10,
+  })
+  @Index({ unique: false })
+  user_id: string;
 
   @Column({
     length: 20,
@@ -85,29 +81,17 @@ export class Users extends BaseModel {
   @Index({ unique: false })
   email: string;
 
-  @Column()
-  @IsString({
-    message: stringValidatioMessage,
-  })
-  @Length(3, 8, {
-    message: lengthValidationMessage,
-  })
-  /**
-   * request
-   * frontend -> backend
-   * plain object (JSON) -> class instance (dto)
-   *
-   * Response
-   * backend -> frontend
-   * class instance (dto) -> plain object (JSON)
-   *
-   * toClassOnly -> class instance로 변환될때만
-   * toPlainOnly -> plain object로 변환될때만
-   */
-  @Exclude({
-    toPlainOnly: true,
-  })
-  password: string;
+  // @Column()
+  // @IsString({
+  //   message: stringValidatioMessage,
+  // })
+  // @Length(3, 8, {
+  //   message: lengthValidationMessage,
+  // })
+  // @Exclude({
+  //   toPlainOnly: true,
+  // })
+  // password: string;
 
   @Column({
     //enum: Object.values(RolesEnum),
