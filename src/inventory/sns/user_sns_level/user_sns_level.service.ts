@@ -54,7 +54,10 @@ export class UserSnsLevelService {
       qr,
     );
 
-    const levelUpExp = userSnsLevelData.sns_exp + snsReward.sns_reward_exp;
+    //const levelUpExp = userSnsLevelData.sns_exp + snsReward.sns_reward_exp;
+    const levelUpExp =
+      (userSnsLevelData?.sns_exp || 0) + snsReward.sns_reward_exp;
+
     const snsLevel = await this.snsLevelService.getSnsExp(levelUpExp, qr);
 
     await userSnsLevelRepository.save({
