@@ -93,4 +93,13 @@ export class UserSnsLevelService {
 
     return result;
   }
+
+  async getSnsLevel(user_id: number, qr?: QueryRunner) {
+    const userSnsLevelRepository = this.getUserSnsLevelRepository(qr);
+    const userSnsLevelData = await userSnsLevelRepository.findOne({
+      where: { user_id },
+    });
+
+    return userSnsLevelData;
+  }
 }
