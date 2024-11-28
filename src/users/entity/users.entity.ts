@@ -14,11 +14,11 @@ export class Users extends BaseModel {
   //   throw new Error('Method not implemented.');
   // }
 
-  @Column({
-    length: 10,
-  })
-  @Index({ unique: true })
-  user_id: string;
+  // @Column({
+  //   length: 10,
+  // })
+  // @Index({ unique: true })
+  // user_id: string;
 
   @Column({
     length: 20,
