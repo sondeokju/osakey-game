@@ -56,12 +56,13 @@ export class UserSnsLevelService {
     const snsLevel = await this.snsLevelService.getSnsExp(levelUpExp, qr);
     console.log('snsLevel', snsLevel);
     const updateSnsLevel = snsLevel?.sns_level || 1;
+    const updateRewardId = snsLevel?.reward_id || 1;
 
     await userSnsLevelRepository.save({
       ...updateUserSnsLevelData,
       sns_level: updateSnsLevel,
       sns_exp: levelUpExp,
-      sns_reward_id: snsLevel.reward_id,
+      sns_reward_id: updateRewardId,
       rward_yn: 'Y',
     });
 
