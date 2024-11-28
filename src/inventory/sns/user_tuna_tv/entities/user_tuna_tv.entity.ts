@@ -2,6 +2,7 @@ import { BaseModel } from 'src/common/entity/base.entity';
 import { Column, Entity, Index } from 'typeorm';
 
 @Entity()
+@Index(['user_id', 'upload_yn'], { unique: false })
 export class UserTunaTv extends BaseModel {
   @Column({
     default: 0,

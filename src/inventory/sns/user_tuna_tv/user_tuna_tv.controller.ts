@@ -79,6 +79,14 @@ export class UserTunaTvController {
     return JSON.stringify(result);
   }
 
+  @Get('upload/list')
+  @UseInterceptors(TransactionInterceptor)
+  async TunaTvUploadList(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = await this.userTunaTvService.TunaTvUploadList(user.id, qr);
+
+    return JSON.stringify(result);
+  }
+
   @Post('like/add')
   @UseInterceptors(TransactionInterceptor)
   async TunaTvLikeAdd(
