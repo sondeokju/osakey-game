@@ -35,6 +35,7 @@ export class UserSnsLevelService {
 
     if (!userSnsLevelData) {
       //return { message: 'sns level no data' };
+      console.log('save:', user_id);
 
       await userSnsLevelRepository.save({
         user_id,
