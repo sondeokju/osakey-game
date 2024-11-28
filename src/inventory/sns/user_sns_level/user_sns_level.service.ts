@@ -39,9 +39,9 @@ export class UserSnsLevelService {
 
       await userSnsLevelRepository.save({
         user_id,
-        sns_level: 0,
-        sns_exp: 0,
-        reward_yn: 'N',
+        // sns_level: 0,
+        // sns_exp: 0,
+        // reward_yn: 'N',
       });
 
       //await userSnsLevelRepository.insert(userSnsLevelInsert);

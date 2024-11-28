@@ -25,7 +25,7 @@ export class UserSnsLevel extends BaseModel {
   sns_reward_id: number;
 
   @Column({
-    default: '',
+    default: 'N',
   })
   reward_yn: string;
 }
