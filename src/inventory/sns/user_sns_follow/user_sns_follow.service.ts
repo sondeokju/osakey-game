@@ -107,7 +107,22 @@ export class UserSnsFollowService {
       .createQueryBuilder('user_sns_follow')
       .select('user_sns_follow.user_id', 'user_id')
       .addSelect('user_sns_follow.follow_user_id', 'follow_user_id')
-      .addSelect('user_sns_follow.update_at', 'update_at') // 단일 update_at 값 사용
+      .addSelect((qb) => {
+        return qb
+          .subQuery()
+          .select('MAX(inner_follow.update_at)')
+          .from('user_sns_follow', 'inner_follow')
+          .where('inner_follow.user_id = user_sns_follow.user_id')
+          .groupBy('inner_follow.user_id'); // user_id 기준 그룹화
+      }, 'user_update_at') // user_id의 최신 update_at
+      .addSelect((qb) => {
+        return qb
+          .subQuery()
+          .select('MAX(inner_follow.update_at)')
+          .from('user_sns_follow', 'inner_follow')
+          .where('inner_follow.follow_user_id = user_sns_follow.follow_user_id')
+          .groupBy('inner_follow.follow_user_id'); // follow_user_id 기준 그룹화
+      }, 'follow_update_at') // follow_user_id의 최신 update_at
       .addSelect('follow_user.nickname', 'follow_nickname') // follow_user의 닉네임
       .addSelect('follow_user.level', 'follow_level') // follow_user의 레벨
       .innerJoin(
