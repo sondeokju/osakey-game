@@ -77,7 +77,7 @@ export class UsersService {
     const newUser = await this.usersRepository.save(userObject);
 
     return newUser;
-  }
+
 
   // async createUserID(user: Pick<Users, 'email' | 'user_id'>) {
   //   let userID = 0;
