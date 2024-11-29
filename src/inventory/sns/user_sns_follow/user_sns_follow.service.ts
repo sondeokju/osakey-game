@@ -82,18 +82,19 @@ export class UserSnsFollowService {
 
     return result;
   }
-  async followList(user_id: number, qr?: QueryRunner) {
-    const userSnsFollowRepository = this.getUserSnsFollowRepository(qr);
-    const userSnsFollowData = await userSnsFollowRepository.find({
-      where: {
-        user_id,
-      },
-    });
 
-    return userSnsFollowData;
-  }
+  // async followList(user_id: number, qr?: QueryRunner) {
+  //   const userSnsFollowRepository = this.getUserSnsFollowRepository(qr);
+  //   const userSnsFollowData = await userSnsFollowRepository.find({
+  //     where: {
+  //       user_id,
+  //     },
+  //   });
 
-  async tunaTvFollowList(qr?: QueryRunner) {
+  //   return userSnsFollowData;
+  // }
+
+  async followList(qr?: QueryRunner) {
     const userSnsFollowRepository = this.getUserSnsFollowRepository(qr);
     const userSnsFollowData = await userSnsFollowRepository.find({});
 
@@ -107,13 +108,13 @@ export class UserSnsFollowService {
       .addSelect('user_sns_follow.follow_user_id', 'follow_user_id')
       .addSelect((subQuery) => {
         return subQuery
-          .select('MAX(inner_follow.update_at)')
+          .select('inner_follow.update_at')
           .from('user_sns_follow', 'inner_follow')
           .where('inner_follow.user_id = user_sns_follow.user_id');
       }, 'user_update_at') // user_id의 최신 update_at
       .addSelect((subQuery) => {
         return subQuery
-          .select('MAX(inner_follow.update_at)')
+          .select('inner_follow.update_at')
           .from('user_sns_follow', 'inner_follow')
           .where(
             'inner_follow.follow_user_id = user_sns_follow.follow_user_id',
