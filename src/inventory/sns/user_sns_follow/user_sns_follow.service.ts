@@ -94,7 +94,7 @@ export class UserSnsFollowService {
   //   return userSnsFollowData;
   // }
 
-  async followList(qr?: QueryRunner) {
+  async followList(user_id: number, qr?: QueryRunner) {
     const userSnsFollowRepository = this.getUserSnsFollowRepository(qr);
     const userSnsFollowData = await userSnsFollowRepository.find({});
 
