@@ -132,33 +132,6 @@ export class UserSnsFollowService {
       ) // follow_user_id와 users 조인
       .getRawMany();
 
-    // const result = await userSnsFollowRepository
-    //   .createQueryBuilder('user_sns_follow')
-    //   .select('user_sns_follow.user_id', 'user_id')
-    //   .addSelect('user_sns_follow.follow_user_id', 'follow_user_id')
-    //   .addSelect((subQuery) => {
-    //     return subQuery
-    //       .select('inner_follow.update_at')
-    //       .from('user_sns_follow', 'inner_follow')
-    //       .where('inner_follow.user_id = user_sns_follow.user_id');
-    //   }, 'user_update_at') // user_id의 최신 update_at
-    //   .addSelect((subQuery) => {
-    //     return subQuery
-    //       .select('inner_follow.update_at')
-    //       .from('user_sns_follow', 'inner_follow')
-    //       .where(
-    //         'inner_follow.follow_user_id = user_sns_follow.follow_user_id',
-    //       );
-    //   }, 'follow_update_at') // follow_user_id의 최신 update_at
-    //   .addSelect('follow_user.nickname', 'follow_nickname') // follow_user의 닉네임
-    //   .addSelect('follow_user.level', 'follow_level') // follow_user의 레벨
-    //   .innerJoin(
-    //     'users',
-    //     'follow_user',
-    //     'follow_user.id = user_sns_follow.follow_user_id',
-    //   ) // follow_user_id와 users 조인
-    //   .getRawMany();
-
     return result;
   }
 }
