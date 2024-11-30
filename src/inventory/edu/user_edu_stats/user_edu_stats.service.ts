@@ -341,7 +341,7 @@ export class UserEduStatsService {
     await userEduStatsRepository.save({
       ...userEduStats,
       edu_end_date: new Date(
-        updatedDate.getTime() + eduReduceTime.reduce_time * 60000,
+        updatedDate.getTime() - eduReduceTime.reduce_time * 60000,
       ),
     });
 
