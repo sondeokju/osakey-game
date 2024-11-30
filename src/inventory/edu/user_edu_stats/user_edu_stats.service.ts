@@ -338,11 +338,13 @@ export class UserEduStatsService {
     const updatedDate = new Date();
     updatedDate.setMilliseconds(0);
 
+    // Update education end date
+    const eduEndDate = new Date(userEduStats.edu_end_date);
+    eduEndDate.setMinutes(eduEndDate.getMinutes() - eduReduceTime.reduce_time);
+
     await userEduStatsRepository.save({
       ...userEduStats,
-      edu_end_date: new Date(
-        updatedDate.getTime() - eduReduceTime.reduce_time * 60000,
-      ),
+      edu_end_date: eduEndDate,
     });
 
     const result = await userEduStatsRepository.find({
