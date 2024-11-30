@@ -405,6 +405,15 @@ export class UserEduStatsService {
       qr,
     );
 
+    // Update education end date
+    const eduEndDate = new Date(userEduStats.edu_end_date);
+    eduEndDate.setMinutes(eduEndDate.getMinutes() - eduReduceTime.reduce_time);
+
+    await userEduStatsRepository.save({
+      ...userEduStats,
+      edu_end_date: eduEndDate,
+    });
+
     const reduceData = {
       gord: eduReduceTime.gord,
       diamond_free: eduReduceTime.diamond_free,
