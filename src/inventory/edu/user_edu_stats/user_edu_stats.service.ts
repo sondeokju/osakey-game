@@ -242,7 +242,7 @@ export class UserEduStatsService {
       return this.getUserEduStatsRepository(qr).find({ where: { user_id } });
     }
     // Update education end date
-    const eduEndDate = new Date(userEduStats.edu_end_date);
+    const eduEndDate = new Date();
     eduEndDate.setMinutes(eduEndDate.getMinutes() + eduCurriculum.edu_time);
 
     await this.getUserEduStatsRepository(qr).save({
