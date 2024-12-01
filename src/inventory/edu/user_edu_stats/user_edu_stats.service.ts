@@ -241,10 +241,16 @@ export class UserEduStatsService {
     if (userEduStats.edu_learn_yn === 'N') {
       return this.getUserEduStatsRepository(qr).find({ where: { user_id } });
     }
+    // Update education end date
+    const eduEndDate = new Date(userEduStats.edu_end_date);
+    eduEndDate.setMinutes(eduEndDate.getMinutes() + eduCurriculum.edu_time);
+
     await this.getUserEduStatsRepository(qr).save({
       ...userEduStats,
       edu_curriculum_cnt: nextCurriculumCnt,
       edu_buff_value: userEduStats.edu_buff_value + eduList.edu_buff_value,
+      edu_start_date: new Date(),
+      edu_end_date: eduEndDate,
       edu_learn_yn: 'N',
     });
 
