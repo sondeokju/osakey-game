@@ -7,8 +7,13 @@ export class UserMemoryRent extends BaseModel {
   @Column({
     default: 0,
   })
-  @Index({ unique: true })
+  @Index({ unique: false })
   user_id: number;
+
+  @Column({
+    default: 0,
+  })
+  rent_memory_user_1: number;
 
   @Column({
     default: '0',
@@ -16,9 +21,19 @@ export class UserMemoryRent extends BaseModel {
   rent_boss_1: number;
 
   @Column({
+    default: 0,
+  })
+  rent_memory_user_2: number;
+
+  @Column({
     default: '0',
   })
   rent_boss_2: number;
+
+  @Column({
+    default: 0,
+  })
+  rent_memory_user_3: number;
 
   @Column({
     default: '0',
