@@ -3,11 +3,12 @@ import { UserMemoryRentService } from './user_memory_rent.service';
 import { UserMemoryRentController } from './user_memory_rent.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserMemoryRent } from './entities/user_memory_rent.entity';
+import { UserMemory } from '../user_memory/entities/user_memory.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserMemoryRent])],
+  imports: [TypeOrmModule.forFeature([UserMemoryRent, UserMemory])],
   exports: [UserMemoryRentService],
   controllers: [UserMemoryRentController],
-  providers: [UserMemoryRentService],
+  providers: [UserMemoryRentService, UserMemoryRentService],
 })
 export class UserMemoryRentModule {}

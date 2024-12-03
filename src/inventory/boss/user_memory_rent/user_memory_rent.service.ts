@@ -6,12 +6,14 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { UserMemoryRent } from './entities/user_memory_rent.entity';
+import { UserMemoryService } from '../user_memory/user_memory.service';
 
 @Injectable()
 export class UserMemoryRentService {
   constructor(
     @InjectRepository(UserMemoryRent)
     private readonly userMemoryRentRepository: Repository<UserMemoryRent>,
+    private readonly userMemoryService: UserMemoryService,
   ) {}
 
   getUserMemoryRentRepository(qr?: QueryRunner) {
@@ -23,7 +25,7 @@ export class UserMemoryRentService {
   async memoryRent(
     user_id: number,
     rent_memory_user_id: number,
-    boss_id: number,
+    rent_boss_id: number,
     qr?: QueryRunner,
   ) {
     const userMemoryRentRepository = this.getUserMemoryRentRepository(qr);
@@ -58,17 +60,22 @@ export class UserMemoryRentService {
     switch (memoryRentCount) {
       case 0:
         userMemoryRent.rent_memory_user_1 = rent_memory_user_id;
-        userMemoryRent.rent_boss_1 = boss_id;
+        userMemoryRent.rent_boss_1 = rent_boss_id;
         break;
       case 1:
         userMemoryRent.rent_memory_user_2 = rent_memory_user_id;
-        userMemoryRent.rent_boss_2 = boss_id;
+        userMemoryRent.rent_boss_2 = rent_boss_id;
         break;
       case 2:
         userMemoryRent.rent_memory_user_3 = rent_memory_user_id;
-        userMemoryRent.rent_boss_3 = boss_id;
+        userMemoryRent.rent_boss_3 = rent_boss_id;
         break;
     }
+
+    await this.userMemoryService.memoryDecrease(
+      rent_memory_user_id,
+      rent_boss_id,
+    );
 
     const updatedData = await userMemoryRentRepository.save(userMemoryRent);
     return updatedData;
