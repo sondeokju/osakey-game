@@ -57,7 +57,7 @@ export class UserMemoryService {
     });
 
     if (!userMemory || userMemory.memory <= 0) {
-      throw new NotFoundException('boss memory data not found');
+      throw new NotFoundException('boss memory data not enough');
     }
 
     await userMemoryRepository.decrement({ user_id, boss_id }, 'memory', 1);

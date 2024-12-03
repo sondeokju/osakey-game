@@ -420,12 +420,19 @@ export class UserEduStatsService {
       edu_end_date: eduEndDate,
     });
 
-    const reduceData = {
+    const updateData = await userEduStatsRepository.find({
+      where: {
+        user_id,
+      },
+    });
+
+    const result = {
       gord: eduReduceTime.gord,
       diamond_free: eduReduceTime.diamond_free,
+      user_edu: updateData,
     };
 
-    return reduceData;
+    return result;
   }
 
   async learnComplete(user_id: number, edu_list_id: number, qr?: QueryRunner) {
