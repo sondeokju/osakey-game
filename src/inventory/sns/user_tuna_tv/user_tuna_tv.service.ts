@@ -185,7 +185,7 @@ export class UserTunaTvService {
     });
 
     if (!userTunaTvData) {
-      throw new NotFoundException('Tuna TV not found');
+       throw new NotFoundException('Tuna TV not found');
     }
 
     const islike = await this.userSnsLikesService.isLiked(user_id, tuna_tv_id);

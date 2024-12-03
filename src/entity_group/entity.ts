@@ -1,4 +1,5 @@
 import { LogUrl } from 'src/common/log_url/entities/log_url.entity';
+import { UserMemory } from 'src/inventory/boss/user_memory/entities/user_memory.entity';
 import { UserRentama } from 'src/inventory/dispatch/user_rentama/entities/user_rentama.entity';
 import { UserEduStats } from 'src/inventory/edu/user_edu_stats/entities/user_edu_stats.entity';
 import { UserTunaTvOnline } from 'src/inventory/sns/user-tuna-tv-online/entities/user-tuna-tv-online.entity';
@@ -96,4 +97,5 @@ export const entities = [
   UserSnsLikes,
   DispatchTest,
   UserRentama,
+  UserMemory,
 ];

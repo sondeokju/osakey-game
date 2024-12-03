@@ -1,5 +1,5 @@
 import { BaseModel } from 'src/common/entity/base.entity';
-import { Column, CreateDateColumn, Entity, Index } from 'typeorm';
+import { Column, Entity, Index } from 'typeorm';
 
 @Entity()
 //@Index('IDX_NAME', ['columnA', 'columnB'], { unique: true }) // 복합 인덱스 설정
