@@ -45,11 +45,11 @@ export class UserMemoryRentService {
       });
     }
 
-    const memoryRentCount = await userMemoryRentRepository.count({
-      where: {
-        user_id,
-      },
-    });
+    const memoryRentCount = [
+      userMemoryRent.rent_boss_1,
+      userMemoryRent.rent_boss_2,
+      userMemoryRent.rent_boss_3,
+    ].filter(Boolean).length;
 
     if (memoryRentCount >= 3) {
       return { message: 'memory rent over 3' };
