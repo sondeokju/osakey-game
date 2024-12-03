@@ -57,6 +57,7 @@ export class UserMemoryRentService {
       return { message: 'memory rent over 3' };
     }
 
+    console.log('rent_boss_id:', rent_boss_id);
     switch (memoryRentCount) {
       case 0:
         userMemoryRent.rent_memory_user_1 = rent_memory_user_id;
