@@ -22,4 +22,15 @@ export class UserMemoryController {
 
     return JSON.stringify(result);
   }
+
+  @Get('sns/follow')
+  @UseInterceptors(TransactionInterceptor)
+  async getFollowedUsersWithMemory(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = await this.userMemoryService.getFollowedUsersWithMemory(
+      user.id,
+      qr,
+    );
+
+    return JSON.stringify(result);
+  }
 }

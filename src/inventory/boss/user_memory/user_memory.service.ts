@@ -46,4 +46,19 @@ export class UserMemoryService {
 
     return updateData;
   }
+
+  async getFollowedUsersWithMemory(currentUserId: number, qr?: QueryRunner) {
+    const userMemoryRentRepository = this.getUserMemoryRentRepository(qr);
+
+    const result = await userMemoryRentRepository
+      .createQueryBuilder('um')
+      .innerJoin(UserSnsFollow, 'usf', 'usf.follow_user_id = um.user_id')
+      .where('usf.user_id = :currentUserId', { currentUserId })
+      .andWhere('usf.follow_yn = :followYn', { followYn: 'Y' })
+      .andWhere('um.memory != :memoryValue', { memoryValue: '0' })
+      .select(['um.user_id', 'um.boss_id', 'um.memory'])
+      .getMany();
+
+    return result;
+  }
 }
