@@ -52,6 +52,7 @@ import { UserSnsLikesModule } from 'src/inventory/sns/user_sns_likes/user_sns_li
 import { UserRentamaModule } from 'src/inventory/dispatch/user_rentama/user_rentama.module';
 import { DispatchTestModule } from 'src/static-table/dispatch/dispatch_test/dispatch_test.module';
 import { UserMemoryModule } from 'src/inventory/boss/user_memory/user_memory.module';
+import { UserMemoryRentModule } from 'src/inventory/boss/user_memory_rent/user_memory_rent.module';
 
 export const entities_module = [
   UsersModule,
@@ -108,4 +109,5 @@ export const entities_module = [
   UserRentamaModule,
   DispatchTestModule,
   UserMemoryModule,
+  UserMemoryRentModule,
 ];
