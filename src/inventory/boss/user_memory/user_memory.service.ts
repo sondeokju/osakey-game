@@ -35,7 +35,7 @@ export class UserMemoryService {
       throw new NotFoundException('boss memory data not found');
     }
 
-    await userMemoryRepository.increment({ id: boss_id }, 'memory', 1);
+    await userMemoryRepository.increment({ boss_id: boss_id }, 'memory', 1);
 
     const updateData = await userMemoryRepository.findOne({
       where: {
