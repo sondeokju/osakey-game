@@ -20,28 +20,46 @@ export class UserMemoryRentService {
       : this.userMemoryRentRepository;
   }
 
-  // async memoryAdd(user_id: number, boss_id: number, qr?: QueryRunner) {
-  //   const userMemoryRentRepository = this.getUserMemoryRentRepository(qr);
-  //   const userMemoryRent = await userMemoryRentRepository.findOne({
-  //     where: {
-  //       user_id,
-  //       boss_id,
-  //     },
-  //   });
+  async memoryRent(user_id: number, boss_id: number, qr?: QueryRunner) {
+    const userMemoryRentRepository = this.getUserMemoryRentRepository(qr);
+    let userMemoryRent = await userMemoryRentRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
 
-  //   if (!userMemory) {
-  //     throw new NotFoundException('boss memory data not found');
-  //   }
+    if (!userMemoryRent) {
+      userMemoryRent = userMemoryRentRepository.create({
+        user_id,
+        rent_boss_1: 0,
+        rent_boss_2: 0,
+        rent_boss_3: 0,
+      });
+    }
 
-  //   await userMemoryRepository.increment({ user_id, boss_id }, 'memory', 1);
+    const memoryRentCount = await userMemoryRentRepository.count({
+      where: {
+        user_id,
+      },
+    });
 
-  //   const updateData = await userMemoryRepository.findOne({
-  //     where: {
-  //       user_id,
-  //       boss_id,
-  //     },
-  //   });
+    if (memoryRentCount >= 3) {
+      return { message: 'memory rent over 3' };
+    }
 
-  //   return updateData;
-  // }
+    switch (memoryRentCount) {
+      case 0:
+        userMemoryRent.rent_boss_1 = boss_id;
+        break;
+      case 1:
+        userMemoryRent.rent_boss_2 = boss_id;
+        break;
+      case 2:
+        userMemoryRent.rent_boss_3 = boss_id;
+        break;
+    }
+
+    const updatedData = await userMemoryRentRepository.save(userMemoryRent);
+    return updatedData;
+  }
 }
