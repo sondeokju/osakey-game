@@ -100,7 +100,7 @@ export class UserSnsFollowService {
 
     if (!userSnsFollowData || userSnsFollowData.length === 0) {
       console.log('No follow users found.');
-      return;
+      //return;
     }
 
     const result = await userSnsFollowRepository
@@ -127,7 +127,7 @@ export class UserSnsFollowService {
       .addSelect('follow_user.level', 'follow_level') // follow_user의 레벨
       .innerJoin(
         'users',
-        'follow_user', 
+        'follow_user',
         'follow_user.id = user_sns_follow.follow_user_id',
       ) // follow_user_id와 users 조인
       .getRawMany();

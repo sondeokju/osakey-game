@@ -470,9 +470,9 @@ export class UserEduStatsService {
       },
     });
 
-    // if (!userEduStats) {
-    //   throw new NotFoundException('user_edu_stats not found');
-    // }
+    if (!userEduStats) {
+      throw new NotFoundException('user_edu_stats not found');
+    }
 
     //return JSON.stringify(userEduStats);
     return userEduStats;
