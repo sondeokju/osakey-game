@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { UserMemory } from './entities/user_memory.entity';
 import { UserSnsFollowService } from 'src/inventory/sns/user_sns_follow/user_sns_follow.service';
+import { UserSnsFollow } from 'src/inventory/sns/user_sns_follow/entities/user_sns_follow.entity';
 
 @Injectable()
 export class UserMemoryService {
@@ -48,7 +49,7 @@ export class UserMemoryService {
   }
 
   async getFollowedUsersWithMemory(currentUserId: number, qr?: QueryRunner) {
-    const userMemoryRentRepository = this.getUserMemoryRentRepository(qr);
+    const userMemoryRentRepository = this.getUserMemoryRepository(qr);
 
     const result = await userMemoryRentRepository
       .createQueryBuilder('um')
