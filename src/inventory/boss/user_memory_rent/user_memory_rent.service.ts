@@ -20,7 +20,12 @@ export class UserMemoryRentService {
       : this.userMemoryRentRepository;
   }
 
-  async memoryRent(user_id: number, boss_id: number, qr?: QueryRunner) {
+  async memoryRent(
+    user_id: number,
+    rent_memory_user_id: number,
+    boss_id: number,
+    qr?: QueryRunner,
+  ) {
     const userMemoryRentRepository = this.getUserMemoryRentRepository(qr);
     let userMemoryRent = await userMemoryRentRepository.findOne({
       where: {
@@ -31,6 +36,9 @@ export class UserMemoryRentService {
     if (!userMemoryRent) {
       userMemoryRent = userMemoryRentRepository.create({
         user_id,
+        rent_memory_user_1: 0,
+        rent_memory_user_2: 0,
+        rent_memory_user_3: 0,
         rent_boss_1: 0,
         rent_boss_2: 0,
         rent_boss_3: 0,
@@ -49,12 +57,15 @@ export class UserMemoryRentService {
 
     switch (memoryRentCount) {
       case 0:
+        userMemoryRent.rent_memory_user_1 = rent_memory_user_id;
         userMemoryRent.rent_boss_1 = boss_id;
         break;
       case 1:
+        userMemoryRent.rent_memory_user_2 = rent_memory_user_id;
         userMemoryRent.rent_boss_2 = boss_id;
         break;
       case 2:
+        userMemoryRent.rent_memory_user_3 = rent_memory_user_id;
         userMemoryRent.rent_boss_3 = boss_id;
         break;
     }
