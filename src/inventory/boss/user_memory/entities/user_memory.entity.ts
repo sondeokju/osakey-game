@@ -2,12 +2,12 @@ import { BaseModel } from 'src/common/entity/base.entity';
 import { Column, Entity, Index } from 'typeorm';
 
 @Entity()
-@Index('user_memory_user_id_memory', ['user_id', 'boss_id'], { unique: false })
+@Index('user_memory_user_id_memory', ['user_id', 'boss_id'], { unique: true })
 export class UserMemory extends BaseModel {
   @Column({
     default: 0,
   })
-  @Index({ unique: true })
+  @Index({ unique: false })
   user_id: number;
 
   @Column({
