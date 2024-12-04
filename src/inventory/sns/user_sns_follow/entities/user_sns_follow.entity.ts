@@ -2,6 +2,13 @@ import { BaseModel } from 'src/common/entity/base.entity';
 import { Column, Entity, Index } from 'typeorm';
 
 @Entity()
+@Index(
+  'user_sns_follow_user_id_follow_user_id',
+  ['user_id', 'follow_user_id'],
+  {
+    unique: false,
+  },
+)
 export class UserSnsFollow extends BaseModel {
   @Column({
     default: 0,
@@ -18,5 +25,6 @@ export class UserSnsFollow extends BaseModel {
   @Column({
     default: 'N',
   })
+  @Index({ unique: false })
   follow_yn: string;
 }

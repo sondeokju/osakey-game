@@ -19,5 +19,6 @@ export class UserMemory extends BaseModel {
   @Column({
     default: '0',
   })
+  @Index({ unique: false })
   memory: number;
 }

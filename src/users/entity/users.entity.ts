@@ -138,6 +138,7 @@ export class Users extends BaseModel {
   @Column({
     default: 0,
   })
+  @Index({ unique: false })
   level: number;
 
   // @Column({
