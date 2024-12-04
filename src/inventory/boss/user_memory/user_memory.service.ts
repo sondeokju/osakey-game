@@ -8,6 +8,7 @@ import { QueryRunner, Repository } from 'typeorm';
 import { UserMemory } from './entities/user_memory.entity';
 import { UserSnsFollowService } from 'src/inventory/sns/user_sns_follow/user_sns_follow.service';
 import { UserSnsFollow } from 'src/inventory/sns/user_sns_follow/entities/user_sns_follow.entity';
+import { Users } from 'src/users/entity/users.entity';
 
 @Injectable()
 export class UserMemoryService {
@@ -101,14 +102,14 @@ export class UserMemoryService {
   }
 
   async getFollowedUsersWithMemory(currentUserId: number, qr?: QueryRunner) {
-    const userMemoryRentRepository = this.getUserMemoryRepository(qr);
+    const userMemoryRepository = this.getUserMemoryRepository(qr);
 
-    const result = await userMemoryRentRepository
+    const result = await userMemoryRepository
       .createQueryBuilder('um')
       .innerJoin(UserSnsFollow, 'usf', 'usf.follow_user_id = um.user_id')
       .where('usf.user_id = :currentUserId', { currentUserId })
       .andWhere('usf.follow_yn = :followYn', { followYn: 'Y' })
-      .andWhere('um.memory != :memoryValue', { memoryValue: '0' })
+      .andWhere('um.memory >= :memoryValue', { memoryValue: '0' })
       .select(['um.user_id', 'um.boss_id', 'um.memory'])
       .getMany();
 
@@ -120,17 +121,23 @@ export class UserMemoryService {
     boss_id: number,
     qr?: QueryRunner,
   ) {
-    const userMemoryRentRepository = this.getUserMemoryRepository(qr);
-
-    const result = await userMemoryRentRepository
+    const userMemoryRepository = this.getUserMemoryRepository(qr);
+    const result = await userMemoryRepository
       .createQueryBuilder('um')
       .innerJoin(UserSnsFollow, 'usf', 'usf.follow_user_id = um.user_id')
+      .innerJoin(Users, 'u', 'u.id = um.user_id') // Users 테이블 조인
       .where('usf.user_id = :user_id', { user_id }) // 내가 팔로우하는 유저
       .andWhere('usf.follow_yn = :followYn', { followYn: 'Y' }) // 팔로우 상태 확인
       .andWhere('um.boss_id = :boss_id', { boss_id }) // 특정 보스 ID
-      .andWhere('um.memory != :memoryValue', { memoryValue: '0' }) // 메모리가 있는 유저
-      .select(['um.user_id', 'um.boss_id', 'um.memory'])
-      .getMany();
+      .andWhere('um.memory >= :memoryValue', { memoryValue: '0' }) // 메모리가 있는 유저
+      .select([
+        'um.user_id', // UserMemory 테이블 정보
+        'um.boss_id',
+        'um.memory',
+        'u.nickname', // Users 테이블에서 nickname
+        'u.level as user_level', // Users 테이블에서 user_level
+      ])
+      .getRawMany(); // getRawMany를 사용해 직접 필드명으로 매핑
 
     return result;
   }
