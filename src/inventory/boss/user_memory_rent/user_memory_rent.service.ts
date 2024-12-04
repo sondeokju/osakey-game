@@ -84,7 +84,7 @@ export class UserMemoryRentService {
 
   async getUserMemoryRent(user_id: number, qr?: QueryRunner) {
     const userMemoryRentRepository = this.getUserMemoryRentRepository(qr);
-    const userMemoryRent = await userMemoryRentRepository.find({
+    const userMemoryRent = await userMemoryRentRepository.findOne({
       where: {
         user_id,
       },
