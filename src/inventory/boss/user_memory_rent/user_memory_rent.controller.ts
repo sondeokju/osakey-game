@@ -29,6 +29,23 @@ export class UserMemoryRentController {
     return JSON.stringify(result);
   }
 
+  @Post('clear')
+  @UseInterceptors(TransactionInterceptor)
+  async rentMemoryClear(
+    @User() user: Users,
+    @Body('slot') slot: number,
+
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userMemoryRentService.rentMemoryClear(
+      user.id,
+      slot,
+      qr,
+    );
+
+    return JSON.stringify(result);
+  }
+
   @Get('list')
   @UseInterceptors(TransactionInterceptor)
   async getUserMemoryRent(@User() user: Users, @QueryRunner() qr: QR) {

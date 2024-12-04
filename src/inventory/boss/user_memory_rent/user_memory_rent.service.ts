@@ -93,4 +93,44 @@ export class UserMemoryRentService {
 
     return userMemoryRent;
   }
+
+  async rentMemoryClear(user_id: number, slot: number, qr?: QueryRunner) {
+    const userMemoryRentRepository = this.getUserMemoryRentRepository(qr);
+    const userMemoryRent = await userMemoryRentRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    if (!userMemoryRent) {
+      throw new NotFoundException('memory slot not found');
+    }
+
+    switch (slot) {
+      case 1:
+        userMemoryRent.rent_memory_user_1 = 0;
+        userMemoryRent.rent_boss_1 = 0;
+        break;
+      case 2:
+        userMemoryRent.rent_memory_user_2 = 0;
+        userMemoryRent.rent_boss_2 = 0;
+        break;
+      case 3:
+        userMemoryRent.rent_memory_user_3 = 0;
+        userMemoryRent.rent_boss_3 = 0;
+        break;
+    }
+
+    await userMemoryRentRepository.save({
+      ...userMemoryRent,
+    });
+
+    const result = await userMemoryRentRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    return result;
+  }
 }
