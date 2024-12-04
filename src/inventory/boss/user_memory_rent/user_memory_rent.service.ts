@@ -25,7 +25,7 @@ export class UserMemoryRentService {
   async memoryRent(
     user_id: number,
     rent_memory_user_id: number,
-    rent_boss_id: number,
+    user_memory_id: number,
     qr?: QueryRunner,
   ) {
     const userMemoryRentRepository = this.getUserMemoryRentRepository(qr);
@@ -57,26 +57,23 @@ export class UserMemoryRentService {
       return { message: 'memory rent over 3' };
     }
 
-    console.log('rent_boss_id:', rent_boss_id);
+    console.log('user_memory_id:', user_memory_id);
     switch (memoryRentCount) {
       case 0:
         userMemoryRent.rent_memory_user_1 = rent_memory_user_id;
-        userMemoryRent.rent_boss_1 = rent_boss_id;
+        userMemoryRent.rent_boss_1 = user_memory_id;
         break;
       case 1:
         userMemoryRent.rent_memory_user_2 = rent_memory_user_id;
-        userMemoryRent.rent_boss_2 = rent_boss_id;
+        userMemoryRent.rent_boss_2 = user_memory_id;
         break;
       case 2:
         userMemoryRent.rent_memory_user_3 = rent_memory_user_id;
-        userMemoryRent.rent_boss_3 = rent_boss_id;
+        userMemoryRent.rent_boss_3 = user_memory_id;
         break;
     }
 
-    await this.userMemoryService.memoryDecrease(
-      rent_memory_user_id,
-      rent_boss_id,
-    );
+    await this.userMemoryService.memoryDecrease(user_memory_id);
 
     const updatedData = await userMemoryRentRepository.save(userMemoryRent);
     return updatedData;
