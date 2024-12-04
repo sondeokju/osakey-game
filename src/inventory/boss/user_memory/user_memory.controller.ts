@@ -41,4 +41,20 @@ export class UserMemoryController {
 
     return result;
   }
+
+  @Get('follow/list')
+  @UseInterceptors(TransactionInterceptor)
+  async getFollowedUsersWithBossMemory(
+    @User() user: Users,
+    @Body('boss_id') boss_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userMemoryService.getFollowedUsersWithBossMemory(
+      user.id,
+      boss_id,
+      qr,
+    );
+
+    return JSON.stringify(result);
+  }
 }

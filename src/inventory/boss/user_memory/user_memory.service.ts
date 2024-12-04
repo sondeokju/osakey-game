@@ -115,6 +115,26 @@ export class UserMemoryService {
     return result;
   }
 
+  async getFollowedUsersWithBossMemory(
+    user_id: number,
+    boss_id: number,
+    qr?: QueryRunner,
+  ) {
+    const userMemoryRentRepository = this.getUserMemoryRepository(qr);
+
+    const result = await userMemoryRentRepository
+      .createQueryBuilder('um')
+      .innerJoin(UserSnsFollow, 'usf', 'usf.follow_user_id = um.user_id')
+      .where('usf.user_id = :user_id', { user_id }) // 내가 팔로우하는 유저
+      .andWhere('usf.follow_yn = :followYn', { followYn: 'Y' }) // 팔로우 상태 확인
+      .andWhere('um.boss_id = :boss_id', { boss_id }) // 특정 보스 ID
+      .andWhere('um.memory != :memoryValue', { memoryValue: '0' }) // 메모리가 있는 유저
+      .select(['um.user_id', 'um.boss_id', 'um.memory'])
+      .getMany();
+
+    return result;
+  }
+
   async getUserMemory(user_id: number, qr?: QueryRunner) {
     const userMemoryRepository = this.getUserMemoryRepository(qr);
     const userMemory = await userMemoryRepository.find({
