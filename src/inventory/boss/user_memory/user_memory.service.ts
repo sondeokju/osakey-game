@@ -48,6 +48,35 @@ export class UserMemoryService {
     return updateData;
   }
 
+  async memoryIncrease(user_memory_id: number, qr?: QueryRunner) {
+    const userMemoryRepository = this.getUserMemoryRepository(qr);
+    const userMemory = await userMemoryRepository.findOne({
+      where: {
+        id: user_memory_id,
+      },
+    });
+
+    if (!userMemory) {
+      throw new NotFoundException('boss memory data not enough');
+    }
+
+    const updateData = await userMemoryRepository.increment(
+      { id: user_memory_id },
+      'memory',
+      1,
+    );
+
+    console.log(updateData);
+
+    // const updateData = await userMemoryRepository.findOne({
+    //   where: {
+    //     id: user_memory_id,
+    //   },
+    // });
+
+    return updateData;
+  }
+
   async memoryDecrease(user_memory_id: number, qr?: QueryRunner) {
     const userMemoryRepository = this.getUserMemoryRepository(qr);
     const userMemory = await userMemoryRepository.findOne({

@@ -106,16 +106,21 @@ export class UserMemoryRentService {
       throw new NotFoundException('memory slot not found');
     }
 
+    let increase_user_memory_id = 0;
+
     switch (+slot) {
       case 1:
+        increase_user_memory_id = userMemoryRent.rent_boss_1;
         userMemoryRent.rent_memory_user_1 = 0;
         userMemoryRent.rent_boss_1 = 0;
         break;
       case 2:
+        increase_user_memory_id = userMemoryRent.rent_boss_2;
         userMemoryRent.rent_memory_user_2 = 0;
         userMemoryRent.rent_boss_2 = 0;
         break;
       case 3:
+        increase_user_memory_id = userMemoryRent.rent_boss_3;
         userMemoryRent.rent_memory_user_3 = 0;
         userMemoryRent.rent_boss_3 = 0;
         break;
@@ -124,6 +129,8 @@ export class UserMemoryRentService {
     await userMemoryRentRepository.save({
       ...userMemoryRent,
     });
+
+    await this.userMemoryService.memoryIncrease(increase_user_memory_id);
 
     const result = await userMemoryRentRepository.findOne({
       where: {
