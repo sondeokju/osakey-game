@@ -37,6 +37,6 @@ export class UserMemoryRentController {
       qr,
     );
 
-    return result;
+    return JSON.stringify(result);
   }
 }
