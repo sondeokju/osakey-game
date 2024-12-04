@@ -102,7 +102,7 @@ export class UserMemoryRentService {
       },
     });
 
-    if (!userMemoryRent) {
+    if (!userMemoryRent || +slot > 3) {
       throw new NotFoundException('memory slot not found');
     }
 
