@@ -131,9 +131,9 @@ export class UserMemoryService {
       .andWhere('um.boss_id = :boss_id', { boss_id }) // 특정 보스 ID
       .andWhere('um.memory >= :memoryValue', { memoryValue: '0' }) // 메모리가 있는 유저
       .select([
-        'um.user_id', // UserMemory 테이블 정보
-        'um.boss_id',
-        'um.memory',
+        'um.user_id as user_id', // UserMemory 테이블 정보
+        'um.boss_id as boss_id',
+        'um.memory as memory',
         'u.nickname as nickname', // Users 테이블에서 nickname
         'u.level as user_level', // Users 테이블에서 user_level
       ])
