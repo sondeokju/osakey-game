@@ -33,4 +33,12 @@ export class UserMemoryController {
 
     return JSON.stringify(result);
   }
+
+  @Get('list')
+  @UseInterceptors(TransactionInterceptor)
+  async getUserMemory(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = await this.userMemoryService.getUserMemory(user.id, qr);
+
+    return result;
+  }
 }

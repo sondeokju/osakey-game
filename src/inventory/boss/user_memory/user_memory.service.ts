@@ -47,6 +47,7 @@ export class UserMemoryService {
 
     return updateData;
   }
+
   async memoryDecrease(user_id: number, boss_id: number, qr?: QueryRunner) {
     const userMemoryRepository = this.getUserMemoryRepository(qr);
     const userMemory = await userMemoryRepository.findOne({
@@ -85,5 +86,20 @@ export class UserMemoryService {
       .getMany();
 
     return result;
+  }
+
+  async getUserMemory(user_id: number, qr?: QueryRunner) {
+    const userMemoryRepository = this.getUserMemoryRepository(qr);
+    const userMemory = await userMemoryRepository.find({
+      where: {
+        user_id,
+      },
+    });
+
+    if (!userMemory) {
+      throw new NotFoundException('boss memory data not found');
+    }
+
+    return userMemory;
   }
 }
