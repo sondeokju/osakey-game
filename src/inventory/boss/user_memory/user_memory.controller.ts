@@ -55,6 +55,6 @@ export class UserMemoryController {
       qr,
     );
 
-    return JSON.stringify(result);
+    return result;
   }
 }
