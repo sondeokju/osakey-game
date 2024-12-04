@@ -134,7 +134,7 @@ export class UserMemoryService {
         'um.user_id', // UserMemory 테이블 정보
         'um.boss_id',
         'um.memory',
-        'u.nickname', // Users 테이블에서 nickname
+        'u.nickname as nickname', // Users 테이블에서 nickname
         'u.level as user_level', // Users 테이블에서 user_level
       ])
       .getRawMany(); // getRawMany를 사용해 직접 필드명으로 매핑
