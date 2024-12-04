@@ -81,4 +81,19 @@ export class UserMemoryRentService {
     const updatedData = await userMemoryRentRepository.save(userMemoryRent);
     return updatedData;
   }
+
+  async getUserMemoryRent(user_id: number, qr?: QueryRunner) {
+    const userMemoryRentRepository = this.getUserMemoryRentRepository(qr);
+    const userMemoryRent = await userMemoryRentRepository.find({
+      where: {
+        user_id,
+      },
+    });
+
+    if (!userMemoryRent) {
+      throw new NotFoundException('boss memory rent data not found');
+    }
+
+    return userMemoryRent;
+  }
 }
