@@ -106,7 +106,7 @@ export class UserMemoryRentService {
       throw new NotFoundException('memory slot not found');
     }
 
-    switch (slot) {
+    switch (+slot) {
       case 1:
         userMemoryRent.rent_memory_user_1 = 0;
         userMemoryRent.rent_boss_1 = 0;
