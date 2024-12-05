@@ -78,11 +78,12 @@ export class UserMemoryService {
     return updateData;
   }
 
-  async memoryDecrease(user_memory_id: number, qr?: QueryRunner) {
+  async memoryDecrease(user_id: number, boss_id: number, qr?: QueryRunner) {
     const userMemoryRepository = this.getUserMemoryRepository(qr);
     const userMemory = await userMemoryRepository.findOne({
       where: {
-        id: user_memory_id,
+        user_id,
+        boss_id,
       },
     });
 
@@ -91,11 +92,12 @@ export class UserMemoryService {
       throw new NotFoundException('boss memory data not enough');
     }
 
-    await userMemoryRepository.decrement({ id: user_memory_id }, 'memory', 1);
+    await userMemoryRepository.decrement({ user_id, boss_id }, 'memory', 1);
 
     const updateData = await userMemoryRepository.findOne({
       where: {
-        id: user_memory_id,
+        user_id,
+        boss_id,
       },
     });
 

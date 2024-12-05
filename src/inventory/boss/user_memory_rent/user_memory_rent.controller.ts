@@ -16,13 +16,13 @@ export class UserMemoryRentController {
   async followAdd(
     @User() user: Users,
     @Body('rent_memory_user_id') rent_memory_user_id: number,
-    @Body('user_memory_id') user_memory_id: number,
+    @Body('boss_id') boss_id: number,
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userMemoryRentService.memoryRent(
       user.id,
       rent_memory_user_id,
-      user_memory_id,
+      boss_id,
       qr,
     );
 
@@ -49,7 +49,7 @@ export class UserMemoryRentController {
   @Get('list')
   @UseInterceptors(TransactionInterceptor)
   async getUserMemoryRent(@User() user: Users, @QueryRunner() qr: QR) {
-    const result = await this.userMemoryRentService.getUserMemoryWithRent(
+    const result = await this.userMemoryRentService.getUserMemoryRent(
       user.id,
       qr,
     );
