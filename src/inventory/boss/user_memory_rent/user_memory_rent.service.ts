@@ -54,11 +54,11 @@ export class UserMemoryRentService {
       userMemoryRent.rent_boss_3,
     ].findIndex((value) => value === 0);
 
+    console.log(memoryRentIndex);
+
     if (memoryRentIndex === -1) {
       return { message: 'memory rent over 3' };
     }
-
-    console.log(memoryRentIndex);
 
     switch (memoryRentIndex) {
       case 0:
