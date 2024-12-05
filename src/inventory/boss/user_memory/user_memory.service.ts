@@ -49,11 +49,12 @@ export class UserMemoryService {
     return updateData;
   }
 
-  async memoryIncrease(user_memory_id: number, qr?: QueryRunner) {
+  async memoryIncrease(user_id: number, boss_id: number, qr?: QueryRunner) {
     const userMemoryRepository = this.getUserMemoryRepository(qr);
     const userMemory = await userMemoryRepository.findOne({
       where: {
-        id: user_memory_id,
+        user_id,
+        boss_id,
       },
     });
 
@@ -62,18 +63,10 @@ export class UserMemoryService {
     }
 
     const updateData = await userMemoryRepository.increment(
-      { id: user_memory_id },
+      { user_id, boss_id },
       'memory',
       1,
     );
-
-    console.log(updateData);
-
-    // const updateData = await userMemoryRepository.findOne({
-    //   where: {
-    //     id: user_memory_id,
-    //   },
-    // });
 
     return updateData;
   }
