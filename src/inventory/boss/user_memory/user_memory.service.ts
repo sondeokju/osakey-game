@@ -157,4 +157,19 @@ export class UserMemoryService {
 
     return userMemory;
   }
+
+  async getUserMemoryId(id: number, qr?: QueryRunner) {
+    const userMemoryRepository = this.getUserMemoryRepository(qr);
+    const userMemory = await userMemoryRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!userMemory) {
+      throw new NotFoundException('boss memory data not found');
+    }
+
+    return userMemory;
+  }
 }

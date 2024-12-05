@@ -76,7 +76,15 @@ export class UserMemoryRentService {
     await this.userMemoryService.memoryDecrease(user_memory_id);
 
     const updatedData = await userMemoryRentRepository.save(userMemoryRent);
-    return updatedData;
+    const userMemory =
+      await this.userMemoryService.getUserMemoryId(user_memory_id);
+
+    const result = {
+      updatedData,
+      userMemory,
+    };
+
+    return result;
   }
 
   async getUserMemoryRent(user_id: number, qr?: QueryRunner) {
