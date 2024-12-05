@@ -128,7 +128,7 @@ export class UserMemoryRentService {
         'user_memory', // JOIN 대상 테이블 (alias)
         'userMemory', // alias 이름
         `
-      userMemory.boss_id IN (
+      userMemory.id IN (
         userMemoryRent.rent_boss_1, 
         userMemoryRent.rent_boss_2, 
         userMemoryRent.rent_boss_3
