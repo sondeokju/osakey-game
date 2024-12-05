@@ -124,15 +124,13 @@ export class UserMemoryRentService {
 
     const result = await userMemoryRentRepository
       .createQueryBuilder('userMemoryRent')
-      .leftJoinAndSelect(
-        'user_memory', // JOIN 대상 테이블 (alias)
+      .leftJoin(
+        'user_memory', // JOIN 대상 테이블
         'userMemory', // alias 이름
         `
-      userMemory.id IN (
-        userMemoryRent.rent_boss_1, 
-        userMemoryRent.rent_boss_2, 
-        userMemoryRent.rent_boss_3
-      )
+      userMemory.id = userMemoryRent.rent_boss_1
+      OR userMemory.id = userMemoryRent.rent_boss_2
+      OR userMemory.id = userMemoryRent.rent_boss_3
       `,
       )
       .where('userMemoryRent.user_id = :user_id', { user_id })
