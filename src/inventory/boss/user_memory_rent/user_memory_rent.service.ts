@@ -48,17 +48,17 @@ export class UserMemoryRentService {
       });
     }
 
-    const memoryRentCount = [
+    const memoryRentIndex = [
       userMemoryRent.rent_boss_1,
       userMemoryRent.rent_boss_2,
       userMemoryRent.rent_boss_3,
-    ].filter(Boolean).length;
+    ].findIndex((value) => value === 0);
 
-    if (memoryRentCount >= 3) {
+    if (memoryRentIndex === -1) {
       return { message: 'memory rent over 3' };
     }
 
-    switch (memoryRentCount) {
+    switch (memoryRentIndex) {
       case 0:
         userMemoryRent.rent_memory_user_1 = rent_memory_user_id;
         userMemoryRent.rent_boss_1 = boss_id;
@@ -86,6 +86,7 @@ export class UserMemoryRentService {
 
     return result;
   }
+
   async getUserMemoryRent(user_id: number, qr?: QueryRunner) {
     const userMemoryRentRepository = this.getUserMemoryRentRepository(qr);
     const userMemoryRent = await userMemoryRentRepository.findOne({
