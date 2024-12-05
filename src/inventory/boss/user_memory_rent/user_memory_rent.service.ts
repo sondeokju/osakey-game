@@ -97,9 +97,9 @@ export class UserMemoryRentService {
       },
     });
 
-    if (!userMemoryRent) {
-      throw new NotFoundException('boss memory rent data not found');
-    }
+    // if (!userMemoryRent) {
+    //   throw new NotFoundException('boss memory rent data not found');
+    // }
 
     return userMemoryRent;
   }
