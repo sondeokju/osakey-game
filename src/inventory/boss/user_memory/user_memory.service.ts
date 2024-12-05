@@ -86,6 +86,7 @@ export class UserMemoryService {
       },
     });
 
+    console.log('userMemory', userMemory);
     if (!userMemory || userMemory.memory <= 0) {
       throw new NotFoundException('boss memory data not enough');
     }
