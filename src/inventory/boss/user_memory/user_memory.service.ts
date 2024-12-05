@@ -147,9 +147,9 @@ export class UserMemoryService {
       },
     });
 
-    if (!userMemory) {
-      throw new NotFoundException('boss memory data not found');
-    }
+    // if (!userMemory) {
+    //   throw new NotFoundException('boss memory data not found');
+    // }
 
     return userMemory;
   }
