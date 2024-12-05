@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { UserMemoryRent } from './entities/user_memory_rent.entity';
 import { UserMemoryService } from '../user_memory/user_memory.service';
+import { UserMemory } from '../user_memory/entities/user_memory.entity';
 
 @Injectable()
 export class UserMemoryRentService {
@@ -99,7 +100,45 @@ export class UserMemoryRentService {
       throw new NotFoundException('boss memory rent data not found');
     }
 
-    return userMemoryRent;
+    const bossIds = [
+      userMemoryRent.rent_boss_1,
+      userMemoryRent.rent_boss_2,
+      userMemoryRent.rent_boss_3,
+    ];
+
+    const userMemory = await this.userMemoryService.getUserMemoryBossId(
+      bossIds,
+      qr,
+    );
+
+    const result = {
+      userMemoryRent,
+      userMemory,
+    };
+
+    return result;
+  }
+
+  async getUserMemoryWithRent(user_id: number, qr?: QueryRunner) {
+    const userMemoryRentRepository = this.getUserMemoryRentRepository(qr);
+
+    const result = await userMemoryRentRepository
+      .createQueryBuilder('userMemoryRent')
+      .leftJoinAndSelect(
+        'userMemory', // JOIN 대상 테이블 (alias)
+        'userMemory', // alias 이름
+        `
+      userMemory.boss_id IN (
+        userMemoryRent.rent_boss_1, 
+        userMemoryRent.rent_boss_2, 
+        userMemoryRent.rent_boss_3
+      )
+      `,
+      )
+      .where('userMemoryRent.user_id = :user_id', { user_id })
+      .getMany();
+
+    return result;
   }
 
   async rentMemoryClear(user_id: number, slot: number, qr?: QueryRunner) {

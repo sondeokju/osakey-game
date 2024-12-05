@@ -173,4 +173,15 @@ export class UserMemoryService {
 
     return userMemory;
   }
+
+  async getUserMemoryBossId(bossIds: any, qr?: QueryRunner) {
+    const userMemoryRepository = this.getUserMemoryRepository(qr);
+
+    const result = await userMemoryRepository
+      .createQueryBuilder('userMemory')
+      .where('userMemory.boss_id IN (:...bossIds)', { bossIds })
+      .getMany();
+
+    return result;
+  }
 }
