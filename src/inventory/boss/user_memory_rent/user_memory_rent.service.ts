@@ -123,22 +123,22 @@ export class UserMemoryRentService {
     const userMemoryRentRepository = this.getUserMemoryRentRepository(qr);
 
     const result = await userMemoryRentRepository
-      .createQueryBuilder('userMemoryRent')
+      .createQueryBuilder('user_memory_rent')
       .leftJoinAndMapMany(
-        'userMemoryRent.userMemories', // 결과 객체에 매핑될 필드 이름
+        'user_memory_rent.userMemories', // 결과 객체에 매핑될 필드 이름
         'user_memory', // JOIN할 테이블
-        'userMemory', // alias
+        'user_memory', // alias
         `
-      userMemory.id = userMemoryRent.rent_boss_1
-      OR userMemory.id = userMemoryRent.rent_boss_2
-      OR userMemory.id = userMemoryRent.rent_boss_3
+      user_memory.id = user_memory_rent.rent_boss_1
+      OR user_memory.id = user_memory_rent.rent_boss_2
+      OR user_memory.id = user_memory_rent.rent_boss_3
       `,
       )
-      .where('userMemoryRent.user_id = :user_id', { user_id })
+      .where('user_memory_rent.user_id = :user_id', { user_id })
       .select([
-        'userMemoryRent', // userMemoryRent의 모든 컬럼
-        'userMemory.id', // userMemory의 id
-        'userMemory.boss_id', // userMemory의 boss_id
+        'user_memory', // userMemoryRent의 모든 컬럼
+        'user_memory.id', // userMemory의 id
+        'user_memory.boss_id', // userMemory의 boss_id
       ])
       .getRawMany();
 
