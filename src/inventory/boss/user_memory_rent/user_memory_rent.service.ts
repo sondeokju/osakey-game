@@ -77,7 +77,7 @@ export class UserMemoryRentService {
 
     const updatedData = await userMemoryRentRepository.save(userMemoryRent);
     const userMemory =
-      await this.userMemoryService.getUserMemoryId(user_memory_id);
+      await this.userMemoryService.getUserMemoryId(rent_memory_user_id);
 
     const result = {
       updatedData,

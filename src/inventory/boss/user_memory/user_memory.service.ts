@@ -161,11 +161,11 @@ export class UserMemoryService {
     return userMemory;
   }
 
-  async getUserMemoryId(id: number, qr?: QueryRunner) {
+  async getUserMemoryId(user_id: number, qr?: QueryRunner) {
     const userMemoryRepository = this.getUserMemoryRepository(qr);
     const userMemory = await userMemoryRepository.findOne({
       where: {
-        id,
+        user_id,
       },
     });
 
