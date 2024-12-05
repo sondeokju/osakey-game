@@ -49,7 +49,7 @@ export class UserMemoryRentController {
   @Get('list')
   @UseInterceptors(TransactionInterceptor)
   async getUserMemoryRent(@User() user: Users, @QueryRunner() qr: QR) {
-    const result = await this.userMemoryRentService.getUserMemoryRent(
+    const result = await this.userMemoryRentService.getUserMemoryWithRent(
       user.id,
       qr,
     );
