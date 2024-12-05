@@ -125,7 +125,7 @@ export class UserMemoryRentService {
     const result = await userMemoryRentRepository
       .createQueryBuilder('userMemoryRent')
       .leftJoinAndSelect(
-        'userMemory', // JOIN 대상 테이블 (alias)
+        'user_memory', // JOIN 대상 테이블 (alias)
         'userMemory', // alias 이름
         `
       userMemory.boss_id IN (
