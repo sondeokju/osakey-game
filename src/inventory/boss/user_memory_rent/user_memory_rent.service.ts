@@ -136,13 +136,7 @@ export class UserMemoryRentService {
       `,
       )
       .where('userMemoryRent.user_id = :user_id', { user_id })
-      .select([
-        'userMemoryRent',
-        'userMemory',
-        // 'userMemory.user_id as user_id',
-        // 'userMemory.boss_id as boss_id',
-        // 'userMemory.memory as memory',
-      ])
+      .select(['userMemoryRent', 'userMemory.boss_id as boss_id'])
       .getMany();
 
     return result;
