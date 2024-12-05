@@ -179,7 +179,7 @@ export class UserMemoryService {
 
     const result = await userMemoryRepository
       .createQueryBuilder('userMemory')
-      .where('userMemory.boss_id IN (:...bossIds)', { bossIds })
+      .where('userMemory.id IN (:...bossIds)', { bossIds })
       .getMany();
 
     return result;
