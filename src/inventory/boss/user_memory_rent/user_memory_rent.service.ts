@@ -136,8 +136,8 @@ export class UserMemoryRentService {
       )
       .where('user_memory_rent.user_id = :user_id', { user_id })
       .select([
+        'user_memory_rent',
         'user_memory', // userMemoryRent의 모든 컬럼
-        'user_memory.id', // userMemory의 id
         'user_memory.boss_id', // userMemory의 boss_id
       ])
       .getRawMany();
