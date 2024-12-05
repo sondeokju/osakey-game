@@ -139,7 +139,8 @@ export class UserMemoryRentService {
         'userMemoryRent', // userMemoryRent의 모든 컬럼
         'userMemory.id', // userMemory의 id
         'userMemory.boss_id', // userMemory의 boss_id
-      ]);
+      ])
+      .getRawMany();
 
     return result;
   }
