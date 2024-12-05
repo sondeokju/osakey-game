@@ -124,9 +124,10 @@ export class UserMemoryRentService {
 
     const result = await userMemoryRentRepository
       .createQueryBuilder('userMemoryRent')
-      .leftJoin(
-        'user_memory', // JOIN 대상 테이블
-        'userMemory', // alias 이름
+      .leftJoinAndMapMany(
+        'userMemoryRent.userMemories', // 결과 객체에 매핑될 필드 이름
+        'user_memory', // JOIN할 테이블
+        'userMemory', // alias
         `
       userMemory.id = userMemoryRent.rent_boss_1
       OR userMemory.id = userMemoryRent.rent_boss_2
@@ -134,8 +135,11 @@ export class UserMemoryRentService {
       `,
       )
       .where('userMemoryRent.user_id = :user_id', { user_id })
-      .select(['userMemoryRent', 'userMemory.boss_id as boss_id'])
-      .getMany();
+      .select([
+        'userMemoryRent', // userMemoryRent의 모든 컬럼
+        'userMemory.id', // userMemory의 id
+        'userMemory.boss_id', // userMemory의 boss_id
+      ]);
 
     return result;
   }
