@@ -137,7 +137,7 @@ export class Users extends BaseModel {
   revive_coin: number;
 
   @Column({
-    default: 0,
+    default: 1,
   })
   @Index({ unique: false })
   level: number;

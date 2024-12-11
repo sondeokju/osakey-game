@@ -95,11 +95,28 @@ export class UsersService {
     return true;
   }
 
+  async createUserEmail(id: number, email: string, qr?: QueryRunner) {
+    const usersRepository = this.getUsersRepository(qr);
+    const userData = await usersRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    await usersRepository.save({
+      ...userData,
+      email: email,
+    });
+
+    return true;
+  }
+
   async createUserIDList(qr?: QueryRunner) {
     const nickname = 'osakey';
 
     for (let i = 1; i <= 100; i++) {
       await this.createUserID(`${nickname}${i}`, qr);
+      await this.createUserEmail(i, `${nickname}${i}@abc.com`, qr);
     }
 
     return true;
