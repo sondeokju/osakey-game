@@ -86,13 +86,12 @@ export class UsersService {
 
     const user_id = savedUser.id.toString().padStart(10, '0');
 
-    const userObject = this.usersRepository.create({
-      user_id,
+    await usersRepository.save({
+      ...savedUser,
+      user_id: user_id,
     });
 
-    const result = await this.usersRepository.save(userObject);
-
-    return result;
+    return true;
   }
 
   async createUserIDList() {
