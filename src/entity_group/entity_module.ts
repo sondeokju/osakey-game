@@ -18,7 +18,6 @@ import { EduModule } from 'src/static-table/edu/edu/edu.module';
 import { EduCurriculumModule } from 'src/static-table/edu/edu_curriculum/edu_curriculum.module';
 import { EduListModule } from 'src/static-table/edu/edu_list/edu_list.module';
 import { EduReduceTime } from 'src/static-table/edu/edu_reduce_time/entities/edu_reduce_time.entity';
-import { EquipStatModule } from 'src/static-table/equip-stat/equip-stat.module';
 import { GachaModule } from 'src/static-table/gacha/gacha.module';
 import { HeroModule } from 'src/static-table/hero/hero.module';
 import { ItemEquipslotModule } from 'src/static-table/item-equipslot/item-equipslot.module';
@@ -40,11 +39,7 @@ import { SnsLevelModule } from 'src/static-table/sns/sns_level/sns_level.module'
 import { SnsLikeRuleModule } from 'src/static-table/sns/sns_like_rule/sns_like_rule.module';
 import { SnsRewardModule } from 'src/static-table/sns/sns_reward/sns_reward.module';
 import { RewardOfferModule } from 'src/supervisor/reward_offer/reward_offer.module';
-import { UserEquipmentSlotModule } from 'src/user-equipment-slot/user-equipment-slot.module';
-import { UserEquipmentModule } from 'src/user-equipment/user-equipment.module';
-import { UserAdModule } from 'src/user_ad/user_ad.module';
 import { UserBattleModule } from 'src/user_battle/user_battle.module';
-import { UserEventAttendanceModule } from 'src/user_event_attendance/user_event_attendance.module';
 import { UserItemModule } from 'src/user_item/user_item.module';
 import { UserQuestModule } from 'src/user_quest/user_quest.module';
 import { UsersModule } from 'src/users/users.module';
@@ -61,13 +56,8 @@ export const entities_module = [
   ItemModule,
   ItemEquipslotModule,
   ItemGradeModule,
-  EquipStatModule,
-  UserEquipmentModule,
-  UserEquipmentSlotModule,
   GachaModule,
   UserItemModule,
-  UserAdModule,
-  UserEventAttendanceModule,
   RewardModule,
   MissionRoutineModule,
   MissionRoutineBonusModule,
