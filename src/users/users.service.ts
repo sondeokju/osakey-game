@@ -79,22 +79,32 @@ export class UsersService {
     return newUser;
   }
 
-  // async createUserID(user: Pick<Users, 'email' | 'user_id'>) {
-  //   let userID = 0;
+  async createUserID(nickname: string) {
+    const usersRepository = this.getUsersRepository(qr);
+    const newUser = usersRepository.create({ nickname });
+    const savedUser = await usersRepository.save(newUser);
 
-  //   for (let i = 0; i < 100; i++) {
-  //     const userId = userID.toString().padStart(14, '0');
+    const user_id = savedUser.id.toString().padStart(10, '0');
 
-  //     const userObject = this.usersRepository.create({
-  //       email: user.email,
-  //       user_id: userId,
-  //     });
+    const userObject = this.usersRepository.create({
+      user_id,
+    });
 
-  //     const newUser = await this.usersRepository.save(userObject);
-  //   }
+    const result = await this.usersRepository.save(userObject);
 
-  //   return 0;
-  // }
+    return result;
+  }
+
+  async createUserIDList() {
+    let nickname = 'osakey';
+
+    for (let i = 0; i < 100; i++) {
+      nickname = nickname + i;
+      this.createUserID(nickname);
+    }
+
+    return true;
+  }
 
   // async getAllUsers() {
   //   return this.usersRepository.find({
