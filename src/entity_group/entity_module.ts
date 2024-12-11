@@ -39,7 +39,7 @@ import { SnsLevelModule } from 'src/static-table/sns/sns_level/sns_level.module'
 import { SnsLikeRuleModule } from 'src/static-table/sns/sns_like_rule/sns_like_rule.module';
 import { SnsRewardModule } from 'src/static-table/sns/sns_reward/sns_reward.module';
 import { RewardOfferModule } from 'src/supervisor/reward_offer/reward_offer.module';
-import { UserBattleModule } from 'src/user_battle/user_battle.module';
+import { UserBattleModule } from 'src/inventory/battle/user_battle/user_battle.module';
 import { UserItemModule } from 'src/user_item/user_item.module';
 import { UserQuestModule } from 'src/user_quest/user_quest.module';
 import { UsersModule } from 'src/users/users.module';

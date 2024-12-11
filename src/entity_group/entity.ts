@@ -39,7 +39,7 @@ import { SnsConfig } from 'src/static-table/sns/sns_config/entities/sns_config.e
 import { SnsLevel } from 'src/static-table/sns/sns_level/entities/sns_level.entity';
 import { SnsLikeRule } from 'src/static-table/sns/sns_like_rule/entities/sns_like_rule.entity';
 import { SnsReward } from 'src/static-table/sns/sns_reward/entities/sns_reward.entity';
-import { UserBattle } from 'src/user_battle/entities/user_battle.entity';
+import { UserBattle } from 'src/inventory/battle/user_battle/entities/user_battle.entity';
 import { UserItem } from 'src/user_item/entities/user_item.entity';
 import { UserQuest } from 'src/user_quest/entity/user_quest.entity';
 import { Users } from 'src/users/entity/users.entity';
