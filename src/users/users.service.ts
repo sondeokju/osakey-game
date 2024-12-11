@@ -99,7 +99,7 @@ export class UsersService {
 
     for (let i = 0; i < 100; i++) {
       nickname = nickname + i;
-      this.createUserID(nickname);
+      await this.createUserID(nickname);
     }
 
     return true;
