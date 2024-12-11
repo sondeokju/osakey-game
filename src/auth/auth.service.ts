@@ -12,7 +12,6 @@ import {
   ENV_HASH_ROUNDS_KEY,
   ENV_JWT_SECRET_KEY,
 } from 'src/common/const/env-keys.const';
-import { UserEquipmentSlotService } from 'src/user-equipment-slot/user-equipment-slot.service';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +19,6 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
     private readonly configService: ConfigService,
-    private readonly userEquipmentSlotService: UserEquipmentSlotService,
   ) {}
 
   /**
@@ -218,8 +216,6 @@ export class AuthService {
       throw new UnauthorizedException('존재하지 않는 사용자입니다.');
     }
 
-
-    
     /**
      *
      * 1) 입력된 비밀번호
