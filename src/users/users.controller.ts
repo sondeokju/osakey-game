@@ -162,7 +162,7 @@ export class UsersController {
     return result;
   }
 
-  @Patch('create/account')
+  @Post('create/account')
   @UseInterceptors(TransactionInterceptor)
   async createUserIDList() {
     const result = await this.usersService.createUserIDList();
