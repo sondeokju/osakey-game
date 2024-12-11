@@ -79,7 +79,7 @@ export class UsersService {
     return newUser;
   }
 
-  async createUserID(nickname: string) {
+  async createUserID(nickname: string, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
     const newUser = usersRepository.create({ nickname });
     const savedUser = await usersRepository.save(newUser);
