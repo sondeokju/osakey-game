@@ -162,6 +162,14 @@ export class UsersController {
     return result;
   }
 
+  @Patch('create/account')
+  @UseInterceptors(TransactionInterceptor)
+  async createUserIDList() {
+    const result = await this.usersService.createUserIDList();
+
+    return result;
+  }
+
   @Patch('take/battery')
   @UseInterceptors(TransactionInterceptor)
   async patchTakeBattery(
