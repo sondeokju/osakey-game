@@ -94,12 +94,12 @@ export class UsersService {
     return true;
   }
 
-  async createUserIDList() {
+  async createUserIDList(qr?: QueryRunner) {
     let nickname = 'osakey';
 
     for (let i = 0; i < 100; i++) {
       nickname = nickname + i;
-      await this.createUserID(nickname);
+      await this.createUserID(nickname, qr);
     }
 
     return true;

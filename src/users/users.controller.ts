@@ -164,8 +164,8 @@ export class UsersController {
 
   @Post('create/account')
   @UseInterceptors(TransactionInterceptor)
-  async createUserIDList() {
-    const result = await this.usersService.createUserIDList();
+  async createUserIDList(@QueryRunner() qr: QR) {
+    const result = await this.usersService.createUserIDList(qr);
 
     return result;
   }
