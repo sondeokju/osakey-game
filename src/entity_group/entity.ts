@@ -19,7 +19,6 @@ import { Edu } from 'src/static-table/edu/edu/entities/edu.entity';
 import { EduCurriculum } from 'src/static-table/edu/edu_curriculum/entities/edu_curriculum.entity';
 import { EduList } from 'src/static-table/edu/edu_list/entities/edu_list.entity';
 import { EduReduceTime } from 'src/static-table/edu/edu_reduce_time/entities/edu_reduce_time.entity';
-import { EquipStat } from 'src/static-table/equip-stat/entities/equip-stat.entity';
 import { Gacha } from 'src/static-table/gacha/entities/gacha.entity';
 import { Hero } from 'src/static-table/hero/entities/hero.entity';
 import { ItemEquipslot } from 'src/static-table/item-equipslot/entities/item-equipslot.entity';
@@ -40,11 +39,7 @@ import { SnsConfig } from 'src/static-table/sns/sns_config/entities/sns_config.e
 import { SnsLevel } from 'src/static-table/sns/sns_level/entities/sns_level.entity';
 import { SnsLikeRule } from 'src/static-table/sns/sns_like_rule/entities/sns_like_rule.entity';
 import { SnsReward } from 'src/static-table/sns/sns_reward/entities/sns_reward.entity';
-import { UserEquipmentSlot } from 'src/user-equipment-slot/entities/user-equipment-slot.entity';
-import { UserEquipment } from 'src/user-equipment/entities/user-equipment.entity';
-import { UserAd } from 'src/user_ad/entities/user_ad.entity';
 import { UserBattle } from 'src/user_battle/entities/user_battle.entity';
-import { UserEventAttendance } from 'src/user_event_attendance/entities/user_event_attendance.entity';
 import { UserItem } from 'src/user_item/entities/user_item.entity';
 import { UserQuest } from 'src/user_quest/entity/user_quest.entity';
 import { Users } from 'src/users/entity/users.entity';
@@ -54,9 +49,6 @@ export const entities = [
   Item,
   ItemEquipslot,
   ItemGrade,
-  EquipStat,
-  UserEquipment,
-  UserEquipmentSlot,
   Gacha,
   Reward,
   Mission,
@@ -72,8 +64,6 @@ export const entities = [
   SnsLevel,
   SnsLikeRule,
   UserItem,
-  UserAd,
-  UserEventAttendance,
   MissionRoutine,
   MissionRoutineBonus,
   MissionMain,
