@@ -97,7 +97,7 @@ export class UsersService {
   async createUserIDList(qr?: QueryRunner) {
     const nickname = 'osakey';
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 1; i <= 100; i++) {
       await this.createUserID(`${nickname}${i}`, qr);
     }
 
