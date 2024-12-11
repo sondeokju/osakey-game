@@ -14,7 +14,7 @@ export class Users extends BaseModel {
     length: 10,
     type: 'char',
   })
-  @Index({ unique: true })
+  @Index({ unique: false })
   user_id: string;
 
   @Column({
