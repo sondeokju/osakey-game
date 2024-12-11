@@ -10,11 +10,12 @@ import { BaseModel } from 'src/common/entity/base.entity';
 @Entity()
 //@Exclude()
 export class Users extends BaseModel {
-  // @Column({
-  //   length: 10,
-  // })
-  // @Index({ unique: false })
-  // user_id: string;
+  @Column({
+    length: 10,
+    type: 'char',
+  })
+  @Index({ unique: true })
+  user_id: string;
 
   @Column({
     length: 20,
