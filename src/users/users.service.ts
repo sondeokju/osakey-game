@@ -89,6 +89,7 @@ export class UsersService {
     await usersRepository.save({
       ...savedUser,
       user_id: user_id,
+      level: 1,
     });
 
     return true;
