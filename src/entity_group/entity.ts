@@ -43,6 +43,10 @@ import { UserBattle } from 'src/inventory/battle/user_battle/entities/user_battl
 import { UserItem } from 'src/user_item/entities/user_item.entity';
 import { UserQuest } from 'src/user_quest/entity/user_quest.entity';
 import { Users } from 'src/users/entity/users.entity';
+import { Equip } from 'src/static-table/equipment/equip/entities/equip.entity';
+import { EquipGrade } from 'src/static-table/equipment/equip_grade/entities/equip_grade.entity';
+import { EquipLevel } from 'src/static-table/equipment/equip_level/entities/equip_level.entity';
+import { EquipSkill } from 'src/static-table/equipment/equip_skill/entities/equip_skill.entity';
 
 export const entities = [
   Users,
@@ -90,4 +94,8 @@ export const entities = [
   UserRentama,
   UserMemory,
   UserMemoryRent,
+  Equip,
+  EquipGrade,
+  EquipLevel,
+  EquipSkill,
 ];

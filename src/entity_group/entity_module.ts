@@ -48,6 +48,10 @@ import { UserRentamaModule } from 'src/inventory/dispatch/user_rentama/user_rent
 import { DispatchTestModule } from 'src/static-table/dispatch/dispatch_test/dispatch_test.module';
 import { UserMemoryModule } from 'src/inventory/boss/user_memory/user_memory.module';
 import { UserMemoryRentModule } from 'src/inventory/boss/user_memory_rent/user_memory_rent.module';
+import { EquipModule } from 'src/static-table/equipment/equip/equip.module';
+import { EquipGradeModule } from 'src/static-table/equipment/equip_grade/equip_grade.module';
+import { EquipLevelModule } from 'src/static-table/equipment/equip_level/equip_level.module';
+import { EquipSkillModule } from 'src/static-table/equipment/equip_skill/equip_skill.module';
 
 export const entities_module = [
   UsersModule,
@@ -100,4 +104,8 @@ export const entities_module = [
   DispatchTestModule,
   UserMemoryModule,
   UserMemoryRentModule,
+  EquipModule,
+  EquipSkillModule,
+  EquipLevelModule,
+  EquipGradeModule,
 ];
