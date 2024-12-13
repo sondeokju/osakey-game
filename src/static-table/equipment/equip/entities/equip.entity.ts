@@ -27,7 +27,7 @@ export class Equip {
   @Column({
     default: 0,
   })
-  equip_slot: number;
+  equip_slot: string;
 
   @Column({
     default: 0,
