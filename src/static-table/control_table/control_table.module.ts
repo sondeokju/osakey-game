@@ -50,6 +50,14 @@ import { Edu } from '../edu/edu/entities/edu.entity';
 import { EduCurriculum } from '../edu/edu_curriculum/entities/edu_curriculum.entity';
 import { EduList } from '../edu/edu_list/entities/edu_list.entity';
 import { EduReduceTime } from '../edu/edu_reduce_time/entities/edu_reduce_time.entity';
+import { Equip } from '../equipment/equip/entities/equip.entity';
+import { EquipGrade } from '../equipment/equip_grade/entities/equip_grade.entity';
+import { EquipSkill } from '../equipment/equip_skill/entities/equip_skill.entity';
+import { EquipLevel } from '../equipment/equip_level/entities/equip_level.entity';
+import { EquipService } from '../equipment/equip/equip.service';
+import { EquipGradeService } from '../equipment/equip_grade/equip_grade.service';
+import { EquipSkillService } from '../equipment/equip_skill/equip_skill.service';
+import { EquipLevelService } from '../equipment/equip_level/equip_level.service';
 
 @Module({
   imports: [
@@ -79,6 +87,10 @@ import { EduReduceTime } from '../edu/edu_reduce_time/entities/edu_reduce_time.e
       EduCurriculum,
       EduList,
       EduReduceTime,
+      Equip,
+      EquipGrade,
+      EquipSkill,
+      EquipLevel,
     ]),
   ],
   exports: [ControlTableService],
@@ -109,6 +121,10 @@ import { EduReduceTime } from '../edu/edu_reduce_time/entities/edu_reduce_time.e
     EduCurriculumService,
     EduListService,
     EduReduceTimeService,
+    EquipService,
+    EquipGradeService,
+    EquipSkillService,
+    EquipLevelService,
   ],
 })
 export class ControlTableModule {}

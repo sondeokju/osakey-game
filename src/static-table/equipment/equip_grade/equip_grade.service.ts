@@ -1,26 +1,34 @@
 import { Injectable } from '@nestjs/common';
-import { CreateEquipGradeDto } from './dto/create-equip_grade.dto';
-import { UpdateEquipGradeDto } from './dto/update-equip_grade.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { EquipGrade } from './entities/equip_grade.entity';
 
 @Injectable()
 export class EquipGradeService {
-  create(createEquipGradeDto: CreateEquipGradeDto) {
-    return 'This action adds a new equipGrade';
+  constructor(
+    @InjectRepository(EquipGrade)
+    private readonly equipGradeRepository: Repository<EquipGrade>,
+  ) {}
+
+  getEquipGradeRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<EquipGrade>(EquipGrade)
+      : this.equipGradeRepository;
   }
 
-  findAll() {
-    return `This action returns all equipGrade`;
+  async getEquipGradeAll(qr?: QueryRunner) {
+    const equipGradeRepository = this.getEquipGradeRepository(qr);
+    const result = await equipGradeRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} equipGrade`;
-  }
-
-  update(id: number, updateEquipGradeDto: UpdateEquipGradeDto) {
-    return `This action updates a #${id} equipGrade`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} equipGrade`;
+  async getEquipGrade(id: number, qr?: QueryRunner) {
+    // const eduRepository = this.getEduRepository(qr);
+    // const result = await eduRepository.findOne({
+    //   where: {
+    //     id,
+    //   },
+    // });
+    // return result;
   }
 }

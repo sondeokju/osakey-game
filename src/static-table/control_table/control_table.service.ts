@@ -24,6 +24,10 @@ import { EduService } from '../edu/edu/edu.service';
 import { EduCurriculumService } from '../edu/edu_curriculum/edu_curriculum.service';
 import { EduListService } from '../edu/edu_list/edu_list.service';
 import { EduReduceTimeService } from '../edu/edu_reduce_time/edu_reduce_time.service';
+import { EquipService } from '../equipment/equip/equip.service';
+import { EquipGradeService } from '../equipment/equip_grade/equip_grade.service';
+import { EquipSkillService } from '../equipment/equip_skill/equip_skill.service';
+import { EquipLevelService } from '../equipment/equip_level/equip_level.service';
 
 @Injectable()
 export class ControlTableService {
@@ -53,6 +57,10 @@ export class ControlTableService {
     private readonly eduCurriculumService: EduCurriculumService,
     private readonly eduListService: EduListService,
     private readonly eduReduceTimeService: EduReduceTimeService,
+    private readonly equipService: EquipService,
+    private readonly equipGraeService: EquipGradeService,
+    private readonly equipSkillService: EquipSkillService,
+    private readonly equipLevelService: EquipLevelService,
   ) {}
 
   async getControlTableAll(qr?: QueryRunner) {
@@ -66,6 +74,7 @@ export class ControlTableService {
       sns: await this.getSnsAll(qr),
       dispatch: await this.getDispatchAll(qr),
       edu: await this.getEduAll(qr),
+      equipment: await this.getEquipmentAll(qr),
     };
 
     return obj;
@@ -139,6 +148,17 @@ export class ControlTableService {
       edu_curriculum: await this.eduCurriculumService.getEduCurriculumAll(qr),
       edu_list: await this.eduListService.getEduListAll(qr),
       edu_reduce_time: await this.eduReduceTimeService.getEduReduceTimeAll(qr),
+    };
+
+    return obj;
+  }
+
+  async getEquipmentAll(qr?: QueryRunner) {
+    const obj = {
+      equip: await this.equipService.getEquipAll(qr),
+      equip_grade: await this.equipGraeService.getEquipGradeAll(qr),
+      equip_skill: await this.equipSkillService.getEquipSkillAll(qr),
+      equip_level: await this.equipLevelService.getEquipLevelAll(qr),
     };
 
     return obj;
