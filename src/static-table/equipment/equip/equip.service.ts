@@ -20,13 +20,13 @@ export class EquipService {
     return result;
   }
 
-  async getEquip(id: number, qr?: QueryRunner) {
-    // const eduRepository = this.getEduRepository(qr);
-    // const result = await eduRepository.findOne({
-    //   where: {
-    //     id,
-    //   },
-    // });
-    // return result;
+  async getEquip(equip_id: number, qr?: QueryRunner) {
+    const equipRepository = this.getEquipRepository(qr);
+    const result = await equipRepository.findOne({
+      where: {
+        equip_id,
+      },
+    });
+    return result;
   }
 }

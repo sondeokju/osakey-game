@@ -22,13 +22,13 @@ export class EquipLevelService {
     return result;
   }
 
-  async getEquipLevel(id: number, qr?: QueryRunner) {
-    // const eduRepository = this.getEduRepository(qr);
-    // const result = await eduRepository.findOne({
-    //   where: {
-    //     id,
-    //   },
-    // });
-    // return result;
+  async getEquipLevel(equip_level_id: number, qr?: QueryRunner) {
+    const equipLevelRepository = this.getEquipLevelRepository(qr);
+    const result = await equipLevelRepository.findOne({
+      where: {
+        equip_level_id,
+      },
+    });
+    return result;
   }
 }

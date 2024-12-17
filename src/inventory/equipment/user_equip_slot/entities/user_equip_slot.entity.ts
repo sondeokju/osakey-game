@@ -39,4 +39,8 @@ export class UserEquipSlot extends BaseModel {
     default: '0',
   })
   shoes: number;
+  @Column({
+    default: '0',
+  })
+  weapon: number;
 }
