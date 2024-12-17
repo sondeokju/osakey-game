@@ -52,6 +52,8 @@ import { EquipModule } from 'src/static-table/equipment/equip/equip.module';
 import { EquipGradeModule } from 'src/static-table/equipment/equip_grade/equip_grade.module';
 import { EquipLevelModule } from 'src/static-table/equipment/equip_level/equip_level.module';
 import { EquipSkillModule } from 'src/static-table/equipment/equip_skill/equip_skill.module';
+import { UserEquipModule } from 'src/inventory/equipment/user_equip/user_equip.module';
+import { UserEquipSlotModule } from 'src/inventory/equipment/user_equip_slot/user_equip_slot.module';
 
 export const entities_module = [
   UsersModule,
@@ -108,4 +110,6 @@ export const entities_module = [
   EquipSkillModule,
   EquipLevelModule,
   EquipGradeModule,
+  UserEquipModule,
+  UserEquipSlotModule,
 ];

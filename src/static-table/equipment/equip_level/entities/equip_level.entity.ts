@@ -6,14 +6,14 @@ export class EquipLevel {
   equip_level_id: number;
 
   @Column({
-    default: 0,
+    default: '',
   })
-  equip_slot: number;
+  equip_slot: string;
 
   @Column({
-    default: 0,
+    default: '',
   })
-  item_grade: number;
+  equip_grade: string;
 
   @Column({
     default: 0,

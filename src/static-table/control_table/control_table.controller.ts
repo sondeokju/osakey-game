@@ -15,11 +15,38 @@ export class ControlTableController {
     const result = await this.controlTableService.getControlTableAll(qr);
     return JSON.stringify(result);
   }
+  @Post('/01')
+  @UseInterceptors(TransactionInterceptor)
+  async getAll01(@QueryRunner() qr: QR) {
+    const result = await this.controlTableService.getControlTableAll(qr);
+    return JSON.stringify(result);
+  }
 
-  // @Get('/mission/all')
-  // @UseInterceptors(TransactionInterceptor)
-  // async getMissionTableAll(@QueryRunner() qr: QR) {
-  //   const result = await this.controlTableService.getMissionTableAll(qr);
-  //   return JSON.stringify(result);
-  // }
+  @Post('/02')
+  @UseInterceptors(TransactionInterceptor)
+  async getAll02(@QueryRunner() qr: QR) {
+    const result = await this.controlTableService.getControlTableAll(qr);
+    return JSON.stringify(result);
+  }
+
+  @Post('/03')
+  @UseInterceptors(TransactionInterceptor)
+  async getAll03(@QueryRunner() qr: QR) {
+    const result = await this.controlTableService.getControlTableAll(qr);
+    return JSON.stringify(result);
+  }
+
+  @Post('/04')
+  @UseInterceptors(TransactionInterceptor)
+  async getAll04(@QueryRunner() qr: QR) {
+    const result = await this.controlTableService.getControlTableAll(qr);
+    return JSON.stringify(result);
+  }
+
+  @Post('/05')
+  @UseInterceptors(TransactionInterceptor)
+  async getAll05(@QueryRunner() qr: QR) {
+    const result = await this.controlTableService.getControlTableAll(qr);
+    return JSON.stringify(result);
+  }
 }

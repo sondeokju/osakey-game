@@ -25,14 +25,14 @@ export class Equip {
   equip_name: string;
 
   @Column({
-    default: 0,
+    default: '',
   })
   equip_slot: string;
 
   @Column({
     default: 0,
   })
-  item_grade: number;
+  equip_grade: number;
 
   @Column({
     default: 0,

@@ -47,6 +47,8 @@ import { Equip } from 'src/static-table/equipment/equip/entities/equip.entity';
 import { EquipGrade } from 'src/static-table/equipment/equip_grade/entities/equip_grade.entity';
 import { EquipLevel } from 'src/static-table/equipment/equip_level/entities/equip_level.entity';
 import { EquipSkill } from 'src/static-table/equipment/equip_skill/entities/equip_skill.entity';
+import { UserEquip } from 'src/inventory/equipment/user_equip/entities/user_equip.entity';
+import { UserEquipSlot } from 'src/inventory/equipment/user_equip_slot/entities/user_equip_slot.entity';
 
 export const entities = [
   Users,
@@ -98,4 +100,6 @@ export const entities = [
   EquipGrade,
   EquipLevel,
   EquipSkill,
+  UserEquip,
+  UserEquipSlot,
 ];
