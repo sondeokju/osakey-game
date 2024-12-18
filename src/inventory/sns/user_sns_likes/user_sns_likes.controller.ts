@@ -18,7 +18,7 @@ export class UserSnsLikesController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userSnsLikesService.isLiked(
-      user.id,
+      user.user_id,
       tuna_tv_id,
       qr,
     );

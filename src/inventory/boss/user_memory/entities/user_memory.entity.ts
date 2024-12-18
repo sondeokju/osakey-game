@@ -5,14 +5,13 @@ import { Column, Entity, Index } from 'typeorm';
 @Index('user_memory_user_id_boss_id', ['user_id', 'boss_id'], { unique: true })
 @Index('user_memory_boss_id_memory', ['boss_id', 'memory'], { unique: false })
 export class UserMemory extends BaseModel {
-  createQueryBuilder(arg0: string) {
-    throw new Error('Method not implemented.');
-  }
   @Column({
-    default: 0,
+    nullable: false,
+    type: 'char',
+    length: 10,
   })
   @Index({ unique: false })
-  user_id: number;
+  user_id: string;
 
   @Column({
     default: '0',

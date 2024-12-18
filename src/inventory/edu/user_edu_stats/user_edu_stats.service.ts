@@ -34,132 +34,7 @@ export class UserEduStatsService {
       : this.userEduStatsRepository;
   }
 
-  // async eduLearn(user_id: number, edu_list_id: number, qr?: QueryRunner) {
-  //   const userEduStatsRepository = this.getUserEduStatsRepository(qr);
-  //   const userEduStats = await userEduStatsRepository.findOne({
-  //     where: {
-  //       user_id,
-  //       edu_list_id,
-  //     },
-  //   });
-
-  //   const eduList = await this.eduListService.getEduList(edu_list_id, qr);
-
-  //   if (!eduList) {
-  //     throw new NotFoundException('edu_list not found');
-  //   }
-
-  //   if (!userEduStats) {
-  //     const eduCurriculum = await this.eduCurriculumService.getEduCurriculum(
-  //       edu_list_id,
-  //       1,
-  //       qr,
-  //     );
-
-  //     const updatedDate = new Date();
-  //     updatedDate.setMilliseconds(0);
-
-  //     const userEduStatsInsert = {
-  //       user_id,
-  //       edu_list_id,
-  //       edu_type: eduList.edu_type,
-  //       edu_curriculum_cnt: 1,
-  //       edu_buff_type: eduList.edu_buff_type,
-  //       edu_buff_value: eduList.edu_buff_value,
-  //       edu_time: eduCurriculum.edu_time,
-  //       edu_start_date: updatedDate,
-  //       edu_end_date: new Date(
-  //         updatedDate.getTime() + eduCurriculum.edu_time * 60000,
-  //       ),
-  //     };
-
-  //     await userEduStatsRepository.insert(userEduStatsInsert);
-
-  //     const item = await this.itemService.getItem(
-  //       eduCurriculum.price_item_id,
-  //       qr,
-  //     );
-  //     if (!item) {
-  //       throw new NotFoundException('item not found');
-  //     }
-
-  //     await this.userItemService.reduceItem(
-  //       user_id,
-  //       eduCurriculum.price_item_id,
-  //       eduCurriculum.price_item_qty,
-  //     );
-
-  //     const userData = await this.usersService.getMe(user_id, qr);
-  //     if (
-  //       userData.gord < eduCurriculum.gord ||
-  //       userData.diamond_free < eduCurriculum.diamond_free
-  //     ) {
-  //       throw new NotFoundException('gord, diamond_free not enough');
-  //     }
-  //     await this.usersService.reduceGord(user_id, eduCurriculum.gord, qr);
-
-  //     await this.usersService.reduceDiamondFree(
-  //       user_id,
-  //       eduCurriculum.diamond_free,
-  //       qr,
-  //     );
-  //   } else {
-  //     if (userEduStats.edu_curriculum_cnt >= eduList.edu_curriculum_max) {
-  //       throw new NotFoundException('edu_curriculum_max over');
-  //     }
-
-  //     await userEduStatsRepository.save({
-  //       ...userEduStats,
-  //       edu_curriculum_cnt: userEduStats.edu_curriculum_cnt + 1,
-  //       edu_buff_value: userEduStats.edu_buff_value + eduList.edu_buff_value,
-  //     });
-
-  //     const eduCurriculum = await this.eduCurriculumService.getEduCurriculum(
-  //       edu_list_id,
-  //       userEduStats.edu_curriculum_cnt + 1,
-  //       qr,
-  //     );
-
-  //     const item = await this.itemService.getItem(
-  //       eduCurriculum.price_item_id,
-  //       qr,
-  //     );
-  //     if (!item) {
-  //       throw new NotFoundException('item not found');
-  //     }
-
-  //     await this.userItemService.reduceItem(
-  //       user_id,
-  //       eduCurriculum.price_item_id,
-  //       eduCurriculum.price_item_qty,
-  //     );
-
-  //     const userData = await this.usersService.getMe(user_id, qr);
-  //     if (
-  //       userData.gord < eduCurriculum.gord ||
-  //       userData.diamond_free < eduCurriculum.diamond_free
-  //     ) {
-  //       throw new NotFoundException('gord, diamond_free not enough');
-  //     }
-  //     await this.usersService.reduceGord(user_id, eduCurriculum.gord, qr);
-
-  //     await this.usersService.reduceDiamondFree(
-  //       user_id,
-  //       eduCurriculum.diamond_free,
-  //       qr,
-  //     );
-  //   }
-
-  //   const result = await userEduStatsRepository.find({
-  //     where: {
-  //       user_id,
-  //     },
-  //   });
-
-  //   return result;
-  // }
-
-  async eduLearn(user_id: number, edu_list_id: number, qr?: QueryRunner) {
+  async eduLearn(user_id: string, edu_list_id: number, qr?: QueryRunner) {
     const userEduStatsRepository = this.getUserEduStatsRepository(qr);
     console.log(edu_list_id);
 
@@ -193,7 +68,7 @@ export class UserEduStatsService {
   }
 
   private async createEduLearn(
-    user_id: number,
+    user_id: string,
     eduList: any,
     qr?: QueryRunner,
   ) {
@@ -226,7 +101,7 @@ export class UserEduStatsService {
   }
 
   private async updateEduLearn(
-    user_id: number,
+    user_id: string,
     eduList: any,
     userEduStats: any,
     qr?: QueryRunner,
@@ -259,7 +134,7 @@ export class UserEduStatsService {
   }
 
   private async processResources(
-    user_id: number,
+    user_id: string,
     eduCurriculum: any,
     qr?: QueryRunner,
   ) {
@@ -302,7 +177,7 @@ export class UserEduStatsService {
   }
 
   async reduceLearnTimeItem(
-    user_id: number,
+    user_id: string,
     edu_list_id: number,
     edu_reduce_time_id: number,
     qr?: QueryRunner,
@@ -363,7 +238,7 @@ export class UserEduStatsService {
   }
 
   async reduceLearnTimeCurrency(
-    user_id: number,
+    user_id: string,
     edu_list_id: number,
     edu_reduce_time_id: number,
     qr?: QueryRunner,
@@ -435,7 +310,7 @@ export class UserEduStatsService {
     return result;
   }
 
-  async learnComplete(user_id: number, edu_list_id: number, qr?: QueryRunner) {
+  async learnComplete(user_id: string, edu_list_id: number, qr?: QueryRunner) {
     const userEduStatsRepository = this.getUserEduStatsRepository(qr);
     const userEduStats = await userEduStatsRepository.findOne({
       where: {
@@ -462,7 +337,7 @@ export class UserEduStatsService {
     return result;
   }
 
-  async userEduList(user_id: number, qr?: QueryRunner) {
+  async userEduList(user_id: string, qr?: QueryRunner) {
     const userEduStatsRepository = this.getUserEduStatsRepository(qr);
     const userEduStats = await userEduStatsRepository.find({
       where: {

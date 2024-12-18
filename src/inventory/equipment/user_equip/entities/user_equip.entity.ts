@@ -7,7 +7,6 @@ import { Column, Entity, Index } from 'typeorm';
 })
 export class UserEquip extends BaseModel {
   @Column({
-    default: '',
     nullable: false,
     type: 'char',
     length: 10,

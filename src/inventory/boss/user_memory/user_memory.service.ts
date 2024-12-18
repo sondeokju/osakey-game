@@ -24,7 +24,7 @@ export class UserMemoryService {
       : this.userMemoryRepository;
   }
 
-  async memoryAdd(user_id: number, boss_id: number, qr?: QueryRunner) {
+  async memoryAdd(user_id: string, boss_id: number, qr?: QueryRunner) {
     const userMemoryRepository = this.getUserMemoryRepository(qr);
     const userMemory = await userMemoryRepository.findOne({
       where: {
@@ -49,7 +49,7 @@ export class UserMemoryService {
     return updateData;
   }
 
-  async memoryIncrease(user_id: number, boss_id: number, qr?: QueryRunner) {
+  async memoryIncrease(user_id: string, boss_id: number, qr?: QueryRunner) {
     const userMemoryRepository = this.getUserMemoryRepository(qr);
     const userMemory = await userMemoryRepository.findOne({
       where: {
@@ -71,7 +71,7 @@ export class UserMemoryService {
     return updateData;
   }
 
-  async memoryDecrease(user_id: number, boss_id: number, qr?: QueryRunner) {
+  async memoryDecrease(user_id: string, boss_id: number, qr?: QueryRunner) {
     const userMemoryRepository = this.getUserMemoryRepository(qr);
     const userMemory = await userMemoryRepository.findOne({
       where: {
@@ -97,7 +97,7 @@ export class UserMemoryService {
     return updateData;
   }
 
-  async getFollowedUsersWithMemory(currentUserId: number, qr?: QueryRunner) {
+  async getFollowedUsersWithMemory(currentUserId: string, qr?: QueryRunner) {
     const userMemoryRepository = this.getUserMemoryRepository(qr);
 
     const result = await userMemoryRepository
@@ -113,7 +113,7 @@ export class UserMemoryService {
   }
 
   async getFollowedUsersWithBossMemory(
-    user_id: number,
+    user_id: string,
     boss_id: number,
     qr?: QueryRunner,
   ) {
@@ -139,7 +139,7 @@ export class UserMemoryService {
     return result;
   }
 
-  async getUserMemory(user_id: number, qr?: QueryRunner) {
+  async getUserMemory(user_id: string, qr?: QueryRunner) {
     const userMemoryRepository = this.getUserMemoryRepository(qr);
     const userMemory = await userMemoryRepository.find({
       where: {
@@ -154,7 +154,7 @@ export class UserMemoryService {
     return userMemory;
   }
 
-  async getUserMemoryId(user_id: number, qr?: QueryRunner) {
+  async getUserMemoryId(user_id: string, qr?: QueryRunner) {
     const userMemoryRepository = this.getUserMemoryRepository(qr);
     const userMemory = await userMemoryRepository.findOne({
       where: {

@@ -13,7 +13,7 @@ export class RewardOfferService {
     private readonly itemService: ItemService,
     private readonly userItemService: UserItemService,
   ) {}
-  async reward(user_id: number, reward_id: number, qr?: QueryRunner) {
+  async reward(user_id: string, reward_id: number, qr?: QueryRunner) {
     const rewardData = await this.rewardService.getReward(reward_id);
 
     let result = [];
@@ -60,7 +60,7 @@ export class RewardOfferService {
   }
 
   async rewardItem(
-    user_id: number,
+    user_id: string,
     item_id: number,
     qty: number,
     qr?: QueryRunner,
@@ -101,7 +101,7 @@ export class RewardOfferService {
   }
 
   async rewardCurrency(
-    user_id: number,
+    user_id: string,
     item_name: string,
     qty: number,
     qr?: QueryRunner,
@@ -109,7 +109,7 @@ export class RewardOfferService {
     const usersRepository = this.usersService.getUsersRepository(qr);
     const userData = await usersRepository.findOne({
       where: {
-        id: user_id,
+        user_id,
       },
     });
 

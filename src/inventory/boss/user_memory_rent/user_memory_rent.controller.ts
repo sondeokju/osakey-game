@@ -20,7 +20,7 @@ export class UserMemoryRentController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userMemoryRentService.memoryRent(
-      user.id,
+      user.user_id,
       rent_memory_user_id,
       boss_id,
       qr,
@@ -38,7 +38,7 @@ export class UserMemoryRentController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userMemoryRentService.rentMemoryClear(
-      user.id,
+      user.user_id,
       slot,
       qr,
     );
@@ -50,7 +50,7 @@ export class UserMemoryRentController {
   @UseInterceptors(TransactionInterceptor)
   async getUserMemoryRent(@User() user: Users, @QueryRunner() qr: QR) {
     const result = await this.userMemoryRentService.getUserMemoryRent(
-      user.id,
+      user.user_id,
       qr,
     );
 

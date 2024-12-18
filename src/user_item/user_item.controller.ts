@@ -30,7 +30,7 @@ export class UserItemController {
     @QueryRunner() qr: QR,
   ) {
     console.log('useritem');
-    const result = await this.userItemService.getUserItemAll(user.id, qr);
+    const result = await this.userItemService.getUserItemAll(user.user_id, qr);
 
     return JSON.stringify(result);
   }
@@ -44,7 +44,7 @@ export class UserItemController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userItemService.createItem(
-      user.id,
+      user.user_id,
       item_id,
       item_count,
       qr,

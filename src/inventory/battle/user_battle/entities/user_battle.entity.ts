@@ -13,8 +13,13 @@ import { BaseModel } from 'src/common/entity/base.entity';
 
 @Entity()
 export class UserBattle extends BaseModel {
-  @PrimaryColumn()
-  user_id: number;
+  @Column({
+    nullable: false,
+    type: 'char',
+    length: 10,
+  })
+  @Index({ unique: false })
+  user_id: string;
 
   @Column({
     default: 0,

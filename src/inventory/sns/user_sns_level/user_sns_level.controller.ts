@@ -19,7 +19,7 @@ export class UserSnsLevelController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userSnsLevelService.snsReward(
-      user.id,
+      user.user_id,
       tuna_tv_id,
       qr,
     );
@@ -30,7 +30,7 @@ export class UserSnsLevelController {
   @Get('me')
   @UseInterceptors(TransactionInterceptor)
   async TunaTvList(@User() user: Users, @QueryRunner() qr: QR) {
-    const result = await this.userSnsLevelService.getSnsLevel(user.id, qr);
+    const result = await this.userSnsLevelService.getSnsLevel(user.user_id, qr);
 
     return JSON.stringify(result);
   }

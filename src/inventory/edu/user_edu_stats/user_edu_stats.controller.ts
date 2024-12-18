@@ -26,7 +26,7 @@ export class UserEduStatsController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userEduStatsService.eduLearn(
-      user.id,
+      user.user_id,
       edu_list_id,
       qr,
     );
@@ -42,7 +42,7 @@ export class UserEduStatsController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userEduStatsService.learnComplete(
-      user.id,
+      user.user_id,
       edu_list_id,
       qr,
     );
@@ -59,7 +59,7 @@ export class UserEduStatsController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userEduStatsService.reduceLearnTimeItem(
-      user.id,
+      user.user_id,
       edu_list_id,
       edu_reduce_time_id,
       qr,
@@ -77,7 +77,7 @@ export class UserEduStatsController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userEduStatsService.reduceLearnTimeCurrency(
-      user.id,
+      user.user_id,
       edu_list_id,
       edu_reduce_time_id,
       qr,
@@ -89,7 +89,7 @@ export class UserEduStatsController {
   @Get('list')
   @UseInterceptors(TransactionInterceptor)
   async userEduList(@User() user: Users, @QueryRunner() qr: QR) {
-    const result = this.userEduStatsService.userEduList(user.id, qr);
+    const result = this.userEduStatsService.userEduList(user.user_id, qr);
     return result;
   }
 }

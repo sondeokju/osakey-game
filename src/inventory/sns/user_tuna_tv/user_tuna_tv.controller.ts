@@ -30,7 +30,7 @@ export class UserTunaTvController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userTunaTvService.tunaTvSave(
-      user.id,
+      user.user_id,
       tuna_title,
       ingame_kind,
       select_1,
@@ -74,7 +74,7 @@ export class UserTunaTvController {
   @Get('list')
   @UseInterceptors(TransactionInterceptor)
   async TunaTvList(@User() user: Users, @QueryRunner() qr: QR) {
-    const result = await this.userTunaTvService.TunaTvList(user.id, qr);
+    const result = await this.userTunaTvService.TunaTvList(user.user_id, qr);
 
     return JSON.stringify(result);
   }
@@ -82,7 +82,10 @@ export class UserTunaTvController {
   @Get('upload/list')
   @UseInterceptors(TransactionInterceptor)
   async TunaTvUploadList(@User() user: Users, @QueryRunner() qr: QR) {
-    const result = await this.userTunaTvService.TunaTvUploadList(user.id, qr);
+    const result = await this.userTunaTvService.TunaTvUploadList(
+      user.user_id,
+      qr,
+    );
 
     return JSON.stringify(result);
   }
@@ -95,7 +98,7 @@ export class UserTunaTvController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userTunaTvService.TunaTvLikeAdd(
-      user.id,
+      user.user_id,
       tuna_tv_id,
       qr,
     );
@@ -111,7 +114,7 @@ export class UserTunaTvController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userTunaTvService.TunaTvLikeDelete(
-      user.id,
+      user.user_id,
       tuna_tv_id,
       qr,
     );

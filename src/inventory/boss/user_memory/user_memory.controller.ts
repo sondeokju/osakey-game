@@ -18,7 +18,11 @@ export class UserMemoryController {
     @Body('boss_id') boss_id: number,
     @QueryRunner() qr: QR,
   ) {
-    const result = await this.userMemoryService.memoryAdd(user.id, boss_id, qr);
+    const result = await this.userMemoryService.memoryAdd(
+      user.user_id,
+      boss_id,
+      qr,
+    );
 
     return JSON.stringify(result);
   }
@@ -27,7 +31,7 @@ export class UserMemoryController {
   @UseInterceptors(TransactionInterceptor)
   async getFollowedUsersWithMemory(@User() user: Users, @QueryRunner() qr: QR) {
     const result = await this.userMemoryService.getFollowedUsersWithMemory(
-      user.id,
+      user.user_id,
       qr,
     );
 
@@ -37,7 +41,7 @@ export class UserMemoryController {
   @Get('list')
   @UseInterceptors(TransactionInterceptor)
   async getUserMemory(@User() user: Users, @QueryRunner() qr: QR) {
-    const result = await this.userMemoryService.getUserMemory(user.id, qr);
+    const result = await this.userMemoryService.getUserMemory(user.user_id, qr);
 
     return result;
   }
@@ -50,7 +54,7 @@ export class UserMemoryController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userMemoryService.getFollowedUsersWithBossMemory(
-      user.id,
+      user.user_id,
       boss_id,
       qr,
     );

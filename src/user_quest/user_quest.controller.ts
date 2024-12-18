@@ -29,7 +29,10 @@ export class UserQuestController {
   @UseInterceptors(TransactionInterceptor)
   async getUserQuestAll(@User() user: Users, @QueryRunner() qr: QR) {
     console.log(user.id);
-    const result = await this.userQuestService.getUserQuestAll(user.id, qr);
+    const result = await this.userQuestService.getUserQuestAll(
+      user.user_id,
+      qr,
+    );
     return JSON.stringify(result);
   }
 
@@ -56,7 +59,7 @@ export class UserQuestController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userQuestService.questDayWeekReward(
-      user.id,
+      user.user_id,
       user_quest_id,
     );
 
@@ -71,7 +74,7 @@ export class UserQuestController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userQuestService.questMainReward(
-      user.id,
+      user.user_id,
       user_quest_id,
     );
 
@@ -86,7 +89,7 @@ export class UserQuestController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userQuestService.questSubReward(
-      user.id,
+      user.user_id,
       user_quest_id,
     );
 
@@ -101,7 +104,7 @@ export class UserQuestController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userQuestService.questAccept(
-      user.id,
+      user.user_id,
       user_quest_id,
     );
 
@@ -116,7 +119,7 @@ export class UserQuestController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userQuestService.questComplete(
-      user.id,
+      user.user_id,
       user_quest_id,
     );
 
@@ -139,7 +142,7 @@ export class UserQuestController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userQuestService.questSubMissionSelect(
-      user.id,
+      user.user_id,
       qr,
     );
 

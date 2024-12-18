@@ -4,10 +4,12 @@ import { Column, Entity, Index } from 'typeorm';
 @Entity()
 export class UserItem extends BaseModel {
   @Column({
-    default: 0,
+    nullable: false,
+    type: 'char',
+    length: 10,
   })
-  @Index({ unique: true })
-  user_id: number;
+  @Index({ unique: false })
+  user_id: string;
 
   @Column({
     default: 0,

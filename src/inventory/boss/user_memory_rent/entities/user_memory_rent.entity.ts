@@ -5,15 +5,19 @@ import { Column, Entity, Index } from 'typeorm';
 //@Index('user_memory_user_id_memory', ['user_id', 'boss_id'], { unique: true })
 export class UserMemoryRent extends BaseModel {
   @Column({
-    default: 0,
+    nullable: false,
+    type: 'char',
+    length: 10,
   })
   @Index({ unique: false })
-  user_id: number;
+  user_id: string;
 
   @Column({
-    default: 0,
+    type: 'char',
+    length: 10,
+    default: '',
   })
-  rent_memory_user_1: number;
+  rent_memory_user_1: string;
 
   @Column({
     default: '0',
@@ -21,9 +25,11 @@ export class UserMemoryRent extends BaseModel {
   rent_boss_1: number;
 
   @Column({
-    default: 0,
+    type: 'char',
+    length: 10,
+    default: '',
   })
-  rent_memory_user_2: number;
+  rent_memory_user_2: string;
 
   @Column({
     default: '0',
@@ -31,9 +37,11 @@ export class UserMemoryRent extends BaseModel {
   rent_boss_2: number;
 
   @Column({
-    default: 0,
+    type: 'char',
+    length: 10,
+    default: '',
   })
-  rent_memory_user_3: number;
+  rent_memory_user_3: string;
 
   @Column({
     default: '0',

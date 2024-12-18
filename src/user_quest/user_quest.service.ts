@@ -63,7 +63,7 @@ export class UserQuestService {
     return obj;
   }
 
-  async getUserQuestAll(user_id: number, qr?: QueryRunner) {
+  async getUserQuestAll(user_id: string, qr?: QueryRunner) {
     const userQuestRepository = this.getUserQuestRepository(qr);
     const result = await userQuestRepository.find({
       where: {
@@ -77,7 +77,7 @@ export class UserQuestService {
   }
 
   async questDayWeekReward(
-    user_id: number,
+    user_id: string,
     user_quest_id: number,
     qr?: QueryRunner,
   ) {
@@ -113,7 +113,7 @@ export class UserQuestService {
   }
 
   async questMainReward(
-    user_id: number,
+    user_id: string,
     user_quest_id: number,
     qr?: QueryRunner,
   ) {
@@ -148,7 +148,7 @@ export class UserQuestService {
   }
 
   async questSubReward(
-    user_id: number,
+    user_id: string,
     user_quest_id: number,
     qr?: QueryRunner,
   ) {
@@ -218,7 +218,7 @@ export class UserQuestService {
     };
   }
 
-  async questAccept(user_id: number, user_quest_id: number, qr?: QueryRunner) {
+  async questAccept(user_id: string, user_quest_id: number, qr?: QueryRunner) {
     const userQuestRepository = this.getUserQuestRepository(qr);
     const userQuestData = await userQuestRepository.findOne({
       where: {
@@ -241,7 +241,7 @@ export class UserQuestService {
   }
 
   async questComplete(
-    user_id: number,
+    user_id: string,
     user_quest_id: number,
     qr?: QueryRunner,
   ) {
@@ -266,7 +266,7 @@ export class UserQuestService {
     return result;
   }
 
-  async questReset(user_id: number, qr?: QueryRunner) {
+  async questReset(user_id: string, qr?: QueryRunner) {
     const userQuestRepository = this.getUserQuestRepository(qr);
     const userQuestData = await userQuestRepository.find({
       where: {
@@ -292,7 +292,7 @@ export class UserQuestService {
     return result;
   }
 
-  async questSubMissionSelect(user_id: number, qr?: QueryRunner) {
+  async questSubMissionSelect(user_id: string, qr?: QueryRunner) {
     const userData = await this.usersService.getMe(user_id, qr);
 
     const heroData = await this.heroService.getHeroLevel(userData.level, qr);
@@ -304,7 +304,7 @@ export class UserQuestService {
     return subListData;
   }
 
-  async executeRawQuery(location: string, user_id: number) {
+  async executeRawQuery(location: string, user_id: string) {
     const query = `SELECT uq.progress_mission_id, uq.reward_yn
         FROM user_quest uq
         WHERE progress_mission_id IN (

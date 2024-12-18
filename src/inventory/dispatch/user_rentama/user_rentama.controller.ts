@@ -26,7 +26,7 @@ export class UserRentamaController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userRentamaService.rentamaDispatch(
-      user.id,
+      user.user_id,
       progress_mission_id,
       qr,
     );
@@ -43,7 +43,7 @@ export class UserRentamaController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userRentamaService.dispatchComplete(
-      user.id,
+      user.user_id,
       progress_mission_id,
       qr,
     );
@@ -54,7 +54,7 @@ export class UserRentamaController {
   @Get('dispatch/list')
   @UseInterceptors(TransactionInterceptor)
   async dispatchList(@User() user: Users, @QueryRunner() qr: QR) {
-    const result = this.userRentamaService.dispatchList(user.id, qr);
+    const result = this.userRentamaService.dispatchList(user.user_id, qr);
     return result;
   }
 }

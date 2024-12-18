@@ -5,10 +5,12 @@ import { Column, Entity, Index } from 'typeorm';
 @Index(['user_id', 'upload_yn'], { unique: false })
 export class UserTunaTv extends BaseModel {
   @Column({
-    default: 0,
+    nullable: false,
+    type: 'char',
+    length: 10,
   })
   @Index({ unique: false })
-  user_id: number;
+  user_id: string;
 
   @Column({
     default: '',

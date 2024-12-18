@@ -13,9 +13,13 @@ import { BaseModel } from 'src/common/entity/base.entity';
 
 @Entity()
 export class UserQuest extends BaseModel {
-  //@Index({ unique: true })
-  @Column({})
-  user_id: number;
+  @Column({
+    nullable: false,
+    type: 'char',
+    length: 10,
+  })
+  @Index({ unique: false })
+  user_id: string;
 
   @Column({
     default: 0,

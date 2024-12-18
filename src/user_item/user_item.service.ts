@@ -32,7 +32,7 @@ export class UserItemService {
   }
 
   async createItem(
-    user_id: number,
+    user_id: string,
     item_id: number,
     item_count: number,
     qr?: QueryRunner,
@@ -82,7 +82,7 @@ export class UserItemService {
     return true;
   }
   async reduceItem(
-    user_id: number,
+    user_id: string,
     item_id: number,
     qty: number,
     qr?: QueryRunner,
@@ -128,7 +128,7 @@ export class UserItemService {
   }
 
   async rewardItem(
-    user_id: number,
+    user_id: string,
     item_id: number,
     item_leve: number,
     item_type: string,

@@ -17,7 +17,7 @@ export class UserSnsLikesService {
   }
 
   async isLiked(
-    user_id: number,
+    user_id: string,
     tuna_tv_id: number,
     qr?: QueryRunner,
   ): Promise<boolean> {
@@ -29,7 +29,7 @@ export class UserSnsLikesService {
   }
 
   async addLike(
-    user_id: number,
+    user_id: string,
     tuna_tv_id: number,
     qr?: QueryRunner,
   ): Promise<void> {
@@ -41,7 +41,7 @@ export class UserSnsLikesService {
   }
 
   async deleteLike(
-    user_id: number,
+    user_id: string,
     tuna_tv_id: number,
     qr?: QueryRunner,
   ): Promise<void> {

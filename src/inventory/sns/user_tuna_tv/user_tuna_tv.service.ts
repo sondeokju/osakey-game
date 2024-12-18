@@ -21,7 +21,7 @@ export class UserTunaTvService {
   }
 
   async tunaTvSave(
-    user_id: number,
+    user_id: string,
     tuna_title: string,
     ingame_kind: string,
     select_1: number,
@@ -122,7 +122,7 @@ export class UserTunaTvService {
     return deleteData;
   }
 
-  async TunaTvList(user_id: number, qr?: QueryRunner) {
+  async TunaTvList(user_id: string, qr?: QueryRunner) {
     const userTunaTvRepository = this.getUserTunaTvRepository(qr);
     const userTunaTvData = await userTunaTvRepository.find({
       where: {
@@ -137,7 +137,7 @@ export class UserTunaTvService {
     return userTunaTvData;
   }
 
-  async TunaTvUploadList(user_id: number, qr?: QueryRunner) {
+  async TunaTvUploadList(user_id: string, qr?: QueryRunner) {
     const userTunaTvRepository = this.getUserTunaTvRepository(qr);
     const userTunaTvData = await userTunaTvRepository.find({
       where: {
@@ -176,7 +176,7 @@ export class UserTunaTvService {
     return true;
   }
 
-  async TunaTvLikeAdd(user_id: number, tuna_tv_id: number, qr?: QueryRunner) {
+  async TunaTvLikeAdd(user_id: string, tuna_tv_id: number, qr?: QueryRunner) {
     const userTunaTvRepository = this.getUserTunaTvRepository(qr);
     const userTunaTvData = await userTunaTvRepository.findOne({
       where: {
@@ -185,7 +185,7 @@ export class UserTunaTvService {
     });
 
     if (!userTunaTvData) {
-       throw new NotFoundException('Tuna TV not found');
+      throw new NotFoundException('Tuna TV not found');
     }
 
     const islike = await this.userSnsLikesService.isLiked(user_id, tuna_tv_id);
@@ -207,7 +207,7 @@ export class UserTunaTvService {
   }
 
   async TunaTvLikeDelete(
-    user_id: number,
+    user_id: string,
     tuna_tv_id: number,
     qr?: QueryRunner,
   ) {

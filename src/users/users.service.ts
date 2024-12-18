@@ -140,7 +140,7 @@ export class UsersService {
     });
   }
 
-  async getUserBase(id: number, qr?: QueryRunner) {
+  async getUserBase(user_id: string, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
     const result = await usersRepository.findOne({
       select: {
@@ -151,13 +151,13 @@ export class UsersService {
         created_at: true,
       },
       where: {
-        id,
+        user_id,
       },
     });
     return result;
   }
 
-  async getUserMoney(id: number, qr?: QueryRunner) {
+  async getUserMoney(user_id: string, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
     const result = await usersRepository.findOne({
       select: {
@@ -171,29 +171,29 @@ export class UsersService {
         level: true,
       },
       where: {
-        id,
+        user_id,
       },
     });
 
     return result;
   }
 
-  async getMe(id: number, qr?: QueryRunner) {
+  async getMe(user_id: string, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
     const result = await usersRepository.findOne({
       where: {
-        id,
+        user_id,
       },
     });
 
     return result;
   }
 
-  async patchTakeGord(id: number, gord: number, qr?: QueryRunner) {
+  async patchTakeGord(user_id: string, gord: number, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({
       where: {
-        id,
+        user_id,
       },
     });
 
@@ -327,7 +327,7 @@ export class UsersService {
   }
 
   async reduceDiamondFree(
-    user_id: number,
+    user_id: string,
     diamond_free: number,
     qr?: QueryRunner,
   ) {
@@ -352,11 +352,11 @@ export class UsersService {
     return obj;
   }
 
-  async reduceGord(user_id: number, gord: number, qr?: QueryRunner) {
+  async reduceGord(user_id: string, gord: number, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({
       where: {
-        id: user_id,
+        user_id,
       },
     });
 

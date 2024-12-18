@@ -5,10 +5,12 @@ import { Column, Entity, Index } from 'typeorm';
 //@Index('IDX_NAME', ['columnA', 'columnB'], { unique: true }) // 복합 인덱스 설정
 export class UserEduStats extends BaseModel {
   @Column({
-    default: 0,
+    nullable: false,
+    type: 'char',
+    length: 10,
   })
   @Index({ unique: false })
-  user_id: number;
+  user_id: string;
 
   @Column({
     default: '0',

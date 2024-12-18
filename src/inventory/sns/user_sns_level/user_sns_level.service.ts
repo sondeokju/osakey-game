@@ -24,7 +24,7 @@ export class UserSnsLevelService {
       : this.userSnsLevelRepository;
   }
 
-  async snsReward(user_id: number, tuna_tv_id: number, qr?: QueryRunner) {
+  async snsReward(user_id: string, tuna_tv_id: number, qr?: QueryRunner) {
     const userSnsLevelRepository = this.getUserSnsLevelRepository(qr);
     const userSnsLevelData = await userSnsLevelRepository.findOne({
       where: { user_id },
@@ -94,7 +94,7 @@ export class UserSnsLevelService {
     return result;
   }
 
-  async getSnsLevel(user_id: number, qr?: QueryRunner) {
+  async getSnsLevel(user_id: string, qr?: QueryRunner) {
     const userSnsLevelRepository = this.getUserSnsLevelRepository(qr);
     const userSnsLevelData = await userSnsLevelRepository.findOne({
       where: { user_id },

@@ -19,7 +19,7 @@ export class UserRentamaService {
   }
 
   async rentamaDispatch(
-    user_id: number,
+    user_id: string,
     progress_mission_id: number,
     qr?: QueryRunner,
   ) {
@@ -37,7 +37,7 @@ export class UserRentamaService {
   }
 
   private async createRentama(
-    user_id: number,
+    user_id: string,
     progress_mission_id: number,
     qr?: QueryRunner,
   ) {
@@ -66,7 +66,7 @@ export class UserRentamaService {
   }
 
   async dispatchComplete(
-    user_id: number,
+    user_id: string,
     progress_mission_id: number,
     qr?: QueryRunner,
   ) {
@@ -91,7 +91,7 @@ export class UserRentamaService {
     return updateData;
   }
 
-  async dispatchList(user_id: number, qr?: QueryRunner) {
+  async dispatchList(user_id: string, qr?: QueryRunner) {
     const userRentamaRepository = this.getUserRentamaRepository(qr);
     const userRentama = await userRentamaRepository.find({
       where: { user_id },

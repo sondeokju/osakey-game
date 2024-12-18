@@ -11,16 +11,20 @@ import { Column, Entity, Index } from 'typeorm';
 )
 export class UserSnsFollow extends BaseModel {
   @Column({
-    default: 0,
+    nullable: false,
+    type: 'char',
+    length: 10,
   })
   @Index({ unique: false })
-  user_id: number;
+  user_id: string;
 
   @Column({
-    default: 0,
+    nullable: false,
+    type: 'char',
+    length: 10,
   })
   @Index({ unique: false })
-  follow_user_id: number;
+  follow_user_id: string;
 
   @Column({
     default: 'N',

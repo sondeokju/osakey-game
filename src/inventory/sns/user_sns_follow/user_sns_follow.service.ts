@@ -18,7 +18,7 @@ export class UserSnsFollowService {
       : this.userSnsFollowRepository;
   }
 
-  async followAdd(user_id: number, follow_user_id: number, qr?: QueryRunner) {
+  async followAdd(user_id: string, follow_user_id: string, qr?: QueryRunner) {
     const userSnsFollowRepository = this.getUserSnsFollowRepository(qr);
     const userSnsFollowData = await userSnsFollowRepository.findOne({
       where: {
@@ -57,7 +57,7 @@ export class UserSnsFollowService {
     return result;
   }
 
-  async unFollow(user_id: number, follow_user_id: number, qr?: QueryRunner) {
+  async unFollow(user_id: string, follow_user_id: string, qr?: QueryRunner) {
     const userSnsFollowRepository = this.getUserSnsFollowRepository(qr);
     const userSnsFollowData = await userSnsFollowRepository.findOne({
       where: {
@@ -94,7 +94,7 @@ export class UserSnsFollowService {
   //   return userSnsFollowData;
   // }
 
-  async followList(user_id: number, qr?: QueryRunner) {
+  async followList(user_id: string, qr?: QueryRunner) {
     const userSnsFollowRepository = this.getUserSnsFollowRepository(qr);
     const userSnsFollowData = await userSnsFollowRepository.find({});
 

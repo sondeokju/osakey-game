@@ -24,8 +24,8 @@ export class UserMemoryRentService {
   }
 
   async memoryRent(
-    user_id: number,
-    rent_memory_user_id: number,
+    user_id: string,
+    rent_memory_user_id: string,
     boss_id: number,
     qr?: QueryRunner,
   ) {
@@ -39,9 +39,9 @@ export class UserMemoryRentService {
     if (!userMemoryRent) {
       userMemoryRent = userMemoryRentRepository.create({
         user_id,
-        rent_memory_user_1: 0,
-        rent_memory_user_2: 0,
-        rent_memory_user_3: 0,
+        rent_memory_user_1: '',
+        rent_memory_user_2: '',
+        rent_memory_user_3: '',
         rent_boss_1: 0,
         rent_boss_2: 0,
         rent_boss_3: 0,
@@ -89,7 +89,7 @@ export class UserMemoryRentService {
     return result;
   }
 
-  async getUserMemoryRent(user_id: number, qr?: QueryRunner) {
+  async getUserMemoryRent(user_id: string, qr?: QueryRunner) {
     const userMemoryRentRepository = this.getUserMemoryRentRepository(qr);
     const userMemoryRent = await userMemoryRentRepository.findOne({
       where: {
@@ -161,7 +161,7 @@ export class UserMemoryRentService {
   //   return result;
   // }
 
-  async rentMemoryClear(user_id: number, slot: number, qr?: QueryRunner) {
+  async rentMemoryClear(user_id: string, slot: number, qr?: QueryRunner) {
     const userMemoryRentRepository = this.getUserMemoryRentRepository(qr);
     const userMemoryRent = await userMemoryRentRepository.findOne({
       where: {
@@ -173,25 +173,25 @@ export class UserMemoryRentService {
       throw new NotFoundException('memory slot not found');
     }
 
-    let rent_user_id = 0;
+    let rent_user_id = '';
     let rent_boss_id = 0;
     switch (+slot) {
       case 1:
         rent_user_id = userMemoryRent.rent_memory_user_1;
         rent_boss_id = userMemoryRent.rent_boss_1;
-        userMemoryRent.rent_memory_user_1 = 0;
+        userMemoryRent.rent_memory_user_1 = '';
         userMemoryRent.rent_boss_1 = 0;
         break;
       case 2:
         rent_user_id = userMemoryRent.rent_memory_user_2;
         rent_boss_id = userMemoryRent.rent_boss_2;
-        userMemoryRent.rent_memory_user_2 = 0;
+        userMemoryRent.rent_memory_user_2 = '';
         userMemoryRent.rent_boss_2 = 0;
         break;
       case 3:
         rent_user_id = userMemoryRent.rent_memory_user_3;
         rent_boss_id = userMemoryRent.rent_boss_3;
-        userMemoryRent.rent_memory_user_3 = 0;
+        userMemoryRent.rent_memory_user_3 = '';
         userMemoryRent.rent_boss_3 = 0;
         break;
     }
