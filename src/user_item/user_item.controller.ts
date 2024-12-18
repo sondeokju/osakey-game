@@ -10,8 +10,6 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { UserItemService } from './user_item.service';
-import { CreateUserItemDto } from './dto/create-user_item.dto';
-import { UpdateUserItemDto } from './dto/update-user_item.dto';
 import { QueryRunner as QR } from 'typeorm';
 import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
 import { User } from 'src/users/decorator/user.decorator';
@@ -28,8 +26,7 @@ export class UserItemController {
     @User() user: Users,
     //@Param('user_id') user_id: string,
     @QueryRunner() qr: QR,
-  ) {
-    console.log('useritem');
+  ) {    
     const result = await this.userItemService.getUserItemAll(user.user_id, qr);
 
     return JSON.stringify(result);

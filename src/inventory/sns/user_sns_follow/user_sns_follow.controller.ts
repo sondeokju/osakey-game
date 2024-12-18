@@ -15,7 +15,7 @@ export class UserSnsFollowController {
   @UseInterceptors(TransactionInterceptor)
   async followAdd(
     @User() user: Users,
-    @Body('follow_user_id') follow_user_id: number,
+    @Body('follow_user_id') follow_user_id: string,
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userSnsFollowService.followAdd(
@@ -31,7 +31,7 @@ export class UserSnsFollowController {
   @UseInterceptors(TransactionInterceptor)
   async unFollow(
     @User() user: Users,
-    @Body('follow_user_id') follow_user_id: number,
+    @Body('follow_user_id') follow_user_id: string,
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userSnsFollowService.unFollow(

@@ -15,7 +15,7 @@ export class UserMemoryRentController {
   @UseInterceptors(TransactionInterceptor)
   async followAdd(
     @User() user: Users,
-    @Body('rent_memory_user_id') rent_memory_user_id: number,
+    @Body('rent_memory_user_id') rent_memory_user_id: string,
     @Body('boss_id') boss_id: number,
     @QueryRunner() qr: QR,
   ) {

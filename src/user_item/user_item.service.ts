@@ -18,7 +18,7 @@ export class UserItemService {
       : this.userItemRepository;
   }
 
-  async getUserItemAll(user_id: number, qr?: QueryRunner) {
+  async getUserItemAll(user_id: string, qr?: QueryRunner) {
     const userItemRepository = this.getUserItemRepository(qr);
 
     const result = await userItemRepository.find({
