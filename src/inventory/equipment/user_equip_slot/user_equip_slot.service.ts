@@ -22,7 +22,7 @@ export class UserEquipSlotService {
       : this.userEquipSlotRepository;
   }
 
-  async equipSlotApply(user_id: string, equip_id: number, qr?: QueryRunner) {
+  async equipSlotMount(user_id: string, equip_id: number, qr?: QueryRunner) {
     const userEquipSlotRepository = this.getUserEquipSlotRepository(qr);
     const userEquipSlot = await userEquipSlotRepository.findOne({
       where: {

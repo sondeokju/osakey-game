@@ -26,11 +26,7 @@ export class UserEquipService {
       : this.userEquipRepository;
   }
 
-  private async createEquip(
-    user_id: string,
-    equip_id: number,
-    qr?: QueryRunner,
-  ) {
+  async createEquip(user_id: string, equip_id: number, qr?: QueryRunner) {
     if (!user_id || typeof user_id !== 'string') {
       throw new BadRequestException('Invalid user_id provided.');
     }
@@ -59,7 +55,7 @@ export class UserEquipService {
     return this.getUserEquipRepository(qr).find({ where: { user_id } });
   }
 
-  private async equipList(user_id: string, qr?: QueryRunner) {
+  async equipList(user_id: string, qr?: QueryRunner) {
     const userEquipRepository = this.getUserEquipRepository(qr);
     const userEquip = await userEquipRepository.find({
       where: {
@@ -70,7 +66,7 @@ export class UserEquipService {
     return userEquip;
   }
 
-  async equipBuffOpen(user_id: string, equip_id: number, qr?: QueryRunner) {
+  async equipMount(user_id: string, equip_id: number, qr?: QueryRunner) {
     const userEquipRepository = this.getUserEquipRepository(qr);
     const userEquip = await userEquipRepository.findOne({
       where: {
@@ -83,34 +79,10 @@ export class UserEquipService {
       throw new NotFoundException('equip_id not found');
     }
 
-    // await userEquipRepository.save({
-    //   ...userEquip,
-    //   option_2_yn: 'Y',
-    // });
-
-    const result = await userEquipRepository.find({
-      where: {
-        user_id,
-        equip_id,
-      },
-    });
-
-    return result;
-  }
-
-  async equipLoading(user_id: string, equip_id: number, qr?: QueryRunner) {
-    const userEquipRepository = this.getUserEquipRepository(qr);
-    const userEquip = await userEquipRepository.findOne({
-      where: {
-        user_id,
-        equip_id,
-      },
-    });
-
-    if (!userEquip) {
-      throw new NotFoundException('equip_id not found');
-    }
-
-    return await this.userEquipSlotService.equipSlotApply(user_id, equip_id);
+    return await this.userEquipSlotService.equipSlotMount(
+      user_id,
+      equip_id,
+      qr,
+    );
   }
 }
