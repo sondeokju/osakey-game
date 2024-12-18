@@ -24,17 +24,23 @@ export class UserEquipSlotService {
 
   async equipSlotMount(user_id: string, equip_id: number, qr?: QueryRunner) {
     const userEquipSlotRepository = this.getUserEquipSlotRepository(qr);
-    const userEquipSlot = await userEquipSlotRepository.findOne({
+    let userEquipSlot = await userEquipSlotRepository.findOne({
       where: {
         user_id,
       },
     });
 
-    // if (!userEquipSlot) {
-    //   throw new NotFoundException(
-    //     `No equip slot found for user_id: ${user_id}`,
-    //   );
-    // }
+    if (!userEquipSlot) {
+      userEquipSlot = userEquipSlotRepository.create({
+        user_id,
+        acc: 0,
+        engine: 0,
+        armor: 0,
+        boost: 0,
+        shoes: 0,
+        weapon: 0,
+      });
+    }
 
     const equip = await this.equipService.getEquip(equip_id, qr);
     if (!equip) {
