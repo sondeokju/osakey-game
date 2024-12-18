@@ -334,7 +334,7 @@ export class UsersService {
     const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({
       where: {
-        id: user_id,
+        user_id,
       },
     });
 

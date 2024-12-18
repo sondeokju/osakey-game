@@ -113,7 +113,11 @@ export class UsersController {
     @Body('gord', ParseIntPipe) gord: number,
     @QueryRunner() qr: QR,
   ) {
-    const result = await this.usersService.patchTakeGord(user.id, gord, qr);
+    const result = await this.usersService.patchTakeGord(
+      user.user_id,
+      gord,
+      qr,
+    );
 
     return JSON.stringify(result);
   }
