@@ -19,7 +19,7 @@ import { User } from 'src/users/decorator/user.decorator';
 export class MissionSubController {
   constructor(private readonly missionSubService: MissionSubService) {}
 
-  @Post(':mission_sub_id')
+  @Get(':mission_sub_id')
   @UseInterceptors(TransactionInterceptor)
   async getUserBase(@User() user: Users, @QueryRunner() qr: QR) {
     const result = await this.missionSubService.getMissionSub(user.id, qr);
