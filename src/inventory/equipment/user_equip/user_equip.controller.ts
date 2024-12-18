@@ -18,7 +18,7 @@ import { UserEquipService } from './user_equip.service';
 export class UserEquipController {
   constructor(private readonly userEquipService: UserEquipService) {}
 
-  @Get()
+  @Get('list')
   @UseInterceptors(TransactionInterceptor)
   async equipList(@User() user: Users, @QueryRunner() qr: QR) {
     const result = this.userEquipService.equipList(user.user_id, qr);
