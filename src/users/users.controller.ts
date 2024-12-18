@@ -81,21 +81,21 @@ export class UsersController {
     //@Query('includeNotConfirmed', new DefaultValuePipe(false), ParseBoolPipe)
     //includeNotConfirmed: boolean,
   ) {
-    const result = await this.usersService.getMe(user.id, qr);
+    const result = await this.usersService.getMe(user.user_id, qr);
     return JSON.stringify(result);
   }
 
   @Get('base')
   @UseInterceptors(TransactionInterceptor)
   async getUserBase(@User() user: Users, @QueryRunner() qr: QR) {
-    const result = await this.usersService.getUserBase(user.id, qr);
+    const result = await this.usersService.getUserBase(user.user_id, qr);
     return JSON.stringify(result);
   }
 
   @Get('money')
   @UseInterceptors(TransactionInterceptor)
   async getUserMoney(@User() user: Users, @QueryRunner() qr: QR) {
-    const result = await this.usersService.getUserMoney(user.id, qr);
+    const result = await this.usersService.getUserMoney(user.user_id, qr);
     return JSON.stringify(result);
   }
 
