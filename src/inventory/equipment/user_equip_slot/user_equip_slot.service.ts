@@ -30,11 +30,11 @@ export class UserEquipSlotService {
       },
     });
 
-    if (!userEquipSlot) {
-      throw new NotFoundException(
-        `No equip slot found for user_id: ${user_id}`,
-      );
-    }
+    // if (!userEquipSlot) {
+    //   throw new NotFoundException(
+    //     `No equip slot found for user_id: ${user_id}`,
+    //   );
+    // }
 
     const equip = await this.equipService.getEquip(equip_id, qr);
     if (!equip) {
