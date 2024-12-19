@@ -134,12 +134,14 @@ export class UserEquipService {
       equip_level_id: nextLevel,
     });
 
-    await this.userEquipOptionService.equipOptionAdd(
-      user_id,
-      equip.origin_equip_id,
-      equip.equip_grade,
-      qr,
-    );
+    if (equipLevel.level === equipLevel.level_max) {
+      await this.userEquipOptionService.equipOptionAdd(
+        user_id,
+        equip.origin_equip_id,
+        equip.equip_grade + 1,
+        qr,
+      );
+    }
 
     return updateUserEquip;
   }
@@ -211,12 +213,12 @@ export class UserEquipService {
       equip_level_id: maxLevelId,
     });
 
-    await this.userEquipOptionService.equipOptionAdd(
-      user_id,
-      equip.origin_equip_id,
-      equip.equip_grade,
-      qr,
-    );
+    // await this.userEquipOptionService.equipOptionAdd(
+    //   user_id,
+    //   equip.origin_equip_id,
+    //   equip.equip_grade,
+    //   qr,
+    // );
 
     return updatedUserEquip;
   }
@@ -239,12 +241,7 @@ export class UserEquipService {
 
     let nextLevel: number;
     if (currentLevel >= levelMax) {
-      const nextGroup = parseInt(basePart, 10) + 1;
-      nextLevel = 1; // 새로운 그룹의 첫 레벨
-      return parseInt(
-        `${nextGroup.toString()}${nextLevel.toString().padStart(2, '0')}`,
-        10,
-      );
+      return this.getMaxLevelId(currentLevelId);
     } else {
       nextLevel = currentLevel + 1;
       return parseInt(
