@@ -178,10 +178,7 @@ export class UserEquipService {
     const equip = await this.equipService.getEquip(baseEquipId, qr);
 
     // 4. 최상 등급 확인
-    if (
-      parseInt(equipLevel.equip_grade, 10) === 5 &&
-      equipLevel.level >= equipLevel.level_max
-    ) {
+    if (parseInt(equipLevel.equip_grade, 10) === 5) {
       throw new BadRequestException(`It is already at the maximum grade.`);
     }
 
