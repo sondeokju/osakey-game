@@ -226,6 +226,8 @@ export class UserEquipService {
   getMaxLevelId(currentLevelId: number): number {
     const levelString = currentLevelId.toString();
     const basePart = parseInt(levelString.slice(0, -2)) + 1; // '11200001'
+    console.log('levelString', levelString);
+    console.log('basePart', basePart);
 
     // 최대 레벨을 조합하여 새로운 ID 생성
     return parseInt(`${basePart}${'01'}`, 10);
