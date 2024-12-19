@@ -172,7 +172,9 @@ export class UserEquipService {
       );
     }
 
-    const equip = await this.equipService.getEquip(userEquip.equip_id, qr);
+    const baseEquipId = await this.getBaseEquipId(userEquip.equip_level_id);
+
+    const equip = await this.equipService.getEquip(baseEquipId, qr);
 
     // 4. 최상 등급 확인
     if (
@@ -206,6 +208,7 @@ export class UserEquipService {
 
     // 5. level_max로 레벨업
     const maxLevelId = this.getMaxLevelId(userEquip.equip_level_id);
+    console.log('maxLevelId', maxLevelId);
 
     // 6. 장비 레벨 업데이트
     const updatedUserEquip = await userEquipRepository.save({
@@ -225,7 +228,7 @@ export class UserEquipService {
 
   getMaxLevelId(currentLevelId: number): number {
     const levelString = currentLevelId.toString();
-    const basePart = parseInt(levelString.slice(0, -2)) + 1; // '11200001'
+    const basePart = parseInt(levelString.slice(0, -2)) + 1;
     console.log('levelString', levelString);
     console.log('basePart', basePart);
 
@@ -233,11 +236,18 @@ export class UserEquipService {
     return parseInt(`${basePart}${'01'}`, 10);
   }
 
+  getBaseEquipId(currentLevelId: number): number {
+    const levelString = currentLevelId.toString();
+    const basePart = parseInt(levelString.slice(0, -2)) + 1;
+
+    return basePart;
+  }
+
   levelUp(currentLevelId: number, levelMax: number): number {
     const levelString = currentLevelId.toString();
 
-    const basePart = levelString.slice(0, -2); // '11200001'
-    const levelPart = levelString.slice(-2); // '20'
+    const basePart = levelString.slice(0, -2);
+    const levelPart = levelString.slice(-2);
 
     const currentLevel = parseInt(levelPart, 10);
 
