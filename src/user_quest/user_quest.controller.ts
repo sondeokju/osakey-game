@@ -61,6 +61,7 @@ export class UserQuestController {
     const result = await this.userQuestService.questDayWeekReward(
       user.user_id,
       user_quest_id,
+      qr,
     );
 
     return JSON.stringify(result);
@@ -76,6 +77,7 @@ export class UserQuestController {
     const result = await this.userQuestService.questMainReward(
       user.user_id,
       user_quest_id,
+      qr,
     );
 
     return JSON.stringify(result);
@@ -91,6 +93,7 @@ export class UserQuestController {
     const result = await this.userQuestService.questSubReward(
       user.user_id,
       user_quest_id,
+      qr,
     );
 
     return JSON.stringify(result);
@@ -106,6 +109,7 @@ export class UserQuestController {
     const result = await this.userQuestService.questAccept(
       user.user_id,
       user_quest_id,
+      qr,
     );
 
     return JSON.stringify(result);
@@ -121,6 +125,7 @@ export class UserQuestController {
     const result = await this.userQuestService.questComplete(
       user.user_id,
       user_quest_id,
+      qr,
     );
 
     return JSON.stringify(result);

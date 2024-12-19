@@ -29,28 +29,4 @@ export class UserEquip extends BaseModel {
     default: '0',
   })
   equip_skill_id: number;
-
-  @Column({
-    type: 'boolean',
-    default: false,
-  })
-  option_1_yn: boolean;
-
-  @Column({
-    type: 'boolean',
-    default: false,
-  })
-  option_2_yn: boolean;
-
-  @Column({
-    type: 'boolean',
-    default: false,
-  })
-  option_3_yn: boolean;
-
-  @Column({
-    type: 'boolean',
-    default: false,
-  })
-  option_4_yn: boolean;
 }
