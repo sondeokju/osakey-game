@@ -49,6 +49,7 @@ import { EquipLevel } from 'src/static-table/equipment/equip_level/entities/equi
 import { EquipSkill } from 'src/static-table/equipment/equip_skill/entities/equip_skill.entity';
 import { UserEquip } from 'src/inventory/equipment/user_equip/entities/user_equip.entity';
 import { UserEquipSlot } from 'src/inventory/equipment/user_equip_slot/entities/user_equip_slot.entity';
+import { EquipOption } from 'src/static-table/equipment/equip_option/entities/equip_option.entity';
 
 export const entities = [
   Users,
@@ -102,4 +103,5 @@ export const entities = [
   EquipSkill,
   UserEquip,
   UserEquipSlot,
+  EquipOption,
 ];

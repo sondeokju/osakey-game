@@ -54,6 +54,7 @@ import { EquipLevelModule } from 'src/static-table/equipment/equip_level/equip_l
 import { EquipSkillModule } from 'src/static-table/equipment/equip_skill/equip_skill.module';
 import { UserEquipModule } from 'src/inventory/equipment/user_equip/user_equip.module';
 import { UserEquipSlotModule } from 'src/inventory/equipment/user_equip_slot/user_equip_slot.module';
+import { EquipOptionModule } from 'src/static-table/equipment/equip_option/equip_option.module';
 
 export const entities_module = [
   UsersModule,
@@ -112,4 +113,5 @@ export const entities_module = [
   EquipGradeModule,
   UserEquipModule,
   UserEquipSlotModule,
+  EquipOptionModule,
 ];
