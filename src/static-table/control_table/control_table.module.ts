@@ -58,6 +58,8 @@ import { EquipService } from '../equipment/equip/equip.service';
 import { EquipGradeService } from '../equipment/equip_grade/equip_grade.service';
 import { EquipSkillService } from '../equipment/equip_skill/equip_skill.service';
 import { EquipLevelService } from '../equipment/equip_level/equip_level.service';
+import { EquipOptionService } from '../equipment/equip_option/equip_option.service';
+import { EquipOption } from '../equipment/equip_option/entities/equip_option.entity';
 
 @Module({
   imports: [
@@ -91,6 +93,7 @@ import { EquipLevelService } from '../equipment/equip_level/equip_level.service'
       EquipGrade,
       EquipSkill,
       EquipLevel,
+      EquipOption,
     ]),
   ],
   exports: [ControlTableService],
@@ -125,6 +128,7 @@ import { EquipLevelService } from '../equipment/equip_level/equip_level.service'
     EquipGradeService,
     EquipSkillService,
     EquipLevelService,
+    EquipOptionService,
   ],
 })
 export class ControlTableModule {}
