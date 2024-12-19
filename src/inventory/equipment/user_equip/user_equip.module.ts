@@ -9,10 +9,18 @@ import { Equip } from 'src/static-table/equipment/equip/entities/equip.entity';
 import { EquipService } from 'src/static-table/equipment/equip/equip.service';
 import { UserEquipSlot } from '../user_equip_slot/entities/user_equip_slot.entity';
 import { UserEquipSlotService } from '../user_equip_slot/user_equip_slot.service';
+import { UserEquipOptionService } from '../user_equip_option/user_equip_option.service';
+import { UserEquipOption } from '../user_equip_option/entities/user_equip_option.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserEquip, EquipLevel, Equip, UserEquipSlot]),
+    TypeOrmModule.forFeature([
+      UserEquip,
+      EquipLevel,
+      Equip,
+      UserEquipSlot,
+      UserEquipOption,
+    ]),
   ],
   exports: [UserEquipService],
   controllers: [UserEquipController],
@@ -21,6 +29,7 @@ import { UserEquipSlotService } from '../user_equip_slot/user_equip_slot.service
     EquipLevelService,
     EquipService,
     UserEquipSlotService,
+    UserEquipOptionService,
   ],
 })
 export class UserEquipModule {}
