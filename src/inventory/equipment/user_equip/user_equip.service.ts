@@ -173,6 +173,7 @@ export class UserEquipService {
     }
 
     const baseEquipId = await this.getBaseEquipId(userEquip.equip_level_id);
+    console.log('baseEquipId', baseEquipId);
 
     const equip = await this.equipService.getEquip(baseEquipId, qr);
 
