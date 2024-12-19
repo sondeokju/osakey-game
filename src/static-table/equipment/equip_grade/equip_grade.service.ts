@@ -22,13 +22,13 @@ export class EquipGradeService {
     return result;
   }
 
-  async getEquipGrade(id: number, qr?: QueryRunner) {
-    // const eduRepository = this.getEduRepository(qr);
-    // const result = await eduRepository.findOne({
-    //   where: {
-    //     id,
-    //   },
-    // });
-    // return result;
+  async getEquipGrade(equip_grade_max: string, qr?: QueryRunner) {
+    const equipGradeRepository = this.getEquipGradeRepository(qr);
+    const result = await equipGradeRepository.findOne({
+      where: {
+        equip_grade_max,
+      },
+    });
+    return result;
   }
 }

@@ -10,6 +10,7 @@ import { EquipService } from 'src/static-table/equipment/equip/equip.service';
 import { EquipLevelService } from 'src/static-table/equipment/equip_level/equip_level.service';
 import { UserEquipSlotService } from '../user_equip_slot/user_equip_slot.service';
 import { UserEquipOptionService } from '../user_equip_option/user_equip_option.service';
+import { EquipGradeService } from 'src/static-table/equipment/equip_grade/equip_grade.service';
 
 @Injectable()
 export class UserEquipService {
@@ -20,6 +21,7 @@ export class UserEquipService {
     private readonly equipLevelService: EquipLevelService,
     private readonly userEquipSlotService: UserEquipSlotService,
     private readonly userEquipOptionService: UserEquipOptionService,
+    private readonly equipGradeService: EquipGradeService,
   ) {}
 
   getUserEquipRepository(qr?: QueryRunner) {
@@ -114,6 +116,15 @@ export class UserEquipService {
       );
     }
 
+    // 최상 등급 확인
+    const equip_grade = await this.equipGradeService.getEquipGrade('TRUE');
+    if (
+      parseInt(equipLevel.equip_grade, 10) === equip_grade.id &&
+      equipLevel.level >= equipLevel.level_max
+    ) {
+      throw new BadRequestException(`It is already at the 5 maximum grade.`);
+    }
+
     // 고드 아이템 차감 로직 (예: 고드 포인트 차감)
     // const cost = equipLevel.upgrade_cost;
     // const userGoldService = this.getUserGoldService(qr); // 유저 재화 관리 서비스
@@ -178,7 +189,8 @@ export class UserEquipService {
     const equip = await this.equipService.getEquip(baseEquipId, qr);
 
     // 4. 최상 등급 확인
-    if (parseInt(equipLevel.equip_grade, 10) === 5) {
+    const equip_grade = await this.equipGradeService.getEquipGrade('TRUE');
+    if (parseInt(equipLevel.equip_grade, 10) === equip_grade.id) {
       throw new BadRequestException(`It is already at the 5 maximum grade.`);
     }
 
