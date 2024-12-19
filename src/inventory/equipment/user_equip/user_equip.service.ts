@@ -239,7 +239,7 @@ export class UserEquipService {
 
   getBaseEquipId(currentLevelId: number): number {
     const levelString = currentLevelId.toString();
-    const basePart = parseInt(levelString.slice(0, -2)) + 1;
+    const basePart = parseInt(levelString.slice(0, -2));
 
     return basePart;
   }
