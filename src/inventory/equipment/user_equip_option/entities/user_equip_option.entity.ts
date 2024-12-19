@@ -2,9 +2,9 @@ import { BaseModel } from 'src/common/entity/base.entity';
 import { Column, Entity, Index } from 'typeorm';
 
 @Entity()
-@Index('IDX_UserEquip_user_id_equip_id', ['user_id', 'equip_id'], {
-  unique: true,
-})
+// @Index('IDX_UserEquip_user_id_equip_id', ['user_id', 'equip_id'], {
+//   unique: true,
+// })
 export class UserEquipOption extends BaseModel {
   @Column({
     nullable: false,
