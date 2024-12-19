@@ -41,4 +41,38 @@ export class UserEquipController {
 
     return JSON.stringify(result);
   }
+
+  @Post('level-up')
+  @UseInterceptors(TransactionInterceptor)
+  async equipLevelUp(
+    @User() user: Users,
+    @Body('equip_id') equip_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    console.log(equip_id);
+    const result = await this.userEquipService.equipLevelUp(
+      user.user_id,
+      equip_id,
+      qr,
+    );
+
+    return JSON.stringify(result);
+  }
+
+  @Post('max/level-up')
+  @UseInterceptors(TransactionInterceptor)
+  async equipMaxLevelUp(
+    @User() user: Users,
+    @Body('equip_id') equip_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    console.log(equip_id);
+    const result = await this.userEquipService.equipMaxLevelUp(
+      user.user_id,
+      equip_id,
+      qr,
+    );
+
+    return JSON.stringify(result);
+  }
 }
