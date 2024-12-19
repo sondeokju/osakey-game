@@ -1,26 +1,39 @@
 import { Injectable } from '@nestjs/common';
-import { CreateEquipOptionDto } from './dto/create-equip_option.dto';
-import { UpdateEquipOptionDto } from './dto/update-equip_option.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { EquipOption } from './entities/equip_option.entity';
 
 @Injectable()
 export class EquipOptionService {
-  create(createEquipOptionDto: CreateEquipOptionDto) {
-    return 'This action adds a new equipOption';
+  constructor(
+    @InjectRepository(EquipOption)
+    private readonly equipOptionRepository: Repository<EquipOption>,
+  ) {}
+
+  getEquipOptionRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<EquipOption>(EquipOption)
+      : this.equipOptionRepository;
   }
 
-  findAll() {
-    return `This action returns all equipOption`;
+  async getEquipOptionAll(qr?: QueryRunner) {
+    const equipOptionRepository = this.getEquipOptionRepository(qr);
+    const result = await equipOptionRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} equipOption`;
-  }
-
-  update(id: number, updateEquipOptionDto: UpdateEquipOptionDto) {
-    return `This action updates a #${id} equipOption`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} equipOption`;
+  async getEquipOption(
+    origin_equip_id: number,
+    option_grade: number,
+    qr?: QueryRunner,
+  ) {
+    const equipOptionRepository = this.getEquipOptionRepository(qr);
+    const result = await equipOptionRepository.findOne({
+      where: {
+        origin_equip_id,
+        option_grade,
+      },
+    });
+    return result;
   }
 }
