@@ -11,6 +11,8 @@ import { UserEquipSlot } from '../user_equip_slot/entities/user_equip_slot.entit
 import { UserEquipSlotService } from '../user_equip_slot/user_equip_slot.service';
 import { UserEquipOptionService } from '../user_equip_option/user_equip_option.service';
 import { UserEquipOption } from '../user_equip_option/entities/user_equip_option.entity';
+import { EquipOption } from 'src/static-table/equipment/equip_option/entities/equip_option.entity';
+import { EquipOptionService } from 'src/static-table/equipment/equip_option/equip_option.service';
 
 @Module({
   imports: [
@@ -20,6 +22,7 @@ import { UserEquipOption } from '../user_equip_option/entities/user_equip_option
       Equip,
       UserEquipSlot,
       UserEquipOption,
+      EquipOption,
     ]),
   ],
   exports: [UserEquipService],
@@ -30,6 +33,7 @@ import { UserEquipOption } from '../user_equip_option/entities/user_equip_option
     EquipService,
     UserEquipSlotService,
     UserEquipOptionService,
+    EquipOptionService,
   ],
 })
 export class UserEquipModule {}
