@@ -28,6 +28,7 @@ import { EquipService } from '../equipment/equip/equip.service';
 import { EquipGradeService } from '../equipment/equip_grade/equip_grade.service';
 import { EquipSkillService } from '../equipment/equip_skill/equip_skill.service';
 import { EquipLevelService } from '../equipment/equip_level/equip_level.service';
+import { EquipOptionService } from '../equipment/equip_option/equip_option.service';
 
 @Injectable()
 export class ControlTableService {
@@ -61,6 +62,7 @@ export class ControlTableService {
     private readonly equipGraeService: EquipGradeService,
     private readonly equipSkillService: EquipSkillService,
     private readonly equipLevelService: EquipLevelService,
+    private readonly equipOptionService: EquipOptionService,
   ) {}
 
   async getControlTableAll(qr?: QueryRunner) {
@@ -159,6 +161,7 @@ export class ControlTableService {
       equip_grade: await this.equipGraeService.getEquipGradeAll(qr),
       equip_skill: await this.equipSkillService.getEquipSkillAll(qr),
       equip_level: await this.equipLevelService.getEquipLevelAll(qr),
+      equip_option: await this.equipOptionService.getEquipOptionAll(qr),
     };
 
     return obj;

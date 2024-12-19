@@ -9,6 +9,7 @@ import { UserEquip } from './entities/user_equip.entity';
 import { EquipService } from 'src/static-table/equipment/equip/equip.service';
 import { EquipLevelService } from 'src/static-table/equipment/equip_level/equip_level.service';
 import { UserEquipSlotService } from '../user_equip_slot/user_equip_slot.service';
+import { UserEquipOptionService } from '../user_equip_option/user_equip_option.service';
 
 @Injectable()
 export class UserEquipService {
@@ -18,6 +19,7 @@ export class UserEquipService {
     private readonly equipService: EquipService,
     private readonly equipLevelService: EquipLevelService,
     private readonly userEquipSlotService: UserEquipSlotService,
+    private readonly userEquipOptionService: UserEquipOptionService,
   ) {}
 
   getUserEquipRepository(qr?: QueryRunner) {
@@ -104,6 +106,8 @@ export class UserEquipService {
       qr,
     );
 
+    const equip = await this.equipService.getEquip(userEquip.equip_id, qr);
+
     if (!equipLevel) {
       throw new NotFoundException(
         `Equip level with ID ${userEquip.equip_level_id} not found.`,
@@ -129,6 +133,13 @@ export class UserEquipService {
       ...userEquip,
       equip_level_id: nextLevel,
     });
+
+    await this.userEquipOptionService.equipOptionAdd(
+      user_id,
+      equip.origin_equip_id,
+      equip.equip_grade,
+      qr,
+    );
 
     return updateUserEquip;
   }
