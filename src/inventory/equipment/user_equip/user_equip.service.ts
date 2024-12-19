@@ -179,7 +179,7 @@ export class UserEquipService {
 
     // 4. 최상 등급 확인
     if (parseInt(equipLevel.equip_grade, 10) === 5) {
-      throw new BadRequestException(`It is already at the maximum grade.`);
+      throw new BadRequestException(`It is already at the 5 maximum grade.`);
     }
 
     // 4. 고드 및 재료 차감 (여기서는 로직을 주석으로 작성, 실제 구현 필요)

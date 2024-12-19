@@ -18,4 +18,11 @@ export class EquipGrade {
     length: 10,
   })
   equip_skill_unlock: string;
+
+  @Column({
+    default: '',
+    type: 'varchar',
+    length: 10,
+  })
+  equip_grade_max: string;
 }
