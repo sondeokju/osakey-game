@@ -170,6 +170,8 @@ export class UserEquipService {
       );
     }
 
+    const equip = await this.equipService.getEquip(userEquip.equip_id, qr);
+
     // 4. 최상 등급 확인
     if (
       parseInt(equipLevel.equip_grade, 10) === 5 &&
@@ -208,6 +210,13 @@ export class UserEquipService {
       ...userEquip,
       equip_level_id: maxLevelId,
     });
+
+    await this.userEquipOptionService.equipOptionAdd(
+      user_id,
+      equip.origin_equip_id,
+      equip.equip_grade,
+      qr,
+    );
 
     return updatedUserEquip;
   }
