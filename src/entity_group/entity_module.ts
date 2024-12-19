@@ -55,6 +55,7 @@ import { EquipSkillModule } from 'src/static-table/equipment/equip_skill/equip_s
 import { UserEquipModule } from 'src/inventory/equipment/user_equip/user_equip.module';
 import { UserEquipSlotModule } from 'src/inventory/equipment/user_equip_slot/user_equip_slot.module';
 import { EquipOptionModule } from 'src/static-table/equipment/equip_option/equip_option.module';
+import { UserEquipOptionModule } from 'src/inventory/equipment/user_equip_option/user_equip_option.module';
 
 export const entities_module = [
   UsersModule,
@@ -114,4 +115,5 @@ export const entities_module = [
   UserEquipModule,
   UserEquipSlotModule,
   EquipOptionModule,
+  UserEquipOptionModule,
 ];
