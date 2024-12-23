@@ -18,6 +18,7 @@ import { EquipGrade } from 'src/static-table/equipment/equip_grade/entities/equi
 import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager';
 import { UsersService } from 'src/users/users.service';
 import { UserItemService } from 'src/user_item/user_item.service';
+import { Users } from 'src/users/entity/users.entity';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { UserItemService } from 'src/user_item/user_item.service';
       UserEquipOption,
       EquipOption,
       EquipGrade,
+      Users,
     ]),
   ],
   exports: [UserEquipService],
