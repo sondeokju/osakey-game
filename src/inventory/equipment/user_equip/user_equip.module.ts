@@ -46,6 +46,7 @@ import { UsersModule } from 'src/users/users.module';
     UserEquipOptionService,
     EquipOptionService,
     EquipGradeService,
+    ResourceManagerService,
   ],
 })
 export class UserEquipModule {}
