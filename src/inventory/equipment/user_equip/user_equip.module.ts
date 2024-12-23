@@ -19,6 +19,7 @@ import { UsersService } from 'src/users/users.service';
 import { Users } from 'src/users/entity/users.entity';
 import { UserItem } from 'src/user_item/entities/user_item.entity';
 import { UserItemService } from 'src/user_item/user_item.service';
+import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { UserItemService } from 'src/user_item/user_item.service';
     UserEquipOptionService,
     EquipOptionService,
     EquipGradeService,
+    ResourceManagerService,
   ],
 })
 export class UserEquipModule {}
