@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ResourceManagerService } from './resource_manager';
+import { ResourceManagerService } from './resource_manager.service';
 import { UsersService } from 'src/users/users.service';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
