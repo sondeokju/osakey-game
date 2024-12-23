@@ -34,7 +34,7 @@ export class ResourceManagerService {
     // 2. 아이템 차감
     if (resources.item) {
       const { item_id, count } = resources.item;
-      if (id && count) {
+      if (item_id && count) {
         const userItemData = await this.userItemService.getItem(item_id, qr);
         if (!userItemData || count > userItemData.item_count) {
           throw new BadRequestException('Not enough items.');
