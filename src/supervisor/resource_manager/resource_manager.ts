@@ -13,12 +13,14 @@ export class ResourceManagerService {
 
   async validateAndDeductResources(
     user_id: string,
-    equipLevel: EquipLevel,
+    gord: number,
+    item_id: number,
+    item_count: number,
     qr: QueryRunner,
   ) {
     // 유저의 현재 보유 고드 확인
     const userCurrency = await this.usersService.getUserMoney(user_id, qr);
-    const requiredGold = equipLevel.require_gold;
+    const requiredGold = gord;
     console.log('requiredGold', requiredGold);
 
     if (requiredGold > userCurrency.gord) {
@@ -26,8 +28,8 @@ export class ResourceManagerService {
     }
 
     // 레벨업에 필요한 아이템 확인
-    const requiredItemId = equipLevel.require_item_id;
-    const requiredItemCount = equipLevel.require_item_count;
+    const requiredItemId = item_id;
+    const requiredItemCount = item_count;
 
     if (requiredItemId && requiredItemCount) {
       const userItemData = await this.userItemService.getItem(

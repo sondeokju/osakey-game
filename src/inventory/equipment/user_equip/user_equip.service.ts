@@ -130,12 +130,11 @@ export class UserEquipService {
       throw new BadRequestException(`It is already at the 5 maximum grade.`);
     }
 
-    // 재화 및 아이템 요구 조건 확인 및 차감
-    //await this.validateAndDeductResources(user_id, equipLevel, qr);
-
     await this.resourceManagerService.validateAndDeductResources(
       user_id,
-      equipLevel,
+      equipLevel.require_gold,
+      equipLevel.require_item_id,
+      equipLevel.require_item_count,
       qr,
     );
 
