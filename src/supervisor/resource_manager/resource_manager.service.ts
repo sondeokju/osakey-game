@@ -11,7 +11,7 @@ export class ResourceManagerService {
     private readonly userItemService: UserItemService,
   ) {}
 
-  async validateAndDeductResources(
+  async validateAndDeductGordItem(
     user_id: string,
     gord: number,
     item_id: number,

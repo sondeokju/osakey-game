@@ -11,7 +11,7 @@ import { EquipLevelService } from 'src/static-table/equipment/equip_level/equip_
 import { UserEquipSlotService } from '../user_equip_slot/user_equip_slot.service';
 import { UserEquipOptionService } from '../user_equip_option/user_equip_option.service';
 import { EquipGradeService } from 'src/static-table/equipment/equip_grade/equip_grade.service';
-import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager';
+import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager.service';
 
 @Injectable()
 export class UserEquipService {
@@ -130,7 +130,7 @@ export class UserEquipService {
       throw new BadRequestException(`It is already at the 5 maximum grade.`);
     }
 
-    await this.resourceManagerService.validateAndDeductResources(
+    await this.resourceManagerService.validateAndDeductGordItem(
       user_id,
       equipLevel.require_gold,
       equipLevel.require_item_id,
