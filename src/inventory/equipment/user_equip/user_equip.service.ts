@@ -110,6 +110,9 @@ export class UserEquipService {
       qr,
     );
 
+    console.log('userEquip.equip_level_id', userEquip.equip_level_id);
+    console.log('equipLevel', equipLevel);
+
     const equip = await this.equipService.getEquip(userEquip.equip_id, qr);
 
     if (!equipLevel) {
