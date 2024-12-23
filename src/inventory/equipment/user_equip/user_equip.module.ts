@@ -16,7 +16,7 @@ import { EquipOption } from 'src/static-table/equipment/equip_option/entities/eq
 import { EquipOptionService } from 'src/static-table/equipment/equip_option/equip_option.service';
 import { EquipGradeService } from 'src/static-table/equipment/equip_grade/equip_grade.service';
 import { EquipGrade } from 'src/static-table/equipment/equip_grade/entities/equip_grade.entity';
-import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager';
+import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager.service';
 import { UsersService } from 'src/users/users.service';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { Users } from 'src/users/entity/users.entity';
