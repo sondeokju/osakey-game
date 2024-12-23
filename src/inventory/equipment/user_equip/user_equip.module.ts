@@ -1,3 +1,4 @@
+import { ResourceManagerModule } from 'src/supervisor/resource_manager/resource_manager.module';
 import { Module } from '@nestjs/common';
 import { UserEquipService } from './user_equip.service';
 import { UserEquipController } from './user_equip.controller';
@@ -19,6 +20,7 @@ import { ResourceManagerService } from 'src/supervisor/resource_manager/resource
 import { UsersService } from 'src/users/users.service';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { Users } from 'src/users/entity/users.entity';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { Users } from 'src/users/entity/users.entity';
       UserEquipOption,
       EquipOption,
       EquipGrade,
+      UsersModule,
+      ResourceManagerModule,
     ]),
   ],
   exports: [UserEquipService],
@@ -42,7 +46,6 @@ import { Users } from 'src/users/entity/users.entity';
     UserEquipOptionService,
     EquipOptionService,
     EquipGradeService,
-    ResourceManagerService,
   ],
 })
 export class UserEquipModule {}
