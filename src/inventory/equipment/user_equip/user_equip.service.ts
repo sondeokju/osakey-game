@@ -11,7 +11,6 @@ import { EquipLevelService } from 'src/static-table/equipment/equip_level/equip_
 import { UserEquipSlotService } from '../user_equip_slot/user_equip_slot.service';
 import { UserEquipOptionService } from '../user_equip_option/user_equip_option.service';
 import { EquipGradeService } from 'src/static-table/equipment/equip_grade/equip_grade.service';
-import { EquipLevel } from 'src/static-table/equipment/equip_level/entities/equip_level.entity';
 import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager';
 
 @Injectable()
