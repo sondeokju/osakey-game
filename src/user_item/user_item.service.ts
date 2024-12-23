@@ -107,6 +107,17 @@ export class UserItemService {
     return true;
   }
 
+  async getItem(item_id: number, qr?: QueryRunner) {
+    const userItemRepository = this.getUserItemRepository(qr);
+    const userItemData = await userItemRepository.findOne({
+      where: {
+        item_id,
+      },
+    });
+
+    return userItemData;
+  }
+
   async patchItem(id: number, item_count: number, qr?: QueryRunner) {
     const userItemRepository = this.getUserItemRepository(qr);
     const userItemData = await userItemRepository.findOne({

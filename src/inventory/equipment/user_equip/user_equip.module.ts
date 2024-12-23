@@ -15,6 +15,10 @@ import { EquipOption } from 'src/static-table/equipment/equip_option/entities/eq
 import { EquipOptionService } from 'src/static-table/equipment/equip_option/equip_option.service';
 import { EquipGradeService } from 'src/static-table/equipment/equip_grade/equip_grade.service';
 import { EquipGrade } from 'src/static-table/equipment/equip_grade/entities/equip_grade.entity';
+import { UsersService } from 'src/users/users.service';
+import { Users } from 'src/users/entity/users.entity';
+import { UserItem } from 'src/user_item/entities/user_item.entity';
+import { UserItemService } from 'src/user_item/user_item.service';
 
 @Module({
   imports: [

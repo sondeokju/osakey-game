@@ -11,6 +11,8 @@ import { EquipLevelService } from 'src/static-table/equipment/equip_level/equip_
 import { UserEquipSlotService } from '../user_equip_slot/user_equip_slot.service';
 import { UserEquipOptionService } from '../user_equip_option/user_equip_option.service';
 import { EquipGradeService } from 'src/static-table/equipment/equip_grade/equip_grade.service';
+import { EquipLevel } from 'src/static-table/equipment/equip_level/entities/equip_level.entity';
+import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager';
 
 @Injectable()
 export class UserEquipService {
@@ -22,6 +24,7 @@ export class UserEquipService {
     private readonly userEquipSlotService: UserEquipSlotService,
     private readonly userEquipOptionService: UserEquipOptionService,
     private readonly equipGradeService: EquipGradeService,
+    private readonly resourceManagerService: ResourceManagerService,
   ) {}
 
   getUserEquipRepository(qr?: QueryRunner) {
@@ -125,14 +128,14 @@ export class UserEquipService {
       throw new BadRequestException(`It is already at the 5 maximum grade.`);
     }
 
-    // 고드 아이템 차감 로직 (예: 고드 포인트 차감)
-    // const cost = equipLevel.upgrade_cost;
-    // const userGoldService = this.getUserGoldService(qr); // 유저 재화 관리 서비스
-    // const isGoldSufficient = await userGoldService.reduceGold(user_id, cost);
+    // 재화 및 아이템 요구 조건 확인 및 차감
+    //await this.validateAndDeductResources(user_id, equipLevel, qr);
 
-    // if (!isGoldSufficient) {
-    //   throw new BadRequestException('Insufficient gold for level up.');
-    // }
+    await this.resourceManagerService.validateAndDeductResources(
+      user_id,
+      equipLevel,
+      qr,
+    );
 
     //level up
     const nextLevel = this.levelUp(
@@ -156,6 +159,47 @@ export class UserEquipService {
 
     return updateUserEquip;
   }
+
+  // async validateAndDeductResources(
+  //   user_id: string,
+  //   equipLevel: EquipLevel,
+  //   qr: QueryRunner,
+  // ) {
+  //   // 유저의 현재 보유 고드 확인
+  //   const userCurrency = await this.usersService.getUserMoney(user_id, qr);
+  //   const requiredGold = equipLevel.require_gold;
+
+  //   if (requiredGold > userCurrency.gord) {
+  //     throw new BadRequestException('Not enough gold.');
+  //   }
+
+  //   // 레벨업에 필요한 아이템 확인
+  //   const requiredItemId = equipLevel.require_item_id;
+  //   const requiredItemCount = equipLevel.require_item_count;
+
+  //   if (requiredItemId && requiredItemCount) {
+  //     const userItemData = await this.userItemService.getItem(
+  //       requiredItemId,
+  //       qr,
+  //     );
+
+  //     if (!userItemData || requiredItemCount > userItemData.item_count) {
+  //       throw new BadRequestException('Not enough items.');
+  //     }
+
+  //     // 아이템 차감
+  //     await this.userItemService.reduceItem(
+  //       user_id,
+  //       requiredItemId,
+  //       requiredItemCount,
+  //       qr,
+  //     );
+  //   }
+
+  //   // 고드 차감
+  //   await this.usersService.reduceGord(user_id, requiredGold, qr);
+  // }
+
   async equipMaxLevelUp(user_id: string, equip_id: number, qr?: QueryRunner) {
     const userEquipRepository = this.getUserEquipRepository(qr);
 

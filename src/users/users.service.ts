@@ -367,11 +367,7 @@ export class UsersService {
       gord: userData.gord - gord,
     });
 
-    const obj = {
-      gord: { gord: gord },
-    };
-
-    return obj;
+    return true;
   }
 
   async patchTakeBattery(id: number, battery: number, qr?: QueryRunner) {
