@@ -32,7 +32,7 @@ import { UsersModule } from 'src/users/users.module';
       UserEquipOption,
       EquipOption,
       EquipGrade,
-      UsersModule,
+      Users,
       ResourceManagerModule,
     ]),
   ],
