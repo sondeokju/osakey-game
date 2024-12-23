@@ -21,6 +21,7 @@ import { UsersService } from 'src/users/users.service';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { Users } from 'src/users/entity/users.entity';
 import { UsersModule } from 'src/users/users.module';
+import { HeroService } from 'src/static-table/hero/hero.service';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { UsersModule } from 'src/users/users.module';
     ResourceManagerService,
     UsersService,
     UserItemService,
+    HeroService,
   ],
 })
 export class UserEquipModule {}
