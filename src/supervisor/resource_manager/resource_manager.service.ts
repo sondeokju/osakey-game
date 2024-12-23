@@ -10,47 +10,69 @@ export class ResourceManagerService {
     private readonly usersService: UsersService,
     private readonly userItemService: UserItemService,
   ) {}
-
-  async validateAndDeductGordItem(
+  async validateAndDeductResources(
     user_id: string,
-    gord: number,
-    item_id: number,
-    item_count: number,
+    resources: {
+      gord?: number;
+      item?: { item_id: number; count: number };
+      dia?: number;
+      exp?: number;
+      battery?: number;
+      coin?: number;
+    },
     qr: QueryRunner,
   ) {
-    // 유저의 현재 보유 고드 확인
     const userCurrency = await this.usersService.getUserMoney(user_id, qr);
-    const requiredGold = gord;
-    console.log('requiredGold', requiredGold);
-
-    if (requiredGold > userCurrency.gord) {
-      throw new BadRequestException('Not enough gord.');
-    }
-
-    // 레벨업에 필요한 아이템 확인
-    const requiredItemId = item_id;
-    const requiredItemCount = item_count;
-
-    if (requiredItemId && requiredItemCount) {
-      const userItemData = await this.userItemService.getItem(
-        requiredItemId,
-        qr,
-      );
-
-      if (!userItemData || requiredItemCount > userItemData.item_count) {
-        throw new BadRequestException('Not enough items.');
+    // 1. 고드 차감
+    if (resources.gord) {
+      if (resources.gord > userCurrency.gord) {
+        throw new BadRequestException('Not enough gord.');
       }
-
-      // 아이템 차감
-      await this.userItemService.reduceItem(
-        user_id,
-        requiredItemId,
-        requiredItemCount,
-        qr,
-      );
+      await this.usersService.reduceGord(user_id, resources.gord, qr);
     }
 
-    // 고드 차감
-    await this.usersService.reduceGord(user_id, requiredGold, qr);
+    // 2. 아이템 차감
+    if (resources.item) {
+      const { item_id, count } = resources.item;
+      if (id && count) {
+        const userItemData = await this.userItemService.getItem(item_id, qr);
+        if (!userItemData || count > userItemData.item_count) {
+          throw new BadRequestException('Not enough items.');
+        }
+        await this.userItemService.reduceItem(user_id, item_id, count, qr);
+      }
+    }
+
+    // 3. 다이아몬드 차감
+    // if (resources.dia) {
+    //   if (resources.dia > userCurrency.dia) {
+    //     throw new BadRequestException('Not enough dia.');
+    //   }
+    //   await this.usersService.reduceDia(user_id, resources.dia, qr);
+    // }
+
+    // 4. 경험치 차감
+    // if (resources.exp) {
+    //   if (resources.exp > userExp) {
+    //     throw new BadRequestException('Not enough experience points.');
+    //   }
+    //   await this.usersService.reduceExp(user_id, resources.exp, qr);
+    // }
+
+    // 5. 배터리 차감
+    // if (resources.battery) {
+    //   if (resources.battery > userBattery) {
+    //     throw new BadRequestException('Not enough battery.');
+    //   }
+    //   await this.usersService.reduceBattery(user_id, resources.battery, qr);
+    // }
+
+    // 6. 코인 차감
+    // if (resources.coin) {
+    //   if (resources.coin > userCoin) {
+    //     throw new BadRequestException('Not enough coins.');
+    //   }
+    //   await this.usersService.reduceCoin(user_id, resources.coin, qr);
+    // }
   }
 }

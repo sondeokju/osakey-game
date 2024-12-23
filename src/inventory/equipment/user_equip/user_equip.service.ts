@@ -130,11 +130,15 @@ export class UserEquipService {
       throw new BadRequestException(`It is already at the 5 maximum grade.`);
     }
 
-    await this.resourceManagerService.validateAndDeductGordItem(
+    await this.resourceManagerService.validateAndDeductResources(
       user_id,
-      equipLevel.require_gold,
-      equipLevel.require_item_id,
-      equipLevel.require_item_count,
+      {
+        gord: equipLevel.require_gold,
+        item: {
+          item_id: equipLevel.require_item_id,
+          count: equipLevel.require_item_count,
+        },
+      },
       qr,
     );
 
