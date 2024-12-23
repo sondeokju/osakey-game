@@ -30,7 +30,6 @@ import { Users } from 'src/users/entity/users.entity';
       UserEquipOption,
       EquipOption,
       EquipGrade,
-      Users,
     ]),
   ],
   exports: [UserEquipService],
@@ -44,8 +43,6 @@ import { Users } from 'src/users/entity/users.entity';
     EquipOptionService,
     EquipGradeService,
     ResourceManagerService,
-    UsersService,
-    UserItemService,
   ],
 })
 export class UserEquipModule {}
