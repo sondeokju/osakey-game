@@ -22,6 +22,7 @@ import { UserItemService } from 'src/user_item/user_item.service';
 import { Users } from 'src/users/entity/users.entity';
 import { UsersModule } from 'src/users/users.module';
 import { HeroService } from 'src/static-table/hero/hero.service';
+import { UserItem } from 'src/user_item/entities/user_item.entity';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { HeroService } from 'src/static-table/hero/hero.service';
       EquipGrade,
       Users,
       ResourceManagerModule,
+      UserItem,
     ]),
   ],
   exports: [UserEquipService],
