@@ -16,6 +16,7 @@ import { EquipOptionService } from 'src/static-table/equipment/equip_option/equi
 import { EquipGradeService } from 'src/static-table/equipment/equip_grade/equip_grade.service';
 import { EquipGrade } from 'src/static-table/equipment/equip_grade/entities/equip_grade.entity';
 import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager';
+import { UsersService } from 'src/users/users.service';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { ResourceManagerService } from 'src/supervisor/resource_manager/resource
     EquipOptionService,
     EquipGradeService,
     ResourceManagerService,
+    UsersService,
   ],
 })
 export class UserEquipModule {}
