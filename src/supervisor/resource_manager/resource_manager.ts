@@ -19,9 +19,10 @@ export class ResourceManagerService {
     // 유저의 현재 보유 고드 확인
     const userCurrency = await this.usersService.getUserMoney(user_id, qr);
     const requiredGold = equipLevel.require_gold;
+    console.log('requiredGold', requiredGold);
 
     if (requiredGold > userCurrency.gord) {
-      throw new BadRequestException('Not enough gold.');
+      throw new BadRequestException('Not enough gord.');
     }
 
     // 레벨업에 필요한 아이템 확인
