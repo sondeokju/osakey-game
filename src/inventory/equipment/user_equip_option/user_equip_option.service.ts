@@ -84,15 +84,12 @@ export class UserEquipOptionService {
     // }
 
     const userEquipOptionRepository = this.getUserEquipOptionRepository(qr);
-    const userEquipOption = await userEquipOptionRepository.findOne({
+    const userEquipOption = await userEquipOptionRepository.find({
       where: {
         user_id,
         origin_equip_id,
       },
     });
-
-    if (userEquipOption) {
-    }
 
     const equipOptionList = await this.equipOptionService.getEquipOptionList(
       origin_equip_id,
@@ -102,7 +99,7 @@ export class UserEquipOptionService {
     for (const equipOption of equipOptionList) {
       console.log(`equipOption: ${equipOption}`);
       await this.userEquipOptionRepository.save({
-        user_id,
+        userEquipOption,
         origin_equip_id,
         option_grade: equipOption.option_grade,
         option_type: equipOption.option_type,
