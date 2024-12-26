@@ -74,18 +74,14 @@ export class UserEquipSlotService {
       },
     });
 
-    const equipSlotMap = {
+    const result = await userEquipSlotRepository.save({
+      ...userEquipSlot,
       acc: 0,
       engine: 0,
       armor: 0,
       boost: 0,
       shoes: 0,
       weapon: 0,
-    };
-
-    const result = await userEquipSlotRepository.save({
-      ...userEquipSlot,
-      equipSlotMap,
     });
 
     return result;
