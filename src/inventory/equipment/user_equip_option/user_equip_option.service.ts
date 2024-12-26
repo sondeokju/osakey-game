@@ -103,15 +103,14 @@ export class UserEquipOptionService {
         option_value: equipOption.option_value,
       }));
 
-      const batchSize = 1000;
-      for (let i = 0; i < newEquipOptions.length; i += batchSize) {
-        const batch = newEquipOptions.slice(i, i + batchSize);
-        await userEquipOptionRepository
-          .createQueryBuilder()
-          .insert()
-          .into('user_equip_option')
-          .values(batch)
-          .execute();
+      for (const equipOption of newEquipOptions) {
+        await this.getUserEquipOptionRepository(qr).insert({
+          user_id,
+          origin_equip_id: equipOption.origin_equip_id,
+          option_grade: equipOption.option_grade,
+          option_type: equipOption.option_type,
+          option_value: equipOption.option_value,
+        });
       }
 
       if (qr) await qr.commitTransaction();
