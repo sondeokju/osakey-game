@@ -297,7 +297,7 @@ export class UserEquipService {
       ])
       .innerJoin('equip_level', 'el', 'ue.equip_level_id = el.equip_level_id')
       .where('ue.user_id = :user_id', { user_id })
-      .andWhere('rankNumber = 1') // rank 값이 1인 결과만 조회
+      .having('rankNumber = 1') // rankNumber는 HAVING에서 처리
       .getRawMany();
 
     console.log(bestEquipList);
