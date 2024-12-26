@@ -275,21 +275,27 @@ export class UserEquipService {
       );
     }
   }
+  async findBestEquip(user_id: string) {
+    const connection = this.dataSource; // DataSource를 가져옵니다.
+    const queryRunner = connection.createQueryRunner();
 
-  async findBestEquip(user_id: string, qr?: QueryRunner) {
-    const userEquipRepository = this.getUserEquipRepository(qr);
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
 
-    const bestEquipList = await userEquipRepository
-      .createQueryBuilder()
-      .select('*')
-      .from((qb) => {
-        return qb
-          .select([
-            'ue.*',
-            'el.stat_total AS stat_total',
-            'el.equip_grade AS equip_grade',
-            'el.equip_slot AS equip_slot',
-            `ROW_NUMBER() OVER (
+    try {
+      const userEquipRepository = queryRunner.manager.getRepository(UserEquip);
+
+      const bestEquipList = await userEquipRepository
+        .createQueryBuilder('ue')
+        .select('*')
+        .from((qb) => {
+          return qb
+            .select([
+              'ue.*',
+              'el.stat_total AS stat_total',
+              'el.equip_grade AS equip_grade',
+              'el.equip_slot AS equip_slot',
+              `ROW_NUMBER() OVER (
           PARTITION BY el.equip_slot
           ORDER BY 
             el.equip_grade DESC,
@@ -297,31 +303,41 @@ export class UserEquipService {
             el.stat_total DESC,
             ue.equip_id DESC
         ) AS rankNumber`,
-          ])
-          .from('user_equip', 'ue')
-          .innerJoin(
-            'equip_level',
-            'el',
-            'ue.equip_level_id = el.equip_level_id',
-          )
-          .where('ue.user_id = :user_id', { user_id });
-      }, 'ranked') // 서브쿼리를 'ranked'라는 이름으로 만듦
-      .where('ranked.rankNumber = 1') // rankNumber 조건 적용
-      .getRawMany();
+            ])
+            .from('user_equip', 'ue')
+            .innerJoin(
+              'equip_level',
+              'el',
+              'ue.equip_level_id = el.equip_level_id',
+            )
+            .where('ue.user_id = :user_id', { user_id });
+        }, 'ranked')
+        .where('ranked.rankNumber = 1')
+        .setQueryRunner(queryRunner)
+        .getRawMany();
 
-    console.log(bestEquipList);
+      for (const equip of bestEquipList) {
+        console.log(`장비 아이템: ${equip}`);
+        await this.userEquipSlotService.equipSlotMount(
+          user_id,
+          equip.equip_id,
+          queryRunner,
+        );
+      }
 
-    for (const equip of bestEquipList) {
-      console.log(`장비 아이템: ${equip}`);
-      this.userEquipSlotService.equipSlotMount(user_id, equip.equip_id, qr);
+      const userEquipSlot = await this.userEquipSlotService.getEquipSlot(
+        user_id,
+        queryRunner,
+      );
+
+      await queryRunner.commitTransaction(); // 트랜잭션 커밋
+      return userEquipSlot;
+    } catch (error) {
+      await queryRunner.rollbackTransaction(); // 트랜잭션 롤백
+      throw error;
+    } finally {
+      await queryRunner.release(); // QueryRunner 릴리스
     }
-
-    const userEquipSlot = await this.userEquipSlotService.getEquipSlot(
-      user_id,
-      qr,
-    );
-
-    return userEquipSlot;
   }
 
   // levelUp(currentLevel: number): number {
