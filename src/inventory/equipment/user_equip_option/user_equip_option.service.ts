@@ -84,11 +84,9 @@ export class UserEquipOptionService {
     // }
 
     const userEquipOptionRepository = this.getUserEquipOptionRepository(qr);
-    const userEquipOption = await userEquipOptionRepository.find({
-      where: {
-        user_id,
-        origin_equip_id,
-      },
+    const userEquipOption = await userEquipOptionRepository.delete({
+      user_id,
+      origin_equip_id,
     });
 
     const equipOptionList = await this.equipOptionService.getEquipOptionList(
