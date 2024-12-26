@@ -83,11 +83,14 @@ export class UserEquipOptionService {
       throw new BadRequestException('Invalid origin_equip_id provided.');
     }
 
+    console.log('1');
     // Repository 설정
     const userEquipOptionRepository = this.getUserEquipOptionRepository(qr);
+    console.log('2');
 
     // 기존 데이터 삭제
     await userEquipOptionRepository.delete({ user_id, origin_equip_id });
+    console.log('3');
 
     // 새로운 옵션 리스트 가져오기
     const equipOptionList = await this.equipOptionService.getEquipOptionList(
@@ -95,6 +98,7 @@ export class UserEquipOptionService {
       qr,
     );
 
+    console.log('4');
     // 새로운 옵션 저장
     const newEquipOptions = equipOptionList.map((equipOption) => ({
       user_id,
@@ -104,8 +108,11 @@ export class UserEquipOptionService {
       option_value: equipOption.option_value,
     }));
 
+    console.log('5');
+
     // 병렬로 데이터 저장
     await this.userEquipOptionRepository.save(newEquipOptions);
+    console.log('6');
 
     // 결과 반환
     return this.userEquipOptionRepository.find({ where: { user_id } });
