@@ -75,7 +75,6 @@ export class UserEquipOptionService {
     origin_equip_id: number,
     qr?: QueryRunner,
   ) {
-    // 유효성 검사
     if (!user_id || typeof user_id !== 'string') {
       throw new BadRequestException('Invalid user_id provided.');
     }
@@ -83,48 +82,50 @@ export class UserEquipOptionService {
       throw new BadRequestException('Invalid origin_equip_id provided.');
     }
 
-    console.log('1');
-    // Repository 설정
     const userEquipOptionRepository = this.getUserEquipOptionRepository(qr);
-    console.log('2');
 
-    // 기존 데이터 삭제
-    await userEquipOptionRepository.delete({ user_id, origin_equip_id });
-    console.log('3');
+    try {
+      // 트랜잭션 시작 (QueryRunner가 있는 경우에만)
+      if (qr) await qr.startTransaction();
 
-    // 새로운 옵션 리스트 가져오기
-    const equipOptionList = await this.equipOptionService.getEquipOptionList(
-      origin_equip_id,
-      qr,
-    );
+      console.log('Deleting existing data...');
+      await userEquipOptionRepository.delete({ user_id, origin_equip_id });
 
-    console.log('4');
-    // 새로운 옵션 저장
-    const newEquipOptions = equipOptionList.map((equipOption) => ({
-      user_id,
-      origin_equip_id,
-      option_grade: equipOption.option_grade,
-      option_type: equipOption.option_type,
-      option_value: equipOption.option_value,
-    }));
+      console.log('Fetching new equip options...');
+      const equipOptionList = await this.equipOptionService.getEquipOptionList(
+        origin_equip_id,
+        qr,
+      );
 
-    console.log(newEquipOptions);
+      const newEquipOptions = equipOptionList.map((equipOption) => ({
+        user_id,
+        origin_equip_id,
+        option_grade: equipOption.option_grade,
+        option_type: equipOption.option_type,
+        option_value: equipOption.option_value,
+      }));
 
-    console.log('5');
+      console.log('Inserting new equip options...');
+      await this.userEquipOptionRepository
+        .createQueryBuilder()
+        .insert()
+        .into('user_equip_option')
+        .values(newEquipOptions)
+        .execute();
 
-    // 병렬로 데이터 저장
-    //await this.userEquipOptionRepository.save(newEquipOptions);
-    await this.userEquipOptionRepository
-      .createQueryBuilder()
-      .insert()
-      .into('user_equip_option') // 테이블 이름
-      .values(newEquipOptions)
-      .execute();
+      // 트랜잭션 커밋
+      if (qr) await qr.commitTransaction();
+      console.log('Transaction committed.');
 
-    console.log('6');
-
-    // 결과 반환
-    return this.userEquipOptionRepository.find({ where: { user_id } });
+      return this.userEquipOptionRepository.find({ where: { user_id } });
+    } catch (error) {
+      console.error('Error occurred:', error);
+      // 트랜잭션 롤백
+      if (qr) await qr.rollbackTransaction();
+      throw error;
+    } finally {
+      if (qr) await qr.release();
+    }
   }
 
   async equipOptionList(user_id: string, qr?: QueryRunner) {
