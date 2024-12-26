@@ -85,43 +85,32 @@ export class UserEquipOptionService {
 
     const userEquipOptionRepository = this.getUserEquipOptionRepository(qr);
 
-    try {
-      if (qr) await qr.startTransaction();
+    await userEquipOptionRepository.delete({ user_id, origin_equip_id });
 
-      await userEquipOptionRepository.delete({ user_id, origin_equip_id });
+    const equipOptionList = await this.equipOptionService.getEquipOptionList(
+      origin_equip_id,
+      qr,
+    );
 
-      const equipOptionList = await this.equipOptionService.getEquipOptionList(
-        origin_equip_id,
-        qr,
-      );
+    // const newEquipOptions = equipOptionList.map((equipOption) => ({
+    //   user_id,
+    //   origin_equip_id,
+    //   option_grade: equipOption.option_grade,
+    //   option_type: equipOption.option_type,
+    //   option_value: equipOption.option_value,
+    // }));
 
-      const newEquipOptions = equipOptionList.map((equipOption) => ({
+    for (const equipOption of equipOptionList) {
+      await this.getUserEquipOptionRepository(qr).insert({
         user_id,
-        origin_equip_id,
+        origin_equip_id: equipOption.origin_equip_id,
         option_grade: equipOption.option_grade,
         option_type: equipOption.option_type,
         option_value: equipOption.option_value,
-      }));
-
-      for (const equipOption of newEquipOptions) {
-        await this.getUserEquipOptionRepository(qr).insert({
-          user_id,
-          origin_equip_id: equipOption.origin_equip_id,
-          option_grade: equipOption.option_grade,
-          option_type: equipOption.option_type,
-          option_value: equipOption.option_value,
-        });
-      }
-
-      if (qr) await qr.commitTransaction();
-
-      return userEquipOptionRepository.find({ where: { user_id } });
-    } catch (error) {
-      if (qr) await qr.rollbackTransaction();
-      throw error;
-    } finally {
-      if (qr) await qr.release();
+      });
     }
+
+    return userEquipOptionRepository.find({ where: { user_id } });
   }
 
   async equipOptionList(user_id: string, qr?: QueryRunner) {
