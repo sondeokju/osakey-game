@@ -36,4 +36,14 @@ export class EquipOptionService {
     });
     return result;
   }
+
+  async getEquipOptionList(origin_equip_id: number, qr?: QueryRunner) {
+    const equipOptionRepository = this.getEquipOptionRepository(qr);
+    const result = await equipOptionRepository.find({
+      where: {
+        origin_equip_id,
+      },
+    });
+    return result;
+  }
 }
