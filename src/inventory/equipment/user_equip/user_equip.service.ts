@@ -280,24 +280,33 @@ export class UserEquipService {
     const userEquipRepository = this.getUserEquipRepository(qr);
 
     const bestEquipList = await userEquipRepository
-      .createQueryBuilder('ue')
-      .select([
-        'ue.*',
-        'el.stat_total AS stat_total',
-        'el.equip_grade AS equip_grade',
-        'el.equip_slot AS equip_slot',
-        `ROW_NUMBER() OVER (
-      PARTITION BY el.equip_slot
-      ORDER BY 
-        el.equip_grade DESC,
-        ue.equip_level_id DESC,
-        el.stat_total DESC,
-        ue.equip_id DESC
-    ) AS rankNumber`,
-      ])
-      .innerJoin('equip_level', 'el', 'ue.equip_level_id = el.equip_level_id')
-      .where('ue.user_id = :user_id', { user_id })
-      .having('rankNumber = 1') // rankNumber는 HAVING에서 처리
+      .createQueryBuilder()
+      .select('*')
+      .from((qb) => {
+        return qb
+          .select([
+            'ue.*',
+            'el.stat_total AS stat_total',
+            'el.equip_grade AS equip_grade',
+            'el.equip_slot AS equip_slot',
+            `ROW_NUMBER() OVER (
+          PARTITION BY el.equip_slot
+          ORDER BY 
+            el.equip_grade DESC,
+            ue.equip_level_id DESC,
+            el.stat_total DESC,
+            ue.equip_id DESC
+        ) AS rankNumber`,
+          ])
+          .from('user_equip', 'ue')
+          .innerJoin(
+            'equip_level',
+            'el',
+            'ue.equip_level_id = el.equip_level_id',
+          )
+          .where('ue.user_id = :user_id', { user_id });
+      }, 'ranked') // 서브쿼리를 'ranked'라는 이름으로 만듦
+      .where('ranked.rankNumber = 1') // rankNumber 조건 적용
       .getRawMany();
 
     console.log(bestEquipList);
