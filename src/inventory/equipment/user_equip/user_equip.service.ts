@@ -293,11 +293,11 @@ export class UserEquipService {
         ue.equip_level_id DESC,
         el.stat_total DESC,
         ue.equip_id DESC
-    ) AS rank`,
+    ) AS rankNumber`,
       ])
       .innerJoin('equip_level', 'el', 'ue.equip_level_id = el.equip_level_id')
       .where('ue.user_id = :user_id', { user_id })
-      .andWhere('rank = 1') // `rank` 값이 1인 결과만 조회
+      .andWhere('rankNumber = 1') // rank 값이 1인 결과만 조회
       .getRawMany();
 
     console.log(bestEquipList);
