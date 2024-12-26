@@ -70,6 +70,7 @@ export class UserEquipOptionService {
 
     return this.getUserEquipOptionRepository(qr).find({ where: { user_id } });
   }
+
   async equipMaxLevelUpOptionUpdate(
     user_id: string,
     origin_equip_id: number,
@@ -85,13 +86,10 @@ export class UserEquipOptionService {
     const userEquipOptionRepository = this.getUserEquipOptionRepository(qr);
 
     try {
-      // 트랜잭션 시작 (QueryRunner가 있는 경우에만)
       if (qr) await qr.startTransaction();
 
-      console.log('Deleting existing data...');
       await userEquipOptionRepository.delete({ user_id, origin_equip_id });
 
-      console.log('Fetching new equip options...');
       const equipOptionList = await this.equipOptionService.getEquipOptionList(
         origin_equip_id,
         qr,
@@ -105,22 +103,21 @@ export class UserEquipOptionService {
         option_value: equipOption.option_value,
       }));
 
-      console.log('Inserting new equip options...');
-      await this.userEquipOptionRepository
-        .createQueryBuilder()
-        .insert()
-        .into('user_equip_option')
-        .values(newEquipOptions)
-        .execute();
+      const batchSize = 1000;
+      for (let i = 0; i < newEquipOptions.length; i += batchSize) {
+        const batch = newEquipOptions.slice(i, i + batchSize);
+        await userEquipOptionRepository
+          .createQueryBuilder()
+          .insert()
+          .into('user_equip_option')
+          .values(batch)
+          .execute();
+      }
 
-      // 트랜잭션 커밋
       if (qr) await qr.commitTransaction();
-      console.log('Transaction committed.');
 
-      return this.userEquipOptionRepository.find({ where: { user_id } });
+      return userEquipOptionRepository.find({ where: { user_id } });
     } catch (error) {
-      console.error('Error occurred:', error);
-      // 트랜잭션 롤백
       if (qr) await qr.rollbackTransaction();
       throw error;
     } finally {
