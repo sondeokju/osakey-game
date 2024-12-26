@@ -113,7 +113,14 @@ export class UserEquipOptionService {
     console.log('5');
 
     // 병렬로 데이터 저장
-    await this.userEquipOptionRepository.save(newEquipOptions);
+    //await this.userEquipOptionRepository.save(newEquipOptions);
+    await this.userEquipOptionRepository
+      .createQueryBuilder()
+      .insert()
+      .into('user_equip_option') // 테이블 이름
+      .values(newEquipOptions)
+      .execute();
+
     console.log('6');
 
     // 결과 반환
