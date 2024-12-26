@@ -18,6 +18,12 @@ import { EquipGradeService } from 'src/static-table/equipment/equip_grade/equip_
 import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager.service';
 import { DataSource } from 'typeorm';
 
+interface EquipMaxLevelData {
+  equip_slot: string;
+  equip_grade: string;
+  max_level: number;
+}
+
 @Injectable()
 export class UserEquipService {
   constructor(
@@ -174,7 +180,6 @@ export class UserEquipService {
   async equipMaxLevelUp(user_id: string, equip_id: number, qr?: QueryRunner) {
     const userEquipRepository = this.getUserEquipRepository(qr);
 
-    // 1. 사용자 장비 정보 가져오기
     const userEquip = await userEquipRepository.findOne({
       where: {
         user_id,
@@ -186,10 +191,8 @@ export class UserEquipService {
       throw new NotFoundException(`User equip with ID ${equip_id} not found.`);
     }
 
-    // 2. 현재 장비 레벨 정보 가져오기
-    const equipLevel = await this.equipLevelService.getEquipLevel(
+    const equipLevel = this.equipLevelService.getEquipLevel(
       userEquip.equip_level_id,
-      qr,
     );
 
     if (!equipLevel) {
@@ -203,32 +206,46 @@ export class UserEquipService {
 
     const equip = await this.equipService.getEquip(baseEquipId, qr);
 
-    // 4. 최상 등급 확인
-    const equip_grade = await this.equipGradeService.getEquipGrade('TRUE');
-    if (parseInt(equipLevel.equip_grade, 10) === equip_grade.id) {
-      throw new BadRequestException(`It is already at the 5 maximum grade.`);
-    }
+    // const equip_grade = await this.equipGradeService.getEquipGrade('TRUE');
+    // if (parseInt(equipLevel.equip_grade, 10) === equip_grade.id) {
+    //   throw new BadRequestException(`It is already at the 5 maximum grade.`);
+    // }
+
+    const equipLevelMaxData = this.equipLevelService.getEquipLevel(
+      userEquip.equip_level_id,
+    );
+
+    const equip_max_level_id = this.getEquipMaxLevelId(
+      userEquip.equip_level_id,
+      (await equipLevelMaxData).level_max,
+    );
+
+    const equipMaxLevelData = this.getEquipMaxLevelBuilder(
+      user_id,
+      userEquip.equip_level_id,
+      equip_max_level_id,
+    );
+
+    const equipLevelMax = await this.equipLevelService.getEquipLevel(
+      (await equipMaxLevelData).max_level,
+      qr,
+    );
 
     await this.resourceManagerService.validateAndDeductResources(
       user_id,
       {
-        gord: equipLevel.require_gold,
+        gord: equipLevelMax.require_gold,
         item: {
-          item_id: equipLevel.require_item_id,
-          count: equipLevel.require_item_count,
+          item_id: equipLevelMax.require_item_id,
+          count: equipLevelMax.require_item_count,
         },
       },
       qr,
     );
 
-    // 5. level_max로 레벨업
-    const maxLevelId = this.getMaxLevelId(userEquip.equip_level_id);
-    console.log('maxLevelId', maxLevelId);
-
-    // 6. 장비 레벨 업데이트
     const updatedUserEquip = await userEquipRepository.save({
       ...userEquip,
-      equip_level_id: maxLevelId,
+      equip_level_id: (await equipMaxLevelData).max_level,
     });
 
     await this.userEquipOptionService.equipOptionAdd(
@@ -256,6 +273,16 @@ export class UserEquipService {
     const basePart = parseInt(levelString.slice(0, -2));
 
     return basePart;
+  }
+
+  getEquipMaxLevelId(equipLevelId: number, levelMax: number): number {
+    const levelString = equipLevelId.toString();
+    const baseEquipLevel = parseInt(levelString.slice(0, -2));
+    console.log('levelString', levelString);
+    console.log('baseEquipLevel', baseEquipLevel);
+
+    // 최대 레벨을 조합하여 새로운 ID 생성
+    return parseInt(`${baseEquipLevel}${levelMax}`, 10);
   }
 
   levelUp(currentLevelId: number, levelMax: number): number {
@@ -358,5 +385,113 @@ export class UserEquipService {
         await queryRunner.release();
       }
     }
+  }
+
+  async getEquipMaxLevelBuilder(
+    user_id: string,
+    start_id: number,
+    end_id: number,
+  ): Promise<EquipMaxLevelData | undefined> {
+    const result = await this.dataSource
+      .createQueryBuilder()
+      .addSelect('lc.equip_slot', 'equip_slot')
+      .addSelect('lc.equip_grade', 'equip_grade')
+      //.addSelect('lr.user_id', 'user_id')
+      .addSelect(
+        'MAX(CASE WHEN lr.user_gold >= lc.total_gold ' +
+          'AND (lc.require_item_id = 0 OR lr.user_items >= lc.total_items) ' +
+          'THEN lc.equip_level_id ELSE 0 END)',
+        'max_level',
+      )
+      .from((qb) => {
+        // LevelUpCost CTE
+        return qb
+          .select('e.equip_level_id', 'equip_level_id')
+          .addSelect('e.equip_slot', 'equip_slot')
+          .addSelect('e.equip_grade', 'equip_grade')
+          .addSelect('e.level', 'level')
+          .addSelect('e.level_max', 'level_max')
+          .addSelect('e.require_gold', 'require_gold')
+          .addSelect('e.require_item_id', 'require_item_id')
+          .addSelect('e.require_item_count', 'require_item_count')
+          .addSelect(
+            'SUM(e.require_gold) OVER (PARTITION BY e.equip_slot, e.equip_grade ORDER BY e.level)',
+            'total_gold',
+          )
+          .addSelect(
+            'SUM(e.require_item_count) OVER (PARTITION BY e.equip_slot, e.equip_grade, e.require_item_id ORDER BY e.level)',
+            'total_items',
+          )
+          .from('equip_level', 'e')
+          .where('e.equip_level_id >= :start_id', { start_id })
+          .andWhere('e.equip_level_id <= :end_id', { end_id });
+      }, 'lc')
+      .leftJoin(
+        (qb) => {
+          // UserResources CTE
+          return qb
+            .select('u.id', 'user_id')
+            .addSelect('u.gord', 'user_gold')
+            .addSelect('ui.item_id', 'item_id')
+            .addSelect('ui.item_count', 'user_items')
+            .from('users', 'u')
+            .leftJoin('user_item', 'ui', 'ui.user_id = u.user_id')
+            .where('u.user_id = :userId', { user_id });
+        },
+        'lr',
+        '(lc.require_item_id = 0 OR lc.require_item_id = lr.item_id)',
+      )
+      .groupBy('lr.user_id')
+      .addGroupBy('lc.equip_slot')
+      .addGroupBy('lc.equip_grade');
+    //.getRawOne();
+
+    return (await result.getRawOne()) as EquipMaxLevelData;
+  }
+
+  async equipMaxLevel(
+    user_id: string,
+    equip_level_id: number,
+    qr?: QueryRunner,
+  ) {
+    const userEquipRepository = this.getUserEquipRepository(qr);
+    const userEquip = await userEquipRepository.findOne({
+      where: {
+        user_id,
+        equip_level_id,
+      },
+    });
+
+    const equipLevel = this.equipLevelService.getEquipLevel(equip_level_id);
+
+    const equip_level_id_max = this.getEquipMaxLevelId(
+      equip_level_id,
+      (await equipLevel).level_max,
+    );
+
+    const equipMaxLevelData = this.getEquipMaxLevelBuilder(
+      user_id,
+      equip_level_id,
+      equip_level_id_max,
+    );
+
+    const result = await userEquipRepository.save({
+      ...userEquip,
+      equip_level_id: (await equipMaxLevelData).max_level,
+    });
+
+    const baseEquipId = await this.getBaseEquipId(userEquip.equip_level_id);
+    console.log('baseEquipId', baseEquipId);
+
+    const equip = await this.equipService.getEquip(baseEquipId, qr);
+
+    await this.userEquipOptionService.equipOptionAdd(
+      user_id,
+      equip.origin_equip_id,
+      equip.equip_grade + 1,
+      qr,
+    );
+
+    return result;
   }
 }
