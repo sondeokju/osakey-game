@@ -278,17 +278,13 @@ export class UserEquipService {
     }
   }
   async findBestEquip(user_id: string, qr?: QueryRunner) {
-    const connection = this.dataSource; // DataSource를 가져옵니다.
-    const queryRunner = connection.createQueryRunner();
-
+    const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
-    await queryRunner.startTransaction();
 
     try {
-      const userEquipRepository = queryRunner.manager.getRepository(UserEquip);
-
-      const bestEquipList = await userEquipRepository
-        .createQueryBuilder('ue')
+      // 데이터 조회 (읽기 작업)
+      const bestEquipList = await queryRunner.manager
+        .createQueryBuilder()
         .select('*')
         .from((qb) => {
           return qb
@@ -298,13 +294,13 @@ export class UserEquipService {
               'el.equip_grade AS equip_grade',
               'el.equip_slot AS equip_slot',
               `ROW_NUMBER() OVER (
-          PARTITION BY el.equip_slot
-          ORDER BY 
-            el.equip_grade DESC,
-            ue.equip_level_id DESC,
-            el.stat_total DESC,
-            ue.equip_id DESC
-        ) AS rankNumber`,
+              PARTITION BY el.equip_slot
+              ORDER BY 
+                el.equip_grade DESC,
+                ue.equip_level_id DESC,
+                el.stat_total DESC,
+                ue.equip_id DESC
+            ) AS rankNumber`,
             ])
             .from('user_equip', 'ue')
             .innerJoin(
@@ -315,30 +311,35 @@ export class UserEquipService {
             .where('ue.user_id = :user_id', { user_id });
         }, 'ranked')
         .where('ranked.rankNumber = 1')
-        .setQueryRunner(queryRunner)
         .getRawMany();
 
-      for (const equip of bestEquipList) {
-        console.log(`장비 아이템: ${equip}`);
-        await this.userEquipSlotService.equipSlotMount(
-          user_id,
-          equip.equip_id,
-          queryRunner,
-        );
-      }
+      console.log(`장비 조회 완료. 장비 수: ${bestEquipList.length}`);
+
+      // 트랜잭션 내에서 처리
+      await queryRunner.startTransaction();
+
+      await Promise.all(
+        bestEquipList.map((equip) =>
+          this.userEquipSlotService.equipSlotMount(
+            user_id,
+            equip.equip_id,
+            queryRunner,
+          ),
+        ),
+      );
 
       const userEquipSlot = await this.userEquipSlotService.getEquipSlot(
         user_id,
         queryRunner,
       );
 
-      await queryRunner.commitTransaction(); // 트랜잭션 커밋
+      await queryRunner.commitTransaction();
       return userEquipSlot;
     } catch (error) {
-      await queryRunner.rollbackTransaction(); // 트랜잭션 롤백
+      await queryRunner.rollbackTransaction();
       throw error;
     } finally {
-      await queryRunner.release(); // QueryRunner 릴리스
+      await queryRunner.release();
     }
   }
 
