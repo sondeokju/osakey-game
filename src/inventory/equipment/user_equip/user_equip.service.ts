@@ -441,6 +441,7 @@ export class UserEquipService {
         'lr',
         '(lc.require_item_id = 0 OR lc.require_item_id = lr.item_id)',
       )
+      .setParameter('user_id', user_id) // 파라미터 설정
       .groupBy('lr.user_id')
       .addGroupBy('lc.equip_slot')
       .addGroupBy('lc.equip_grade');
