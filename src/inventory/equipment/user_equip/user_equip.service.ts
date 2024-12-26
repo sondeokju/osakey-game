@@ -4,7 +4,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { QueryRunner, Repository } from 'typeorm';
+import {
+  QueryRunner,
+  QueryRunnerProviderAlreadyReleasedError,
+  Repository,
+} from 'typeorm';
 import { UserEquip } from './entities/user_equip.entity';
 import { EquipService } from 'src/static-table/equipment/equip/equip.service';
 import { EquipLevelService } from 'src/static-table/equipment/equip_level/equip_level.service';
@@ -203,27 +207,17 @@ export class UserEquipService {
       throw new BadRequestException(`It is already at the 5 maximum grade.`);
     }
 
-    // 4. 고드 및 재료 차감 (여기서는 로직을 주석으로 작성, 실제 구현 필요)
-    // const requiredGold =
-    //   equipLevel.require_gold * (equipLevel.level_max - equipLevel.level);
-    // const requiredItems =
-    //   equipLevel.require_item_count * (equipLevel.level_max - equipLevel.level);
-
-    // 예: 고드 차감 로직
-    // const isGoldSufficient = await this.userGoldService.reduceGold(user_id, requiredGold);
-    // if (!isGoldSufficient) {
-    //   throw new BadRequestException('Insufficient gold for batch level up.');
-    // }
-
-    // 예: 재료 차감 로직
-    // const isItemSufficient = await this.userInventoryService.reduceItems(
-    //   user_id,
-    //   equipLevel.require_item_id,
-    //   requiredItems,
-    // );
-    // if (!isItemSufficient) {
-    //   throw new BadRequestException('Insufficient items for batch level up.');
-    // }
+    await this.resourceManagerService.validateAndDeductResources(
+      user_id,
+      {
+        gord: equipLevel.require_gold,
+        item: {
+          item_id: equipLevel.require_item_id,
+          count: equipLevel.require_item_count,
+        },
+      },
+      qr,
+    );
 
     // 5. level_max로 레벨업
     const maxLevelId = this.getMaxLevelId(userEquip.equip_level_id);
@@ -280,6 +274,45 @@ export class UserEquipService {
         10,
       );
     }
+  }
+
+  async findBestEquip(user_id: string, qr?: QueryRunner) {
+    const userEquipRepository = this.getUserEquipRepository(qr);
+
+    const bestEquipList = await userEquipRepository
+      .createQueryBuilder('ue')
+      .select([
+        'ue.*',
+        'el.stat_total AS stat_total',
+        'el.equip_grade AS equip_grade',
+        'el.equip_slot AS equip_slot',
+        `ROW_NUMBER() OVER (
+      PARTITION BY el.equip_slot
+      ORDER BY 
+        el.equip_grade DESC,
+        ue.equip_level_id DESC,
+        el.stat_total DESC,
+        ue.equip_id DESC
+    ) AS rank`,
+      ])
+      .innerJoin('equip_level', 'el', 'ue.equip_level_id = el.equip_level_id')
+      .where('ue.user_id = :user_id', { user_id })
+      .andWhere('rank = 1') // `rank` 값이 1인 결과만 조회
+      .getRawMany();
+
+    console.log(bestEquipList);
+
+    for (const equip of bestEquipList) {
+      console.log(`장비 아이템: ${equip}`);
+      this.userEquipSlotService.equipSlotMount(user_id, equip.equip_id, qr);
+    }
+
+    const userEquipSlot = await this.userEquipSlotService.getEquipSlot(
+      user_id,
+      qr,
+    );
+
+    return userEquipSlot;
   }
 
   // levelUp(currentLevel: number): number {

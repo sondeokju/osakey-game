@@ -360,8 +360,6 @@ export class UsersService {
       },
     });
 
-    if (gord < 0) return -1;
-
     await usersRepository.save({
       ...userData,
       gord: userData.gord - gord,

@@ -75,4 +75,12 @@ export class UserEquipController {
 
     return JSON.stringify(result);
   }
+
+  @Post('find/best')
+  @UseInterceptors(TransactionInterceptor)
+  async findBestEquip(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = await this.userEquipService.findBestEquip(user.user_id, qr);
+
+    return JSON.stringify(result);
+  }
 }
