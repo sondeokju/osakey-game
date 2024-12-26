@@ -16,6 +16,7 @@ import { UserEquipSlotService } from '../user_equip_slot/user_equip_slot.service
 import { UserEquipOptionService } from '../user_equip_option/user_equip_option.service';
 import { EquipGradeService } from 'src/static-table/equipment/equip_grade/equip_grade.service';
 import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager.service';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class UserEquipService {
@@ -28,6 +29,7 @@ export class UserEquipService {
     private readonly userEquipOptionService: UserEquipOptionService,
     private readonly equipGradeService: EquipGradeService,
     private readonly resourceManagerService: ResourceManagerService,
+    private readonly dataSource: DataSource,
   ) {}
 
   getUserEquipRepository(qr?: QueryRunner) {
@@ -275,7 +277,7 @@ export class UserEquipService {
       );
     }
   }
-  async findBestEquip(user_id: string) {
+  async findBestEquip(user_id: string, qr?: QueryRunner) {
     const connection = this.dataSource; // DataSource를 가져옵니다.
     const queryRunner = connection.createQueryRunner();
 
