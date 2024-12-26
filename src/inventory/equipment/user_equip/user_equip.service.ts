@@ -248,11 +248,11 @@ export class UserEquipService {
       equip_level_id: (await equipMaxLevelData).max_level,
     });
 
-    // await this.userEquipOptionService.equipMaxLevelUpOptionUpdate(
-    //   user_id,
-    //   equip.origin_equip_id,
-    //   qr,
-    // );
+    await this.userEquipOptionService.equipMaxLevelUpOptionUpdate(
+      user_id,
+      equip.origin_equip_id,
+      qr,
+    );
 
     return updatedUserEquip;
   }

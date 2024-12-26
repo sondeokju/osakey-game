@@ -70,41 +70,44 @@ export class UserEquipOptionService {
 
     return this.getUserEquipOptionRepository(qr).find({ where: { user_id } });
   }
-
   async equipMaxLevelUpOptionUpdate(
     user_id: string,
     origin_equip_id: number,
     qr?: QueryRunner,
   ) {
-    // if (!user_id || typeof user_id !== 'string') {
-    //   throw new BadRequestException('Invalid user_id provided.');
-    // }
-    // if (!equip_id || isNaN(equip_id)) {
-    //   throw new BadRequestException('Invalid equip_id provided.');
-    // }
+    // 유효성 검사
+    if (!user_id || typeof user_id !== 'string') {
+      throw new BadRequestException('Invalid user_id provided.');
+    }
+    if (!origin_equip_id || isNaN(origin_equip_id)) {
+      throw new BadRequestException('Invalid origin_equip_id provided.');
+    }
 
+    // Repository 설정
     const userEquipOptionRepository = this.getUserEquipOptionRepository(qr);
-    const userEquipOption = await userEquipOptionRepository.delete({
-      user_id,
-      origin_equip_id,
-    });
 
+    // 기존 데이터 삭제
+    await userEquipOptionRepository.delete({ user_id, origin_equip_id });
+
+    // 새로운 옵션 리스트 가져오기
     const equipOptionList = await this.equipOptionService.getEquipOptionList(
       origin_equip_id,
       qr,
     );
 
-    for (const equipOption of equipOptionList) {
-      console.log(`equipOption: ${equipOption}`);
-      await this.userEquipOptionRepository.save({
-        userEquipOption,
-        origin_equip_id,
-        option_grade: equipOption.option_grade,
-        option_type: equipOption.option_type,
-        option_value: equipOption.option_value,
-      });
-    }
+    // 새로운 옵션 저장
+    const newEquipOptions = equipOptionList.map((equipOption) => ({
+      user_id,
+      origin_equip_id,
+      option_grade: equipOption.option_grade,
+      option_type: equipOption.option_type,
+      option_value: equipOption.option_value,
+    }));
 
+    // 병렬로 데이터 저장
+    await this.userEquipOptionRepository.save(newEquipOptions);
+
+    // 결과 반환
     return this.userEquipOptionRepository.find({ where: { user_id } });
   }
 
