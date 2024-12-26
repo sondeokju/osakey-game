@@ -66,6 +66,31 @@ export class UserEquipSlotService {
     return result;
   }
 
+  async equipSlotReset(user_id: string, qr?: QueryRunner) {
+    const userEquipSlotRepository = this.getUserEquipSlotRepository(qr);
+    const userEquipSlot = await userEquipSlotRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    const equipSlotMap = {
+      acc: 0,
+      engine: 0,
+      armor: 0,
+      boost: 0,
+      shoes: 0,
+      weapon: 0,
+    };
+
+    const result = await userEquipSlotRepository.save({
+      ...userEquipSlot,
+      equipSlotMap,
+    });
+
+    return result;
+  }
+
   async getEquipSlot(user_id: string, qr?: QueryRunner) {
     const userEquipSlotRepository = this.getUserEquipSlotRepository(qr);
     const userEquipSlot = await userEquipSlotRepository.findOne({

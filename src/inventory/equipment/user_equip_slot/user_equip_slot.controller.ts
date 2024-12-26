@@ -24,4 +24,15 @@ export class UserEquipSlotController {
     const result = this.userEquipSlotService.getEquipSlot(user.user_id, qr);
     return result;
   }
+
+  @Post('slot/reset')
+  @UseInterceptors(TransactionInterceptor)
+  async findBestEquip(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = await this.userEquipSlotService.equipSlotReset(
+      user.user_id,
+      qr,
+    );
+
+    return JSON.stringify(result);
+  }
 }
