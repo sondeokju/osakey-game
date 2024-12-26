@@ -108,6 +108,8 @@ export class UserEquipOptionService {
       option_value: equipOption.option_value,
     }));
 
+    console.log(newEquipOptions);
+
     console.log('5');
 
     // 병렬로 데이터 저장
