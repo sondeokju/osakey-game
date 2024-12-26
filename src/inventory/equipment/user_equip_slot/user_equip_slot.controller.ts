@@ -25,7 +25,7 @@ export class UserEquipSlotController {
     return result;
   }
 
-  @Post('slot/reset')
+  @Post('reset')
   @UseInterceptors(TransactionInterceptor)
   async findBestEquip(@User() user: Users, @QueryRunner() qr: QR) {
     const result = await this.userEquipSlotService.equipSlotReset(
