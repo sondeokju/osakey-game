@@ -277,12 +277,21 @@ export class UserEquipService {
       );
     }
   }
+
   async findBestEquip(user_id: string, qr?: QueryRunner) {
-    const queryRunner = this.dataSource.createQueryRunner();
-    await queryRunner.connect();
+    // 외부에서 qr이 주어지지 않았다면 새로 생성
+    const queryRunner = qr ?? this.dataSource.createQueryRunner();
+    let shouldRelease = false;
 
     try {
-      // 데이터 조회 (읽기 작업)
+      // 외부에서 제공된 qr이 아닌 경우에만 연결 및 트랜잭션 시작
+      if (!qr) {
+        await queryRunner.connect();
+        await queryRunner.startTransaction();
+        shouldRelease = true; // qr을 내부적으로 생성했으므로, 후처리 필요
+      }
+
+      // 데이터 조회
       const bestEquipList = await queryRunner.manager
         .createQueryBuilder()
         .select('*')
@@ -315,9 +324,7 @@ export class UserEquipService {
 
       console.log(`장비 조회 완료. 장비 수: ${bestEquipList.length}`);
 
-      // 트랜잭션 내에서 처리
-      await queryRunner.startTransaction();
-
+      // 장비 장착 처리
       await Promise.all(
         bestEquipList.map((equip) =>
           this.userEquipSlotService.equipSlotMount(
@@ -333,26 +340,23 @@ export class UserEquipService {
         queryRunner,
       );
 
-      await queryRunner.commitTransaction();
+      // 내부적으로 시작한 트랜잭션인 경우 커밋
+      if (shouldRelease) {
+        await queryRunner.commitTransaction();
+      }
+
       return userEquipSlot;
     } catch (error) {
-      await queryRunner.rollbackTransaction();
+      // 내부적으로 시작한 트랜잭션인 경우 롤백
+      if (shouldRelease) {
+        await queryRunner.rollbackTransaction();
+      }
       throw error;
     } finally {
-      await queryRunner.release();
+      // 내부적으로 생성한 QueryRunner만 릴리스
+      if (shouldRelease) {
+        await queryRunner.release();
+      }
     }
   }
-
-  // levelUp(currentLevel: number): number {
-  //   const levelString = currentLevel.toString();
-
-  //   const basePart = levelString.slice(0, -2);
-  //   const levelPart = levelString.slice(-2);
-
-  //   const nextLevel = parseInt(levelPart, 10) + 1;
-  //   const nextLevelString = nextLevel.toString().padStart(2, '0');
-
-  //   const newLevelString = `${basePart}${nextLevelString}`;
-  //   return parseInt(newLevelString, 10);
-  // }
 }
