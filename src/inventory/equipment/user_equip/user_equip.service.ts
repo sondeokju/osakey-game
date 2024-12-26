@@ -436,7 +436,7 @@ export class UserEquipService {
             .addSelect('ui.item_count', 'user_items')
             .from('users', 'u')
             .leftJoin('user_item', 'ui', 'ui.user_id = u.user_id')
-            .where('u.user_id = :userId', { user_id });
+            .where('u.user_id = :user_id', { user_id });
         },
         'lr',
         '(lc.require_item_id = 0 OR lc.require_item_id = lr.item_id)',
