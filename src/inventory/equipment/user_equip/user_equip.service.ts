@@ -425,8 +425,10 @@ export class UserEquipService {
             //   'total_items',
             // )
             .from('equip_level', 'e')
-            .where('e.equip_level_id >= :start_id', { start_id })
-            .andWhere('e.equip_level_id <= :end_id', { end_id })
+            .where('e.equip_level_id BETWEEN :start_id AND :end_id', {
+              start_id,
+              end_id,
+            })
         );
       }, 'lc')
       .leftJoin(
