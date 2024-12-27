@@ -92,16 +92,6 @@ export class UserEquipOptionService {
       qr,
     );
 
-    // for (const equipOption of equipOptionList) {
-    //   await this.getUserEquipOptionRepository(qr).insert({
-    //     user_id,
-    //     origin_equip_id: equipOption.origin_equip_id,
-    //     option_grade: equipOption.option_grade,
-    //     option_type: equipOption.option_type,
-    //     option_value: equipOption.option_value,
-    //   });
-    // }
-
     const newEquipOptions = equipOptionList.map((equipOption) => ({
       user_id,
       origin_equip_id,

@@ -404,26 +404,30 @@ export class UserEquipService {
       )
       .from((qb) => {
         // LevelUpCost CTE
-        return qb
-          .select('e.equip_level_id', 'equip_level_id')
-          .addSelect('e.equip_slot', 'equip_slot')
-          .addSelect('e.equip_grade', 'equip_grade')
-          .addSelect('e.level', 'level')
-          .addSelect('e.level_max', 'level_max')
-          .addSelect('e.require_gold', 'require_gold')
-          .addSelect('e.require_item_id', 'require_item_id')
-          .addSelect('e.require_item_count', 'require_item_count')
-          .addSelect(
-            'SUM(e.require_gold) OVER (PARTITION BY e.equip_slot, e.equip_grade ORDER BY e.level)',
-            'total_gold',
-          )
-          .addSelect(
-            'SUM(e.require_item_count) OVER (PARTITION BY e.equip_slot, e.equip_grade, e.require_item_id ORDER BY e.level)',
-            'total_items',
-          )
-          .from('equip_level', 'e')
-          .where('e.equip_level_id >= :start_id', { start_id })
-          .andWhere('e.equip_level_id <= :end_id', { end_id });
+        return (
+          qb
+            .select('e.equip_level_id', 'equip_level_id')
+            .addSelect('e.equip_slot', 'equip_slot')
+            .addSelect('e.equip_grade', 'equip_grade')
+            .addSelect('e.level', 'level')
+            .addSelect('e.level_max', 'level_max')
+            .addSelect('e.require_gold', 'require_gold')
+            .addSelect('e.require_item_id', 'require_item_id')
+            .addSelect('e.require_item_count', 'require_item_count')
+            .addSelect('e.used_gold_total', 'total_gold')
+            .addSelect('e.used_item_total_count', 'total_items')
+            // .addSelect(
+            //   'SUM(e.require_gold) OVER (PARTITION BY e.equip_slot, e.equip_grade ORDER BY e.level)',
+            //   'total_gold',
+            // )
+            // .addSelect(
+            //   'SUM(e.require_item_count) OVER (PARTITION BY e.equip_slot, e.equip_grade, e.require_item_id ORDER BY e.level)',
+            //   'total_items',
+            // )
+            .from('equip_level', 'e')
+            .where('e.equip_level_id >= :start_id', { start_id })
+            .andWhere('e.equip_level_id <= :end_id', { end_id })
+        );
       }, 'lc')
       .leftJoin(
         (qb) => {
