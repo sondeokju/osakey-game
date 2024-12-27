@@ -30,12 +30,18 @@ export class AuthController {
   @Get('callback')
   async handleGoogleCallback(
     @Query('code') code: string,
-    //@Query('state') state: string,
+    @Query('scope') scope: string,
+    @Query('authuser') authuser: string,
+    @Query('hd') hd: string,
+    @Query('prompt') prompt: string,
     //@Res() res: Response,
   ) {
     console.log('1');
     console.log('code', code);
-    //console.log('state', state);
+    console.log('scope', scope);
+    console.log('authuser', authuser);
+    console.log('hd', hd);
+    console.log('prompt', prompt);
     if (!code) {
       //return res.status(400).send('Code not found in callback.');
     }
