@@ -45,9 +45,10 @@ export class AuthController {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({
         code: code,
-        client_id: 'YOUR_CLIENT_ID',
-        client_secret: 'YOUR_CLIENT_SECRET',
-        redirect_uri: 'https://test.com/auth/callback',
+        client_id:
+          '781512529596-vb3bgbl9chuc91a3ths65j2gaf1ncoch.apps.googleusercontent.com',
+        client_secret: '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',
+        redirect_uri: 'hhttps://leda-pgs.actioncatuniverse.com/auth/callback',
         grant_type: 'authorization_code',
       }),
     });
