@@ -35,7 +35,7 @@ export class AuthController {
   ) {
     console.log('1');
     console.log('code', code);
-    console.log('state', state);
+    //console.log('state', state);
     if (!code) {
       //return res.status(400).send('Code not found in callback.');
     }
