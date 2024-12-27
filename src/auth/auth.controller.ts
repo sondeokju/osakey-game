@@ -21,6 +21,7 @@ import {
 } from './guard/bearer-token.guard';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { IsPublic } from 'src/common/decorator/is-public.decorator';
+import { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -34,7 +35,7 @@ export class AuthController {
   ) {
     console.log('code', code);
     if (!code) {
-      //return res.status(400).send('Code not found in callback.');
+      return res.send('Code not found in callback.');
     }
 
     // code를 사용해 Google 토큰 엔드포인트로 액세스 토큰 요청
@@ -61,8 +62,7 @@ export class AuthController {
     // 액세스 토큰 사용 예시
     //const accessToken = tokenData.access_token;
 
-    //return res.send('Google Authentication Successful!');
-    return '';
+    return res.send('Google Authentication Successful!');
   }
 
   @Post('token/access')
