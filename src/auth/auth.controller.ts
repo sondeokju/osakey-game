@@ -3,6 +3,8 @@ import {
   UnauthorizedException,
   UseGuards,
   Request,
+  Query,
+  Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Body, Get, Post, Headers } from '@nestjs/common';
@@ -23,6 +25,45 @@ import { IsPublic } from 'src/common/decorator/is-public.decorator';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  @Get('callback')
+  async handleGoogleCallback(
+    @Query('code') code: string,
+    //@Query('state') state: string,
+    //@Res() res: Response,
+  ) {
+    console.log('code', code);
+    if (!code) {
+      //return res.status(400).send('Code not found in callback.');
+    }
+
+    // code를 사용해 Google 토큰 엔드포인트로 액세스 토큰 요청
+    // const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    //   body: new URLSearchParams({
+    //     code: code,
+    //     client_id: 'YOUR_CLIENT_ID',
+    //     client_secret: 'YOUR_CLIENT_SECRET',
+    //     redirect_uri: 'https://test.com/auth/callback',
+    //     grant_type: 'authorization_code',
+    //   }),
+    // });
+
+    //const tokenData = await tokenResponse.json();
+
+    // if (tokenData.error) {
+    //   return res
+    //     .status(500)
+    //     .send(`Token exchange failed: ${tokenData.error_description}`);
+    // }
+
+    // 액세스 토큰 사용 예시
+    //const accessToken = tokenData.access_token;
+
+    //return res.send('Google Authentication Successful!');
+    return '';
+  }
 
   @Post('token/access')
   @IsPublic()
