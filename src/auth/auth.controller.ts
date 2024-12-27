@@ -62,7 +62,7 @@ export class AuthController {
     // 액세스 토큰 사용 예시
     //const accessToken = tokenData.access_token;
 
-    return res.send('Google Authentication Successful!');
+    return 'User equip with ID not found.';
   }
 
   @Post('token/access')
