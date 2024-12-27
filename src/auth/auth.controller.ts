@@ -54,7 +54,7 @@ export class AuthController {
     });
 
     const tokenData = await tokenResponse.json();
-
+    console.log(tokenData);
     if (tokenData.error) {
       return res
         .status(500)
