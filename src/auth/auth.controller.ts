@@ -40,31 +40,31 @@ export class AuthController {
     }
 
     // code를 사용해 Google 토큰 엔드포인트로 액세스 토큰 요청
-    // const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    //   body: new URLSearchParams({
-    //     code: code,
-    //     client_id: 'YOUR_CLIENT_ID',
-    //     client_secret: 'YOUR_CLIENT_SECRET',
-    //     redirect_uri: 'https://test.com/auth/callback',
-    //     grant_type: 'authorization_code',
-    //   }),
-    // });
+    const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        code: code,
+        client_id: 'YOUR_CLIENT_ID',
+        client_secret: 'YOUR_CLIENT_SECRET',
+        redirect_uri: 'https://test.com/auth/callback',
+        grant_type: 'authorization_code',
+      }),
+    });
 
-    //const tokenData = await tokenResponse.json();
+    const tokenData = await tokenResponse.json();
 
-    // if (tokenData.error) {
-    //   return res
-    //     .status(500)
-    //     .send(`Token exchange failed: ${tokenData.error_description}`);
-    // }
+    if (tokenData.error) {
+      return res
+        .status(500)
+        .send(`Token exchange failed: ${tokenData.error_description}`);
+    }
 
     // 액세스 토큰 사용 예시
-    //const accessToken = tokenData.access_token;
+    const accessToken = tokenData.access_token;
 
     return {
-      test: 'test',
+      accessToken: accessToken,
     };
   }
 
