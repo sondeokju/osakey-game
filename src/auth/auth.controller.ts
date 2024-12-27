@@ -62,7 +62,9 @@ export class AuthController {
     // 액세스 토큰 사용 예시
     //const accessToken = tokenData.access_token;
 
-    return 'User equip with ID not found.';
+    return {
+      test: 'test',
+    };
   }
 
   @Post('token/access')
