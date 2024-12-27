@@ -31,7 +31,7 @@ export class AuthController {
   async handleGoogleCallback(
     @Query('code') code: string,
     @Query('state') state: string,
-    @Res() res: Response,
+    //@Res() res: Response,
   ) {
     console.log('1');
     console.log('code', code);
@@ -56,11 +56,11 @@ export class AuthController {
 
     const tokenData = await tokenResponse.json();
     console.log(tokenData);
-    if (tokenData.error) {
-      return res
-        .status(500)
-        .send(`Token exchange failed: ${tokenData.error_description}`);
-    }
+    // if (tokenData.error) {
+    //   return res
+    //     .status(500)
+    //     .send(`Token exchange failed: ${tokenData.error_description}`);
+    // }
 
     // 액세스 토큰 사용 예시
     const accessToken = tokenData.access_token;
