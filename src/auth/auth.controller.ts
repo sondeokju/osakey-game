@@ -35,7 +35,7 @@ export class AuthController {
   ) {
     console.log('code', code);
     if (!code) {
-      return res.send('Code not found in callback.');
+      //return res.status(400).send('Code not found in callback.');
     }
 
     // code를 사용해 Google 토큰 엔드포인트로 액세스 토큰 요청
@@ -62,7 +62,8 @@ export class AuthController {
     // 액세스 토큰 사용 예시
     //const accessToken = tokenData.access_token;
 
-    return res.send('Google Authentication Successful!');
+    //return res.send('Google Authentication Successful!');
+    return '';
   }
 
   @Post('token/access')
