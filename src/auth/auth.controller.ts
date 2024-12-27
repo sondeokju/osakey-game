@@ -33,6 +33,7 @@ export class AuthController {
     @Query('state') state: string,
     @Res() res: Response,
   ) {
+    console.log('1');
     console.log('code', code);
     console.log('state', state);
     if (!code) {
