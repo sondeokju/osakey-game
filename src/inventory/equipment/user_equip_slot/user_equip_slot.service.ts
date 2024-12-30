@@ -57,7 +57,7 @@ export class UserEquipSlotService {
     };
 
     const equipSlotKey = equip.equip_slot.toLowerCase();
-    userEquipSlot[equipSlotMap[equipSlotKey]] = equip_id;
+    userEquipSlot[equipSlotMap[equipSlotKey]] = +equip_id;
 
     const result = await userEquipSlotRepository.save({
       ...userEquipSlot,
