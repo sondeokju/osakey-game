@@ -131,9 +131,15 @@ export class AuthService {
         );
       }
 
-      const credentials = userInfo.email;
+      //  const credentials = { email: userInfo.email, password: 1 };
 
-      const data = this.loginWithEmail(credentials);
+      const credentials = {
+        email: userInfo.email,
+        password: '', // 실제 비밀번호 사용
+      };
+
+      const data = await this.loginWithEmail(credentials);
+
       console.log('data', data);
 
       // 3. 사용자 정보를 반환
