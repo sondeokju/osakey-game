@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import {
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+} from 'src/common/const/env-keys.const';
 
 @Injectable()
 export class GoogleService {
@@ -16,11 +20,11 @@ export class GoogleService {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
           code: code,
-          client_id:
-            '781512529596-vb3bgbl9chuc91a3ths65j2gaf1ncoch.apps.googleusercontent.com',
-          client_secret: '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',
-          //client_id: process.env.GOOGLE_CLIENT_ID || '', // 환경 변수 사용
-          //client_secret: process.env.GOOGLE_CLIENT_SECRET || '', // 환경 변수 사용
+          //   client_id:
+          //     '781512529596-vb3bgbl9chuc91a3ths65j2gaf1ncoch.apps.googleusercontent.com',
+          //   client_secret: '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',
+          client_id: this.configService.get<string>(GOOGLE_CLIENT_ID),
+          client_secret: this.configService.get<string>(GOOGLE_CLIENT_SECRET),
           redirect_uri: 'https://leda-pgs.actioncatuniverse.com/auth/callback',
           grant_type: 'authorization_code',
         }),
