@@ -138,12 +138,9 @@ export class AuthService {
         password: '', // 실제 비밀번호 사용
       };
 
-      const data = await this.loginWithEmail(credentials);
-
-      console.log('data', data);
-
       // 3. 사용자 정보를 반환
-      return { userInfo, googleAccessToken };
+      //return { userInfo, googleAccessToken };
+      return await this.loginWithEmail(credentials);
     } catch (error) {
       console.error('Error during token exchange:', error);
       return {
