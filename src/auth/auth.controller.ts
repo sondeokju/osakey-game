@@ -36,47 +36,58 @@ export class AuthController {
     @Query('hd') hd: string,
     @Query('prompt') prompt: string,
   ) {
-    console.log('1');
-    console.log('code', code);
-    console.log('scope', scope);
-    console.log('authuser', authuser);
-    console.log('hd', hd);
-    console.log('prompt', prompt);
+    console.log('Google OAuth Callback Invoked');
+    console.log('code:', code);
+    console.log('scope:', scope);
+    console.log('authuser:', authuser);
+    console.log('hd:', hd);
+    console.log('prompt:', prompt);
+
     if (!code) {
       return {
         error: 'Code not found in callback',
       };
     }
 
-    // code를 사용해 Google 토큰 엔드포인트로 액세스 토큰 요청
-    const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        code: code,
-        client_id:
-          '781512529596-vb3bgbl9chuc91a3ths65j2gaf1ncoch.apps.googleusercontent.com',
-        client_secret: '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',
-        redirect_uri: 'https://leda-pgs.actioncatuniverse.com/auth/callback',
-        grant_type: 'authorization_code',
-      }),
-    });
+    try {
+      // Google OAuth2 Token Endpoint 호출
+      const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          code: code,
+          client_id:
+            '781512529596-vb3bgbl9chuc91a3ths65j2gaf1ncoch.apps.googleusercontent.com',
+          client_secret: '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',
+          //client_id: process.env.GOOGLE_CLIENT_ID || '', // 환경 변수 사용
+          //client_secret: process.env.GOOGLE_CLIENT_SECRET || '', // 환경 변수 사용
+          redirect_uri: 'https://leda-pgs.actioncatuniverse.com/auth/callback',
+          grant_type: 'authorization_code',
+        }),
+      });
 
-    const tokenData = await tokenResponse.json();
-    console.log(tokenData);
-    if (tokenData.error) {
-      console.error('Token exchange failed:', tokenData.error_description);
+      const tokenData = await tokenResponse.json();
+      console.log('Token Response:', tokenData);
+
+      // 에러 처리
+      if (tokenData.error) {
+        console.error('Token exchange failed:', tokenData.error_description);
+        return {
+          error: `Token exchange failed: ${tokenData.error_description}`,
+        };
+      }
+
+      // 액세스 토큰 사용 예시
+      const accessToken = tokenData.access_token;
       return {
-        error: `Token exchange failed: ${tokenData.error_description}`,
+        accessToken,
+      };
+    } catch (error) {
+      console.error('Error during token exchange:', error);
+      return {
+        error: 'An error occurred during the token exchange',
       };
     }
-
-    // 액세스 토큰 사용 예시
-    const accessToken = tokenData.access_token;
-
-    return {
-      accessToken,
-    };
   }
 
   @Post('token/access')
