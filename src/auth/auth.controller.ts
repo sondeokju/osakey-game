@@ -43,7 +43,9 @@ export class AuthController {
     console.log('hd', hd);
     console.log('prompt', prompt);
     if (!code) {
-      //return res.status(400).send('Code not found in callback.');
+      return {
+        error: 'Code not found in callback',
+      };
     }
 
     // code를 사용해 Google 토큰 엔드포인트로 액세스 토큰 요청
@@ -55,24 +57,25 @@ export class AuthController {
         client_id:
           '781512529596-vb3bgbl9chuc91a3ths65j2gaf1ncoch.apps.googleusercontent.com',
         client_secret: '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',
-        redirect_uri: 'hhttps://leda-pgs.actioncatuniverse.com/auth/callback',
+        redirect_uri: 'https://leda-pgs.actioncatuniverse.com/auth/callback',
         grant_type: 'authorization_code',
       }),
     });
 
     const tokenData = await tokenResponse.json();
     console.log(tokenData);
-    // if (tokenData.error) {
-    //   return res
-    //     .status(500)
-    //     .send(`Token exchange failed: ${tokenData.error_description}`);
-    // }
+    if (tokenData.error) {
+      console.error('Token exchange failed:', tokenData.error_description);
+      return {
+        error: `Token exchange failed: ${tokenData.error_description}`,
+      };
+    }
 
     // 액세스 토큰 사용 예시
     const accessToken = tokenData.access_token;
 
     return {
-      accessToken: accessToken,
+      accessToken,
     };
   }
 
