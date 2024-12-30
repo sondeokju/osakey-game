@@ -59,7 +59,7 @@ export class UserEquipController {
     return JSON.stringify(result);
   }
 
-  @Post('max/level-up')
+  @Post('max/level-u')
   @UseInterceptors(TransactionInterceptor)
   async equipMaxLevelUp(
     @User() user: Users,
