@@ -30,17 +30,17 @@ export class AuthController {
   @Get('callback')
   async handleGoogleCallback(
     @Query('code') code: string,
-    @Query('scope') scope: string,
-    @Query('authuser') authuser: string,
-    @Query('hd') hd: string,
-    @Query('prompt') prompt: string,
+    // @Query('scope') scope: string,
+    // @Query('authuser') authuser: string,
+    // @Query('hd') hd: string,
+    // @Query('prompt') prompt: string,
   ) {
     return this.authService.handleGoogleCallback(
       code,
-      scope,
-      authuser,
-      hd,
-      prompt,
+      // scope,
+      // authuser,
+      // hd,
+      // prompt,
     );
   }
 
