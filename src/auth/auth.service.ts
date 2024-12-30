@@ -72,12 +72,12 @@ export class AuthService {
     hd: string,
     prompt: string,
   ) {
-    console.log('Google OAuth Callback Invoked');
-    console.log('code:', code);
-    console.log('scope:', scope);
-    console.log('authuser:', authuser);
-    console.log('hd:', hd);
-    console.log('prompt:', prompt);
+    // console.log('Google OAuth Callback Invoked');
+    // console.log('code:', code);
+    // console.log('scope:', scope);
+    // console.log('authuser:', authuser);
+    // console.log('hd:', hd);
+    // console.log('prompt:', prompt);
 
     if (!code) {
       return {
@@ -130,6 +130,11 @@ export class AuthService {
           'Failed to fetch user info from Google',
         );
       }
+
+      const credentials = userInfo.email;
+
+      const data = this.loginWithEmail(credentials);
+      console.log('data', data);
 
       // 3. 사용자 정보를 반환
       return { userInfo, googleAccessToken };
