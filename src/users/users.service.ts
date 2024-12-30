@@ -113,11 +113,17 @@ export class UsersService {
     return true;
   }
 
-  async createUserOsakey(email: string, pgs_id: string, qr?: QueryRunner) {
+  async createUserOsakey(
+    email: string,
+    pgs_id: string,
+    os_type: string,
+    qr?: QueryRunner,
+  ) {
     const usersRepository = this.getUsersRepository(qr);
     const userObject = usersRepository.create({
       email,
       pgs_id,
+      os_type,
     });
 
     const newUser = await this.usersRepository.save(userObject);

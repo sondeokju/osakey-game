@@ -113,7 +113,7 @@ export class AuthService {
       const userInfo = await userInfoResponse.json();
 
       // 유저 생성 및 로그인
-      return await this.socialLoginAndSignup(userInfo.email, userInfo.sub);
+      return await this.socialLoginAndSignup(userInfo.email, userInfo.sub, 'A');
     } catch (error) {
       console.error('Error during Google authentication:', error);
       return { error: 'An unexpected error occurred during authentication' };
@@ -325,7 +325,7 @@ export class AuthService {
     return this.loginUser(newUser);
   }
 
-  async socialLoginAndSignup(email: string, pgs_id: string) {
+  async socialLoginAndSignup(email: string, pgs_id: string, os_type: string) {
     // 유저 생성 및 로그인
     const existUser = await this.usersService.getUserByEmail(email);
 
@@ -336,6 +336,7 @@ export class AuthService {
       const newUserData = await this.usersService.createUserOsakey(
         email,
         pgs_id,
+        os_type,
       );
 
       await this.usersService.createUserID(newUserData.email);
