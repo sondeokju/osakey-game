@@ -67,10 +67,10 @@ export class AuthService {
 
   async handleGoogleCallback(
     code: string,
-    scope: string,
-    authuser: string,
-    hd: string,
-    prompt: string,
+    // scope: string,
+    // authuser: string,
+    // hd: string,
+    // prompt: string,
   ) {
     // console.log('Google OAuth Callback Invoked');
     // console.log('code:', code);
@@ -130,8 +130,6 @@ export class AuthService {
           'Failed to fetch user info from Google',
         );
       }
-
-      //  const credentials = { email: userInfo.email, password: 1 };
 
       const credentials = {
         email: userInfo.email,
