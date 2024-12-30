@@ -76,11 +76,25 @@ export class AuthController {
         };
       }
 
-      // 액세스 토큰 사용 예시
-      const accessToken = tokenData.access_token;
-      return {
-        accessToken,
-      };
+      const googleAccessToken = tokenData.access_token;
+
+      // 2. Google API를 사용해 사용자 정보 가져오기
+      const userInfoResponse = await fetch(
+        'https://www.googleapis.com/oauth2/v3/userinfo',
+        {
+          headers: { Authorization: `Bearer ${googleAccessToken}` },
+        },
+      );
+      const userInfo = await userInfoResponse.json();
+
+      if (userInfo.error) {
+        throw new UnauthorizedException(
+          'Failed to fetch user info from Google',
+        );
+      }
+
+      // 3. 사용자 정보를 반환
+      return { userInfo, googleAccessToken };
     } catch (error) {
       console.error('Error during token exchange:', error);
       return {
