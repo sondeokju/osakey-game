@@ -65,19 +65,8 @@ export class AuthService {
     return token;
   }
 
-  async handleGoogleCallback(
-    code: string,
-    // scope: string,
-    // authuser: string,
-    // hd: string,
-    // prompt: string,
-  ) {
-    // console.log('Google OAuth Callback Invoked');
+  async handleGoogleCallback(code: string) {
     // console.log('code:', code);
-    // console.log('scope:', scope);
-    // console.log('authuser:', authuser);
-    // console.log('hd:', hd);
-    // console.log('prompt:', prompt);
 
     if (!code) {
       return {
@@ -131,14 +120,26 @@ export class AuthService {
         );
       }
 
-      const credentials = {
-        email: userInfo.email,
-        password: '', // 실제 비밀번호 사용
-      };
+      const existUserMail = this.usersService.getUserByEmail(userInfo.email);
+      if (existUserMail) {
+        const credentials = {
+          email: userInfo.email,
+          password: '', // 실제 비밀번호 사용
+        };
+        return await this.loginWithEmail(credentials);
+      } else {
+        const newUserData = await this.usersService.createUserOsakey(
+          userInfo.email,
+          userInfo.sub,
+        );
 
-      // 3. 사용자 정보를 반환
-      //return { userInfo, googleAccessToken };
-      return await this.loginWithEmail(credentials);
+        const newUser = {
+          email: newUserData.email,
+          password: '', // 실제 비밀번호 사용
+        };
+
+        return await this.loginWithEmail(newUser);
+      }
     } catch (error) {
       console.error('Error during token exchange:', error);
       return {

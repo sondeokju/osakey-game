@@ -28,20 +28,8 @@ export class AuthController {
 
   @IsPublic()
   @Get('callback')
-  async handleGoogleCallback(
-    @Query('code') code: string,
-    // @Query('scope') scope: string,
-    // @Query('authuser') authuser: string,
-    // @Query('hd') hd: string,
-    // @Query('prompt') prompt: string,
-  ) {
-    return this.authService.handleGoogleCallback(
-      code,
-      // scope,
-      // authuser,
-      // hd,
-      // prompt,
-    );
+  async handleGoogleCallback(@Query('code') code: string) {
+    return this.authService.handleGoogleCallback(code);
   }
 
   //   async function refreshAccessToken(refreshToken: string) {

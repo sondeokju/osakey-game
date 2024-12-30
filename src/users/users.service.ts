@@ -111,6 +111,18 @@ export class UsersService {
     return true;
   }
 
+  async createUserOsakey(email: string, pgs_id: string, qr?: QueryRunner) {
+    const usersRepository = this.getUsersRepository(qr);
+    const userObject = usersRepository.create({
+      email,
+      pgs_id,
+    });
+
+    const newUser = await this.usersRepository.save(userObject);
+
+    return newUser;
+  }
+
   async createUserIDList(qr?: QueryRunner) {
     const nickname = 'osakey';
 
@@ -133,7 +145,7 @@ export class UsersService {
   // }
 
   async getUserByEmail(email: string) {
-    return this.usersRepository.findOne({
+    return await this.usersRepository.findOne({
       where: {
         email,
       },
