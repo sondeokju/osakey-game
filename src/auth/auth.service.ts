@@ -205,7 +205,7 @@ export class AuthService {
       const userInfo = await userInfoResponse.json();
 
       // 유저 생성 및 로그인
-      return await this.socialLoginAndSignup(userInfo.email, userInfo.sub)
+      return await this.socialLoginAndSignup(userInfo.email, userInfo.sub);
     } catch (error) {
       console.error('Error during Google authentication:', error);
       return { error: 'An unexpected error occurred during authentication' };
@@ -418,21 +418,22 @@ export class AuthService {
   }
 
   async socialLoginAndSignup(email: string, pgs_id: string) {
-      // 유저 생성 및 로그인
-      const existUser = await this.usersService.getUserByEmail(email);
+    // 유저 생성 및 로그인
+    const existUser = await this.usersService.getUserByEmail(email);
 
-      if (existUser) {
-        const credentials = { email: email, password: '' };
-        return await this.loginWithEmail(credentials);
-      } else {
-        const newUserData = await this.usersService.createUserOsakey(
-          email,
-          pgs_id,
-        );
+    if (existUser) {
+      const credentials = { email: email, password: '' };
+      return await this.loginWithEmail(credentials);
+    } else {
+      const newUserData = await this.usersService.createUserOsakey(
+        email,
+        pgs_id,
+      );
 
-        await this.usersService.createUserID(newUserData.email);
+      await this.usersService.createUserID(newUserData.email);
 
-        const newLoginUser = { email: newUserData.email, password: '' };
-        return await this.loginWithEmail(newLoginUser);
+      const newLoginUser = { email: newUserData.email, password: '' };
+      return await this.loginWithEmail(newLoginUser);
+    }
   }
 }
