@@ -79,17 +79,19 @@ export class UsersService {
     return newUser;
   }
 
-  async createUserID(nickname: string, qr?: QueryRunner) {
+  async createUserID(email: string, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
-    const newUser = usersRepository.create({ nickname });
-    const savedUser = await usersRepository.save(newUser);
+    const userData = await usersRepository.findOne({
+      where: {
+        email,
+      },
+    });
 
-    const user_id = savedUser.id.toString().padStart(10, '0');
+    const newUserId = userData.id.toString().padStart(10, '0');
 
     await usersRepository.save({
-      ...savedUser,
-      user_id: user_id,
-      level: 1,
+      ...userData,
+      user_id: newUserId,
     });
 
     return true;

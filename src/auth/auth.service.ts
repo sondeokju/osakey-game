@@ -124,7 +124,7 @@ export class AuthService {
       const existUserMail = await this.usersService.getUserByEmail(
         userInfo.email,
       );
-      console.log(existUserMail);
+
       if (existUserMail) {
         console.log('2');
         const credentials = {
@@ -134,17 +134,20 @@ export class AuthService {
         return await this.loginWithEmail(credentials);
       } else {
         console.log('3');
+
         const newUserData = await this.usersService.createUserOsakey(
           userInfo.email,
           userInfo.sub,
         );
 
-        const newUser = {
+        await this.usersService.createUserID(newUserData.email);
+
+        const newLoginUser = {
           email: newUserData.email,
           password: '', // 실제 비밀번호 사용
         };
 
-        return await this.loginWithEmail(newUser);
+        return await this.loginWithEmail(newLoginUser);
       }
     } catch (error) {
       console.error('Error during token exchange:', error);
