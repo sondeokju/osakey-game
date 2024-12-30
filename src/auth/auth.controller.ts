@@ -27,6 +27,7 @@ import { Response } from 'express';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @IsPublic()
   @Get('callback')
   async handleGoogleCallback(
     @Query('code') code: string,
