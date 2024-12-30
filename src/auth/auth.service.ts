@@ -125,7 +125,7 @@ export class AuthService {
         userInfo.email,
       );
       console.log(existUserMail);
-      if (!existUserMail) {
+      if (existUserMail) {
         console.log('2');
         const credentials = {
           email: userInfo.email,
