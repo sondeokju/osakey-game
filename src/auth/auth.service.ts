@@ -81,8 +81,7 @@ export class AuthService {
           client_secret: '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',
           //client_id: process.env.GOOGLE_CLIENT_ID || '', // 환경 변수 사용
           //client_secret: process.env.GOOGLE_CLIENT_SECRET || '', // 환경 변수 사용
-          redirect_uri:
-            'https://leda-pgs.actioncatuniverse.com/auth/google/callback',
+          redirect_uri: 'https://leda-pgs.actioncatuniverse.com/auth/callback',
           grant_type: 'authorization_code',
         }),
       });

@@ -27,7 +27,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @IsPublic()
-  @Get('google/callback')
+  @Get('callback')
   async handleGoogleCallback(@Query('code') code: string) {
     return this.authService.handleGoogleCallback(code);
   }
