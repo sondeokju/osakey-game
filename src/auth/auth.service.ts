@@ -120,14 +120,17 @@ export class AuthService {
         );
       }
 
+      console.log('1');
       const existUserMail = this.usersService.getUserByEmail(userInfo.email);
       if (existUserMail) {
+        console.log('2');
         const credentials = {
           email: userInfo.email,
           password: '', // 실제 비밀번호 사용
         };
         return await this.loginWithEmail(credentials);
       } else {
+        console.log('3');
         const newUserData = await this.usersService.createUserOsakey(
           userInfo.email,
           userInfo.sub,
