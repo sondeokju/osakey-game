@@ -44,9 +44,14 @@ export class UserEquipSlot extends BaseModel {
     default: '0',
   })
   shoes: number;
+
   @Column({
     type: 'int',
     default: '0',
+    transformer: {
+      to: (value: number) => value,
+      from: (value: string) => parseInt(value, 10),
+    },
   })
   weapon: number;
 }
