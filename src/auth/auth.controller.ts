@@ -34,7 +34,6 @@ export class AuthController {
     @Query('authuser') authuser: string,
     @Query('hd') hd: string,
     @Query('prompt') prompt: string,
-    //@Res() res: Response,
   ) {
     console.log('1');
     console.log('code', code);
