@@ -16,30 +16,36 @@ export class UserEquipSlot extends BaseModel {
   user_id: string;
 
   @Column({
+    type: 'int',
     default: '0',
   })
   acc: number;
 
   @Column({
+    type: 'int',
     default: '0',
   })
   engine: number;
 
   @Column({
+    type: 'int',
     default: '0',
   })
   armor: number;
 
   @Column({
+    type: 'int',
     default: '0',
   })
   boost: number;
 
   @Column({
+    type: 'int',
     default: '0',
   })
   shoes: number;
   @Column({
+    type: 'int',
     default: '0',
   })
   weapon: number;
