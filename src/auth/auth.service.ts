@@ -14,6 +14,7 @@ import {
 } from 'src/common/const/env-keys.const';
 
 import { GoogleService } from './sns/google/google.service';
+import { AppleService } from './sns/apple/apple.service';
 
 @Injectable()
 export class AuthService {
@@ -22,6 +23,7 @@ export class AuthService {
     private readonly usersService: UsersService,
     private readonly configService: ConfigService,
     private readonly googleService: GoogleService,
+    private readonly appleService: AppleService,
   ) {}
 
   /**
@@ -68,213 +70,17 @@ export class AuthService {
     return token;
   }
 
-  // async handleGoogleCallback(code: string) {
-  //   if (!code) {
-  //     return { error: 'Authorization code not found in callback' };
-  //   }
-
-  //   try {
-  //     const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-  //       body: new URLSearchParams({
-  //         code: code,
-  //         client_id:
-  //           '781512529596-vb3bgbl9chuc91a3ths65j2gaf1ncoch.apps.googleusercontent.com',
-  //         client_secret: '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',
-  //         //client_id: process.env.GOOGLE_CLIENT_ID || '', // 환경 변수 사용
-  //         //client_secret: process.env.GOOGLE_CLIENT_SECRET || '', // 환경 변수 사용
-  //         redirect_uri: 'https://leda-pgs.actioncatuniverse.com/auth/callback',
-  //         grant_type: 'authorization_code',
-  //       }),
-  //     });
-
-  //     if (!tokenResponse.ok) {
-  //       const errorData = await tokenResponse.json();
-  //       console.error('Token exchange failed:', errorData);
-  //       return {
-  //         error: `Token exchange failed: ${errorData.error_description}`,
-  //       };
-  //     }
-
-  //     const tokenData = await tokenResponse.json();
-  //     const googleAccessToken = tokenData.access_token;
-
-  //     const userInfoResponse = await fetch(
-  //       'https://www.googleapis.com/oauth2/v3/userinfo',
-  //       {
-  //         headers: { Authorization: `Bearer ${googleAccessToken}` },
-  //       },
-  //     );
-
-  //     if (!userInfoResponse.ok) {
-  //       const errorData = await userInfoResponse.json();
-  //       console.error('Failed to fetch user info:', errorData);
-  //       return { error: 'Unable to fetch user information from Google' };
-  //     }
-
-  //     const userInfo = await userInfoResponse.json();
-
-  //     // 유저 생성 및 로그인
-  //     return await this.socialLoginAndSignup(userInfo.email, userInfo.sub, 'A');
-  //   } catch (error) {
-  //     console.error('Error during Google authentication:', error);
-  //     return { error: 'An unexpected error occurred during authentication' };
-  //   }
-  // }
-
-  // async handleAppleCallback(code: string, id_token: string) {
-  //   if (!code || !id_token) {
-  //     return { error: 'Authorization code or ID token not found in callback' };
-  //   }
-
-  //   try {
-  //     // 애플 토큰 교환 요청
-  //     const tokenResponse = await fetch(
-  //       'https://appleid.apple.com/auth/token',
-  //       {
-  //         method: 'POST',
-  //         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-  //         body: new URLSearchParams({
-  //           code: code,
-  //           client_id: 'com.example.yourclientid', // 애플 개발자 계정에 등록된 클라이언트 ID
-  //           client_secret: this.generateAppleClientSecret(), // 클라이언트 비밀키 생성 함수
-  //           redirect_uri: 'https://your-app.com/auth/callback',
-  //           grant_type: 'authorization_code',
-  //         }),
-  //       },
-  //     );
-
-  //     if (!tokenResponse.ok) {
-  //       const errorData = await tokenResponse.json();
-  //       console.error('Token exchange failed:', errorData);
-  //       return {
-  //         error: `Token exchange failed: ${errorData.error_description}`,
-  //       };
-  //     }
-
-  //     const tokenData = await tokenResponse.json();
-  //     const appleAccessToken = tokenData.access_token;
-
-  //     // ID Token 검증 및 유저 정보 파싱
-  //     const userPayload = this.decodeJwt(id_token);
-  //     if (!userPayload || !userPayload.sub) {
-  //       return {
-  //         error: 'Failed to decode ID token or missing user information',
-  //       };
-  //     }
-
-  //     // 유저 생성 및 로그인
-  //     return await this.socialLoginAndSignup(
-  //       userPayload.email,
-  //       userPayload.sub,
-  //       'I',
-  //     );
-  //   } catch (error) {
-  //     console.error('Error during Apple authentication:', error);
-  //     return { error: 'An unexpected error occurred during authentication' };
-  //   }
-  // }
-
   async handleGoogleCallback(code: string) {
     const userInfo = await this.googleService.google(code);
 
-    // 유저 생성 및 로그인
     return await this.socialLoginAndSignup(userInfo.email, userInfo.sub, 'A');
   }
 
-  // async handleAppleCallback(code: string, id_token: string) {
-  //   if (!code || !id_token) {
-  //     return { error: 'Authorization code or ID token not found in callback' };
-  //   }
+  async handleAppleCallback(code: string, id_token: string) {
+    const userInfo = await this.appleService.apple(code, id_token);
 
-  //   try {
-  //     // 애플 토큰 교환 요청
-  //     const tokenResponse = await fetch(
-  //       'https://appleid.apple.com/auth/token',
-  //       {
-  //         method: 'POST',
-  //         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-  //         body: new URLSearchParams({
-  //           code: code,
-  //           client_id: 'com.example.yourclientid', // 애플 개발자 계정에 등록된 클라이언트 ID
-  //           client_secret: this.generateAppleClientSecret(), // 클라이언트 비밀키 생성 함수
-  //           redirect_uri: 'https://your-app.com/auth/callback',
-  //           grant_type: 'authorization_code',
-  //         }),
-  //       },
-  //     );
-
-  //     if (!tokenResponse.ok) {
-  //       const errorData = await tokenResponse.json();
-  //       console.error('Token exchange failed:', errorData);
-  //       return {
-  //         error: `Token exchange failed: ${errorData.error_description}`,
-  //       };
-  //     }
-
-  //     const tokenData = await tokenResponse.json();
-  //     const appleAccessToken = tokenData.access_token;
-
-  //     // ID Token 검증 및 유저 정보 파싱
-  //     const userPayload = this.decodeJwt(id_token);
-  //     if (!userPayload || !userPayload.sub) {
-  //       return {
-  //         error: 'Failed to decode ID token or missing user information',
-  //       };
-  //     }
-
-  //     // 유저 생성 및 로그인
-  //     return await this.socialLoginAndSignup(
-  //       userPayload.email,
-  //       userPayload.sub,
-  //       'I',
-  //     );
-  //   } catch (error) {
-  //     console.error('Error during Apple authentication:', error);
-  //     return { error: 'An unexpected error occurred during authentication' };
-  //   }
-  // }
-
-  // JWT 디코드 함수
-  // private decodeJwt(token: string): any {
-  //   try {
-  //     const base64Url = token.split('.')[1];
-  //     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  //     const jsonPayload = decodeURIComponent(
-  //       atob(base64)
-  //         .split('')
-  //         .map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
-  //         .join(''),
-  //     );
-  //     return JSON.parse(jsonPayload);
-  //   } catch (error) {
-  //     console.error('Error decoding JWT:', error);
-  //     return null;
-  //   }
-  // }
-
-  // Apple 클라이언트 비밀키 생성 함수
-  //   private generateAppleClientSecret(): string {
-  //     // eslint-disable-next-line @typescript-eslint/no-var-requires
-  //     const jwt = require('jsonwebtoken');
-  //     const privateKey = `-----BEGIN PRIVATE KEY-----
-  // <Your_Private_Key_Here>
-  // -----END PRIVATE KEY-----`;
-
-  //     const payload = {
-  //       iss: '<Your_Team_ID>',
-  //       aud: 'https://appleid.apple.com',
-  //       sub: 'com.example.yourclientid', // 클라이언트 ID
-  //       iat: Math.floor(Date.now() / 1000),
-  //       exp: Math.floor(Date.now() / 1000) + 3600, // 1시간 유효
-  //     };
-
-  //     return jwt.sign(payload, privateKey, {
-  //       algorithm: 'ES256',
-  //       keyid: '<Your_Key_ID>',
-  //     });
-  //   }
+    return await this.socialLoginAndSignup(userInfo.email, userInfo.sub, 'I');
+  }
 
   /**
    * Basic aldkjkfkdkjkkjkjdfd
