@@ -65,98 +65,6 @@ export class AuthService {
     return token;
   }
 
-  // async handleGoogleCallback(code: string) {
-  //   // console.log('code:', code);
-
-  //   if (!code) {
-  //     return {
-  //       error: 'Code not found in callback',
-  //     };
-  //   }
-
-  //   try {
-  //     // Google OAuth2 Token Endpoint 호출
-  //     const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-  //       body: new URLSearchParams({
-  //         code: code,
-  //         client_id:
-  //           '781512529596-vb3bgbl9chuc91a3ths65j2gaf1ncoch.apps.googleusercontent.com',
-  //         client_secret: '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',
-  //         //client_id: process.env.GOOGLE_CLIENT_ID || '', // 환경 변수 사용
-  //         //client_secret: process.env.GOOGLE_CLIENT_SECRET || '', // 환경 변수 사용
-  //         redirect_uri: 'https://leda-pgs.actioncatuniverse.com/auth/callback',
-  //         grant_type: 'authorization_code',
-  //       }),
-  //     });
-
-  //     const tokenData = await tokenResponse.json();
-  //     console.log('Token Response:', tokenData);
-
-  //     // 에러 처리
-  //     if (tokenData.error) {
-  //       console.error('Token exchange failed:', tokenData.error_description);
-  //       return {
-  //         error: `Token exchange failed: ${tokenData.error_description}`,
-  //       };
-  //     }
-
-  //     const googleAccessToken = tokenData.access_token;
-
-  //     // 2. Google API를 사용해 사용자 정보 가져오기
-  //     const userInfoResponse = await fetch(
-  //       'https://www.googleapis.com/oauth2/v3/userinfo',
-  //       {
-  //         headers: { Authorization: `Bearer ${googleAccessToken}` },
-  //       },
-  //     );
-  //     const userInfo = await userInfoResponse.json();
-  //     console.log('userInfo Response:', userInfo);
-
-  //     if (userInfo.error) {
-  //       throw new UnauthorizedException(
-  //         'Failed to fetch user info from Google',
-  //       );
-  //     }
-
-  //     console.log('1');
-  //     const existUserMail = await this.usersService.getUserByEmail(
-  //       userInfo.email,
-  //     );
-
-  //     if (existUserMail) {
-  //       console.log('2');
-  //       const credentials = {
-  //         email: userInfo.email,
-  //         password: '', // 실제 비밀번호 사용
-  //       };
-  //       return await this.loginWithEmail(credentials);
-  //     } else {
-  //       console.log('3');
-
-  //       const newUserData = await this.usersService.createUserOsakey(
-  //         userInfo.email,
-  //         userInfo.sub,
-  //       );
-
-  //       await this.usersService.createUserID(newUserData.email);
-
-  //       const newLoginUser = {
-  //         email: newUserData.email,
-  //         password: '', // 실제 비밀번호 사용
-  //       };
-
-  //       return await this.loginWithEmail(newLoginUser);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error during token exchange:', error);
-  //     return {
-  //       error: 'An error occurred during the token exchange',
-  //     };
-  //   }
-  // }
-
   async handleGoogleCallback(code: string) {
     if (!code) {
       return { error: 'Authorization code not found in callback' };
@@ -173,7 +81,8 @@ export class AuthService {
           client_secret: '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',
           //client_id: process.env.GOOGLE_CLIENT_ID || '', // 환경 변수 사용
           //client_secret: process.env.GOOGLE_CLIENT_SECRET || '', // 환경 변수 사용
-          redirect_uri: 'https://leda-pgs.actioncatuniverse.com/auth/callback',
+          redirect_uri:
+            'https://leda-pgs.actioncatuniverse.com/auth/google/callback',
           grant_type: 'authorization_code',
         }),
       });
