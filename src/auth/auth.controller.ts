@@ -32,24 +32,14 @@ export class AuthController {
     return this.authService.handleGoogleCallback(code);
   }
 
-  //   async function refreshAccessToken(refreshToken: string) {
-  //   const response = await fetch('https://oauth2.googleapis.com/token', {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-  //     body: new URLSearchParams({
-  //       client_id: process.env.GOOGLE_CLIENT_ID,
-  //       client_secret: process.env.GOOGLE_CLIENT_SECRET,
-  //       refresh_token: refreshToken,
-  //       grant_type: 'refresh_token',
-  //     }),
-  //   });
-
-  //   const tokenData = await response.json();
-  //   if (tokenData.error) {
-  //     throw new Error(`Failed to refresh token: ${tokenData.error_description}`);
-  //   }
-  //   return tokenData.access_token;
-  // }
+  @IsPublic()
+  @Get('apple/callback')
+  async handleAppleCallback(
+    @Query('code') code: string,
+    @Query('code') id_token: string,
+  ) {
+    return this.authService.handleAppleCallback(code, id_token);
+  }
 
   @Post('token/access')
   @IsPublic()

@@ -153,7 +153,7 @@ export class AuthService {
   }
 
   /**
-   * 우리가 만드려는 기능
+   * 만드려는 기능
    *
    * 1) registerWithEmail
    *    - email, nickname, password를 입력받고 사용자를 생성한다.

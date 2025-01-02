@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { APPLE_CLIENT_ID } from 'src/common/const/env-keys.const';
 
 @Injectable()
 export class AppleService {
@@ -19,7 +20,7 @@ export class AppleService {
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams({
             code: code,
-            client_id: 'com.example.yourclientid', // 애플 개발자 계정에 등록된 클라이언트 ID
+            client_id: this.configService.get<string>(APPLE_CLIENT_ID), // 애플 개발자 계정에 등록된 클라이언트 ID
             client_secret: this.generateAppleClientSecret(), // 클라이언트 비밀키 생성 함수
             redirect_uri: 'https://your-app.com/auth/apple/callback',
             grant_type: 'authorization_code',

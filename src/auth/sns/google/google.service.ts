@@ -20,9 +20,6 @@ export class GoogleService {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
           code: code,
-          //   client_id:
-          //     '781512529596-vb3bgbl9chuc91a3ths65j2gaf1ncoch.apps.googleusercontent.com',
-          //   client_secret: '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',
           client_id: this.configService.get<string>(GOOGLE_CLIENT_ID),
           client_secret: this.configService.get<string>(GOOGLE_CLIENT_SECRET),
           redirect_uri: 'https://leda-pgs.actioncatuniverse.com/auth/callback',
@@ -62,4 +59,23 @@ export class GoogleService {
       return { error: 'An unexpected error occurred during authentication' };
     }
   }
+
+  //   async function refreshAccessToken(refreshToken: string) {
+  //   const response = await fetch('https://oauth2.googleapis.com/token', {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  //     body: new URLSearchParams({
+  //       client_id: process.env.GOOGLE_CLIENT_ID,
+  //       client_secret: process.env.GOOGLE_CLIENT_SECRET,
+  //       refresh_token: refreshToken,
+  //       grant_type: 'refresh_token',
+  //     }),
+  //   });
+
+  //   const tokenData = await response.json();
+  //   if (tokenData.error) {
+  //     throw new Error(`Failed to refresh token: ${tokenData.error_description}`);
+  //   }
+  //   return tokenData.access_token;
+  // }
 }
