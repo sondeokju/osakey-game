@@ -60,7 +60,6 @@ import { EquipSkillService } from '../equipment/equip_skill/equip_skill.service'
 import { EquipLevelService } from '../equipment/equip_level/equip_level.service';
 import { EquipOptionService } from '../equipment/equip_option/equip_option.service';
 import { EquipOption } from '../equipment/equip_option/entities/equip_option.entity';
-import { Collection } from 'typeorm';
 import { CollectionBoss } from '../collection/collection_boss/entities/collection_boss.entity';
 import { CollectionBossMemory } from '../collection/collection_boss_memory/entities/collection_boss_memory.entity';
 import { CollectionEquip } from '../collection/collection_equip/entities/collection_equip.entity';
@@ -74,6 +73,7 @@ import { CollectionBossService } from '../collection/collection_boss/collection_
 import { CollectionEquipService } from '../collection/collection_equip/collection_equip.service';
 import { CollectionBossMemoryService } from '../collection/collection_boss_memory/collection_boss_memory.service';
 import { ServerConfigService } from '../config/server_config/server_config.service';
+import { Collection } from '../collection/collection/entities/collection.entity';
 
 @Module({
   imports: [
