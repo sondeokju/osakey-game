@@ -124,7 +124,7 @@ export const entities_module = [
   UserEquipSlotModule,
   EquipOptionModule,
   UserEquipOptionModule,
-  CollectionModule,
+  //CollectionModule,
   CollectionSuitModule,
   CollectionNpcModule,
   CollectionEquipModule,
