@@ -10,4 +10,4 @@ import { CollectionBossController } from './collection_boss_memory.controller';
   controllers: [CollectionBossController],
   providers: [CollectionBossMemoryService],
 })
-export class CollectionBossModule {}
+export class CollectionBossMemoryModule {}
