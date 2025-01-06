@@ -29,6 +29,13 @@ import { EquipGradeService } from '../equipment/equip_grade/equip_grade.service'
 import { EquipSkillService } from '../equipment/equip_skill/equip_skill.service';
 import { EquipLevelService } from '../equipment/equip_level/equip_level.service';
 import { EquipOptionService } from '../equipment/equip_option/equip_option.service';
+import { CollectionService } from '../collection/collection/collection.service';
+import { CollectionSuitService } from '../collection/collection_suit/collection_suit.service';
+import { CollectionNpcService } from '../collection/collection_npc/collection_npc.service';
+import { CollectionEquipService } from '../collection/collection_equip/collection_equip.service';
+import { CollectionBossService } from '../collection/collection_boss/collection_boss.service';
+import { CollectionBossMemoryService } from '../collection/collection_boss_memory/collection_boss_memory.service';
+import { ServerConfigService } from '../config/server_config/server_config.service';
 
 @Injectable()
 export class ControlTableService {
@@ -63,6 +70,13 @@ export class ControlTableService {
     private readonly equipSkillService: EquipSkillService,
     private readonly equipLevelService: EquipLevelService,
     private readonly equipOptionService: EquipOptionService,
+    private readonly collectionService: CollectionService,
+    private readonly collectionSuitService: CollectionSuitService,
+    private readonly collectionNpcService: CollectionNpcService,
+    private readonly collectionEquipService: CollectionEquipService,
+    private readonly collectionBossService: CollectionBossService,
+    private readonly collectionBossMemoryService: CollectionBossMemoryService,
+    private readonly serverConfigService: ServerConfigService,
   ) {}
 
   async getControlTableAll(qr?: QueryRunner) {
@@ -77,6 +91,7 @@ export class ControlTableService {
       dispatch: await this.getDispatchAll(qr),
       edu: await this.getEduAll(qr),
       equipment: await this.getEquipmentAll(qr),
+      config: await this.getConfigAll(qr),
     };
 
     return obj;
@@ -162,6 +177,31 @@ export class ControlTableService {
       equip_skill: await this.equipSkillService.getEquipSkillAll(qr),
       equip_level: await this.equipLevelService.getEquipLevelAll(qr),
       equip_option: await this.equipOptionService.getEquipOptionAll(qr),
+    };
+
+    return obj;
+  }
+
+  async getCollectionAll(qr?: QueryRunner) {
+    const obj = {
+      collection: await this.collectionService.getCollectionAll(qr),
+      collection_suit:
+        await this.collectionSuitService.getCollectionSuitAll(qr),
+      collection_npc: await this.collectionNpcService.getCollectionNpcAll(qr),
+      collection_equip:
+        await this.collectionEquipService.getCollectionEquipAll(qr),
+      collection_boss:
+        await this.collectionBossService.getCollectionBossAll(qr),
+      collection_boss_memory:
+        await this.collectionBossMemoryService.getCollectionBossMemoryAll(qr),
+    };
+
+    return obj;
+  }
+
+  async getConfigAll(qr?: QueryRunner) {
+    const obj = {
+      server_config: await this.serverConfigService.getServerConfigAll(qr),
     };
 
     return obj;
