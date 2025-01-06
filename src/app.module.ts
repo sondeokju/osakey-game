@@ -29,8 +29,6 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
 import { entities } from './entity_group/entity';
 import { entities_module } from './entity_group/entity_module';
-import { EquipOptionModule } from './static-table/equipment/equip_option/equip_option.module';
-import { UserEquipOptionModule } from './inventory/equipment/user_equip_option/user_equip_option.module';
 
 @Module({
   imports: [

@@ -56,6 +56,13 @@ import { UserEquipModule } from 'src/inventory/equipment/user_equip/user_equip.m
 import { UserEquipSlotModule } from 'src/inventory/equipment/user_equip_slot/user_equip_slot.module';
 import { EquipOptionModule } from 'src/static-table/equipment/equip_option/equip_option.module';
 import { UserEquipOptionModule } from 'src/inventory/equipment/user_equip_option/user_equip_option.module';
+import { CollectionModule } from 'src/static-table/collection/collection/collection.module';
+import { CollectionBossModule } from 'src/static-table/collection/collection_boss/collection_boss.module';
+import { CollectionBossMemoryModule } from 'src/static-table/collection/collection_boss_memory/collection_boss_memory.module';
+import { CollectionEquipModule } from 'src/static-table/collection/collection_equip/collection_equip.module';
+import { CollectionNpcModule } from 'src/static-table/collection/collection_npc/collection_npc.module';
+import { CollectionSuitModule } from 'src/static-table/collection/collection_suit/collection_suit.module';
+import { ServerConfigModule } from 'src/static-table/config/server_config/server_config.module';
 
 export const entities_module = [
   UsersModule,
@@ -116,4 +123,11 @@ export const entities_module = [
   UserEquipSlotModule,
   EquipOptionModule,
   UserEquipOptionModule,
+  CollectionModule,
+  CollectionSuitModule,
+  CollectionNpcModule,
+  CollectionEquipModule,
+  CollectionBossModule,
+  CollectionBossMemoryModule,
+  ServerConfigModule,
 ];

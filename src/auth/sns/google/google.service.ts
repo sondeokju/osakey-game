@@ -52,6 +52,7 @@ export class GoogleService {
       }
 
       const userInfo = await userInfoResponse.json();
+      console.log(userInfo);
 
       return userInfo;
     } catch (error) {
