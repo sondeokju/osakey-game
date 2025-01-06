@@ -51,13 +51,13 @@ import { UserEquip } from 'src/inventory/equipment/user_equip/entities/user_equi
 import { UserEquipSlot } from 'src/inventory/equipment/user_equip_slot/entities/user_equip_slot.entity';
 import { EquipOption } from 'src/static-table/equipment/equip_option/entities/equip_option.entity';
 import { UserEquipOption } from 'src/inventory/equipment/user_equip_option/entities/user_equip_option.entity';
-import { Collection } from 'src/static-table/collection/collection/entities/collection.entity';
-import { CollectionSuit } from 'src/static-table/collection/collection_suit/entities/collection_suit.entity';
-import { CollectionNpc } from 'src/static-table/collection/collection_npc/entities/collection_npc.entity';
-import { CollectionBoss } from 'src/static-table/collection/collection_boss/entities/collection_boss.entity';
-import { CollectionEquip } from 'src/static-table/collection/collection_equip/entities/collection_equip.entity';
-import { CollectionBossMemory } from 'src/static-table/collection/collection_boss_memory/entities/collection_boss_memory.entity';
-import { ServerConfig } from 'src/static-table/config/server_config/entities/server_config.entity';
+// import { Collection } from 'src/static-table/collection/collection/entities/collection.entity';
+// import { CollectionSuit } from 'src/static-table/collection/collection_suit/entities/collection_suit.entity';
+// import { CollectionNpc } from 'src/static-table/collection/collection_npc/entities/collection_npc.entity';
+// import { CollectionBoss } from 'src/static-table/collection/collection_boss/entities/collection_boss.entity';
+// import { CollectionEquip } from 'src/static-table/collection/collection_equip/entities/collection_equip.entity';
+// import { CollectionBossMemory } from 'src/static-table/collection/collection_boss_memory/entities/collection_boss_memory.entity';
+// import { ServerConfig } from 'src/static-table/config/server_config/entities/server_config.entity';
 
 export const entities = [
   Users,
