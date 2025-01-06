@@ -92,6 +92,7 @@ export class ControlTableService {
       edu: await this.getEduAll(qr),
       equipment: await this.getEquipmentAll(qr),
       config: await this.getConfigAll(qr),
+      collection: await this.getCollectionAll(qr),
     };
 
     return obj;
