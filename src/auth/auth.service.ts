@@ -93,7 +93,7 @@ export class AuthService {
   async handleAppleCallback(code: string, id_token: string) {
     const userInfo = await this.appleService.apple(code, id_token);
 
-    return await this.socialLoginAndSignup(userInfo.email, userInfo.sub, 'I');
+    //return await this.socialLoginAndSignup(userInfo.email, userInfo.sub, 'I');
   }
 
   /**
