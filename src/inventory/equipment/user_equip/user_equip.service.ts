@@ -500,7 +500,6 @@ export class UserEquipService {
 
     return result;
   }
-
   async equipFusion(
     user_id: string,
     equip_id_01: number,
@@ -561,7 +560,7 @@ export class UserEquipService {
         .innerJoin(
           'equip',
           'e_next',
-          'e_next.equip_slot = (SELECT equip_slot FROM (${equipGradeDetermination.getQuery()}) td) AND e_next.equip_grade = mv.equip_grade + 1',
+          `(e_next.equip_slot = (${equipGradeDetermination.getQuery()}) AND e_next.equip_grade = mv.equip_grade + 1)`,
         );
 
       // Final Query
