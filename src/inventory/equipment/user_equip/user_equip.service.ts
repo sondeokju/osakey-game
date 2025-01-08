@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
+  In,
   QueryRunner,
   QueryRunnerProviderAlreadyReleasedError,
   Repository,
@@ -502,6 +503,64 @@ export class UserEquipService {
   }
   async equipFusion(
     user_id: string,
+    equip_id_01: number,
+    equip_id_02: number,
+    equip_id_03: number,
+    qr?: QueryRunner,
+  ) {
+    const queryRunner = qr || this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      // Repository 가져오기
+      const userEquipRepository = this.getUserEquipRepository(qr);
+
+      // 다음 강화 장비 ID 계산
+      const nextEquipID = await this.equipFusionNextEquipID(
+        equip_id_01,
+        equip_id_02,
+        equip_id_03,
+      );
+
+      // 새로운 장비 생성 (equip_level_id 계산)
+      const equipLevelId = `${nextEquipID}01`;
+      await userEquipRepository.insert({
+        user_id,
+        equip_id: +nextEquipID,
+        equip_level_id: +equipLevelId,
+      });
+
+      // 기존 장비 삭제
+      const equipIds = [equip_id_01, equip_id_02, equip_id_03];
+      await userEquipRepository.delete({
+        user_id,
+        equip_id: In(equipIds),
+      });
+
+      // 남은 장비 조회
+      const userEquip = await userEquipRepository.find({
+        where: {
+          user_id,
+        },
+      });
+
+      // 트랜잭션 커밋
+      await queryRunner.commitTransaction();
+
+      return userEquip;
+    } catch (error) {
+      // 오류 발생 시 트랜잭션 롤백
+      await queryRunner.rollbackTransaction();
+      throw error;
+    } finally {
+      if (!qr) {
+        await queryRunner.release();
+      }
+    }
+  }
+
+  async equipFusionNextEquipID(
     equip_id_01: number,
     equip_id_02: number,
     equip_id_03: number,
