@@ -27,7 +27,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @IsPublic()
-  @Get('social/login')
+  @Post('social/login')
   async socialLogin(
     @Body('email') email: string,
     @Body('sub') sub: string,
