@@ -59,7 +59,7 @@ export class UserEquipController {
     return JSON.stringify(result);
   }
 
-  @Post('max/level-u')
+  @Post('max/level-up')
   @UseInterceptors(TransactionInterceptor)
   async equipMaxLevelUp(
     @User() user: Users,
@@ -80,6 +80,26 @@ export class UserEquipController {
   @UseInterceptors(TransactionInterceptor)
   async findBestEquip(@User() user: Users, @QueryRunner() qr: QR) {
     const result = await this.userEquipService.findBestEquip(user.user_id, qr);
+
+    return JSON.stringify(result);
+  }
+
+  @Post('fusion')
+  @UseInterceptors(TransactionInterceptor)
+  async equipFusion(
+    @User() user: Users,
+    @Body('equip_id_01') equip_id_01: number,
+    @Body('equip_id_02') equip_id_02: number,
+    @Body('equip_id_03') equip_id_03: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userEquipService.equipFusion(
+      user.user_id,
+      equip_id_01,
+      equip_id_02,
+      equip_id_03,
+      qr,
+    );
 
     return JSON.stringify(result);
   }

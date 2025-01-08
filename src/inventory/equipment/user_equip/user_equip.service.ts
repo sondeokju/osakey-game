@@ -500,4 +500,90 @@ export class UserEquipService {
 
     return result;
   }
+
+  async equipFusion(
+    user_id: string,
+    equip_id_01: number,
+    equip_id_02: number,
+    equip_id_03: number,
+    qr?: QueryRunner,
+  ) {
+    const queryRunner = qr || this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      // Selected Weapons CTE
+      const selectedWeapons = queryRunner.manager
+        .createQueryBuilder()
+        .select('ue.user_id', 'user_id')
+        .addSelect('ue.equip_id', 'equip_id')
+        .addSelect('e.equip_slot', 'equip_slot')
+        .addSelect('e.equip_grade', 'equip_grade')
+        .from('user_equip', 'ue')
+        .innerJoin('equip', 'e', 'ue.equip_id = e.equip_id')
+        .where('ue.equip_id IN (:...equipIds)', {
+          equipIds: [equip_id_01, equip_id_02, equip_id_03],
+        });
+
+      // Type Determination CTE
+      const equipGradeDetermination = queryRunner.manager
+        .createQueryBuilder()
+        .select('e.equip_slot', 'equip_slot')
+        .addSelect('e.equip_grade', 'equip_grade')
+        .addSelect('e.equip_id', 'equip_id')
+        .from('equip', 'e')
+        .where('e.equip_id = :equipId', { equipId: equip_id_01 });
+
+      // Material Validation CTE
+      const materialValidation = queryRunner.manager
+        .createQueryBuilder()
+        .select('sw.equip_grade', 'equip_grade')
+        .from(`(${selectedWeapons.getQuery()})`, 'sw')
+        .innerJoin(
+          `(${equipGradeDetermination.getQuery()})`,
+          'td',
+          'sw.equip_slot = td.equip_slot',
+        )
+        .where('sw.equip_id BETWEEN td.equip_id AND td.equip_id + 4')
+        .groupBy('sw.equip_grade');
+
+      // Next Grade Equip CTE
+      const nextGradeEquip = queryRunner.manager
+        .createQueryBuilder()
+        .select('mv.equip_grade', 'current_grade')
+        .addSelect('e_next.equip_id', 'next_grade_equip_id')
+        .addSelect(
+          'ROW_NUMBER() OVER (PARTITION BY mv.equip_grade ORDER BY e_next.equip_id)',
+          'row_num',
+        )
+        .from(`(${materialValidation.getQuery()})`, 'mv')
+        .innerJoin(
+          'equip',
+          'e_next',
+          'e_next.equip_slot = (SELECT equip_slot FROM Type_Determination) AND e_next.equip_grade = mv.equip_grade + 1',
+        );
+
+      // Final Query
+      const result = await queryRunner.manager
+        .createQueryBuilder()
+        .select('current_grade')
+        .addSelect('next_grade_equip_id')
+        .from(`(${nextGradeEquip.getQuery()})`, 'nq')
+        .where('nq.row_num = 1')
+        .setParameters({
+          equipIds: [equip_id_01, equip_id_02, equip_id_03],
+          equipId: equip_id_01,
+        })
+        .getRawOne();
+
+      await queryRunner.commitTransaction();
+      return result;
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      throw error;
+    } finally {
+      if (!qr) await queryRunner.release();
+    }
+  }
 }

@@ -40,7 +40,6 @@ import { ServerConfigService } from '../config/server_config/server_config.servi
 @Injectable()
 export class ControlTableService {
   constructor(
-    //@InjectRepository(UserQuest)
     private readonly missionService: MissionService,
     private readonly missionKindService: MissionKindService,
     private readonly missionMainService: MissionMainService,
@@ -80,7 +79,7 @@ export class ControlTableService {
   ) {}
 
   async getControlTableAll(qr?: QueryRunner) {
-    const obj = {
+    const static_table = {
       mission_all: await this.getMissionAll(qr),
       item: await this.getItemAll(qr),
       hero: await this.getHeroAll(qr),
@@ -91,11 +90,11 @@ export class ControlTableService {
       dispatch: await this.getDispatchAll(qr),
       edu: await this.getEduAll(qr),
       equipment: await this.getEquipmentAll(qr),
-      config: await this.getConfigAll(qr),
+      server_config: await this.serverConfigService.getServerConfigAll(qr),
       collection: await this.getCollectionAll(qr),
     };
 
-    return obj;
+    return static_table;
   }
 
   async getMissionAll(qr?: QueryRunner) {
