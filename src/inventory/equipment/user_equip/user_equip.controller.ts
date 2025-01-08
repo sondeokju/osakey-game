@@ -88,16 +88,16 @@ export class UserEquipController {
   @UseInterceptors(TransactionInterceptor)
   async equipFusion(
     @User() user: Users,
-    @Body('equip_id_01') equip_id_01: number,
-    @Body('equip_id_02') equip_id_02: number,
-    @Body('equip_id_03') equip_id_03: number,
+    @Body('user_equip_id_01') user_equip_id_01: number,
+    @Body('user_equip_id_02') user_equip_id_02: number,
+    @Body('user_equip_id_03') user_equip_id_03: number,
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userEquipService.equipFusion(
       user.user_id,
-      equip_id_01,
-      equip_id_02,
-      equip_id_03,
+      user_equip_id_01,
+      user_equip_id_02,
+      user_equip_id_03,
       qr,
     );
 

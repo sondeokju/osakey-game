@@ -503,28 +503,51 @@ export class UserEquipService {
   }
   async equipFusion(
     user_id: string,
-    equip_id_01: number,
-    equip_id_02: number,
-    equip_id_03: number,
+    user_equip_id_01: number,
+    user_equip_id_02: number,
+    user_equip_id_03: number,
     qr?: QueryRunner,
   ) {
     const queryRunner = qr || this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
-    console.log('equip_id_01', equip_id_01);
-    console.log('equip_id_02', equip_id_02);
-    console.log('equip_id_03', equip_id_03);
+    console.log('user_equip_id_01', user_equip_id_01);
+    console.log('user_equip_id_02', user_equip_id_02);
+    console.log('user_equip_id_03', user_equip_id_03);
 
     try {
       // Repository 가져오기
       const userEquipRepository = this.getUserEquipRepository(qr);
 
+      // const equipIdList = await userEquipRepository.find({
+      //   select: ['equip_id'], // select는 배열로 작성
+      //   where: {
+      //     id: In([user_equip_id_01, user_equip_id_02, user_equip_id_03]), // In의 인자는 배열
+      //   },
+      // });
+
+      const equipIdList = await userEquipRepository
+        .createQueryBuilder('ue')
+        .select('ue.equip_id', 'equip_id')
+        .where('ue.id IN (:...ids)', {
+          ids: [user_equip_id_01, user_equip_id_02, user_equip_id_03],
+        })
+        .orderBy(
+          `FIELD(ue.id, ${user_equip_id_01}, ${user_equip_id_02}, ${user_equip_id_03})`,
+        ) // 순서를 명시적으로 지정
+        .getRawMany();
+
+      console.log('equipIdList', equipIdList);
+      const equipIds = equipIdList.map((item) => item.equip_id);
+      console.log('equipIds', equipIds);
+
       // 다음 강화 장비 ID 계산
       const nextEquipID = await this.equipFusionNextEquipID(
-        equip_id_01,
-        equip_id_02,
-        equip_id_03,
+        equipIds[0],
+        equipIds[1],
+        equipIds[2],
+        qr,
       );
 
       console.log('nextEquipID', nextEquipID);
@@ -539,7 +562,7 @@ export class UserEquipService {
       console.log('equipLevelId', equipLevelId);
 
       // 기존 장비 삭제
-      const equipIds = [equip_id_01, equip_id_02, equip_id_03];
+      //const equipIds = [user_equip_id_01, user_equip_id_02, user_equip_id_03];
       await userEquipRepository.delete({
         user_id,
         equip_id: In(equipIds),
