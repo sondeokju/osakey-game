@@ -512,6 +512,10 @@ export class UserEquipService {
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
+    console.log('equip_id_01', equip_id_01);
+    console.log('equip_id_02', equip_id_02);
+    console.log('equip_id_03', equip_id_03);
+
     try {
       // Repository 가져오기
       const userEquipRepository = this.getUserEquipRepository(qr);
@@ -523,6 +527,8 @@ export class UserEquipService {
         equip_id_03,
       );
 
+      console.log('nextEquipID', nextEquipID);
+
       // 새로운 장비 생성 (equip_level_id 계산)
       const equipLevelId = `${nextEquipID}01`;
       await userEquipRepository.insert({
@@ -530,6 +536,7 @@ export class UserEquipService {
         equip_id: +nextEquipID,
         equip_level_id: +equipLevelId,
       });
+      console.log('equipLevelId', equipLevelId);
 
       // 기존 장비 삭제
       const equipIds = [equip_id_01, equip_id_02, equip_id_03];
@@ -537,6 +544,8 @@ export class UserEquipService {
         user_id,
         equip_id: In(equipIds),
       });
+
+      console.log('equipIds', equipIds);
 
       // 남은 장비 조회
       const userEquip = await userEquipRepository.find({
