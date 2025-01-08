@@ -625,6 +625,7 @@ export class UsersService {
 
   async socialLoginSaveUser(
     device_id: string,
+    email: string,
     os_type: string,
     pgs_id?: string,
     qr?: QueryRunner,
@@ -641,7 +642,7 @@ export class UsersService {
       user = await usersRepository.findOne({ where: { device_id, pgs_id } });
 
       if (!user) {
-        user = usersRepository.create({ device_id, pgs_id, os_type });
+        user = usersRepository.create({ device_id, email, os_type, pgs_id });
       } else {
         // 기존 user를 업데이트 가능
         user.update_at = new Date();
@@ -651,7 +652,7 @@ export class UsersService {
       user = await usersRepository.findOne({ where: { device_id } });
 
       if (!user) {
-        user = usersRepository.create({ device_id, os_type });
+        user = usersRepository.create({ device_id, email, os_type });
       } else {
         // 기존 user를 업데이트 가능
         user.update_at = new Date();

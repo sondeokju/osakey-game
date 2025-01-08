@@ -70,15 +70,25 @@ export class AuthService {
     return token;
   }
 
-  async socialLogin(email: string, os_type: string, sub: string) {
-    return await this.socialLoginAndSignup(email, os_type, sub);
+  async socialLogin(
+    device_id: string,
+    email: string,
+    os_type: string,
+    sub: string,
+  ) {
+    return await this.usersService.socialLoginSaveUser(
+      device_id,
+      email,
+      os_type,
+      sub,
+    );
   }
 
-  async handleGoogleCallback(code: string) {
-    const userInfo = await this.googleService.google(code);
+  // async handleGoogleCallback(code: string) {
+  //   const userInfo = await this.googleService.google(code);
 
-    return await this.socialLoginAndSignup(userInfo.email, userInfo.sub, 'A');
-  }
+  //   return await this.socialLoginAndSignup(userInfo.email, userInfo.sub, 'A');
+  // }
 
   async handleAppleCallback(code: string, id_token: string) {
     const userInfo = await this.appleService.apple(code, id_token);
@@ -291,9 +301,19 @@ export class AuthService {
     return this.loginUser(newUser);
   }
 
-  async socialLoginAndSignup(email: string, os_type: string, pgs_id: string) {
+  async socialLoginAndSignup(
+    device_id: string,
+    email: string,
+    os_type: string,
+    pgs_id: string,
+  ) {
     // 유저 생성 및 로그인
-    return await this.usersService.socialLoginSaveUser(email, os_type, pgs_id);
+    return await this.usersService.socialLoginSaveUser(
+      device_id,
+      email,
+      os_type,
+      pgs_id,
+    );
   }
 
   // async socialLoginAndSignup(email: string, pgs_id: string, os_type: string) {

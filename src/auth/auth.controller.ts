@@ -29,19 +29,20 @@ export class AuthController {
   @IsPublic()
   @Post('social/login')
   async socialLogin(
+    @Body('device_id') device_id: string,
     @Body('email') email: string,
-    @Body('sub') sub: string,
     @Body('os_type') os_type: string,
+    @Body('sub') sub: string,
     //@QueryRunner() qr: QR,
   ) {
-    return this.authService.socialLogin(email, os_type, sub);
+    return this.authService.socialLogin(device_id, email, os_type, sub);
   }
 
-  @IsPublic()
-  @Get('callback')
-  async handleGoogleCallback(@Query('code') code: string) {
-    return this.authService.handleGoogleCallback(code);
-  }
+  // @IsPublic()
+  // @Get('callback')
+  // async handleGoogleCallback(@Query('code') code: string) {
+  //   return this.authService.handleGoogleCallback(code);
+  // }
 
   @IsPublic()
   @Get('apple/callback')
