@@ -623,5 +623,41 @@ export class UsersService {
     //await this.rewardService.reward()
   }
 
-  //return 0;
+  async socialLoginSaveUser(
+    device_id: string,
+    pgs_id?: string,
+    os_type: string,
+    qr?: QueryRunner,
+  ) {
+    if (!device_id) {
+      throw new Error('device_id is required');
+    }
+    const usersRepository = this.getUsersRepository(qr);
+
+    let user: Users;
+
+    if (pgs_id) {
+      // device_id와 pgs_id(subId)가 모두 있을 경우
+      user = await usersRepository.findOne({ where: { device_id, pgs_id } });
+
+      if (!user) {
+        user = usersRepository.create({ device_id, pgs_id, os_type });
+      } else {
+        // 기존 user를 업데이트 가능
+        user.update_at = new Date();
+      }
+    } else {
+      // device_id만 있을 경우
+      user = await usersRepository.findOne({ where: { device_id } });
+
+      if (!user) {
+        user = usersRepository.create({ device_id, os_type });
+      } else {
+        // 기존 user를 업데이트 가능
+        user.update_at = new Date();
+      }
+    }
+
+    return usersRepository.save(user);
+  }
 }

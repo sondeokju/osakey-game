@@ -70,6 +70,10 @@ export class AuthService {
     return token;
   }
 
+  async socialLogin(email: string, sub: string, os_type: string) {
+    return await this.socialLoginAndSignup(userInfo.email, userInfo.sub, 'A');
+  }
+
   async handleGoogleCallback(code: string) {
     const userInfo = await this.googleService.google(code);
 
@@ -289,22 +293,27 @@ export class AuthService {
 
   async socialLoginAndSignup(email: string, pgs_id: string, os_type: string) {
     // 유저 생성 및 로그인
-    const existUser = await this.usersService.getUserByEmail(email);
-
-    if (existUser) {
-      const credentials = { email: email, password: '' };
-      return await this.loginWithEmail(credentials);
-    } else {
-      const newUserData = await this.usersService.createUserOsakey(
-        email,
-        pgs_id,
-        os_type,
-      );
-
-      await this.usersService.createUserID(newUserData.email);
-
-      const newLoginUser = { email: newUserData.email, password: '' };
-      return await this.loginWithEmail(newLoginUser);
-    }
+    return await this.usersService.socialLoginSaveUser(email, pgs_id, os_type);
   }
+
+  // async socialLoginAndSignup(email: string, pgs_id: string, os_type: string) {
+  //   // 유저 생성 및 로그인
+  //   const existUser = await this.usersService.getUserByEmail(email);
+
+  //   if (existUser) {
+  //     const credentials = { email: email, password: '' };
+  //     return await this.loginWithEmail(credentials);
+  //   } else {
+  //     const newUserData = await this.usersService.createUserOsakey(
+  //       email,
+  //       pgs_id,
+  //       os_type,
+  //     );
+
+  //     await this.usersService.createUserID(newUserData.email);
+
+  //     const newLoginUser = { email: newUserData.email, password: '' };
+  //     return await this.loginWithEmail(newLoginUser);
+  //   }
+  // }
 }

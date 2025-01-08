@@ -27,6 +27,17 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @IsPublic()
+  @Get('social/login')
+  async socialLogin(
+    @Body('email') email: string,
+    @Body('sub') sub: string,
+    @Body('os_type') os_type: string,
+    //@QueryRunner() qr: QR,
+  ) {
+    return this.authService.socialLogin(email, sub, os_type);
+  }
+
+  @IsPublic()
   @Get('callback')
   async handleGoogleCallback(@Query('code') code: string) {
     return this.authService.handleGoogleCallback(code);
