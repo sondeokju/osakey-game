@@ -71,7 +71,7 @@ export class AuthService {
   }
 
   async socialLogin(email: string, sub: string, os_type: string) {
-    return await this.socialLoginAndSignup(userInfo.email, userInfo.sub, 'A');
+    return await this.socialLoginAndSignup(email, sub, os_type);
   }
 
   async handleGoogleCallback(code: string) {
