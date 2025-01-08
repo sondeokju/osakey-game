@@ -625,8 +625,8 @@ export class UsersService {
 
   async socialLoginSaveUser(
     device_id: string,
-    pgs_id?: string,
     os_type: string,
+    pgs_id?: string,
     qr?: QueryRunner,
   ) {
     if (!device_id) {

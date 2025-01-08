@@ -70,8 +70,8 @@ export class AuthService {
     return token;
   }
 
-  async socialLogin(email: string, sub: string, os_type: string) {
-    return await this.socialLoginAndSignup(email, sub, os_type);
+  async socialLogin(email: string, os_type: string, sub: string) {
+    return await this.socialLoginAndSignup(email, os_type, sub);
   }
 
   async handleGoogleCallback(code: string) {
