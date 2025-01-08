@@ -34,7 +34,7 @@ export class AuthController {
     @Body('os_type') os_type: string,
     //@QueryRunner() qr: QR,
   ) {
-    return this.authService.socialLogin(email, sub, os_type);
+    return this.authService.socialLogin(email, os_type, sub);
   }
 
   @IsPublic()

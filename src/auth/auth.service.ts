@@ -291,9 +291,9 @@ export class AuthService {
     return this.loginUser(newUser);
   }
 
-  async socialLoginAndSignup(email: string, pgs_id: string, os_type: string) {
+  async socialLoginAndSignup(email: string, os_type: string, pgs_id: string) {
     // 유저 생성 및 로그인
-    return await this.usersService.socialLoginSaveUser(email, pgs_id, os_type);
+    return await this.usersService.socialLoginSaveUser(email, os_type, pgs_id);
   }
 
   // async socialLoginAndSignup(email: string, pgs_id: string, os_type: string) {
