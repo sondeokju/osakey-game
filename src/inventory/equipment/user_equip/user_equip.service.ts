@@ -520,13 +520,6 @@ export class UserEquipService {
       // Repository 가져오기
       const userEquipRepository = this.getUserEquipRepository(qr);
 
-      // const equipIdList = await userEquipRepository.find({
-      //   select: ['equip_id'], // select는 배열로 작성
-      //   where: {
-      //     id: In([user_equip_id_01, user_equip_id_02, user_equip_id_03]), // In의 인자는 배열
-      //   },
-      // });
-
       const equipIdList = await userEquipRepository
         .createQueryBuilder('ue')
         .select('ue.equip_id', 'equip_id')
@@ -538,19 +531,23 @@ export class UserEquipService {
         ) // 순서를 명시적으로 지정
         .getRawMany();
 
-      console.log('equipIdList', equipIdList);
       const equipIds = equipIdList.map((item) => item.equip_id);
-      console.log('equipIds', equipIds);
+
+      // 배열 길이 검증
+      if (equipIds.length < 3) {
+        throw new Error('Not enough equipment IDs provided for fusion.');
+      }
+
+      // 각 값 명시적 할당
+      const [equipId01, equipId02, equipId03] = equipIds;
 
       // 다음 강화 장비 ID 계산
       const nextEquipID = await this.equipFusionNextEquipID(
-        equipIds[0],
-        equipIds[1],
-        equipIds[2],
+        equipId01,
+        equipId02,
+        equipId03,
         qr,
       );
-
-      console.log('nextEquipID', nextEquipID);
 
       // 새로운 장비 생성 (equip_level_id 계산)
       const equipLevelId = `${nextEquipID.next_grade_equip_id}01`;
@@ -562,7 +559,6 @@ export class UserEquipService {
       console.log('equipLevelId', equipLevelId);
 
       // 기존 장비 삭제
-      //const equipIds = [user_equip_id_01, user_equip_id_02, user_equip_id_03];
       await userEquipRepository.delete({
         user_id,
         equip_id: In(equipIds),
