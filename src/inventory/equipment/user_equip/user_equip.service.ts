@@ -508,6 +508,20 @@ export class UserEquipService {
     user_equip_id_03: number,
     qr?: QueryRunner,
   ) {
+    if (!user_id || typeof user_id !== 'string') {
+      throw new Error('Invalid user_id: Must be a non-empty string.');
+    }
+
+    if (
+      ![user_equip_id_01, user_equip_id_02, user_equip_id_03].every(
+        (id) => typeof id === 'number' && id > 0,
+      )
+    ) {
+      throw new Error(
+        'Invalid equipment IDs: All IDs must be positive numbers.',
+      );
+    }
+
     const queryRunner = qr || this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -517,7 +531,6 @@ export class UserEquipService {
     console.log('user_equip_id_03', user_equip_id_03);
 
     try {
-      // Repository 가져오기
       const userEquipRepository = this.getUserEquipRepository(qr);
 
       const equipIdList = await userEquipRepository

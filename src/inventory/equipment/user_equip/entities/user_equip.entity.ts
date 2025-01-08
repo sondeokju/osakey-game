@@ -3,7 +3,7 @@ import { Column, Entity, Index } from 'typeorm';
 
 @Entity()
 @Index('IDX_UserEquip_user_id_equip_id', ['user_id', 'equip_id'], {
-  unique: true,
+  unique: false,
 })
 export class UserEquip extends BaseModel {
   @Column({
