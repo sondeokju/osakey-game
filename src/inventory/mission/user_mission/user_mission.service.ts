@@ -36,6 +36,15 @@ export class UserMissionService {
     if (!mission_id || isNaN(mission_id)) {
       throw new BadRequestException('Invalid mission_id provided.');
     }
+    if (!mission_goal || isNaN(mission_goal)) {
+      throw new BadRequestException('Invalid mission_goal provided.');
+    }
+    if (!mission_kind || typeof mission_kind !== 'string') {
+      throw new BadRequestException('Invalid mission_kind provided.');
+    }
+    if (!clear_count || isNaN(clear_count)) {
+      throw new BadRequestException('Invalid clear_count provided.');
+    }
 
     const userMissionRepository = this.getUserMissionRepository(qr);
     let userMission = await userMissionRepository.findOne({
@@ -52,13 +61,12 @@ export class UserMissionService {
         mission_goal,
         clear_count,
       });
+    } else {
+      userMission.clear_count += clear_count; // 기존 값에 새로운 clear_count 더하기
     }
 
-    const result = await userMissionRepository.save({
-      ...userMission,
-    });
-
-    return result;
+    const savedMission = await userMissionRepository.save(userMission);
+    return savedMission;
   }
 
   async missionList(user_id: string, qr?: QueryRunner) {
