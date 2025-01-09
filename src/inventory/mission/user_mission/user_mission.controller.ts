@@ -46,13 +46,11 @@ export class UserMissionController {
   async missionReward(
     @User() user: Users,
     @Body('user_mission_id') user_mission_id: number,
-    @Body('reward_id') reward_id: number,
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userMissionService.missionReward(
       user.user_id,
       user_mission_id,
-      reward_id,
       qr,
     );
 
