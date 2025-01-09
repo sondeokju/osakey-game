@@ -1,26 +1,72 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserMissionDto } from './dto/create-user_mission.dto';
-import { UpdateUserMissionDto } from './dto/update-user_mission.dto';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserMission } from './entities/user_mission.entity';
+import { DataSource } from 'typeorm';
+import { QueryRunner, Repository } from 'typeorm';
 
 @Injectable()
 export class UserMissionService {
-  create(createUserMissionDto: CreateUserMissionDto) {
-    return 'This action adds a new userMission';
+  constructor(
+    @InjectRepository(UserMission)
+    private readonly userMissionRepository: Repository<UserMission>,
+    private readonly dataSource: DataSource,
+  ) {}
+
+  getUserMissionRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<UserMission>(UserMission)
+      : this.userMissionRepository;
   }
 
-  findAll() {
-    return `This action returns all userMission`;
+  async saveMssion(
+    user_id: string,
+    mission_id: number,
+    mission_goal: number,
+    mission_kind: string,
+    qr?: QueryRunner,
+  ) {
+    if (!user_id || typeof user_id !== 'string') {
+      throw new BadRequestException('Invalid user_id provided.');
+    }
+    if (!mission_id || isNaN(mission_id)) {
+      throw new BadRequestException('Invalid mission_id provided.');
+    }
+
+    const userMissionRepository = this.getUserMissionRepository(qr);
+    let userMission = await userMissionRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    if (!userMission) {
+      userMission = userMissionRepository.create({
+        user_id,
+        mission_id,
+        mission_goal,
+        mission_kind,
+      });
+    }
+
+    const result = await userMissionRepository.save({
+      ...userMission,
+    });
+
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} userMission`;
-  }
+  async missionList(user_id: string, qr?: QueryRunner) {
+    const userMissionRepository = this.getUserMissionRepository(qr);
+    const userMission = await userMissionRepository.find({
+      where: {
+        user_id,
+      },
+    });
 
-  update(id: number, updateUserMissionDto: UpdateUserMissionDto) {
-    return `This action updates a #${id} userMission`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} userMission`;
+    return userMission;
   }
 }

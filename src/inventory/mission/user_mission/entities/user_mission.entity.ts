@@ -22,12 +22,12 @@ export class UserMission extends BaseModel {
     type: 'varchar',
     length: 128,
   })
-  mission_type: string;
+  mission_kind: string;
 
   @Column({
     default: 0,
   })
-  max_clear_count: number;
+  mission_goal: number;
 
   @Column({
     default: 0,
