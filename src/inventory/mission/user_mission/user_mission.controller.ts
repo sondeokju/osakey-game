@@ -14,17 +14,18 @@ export class UserMissionController {
   @UseInterceptors(TransactionInterceptor)
   async equipFusion(
     @User() user: Users,
-    @Body('mission_id') user_equip_id_01: number,
-    @Body('mission_kind') user_equip_id_02: number,
-    @Body('mission_goal') user_equip_id_03: number,
-    @Body('mission_clear_count') mission_clear_count: number,
+    @Body('mission_id') mission_id: number,
+    @Body('mission_kind') mission_kind: string,
+    @Body('mission_goal') mission_goal: number,
+    @Body('clear_count') clear_count: number,
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userMissionService.saveMssion(
       user.user_id,
-      user_equip_id_01,
-      user_equip_id_02,
-      user_equip_id_03,
+      mission_id,
+      mission_goal,
+      mission_kind,
+      clear_count,
       qr,
     );
 

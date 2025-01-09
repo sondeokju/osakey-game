@@ -27,7 +27,7 @@ export class UserMissionService {
     mission_id: number,
     mission_goal: number,
     mission_kind: string,
-    clear_count: string,
+    clear_count: number,
     qr?: QueryRunner,
   ) {
     if (!user_id || typeof user_id !== 'string') {
