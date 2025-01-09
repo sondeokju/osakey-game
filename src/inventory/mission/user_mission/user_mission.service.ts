@@ -100,6 +100,11 @@ export class UserMissionService {
       throw new NotFoundException('User mission not found.');
     }
 
+    if ((userMission.reward_yn = 'Y')) {
+      throw new NotFoundException(
+        'You have already claimed the mission reward.',
+      );
+    }
     const rewardData = await this.rewardOfferService.reward(
       user_id,
       userMission.reward_id,
