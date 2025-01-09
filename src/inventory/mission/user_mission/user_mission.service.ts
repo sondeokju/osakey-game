@@ -27,6 +27,7 @@ export class UserMissionService {
     mission_id: number,
     mission_goal: number,
     mission_kind: string,
+    clear_count: string,
     qr?: QueryRunner,
   ) {
     if (!user_id || typeof user_id !== 'string') {
@@ -47,8 +48,9 @@ export class UserMissionService {
       userMission = userMissionRepository.create({
         user_id,
         mission_id,
-        mission_goal,
         mission_kind,
+        mission_goal,
+        clear_count,
       });
     }
 

@@ -32,7 +32,7 @@ export class UserMission extends BaseModel {
   @Column({
     default: 0,
   })
-  progress_clear_count: number;
+  clear_count: number;
 
   @Column({
     type: 'char',
