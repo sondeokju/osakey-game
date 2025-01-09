@@ -31,4 +31,11 @@ export class UserMissionController {
 
     return JSON.stringify(result);
   }
+
+  @Get()
+  @UseInterceptors(TransactionInterceptor)
+  async getEquipSlot(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = this.userMissionService.missionList(user.user_id, qr);
+    return result;
+  }
 }
