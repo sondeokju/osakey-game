@@ -18,6 +18,7 @@ export class UserMissionController {
     @Body('mission_kind') mission_kind: string,
     @Body('mission_goal') mission_goal: number,
     @Body('clear_count') clear_count: number,
+    @Body('reward_id') reward_id: number,
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userMissionService.saveMssion(
@@ -26,6 +27,7 @@ export class UserMissionController {
       mission_goal,
       mission_kind,
       clear_count,
+      reward_id,
       qr,
     );
 

@@ -30,6 +30,7 @@ export class UserMissionService {
     mission_goal: number,
     mission_kind: string,
     clear_count: number,
+    reward_id: number,
     qr?: QueryRunner,
   ) {
     if (!user_id || typeof user_id !== 'string') {
@@ -62,6 +63,7 @@ export class UserMissionService {
         mission_kind,
         mission_goal,
         clear_count,
+        reward_id,
       });
     } else {
       userMission.clear_count += +clear_count; // 기존 값에 새로운 clear_count 더하기
@@ -85,7 +87,6 @@ export class UserMissionService {
   async missionReward(
     user_id: string,
     user_mission_id: number,
-    reward_id: number,
     qr?: QueryRunner,
   ) {
     const userMissionRepository = this.getUserMissionRepository(qr);
@@ -101,7 +102,7 @@ export class UserMissionService {
 
     const rewardData = await this.rewardOfferService.reward(
       user_id,
-      reward_id,
+      userMission.reward_id,
       qr,
     );
 
