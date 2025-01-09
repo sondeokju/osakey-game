@@ -63,6 +63,7 @@ import { CollectionNpcModule } from 'src/static-table/collection/collection_npc/
 import { CollectionSuitModule } from 'src/static-table/collection/collection_suit/collection_suit.module';
 import { ServerConfigModule } from 'src/static-table/config/server_config/server_config.module';
 import { CollectionBossMemoryModule } from 'src/static-table/collection/collection_boss_memory/collection_boss_memory.module';
+import { UserMissionModule } from 'src/inventory/mission/user_mission/user_mission.module';
 
 export const entities_module = [
   UsersModule,
@@ -130,4 +131,5 @@ export const entities_module = [
   CollectionBossModule,
   CollectionBossMemoryModule,
   ServerConfigModule,
+  UserMissionModule,
 ];
