@@ -62,7 +62,7 @@ export class UserMissionService {
         clear_count,
       });
     } else {
-      userMission.clear_count += clear_count; // 기존 값에 새로운 clear_count 더하기
+      userMission.clear_count += +clear_count; // 기존 값에 새로운 clear_count 더하기
     }
 
     const savedMission = await userMissionRepository.save(userMission);
