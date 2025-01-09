@@ -63,6 +63,7 @@ import { UserMissionModule } from './inventory/mission/user_mission/user_mission
       entities: entities,
       //synchronize: true,
       // keepConnectionAlive: true,
+      logging: ['schema'],
       synchronize: process.env[ENV_SYNCHRONIZE_KEY] === 'true' ? true : false,
       keepConnectionAlive:
         process.env[ENV_KEEPCONNECTIONALIVE_KEY] === 'true' ? true : false,
