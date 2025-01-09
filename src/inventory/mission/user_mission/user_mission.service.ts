@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserMission } from './entities/user_mission.entity';
 import { DataSource } from 'typeorm';
 import { QueryRunner, Repository } from 'typeorm';
+import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 
 @Injectable()
 export class UserMissionService {
@@ -14,6 +15,7 @@ export class UserMissionService {
     @InjectRepository(UserMission)
     private readonly userMissionRepository: Repository<UserMission>,
     private readonly dataSource: DataSource,
+    private readonly rewardOfferService: RewardOfferService,
   ) {}
 
   getUserMissionRepository(qr?: QueryRunner) {
@@ -78,5 +80,39 @@ export class UserMissionService {
     });
 
     return userMission;
+  }
+
+  async missionReward(
+    user_id: string,
+    user_mission_id: number,
+    reward_id: number,
+    qr?: QueryRunner,
+  ) {
+    const userMissionRepository = this.getUserMissionRepository(qr);
+    const userMission = await userMissionRepository.findOne({
+      where: {
+        id: user_mission_id,
+      },
+    });
+
+    if (!userMission) {
+      throw new NotFoundException('User mission not found.');
+    }
+
+    const rewardData = await this.rewardOfferService.reward(
+      user_id,
+      reward_id,
+      qr,
+    );
+
+    if (!rewardData) {
+      throw new BadRequestException('Failed to process reward.');
+    }
+
+    // userMission 업데이트
+    userMission.reward_yn = 'Y';
+    const updatedMission = await userMissionRepository.save(userMission);
+
+    return { success: true, reward: rewardData, userMission: updatedMission };
   }
 }

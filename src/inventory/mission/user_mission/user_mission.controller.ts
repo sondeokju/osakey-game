@@ -12,7 +12,7 @@ export class UserMissionController {
 
   @Post('save')
   @UseInterceptors(TransactionInterceptor)
-  async equipFusion(
+  async saveMssion(
     @User() user: Users,
     @Body('mission_id') mission_id: number,
     @Body('mission_kind') mission_kind: string,
@@ -34,8 +34,26 @@ export class UserMissionController {
 
   @Get()
   @UseInterceptors(TransactionInterceptor)
-  async getEquipSlot(@User() user: Users, @QueryRunner() qr: QR) {
+  async missionList(@User() user: Users, @QueryRunner() qr: QR) {
     const result = this.userMissionService.missionList(user.user_id, qr);
     return result;
+  }
+
+  @Post('reward')
+  @UseInterceptors(TransactionInterceptor)
+  async missionReward(
+    @User() user: Users,
+    @Body('user_mission_id') user_mission_id: number,
+    @Body('reward_id') reward_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userMissionService.missionReward(
+      user.user_id,
+      user_mission_id,
+      reward_id,
+      qr,
+    );
+
+    return JSON.stringify(result);
   }
 }
