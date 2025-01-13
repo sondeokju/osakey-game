@@ -28,74 +28,118 @@ export class UserAttendanceService {
   }
 
   async saveAttendance(user_id: string, qr?: QueryRunner) {
+    if (!user_id || typeof user_id !== 'string') {
+      throw new BadRequestException('Invalid user_id provided.');
+    }
+
+    const userAttendanceRepository = this.getUserAttendanceRepository(qr);
+
+    const MAX_BOARD_NUM = 5;
+    const MAX_DAY = 7;
+
     try {
-      if (!user_id || typeof user_id !== 'string') {
-        throw new BadRequestException('Invalid user_id provided.');
-      }
-
-      const userAttendanceRepository = this.getUserAttendanceRepository(qr);
-
-      // 사용자의 출석 데이터 조회
-      let userAttendance = await userAttendanceRepository.findOne({
-        where: { user_id },
-      });
-
-      console.log('userAttendance', userAttendance);
-
-      if (
-        !userAttendance ||
-        (userAttendance.board_num === 5 && userAttendance.day === 7)
-      ) {
-        await userAttendanceRepository.delete(user_id);
-        // 첫 출석 처리
-        const attendanceData = await this.fetchAttendanceData(1, 1, qr);
-
-        userAttendance.board_num = attendanceData.board_num;
-        userAttendance.day = attendanceData.day;
-        userAttendance.reward_id = attendanceData.reward_id;
-      } else if (userAttendance.day < 7) {
-        // 7일 미만의 출석 처리
-        const attendanceData = await this.fetchAttendanceData(
-          userAttendance.board_num,
-          userAttendance.day + 1,
-          qr,
-        );
-
-        userAttendance.board_num = attendanceData.board_num;
-        userAttendance.day = attendanceData.day;
-        userAttendance.reward_id = attendanceData.reward_id;
-      } else {
-        // 7일 출석 완료 처리 (영웅 레벨 체크 포함)
-        const attendanceData = await this.fetchAttendanceData(
-          userAttendance.board_num + 1,
-          1,
-          qr,
-        );
-        const usersData = await this.usersService.getMe(user_id, qr);
-
-        if (
-          usersData.level >= attendanceData.board_min_hero_lv &&
-          usersData.level <= attendanceData.board_max_hero_lv
-        ) {
-          userAttendance.board_num = attendanceData.board_num;
-          userAttendance.day = attendanceData.day;
-          userAttendance.reward_id = attendanceData.reward_id;
-        }
-      }
-
-      const insertAttendance = userAttendanceRepository.create({
+      let userAttendance = await this.getUserAttendance(
         user_id,
-        board_num: userAttendance.board_num,
-        day: userAttendance.day,
-        reward_id: userAttendance.reward_id,
-      });
+        userAttendanceRepository,
+      );
 
-      // 데이터 저장
-      return await userAttendanceRepository.save(insertAttendance);
+      if (!userAttendance) {
+        userAttendance = await this.initializeAttendance(
+          user_id,
+          qr,
+          userAttendanceRepository,
+        );
+      }
+
+      if (this.isLastAttendance(userAttendance, MAX_BOARD_NUM, MAX_DAY)) {
+        userAttendance = await this.resetAttendance(
+          user_id,
+          qr,
+          userAttendanceRepository,
+        );
+      } else if (userAttendance.day < MAX_DAY) {
+        userAttendance = await this.updateDailyAttendance(userAttendance, qr);
+      } else {
+        userAttendance = await this.moveToNextBoard(
+          userAttendance,
+          user_id,
+          qr,
+        );
+      }
+
+      return await userAttendanceRepository.save(userAttendance);
     } catch (error) {
       console.error('Error saving attendance:', error);
       throw new InternalServerErrorException('Failed to save attendance.');
     }
+  }
+
+  private async getUserAttendance(user_id: string, repository) {
+    return repository.findOne({ where: { user_id } });
+  }
+
+  private async initializeAttendance(
+    user_id: string,
+    qr: QueryRunner,
+    repository,
+  ) {
+    const attendanceData = await this.fetchAttendanceData(1, 1, qr);
+    const userAttendance = repository.create({
+      user_id,
+      board_num: attendanceData.board_num,
+      day: attendanceData.day,
+      reward_id: attendanceData.reward_id,
+    });
+    return userAttendance;
+  }
+
+  private isLastAttendance(
+    userAttendance,
+    maxBoardNum: number,
+    maxDay: number,
+  ) {
+    return (
+      userAttendance.board_num === maxBoardNum && userAttendance.day === maxDay
+    );
+  }
+
+  private async resetAttendance(user_id: string, qr: QueryRunner, repository) {
+    await repository.delete(user_id);
+    return this.initializeAttendance(user_id, qr, repository);
+  }
+
+  private async updateDailyAttendance(userAttendance, qr: QueryRunner) {
+    const attendanceData = await this.fetchAttendanceData(
+      userAttendance.board_num,
+      userAttendance.day + 1,
+      qr,
+    );
+    userAttendance.board_num = attendanceData.board_num;
+    userAttendance.day = attendanceData.day;
+    userAttendance.reward_id = attendanceData.reward_id;
+    return userAttendance;
+  }
+
+  private async moveToNextBoard(
+    userAttendance,
+    user_id: string,
+    qr: QueryRunner,
+  ) {
+    const [attendanceData, usersData] = await Promise.all([
+      this.fetchAttendanceData(userAttendance.board_num + 1, 1, qr),
+      this.usersService.getMe(user_id, qr),
+    ]);
+
+    if (
+      usersData.level >= attendanceData.board_min_hero_lv &&
+      usersData.level <= attendanceData.board_max_hero_lv
+    ) {
+      userAttendance.board_num = attendanceData.board_num;
+      userAttendance.day = attendanceData.day;
+      userAttendance.reward_id = attendanceData.reward_id;
+    }
+
+    return userAttendance;
   }
 
   // 출석 데이터 조회 로직을 별도 함수로 분리
