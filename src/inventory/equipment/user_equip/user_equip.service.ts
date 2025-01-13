@@ -357,6 +357,7 @@ export class UserEquipService {
         bestEquipList.map((equip) =>
           this.userEquipSlotService.equipSlotMount(
             user_id,
+            equip.id,
             equip.equip_id,
             queryRunner,
           ),
