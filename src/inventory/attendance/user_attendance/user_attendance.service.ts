@@ -49,12 +49,10 @@ export class UserAttendanceService {
         await userAttendanceRepository.delete(user_id);
         // 첫 출석 처리
         const attendanceData = await this.fetchAttendanceData(1, 1, qr);
-        userAttendance = userAttendanceRepository.create({
-          user_id,
-          board_num: attendanceData.board_num,
-          day: attendanceData.day,
-          reward_id: attendanceData.reward_id,
-        });
+
+        userAttendance.board_num = attendanceData.board_num;
+        userAttendance.day = attendanceData.day;
+        userAttendance.reward_id = attendanceData.reward_id;
       } else if (userAttendance.day < 7) {
         // 7일 미만의 출석 처리
         const attendanceData = await this.fetchAttendanceData(
@@ -62,8 +60,6 @@ export class UserAttendanceService {
           userAttendance.day + 1,
           qr,
         );
-
-        console.log('attendanceData', attendanceData);
 
         userAttendance.board_num = attendanceData.board_num;
         userAttendance.day = attendanceData.day;
@@ -81,17 +77,21 @@ export class UserAttendanceService {
           usersData.level >= attendanceData.board_min_hero_lv &&
           usersData.level <= attendanceData.board_max_hero_lv
         ) {
-          userAttendance = userAttendanceRepository.create({
-            user_id,
-            board_num: attendanceData.board_num,
-            day: attendanceData.day,
-            reward_id: attendanceData.reward_id,
-          });
+          userAttendance.board_num = attendanceData.board_num;
+          userAttendance.day = attendanceData.day;
+          userAttendance.reward_id = attendanceData.reward_id;
         }
       }
 
+      const insertAttendance = userAttendanceRepository.create({
+        user_id,
+        board_num: userAttendance.board_num,
+        day: userAttendance.day,
+        reward_id: userAttendance.reward_id,
+      });
+
       // 데이터 저장
-      return await userAttendanceRepository.save(userAttendance);
+      return await userAttendanceRepository.save(insertAttendance);
     } catch (error) {
       console.error('Error saving attendance:', error);
       throw new InternalServerErrorException('Failed to save attendance.');
