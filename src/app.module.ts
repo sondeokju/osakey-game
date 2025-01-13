@@ -29,7 +29,6 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
 import { entities } from './entity_group/entity';
 import { entities_module } from './entity_group/entity_module';
-import { UserMissionModule } from './inventory/mission/user_mission/user_mission.module';
 
 @Module({
   imports: [
@@ -63,7 +62,7 @@ import { UserMissionModule } from './inventory/mission/user_mission/user_mission
       entities: entities,
       //synchronize: true,
       // keepConnectionAlive: true,
-      logging: ['schema'],
+      //logging: ['schema'],
       synchronize: process.env[ENV_SYNCHRONIZE_KEY] === 'true' ? true : false,
       keepConnectionAlive:
         process.env[ENV_KEEPCONNECTIONALIVE_KEY] === 'true' ? true : false,
