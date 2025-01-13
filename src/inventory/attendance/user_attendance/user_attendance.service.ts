@@ -49,7 +49,7 @@ export class UserAttendanceService {
           day: attendanceData.day,
           reward_id: attendanceData.reward_id,
         });
-      } else if (userAttendance.day !== 7) {
+      } else if (userAttendance.day < 7) {
         // 7일 미만의 출석 처리
         const attendanceData = await this.fetchAttendanceData(
           userAttendance.id + 1,
