@@ -22,7 +22,12 @@ export class UserEquipSlotService {
       : this.userEquipSlotRepository;
   }
 
-  async equipSlotMount(user_id: string, equip_id: number, qr?: QueryRunner) {
+  async equipSlotMount(
+    user_id: string,
+    user_equip_id: number,
+    equip_id: number,
+    qr?: QueryRunner,
+  ) {
     const userEquipSlotRepository = this.getUserEquipSlotRepository(qr);
     let userEquipSlot = await userEquipSlotRepository.findOne({
       where: {
@@ -57,7 +62,7 @@ export class UserEquipSlotService {
     };
 
     const equipSlotKey = equip.equip_slot.toLowerCase();
-    userEquipSlot[equipSlotMap[equipSlotKey]] = +equip_id;
+    userEquipSlot[equipSlotMap[equipSlotKey]] = +user_equip_id;
 
     const result = await userEquipSlotRepository.save({
       ...userEquipSlot,

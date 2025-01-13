@@ -85,12 +85,12 @@ export class UserEquipService {
     return userEquip;
   }
 
-  async equipMount(user_id: string, equip_id: number, qr?: QueryRunner) {
+  async equipMount(user_id: string, user_equip_id: number, qr?: QueryRunner) {
     const userEquipRepository = this.getUserEquipRepository(qr);
     const userEquip = await userEquipRepository.findOne({
       where: {
         user_id,
-        equip_id,
+        id: user_equip_id,
       },
     });
 
@@ -100,7 +100,8 @@ export class UserEquipService {
 
     return await this.userEquipSlotService.equipSlotMount(
       user_id,
-      equip_id,
+      user_equip_id,
+      userEquip.equip_id,
       qr,
     );
   }
