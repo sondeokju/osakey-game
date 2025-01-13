@@ -110,7 +110,9 @@ export class UserAttendanceService {
       qr,
     );
     if (!attendanceData) {
-      throw new NotFoundException(`Attendance data not found for id: ${id}`);
+      throw new NotFoundException(
+        `Attendance data not found for board_num: ${board_num}`,
+      );
     }
     return {
       board_num: attendanceData.board_num,
