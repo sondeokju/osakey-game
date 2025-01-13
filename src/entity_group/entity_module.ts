@@ -64,6 +64,7 @@ import { CollectionSuitModule } from 'src/static-table/collection/collection_sui
 import { ServerConfigModule } from 'src/static-table/config/server_config/server_config.module';
 import { CollectionBossMemoryModule } from 'src/static-table/collection/collection_boss_memory/collection_boss_memory.module';
 import { UserMissionModule } from 'src/inventory/mission/user_mission/user_mission.module';
+import { UserAttendanceModule } from 'src/inventory/attendance/user_attendance/user_attendance.module';
 
 export const entities_module = [
   UsersModule,
@@ -132,4 +133,5 @@ export const entities_module = [
   CollectionBossMemoryModule,
   ServerConfigModule,
   UserMissionModule,
+  UserAttendanceModule,
 ];

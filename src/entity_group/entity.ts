@@ -59,6 +59,7 @@ import { CollectionEquip } from 'src/static-table/collection/collection_equip/en
 import { CollectionBossMemory } from 'src/static-table/collection/collection_boss_memory/entities/collection_boss_memory.entity';
 import { ServerConfig } from 'src/static-table/config/server_config/entities/server_config.entity';
 import { UserMission } from 'src/inventory/mission/user_mission/entities/user_mission.entity';
+import { UserAttendance } from 'src/inventory/attendance/user_attendance/entities/user_attendance.entity';
 
 export const entities = [
   Users,
@@ -122,4 +123,5 @@ export const entities = [
   CollectionBossMemory,
   ServerConfig,
   UserMission,
+  UserAttendance,
 ];
