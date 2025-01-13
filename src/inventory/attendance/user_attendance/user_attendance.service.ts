@@ -58,6 +58,8 @@ export class UserAttendanceService {
           qr,
         );
 
+        console.log('attendanceData', attendanceData);
+
         userAttendance.board_num = attendanceData.board_num;
         userAttendance.day = attendanceData.day;
         userAttendance.reward_id = attendanceData.reward_id;
