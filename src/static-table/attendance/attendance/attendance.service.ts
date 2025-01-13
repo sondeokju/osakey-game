@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAttendanceDto } from './dto/create-attendance.dto';
-import { UpdateAttendanceDto } from './dto/update-attendance.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { Attendance } from './entities/attendance.entity';
 
 @Injectable()
 export class AttendanceService {
-  create(createAttendanceDto: CreateAttendanceDto) {
-    return 'This action adds a new attendance';
+  constructor(
+    @InjectRepository(Attendance)
+    private readonly attendanceRepository: Repository<Attendance>,
+  ) {}
+
+  getAttendanceRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<Attendance>(Attendance)
+      : this.attendanceRepository;
   }
 
-  findAll() {
-    return `This action returns all attendance`;
+  async getAttendanceAll(qr?: QueryRunner) {
+    const attendanceRepository = this.getAttendanceRepository(qr);
+    const result = await attendanceRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} attendance`;
-  }
+  async getAttendance(id: number, qr?: QueryRunner) {
+    const attendanceRepository = this.getAttendanceRepository(qr);
+    const result = await attendanceRepository.findOne({
+      where: {
+        id,
+      },
+    });
 
-  update(id: number, updateAttendanceDto: UpdateAttendanceDto) {
-    return `This action updates a #${id} attendance`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} attendance`;
+    return result;
   }
 }

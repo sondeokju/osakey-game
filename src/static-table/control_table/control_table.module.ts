@@ -74,6 +74,8 @@ import { CollectionEquipService } from '../collection/collection_equip/collectio
 import { CollectionBossMemoryService } from '../collection/collection_boss_memory/collection_boss_memory.service';
 import { ServerConfigService } from '../config/server_config/server_config.service';
 import { Collection } from '../collection/collection/entities/collection.entity';
+import { AttendanceService } from '../attendance/attendance/attendance.service';
+import { Attendance } from '../attendance/attendance/entities/attendance.entity';
 
 @Module({
   imports: [
@@ -115,6 +117,7 @@ import { Collection } from '../collection/collection/entities/collection.entity'
       CollectionEquip,
       CollectionBossMemory,
       ServerConfig,
+      Attendance,
     ]),
   ],
   exports: [ControlTableService],
@@ -157,6 +160,7 @@ import { Collection } from '../collection/collection/entities/collection.entity'
     CollectionEquipService,
     CollectionBossMemoryService,
     ServerConfigService,
+    AttendanceService,
   ],
 })
 export class ControlTableModule {}
