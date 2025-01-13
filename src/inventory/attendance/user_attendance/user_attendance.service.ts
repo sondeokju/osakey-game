@@ -40,7 +40,7 @@ export class UserAttendanceService {
         where: { user_id },
       });
 
-      console.log('userAttendance.day', userAttendance.day);
+      console.log('userAttendance', userAttendance);
 
       if (!userAttendance) {
         // 첫 출석 처리
@@ -54,7 +54,7 @@ export class UserAttendanceService {
       } else if (userAttendance.day < 7) {
         // 7일 미만의 출석 처리
         const attendanceData = await this.fetchAttendanceData(
-          userAttendance.id + 1,
+          +userAttendance.id + 1,
           qr,
         );
 
