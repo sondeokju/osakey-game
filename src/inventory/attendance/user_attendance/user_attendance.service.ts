@@ -126,7 +126,7 @@ export class UserAttendanceService {
     qr: QueryRunner,
   ) {
     const [attendanceData, usersData] = await Promise.all([
-      this.fetchAttendanceData(userAttendance.board_num + 1, 1, qr),
+      this.fetchAttendanceData(+userAttendance.board_num + 1, 1, qr),
       this.usersService.getMe(user_id, qr),
     ]);
 
