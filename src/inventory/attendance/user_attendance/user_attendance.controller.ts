@@ -1,34 +1,30 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
+import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
+import { User } from 'src/users/decorator/user.decorator';
+import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
+import { QueryRunner as QR } from 'typeorm';
+import { Users } from 'src/users/entity/users.entity';
 import { UserAttendanceService } from './user_attendance.service';
-import { CreateUserAttendanceDto } from './dto/create-user_attendance.dto';
-import { UpdateUserAttendanceDto } from './dto/update-user_attendance.dto';
 
-@Controller('user-attendance')
+@Controller('attendance')
 export class UserAttendanceController {
   constructor(private readonly userAttendanceService: UserAttendanceService) {}
 
-  @Post()
-  create(@Body() createUserAttendanceDto: CreateUserAttendanceDto) {
-    return this.userAttendanceService.create(createUserAttendanceDto);
-  }
-
   @Get()
-  findAll() {
-    return this.userAttendanceService.findAll();
+  @UseInterceptors(TransactionInterceptor)
+  async missionList(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = this.userAttendanceService.attendanceList(user.user_id, qr);
+    return result;
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userAttendanceService.findOne(+id);
-  }
+  @Post('save')
+  @UseInterceptors(TransactionInterceptor)
+  async saveMssion(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = await this.userAttendanceService.saveAttendance(
+      user.user_id,
+      qr,
+    );
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserAttendanceDto: UpdateUserAttendanceDto) {
-    return this.userAttendanceService.update(+id, updateUserAttendanceDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userAttendanceService.remove(+id);
+    return JSON.stringify(result);
   }
 }
