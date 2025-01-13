@@ -32,4 +32,16 @@ export class AttendanceService {
 
     return result;
   }
+
+  async getAttendanceDay(board_num: number, day: number, qr?: QueryRunner) {
+    const attendanceRepository = this.getAttendanceRepository(qr);
+    const result = await attendanceRepository.findOne({
+      where: {
+        board_num,
+        day,
+      },
+    });
+
+    return result;
+  }
 }

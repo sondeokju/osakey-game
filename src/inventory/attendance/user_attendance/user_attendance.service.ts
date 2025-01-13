@@ -42,9 +42,13 @@ export class UserAttendanceService {
 
       console.log('userAttendance', userAttendance);
 
-      if (!userAttendance) {
+      if (
+        !userAttendance ||
+        (userAttendance.board_num === 5 && userAttendance.day === 7)
+      ) {
+        await userAttendanceRepository.delete(user_id);
         // 첫 출석 처리
-        const attendanceData = await this.fetchAttendanceData(1, qr);
+        const attendanceData = await this.fetchAttendanceData(1, 1, qr);
         userAttendance = userAttendanceRepository.create({
           user_id,
           board_num: attendanceData.board_num,
@@ -54,7 +58,8 @@ export class UserAttendanceService {
       } else if (userAttendance.day < 7) {
         // 7일 미만의 출석 처리
         const attendanceData = await this.fetchAttendanceData(
-          +userAttendance.id + 1,
+          userAttendance.board_num,
+          userAttendance.day + 1,
           qr,
         );
 
@@ -66,7 +71,8 @@ export class UserAttendanceService {
       } else {
         // 7일 출석 완료 처리 (영웅 레벨 체크 포함)
         const attendanceData = await this.fetchAttendanceData(
-          userAttendance.id + 1,
+          userAttendance.board_num + 1,
+          1,
           qr,
         );
         const usersData = await this.usersService.getMe(user_id, qr);
@@ -93,8 +99,16 @@ export class UserAttendanceService {
   }
 
   // 출석 데이터 조회 로직을 별도 함수로 분리
-  private async fetchAttendanceData(id: number, qr?: QueryRunner) {
-    const attendanceData = await this.attendanceService.getAttendance(id, qr);
+  private async fetchAttendanceData(
+    board_num: number,
+    day: number,
+    qr?: QueryRunner,
+  ) {
+    const attendanceData = await this.attendanceService.getAttendanceDay(
+      board_num,
+      day,
+      qr,
+    );
     if (!attendanceData) {
       throw new NotFoundException(`Attendance data not found for id: ${id}`);
     }
