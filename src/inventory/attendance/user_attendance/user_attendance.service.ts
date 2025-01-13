@@ -40,6 +40,8 @@ export class UserAttendanceService {
         where: { user_id },
       });
 
+      console.log('userAttendance.day', userAttendance.day);
+
       if (!userAttendance) {
         // 첫 출석 처리
         const attendanceData = await this.fetchAttendanceData(1, qr);
