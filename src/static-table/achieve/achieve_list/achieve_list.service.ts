@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAchieveListDto } from './dto/create-achieve_list.dto';
-import { UpdateAchieveListDto } from './dto/update-achieve_list.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { AchieveList } from './entities/achieve_list.entity';
 
 @Injectable()
 export class AchieveListService {
-  create(createAchieveListDto: CreateAchieveListDto) {
-    return 'This action adds a new achieveList';
+  constructor(
+    @InjectRepository(AchieveList)
+    private readonly achieveListRepository: Repository<AchieveList>,
+  ) {}
+
+  getAchieveListRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<AchieveList>(AchieveList)
+      : this.achieveListRepository;
   }
 
-  findAll() {
-    return `This action returns all achieveList`;
+  async getAttendanceAll(qr?: QueryRunner) {
+    const achieveListRepository = this.getAchieveListRepository(qr);
+    const result = await achieveListRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} achieveList`;
-  }
+  async getAttendance(achieve_id: number, qr?: QueryRunner) {
+    const achieveListRepository = this.getAchieveListRepository(qr);
+    const result = await achieveListRepository.findOne({
+      where: {
+        achieve_id,
+      },
+    });
 
-  update(id: number, updateAchieveListDto: UpdateAchieveListDto) {
-    return `This action updates a #${id} achieveList`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} achieveList`;
+    return result;
   }
 }

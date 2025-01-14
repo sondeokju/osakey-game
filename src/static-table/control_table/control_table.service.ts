@@ -38,6 +38,7 @@ import { CollectionBossMemoryService } from '../collection/collection_boss_memor
 import { ServerConfigService } from '../config/server_config/server_config.service';
 import { AttendanceService } from '../attendance/attendance/attendance.service';
 import { SystemNoticeService } from '../config/system_notice/system_notice.service';
+import { AchieveListService } from '../achieve/achieve_list/achieve_list.service';
 
 @Injectable()
 export class ControlTableService {
@@ -80,6 +81,7 @@ export class ControlTableService {
     private readonly serverConfigService: ServerConfigService,
     private readonly attendanceService: AttendanceService,
     private readonly systemNoticeService: SystemNoticeService,
+    private readonly achieveListService: AchieveListService,
   ) {}
 
   async getControlTableAll(qr?: QueryRunner) {
@@ -98,6 +100,7 @@ export class ControlTableService {
       collection: await this.getCollectionAll(qr),
       attendance: await this.attendanceService.getAttendanceAll(qr),
       system_notice: await this.systemNoticeService.getSystemNoticeAll(qr),
+      acheve_list: await this.achieveListService.getAttendanceAll(qr),
     };
 
     return static_table;

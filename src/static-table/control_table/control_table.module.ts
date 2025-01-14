@@ -78,6 +78,8 @@ import { AttendanceService } from '../attendance/attendance/attendance.service';
 import { Attendance } from '../attendance/attendance/entities/attendance.entity';
 import { SystemNotice } from '../config/system_notice/entities/system_notice.entity';
 import { SystemNoticeService } from '../config/system_notice/system_notice.service';
+import { AchieveListService } from '../achieve/achieve_list/achieve_list.service';
+import { AchieveList } from '../achieve/achieve_list/entities/achieve_list.entity';
 
 @Module({
   imports: [
@@ -121,6 +123,7 @@ import { SystemNoticeService } from '../config/system_notice/system_notice.servi
       ServerConfig,
       Attendance,
       SystemNotice,
+      AchieveList,
     ]),
   ],
   exports: [ControlTableService],
@@ -165,6 +168,7 @@ import { SystemNoticeService } from '../config/system_notice/system_notice.servi
     ServerConfigService,
     AttendanceService,
     SystemNoticeService,
+    AchieveListService,
   ],
 })
 export class ControlTableModule {}
