@@ -50,9 +50,10 @@ export class UserAttendanceService {
           qr,
           userAttendanceRepository,
         );
+
+        return await userAttendanceRepository.save(userAttendance);
       }
 
-      console.log('initializeAttendance', userAttendance);
       if (this.isLastAttendance(userAttendance, MAX_BOARD_NUM, MAX_DAY)) {
         userAttendance = await this.resetAttendance(
           user_id,
