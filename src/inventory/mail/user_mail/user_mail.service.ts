@@ -89,7 +89,7 @@ export class UserMailService {
 
   async userMailList(user_id: string, qr?: QueryRunner) {
     const userMailRepository = this.getUserMailRepository(qr);
-    const userAchieve = await userMailRepository.findOne({
+    const userAchieve = await userMailRepository.find({
       where: {
         user_id,
       },
