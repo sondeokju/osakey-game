@@ -7,11 +7,15 @@ export class SystemNotice extends BaseModel {
   id: number;
 
   @Column({
+    type: 'varchar',
+    length: 512,
     default: 0,
   })
   notice_title: string;
 
   @Column({
+    type: 'text',
+    length: '',
     default: 0,
   })
   notice_text: string;
