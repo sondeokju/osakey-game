@@ -66,6 +66,7 @@ import { CollectionBossMemoryModule } from 'src/static-table/collection/collecti
 import { UserMissionModule } from 'src/inventory/mission/user_mission/user_mission.module';
 import { UserAttendanceModule } from 'src/inventory/attendance/user_attendance/user_attendance.module';
 import { AttendanceModule } from 'src/static-table/attendance/attendance/attendance.module';
+import { SystemNoticeModule } from 'src/static-table/config/system_notice/system_notice.module';
 
 export const entities_module = [
   UsersModule,
@@ -136,4 +137,5 @@ export const entities_module = [
   UserMissionModule,
   UserAttendanceModule,
   AttendanceModule,
+  SystemNoticeModule,
 ];

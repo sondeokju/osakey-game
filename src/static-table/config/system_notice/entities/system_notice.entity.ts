@@ -1,0 +1,38 @@
+import { BaseModel } from 'src/common/entity/base.entity';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
+
+@Entity()
+export class SystemNotice extends BaseModel {
+  @PrimaryColumn()
+  id: number;
+
+  @Column({
+    default: 0,
+  })
+  notice_title: string;
+
+  @Column({
+    default: 0,
+  })
+  notice_text: string;
+
+  @Column({
+    type: 'datetime',
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: string) => new Date(value),
+    },
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  notice_start_date: Date;
+
+  @Column({
+    type: 'datetime',
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: string) => new Date(value),
+    },
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  notice_end_date: Date;
+}

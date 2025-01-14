@@ -61,6 +61,7 @@ import { ServerConfig } from 'src/static-table/config/server_config/entities/ser
 import { UserMission } from 'src/inventory/mission/user_mission/entities/user_mission.entity';
 import { UserAttendance } from 'src/inventory/attendance/user_attendance/entities/user_attendance.entity';
 import { Attendance } from 'src/static-table/attendance/attendance/entities/attendance.entity';
+import { SystemNotice } from 'src/static-table/config/system_notice/entities/system_notice.entity';
 
 export const entities = [
   Users,
@@ -126,4 +127,5 @@ export const entities = [
   UserMission,
   UserAttendance,
   Attendance,
+  SystemNotice,
 ];

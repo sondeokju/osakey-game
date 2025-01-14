@@ -29,6 +29,7 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
 import { entities } from './entity_group/entity';
 import { entities_module } from './entity_group/entity_module';
+import { SystemNoticeModule } from './static-table/config/system_notice/system_notice.module';
 
 @Module({
   imports: [
