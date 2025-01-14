@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
-import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
+//import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { UserMail } from './entities/user_mail.entity';
 
 @Injectable()
@@ -15,7 +15,7 @@ export class UserMailService {
   constructor(
     @InjectRepository(UserMail)
     private readonly userMailRepository: Repository<UserMail>,
-    private readonly rewardOfferService: RewardOfferService,
+    //private readonly rewardOfferService: RewardOfferService,
     private readonly dataSource: DataSource,
   ) {}
 
