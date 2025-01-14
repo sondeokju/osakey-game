@@ -50,10 +50,6 @@ export class UserMailService {
     try {
       const userMailRepository = queryRunner.manager.getRepository(UserMail);
 
-      // let userMailData = await userAchievementsRepository.findOne({
-      //   where: { user_id },
-      // });
-
       const insertData = await userMailRepository.insert({
         user_id,
         send_type,
@@ -67,7 +63,11 @@ export class UserMailService {
         await queryRunner.commitTransaction();
       }
 
-      return insertData;
+      const userMailData = await userMailRepository.find({
+        where: { user_id },
+      });
+
+      return userMailData;
     } catch (error) {
       if (isTransactionOwner) {
         await queryRunner.rollbackTransaction();
