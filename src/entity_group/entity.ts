@@ -62,6 +62,7 @@ import { UserMission } from 'src/inventory/mission/user_mission/entities/user_mi
 import { UserAttendance } from 'src/inventory/attendance/user_attendance/entities/user_attendance.entity';
 import { Attendance } from 'src/static-table/attendance/attendance/entities/attendance.entity';
 import { SystemNotice } from 'src/static-table/config/system_notice/entities/system_notice.entity';
+import { UserMail } from 'src/inventory/mail/user_mail/entities/user_mail.entity';
 
 export const entities = [
   Users,
@@ -128,4 +129,5 @@ export const entities = [
   UserAttendance,
   Attendance,
   SystemNotice,
+  UserMail,
 ];

@@ -67,6 +67,7 @@ import { UserMissionModule } from 'src/inventory/mission/user_mission/user_missi
 import { UserAttendanceModule } from 'src/inventory/attendance/user_attendance/user_attendance.module';
 import { AttendanceModule } from 'src/static-table/attendance/attendance/attendance.module';
 import { SystemNoticeModule } from 'src/static-table/config/system_notice/system_notice.module';
+import { UserMailModule } from 'src/inventory/mail/user_mail/user_mail.module';
 
 export const entities_module = [
   UsersModule,
@@ -138,4 +139,5 @@ export const entities_module = [
   UserAttendanceModule,
   AttendanceModule,
   SystemNoticeModule,
+  UserMailModule,
 ];
