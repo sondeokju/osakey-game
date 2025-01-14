@@ -15,8 +15,7 @@ export class SystemNotice extends BaseModel {
 
   @Column({
     type: 'text',
-    length: '',
-    default: 0,
+    default: '',
   })
   notice_text: string;
 
