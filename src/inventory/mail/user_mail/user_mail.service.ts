@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
-//import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
+import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { UserMail } from './entities/user_mail.entity';
 
 @Injectable()
@@ -15,7 +15,7 @@ export class UserMailService {
   constructor(
     @InjectRepository(UserMail)
     private readonly userMailRepository: Repository<UserMail>,
-    //private readonly rewardOfferService: RewardOfferService,
+    private readonly rewardOfferService: RewardOfferService,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -96,5 +96,42 @@ export class UserMailService {
     });
 
     return userAchieve;
+  }
+
+  async mailReward(user_id: string, user_mail_id: number, qr?: QueryRunner) {
+    const userMailRepository = this.getUserMailRepository(qr);
+    const userMailData = await userMailRepository.findOne({
+      where: {
+        id: user_mail_id,
+      },
+    });
+
+    if (!userMailData) {
+      throw new NotFoundException('userMailData not found.');
+    }
+
+    if (userMailData.reward_yn === 'Y') {
+      throw new NotFoundException(
+        'You have already claimed the userMailData reward.',
+      );
+    }
+    const rewardData = await this.rewardOfferService.reward(
+      user_id,
+      userMailData.reward_id,
+      qr,
+    );
+
+    if (!rewardData) {
+      throw new BadRequestException('Failed to process reward.');
+    }
+
+    userMailData.reward_yn = 'Y';
+    const updatedUserMail = await userMailRepository.save(userMailData);
+
+    return {
+      success: true,
+      reward: rewardData,
+      userMission: updatedUserMail,
+    };
   }
 }

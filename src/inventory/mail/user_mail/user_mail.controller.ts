@@ -45,4 +45,20 @@ export class UserMailController {
     const result = this.userMailService.userMailList(user.user_id, qr);
     return result;
   }
+
+  @Post('reward')
+  @UseInterceptors(TransactionInterceptor)
+  async mailReward(
+    @User() user: Users,
+    @Body('user_mail_id') user_mail_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userMailService.mailReward(
+      user.user_id,
+      user_mail_id,
+      qr,
+    );
+
+    return JSON.stringify(result);
+  }
 }
