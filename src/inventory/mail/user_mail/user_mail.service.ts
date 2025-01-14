@@ -32,7 +32,7 @@ export class UserMailService {
     mail_title: string,
     mail_text: string,
     reward_id: number,
-    deadline: number,
+    deadline_day: number,
     qr?: QueryRunner,
   ) {
     if (!user_id || typeof user_id !== 'string') {
@@ -53,7 +53,7 @@ export class UserMailService {
 
       const currentDate = new Date(); // 현재 날짜와 시간
       const deadline = new Date(currentDate); // 현재 날짜 복사
-      deadline.setDate(deadline.getDate() + +deadline); // 7일 추가
+      deadline.setDate(deadline.getDate() + +deadline_day); // 7일 추가
 
       await userMailRepository.insert({
         user_id,
