@@ -2,10 +2,7 @@ import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class AchieveList {
-  @PrimaryColumn()
-  id: number;
-
-  @Column({
+  @PrimaryColumn({
     default: 0,
   })
   achieve_id: number;
