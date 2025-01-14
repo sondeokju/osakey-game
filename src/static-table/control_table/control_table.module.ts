@@ -76,6 +76,8 @@ import { ServerConfigService } from '../config/server_config/server_config.servi
 import { Collection } from '../collection/collection/entities/collection.entity';
 import { AttendanceService } from '../attendance/attendance/attendance.service';
 import { Attendance } from '../attendance/attendance/entities/attendance.entity';
+import { SystemNotice } from '../config/system_notice/entities/system_notice.entity';
+import { SystemNoticeService } from '../config/system_notice/system_notice.service';
 
 @Module({
   imports: [
@@ -118,6 +120,7 @@ import { Attendance } from '../attendance/attendance/entities/attendance.entity'
       CollectionBossMemory,
       ServerConfig,
       Attendance,
+      SystemNotice,
     ]),
   ],
   exports: [ControlTableService],
@@ -161,6 +164,7 @@ import { Attendance } from '../attendance/attendance/entities/attendance.entity'
     CollectionBossMemoryService,
     ServerConfigService,
     AttendanceService,
+    SystemNoticeService,
   ],
 })
 export class ControlTableModule {}

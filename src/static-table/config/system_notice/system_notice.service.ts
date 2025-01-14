@@ -1,26 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSystemNoticeDto } from './dto/create-system_notice.dto';
-import { UpdateSystemNoticeDto } from './dto/update-system_notice.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { SystemNotice } from './entities/system_notice.entity';
 
 @Injectable()
 export class SystemNoticeService {
-  create(createSystemNoticeDto: CreateSystemNoticeDto) {
-    return 'This action adds a new systemNotice';
+  constructor(
+    @InjectRepository(SystemNotice)
+    private readonly systemNoticeRepository: Repository<SystemNotice>,
+  ) {}
+
+  getSystemNoticeRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<SystemNotice>(SystemNotice)
+      : this.systemNoticeRepository;
   }
 
-  findAll() {
-    return `This action returns all systemNotice`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} systemNotice`;
-  }
-
-  update(id: number, updateSystemNoticeDto: UpdateSystemNoticeDto) {
-    return `This action updates a #${id} systemNotice`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} systemNotice`;
+  async getSystemNoticeAll(qr?: QueryRunner) {
+    const systemNoticeRepository = this.getSystemNoticeRepository(qr);
+    const result = await systemNoticeRepository.find({});
+    return result;
   }
 }

@@ -37,6 +37,7 @@ import { CollectionBossService } from '../collection/collection_boss/collection_
 import { CollectionBossMemoryService } from '../collection/collection_boss_memory/collection_boss_memory.service';
 import { ServerConfigService } from '../config/server_config/server_config.service';
 import { AttendanceService } from '../attendance/attendance/attendance.service';
+import { SystemNoticeService } from '../config/system_notice/system_notice.service';
 
 @Injectable()
 export class ControlTableService {
@@ -78,6 +79,7 @@ export class ControlTableService {
     private readonly collectionBossMemoryService: CollectionBossMemoryService,
     private readonly serverConfigService: ServerConfigService,
     private readonly attendanceService: AttendanceService,
+    private readonly systemNoticeService: SystemNoticeService,
   ) {}
 
   async getControlTableAll(qr?: QueryRunner) {
@@ -95,6 +97,7 @@ export class ControlTableService {
       server_config: await this.serverConfigService.getServerConfigAll(qr),
       collection: await this.getCollectionAll(qr),
       attendance: await this.attendanceService.getAttendanceAll(qr),
+      system_notice: await this.systemNoticeService.getSystemNoticeAll(qr),
     };
 
     return static_table;
