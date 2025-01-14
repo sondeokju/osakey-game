@@ -14,8 +14,6 @@ import { UsersService } from 'src/users/users.service';
 import { UserAchievementsService } from './user_achievements.service';
 import { UserAchievementsController } from './user_achievements.controller';
 import { UserAchievements } from './entities/user_achievements.entity';
-import { AttendanceService } from 'src/static-table/attendance/attendance/attendance.service';
-import { Attendance } from 'src/static-table/attendance/attendance/entities/attendance.entity';
 
 @Module({
   imports: [
@@ -26,7 +24,6 @@ import { Attendance } from 'src/static-table/attendance/attendance/entities/atte
       Item,
       UserItem,
       Hero,
-      Attendance,
     ]),
   ],
   exports: [UserAchievementsService],
@@ -39,7 +36,6 @@ import { Attendance } from 'src/static-table/attendance/attendance/entities/atte
     ItemService,
     UserItemService,
     HeroService,
-    AttendanceService,
   ],
 })
 export class UserAchievementsModule {}

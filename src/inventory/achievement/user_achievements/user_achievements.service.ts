@@ -18,7 +18,6 @@ export class UserAchievementsService {
     @InjectRepository(UserAchievements)
     private readonly userAchievementsRepository: Repository<UserAchievements>,
     private readonly rewardOfferService: RewardOfferService,
-    private readonly attendanceService: AttendanceService,
     private readonly usersService: UsersService,
     private readonly dataSource: DataSource,
   ) {}
