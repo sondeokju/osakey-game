@@ -103,6 +103,7 @@ export class UserMailService {
     const userMailData = await userMailRepository.findOne({
       where: {
         id: user_mail_id,
+        user_id,
       },
     });
 
