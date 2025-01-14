@@ -55,6 +55,7 @@ export class UserAttendanceService {
       }
 
       if (this.isLastAttendance(userAttendance, MAX_BOARD_NUM, MAX_DAY)) {
+        await userAttendanceRepository.delete(user_id);
         userAttendance = await this.resetAttendance(
           user_id,
           qr,
