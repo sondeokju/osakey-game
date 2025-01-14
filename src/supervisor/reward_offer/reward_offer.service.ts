@@ -15,7 +15,6 @@ export class RewardOfferService {
   ) {}
   async reward(user_id: string, reward_id: number, qr?: QueryRunner) {
     const rewardData = await this.rewardService.getReward(reward_id);
-    console.log('reward', reward_id);
 
     let result = [];
 

@@ -17,7 +17,6 @@ export class RewardInvenController {
     @Body('reward_id') reward_id: number,
     @QueryRunner() qr: QR,
   ) {
-    console.log('RewardInvenController', reward_id);
     const result = await this.rewardOfferService.reward(
       user.user_id,
       reward_id,
