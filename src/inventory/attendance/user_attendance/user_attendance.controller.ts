@@ -28,19 +28,19 @@ export class UserAttendanceController {
     return JSON.stringify(result);
   }
 
-  // @Post('reward')
-  // @UseInterceptors(TransactionInterceptor)
-  // async missionReward(
-  //   @User() user: Users,
-  //   @Body('user_mission_id') user_mission_id: number,
-  //   @QueryRunner() qr: QR,
-  // ) {
-  //   const result = await this.userMissionService.missionReward(
-  //     user.user_id,
-  //     user_mission_id,
-  //     qr,
-  //   );
+  @Post('reward')
+  @UseInterceptors(TransactionInterceptor)
+  async missionReward(
+    @User() user: Users,
+    @Body('user_attendance_id') user_attendance_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userAttendanceService.attendanceReward(
+      user.user_id,
+      user_attendance_id,
+      qr,
+    );
 
-  //   return JSON.stringify(result);
-  // }
+    return JSON.stringify(result);
+  }
 }

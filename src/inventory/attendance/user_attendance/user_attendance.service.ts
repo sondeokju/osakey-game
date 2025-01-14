@@ -198,4 +198,51 @@ export class UserAttendanceService {
 
     return userAttendance;
   }
+
+  async attendanceReward(
+    user_id: string,
+    user_attendance_id: number,
+    qr?: QueryRunner,
+  ) {
+    const userAttendanceRepository = this.getUserAttendanceRepository(qr);
+    const userAttendanceData = await userAttendanceRepository.findOne({
+      where: {
+        id: user_attendance_id,
+      },
+    });
+
+    if (!userAttendanceData) {
+      throw new NotFoundException('userAttendanceData not found.');
+    }
+
+    // const achieveData = await this.achieveListService.getAttendance(
+    //   userAchieve.achieve_id,
+    //   qr,
+    // );
+
+    if (userAttendanceData.reward_yn === 'Y') {
+      throw new NotFoundException(
+        'You have already claimed the Achieve reward.',
+      );
+    }
+    const rewardData = await this.rewardOfferService.reward(
+      user_id,
+      userAttendanceData.reward_id,
+      qr,
+    );
+
+    if (!rewardData) {
+      throw new BadRequestException('Failed to process reward.');
+    }
+
+    userAttendanceData.reward_yn = 'Y';
+    const updatedUserAttendance =
+      await userAttendanceRepository.save(userAttendanceData);
+
+    return {
+      success: true,
+      reward: rewardData,
+      userMission: updatedUserAttendance,
+    };
+  }
 }
