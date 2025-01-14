@@ -22,7 +22,7 @@ export class UserMailController {
     @Body('mail_title') mail_title: string,
     @Body('mail_text') mail_text: string,
     @Body('reward_id') reward_id: number,
-    @Body('deadline') deadline: number,
+    @Body('deadline_day') deadline_day: number,
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userMailService.saveMail(
@@ -32,7 +32,7 @@ export class UserMailController {
       mail_title,
       mail_text,
       reward_id,
-      deadline,
+      deadline_day,
       qr,
     );
 
