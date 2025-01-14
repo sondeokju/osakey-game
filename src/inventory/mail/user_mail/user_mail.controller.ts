@@ -1,34 +1,36 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
+import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
+import { User } from 'src/users/decorator/user.decorator';
+import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
+import { QueryRunner as QR } from 'typeorm';
+import { Users } from 'src/users/entity/users.entity';
 import { UserMailService } from './user_mail.service';
-import { CreateUserMailDto } from './dto/create-user_mail.dto';
-import { UpdateUserMailDto } from './dto/update-user_mail.dto';
 
-@Controller('user-mail')
+@Controller('mail')
 export class UserMailController {
   constructor(private readonly userMailService: UserMailService) {}
 
-  @Post()
-  create(@Body() createUserMailDto: CreateUserMailDto) {
-    return this.userMailService.create(createUserMailDto);
-  }
+  @Post('save')
+  @UseInterceptors(TransactionInterceptor)
+  async achieveReward(
+    @User() user: Users,
+    @Body('send_type') send_type: string,
+    @Body('image_text') image_text: string,
+    @Body('mail_title') mail_title: string,
+    @Body('mail_text') mail_text: string,
+    @Body('reward_id') reward_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userMailService.saveMail(
+      user.user_id,
+      send_type,
+      image_text,
+      mail_title,
+      mail_text,
+      reward_id,
+      qr,
+    );
 
-  @Get()
-  findAll() {
-    return this.userMailService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userMailService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserMailDto: UpdateUserMailDto) {
-    return this.userMailService.update(+id, updateUserMailDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userMailService.remove(+id);
+    return JSON.stringify(result);
   }
 }

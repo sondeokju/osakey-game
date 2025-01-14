@@ -23,7 +23,7 @@ export class UserMail extends BaseModel {
     type: 'varchar',
     length: 512,
   })
-  imgage_text: string;
+  image_text: string;
 
   @Column({
     default: '',

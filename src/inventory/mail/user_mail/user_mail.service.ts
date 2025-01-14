@@ -1,26 +1,94 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserMailDto } from './dto/create-user_mail.dto';
-import { UpdateUserMailDto } from './dto/update-user_mail.dto';
+import {
+  BadRequestException,
+  ConsoleLogger,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DataSource, QueryRunner, Repository } from 'typeorm';
+import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
+import { UserMail } from './entities/user_mail.entity';
 
 @Injectable()
 export class UserMailService {
-  create(createUserMailDto: CreateUserMailDto) {
-    return 'This action adds a new userMail';
+  constructor(
+    @InjectRepository(UserMail)
+    private readonly userMailRepository: Repository<UserMail>,
+    private readonly rewardOfferService: RewardOfferService,
+    private readonly dataSource: DataSource,
+  ) {}
+
+  getUserMailRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<UserMail>(UserMail)
+      : this.userMailRepository;
   }
 
-  findAll() {
-    return `This action returns all userMail`;
+  async saveMail(
+    user_id: string,
+    send_type: string,
+    image_text: string,
+    mail_title: string,
+    mail_text: string,
+    reward_id: number,
+    qr?: QueryRunner,
+  ) {
+    if (!user_id || typeof user_id !== 'string') {
+      throw new BadRequestException('Invalid user_id provided.');
+    }
+
+    const queryRunner = qr || this.dataSource.createQueryRunner();
+
+    let isTransactionOwner = false;
+    if (!qr) {
+      await queryRunner.connect();
+      await queryRunner.startTransaction();
+      isTransactionOwner = true;
+    }
+
+    try {
+      const userMailRepository = queryRunner.manager.getRepository(UserMail);
+
+      // let userMailData = await userAchievementsRepository.findOne({
+      //   where: { user_id },
+      // });
+
+      const insertData = await userMailRepository.insert({
+        user_id,
+        send_type,
+        image_text,
+        mail_title,
+        mail_text,
+        reward_id,
+      });
+
+      if (isTransactionOwner) {
+        await queryRunner.commitTransaction();
+      }
+
+      return insertData;
+    } catch (error) {
+      if (isTransactionOwner) {
+        await queryRunner.rollbackTransaction();
+      }
+      console.error('Transaction failed:', error);
+      throw new Error(`Transaction failed: ${error.message}`);
+    } finally {
+      if (isTransactionOwner) {
+        await queryRunner.release();
+      }
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} userMail`;
-  }
+  // async userMail(user_id: string, qr?: QueryRunner) {
+  //   const userAchievementsRepository = this.getUserAchievementsRepository(qr);
+  //   const userAchieve = await userAchievementsRepository.findOne({
+  //     where: {
+  //       user_id,
+  //     },
+  //   });
 
-  update(id: number, updateUserMailDto: UpdateUserMailDto) {
-    return `This action updates a #${id} userMail`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} userMail`;
-  }
+  //   return userAchieve;
+  // }
 }
