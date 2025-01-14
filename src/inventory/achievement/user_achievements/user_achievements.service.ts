@@ -111,6 +111,7 @@ export class UserAchievementsService {
     const userAchieve = await userAchievementsRepository.findOne({
       where: {
         id: user_achievements_id,
+        user_id,
       },
     });
 

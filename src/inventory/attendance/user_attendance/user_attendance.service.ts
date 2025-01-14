@@ -208,6 +208,7 @@ export class UserAttendanceService {
     const userAttendanceData = await userAttendanceRepository.findOne({
       where: {
         id: user_attendance_id,
+        user_id,
       },
     });
 

@@ -3,6 +3,7 @@ import { Column, Double, Entity, Index, PrimaryColumn } from 'typeorm';
 import { BaseModel } from 'src/common/entity/base.entity';
 
 @Entity()
+@Index('IDX_user_attendance_id_user_id', ['id', 'user_id'], { unique: true }) // 복합 인덱스 설정
 export class UserAttendance extends BaseModel {
   @Column({
     nullable: false,

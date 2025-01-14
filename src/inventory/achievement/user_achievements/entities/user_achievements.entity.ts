@@ -1,8 +1,8 @@
 import { Column, Entity, Index } from 'typeorm';
-
 import { BaseModel } from 'src/common/entity/base.entity';
 
 @Entity()
+@Index('IDX_user_achievements_id_user_id', ['id', 'user_id'], { unique: true }) // 복합 인덱스 설정
 export class UserAchievements extends BaseModel {
   @Column({
     nullable: false,
