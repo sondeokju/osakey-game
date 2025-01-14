@@ -50,6 +50,12 @@ export class UserMailService {
     try {
       const userMailRepository = queryRunner.manager.getRepository(UserMail);
 
+      const DEADLINEDATE = 7;
+
+      const currentDate = new Date(); // 현재 날짜와 시간
+      const deadline = new Date(currentDate); // 현재 날짜 복사
+      deadline.setDate(deadline.getDate() + DEADLINEDATE); // 7일 추가
+
       const insertData = await userMailRepository.insert({
         user_id,
         send_type,
@@ -57,6 +63,7 @@ export class UserMailService {
         mail_title,
         mail_text,
         reward_id,
+        deadline,
       });
 
       if (isTransactionOwner) {
