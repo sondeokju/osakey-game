@@ -55,12 +55,15 @@ export class UserAttendanceService {
       }
 
       if (this.isLastAttendance(userAttendance, MAX_BOARD_NUM, MAX_DAY)) {
-        await userAttendanceRepository.delete({ user_id });
-        userAttendance = await this.resetAttendance(
+        //await userAttendanceRepository.delete({ user_id });
+        const userResetAttendance = await this.resetAttendance(
           user_id,
           qr,
           userAttendanceRepository,
         );
+        userAttendance.board_num = userResetAttendance.board_num;
+        userAttendance.day = userResetAttendance.day;
+        userAttendance.reward_id = userResetAttendance.reward_id;
       } else if (userAttendance.day < MAX_DAY) {
         userAttendance = await this.updateDailyAttendance(userAttendance, qr);
       } else {
