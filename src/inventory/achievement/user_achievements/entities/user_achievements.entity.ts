@@ -40,11 +40,6 @@ export class UserAchievements extends BaseModel {
   complete_date: Date;
 
   @Column({
-    default: 0,
-  })
-  reward_id: number;
-
-  @Column({
     type: 'char',
     length: 1,
     default: 'N',
