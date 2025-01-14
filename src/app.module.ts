@@ -29,6 +29,7 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
 import { entities } from './entity_group/entity';
 import { entities_module } from './entity_group/entity_module';
+import { UserAchievementsModule } from './inventory/achievement/user_achievements/user_achievements.module';
 
 @Module({
   imports: [
@@ -68,6 +69,7 @@ import { entities_module } from './entity_group/entity_module';
         process.env[ENV_KEEPCONNECTIONALIVE_KEY] === 'true' ? true : false,
     }),
     ...entities_module,
+    UserAchievementsModule,
   ],
   controllers: [AppController],
   providers: [
