@@ -8,8 +8,6 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
-import { AttendanceService } from 'src/static-table/attendance/attendance/attendance.service';
-import { UsersService } from 'src/users/users.service';
 import { UserAchievements } from './entities/user_achievements.entity';
 import { AchieveListService } from 'src/static-table/achieve/achieve_list/achieve_list.service';
 
@@ -19,7 +17,6 @@ export class UserAchievementsService {
     @InjectRepository(UserAchievements)
     private readonly userAchievementsRepository: Repository<UserAchievements>,
     private readonly rewardOfferService: RewardOfferService,
-    private readonly usersService: UsersService,
     private readonly achieveListService: AchieveListService,
     private readonly dataSource: DataSource,
   ) {}
