@@ -32,6 +32,7 @@ export class UserMailService {
     mail_title: string,
     mail_text: string,
     reward_id: number,
+    deadline: number,
     qr?: QueryRunner,
   ) {
     if (!user_id || typeof user_id !== 'string') {
@@ -50,13 +51,11 @@ export class UserMailService {
     try {
       const userMailRepository = queryRunner.manager.getRepository(UserMail);
 
-      const DEADLINEDATE = 7;
-
       const currentDate = new Date(); // 현재 날짜와 시간
       const deadline = new Date(currentDate); // 현재 날짜 복사
-      deadline.setDate(deadline.getDate() + DEADLINEDATE); // 7일 추가
+      deadline.setDate(deadline.getDate() + +deadline); // 7일 추가
 
-      const insertData = await userMailRepository.insert({
+      await userMailRepository.insert({
         user_id,
         send_type,
         image_text,
