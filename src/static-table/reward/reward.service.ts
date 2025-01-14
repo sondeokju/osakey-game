@@ -17,6 +17,7 @@ export class RewardService {
   }
 
   async getReward(reward_id: number, qr?: QueryRunner) {
+    console.log('reward_id', reward_id);
     const rewardRepository = this.getRewardRepository(qr);
     const result = await rewardRepository.find({
       where: {
