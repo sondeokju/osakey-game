@@ -11,6 +11,7 @@ import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.ser
 import { AttendanceService } from 'src/static-table/attendance/attendance/attendance.service';
 import { UsersService } from 'src/users/users.service';
 import { UserAchievements } from './entities/user_achievements.entity';
+import { AchieveListService } from 'src/static-table/achieve/achieve_list/achieve_list.service';
 
 @Injectable()
 export class UserAchievementsService {
@@ -19,6 +20,7 @@ export class UserAchievementsService {
     private readonly userAchievementsRepository: Repository<UserAchievements>,
     private readonly rewardOfferService: RewardOfferService,
     private readonly usersService: UsersService,
+    private readonly achieveListService: AchieveListService,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -27,6 +29,7 @@ export class UserAchievementsService {
       ? qr.manager.getRepository<UserAchievements>(UserAchievements)
       : this.userAchievementsRepository;
   }
+
   async saveAchieve(
     user_id: string,
     achieve_id: number,
@@ -100,5 +103,52 @@ export class UserAchievementsService {
     });
 
     return userAchieve;
+  }
+
+  async achieveReward(
+    user_id: string,
+    user_achievements_id: number,
+    qr?: QueryRunner,
+  ) {
+    const userAchievementsRepository = this.getUserAchievementsRepository(qr);
+    const userAchieve = await userAchievementsRepository.findOne({
+      where: {
+        id: user_achievements_id,
+      },
+    });
+
+    if (!userAchieve) {
+      throw new NotFoundException('userAchieve not found.');
+    }
+
+    const achieveData = await this.achieveListService.getAttendance(
+      userAchieve.achieve_id,
+      qr,
+    );
+
+    if (userAchieve.reward_yn === 'Y') {
+      throw new NotFoundException(
+        'You have already claimed the Achieve reward.',
+      );
+    }
+    const rewardData = await this.rewardOfferService.reward(
+      user_id,
+      achieveData.reward_id,
+      qr,
+    );
+
+    if (!rewardData) {
+      throw new BadRequestException('Failed to process reward.');
+    }
+
+    userAchieve.reward_yn = 'Y';
+    const updatedUserAchieve =
+      await userAchievementsRepository.save(userAchieve);
+
+    return {
+      success: true,
+      reward: rewardData,
+      userMission: updatedUserAchieve,
+    };
   }
 }

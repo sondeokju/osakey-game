@@ -39,19 +39,19 @@ export class UserAchievementsController {
     return JSON.stringify(result);
   }
 
-  // @Post('reward')
-  // @UseInterceptors(TransactionInterceptor)
-  // async missionReward(
-  //   @User() user: Users,
-  //   @Body('user_mission_id') user_mission_id: number,
-  //   @QueryRunner() qr: QR,
-  // ) {
-  //   const result = await this.userMissionService.missionReward(
-  //     user.user_id,
-  //     user_mission_id,
-  //     qr,
-  //   );
+  @Post('reward')
+  @UseInterceptors(TransactionInterceptor)
+  async missionReward(
+    @User() user: Users,
+    @Body('user_achievements_id') user_achievements_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userAchievementsService.achieveReward(
+      user.user_id,
+      user_achievements_id,
+      qr,
+    );
 
-  //   return JSON.stringify(result);
-  // }
+    return JSON.stringify(result);
+  }
 }

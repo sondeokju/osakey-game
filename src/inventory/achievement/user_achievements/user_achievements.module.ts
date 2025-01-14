@@ -14,6 +14,8 @@ import { UsersService } from 'src/users/users.service';
 import { UserAchievementsService } from './user_achievements.service';
 import { UserAchievementsController } from './user_achievements.controller';
 import { UserAchievements } from './entities/user_achievements.entity';
+import { AchieveListService } from 'src/static-table/achieve/achieve_list/achieve_list.service';
+import { AchieveList } from 'src/static-table/achieve/achieve_list/entities/achieve_list.entity';
 
 @Module({
   imports: [
@@ -24,6 +26,7 @@ import { UserAchievements } from './entities/user_achievements.entity';
       Item,
       UserItem,
       Hero,
+      AchieveList,
     ]),
   ],
   exports: [UserAchievementsService],
@@ -36,6 +39,7 @@ import { UserAchievements } from './entities/user_achievements.entity';
     ItemService,
     UserItemService,
     HeroService,
+    AchieveListService,
   ],
 })
 export class UserAchievementsModule {}
