@@ -68,7 +68,7 @@ export class UserAchievementsService {
         userAchieve.progress_status = progress_status;
         userAchieve.complete_date = new Date();
       } else {
-        userAchieve.achieve_count += achieve_count;
+        userAchieve.achieve_count += +achieve_count;
       }
 
       const result = await userAchievementsRepository.save(userAchieve);
