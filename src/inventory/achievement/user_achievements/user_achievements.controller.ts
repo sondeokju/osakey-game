@@ -41,7 +41,7 @@ export class UserAchievementsController {
 
   @Post('reward')
   @UseInterceptors(TransactionInterceptor)
-  async missionReward(
+  async achieveReward(
     @User() user: Users,
     @Body('user_achievements_id') user_achievements_id: number,
     @QueryRunner() qr: QR,
