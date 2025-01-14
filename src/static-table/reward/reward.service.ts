@@ -23,6 +23,7 @@ export class RewardService {
         reward_id,
       },
     });
+    console.log('getReward', result);
 
     return result;
   }
