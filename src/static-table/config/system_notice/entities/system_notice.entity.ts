@@ -24,7 +24,7 @@ export class SystemNotice extends BaseModel {
     },
     default: () => 'CURRENT_TIMESTAMP',
   })
-  notice_start_date: Date;
+  start_date: Date;
 
   @Column({
     type: 'datetime',
@@ -34,5 +34,5 @@ export class SystemNotice extends BaseModel {
     },
     default: () => 'CURRENT_TIMESTAMP',
   })
-  notice_end_date: Date;
+  end_date: Date;
 }
