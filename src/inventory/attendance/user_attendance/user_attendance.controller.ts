@@ -12,8 +12,8 @@ export class UserAttendanceController {
 
   @Get()
   @UseInterceptors(TransactionInterceptor)
-  async missionList(@User() user: Users, @QueryRunner() qr: QR) {
-    const result = this.userAttendanceService.attendanceList(user.user_id, qr);
+  async attendance(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = this.userAttendanceService.attendance(user.user_id, qr);
     return result;
   }
 

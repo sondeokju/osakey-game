@@ -55,7 +55,6 @@ export class UserAttendanceService {
       }
 
       if (this.isLastAttendance(userAttendance, MAX_BOARD_NUM, MAX_DAY)) {
-        //await userAttendanceRepository.delete({ user_id });
         const userResetAttendance = await this.resetAttendance(
           user_id,
           qr,
@@ -189,9 +188,9 @@ export class UserAttendanceService {
     };
   }
 
-  async attendanceList(user_id: string, qr?: QueryRunner) {
+  async attendance(user_id: string, qr?: QueryRunner) {
     const userAttendanceRepository = this.getUserAttendanceRepository(qr);
-    const userAttendance = await userAttendanceRepository.find({
+    const userAttendance = await userAttendanceRepository.findOne({
       where: {
         user_id,
       },
