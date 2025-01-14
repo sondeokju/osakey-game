@@ -12,6 +12,13 @@ export class UserAchievementsController {
     private readonly userAchievementsService: UserAchievementsService,
   ) {}
 
+  @Get()
+  @UseInterceptors(TransactionInterceptor)
+  async achieve(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = this.userAchievementsService.achieve(user.user_id, qr);
+    return result;
+  }
+
   @Post('save')
   @UseInterceptors(TransactionInterceptor)
   async saveAchieve(

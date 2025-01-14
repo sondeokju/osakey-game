@@ -90,4 +90,15 @@ export class UserAchievementsService {
       }
     }
   }
+
+  async achieve(user_id: string, qr?: QueryRunner) {
+    const userAchievementsRepository = this.getUserAchievementsRepository(qr);
+    const userAchieve = await userAchievementsRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    return userAchieve;
+  }
 }
