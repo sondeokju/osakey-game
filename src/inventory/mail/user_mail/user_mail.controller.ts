@@ -38,4 +38,11 @@ export class UserMailController {
 
     return JSON.stringify(result);
   }
+
+  @Get()
+  @UseInterceptors(TransactionInterceptor)
+  async userMailList(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = this.userMailService.userMailList(user.user_id, qr);
+    return result;
+  }
 }

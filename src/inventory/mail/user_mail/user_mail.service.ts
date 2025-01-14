@@ -87,14 +87,14 @@ export class UserMailService {
     }
   }
 
-  // async userMail(user_id: string, qr?: QueryRunner) {
-  //   const userAchievementsRepository = this.getUserAchievementsRepository(qr);
-  //   const userAchieve = await userAchievementsRepository.findOne({
-  //     where: {
-  //       user_id,
-  //     },
-  //   });
+  async userMailList(user_id: string, qr?: QueryRunner) {
+    const userMailRepository = this.getUserMailRepository(qr);
+    const userAchieve = await userMailRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
 
-  //   return userAchieve;
-  // }
+    return userAchieve;
+  }
 }
