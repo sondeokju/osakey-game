@@ -6,11 +6,11 @@ import { QueryRunner as QR } from 'typeorm';
 import { Users } from 'src/users/entity/users.entity';
 import { RewardOfferService } from './reward_offer.service';
 
-@Controller('reward-inven')
+@Controller('reward')
 export class RewardInvenController {
   constructor(private readonly rewardOfferService: RewardOfferService) {}
 
-  @Post('reward')
+  @Post('offer')
   @UseInterceptors(TransactionInterceptor)
   async missionReward(
     @User() user: Users,
