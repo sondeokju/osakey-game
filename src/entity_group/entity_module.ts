@@ -69,6 +69,7 @@ import { AttendanceModule } from 'src/static-table/attendance/attendance/attenda
 import { SystemNoticeModule } from 'src/static-table/config/system_notice/system_notice.module';
 import { UserMailModule } from 'src/inventory/mail/user_mail/user_mail.module';
 import { AchieveListModule } from 'src/static-table/achieve/achieve_list/achieve_list.module';
+import { UserAchievementsModule } from 'src/inventory/achievement/user_achievements/user_achievements.module';
 
 export const entities_module = [
   UsersModule,
@@ -142,4 +143,5 @@ export const entities_module = [
   SystemNoticeModule,
   UserMailModule,
   AchieveListModule,
+  UserAchievementsModule,
 ];

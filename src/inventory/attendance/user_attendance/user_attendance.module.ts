@@ -27,7 +27,6 @@ import { Attendance } from 'src/static-table/attendance/attendance/entities/atte
       UserItem,
       Hero,
       Attendance,
-      Users,
     ]),
   ],
   exports: [UserAttendanceService],
@@ -41,7 +40,6 @@ import { Attendance } from 'src/static-table/attendance/attendance/entities/atte
     UserItemService,
     HeroService,
     AttendanceService,
-    UsersService,
   ],
 })
 export class UserAttendanceModule {}

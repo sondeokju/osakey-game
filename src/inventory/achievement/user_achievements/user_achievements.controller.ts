@@ -1,34 +1,50 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
+import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
+import { User } from 'src/users/decorator/user.decorator';
+import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
+import { QueryRunner as QR } from 'typeorm';
+import { Users } from 'src/users/entity/users.entity';
 import { UserAchievementsService } from './user_achievements.service';
-import { CreateUserAchievementDto } from './dto/create-user_achievement.dto';
-import { UpdateUserAchievementDto } from './dto/update-user_achievement.dto';
 
-@Controller('user-achievements')
+@Controller('achievements')
 export class UserAchievementsController {
-  constructor(private readonly userAchievementsService: UserAchievementsService) {}
+  constructor(
+    private readonly userAchievementsService: UserAchievementsService,
+  ) {}
 
-  @Post()
-  create(@Body() createUserAchievementDto: CreateUserAchievementDto) {
-    return this.userAchievementsService.create(createUserAchievementDto);
+  @Post('save')
+  @UseInterceptors(TransactionInterceptor)
+  async saveAchieve(
+    @User() user: Users,
+    @Body('achieve_id') achieve_id: number,
+    @Body('achieve_count') achieve_count: number,
+    @Body('process_status') process_status: string,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userAchievementsService.saveAchieve(
+      user.user_id,
+      achieve_id,
+      achieve_count,
+      process_status,
+      qr,
+    );
+
+    return JSON.stringify(result);
   }
 
-  @Get()
-  findAll() {
-    return this.userAchievementsService.findAll();
-  }
+  // @Post('reward')
+  // @UseInterceptors(TransactionInterceptor)
+  // async missionReward(
+  //   @User() user: Users,
+  //   @Body('user_mission_id') user_mission_id: number,
+  //   @QueryRunner() qr: QR,
+  // ) {
+  //   const result = await this.userMissionService.missionReward(
+  //     user.user_id,
+  //     user_mission_id,
+  //     qr,
+  //   );
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userAchievementsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserAchievementDto: UpdateUserAchievementDto) {
-    return this.userAchievementsService.update(+id, updateUserAchievementDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userAchievementsService.remove(+id);
-  }
+  //   return JSON.stringify(result);
+  // }
 }

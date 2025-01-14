@@ -64,6 +64,7 @@ import { Attendance } from 'src/static-table/attendance/attendance/entities/atte
 import { SystemNotice } from 'src/static-table/config/system_notice/entities/system_notice.entity';
 import { UserMail } from 'src/inventory/mail/user_mail/entities/user_mail.entity';
 import { AchieveList } from 'src/static-table/achieve/achieve_list/entities/achieve_list.entity';
+import { UserAchievements } from 'src/inventory/achievement/user_achievements/entities/user_achievements.entity';
 
 export const entities = [
   Users,
@@ -132,4 +133,5 @@ export const entities = [
   SystemNotice,
   UserMail,
   AchieveList,
+  UserAchievements,
 ];
