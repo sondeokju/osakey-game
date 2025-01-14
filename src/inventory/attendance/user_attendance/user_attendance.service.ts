@@ -78,18 +78,33 @@ export class UserAttendanceService {
     return repository.findOne({ where: { user_id } });
   }
 
+  //   private async initializeAttendance(
+  //   user_id: string,
+  //   qr: QueryRunner,
+  //   repository,
+  // ) {
+  //   const attendanceData = await this.fetchAttendanceData(1, 1, qr);
+  //   const userAttendance = repository.create({
+  //     user_id,
+  //     board_num: attendanceData.board_num,
+  //     day: attendanceData.day,
+  //     reward_id: attendanceData.reward_id,
+  //   });
+  //   return userAttendance;
+  // }
+
   private async initializeAttendance(
     user_id: string,
     qr: QueryRunner,
     repository,
   ) {
     const attendanceData = await this.fetchAttendanceData(1, 1, qr);
-    const userAttendance = repository.create({
+    const userAttendance = {
       user_id,
       board_num: attendanceData.board_num,
       day: attendanceData.day,
       reward_id: attendanceData.reward_id,
-    });
+    };
     return userAttendance;
   }
 
@@ -104,7 +119,6 @@ export class UserAttendanceService {
   }
 
   private async resetAttendance(user_id: string, qr: QueryRunner, repository) {
-    await repository.delete(user_id);
     return this.initializeAttendance(user_id, qr, repository);
   }
 
