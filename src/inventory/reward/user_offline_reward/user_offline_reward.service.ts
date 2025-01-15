@@ -58,8 +58,8 @@ export class UserOfflineRewardService {
       if (!userOfflineReward) {
         userOfflineReward = userOfflineRewardRepository.create({
           user_id,
-          last_reward_date: last_reward_date || '',
-          last_ad_date: last_ad_date || '',
+          last_reward_date: last_reward_date || new Date('1970-01-01 00:00:00'),
+          last_ad_date: last_ad_date || new Date('1970-01-01 00:00:00'),
           ad_reward_count: ad_reward_count ?? 0,
         });
       } else {
