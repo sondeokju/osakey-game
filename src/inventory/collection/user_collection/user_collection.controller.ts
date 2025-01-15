@@ -37,4 +37,20 @@ export class UserCollectionController {
 
     return JSON.stringify(result);
   }
+
+  @Post('reward')
+  @UseInterceptors(TransactionInterceptor)
+  async collectionReward(
+    @User() user: Users,
+    @Body('user_collection_id') user_collection_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userCollectionService.collectionReward(
+      user.user_id,
+      user_collection_id,
+      qr,
+    );
+
+    return JSON.stringify(result);
+  }
 }

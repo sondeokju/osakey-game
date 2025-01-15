@@ -146,7 +146,7 @@ export class UserAchievementsService {
     return {
       success: true,
       reward: rewardData,
-      userMission: updatedUserAchieve,
+      userAchievement: updatedUserAchieve,
     };
   }
 }

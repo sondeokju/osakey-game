@@ -132,7 +132,7 @@ export class UserMailService {
     return {
       success: true,
       reward: rewardData,
-      userMission: updatedUserMail,
+      userMail: updatedUserMail,
     };
   }
 }

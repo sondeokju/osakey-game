@@ -9,13 +9,22 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { UserCollection } from './entities/user_collection.entity';
+import { CollectionBossService } from 'src/static-table/collection/collection_boss/collection_boss.service';
+import { CollectionEquipService } from 'src/static-table/collection/collection_equip/collection_equip.service';
+import { CollectionNpcService } from 'src/static-table/collection/collection_npc/collection_npc.service';
+import { CollectionSuitService } from 'src/static-table/collection/collection_suit/collection_suit.service';
 
 @Injectable()
 export class UserCollectionService {
   constructor(
     @InjectRepository(UserCollection)
     private readonly userCollectionRepository: Repository<UserCollection>,
-    private readonly dataSource: DataSource, //private readonly rewardOfferService: RewardOfferService,
+    private readonly dataSource: DataSource,
+    private readonly rewardOfferService: RewardOfferService,
+    private readonly collectionBossService: CollectionBossService,
+    private readonly collectionEquipService: CollectionEquipService,
+    private readonly collectionNpcService: CollectionNpcService,
+    private readonly collectionSuitService: CollectionSuitService,
   ) {}
 
   getUserCollectionRepository(qr?: QueryRunner) {
@@ -92,42 +101,95 @@ export class UserCollectionService {
 
     return userCollection;
   }
+  async collectionType(
+    collection_type: string,
+    collecton_id: number,
+    qr?: QueryRunner,
+  ) {
+    let collectionRewardID;
 
-  // async mailReward(user_id: string, user_mail_id: number, qr?: QueryRunner) {
-  //   const userMailRepository = this.getUserMailRepository(qr);
-  //   const userMailData = await userMailRepository.findOne({
-  //     where: {
-  //       id: user_mail_id,
-  //       user_id,
-  //     },
-  //   });
+    switch (collection_type) {
+      case 'BOSS':
+        collectionRewardID = await this.collectionBossService.getCollectionBoss(
+          collecton_id,
+          qr,
+        );
+        break;
 
-  //   if (!userMailData) {
-  //     throw new NotFoundException('userMailData not found.');
-  //   }
+      case 'EQUIP':
+        collectionRewardID =
+          await this.collectionEquipService.getCollectionEquip(
+            collecton_id,
+            qr,
+          );
+        break;
 
-  //   if (userMailData.reward_yn === 'Y') {
-  //     throw new NotFoundException(
-  //       'You have already claimed the userMailData reward.',
-  //     );
-  //   }
-  //   const rewardData = await this.rewardOfferService.reward(
-  //     user_id,
-  //     userMailData.reward_id,
-  //     qr,
-  //   );
+      case 'NPC':
+        collectionRewardID = await this.collectionNpcService.getCollectionNpc(
+          collecton_id,
+          qr,
+        );
+        break;
 
-  //   if (!rewardData) {
-  //     throw new BadRequestException('Failed to process reward.');
-  //   }
+      case 'SUIT':
+        collectionRewardID = await this.collectionSuitService.getCollectionSuit(
+          collecton_id,
+          qr,
+        );
+        break;
 
-  //   userMailData.reward_yn = 'Y';
-  //   const updatedUserMail = await userMailRepository.save(userMailData);
+      default:
+        throw new Error(`Invalid collection type: ${collection_type}`);
+    }
 
-  //   return {
-  //     success: true,
-  //     reward: rewardData,
-  //     userMission: updatedUserMail,
-  //   };
-  // }
+    return +collectionRewardID;
+  }
+
+  async collectionReward(
+    user_id: string,
+    user_collection_id: number,
+    qr?: QueryRunner,
+  ) {
+    const userCollectionRepository = this.getUserCollectionRepository(qr);
+    const userCollectionData = await userCollectionRepository.findOne({
+      where: {
+        id: user_collection_id,
+        user_id,
+      },
+    });
+
+    if (!userCollectionData) {
+      throw new NotFoundException('userCollectionData not found.');
+    }
+
+    if (userCollectionData.reward_yn === 'Y') {
+      throw new NotFoundException(
+        'You have already claimed the Collection reward.',
+      );
+    }
+
+    const reward_id = await this.collectionType(
+      userCollectionData.collection_type,
+      userCollectionData.collection_id,
+    );
+    const rewardData = await this.rewardOfferService.reward(
+      user_id,
+      reward_id,
+      qr,
+    );
+
+    if (!rewardData) {
+      throw new BadRequestException('Failed to process reward.');
+    }
+
+    userCollectionData.reward_yn = 'Y';
+    const updatedUserCollection =
+      await userCollectionRepository.save(userCollectionData);
+
+    return {
+      success: true,
+      reward: rewardData,
+      userCollection: updatedUserCollection,
+    };
+  }
 }

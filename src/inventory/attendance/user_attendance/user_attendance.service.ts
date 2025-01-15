@@ -243,7 +243,7 @@ export class UserAttendanceService {
     return {
       success: true,
       reward: rewardData,
-      userMission: updatedUserAttendance,
+      userAttendance: updatedUserAttendance,
     };
   }
 }
