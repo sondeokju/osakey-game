@@ -22,25 +22,25 @@ export class UserOfflineRewardController {
     return result;
   }
 
-  // @Post('save')
-  // @UseInterceptors(TransactionInterceptor)
-  // async saveAchieve(
-  //   @User() user: Users,
-  //   @Body('achieve_id') achieve_id: number,
-  //   @Body('achieve_count') achieve_count: number,
-  //   @Body('process_status') process_status: string,
-  //   @QueryRunner() qr: QR,
-  // ) {
-  //   const result = await this.userAchievementsService.saveAchieve(
-  //     user.user_id,
-  //     achieve_id,
-  //     achieve_count,
-  //     process_status,
-  //     qr,
-  //   );
+  @Post('save')
+  @UseInterceptors(TransactionInterceptor)
+  async saveAchieve(
+    @User() user: Users,
+    @Body('last_reward_date') last_reward_date?: Date,
+    @Body('last_ad_date') last_ad_date?: Date,
+    @Body('ad_reward_count') ad_reward_count?: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userOfflineRewardService.saveOfflineReward(
+      user.user_id,
+      last_reward_date,
+      last_ad_date,
+      ad_reward_count,
+      qr,
+    );
 
-  //   return JSON.stringify(result);
-  // }
+    return JSON.stringify(result);
+  }
 
   // @Post('reward')
   // @UseInterceptors(TransactionInterceptor)

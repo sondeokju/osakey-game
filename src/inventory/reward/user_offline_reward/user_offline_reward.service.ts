@@ -12,6 +12,7 @@ import { UserOfflineReward } from './entities/user_offline_reward.entity';
 
 @Injectable()
 export class UserOfflineRewardService {
+  dataSource: any;
   constructor(
     @InjectRepository(UserOfflineReward)
     private readonly userOfflineRewardRepository: Repository<UserOfflineReward>, //  private readonly rewardOfferService: RewardOfferService,
@@ -23,69 +24,76 @@ export class UserOfflineRewardService {
       : this.userOfflineRewardRepository;
   }
 
-  // async saveAchieve(
-  //   user_id: string,
-  //   achieve_id: number,
-  //   achieve_count: number,
-  //   progress_status: string,
-  //   qr?: QueryRunner,
-  // ) {
-  //   if (!user_id || typeof user_id !== 'string') {
-  //     throw new BadRequestException('Invalid user_id provided.');
-  //   }
+  async saveOfflineReward(
+    user_id: string,
+    last_reward_date?: Date,
+    last_ad_date?: Date,
+    ad_reward_count?: number,
+    qr?: QueryRunner,
+  ) {
+    if (!user_id || typeof user_id !== 'string') {
+      throw new BadRequestException('Invalid user_id provided.');
+    }
+    // const currentDate = new Date(); // 현재 날짜와 시간
+    // const deadline = new Date(currentDate); // 현재 날짜 복사
+    // deadline.setDate(deadline.getDate() + +deadline_day); // 7일 추가
 
-  //   const queryRunner = qr || this.dataSource.createQueryRunner();
+    const queryRunner = qr || this.dataSource.createQueryRunner();
 
-  //   let isTransactionOwner = false;
-  //   if (!qr) {
-  //     await queryRunner.connect();
-  //     await queryRunner.startTransaction();
-  //     isTransactionOwner = true;
-  //   }
+    let isTransactionOwner = false;
+    if (!qr) {
+      await queryRunner.connect();
+      await queryRunner.startTransaction();
+      isTransactionOwner = true;
+    }
 
-  //   try {
-  //     const userAchievementsRepository =
-  //       queryRunner.manager.getRepository(UserAchievements);
+    try {
+      const userOfflineRewardRepository =
+        queryRunner.manager.getRepository(UserOfflineReward);
 
-  //     let userAchieve = await userAchievementsRepository.findOne({
-  //       where: { user_id },
-  //     });
+      let userOfflineReward = await userOfflineRewardRepository.findOne({
+        where: { user_id },
+      });
 
-  //     if (!userAchieve) {
-  //       userAchieve = userAchievementsRepository.create({
-  //         user_id,
-  //         achieve_id,
-  //         achieve_count: 0,
-  //         progress_status: 'N', // 기본 상태
-  //       });
-  //     }
+      if (!userOfflineReward) {
+        userOfflineReward = userOfflineRewardRepository.create({
+          user_id,
+          last_reward_date: last_reward_date || new Date(),
+          last_ad_date: last_ad_date || null,
+          ad_reward_count: ad_reward_count ?? 0,
+        });
+      } else {
+        // 기존 레코드 업데이트 시 조건부 처리
+        if (last_reward_date !== undefined) {
+          userOfflineReward.last_reward_date = last_reward_date;
+        }
+        if (last_ad_date !== undefined) {
+          userOfflineReward.last_ad_date = last_ad_date;
+        }
+        if (ad_reward_count !== undefined) {
+          userOfflineReward.ad_reward_count += ad_reward_count;
+        }
+      }
 
-  //     if (progress_status === 'Y') {
-  //       userAchieve.progress_status = progress_status;
-  //       userAchieve.complete_date = new Date();
-  //     } else {
-  //       userAchieve.achieve_count += +achieve_count;
-  //     }
+      const result = await userOfflineRewardRepository.save(userOfflineReward);
 
-  //     const result = await userAchievementsRepository.save(userAchieve);
+      if (isTransactionOwner) {
+        await queryRunner.commitTransaction();
+      }
 
-  //     if (isTransactionOwner) {
-  //       await queryRunner.commitTransaction();
-  //     }
-
-  //     return result;
-  //   } catch (error) {
-  //     if (isTransactionOwner) {
-  //       await queryRunner.rollbackTransaction();
-  //     }
-  //     console.error('Transaction failed:', error);
-  //     throw new Error(`Transaction failed: ${error.message}`);
-  //   } finally {
-  //     if (isTransactionOwner) {
-  //       await queryRunner.release();
-  //     }
-  //   }
-  // }
+      return result;
+    } catch (error) {
+      if (isTransactionOwner) {
+        await queryRunner.rollbackTransaction();
+      }
+      console.error('Transaction failed:', error);
+      throw new Error(`Transaction failed: ${error.message}`);
+    } finally {
+      if (isTransactionOwner) {
+        await queryRunner.release();
+      }
+    }
+  }
 
   async offlineRewardList(user_id: string, qr?: QueryRunner) {
     const userOfflineRewardRepository = this.getUserOfflineRewardRepository(qr);
@@ -97,52 +105,4 @@ export class UserOfflineRewardService {
 
     return userOfflineReward;
   }
-
-  // async achieveReward(
-  //   user_id: string,
-  //   user_achievements_id: number,
-  //   qr?: QueryRunner,
-  // ) {
-  //   const userAchievementsRepository = this.getUserAchievementsRepository(qr);
-  //   const userAchieve = await userAchievementsRepository.findOne({
-  //     where: {
-  //       id: user_achievements_id,
-  //       user_id,
-  //     },
-  //   });
-
-  //   if (!userAchieve) {
-  //     throw new NotFoundException('userAchieve not found.');
-  //   }
-
-  //   const achieveData = await this.achieveListService.getAttendance(
-  //     userAchieve.achieve_id,
-  //     qr,
-  //   );
-
-  //   if (userAchieve.reward_yn === 'Y') {
-  //     throw new NotFoundException(
-  //       'You have already claimed the Achieve reward.',
-  //     );
-  //   }
-  //   const rewardData = await this.rewardOfferService.reward(
-  //     user_id,
-  //     achieveData.reward_id,
-  //     qr,
-  //   );
-
-  //   if (!rewardData) {
-  //     throw new BadRequestException('Failed to process reward.');
-  //   }
-
-  //   userAchieve.reward_yn = 'Y';
-  //   const updatedUserAchieve =
-  //     await userAchievementsRepository.save(userAchieve);
-
-  //   return {
-  //     success: true,
-  //     reward: rewardData,
-  //     userMission: updatedUserAchieve,
-  //   };
-  // }
 }
