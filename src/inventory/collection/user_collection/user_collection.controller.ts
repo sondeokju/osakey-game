@@ -1,34 +1,42 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
+import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
+import { User } from 'src/users/decorator/user.decorator';
+import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
+import { QueryRunner as QR } from 'typeorm';
+import { Users } from 'src/users/entity/users.entity';
 import { UserCollectionService } from './user_collection.service';
-import { CreateUserCollectionDto } from './dto/create-user_collection.dto';
-import { UpdateUserCollectionDto } from './dto/update-user_collection.dto';
 
-@Controller('user-collection')
+@Controller('collection')
 export class UserCollectionController {
   constructor(private readonly userCollectionService: UserCollectionService) {}
 
-  @Post()
-  create(@Body() createUserCollectionDto: CreateUserCollectionDto) {
-    return this.userCollectionService.create(createUserCollectionDto);
-  }
-
   @Get()
-  findAll() {
-    return this.userCollectionService.findAll();
+  @UseInterceptors(TransactionInterceptor)
+  async userCollectionList(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = this.userCollectionService.userCollectionList(
+      user.user_id,
+      qr,
+    );
+    return result;
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userCollectionService.findOne(+id);
-  }
+  @Post('save')
+  @UseInterceptors(TransactionInterceptor)
+  async achieveReward(
+    @User() user: Users,
+    @Body('collection_type') collection_type: string,
+    @Body('collection_id') collection_id: number,
+    @Body('collection_enable_date') collection_enable_date: string,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userCollectionService.saveCollection(
+      user.user_id,
+      collection_type,
+      collection_id,
+      collection_enable_date,
+      qr,
+    );
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserCollectionDto: UpdateUserCollectionDto) {
-    return this.userCollectionService.update(+id, updateUserCollectionDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userCollectionService.remove(+id);
+    return JSON.stringify(result);
   }
 }
