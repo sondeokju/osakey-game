@@ -106,33 +106,32 @@ export class UserCollectionService {
     collecton_id: number,
     qr?: QueryRunner,
   ) {
-    let collectionRewardID;
+    let collectionReward;
 
     switch (collection_type) {
       case 'BOSS':
-        collectionRewardID = await this.collectionBossService.getCollectionBoss(
+        collectionReward = await this.collectionBossService.getCollectionBoss(
           collecton_id,
           qr,
         );
         break;
 
       case 'EQUIP':
-        collectionRewardID =
-          await this.collectionEquipService.getCollectionEquip(
-            collecton_id,
-            qr,
-          );
+        collectionReward = await this.collectionEquipService.getCollectionEquip(
+          collecton_id,
+          qr,
+        );
         break;
 
       case 'NPC':
-        collectionRewardID = await this.collectionNpcService.getCollectionNpc(
+        collectionReward = await this.collectionNpcService.getCollectionNpc(
           collecton_id,
           qr,
         );
         break;
 
       case 'SUIT':
-        collectionRewardID = await this.collectionSuitService.getCollectionSuit(
+        collectionReward = await this.collectionSuitService.getCollectionSuit(
           collecton_id,
           qr,
         );
@@ -142,7 +141,7 @@ export class UserCollectionService {
         throw new Error(`Invalid collection type: ${collection_type}`);
     }
 
-    return collectionRewardID;
+    return collectionReward;
   }
 
   async collectionReward(
@@ -150,7 +149,6 @@ export class UserCollectionService {
     user_collection_id: number,
     qr?: QueryRunner,
   ) {
-    //console.log(user_collection_id);
     const userCollectionRepository = this.getUserCollectionRepository(qr);
     const userCollectionData = await userCollectionRepository.findOne({
       where: {
@@ -158,8 +156,6 @@ export class UserCollectionService {
         user_id,
       },
     });
-
-    console.log('1');
 
     if (!userCollectionData) {
       throw new NotFoundException('userCollectionData not found.');
@@ -171,23 +167,19 @@ export class UserCollectionService {
       );
     }
 
-    const reward_id = await this.collectionType(
+    const collectionRewardData = await this.collectionType(
       userCollectionData.collection_type,
       userCollectionData.collection_id,
     );
 
-    console.log(reward_id);
-    console.log(reward_id['reward_id']);
-
-    console.log('2');
+    const reward_id = collectionRewardData['reward_id'];
 
     const rewardData = await this.rewardOfferService.reward(
       user_id,
-      +reward_id,
+      reward_id,
       qr,
     );
 
-    console.log('3');
     if (!rewardData) {
       throw new BadRequestException('Failed to process reward.');
     }
@@ -197,7 +189,6 @@ export class UserCollectionService {
       reward_yn: 'Y',
     });
 
-    console.log('4');
     return {
       success: true,
       reward: rewardData,
