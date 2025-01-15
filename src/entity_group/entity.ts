@@ -66,6 +66,7 @@ import { UserMail } from 'src/inventory/mail/user_mail/entities/user_mail.entity
 import { AchieveList } from 'src/static-table/achieve/achieve_list/entities/achieve_list.entity';
 import { UserAchievements } from 'src/inventory/achievement/user_achievements/entities/user_achievements.entity';
 import { UserOfflineReward } from 'src/inventory/reward/user_offline_reward/entities/user_offline_reward.entity';
+import { UserCollection } from 'src/inventory/collection/user_collection/entities/user_collection.entity';
 
 export const entities = [
   Users,
@@ -136,4 +137,5 @@ export const entities = [
   AchieveList,
   UserAchievements,
   UserOfflineReward,
+  UserCollection,
 ];
