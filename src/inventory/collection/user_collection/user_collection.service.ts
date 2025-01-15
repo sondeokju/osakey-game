@@ -150,6 +150,7 @@ export class UserCollectionService {
     user_collection_id: number,
     qr?: QueryRunner,
   ) {
+    console.log(user_collection_id);
     const userCollectionRepository = this.getUserCollectionRepository(qr);
     const userCollectionData = await userCollectionRepository.findOne({
       where: {
@@ -172,6 +173,7 @@ export class UserCollectionService {
       userCollectionData.collection_type,
       userCollectionData.collection_id,
     );
+
     const rewardData = await this.rewardOfferService.reward(
       user_id,
       reward_id,
