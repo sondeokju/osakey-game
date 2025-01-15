@@ -71,7 +71,7 @@ export class UserOfflineRewardService {
           userOfflineReward.last_ad_date = last_ad_date;
         }
         if (ad_reward_count !== undefined) {
-          userOfflineReward.ad_reward_count += ad_reward_count;
+          userOfflineReward.ad_reward_count += +ad_reward_count;
         }
       }
 
