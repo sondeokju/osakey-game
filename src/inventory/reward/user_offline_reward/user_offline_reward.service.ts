@@ -1,26 +1,148 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserOfflineRewardDto } from './dto/create-user_offline_reward.dto';
-import { UpdateUserOfflineRewardDto } from './dto/update-user_offline_reward.dto';
+import {
+  BadRequestException,
+  ConsoleLogger,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+//import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
+import { QueryRunner, Repository } from 'typeorm';
+import { UserOfflineReward } from './entities/user_offline_reward.entity';
 
 @Injectable()
 export class UserOfflineRewardService {
-  create(createUserOfflineRewardDto: CreateUserOfflineRewardDto) {
-    return 'This action adds a new userOfflineReward';
+  constructor(
+    @InjectRepository(UserOfflineReward)
+    private readonly userOfflineRewardRepository: Repository<UserOfflineReward>, //  private readonly rewardOfferService: RewardOfferService,
+  ) {}
+
+  getUserOfflineRewardRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<UserOfflineReward>(UserOfflineReward)
+      : this.userOfflineRewardRepository;
   }
 
-  findAll() {
-    return `This action returns all userOfflineReward`;
+  // async saveAchieve(
+  //   user_id: string,
+  //   achieve_id: number,
+  //   achieve_count: number,
+  //   progress_status: string,
+  //   qr?: QueryRunner,
+  // ) {
+  //   if (!user_id || typeof user_id !== 'string') {
+  //     throw new BadRequestException('Invalid user_id provided.');
+  //   }
+
+  //   const queryRunner = qr || this.dataSource.createQueryRunner();
+
+  //   let isTransactionOwner = false;
+  //   if (!qr) {
+  //     await queryRunner.connect();
+  //     await queryRunner.startTransaction();
+  //     isTransactionOwner = true;
+  //   }
+
+  //   try {
+  //     const userAchievementsRepository =
+  //       queryRunner.manager.getRepository(UserAchievements);
+
+  //     let userAchieve = await userAchievementsRepository.findOne({
+  //       where: { user_id },
+  //     });
+
+  //     if (!userAchieve) {
+  //       userAchieve = userAchievementsRepository.create({
+  //         user_id,
+  //         achieve_id,
+  //         achieve_count: 0,
+  //         progress_status: 'N', // 기본 상태
+  //       });
+  //     }
+
+  //     if (progress_status === 'Y') {
+  //       userAchieve.progress_status = progress_status;
+  //       userAchieve.complete_date = new Date();
+  //     } else {
+  //       userAchieve.achieve_count += +achieve_count;
+  //     }
+
+  //     const result = await userAchievementsRepository.save(userAchieve);
+
+  //     if (isTransactionOwner) {
+  //       await queryRunner.commitTransaction();
+  //     }
+
+  //     return result;
+  //   } catch (error) {
+  //     if (isTransactionOwner) {
+  //       await queryRunner.rollbackTransaction();
+  //     }
+  //     console.error('Transaction failed:', error);
+  //     throw new Error(`Transaction failed: ${error.message}`);
+  //   } finally {
+  //     if (isTransactionOwner) {
+  //       await queryRunner.release();
+  //     }
+  //   }
+  // }
+
+  async offlineRewardList(user_id: string, qr?: QueryRunner) {
+    const userOfflineRewardRepository = this.getUserOfflineRewardRepository(qr);
+    const userOfflineReward = await userOfflineRewardRepository.find({
+      where: {
+        user_id,
+      },
+    });
+
+    return userOfflineReward;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} userOfflineReward`;
-  }
+  // async achieveReward(
+  //   user_id: string,
+  //   user_achievements_id: number,
+  //   qr?: QueryRunner,
+  // ) {
+  //   const userAchievementsRepository = this.getUserAchievementsRepository(qr);
+  //   const userAchieve = await userAchievementsRepository.findOne({
+  //     where: {
+  //       id: user_achievements_id,
+  //       user_id,
+  //     },
+  //   });
 
-  update(id: number, updateUserOfflineRewardDto: UpdateUserOfflineRewardDto) {
-    return `This action updates a #${id} userOfflineReward`;
-  }
+  //   if (!userAchieve) {
+  //     throw new NotFoundException('userAchieve not found.');
+  //   }
 
-  remove(id: number) {
-    return `This action removes a #${id} userOfflineReward`;
-  }
+  //   const achieveData = await this.achieveListService.getAttendance(
+  //     userAchieve.achieve_id,
+  //     qr,
+  //   );
+
+  //   if (userAchieve.reward_yn === 'Y') {
+  //     throw new NotFoundException(
+  //       'You have already claimed the Achieve reward.',
+  //     );
+  //   }
+  //   const rewardData = await this.rewardOfferService.reward(
+  //     user_id,
+  //     achieveData.reward_id,
+  //     qr,
+  //   );
+
+  //   if (!rewardData) {
+  //     throw new BadRequestException('Failed to process reward.');
+  //   }
+
+  //   userAchieve.reward_yn = 'Y';
+  //   const updatedUserAchieve =
+  //     await userAchievementsRepository.save(userAchieve);
+
+  //   return {
+  //     success: true,
+  //     reward: rewardData,
+  //     userMission: updatedUserAchieve,
+  //   };
+  // }
 }

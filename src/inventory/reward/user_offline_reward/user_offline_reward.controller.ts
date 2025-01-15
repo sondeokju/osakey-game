@@ -1,34 +1,60 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
+import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
+import { User } from 'src/users/decorator/user.decorator';
+import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
+import { QueryRunner as QR } from 'typeorm';
+import { Users } from 'src/users/entity/users.entity';
 import { UserOfflineRewardService } from './user_offline_reward.service';
-import { CreateUserOfflineRewardDto } from './dto/create-user_offline_reward.dto';
-import { UpdateUserOfflineRewardDto } from './dto/update-user_offline_reward.dto';
 
-@Controller('user-offline-reward')
+@Controller('offline-reward')
 export class UserOfflineRewardController {
-  constructor(private readonly userOfflineRewardService: UserOfflineRewardService) {}
-
-  @Post()
-  create(@Body() createUserOfflineRewardDto: CreateUserOfflineRewardDto) {
-    return this.userOfflineRewardService.create(createUserOfflineRewardDto);
-  }
+  constructor(
+    private readonly userOfflineRewardService: UserOfflineRewardService,
+  ) {}
 
   @Get()
-  findAll() {
-    return this.userOfflineRewardService.findAll();
+  @UseInterceptors(TransactionInterceptor)
+  async offlineRewardList(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = this.userOfflineRewardService.offlineRewardList(
+      user.user_id,
+      qr,
+    );
+    return result;
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userOfflineRewardService.findOne(+id);
-  }
+  // @Post('save')
+  // @UseInterceptors(TransactionInterceptor)
+  // async saveAchieve(
+  //   @User() user: Users,
+  //   @Body('achieve_id') achieve_id: number,
+  //   @Body('achieve_count') achieve_count: number,
+  //   @Body('process_status') process_status: string,
+  //   @QueryRunner() qr: QR,
+  // ) {
+  //   const result = await this.userAchievementsService.saveAchieve(
+  //     user.user_id,
+  //     achieve_id,
+  //     achieve_count,
+  //     process_status,
+  //     qr,
+  //   );
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserOfflineRewardDto: UpdateUserOfflineRewardDto) {
-    return this.userOfflineRewardService.update(+id, updateUserOfflineRewardDto);
-  }
+  //   return JSON.stringify(result);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userOfflineRewardService.remove(+id);
-  }
+  // @Post('reward')
+  // @UseInterceptors(TransactionInterceptor)
+  // async achieveReward(
+  //   @User() user: Users,
+  //   @Body('user_achievements_id') user_achievements_id: number,
+  //   @QueryRunner() qr: QR,
+  // ) {
+  //   const result = await this.userAchievementsService.achieveReward(
+  //     user.user_id,
+  //     user_achievements_id,
+  //     qr,
+  //   );
+
+  //   return JSON.stringify(result);
+  // }
 }
