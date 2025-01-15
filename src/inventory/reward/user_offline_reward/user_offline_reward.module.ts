@@ -3,7 +3,6 @@ import { UserOfflineRewardService } from './user_offline_reward.service';
 import { UserOfflineRewardController } from './user_offline_reward.controller';
 import { UserOfflineReward } from './entities/user_offline_reward.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserAchievementsService } from 'src/inventory/achievement/user_achievements/user_achievements.service';
 import { Hero } from 'src/static-table/hero/entities/hero.entity';
 import { HeroService } from 'src/static-table/hero/hero.service';
 import { Item } from 'src/static-table/item/entities/item.entity';
@@ -27,7 +26,7 @@ import { UsersService } from 'src/users/users.service';
       Hero,
     ]),
   ],
-  exports: [UserAchievementsService],
+  exports: [UserOfflineRewardService],
   controllers: [UserOfflineRewardController],
   providers: [
     UserOfflineRewardService,
