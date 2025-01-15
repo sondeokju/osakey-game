@@ -40,6 +40,8 @@ export class UserOfflineRewardService {
 
     const queryRunner = qr || this.dataSource.createQueryRunner();
 
+    console.log(last_reward_date, last_ad_date);
+
     let isTransactionOwner = false;
     if (!qr) {
       await queryRunner.connect();
