@@ -26,10 +26,10 @@ export class UserOfflineRewardController {
   @UseInterceptors(TransactionInterceptor)
   async saveAchieve(
     @User() user: Users,
+    @QueryRunner() qr: QR,
     @Body('last_reward_date') last_reward_date?: Date,
     @Body('last_ad_date') last_ad_date?: Date,
     @Body('ad_reward_count') ad_reward_count?: number,
-    @QueryRunner() qr: QR,
   ) {
     const result = await this.userOfflineRewardService.saveOfflineReward(
       user.user_id,
