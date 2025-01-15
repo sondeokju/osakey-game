@@ -70,9 +70,14 @@ export class UserOfflineRewardService {
         if (last_reward_date !== undefined) {
           userOfflineReward.last_reward_date = last_reward_date;
         }
-        if (last_ad_date !== undefined) {
+        if (
+          last_ad_date !== undefined &&
+          last_ad_date !== null
+          //last_ad_date !== ''
+        ) {
           userOfflineReward.last_ad_date = last_ad_date;
         }
+
         if (ad_reward_count !== undefined) {
           userOfflineReward.ad_reward_count += +ad_reward_count;
         }
