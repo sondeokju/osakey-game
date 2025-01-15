@@ -159,6 +159,8 @@ export class UserCollectionService {
       },
     });
 
+    console.log('1');
+
     if (!userCollectionData) {
       throw new NotFoundException('userCollectionData not found.');
     }
@@ -174,20 +176,25 @@ export class UserCollectionService {
       userCollectionData.collection_id,
     );
 
+    console.log('2');
+
     const rewardData = await this.rewardOfferService.reward(
       user_id,
       reward_id,
       qr,
     );
 
+    console.log('3');
     if (!rewardData) {
       throw new BadRequestException('Failed to process reward.');
     }
 
-    userCollectionData.reward_yn = 'Y';
-    const updatedUserCollection =
-      await userCollectionRepository.save(userCollectionData);
+    const updatedUserCollection = await userCollectionRepository.save({
+      ...userCollectionData,
+      reward_yn: 'Y',
+    });
 
+    console.log('4');
     return {
       success: true,
       reward: rewardData,
