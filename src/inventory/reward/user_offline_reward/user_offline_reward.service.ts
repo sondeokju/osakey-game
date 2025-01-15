@@ -65,11 +65,15 @@ export class UserOfflineRewardService {
             new Date(last_reward_date) || new Date('1970-01-01 00:00:00'),
           last_ad_date:
             new Date(last_ad_date) || new Date('1970-01-01 00:00:00'),
-          ad_reward_count: new Date(ad_reward_count) ?? 0,
+          ad_reward_count: ad_reward_count ?? 0,
         });
       } else {
         // 기존 레코드 업데이트 시 조건부 처리
-        if (last_reward_date !== undefined) {
+        if (
+          last_reward_date !== undefined &&
+          last_reward_date !== null &&
+          last_reward_date !== ''
+        ) {
           userOfflineReward.last_reward_date = new Date(last_reward_date);
         }
         if (
@@ -80,7 +84,7 @@ export class UserOfflineRewardService {
           userOfflineReward.last_ad_date = new Date(last_ad_date);
         }
 
-        if (ad_reward_count !== undefined) {
+        if (ad_reward_count !== undefined && ad_reward_count !== null) {
           userOfflineReward.ad_reward_count += +ad_reward_count;
         }
       }
