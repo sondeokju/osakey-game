@@ -70,6 +70,9 @@ import { SystemNoticeModule } from 'src/static-table/config/system_notice/system
 import { UserMailModule } from 'src/inventory/mail/user_mail/user_mail.module';
 import { AchieveListModule } from 'src/static-table/achieve/achieve_list/achieve_list.module';
 import { UserAchievementsModule } from 'src/inventory/achievement/user_achievements/user_achievements.module';
+import { UserIngameLogModule } from 'src/inventory/reward/user_ingame_log/user_ingame_log.module';
+import { UserIngameRewardModule } from 'src/inventory/reward/user_ingame_reward/user_ingame_reward.module';
+import { UserOfflineRewardModule } from 'src/inventory/reward/user_offline_reward/user_offline_reward.module';
 
 export const entities_module = [
   UsersModule,
@@ -144,4 +147,7 @@ export const entities_module = [
   UserMailModule,
   AchieveListModule,
   UserAchievementsModule,
+  UserOfflineRewardModule,
+  UserIngameRewardModule,
+  UserIngameLogModule,
 ];

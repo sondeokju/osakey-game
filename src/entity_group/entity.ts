@@ -65,6 +65,7 @@ import { SystemNotice } from 'src/static-table/config/system_notice/entities/sys
 import { UserMail } from 'src/inventory/mail/user_mail/entities/user_mail.entity';
 import { AchieveList } from 'src/static-table/achieve/achieve_list/entities/achieve_list.entity';
 import { UserAchievements } from 'src/inventory/achievement/user_achievements/entities/user_achievements.entity';
+import { UserOfflineReward } from 'src/inventory/reward/user_offline_reward/entities/user_offline_reward.entity';
 
 export const entities = [
   Users,
@@ -134,4 +135,5 @@ export const entities = [
   UserMail,
   AchieveList,
   UserAchievements,
+  UserOfflineReward,
 ];
