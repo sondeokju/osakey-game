@@ -26,14 +26,12 @@ export class UserCollectionController {
     @User() user: Users,
     @Body('collection_type') collection_type: string,
     @Body('collection_id') collection_id: number,
-    @Body('collection_enable_date') collection_enable_date: string,
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userCollectionService.saveCollection(
       user.user_id,
       collection_type,
       collection_id,
-      collection_enable_date,
       qr,
     );
 

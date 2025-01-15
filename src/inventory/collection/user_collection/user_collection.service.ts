@@ -28,7 +28,6 @@ export class UserCollectionService {
     user_id: string,
     collection_type: string,
     collection_id: number,
-    collection_enable_date: string,
     qr?: QueryRunner,
   ) {
     if (!user_id || typeof user_id !== 'string') {
@@ -57,8 +56,8 @@ export class UserCollectionService {
         collection_type,
         collection_id,
         collection_yn: 'Y',
-        collection_enable_date: new Date(collection_enable_date),
-        reward_date: createCollectionDate,
+        collection_enable_date: createCollectionDate,
+        reward_date: new Date('1970-01-01 00:00:00'),
       });
 
       if (isTransactionOwner) {
