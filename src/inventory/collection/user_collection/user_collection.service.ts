@@ -177,6 +177,7 @@ export class UserCollectionService {
     );
 
     console.log(reward_id);
+    onsole.log(reward_id['reward_id']);
 
     console.log('2');
 
