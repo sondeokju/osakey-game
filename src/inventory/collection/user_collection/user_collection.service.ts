@@ -142,7 +142,7 @@ export class UserCollectionService {
         throw new Error(`Invalid collection type: ${collection_type}`);
     }
 
-    return +collectionRewardID;
+    return collectionRewardID;
   }
 
   async collectionReward(
@@ -150,7 +150,7 @@ export class UserCollectionService {
     user_collection_id: number,
     qr?: QueryRunner,
   ) {
-    console.log(user_collection_id);
+    //console.log(user_collection_id);
     const userCollectionRepository = this.getUserCollectionRepository(qr);
     const userCollectionData = await userCollectionRepository.findOne({
       where: {
@@ -176,11 +176,13 @@ export class UserCollectionService {
       userCollectionData.collection_id,
     );
 
+    console.log(reward_id);
+
     console.log('2');
 
     const rewardData = await this.rewardOfferService.reward(
       user_id,
-      reward_id,
+      +reward_id,
       qr,
     );
 
