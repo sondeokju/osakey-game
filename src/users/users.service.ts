@@ -698,6 +698,7 @@ export class UsersService {
       if (social_user_id) {
         result = await this.handleSocialUserIdLogic(
           social_user_id,
+          member_id,
           queryRunner,
         );
       }
