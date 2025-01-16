@@ -24,5 +24,5 @@ export class ZLoginLog extends BaseModel {
     type: 'varchar',
     default: '',
   })
-  sicail_type: string;
+  social_type: string;
 }
