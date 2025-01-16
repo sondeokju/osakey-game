@@ -663,11 +663,11 @@ export class UsersService {
 
   async lineSocialLogin(socialData: any, qr?: QueryRunner) {
     const member_id = socialData.memberid ?? null;
-    const social_user_id = socialData.userid ?? null;
+    //const social_user_id = socialData.userid ?? null;
 
-    if (!member_id && !social_user_id) {
-      throw new Error('Either member_id or social_user_id must be provided.');
-    }
+    // if (!member_id && !social_user_id) {
+    //   throw new Error('Either member_id or social_user_id must be provided.');
+    // }
 
     let queryRunner = qr;
     if (!queryRunner) {
