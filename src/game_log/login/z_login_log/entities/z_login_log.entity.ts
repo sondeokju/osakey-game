@@ -24,5 +24,13 @@ export class ZLoginLog extends BaseModel {
     type: 'varchar',
     default: '',
   })
+  @Index({ unique: false })
+  social_user_id: string;
+
+  @Column({
+    length: 256,
+    type: 'varchar',
+    default: '',
+  })
   social_type: string;
 }
