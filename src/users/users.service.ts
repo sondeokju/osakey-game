@@ -9,6 +9,7 @@ import { HeroService } from 'src/static-table/hero/hero.service';
 @Injectable()
 export class UsersService {
   private readonly redisClient: Redis;
+  dataSource: any;
 
   constructor(
     @InjectRepository(Users)
@@ -664,39 +665,59 @@ export class UsersService {
     // 데이터에서 필요한 값 추출
     const member_id = socialData.memberid ?? null; // 에디터 로그인
     const social_user_id = socialData.userid ?? null; // 기기 / 게스트 로그인
-    //const token = socialData.token ?? null;
-    //const name = socialData.name ?? null;
-    //const profileUrl = socialData.profileUrl ?? null;
-    //const email = socialData.email ?? null;
-    //const rawData = socialData.rawData ?? null;
 
-    // if (!member_id) {
-    //   throw new Error('device_id is required');
-    // }
-    const usersRepository = this.getUsersRepository(qr);
-
-    let user: Users;
-
-    if (member_id) {
-      user = await usersRepository.findOne({ where: { member_id } });
-
-      if (!user) {
-        user = usersRepository.create({ member_id });
-      } else {
-        user.update_at = new Date();
-      }
+    // QueryRunner 생성 및 트랜잭션 시작
+    let queryRunner = qr;
+    if (!queryRunner) {
+      queryRunner = this.dataSource.createQueryRunner();
+      await queryRunner.connect();
+      await queryRunner.startTransaction();
     }
 
-    if (social_user_id) {
-      user = await usersRepository.findOne({ where: { social_user_id } });
+    try {
+      const usersRepository = this.getUsersRepository(queryRunner);
 
-      if (!user) {
-        user = usersRepository.create({ social_user_id });
-      } else {
-        user.update_at = new Date();
+      let user: Users;
+
+      if (member_id) {
+        user = await usersRepository.findOne({ where: { member_id } });
+
+        if (!user) {
+          user = usersRepository.create({ member_id });
+        } else {
+          user.update_at = new Date();
+        }
+      }
+
+      if (social_user_id) {
+        user = await usersRepository.findOne({ where: { social_user_id } });
+
+        if (!user) {
+          user = usersRepository.create({ social_user_id });
+        } else {
+          user.update_at = new Date();
+        }
+      }
+
+      const savedUser = await usersRepository.save(user);
+
+      // 트랜잭션 커밋
+      if (!qr) {
+        await queryRunner.commitTransaction();
+      }
+
+      return savedUser;
+    } catch (error) {
+      // 에러 발생 시 트랜잭션 롤백
+      if (!qr) {
+        await queryRunner.rollbackTransaction();
+      }
+      throw error;
+    } finally {
+      // QueryRunner 해제
+      if (!qr) {
+        await queryRunner.release();
       }
     }
-
-    return usersRepository.save(user);
   }
 }
