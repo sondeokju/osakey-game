@@ -753,32 +753,33 @@ export class UsersService {
 
   private async handleSocialUserIdLogic(
     social_user_id: string,
+    member_id: string,
     queryRunner: QueryRunner,
   ) {
     const usersRepository = this.getUsersRepository(queryRunner);
 
-    console.log('social_user_id', typeof social_user_id);
-
-    const user = await usersRepository.findOne({
-      where: { social_user_id },
-    });
-
-    if (!user) {
-      console.log('Creating new social user');
-      const newUser = usersRepository.create({ social_user_id });
-      const savedUser = await usersRepository.save(newUser);
-
-      if (!savedUser.id) {
-        throw new Error('Failed to create social user: ID not generated.');
-      }
-
-      return this.createUserID(savedUser.id, queryRunner); // 생성된 ID를 사용
-    } else {
-      console.log('Updating existing social user');
-      return await usersRepository.save({
-        ...user,
-        update_at: new Date(),
+    if (member_id === 'UnityEditor_Member') {
+      const user = await usersRepository.findOne({
+        where: { member_id: social_user_id },
       });
+
+      if (!user) {
+        console.log('Creating new social user');
+        const newUser = usersRepository.create({ member_id: social_user_id });
+        const savedUser = await usersRepository.save(newUser);
+
+        if (!savedUser.id) {
+          throw new Error('Failed to create social user: ID not generated.');
+        }
+
+        return this.createUserID(savedUser.id, queryRunner); // 생성된 ID를 사용
+      } else {
+        console.log('Updating existing social user');
+        return await usersRepository.save({
+          ...user,
+          update_at: new Date(),
+        });
+      }
     }
   }
 }
