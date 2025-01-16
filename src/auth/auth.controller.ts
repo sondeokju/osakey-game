@@ -44,12 +44,28 @@ export class AuthController {
   @IsPublic()
   @Post('line-social/login')
   //@UseInterceptors(TransactionInterceptor)
-  async lineSocialLogin(
+  async lineSocialLogin2(
     @Body('socialData') socialData: any,
     //@QueryRunner() qr: QR,
   ) {
     console.log(socialData);
     return this.authService.lineSocialLogin(socialData);
+  }
+
+  //@Post('login/email')
+  @IsPublic()
+  @UseGuards(BasicTokenGuard)
+  async lineSocialLogin(@Headers('authorization') rawToken: string) {
+    // email:password -> base64
+    //console.log('rawToken', rawToken);
+
+    //throw new UnauthorizedException('헤더가 비어있습니다.');
+
+    const token = this.authService.extractTokenFromHeader(rawToken, false);
+
+    const credentials = this.authService.decodeBasicToken(token);
+
+    return this.authService.loginWithEmail(credentials);
   }
 
   // @IsPublic()

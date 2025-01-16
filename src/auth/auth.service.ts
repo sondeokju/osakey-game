@@ -88,6 +88,9 @@ export class AuthService {
   async lineSocialLogin(socialData: any) {
     const newUserData = await this.usersService.lineSocialLogin(socialData);
 
+    const accessToken = this.socialSignToken(newUserData, false);
+    console.log(accessToken);
+
     return await this.usersService.createUserID(newUserData.id);
   }
 
@@ -234,6 +237,28 @@ export class AuthService {
     //   accessToken: this.signToken(user, false),
     //   //refreshToken: this.signToken(user, true),
     // };
+  }
+
+  socialSignToken(user: Pick<Users, 'id'>, isRefreshToken: boolean) {
+    const payload = {
+      sub: user.id,
+      type: isRefreshToken ? 'refresh' : 'access',
+    };
+
+    return this.jwtService.sign(payload, {
+      secret: this.configService.get<string>(ENV_JWT_SECRET_KEY),
+      // seconds
+      //expiresIn: isRefreshToken ? 86400 : 86400,
+      expiresIn: isRefreshToken ? 3.154e11 : 3.154e11,
+    });
+  }
+
+  socialLoginUseToken(user: Pick<Users, 'id'>) {
+    const result = {
+      accessToken: this.socialSignToken(user, false),
+    };
+
+    return JSON.stringify(result);
   }
 
   async authenticateWithEmailAndPassword(
