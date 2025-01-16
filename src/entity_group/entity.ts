@@ -68,6 +68,7 @@ import { UserAchievements } from 'src/inventory/achievement/user_achievements/en
 import { UserOfflineReward } from 'src/inventory/reward/user_offline_reward/entities/user_offline_reward.entity';
 import { UserCollection } from 'src/inventory/collection/user_collection/entities/user_collection.entity';
 import { UserNpcFriendship } from 'src/inventory/npc/user_npc_friendship/entities/user_npc_friendship.entity';
+import { ZLoginLog } from 'src/game_log/login/z_login_log/entities/z_login_log.entity';
 
 export const entities = [
   Users,
@@ -140,4 +141,5 @@ export const entities = [
   UserOfflineReward,
   UserCollection,
   UserNpcFriendship,
+  ZLoginLog,
 ];

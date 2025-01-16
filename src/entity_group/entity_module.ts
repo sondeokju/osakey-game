@@ -75,6 +75,7 @@ import { UserIngameRewardModule } from 'src/inventory/reward/user_ingame_reward/
 import { UserOfflineRewardModule } from 'src/inventory/reward/user_offline_reward/user_offline_reward.module';
 import { UserCollectionModule } from 'src/inventory/collection/user_collection/user_collection.module';
 import { UserNpcFriendshipModule } from 'src/inventory/npc/user_npc_friendship/user_npc_friendship.module';
+import { ZLoginLogModule } from 'src/game_log/login/z_login_log/z_login_log.module';
 
 export const entities_module = [
   UsersModule,
@@ -154,4 +155,5 @@ export const entities_module = [
   UserIngameLogModule,
   UserCollectionModule,
   UserNpcFriendshipModule,
+  ZLoginLogModule,
 ];
