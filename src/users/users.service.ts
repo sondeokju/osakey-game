@@ -688,22 +688,24 @@ export class UsersService {
 
       let user: Users;
 
-      if (member_id && member_id !== 'UnityEditor_Member') {
-        user = await usersRepository.findOne({
-          where: { member_id },
-        });
-
-        if (!user) {
-          const insertUserdata = usersRepository.insert({
-            member_id,
+      if (member_id) {
+        if (member_id !== 'UnityEditor_Member') {
+          user = await usersRepository.findOne({
+            where: { member_id },
           });
 
-          return this.createUserID(
-            (await insertUserdata).identifiers[0].id,
-            qr,
-          );
-        } else {
-          user.update_at = new Date();
+          if (!user) {
+            const insertUserdata = usersRepository.insert({
+              member_id,
+            });
+
+            return this.createUserID(
+              (await insertUserdata).identifiers[0].id,
+              qr,
+            );
+          } else {
+            user.update_at = new Date();
+          }
         }
       }
 
