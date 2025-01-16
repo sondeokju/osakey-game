@@ -666,12 +666,11 @@ export class UsersService {
       socialData = JSON.parse(socialData);
     }
 
-    // console.log('Using dot notation:', socialData.memberid);
-    // console.log('Using bracket notation:', socialData['memberid']);
-
     const member_id = socialData.memberid ?? null;
     const social_user_id = socialData.userid ?? null;
 
+    console.log('memberid:', socialData.memberid);
+    console.log('userid:', socialData.userid);
     // if (!member_id && !social_user_id) {
     //   throw new Error('Either member_id or social_user_id must be provided.');
     // }
