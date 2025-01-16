@@ -83,12 +83,22 @@ export class UsersService {
   }
 
   async createUserID(id: number, qr?: QueryRunner) {
+    if (!qr || !qr.isTransactionActive) {
+      throw new Error(
+        'QueryRunner is required and must have an active transaction.',
+      );
+    }
+
     const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({
       where: {
         id,
       },
     });
+
+    if (!userData) {
+      throw new Error(`User with id ${id} not found.`);
+    }
 
     const newUserId = userData.id.toString().padStart(10, '0');
 
@@ -671,9 +681,6 @@ export class UsersService {
     const member_id = socialData.memberid ?? null;
     const social_user_id = socialData.userid ?? null;
 
-    console.log('memberid:', socialData.memberid);
-    console.log('userid:', socialData.userid);
-
     let queryRunner = qr;
     if (!queryRunner) {
       queryRunner = this.dataSource.createQueryRunner();
@@ -682,26 +689,24 @@ export class UsersService {
     }
 
     try {
+      let result = null;
+
       if (member_id) {
-        const result = await this.handleMemberIdLogic(member_id, queryRunner);
-        if (result) {
-          return result;
-        }
+        result = await this.handleMemberIdLogic(member_id, queryRunner);
       }
 
       if (social_user_id) {
-        const result = await this.handleSocialUserIdLogic(
+        result = await this.handleSocialUserIdLogic(
           social_user_id,
           queryRunner,
         );
-        if (result) {
-          return result;
-        }
       }
 
       if (!qr) {
         await queryRunner.commitTransaction();
       }
+
+      return result;
     } catch (error) {
       if (!qr) {
         await queryRunner.rollbackTransaction();
