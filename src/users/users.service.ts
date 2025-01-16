@@ -732,7 +732,6 @@ export class UsersService {
       });
 
       if (!user) {
-        console.log('Creating new user');
         const newUser = usersRepository.create({ member_id });
         const savedUser = await usersRepository.save(newUser);
 
@@ -742,7 +741,6 @@ export class UsersService {
 
         return this.createUserID(savedUser.id, queryRunner); // 생성된 ID를 사용
       } else {
-        console.log('Updating existing user');
         return await usersRepository.save({
           ...user,
           update_at: new Date(),
