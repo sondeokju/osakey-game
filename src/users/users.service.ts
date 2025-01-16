@@ -687,7 +687,7 @@ export class UsersService {
 
       let user: Users;
 
-      if (member_id) {
+      if (member_id && member_id !== 'UnityEditor_Member') {
         user = await usersRepository.findOne({
           where: { member_id },
         });
