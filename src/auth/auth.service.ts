@@ -84,6 +84,12 @@ export class AuthService {
     );
   }
 
+  async lineSocialLogin(socialData: any) {
+    const newUserData = await this.usersService.lineSocialLogin(socialData);
+
+    return await this.usersService.createUserID(newUserData.id);
+  }
+
   // async handleGoogleCallback(code: string) {
   //   const userInfo = await this.googleService.google(code);
 

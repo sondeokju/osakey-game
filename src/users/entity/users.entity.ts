@@ -142,6 +142,22 @@ export class Users extends BaseModel {
   @Index({ unique: false })
   level: number;
 
+  @Column({
+    length: 256,
+    type: 'varchar',
+    default: '',
+  })
+  @Index({ unique: false })
+  member_id: string;
+
+  @Column({
+    length: 256,
+    type: 'varchar',
+    default: '',
+  })
+  @Index({ unique: false })
+  social_user_id: string;
+
   // @Column({
   //   length: 128,
   //   default: '',

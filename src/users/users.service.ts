@@ -79,22 +79,20 @@ export class UsersService {
     return newUser;
   }
 
-  async createUserID(email: string, qr?: QueryRunner) {
+  async createUserID(id: number, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({
       where: {
-        email,
+        id,
       },
     });
 
     const newUserId = userData.id.toString().padStart(10, '0');
 
-    await usersRepository.save({
+    return await usersRepository.save({
       ...userData,
       user_id: newUserId,
     });
-
-    return true;
   }
 
   async createUserEmail(id: number, email: string, qr?: QueryRunner) {
@@ -655,6 +653,46 @@ export class UsersService {
         user = usersRepository.create({ device_id, email, os_type });
       } else {
         // 기존 user를 업데이트 가능
+        user.update_at = new Date();
+      }
+    }
+
+    return usersRepository.save(user);
+  }
+
+  async lineSocialLogin(socialData: any, qr?: QueryRunner) {
+    // 데이터에서 필요한 값 추출
+    const member_id = socialData.memberid ?? null; // 에디터 로그인
+    const social_user_id = socialData.userid ?? null; // 기기 / 게스트 로그인
+    //const token = socialData.token ?? null;
+    //const name = socialData.name ?? null;
+    //const profileUrl = socialData.profileUrl ?? null;
+    //const email = socialData.email ?? null;
+    //const rawData = socialData.rawData ?? null;
+
+    // if (!member_id) {
+    //   throw new Error('device_id is required');
+    // }
+    const usersRepository = this.getUsersRepository(qr);
+
+    let user: Users;
+
+    if (member_id) {
+      user = await usersRepository.findOne({ where: { member_id } });
+
+      if (!user) {
+        user = usersRepository.create({ member_id });
+      } else {
+        user.update_at = new Date();
+      }
+    }
+
+    if (social_user_id) {
+      user = await usersRepository.findOne({ where: { social_user_id } });
+
+      if (!user) {
+        user = usersRepository.create({ social_user_id });
+      } else {
         user.update_at = new Date();
       }
     }

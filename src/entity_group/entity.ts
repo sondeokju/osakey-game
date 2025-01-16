@@ -67,6 +67,7 @@ import { AchieveList } from 'src/static-table/achieve/achieve_list/entities/achi
 import { UserAchievements } from 'src/inventory/achievement/user_achievements/entities/user_achievements.entity';
 import { UserOfflineReward } from 'src/inventory/reward/user_offline_reward/entities/user_offline_reward.entity';
 import { UserCollection } from 'src/inventory/collection/user_collection/entities/user_collection.entity';
+import { UserNpcFriendship } from 'src/inventory/npc/user_npc_friendship/entities/user_npc_friendship.entity';
 
 export const entities = [
   Users,
@@ -138,4 +139,5 @@ export const entities = [
   UserAchievements,
   UserOfflineReward,
   UserCollection,
+  UserNpcFriendship,
 ];

@@ -38,6 +38,15 @@ export class AuthController {
     return this.authService.socialLogin(device_id, email, os_type, sub);
   }
 
+  @IsPublic()
+  @Post('line-social/login')
+  async lineSocialLogin(
+    @Body('socialData') socialData: any,
+    //@QueryRunner() qr: QR,
+  ) {
+    return this.authService.lineSocialLogin(socialData);
+  }
+
   // @IsPublic()
   // @Get('callback')
   // async handleGoogleCallback(@Query('code') code: string) {
