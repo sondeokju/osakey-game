@@ -21,6 +21,8 @@ import {
 } from './guard/bearer-token.guard';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { IsPublic } from 'src/common/decorator/is-public.decorator';
+import { QueryRunner as QR } from 'typeorm';
+import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -42,9 +44,9 @@ export class AuthController {
   @Post('line-social/login')
   async lineSocialLogin(
     @Body('socialData') socialData: any,
-    //@QueryRunner() qr: QR,
+    @QueryRunner() qr: QR,
   ) {
-    return this.authService.lineSocialLogin(socialData);
+    return this.authService.lineSocialLogin(socialData, qr);
   }
 
   // @IsPublic()

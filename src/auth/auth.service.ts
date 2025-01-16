@@ -15,6 +15,7 @@ import {
 
 import { GoogleService } from './sns/google/google.service';
 import { AppleService } from './sns/apple/apple.service';
+import { QueryRunner } from 'typeorm';
 
 @Injectable()
 export class AuthService {
@@ -84,10 +85,10 @@ export class AuthService {
     );
   }
 
-  async lineSocialLogin(socialData: any) {
-    const newUserData = await this.usersService.lineSocialLogin(socialData);
+  async lineSocialLogin(socialData: any, qr?: QueryRunner) {
+    const newUserData = await this.usersService.lineSocialLogin(socialData, qr);
 
-    return await this.usersService.createUserID(newUserData.id);
+    return await this.usersService.createUserID(newUserData.id, qr);
   }
 
   // async handleGoogleCallback(code: string) {

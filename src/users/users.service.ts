@@ -79,7 +79,7 @@ export class UsersService {
     return newUser;
   }
 
-  async createUserID(id: numberr) {
+  async createUserID(id: number, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({
       where: {
