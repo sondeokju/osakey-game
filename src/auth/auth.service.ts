@@ -85,10 +85,10 @@ export class AuthService {
     );
   }
 
-  async lineSocialLogin(socialData: any, qr?: QueryRunner) {
-    const newUserData = await this.usersService.lineSocialLogin(socialData, qr);
+  async lineSocialLogin(socialData: any) {
+    const newUserData = await this.usersService.lineSocialLogin(socialData);
 
-    return await this.usersService.createUserID(newUserData.id, qr);
+    return await this.usersService.createUserID(newUserData.id);
   }
 
   // async handleGoogleCallback(code: string) {

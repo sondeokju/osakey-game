@@ -23,6 +23,7 @@ import { RegisterUserDto } from './dto/register-user.dto';
 import { IsPublic } from 'src/common/decorator/is-public.decorator';
 import { QueryRunner as QR } from 'typeorm';
 import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
+import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
 
 @Controller('auth')
 export class AuthController {
@@ -42,12 +43,13 @@ export class AuthController {
 
   @IsPublic()
   @Post('line-social/login')
+  //@UseInterceptors(TransactionInterceptor)
   async lineSocialLogin(
     @Body('socialData') socialData: any,
-    @QueryRunner() qr: QR,
+    //@QueryRunner() qr: QR,
   ) {
     console.log(socialData);
-    return this.authService.lineSocialLogin(socialData, qr);
+    return this.authService.lineSocialLogin(socialData);
   }
 
   // @IsPublic()
