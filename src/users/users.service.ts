@@ -660,7 +660,7 @@ export class UsersService {
     return usersRepository.save(user);
   }
 
-  async lineSocialLogin(socialData: any) {
+  async lineSocialLogin(socialData: any, qr?: QueryRunner) {
     // 데이터에서 필요한 값 추출
     const member_id = socialData.memberid ?? null; // 에디터 로그인
     const social_user_id = socialData.userid ?? null; // 기기 / 게스트 로그인
