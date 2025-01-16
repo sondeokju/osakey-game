@@ -89,7 +89,7 @@ export class AuthService {
     const newUserData = await this.usersService.lineSocialLogin(socialData);
 
     const accessToken = this.socialSignToken(newUserData, false);
-    console.log(accessToken);
+    console.log('accessToken', accessToken);
 
     return await this.usersService.createUserID(newUserData.id);
   }
