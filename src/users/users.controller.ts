@@ -166,13 +166,13 @@ export class UsersController {
     return result;
   }
 
-  @Post('create/account')
-  @UseInterceptors(TransactionInterceptor)
-  async createUserIDList(@QueryRunner() qr: QR) {
-    const result = await this.usersService.createUserIDList(qr);
+  // @Post('create/account')
+  // @UseInterceptors(TransactionInterceptor)
+  // async createUserIDList(@QueryRunner() qr: QR) {
+  //   const result = await this.usersService.createUserIDList(qr);
 
-    return result;
-  }
+  //   return result;
+  // }
 
   @Patch('take/battery')
   @UseInterceptors(TransactionInterceptor)
