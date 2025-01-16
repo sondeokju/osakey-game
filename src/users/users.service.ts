@@ -688,8 +688,12 @@ export class UsersService {
 
       let user: Users;
 
+      console.log('member_id', typeof member_id);
+
       if (member_id) {
+        console.log('member_id 01');
         if (member_id !== 'UnityEditor_Member') {
+          console.log('member_id 02');
           user = await usersRepository.findOne({
             where: { member_id },
           });
@@ -709,6 +713,7 @@ export class UsersService {
         }
       }
 
+      console.log('member_id 03');
       if (social_user_id) {
         user = await usersRepository.findOne({
           where: { social_user_id },
