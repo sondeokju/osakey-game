@@ -662,6 +662,13 @@ export class UsersService {
   }
 
   async lineSocialLogin(socialData: any, qr?: QueryRunner) {
+    if (typeof socialData === 'string') {
+      socialData = JSON.parse(socialData);
+    }
+
+    console.log('Using dot notation:', socialData.memberid);
+    console.log('Using bracket notation:', socialData['memberid']);
+
     const member_id = socialData['memberid'] ?? null;
     console.log(member_id);
     //const social_user_id = socialData.userid ?? null;
