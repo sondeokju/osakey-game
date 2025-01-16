@@ -694,9 +694,14 @@ export class UsersService {
         });
 
         if (!user) {
-          user = usersRepository.create({
+          const insertUserdata = usersRepository.insert({
             member_id,
           });
+
+          return this.createUserID(
+            (await insertUserdata).identifiers[0].id,
+            qr,
+          );
         } else {
           user.update_at = new Date();
         }
@@ -708,9 +713,14 @@ export class UsersService {
         });
 
         if (!user) {
-          user = usersRepository.create({
+          const insertUserdata = usersRepository.insert({
             social_user_id,
           });
+
+          return this.createUserID(
+            (await insertUserdata).identifiers[0].id,
+            qr,
+          );
         } else {
           user.update_at = new Date();
         }

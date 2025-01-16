@@ -52,22 +52,6 @@ export class AuthController {
     return this.authService.lineSocialLogin(socialData);
   }
 
-  //@Post('login/email')
-  @IsPublic()
-  @UseGuards(BasicTokenGuard)
-  async lineSocialLogin(@Headers('authorization') rawToken: string) {
-    // email:password -> base64
-    //console.log('rawToken', rawToken);
-
-    //throw new UnauthorizedException('헤더가 비어있습니다.');
-
-    const token = this.authService.extractTokenFromHeader(rawToken, false);
-
-    const credentials = this.authService.decodeBasicToken(token);
-
-    return this.authService.loginWithEmail(credentials);
-  }
-
   // @IsPublic()
   // @Get('callback')
   // async handleGoogleCallback(@Query('code') code: string) {

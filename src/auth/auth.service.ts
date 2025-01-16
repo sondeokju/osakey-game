@@ -86,12 +86,15 @@ export class AuthService {
   }
 
   async lineSocialLogin(socialData: any) {
-    const newUserData = await this.usersService.lineSocialLogin(socialData);
+    const userData = await this.usersService.lineSocialLogin(socialData);
 
-    const accessToken = this.socialSignToken(newUserData, false);
-    console.log('accessToken', accessToken);
+    const accessToken = this.socialSignToken(userData, false);
+    console.log('accessToken:', accessToken);
 
-    return await this.usersService.createUserID(newUserData.id);
+    return {
+      accessToken: accessToken,
+      userData: userData,
+    };
   }
 
   // async handleGoogleCallback(code: string) {
