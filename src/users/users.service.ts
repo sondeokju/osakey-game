@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from './entity/users.entity';
-import { QueryRunner, Repository } from 'typeorm';
+import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { BadRequestException } from '@nestjs/common';
 import Redis from 'ioredis';
 import { HeroService } from 'src/static-table/hero/hero.service';
@@ -9,13 +9,13 @@ import { HeroService } from 'src/static-table/hero/hero.service';
 @Injectable()
 export class UsersService {
   private readonly redisClient: Redis;
-  dataSource: any;
 
   constructor(
     @InjectRepository(Users)
     private readonly usersRepository: Repository<Users>,
     //private readonly redisService: RedisService,
     private readonly heroService: HeroService,
+    private readonly dataSource: DataSource,
   ) {
     //this.redisClient = redisService.getClient();
   }
