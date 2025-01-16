@@ -6,6 +6,7 @@ import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { BadRequestException } from '@nestjs/common';
 import Redis from 'ioredis';
 import { HeroService } from 'src/static-table/hero/hero.service';
+import { User } from './decorator/user.decorator';
 
 @Injectable()
 export class UsersService {
@@ -672,9 +673,6 @@ export class UsersService {
 
     console.log('memberid:', socialData.memberid);
     console.log('userid:', socialData.userid);
-    // if (!member_id && !social_user_id) {
-    //   throw new Error('Either member_id or social_user_id must be provided.');
-    // }
 
     let queryRunner = qr;
     if (!queryRunner) {
@@ -684,66 +682,26 @@ export class UsersService {
     }
 
     try {
-      const usersRepository = this.getUsersRepository(queryRunner);
-
-      let user: Users;
-
-      console.log('member_id', typeof member_id);
-
       if (member_id) {
-        console.log('member_id 01');
-        if (member_id !== 'UnityEditor_Member') {
-          console.log('member_id 02');
-          user = await usersRepository.findOne({
-            where: { member_id },
-          });
-
-          if (!user) {
-            const insertUserdata = usersRepository.insert({
-              member_id,
-            });
-
-            return this.createUserID(
-              (await insertUserdata).identifiers[0].id,
-              qr,
-            );
-          } else {
-            user.update_at = new Date();
-          }
+        const result = await this.handleMemberIdLogic(member_id, queryRunner);
+        if (result) {
+          return result;
         }
       }
 
-      console.log('member_id 03');
       if (social_user_id) {
-        user = await usersRepository.findOne({
-          where: { social_user_id },
-        });
-
-        if (!user) {
-          const insertUserdata = usersRepository.insert({
-            social_user_id,
-          });
-
-          return this.createUserID(
-            (await insertUserdata).identifiers[0].id,
-            qr,
-          );
-        } else {
-          user.update_at = new Date();
+        const result = await this.handleSocialUserIdLogic(
+          social_user_id,
+          queryRunner,
+        );
+        if (result) {
+          return result;
         }
       }
-
-      if (!user) {
-        throw new Error('Failed to create or find a user.');
-      }
-
-      const savedUser = await usersRepository.save(user);
 
       if (!qr) {
         await queryRunner.commitTransaction();
       }
-
-      return savedUser;
     } catch (error) {
       if (!qr) {
         await queryRunner.rollbackTransaction();
@@ -753,6 +711,69 @@ export class UsersService {
       if (!qr) {
         await queryRunner.release();
       }
+    }
+  }
+
+  private async handleMemberIdLogic(
+    member_id: string,
+    queryRunner: QueryRunner,
+  ) {
+    const usersRepository = this.getUsersRepository(queryRunner);
+
+    if (member_id !== 'UnityEditor_Member') {
+      const user = await usersRepository.findOne({
+        where: { member_id },
+      });
+
+      if (!user) {
+        console.log('Creating new user');
+        const newUser = usersRepository.create({ member_id });
+        const savedUser = await usersRepository.save(newUser);
+
+        if (!savedUser.id) {
+          throw new Error('Failed to create user: ID not generated.');
+        }
+
+        return this.createUserID(savedUser.id, queryRunner); // 생성된 ID를 사용
+      } else {
+        console.log('Updating existing user');
+        return await usersRepository.save({
+          ...user,
+          update_at: new Date(),
+        });
+      }
+    }
+    return null;
+  }
+
+  private async handleSocialUserIdLogic(
+    social_user_id: string,
+    queryRunner: QueryRunner,
+  ) {
+    const usersRepository = this.getUsersRepository(queryRunner);
+
+    console.log('social_user_id', typeof social_user_id);
+
+    const user = await usersRepository.findOne({
+      where: { social_user_id },
+    });
+
+    if (!user) {
+      console.log('Creating new social user');
+      const newUser = usersRepository.create({ social_user_id });
+      const savedUser = await usersRepository.save(newUser);
+
+      if (!savedUser.id) {
+        throw new Error('Failed to create social user: ID not generated.');
+      }
+
+      return this.createUserID(savedUser.id, queryRunner); // 생성된 ID를 사용
+    } else {
+      console.log('Updating existing social user');
+      return await usersRepository.save({
+        ...user,
+        update_at: new Date(),
+      });
     }
   }
 }
