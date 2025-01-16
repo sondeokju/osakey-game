@@ -666,12 +666,11 @@ export class UsersService {
       socialData = JSON.parse(socialData);
     }
 
-    console.log('Using dot notation:', socialData.memberid);
-    console.log('Using bracket notation:', socialData['memberid']);
+    // console.log('Using dot notation:', socialData.memberid);
+    // console.log('Using bracket notation:', socialData['memberid']);
 
-    const member_id = socialData['memberid'] ?? null;
-    console.log(member_id);
-    //const social_user_id = socialData.userid ?? null;
+    const member_id = socialData.memberid ?? null;
+    const social_user_id = socialData.userid ?? null;
 
     // if (!member_id && !social_user_id) {
     //   throw new Error('Either member_id or social_user_id must be provided.');
@@ -703,15 +702,19 @@ export class UsersService {
         }
       }
 
-      // if (!social_user_id) {
-      //   user = await usersRepository.findOne({ where: { social_user_id } });
+      if (social_user_id) {
+        user = await usersRepository.findOne({
+          where: { social_user_id },
+        });
 
-      //   if (!user) {
-      //     user = usersRepository.create({ social_user_id });
-      //   } else {
-      //     user.update_at = new Date();
-      //   }
-      // }
+        if (!user) {
+          user = usersRepository.create({
+            social_user_id,
+          });
+        } else {
+          user.update_at = new Date();
+        }
+      }
 
       if (!user) {
         throw new Error('Failed to create or find a user.');
