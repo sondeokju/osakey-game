@@ -129,16 +129,16 @@ export class UsersService {
     return newUser;
   }
 
-  async createUserIDList(qr?: QueryRunner) {
-    const nickname = 'osakey';
+  // async createUserIDList(qr?: QueryRunner) {
+  //   const nickname = 'osakey';
 
-    for (let i = 1; i <= 100; i++) {
-      await this.createUserID(`${nickname}${i}`, qr);
-      await this.createUserEmail(i, `${nickname}${i}@abc.com`, qr);
-    }
+  //   for (let i = 1; i <= 100; i++) {
+  //     await this.createUserID(`${nickname}${i}`, qr);
+  //     await this.createUserEmail(i, `${nickname}${i}@abc.com`, qr);
+  //   }
 
-    return true;
-  }
+  //   return true;
+  // }
 
   // async getAllUsers() {
   //   return this.usersRepository.find({
