@@ -663,6 +663,7 @@ export class UsersService {
 
   async lineSocialLogin(socialData: any, qr?: QueryRunner) {
     const member_id = socialData.memberid ?? null;
+    console.log(member_id);
     //const social_user_id = socialData.userid ?? null;
 
     // if (!member_id && !social_user_id) {
