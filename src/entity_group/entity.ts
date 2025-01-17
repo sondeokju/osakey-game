@@ -175,5 +175,5 @@ export const entities = [
   SuitSkill,
   SuitUltimateInfo,
   SuitUltimateLevelInfo,
-  SuitLevelInfo,
+  //SuitLevelInfo,
 ];
