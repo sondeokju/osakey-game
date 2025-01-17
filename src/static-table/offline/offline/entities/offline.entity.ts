@@ -2,8 +2,7 @@ import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Offline {
-  //@PrimaryColumn()
-  @Column()
+  @PrimaryColumn()
   offline_id: number;
 
   @Column({
