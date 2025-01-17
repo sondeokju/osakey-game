@@ -2,7 +2,8 @@ import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Offline {
-  @PrimaryColumn()
+  //@PrimaryColumn()
+  @Column()
   offline_id: number;
 
   @Column({
@@ -13,7 +14,7 @@ export class Offline {
   @Column({
     default: 0,
   })
-  level_max: number;
+  time_max: number;
 
   @Column({
     default: 0,
