@@ -77,6 +77,12 @@ import { UserCollectionModule } from 'src/inventory/collection/user_collection/u
 import { UserNpcFriendshipModule } from 'src/inventory/npc/user_npc_friendship/user_npc_friendship.module';
 import { ZLoginLogModule } from 'src/game_log/login/z_login_log/z_login_log.module';
 import { OfflineModule } from 'src/static-table/offline/offline/offline.module';
+import { PassModule } from 'src/static-table/battlepass/pass/pass.module';
+import { PassBountyModule } from 'src/static-table/battlepass/pass_bounty/pass_bounty.module';
+import { PassEduModule } from 'src/static-table/battlepass/pass_edu/pass_edu.module';
+import { PassLevelModule } from 'src/static-table/battlepass/pass_level/pass_level.module';
+import { PassMissionModule } from 'src/static-table/battlepass/pass_mission/pass_mission.module';
+import { PassSeasonModule } from 'src/static-table/battlepass/pass_season/pass_season.module';
 
 export const entities_module = [
   UsersModule,
@@ -158,4 +164,10 @@ export const entities_module = [
   UserNpcFriendshipModule,
   ZLoginLogModule,
   OfflineModule,
+  PassModule,
+  PassLevelModule,
+  PassMissionModule,
+  PassEduModule,
+  PassBountyModule,
+  PassSeasonModule,
 ];

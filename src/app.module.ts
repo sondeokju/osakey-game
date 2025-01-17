@@ -29,12 +29,6 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
 import { entities } from './entity_group/entity';
 import { entities_module } from './entity_group/entity_module';
-import { PassModule } from './static-table/battlepass/pass/pass.module';
-import { PassLevelModule } from './static-table/battlepass/pass_level/pass_level.module';
-import { PassMissionModule } from './static-table/battlepass/pass_mission/pass_mission.module';
-import { PassEduModule } from './static-table/battlepass/pass_edu/pass_edu.module';
-import { PassBountyModule } from './static-table/battlepass/pass_bounty/pass_bounty.module';
-import { PassSeasonModule } from './static-table/battlepass/pass_season/pass_season.module';
 
 @Module({
   imports: [
@@ -74,12 +68,6 @@ import { PassSeasonModule } from './static-table/battlepass/pass_season/pass_sea
         process.env[ENV_KEEPCONNECTIONALIVE_KEY] === 'true' ? true : false,
     }),
     ...entities_module,
-    PassModule,
-    PassLevelModule,
-    PassMissionModule,
-    PassEduModule,
-    PassBountyModule,
-    PassSeasonModule,
   ],
   controllers: [AppController],
   providers: [
