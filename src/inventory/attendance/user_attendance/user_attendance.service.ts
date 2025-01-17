@@ -264,7 +264,7 @@ export class UserAttendanceService {
     if (userAttendanceData.reward_yn === 'Y') {
       return {
         //statusCode: 400,
-        message: 'You have already claimed the Achieve reward.',
+        message: 'You have already claimed the attendance reward.',
       };
     }
 
