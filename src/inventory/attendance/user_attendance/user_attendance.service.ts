@@ -39,28 +39,24 @@ export class UserAttendanceService {
     const MAX_DAY = 7;
 
     try {
-      // let userAttendance = await this.getUserAttendance(
-      //   user_id,
-      //   userAttendanceRepository,
-      // );
+      let userAttendance = await this.getUserAttendance(
+        user_id,
+        userAttendanceRepository,
+      );
 
-      let userAttendance = await userAttendanceRepository.findOne({
-        where: {
-          user_id,
-        },
-      });
+      if (!userAttendance.update_at) {
+        const today = new Date();
+        const updateDate = new Date(userAttendance.update_at);
 
-      const today = new Date();
-      const updateDate = new Date(userAttendance.update_at);
+        // update_at과 오늘 날짜 비교 (연, 월, 일 기준)
+        const isSameDay =
+          today.getFullYear() === updateDate.getFullYear() &&
+          today.getMonth() === updateDate.getMonth() &&
+          today.getDate() === updateDate.getDate();
 
-      // update_at과 오늘 날짜 비교 (연, 월, 일 기준)
-      const isSameDay =
-        today.getFullYear() === updateDate.getFullYear() &&
-        today.getMonth() === updateDate.getMonth() &&
-        today.getDate() === updateDate.getDate();
-
-      if (isSameDay) {
-        throw new BadRequestException('오늘 이미 업데이트가 완료되었습니다.');
+        if (isSameDay) {
+          throw new BadRequestException('오늘 이미 업데이트가 완료되었습니다.');
+        }
       }
 
       if (!userAttendance) {
