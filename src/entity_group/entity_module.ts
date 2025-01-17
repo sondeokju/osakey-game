@@ -84,6 +84,8 @@ import { PassLevelModule } from 'src/static-table/battlepass/pass_level/pass_lev
 import { PassMissionModule } from 'src/static-table/battlepass/pass_mission/pass_mission.module';
 import { PassSeasonModule } from 'src/static-table/battlepass/pass_season/pass_season.module';
 import { ItemExchangeModule } from 'src/static-table/exchange/item_exchange/item_exchange.module';
+import { SecameDiaryModule } from 'src/static-table/secame/secame_diary/secame_diary.module';
+import { SecameMailModule } from 'src/static-table/secame/secame_mail/secame_mail.module';
 
 export const entities_module = [
   UsersModule,
@@ -172,4 +174,6 @@ export const entities_module = [
   PassBountyModule,
   PassSeasonModule,
   ItemExchangeModule,
+  SecameDiaryModule,
+  SecameMailModule,
 ];

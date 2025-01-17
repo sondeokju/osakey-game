@@ -77,6 +77,8 @@ import { PassLevel } from 'src/static-table/battlepass/pass_level/entities/pass_
 import { PassEdu } from 'src/static-table/battlepass/pass_edu/entities/pass_edu.entity';
 import { PassBounty } from 'src/static-table/battlepass/pass_bounty/entities/pass_bounty.entity';
 import { ItemExchange } from 'src/static-table/exchange/item_exchange/entities/item_exchange.entity';
+import { SecameDiary } from 'src/static-table/secame/secame_diary/entities/secame_diary.entity';
+import { SecameMail } from 'src/static-table/secame/secame_mail/entities/secame_mail.entity';
 
 export const entities = [
   Users,
@@ -158,4 +160,6 @@ export const entities = [
   PassEdu,
   PassBounty,
   ItemExchange,
+  SecameDiary,
+  SecameMail,
 ];
