@@ -262,10 +262,12 @@ export class UserAttendanceService {
     // );
 
     if (userAttendanceData.reward_yn === 'Y') {
-      throw new NotFoundException(
-        'You have already claimed the Achieve reward.',
-      );
+      return {
+        //statusCode: 400,
+        message: 'You have already claimed the Achieve reward.',
+      };
     }
+
     const rewardData = await this.rewardOfferService.reward(
       user_id,
       userAttendanceData.reward_id,
@@ -273,7 +275,7 @@ export class UserAttendanceService {
     );
 
     if (!rewardData) {
-      throw new BadRequestException('Failed to process reward.');
+      throw new NotFoundException('Failed to process reward.');
     }
 
     userAttendanceData.reward_yn = 'Y';
