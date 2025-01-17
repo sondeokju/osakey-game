@@ -46,7 +46,7 @@ export class UserAttendanceService {
 
       const isCheckUpdate = await this.checkUpdateDate(user_id, qr);
       if (!isCheckUpdate) {
-        throw new BadRequestException('오늘 이미 업데이트가 완료되었습니다.');
+        return { message: '오늘 이미 업데이트가 완료되었습니다.' };
       }
 
       if (!userAttendance) {

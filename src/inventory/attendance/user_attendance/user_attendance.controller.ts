@@ -19,7 +19,7 @@ export class UserAttendanceController {
 
   @Post('check')
   @UseInterceptors(TransactionInterceptor)
-  async saveMssion(@User() user: Users, @QueryRunner() qr: QR) {
+  async saveAttendance(@User() user: Users, @QueryRunner() qr: QR) {
     const result = await this.userAttendanceService.saveAttendance(
       user.user_id,
       qr,
