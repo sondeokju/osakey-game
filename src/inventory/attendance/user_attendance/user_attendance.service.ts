@@ -39,10 +39,16 @@ export class UserAttendanceService {
     const MAX_DAY = 7;
 
     try {
-      let userAttendance = await this.getUserAttendance(
-        user_id,
-        userAttendanceRepository,
-      );
+      // let userAttendance = await this.getUserAttendance(
+      //   user_id,
+      //   userAttendanceRepository,
+      // );
+
+      let userAttendance = await userAttendanceRepository.findOne({
+        where: {
+          user_id,
+        },
+      });
 
       const today = new Date();
       const updateDate = new Date(userAttendance.update_at);
