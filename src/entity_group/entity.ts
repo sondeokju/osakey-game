@@ -69,6 +69,7 @@ import { UserOfflineReward } from 'src/inventory/reward/user_offline_reward/enti
 import { UserCollection } from 'src/inventory/collection/user_collection/entities/user_collection.entity';
 import { UserNpcFriendship } from 'src/inventory/npc/user_npc_friendship/entities/user_npc_friendship.entity';
 import { ZLoginLog } from 'src/game_log/login/z_login_log/entities/z_login_log.entity';
+import { Offline } from 'src/static-table/offline/offline/entities/offline.entity';
 
 export const entities = [
   Users,
@@ -142,4 +143,5 @@ export const entities = [
   UserCollection,
   UserNpcFriendship,
   ZLoginLog,
+  Offline,
 ];
