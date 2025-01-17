@@ -71,6 +71,11 @@ import { UserNpcFriendship } from 'src/inventory/npc/user_npc_friendship/entitie
 import { ZLoginLog } from 'src/game_log/login/z_login_log/entities/z_login_log.entity';
 import { Offline } from 'src/static-table/offline/offline/entities/offline.entity';
 import { Pass } from 'src/static-table/battlepass/pass/entities/pass.entity';
+import { PassSeason } from 'src/static-table/battlepass/pass_season/entities/pass_season.entity';
+import { PassMission } from 'src/static-table/battlepass/pass_mission/entities/pass_mission.entity';
+import { PassLevel } from 'src/static-table/battlepass/pass_level/entities/pass_level.entity';
+import { PassEdu } from 'src/static-table/battlepass/pass_edu/entities/pass_edu.entity';
+import { PassBounty } from 'src/static-table/battlepass/pass_bounty/entities/pass_bounty.entity';
 
 export const entities = [
   Users,
@@ -146,4 +151,9 @@ export const entities = [
   ZLoginLog,
   Offline,
   Pass,
+  PassSeason,
+  PassMission,
+  PassLevel,
+  PassEdu,
+  PassBounty,
 ];
