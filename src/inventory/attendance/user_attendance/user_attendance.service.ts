@@ -216,7 +216,9 @@ export class UserAttendanceService {
       },
     });
 
+    console.log(userAttendance);
     if (userAttendance) {
+      console.log('1');
       const today = new Date();
       const updateDate = new Date(userAttendance.update_at);
 
@@ -227,11 +229,11 @@ export class UserAttendanceService {
         today.getDate() === updateDate.getDate();
 
       if (isSameDay) {
-        //throw new BadRequestException('오늘 이미 업데이트가 완료되었습니다.');
         return false;
       }
     }
 
+    console.log('2');
     return true;
   }
 
