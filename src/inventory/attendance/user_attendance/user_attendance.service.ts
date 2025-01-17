@@ -44,7 +44,7 @@ export class UserAttendanceService {
         userAttendanceRepository,
       );
 
-      const isCheckUpdate = this.checkUpdateDate(user_id, qr);
+      const isCheckUpdate = await this.checkUpdateDate(user_id, qr);
       if (!isCheckUpdate) {
         throw new BadRequestException('오늘 이미 업데이트가 완료되었습니다.');
       }
@@ -233,6 +233,17 @@ export class UserAttendanceService {
     }
 
     return true;
+  }
+
+  async attendance(user_id: string, qr?: QueryRunner) {
+    const userAttendanceRepository = this.getUserAttendanceRepository(qr);
+    const userAttendance = await userAttendanceRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    return userAttendance;
   }
 
   async attendanceReward(
