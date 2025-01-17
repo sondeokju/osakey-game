@@ -43,8 +43,8 @@ export class UserAttendanceService {
         user_id,
         userAttendanceRepository,
       );
-
-      console.log(typeof userAttendance.update_at);
+      console.log(userAttendance);
+      //console.log(typeof userAttendance.update_at);
       if (userAttendance.update_at) {
         const today = new Date();
         const updateDate = new Date(userAttendance.update_at);
