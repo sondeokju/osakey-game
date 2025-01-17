@@ -46,7 +46,10 @@ export class UserAttendanceService {
 
       const isCheckUpdate = await this.checkUpdateDate(user_id, qr);
       if (!isCheckUpdate) {
-        return { message: '오늘 이미 업데이트가 완료되었습니다.' };
+        return {
+          //statusCode: 400,
+          message: '오늘 이미 업데이트가 완료되었습니다.',
+        };
       }
 
       if (!userAttendance) {
@@ -78,7 +81,10 @@ export class UserAttendanceService {
         );
       }
 
-      return await userAttendanceRepository.save(userAttendance);
+      return await userAttendanceRepository.save({
+        ...userAttendance,
+        rewad_yn: 'N',
+      });
     } catch (error) {
       console.error('Error saving attendance:', error);
       throw new InternalServerErrorException('Failed to save attendance.');
