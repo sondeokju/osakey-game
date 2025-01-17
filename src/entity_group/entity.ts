@@ -76,6 +76,7 @@ import { PassMission } from 'src/static-table/battlepass/pass_mission/entities/p
 import { PassLevel } from 'src/static-table/battlepass/pass_level/entities/pass_level.entity';
 import { PassEdu } from 'src/static-table/battlepass/pass_edu/entities/pass_edu.entity';
 import { PassBounty } from 'src/static-table/battlepass/pass_bounty/entities/pass_bounty.entity';
+import { ItemExchange } from 'src/static-table/exchange/item_exchange/entities/item_exchange.entity';
 
 export const entities = [
   Users,
@@ -156,4 +157,5 @@ export const entities = [
   PassLevel,
   PassEdu,
   PassBounty,
+  ItemExchange,
 ];

@@ -83,6 +83,7 @@ import { PassEduModule } from 'src/static-table/battlepass/pass_edu/pass_edu.mod
 import { PassLevelModule } from 'src/static-table/battlepass/pass_level/pass_level.module';
 import { PassMissionModule } from 'src/static-table/battlepass/pass_mission/pass_mission.module';
 import { PassSeasonModule } from 'src/static-table/battlepass/pass_season/pass_season.module';
+import { ItemExchangeModule } from 'src/static-table/exchange/item_exchange/item_exchange.module';
 
 export const entities_module = [
   UsersModule,
@@ -170,4 +171,5 @@ export const entities_module = [
   PassEduModule,
   PassBountyModule,
   PassSeasonModule,
+  ItemExchangeModule,
 ];
