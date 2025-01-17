@@ -87,6 +87,12 @@ import { ItemExchangeModule } from 'src/static-table/exchange/item_exchange/item
 import { SecameDiaryModule } from 'src/static-table/secame/secame_diary/secame_diary.module';
 import { SecameMailModule } from 'src/static-table/secame/secame_mail/secame_mail.module';
 import { MembershipModule } from 'src/static-table/membership/membership/membership.module';
+import { SuitInfoModule } from 'src/static-table/suit/suit_info/suit_info.module';
+import { SuitLevelInfoModule } from 'src/static-table/suit/suit_level_info/suit_level_info.module';
+import { SuitOptionModule } from 'src/static-table/suit/suit_option/suit_option.module';
+import { SuitSkillModule } from 'src/static-table/suit/suit_skill/suit_skill.module';
+import { SuitUltimateInfoModule } from 'src/static-table/suit/suit_ultimate_info/suit_ultimate_info.module';
+import { SuitUltimateLevelInfoModule } from 'src/static-table/suit/suit_ultimate_level_info/suit_ultimate_level_info.module';
 
 export const entities_module = [
   UsersModule,
@@ -178,4 +184,10 @@ export const entities_module = [
   SecameDiaryModule,
   SecameMailModule,
   MembershipModule,
+  SuitInfoModule,
+  SuitOptionModule,
+  SuitSkillModule,
+  SuitUltimateInfoModule,
+  SuitUltimateLevelInfoModule,
+  SuitLevelInfoModule,
 ];
