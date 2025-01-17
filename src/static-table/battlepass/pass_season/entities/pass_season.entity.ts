@@ -13,6 +13,11 @@ export class PassSeason {
   @Column({
     default: 0,
   })
+  pass_level: number;
+
+  @Column({
+    default: 0,
+  })
   unlock_point_qty: number;
 
   @Column({
