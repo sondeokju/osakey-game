@@ -43,8 +43,12 @@ export class UserAttendanceService {
         user_id,
         userAttendanceRepository,
       );
-      console.log(userAttendance);
-      //console.log(typeof userAttendance.update_at);
+
+      const isCheckUpdate = this.checkUpdateDate(user_id, qr);
+      if (!isCheckUpdate) {
+        throw new BadRequestException('오늘 이미 업데이트가 완료되었습니다.');
+      }
+
       if (userAttendance.update_at) {
         const today = new Date();
         const updateDate = new Date(userAttendance.update_at);
@@ -204,7 +208,7 @@ export class UserAttendanceService {
     };
   }
 
-  async attendance(user_id: string, qr?: QueryRunner) {
+  async checkUpdateDate(user_id: string, qr?: QueryRunner) {
     const userAttendanceRepository = this.getUserAttendanceRepository(qr);
     const userAttendance = await userAttendanceRepository.findOne({
       where: {
@@ -212,7 +216,23 @@ export class UserAttendanceService {
       },
     });
 
-    return userAttendance;
+    if (userAttendance) {
+      const today = new Date();
+      const updateDate = new Date(userAttendance.update_at);
+
+      // update_at과 오늘 날짜 비교 (연, 월, 일 기준)
+      const isSameDay =
+        today.getFullYear() === updateDate.getFullYear() &&
+        today.getMonth() === updateDate.getMonth() &&
+        today.getDate() === updateDate.getDate();
+
+      if (isSameDay) {
+        //throw new BadRequestException('오늘 이미 업데이트가 완료되었습니다.');
+        return false;
+      }
+    }
+
+    return true;
   }
 
   async attendanceReward(
