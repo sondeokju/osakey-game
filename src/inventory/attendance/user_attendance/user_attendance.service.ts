@@ -83,7 +83,7 @@ export class UserAttendanceService {
 
       return await userAttendanceRepository.save({
         ...userAttendance,
-        rewad_yn: 'N',
+        reward_yn: 'N',
       });
     } catch (error) {
       console.error('Error saving attendance:', error);
@@ -254,7 +254,7 @@ export class UserAttendanceService {
 
     if (!userAttendanceData) {
       throw new NotFoundException('userAttendanceData not found.');
-    } 
+    }
 
     // const achieveData = await this.achieveListService.getAttendance(
     //   userAchieve.achieve_id,
