@@ -44,7 +44,7 @@ export class UserAttendanceService {
         userAttendanceRepository,
       );
 
-      if (!userAttendance.update_at) {
+      if (userAttendance.update_at) {
         const today = new Date();
         const updateDate = new Date(userAttendance.update_at);
 
