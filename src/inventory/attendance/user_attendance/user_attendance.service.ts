@@ -49,21 +49,6 @@ export class UserAttendanceService {
         throw new BadRequestException('오늘 이미 업데이트가 완료되었습니다.');
       }
 
-      if (userAttendance.update_at) {
-        const today = new Date();
-        const updateDate = new Date(userAttendance.update_at);
-
-        // update_at과 오늘 날짜 비교 (연, 월, 일 기준)
-        const isSameDay =
-          today.getFullYear() === updateDate.getFullYear() &&
-          today.getMonth() === updateDate.getMonth() &&
-          today.getDate() === updateDate.getDate();
-
-        if (isSameDay) {
-          throw new BadRequestException('오늘 이미 업데이트가 완료되었습니다.');
-        }
-      }
-
       if (!userAttendance) {
         userAttendance = await this.initializeAttendance(
           user_id,
