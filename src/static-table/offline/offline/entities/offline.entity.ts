@@ -29,4 +29,9 @@ export class Offline {
     default: 0,
   })
   offline_reward_peirod: number;
+
+  @Column({
+    default: 0,
+  })
+  reward_id: number;
 }
