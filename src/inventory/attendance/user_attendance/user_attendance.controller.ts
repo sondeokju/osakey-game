@@ -32,12 +32,12 @@ export class UserAttendanceController {
   @UseInterceptors(TransactionInterceptor)
   async missionReward(
     @User() user: Users,
-    @Body('user_attendance_id') user_attendance_id: number,
+    //@Body('user_attendance_id') user_attendance_id: number,
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userAttendanceService.attendanceReward(
       user.user_id,
-      user_attendance_id,
+      //user_attendance_id,
       qr,
     );
 

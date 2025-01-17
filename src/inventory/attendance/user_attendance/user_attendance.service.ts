@@ -241,20 +241,20 @@ export class UserAttendanceService {
 
   async attendanceReward(
     user_id: string,
-    user_attendance_id: number,
+    //ser_attendance_id: number,
     qr?: QueryRunner,
   ) {
     const userAttendanceRepository = this.getUserAttendanceRepository(qr);
     const userAttendanceData = await userAttendanceRepository.findOne({
       where: {
-        id: user_attendance_id,
+        //id: user_attendance_id,
         user_id,
       },
     });
 
     if (!userAttendanceData) {
       throw new NotFoundException('userAttendanceData not found.');
-    }
+    } 
 
     // const achieveData = await this.achieveListService.getAttendance(
     //   userAchieve.achieve_id,
