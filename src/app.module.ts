@@ -29,6 +29,8 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
 import { entities } from './entity_group/entity';
 import { entities_module } from './entity_group/entity_module';
+import { SecameDiaryModule } from './static-table/secame/secame_diary/secame_diary.module';
+import { SecameMailModule } from './static-table/secame/secame_mail/secame_mail.module';
 
 @Module({
   imports: [
@@ -68,6 +70,8 @@ import { entities_module } from './entity_group/entity_module';
         process.env[ENV_KEEPCONNECTIONALIVE_KEY] === 'true' ? true : false,
     }),
     ...entities_module,
+    SecameDiaryModule,
+    SecameMailModule,
   ],
   controllers: [AppController],
   providers: [
