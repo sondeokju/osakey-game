@@ -79,6 +79,7 @@ import { PassBounty } from 'src/static-table/battlepass/pass_bounty/entities/pas
 import { ItemExchange } from 'src/static-table/exchange/item_exchange/entities/item_exchange.entity';
 import { SecameDiary } from 'src/static-table/secame/secame_diary/entities/secame_diary.entity';
 import { SecameMail } from 'src/static-table/secame/secame_mail/entities/secame_mail.entity';
+import { Membership } from 'src/static-table/membership/membership/entities/membership.entity';
 
 export const entities = [
   Users,
@@ -162,4 +163,5 @@ export const entities = [
   ItemExchange,
   SecameDiary,
   SecameMail,
+  Membership,
 ];
