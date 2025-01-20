@@ -126,7 +126,9 @@ export class UsersService {
       throw new Error(`User with id ${user_id} not found.`);
     }
 
-    return userData.ban;
+    return {
+      banStatus: userData.ban,
+    };
   }
 
   async createUserEmail(id: number, email: string, qr?: QueryRunner) {
