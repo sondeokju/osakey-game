@@ -726,6 +726,8 @@ export class UsersService {
         );
       }
 
+      // log
+
       if (!qr) {
         await queryRunner.commitTransaction();
       }

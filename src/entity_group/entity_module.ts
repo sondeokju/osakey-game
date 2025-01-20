@@ -93,6 +93,13 @@ import { SuitOptionModule } from 'src/static-table/suit/suit_option/suit_option.
 import { SuitSkillModule } from 'src/static-table/suit/suit_skill/suit_skill.module';
 import { SuitUltimateInfoModule } from 'src/static-table/suit/suit_ultimate_info/suit_ultimate_info.module';
 import { SuitUltimateLevelInfoModule } from 'src/static-table/suit/suit_ultimate_level_info/suit_ultimate_level_info.module';
+import { UserItemExchangeModule } from 'src/inventory/exchange/user_item_exchange/user_item_exchange.module';
+import { UserMembershipModule } from 'src/inventory/membership/user_membership/user_membership.module';
+import { UserSecameDiaryModule } from 'src/inventory/secame/user_secame_diary/user_secame_diary.module';
+import { UserSecameMailModule } from 'src/inventory/secame/user_secame_mail/user_secame_mail.module';
+import { UserSuitModule } from 'src/inventory/suit/user_suit/user_suit.module';
+import { UserDispatchModule } from 'src/inventory/dispatch/user_dispatch/user_dispatch.module';
+import { UserDispatchRentamaModule } from 'src/inventory/dispatch/user_dispatch_rentama/user_dispatch_rentama.module';
 
 export const entities_module = [
   UsersModule,
@@ -190,4 +197,11 @@ export const entities_module = [
   SuitUltimateInfoModule,
   SuitUltimateLevelInfoModule,
   SuitLevelInfoModule,
+  UserItemExchangeModule,
+  UserSuitModule,
+  UserSecameDiaryModule,
+  UserSecameMailModule,
+  UserMembershipModule,
+  UserDispatchModule,
+  UserDispatchRentamaModule,
 ];

@@ -86,6 +86,13 @@ import { SuitSkill } from 'src/static-table/suit/suit_skill/entities/suit_skill.
 import { SuitUltimateInfo } from 'src/static-table/suit/suit_ultimate_info/entities/suit_ultimate_info.entity';
 import { SuitUltimateLevelInfo } from 'src/static-table/suit/suit_ultimate_level_info/entities/suit_ultimate_level_info.entity';
 import { SuitLevelInfo } from 'src/static-table/suit/suit_level_info/entities/suit_level_info.entity';
+import { UserItemExchange } from 'src/inventory/exchange/user_item_exchange/entities/user_item_exchange.entity';
+import { UserMembership } from 'src/inventory/membership/user_membership/entities/user_membership.entity';
+import { UserSecameDiary } from 'src/inventory/secame/user_secame_diary/entities/user_secame_diary.entity';
+import { UserSecameMail } from 'src/inventory/secame/user_secame_mail/entities/user_secame_mail.entity';
+import { UserSuit } from 'src/inventory/suit/user_suit/entities/user_suit.entity';
+import { UserDispatch } from 'src/inventory/dispatch/user_dispatch/entities/user_dispatch.entity';
+import { UserDispatchRentama } from 'src/inventory/dispatch/user_dispatch_rentama/entities/user_dispatch_rentama.entity';
 
 export const entities = [
   Users,
@@ -176,4 +183,11 @@ export const entities = [
   SuitUltimateInfo,
   SuitUltimateLevelInfo,
   SuitLevelInfo,
+  UserItemExchange,
+  UserSuit,
+  UserSecameDiary,
+  UserSecameMail,
+  UserMembership,
+  UserDispatch,
+  UserDispatchRentama,
 ];

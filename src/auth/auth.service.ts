@@ -16,6 +16,7 @@ import {
 import { GoogleService } from './sns/google/google.service';
 import { AppleService } from './sns/apple/apple.service';
 import { QueryRunner } from 'typeorm';
+import { ZLoginLogService } from 'src/game_log/login/z_login_log/z_login_log.service';
 
 @Injectable()
 export class AuthService {
@@ -25,6 +26,7 @@ export class AuthService {
     private readonly configService: ConfigService,
     private readonly googleService: GoogleService,
     private readonly appleService: AppleService,
+    private readonly zLoginLogService: ZLoginLogService,
   ) {}
 
   /**
@@ -87,6 +89,13 @@ export class AuthService {
 
   async lineSocialLogin(socialData: any) {
     const userData = await this.usersService.lineSocialLogin(socialData);
+
+    await this.zLoginLogService.loginLog(
+      userData.user_id,
+      userData.member_id,
+      userData.social_user_id,
+      userData.social_type,
+    );
 
     const accessToken = this.socialSignToken(userData, false);
     console.log('accessToken:', accessToken);
