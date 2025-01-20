@@ -80,8 +80,8 @@ export class UserOfflineRewardService {
         currencyCount = 480;
       }
 
-      console.log('rewardCount:', rewardCount);
-      console.log('currencyCount:', currencyCount);
+      console.log(`Reward Count: ${rewardCount}`);
+      console.log(`Currency Count (Capped at 480): ${currencyCount}`);
 
       userOfflineReward.last_reward_date = new Date(); // 마지막 보상 날짜 갱신
 
@@ -95,18 +95,22 @@ export class UserOfflineRewardService {
       }
 
       // 화폐 보상 처리
+      let totalGord = 0;
+      let totalExp = 0;
       if (currencyCount > 0) {
-        await this.rewardOfferService.rewardCurrency(
-          user_id,
-          'gord',
-          offlineData.gord_qty * currencyCount,
-          qr,
-        );
+        totalGord = offlineData.gord_qty * currencyCount;
+        totalExp = offlineData.exp_qty * currencyCount;
 
         await this.rewardOfferService.rewardCurrency(
           user_id,
+          'gord',
+          totalGord,
+          qr,
+        );
+        await this.rewardOfferService.rewardCurrency(
+          user_id,
           'exp',
-          offlineData.exp_qty * currencyCount,
+          totalExp,
           qr,
         );
       }
@@ -119,11 +123,17 @@ export class UserOfflineRewardService {
         await queryRunner.commitTransaction();
       }
 
+      console.log('Offline reward saved successfully:', {
+        item: rewardID,
+        gord: totalGord,
+        exp: totalExp,
+      });
+
       return {
         offlineReward: {
           item: rewardID,
-          gord: offlineData.gord_qty * currencyCount,
-          exp: offlineData.exp_qty * currencyCount,
+          gord: totalGord,
+          exp: totalExp,
         },
       };
     } catch (error) {
