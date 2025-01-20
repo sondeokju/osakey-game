@@ -153,7 +153,7 @@ export class UserOfflineRewardService {
     offlineData: any,
     is_ad: boolean,
   ): { rewardCount: number; currencyCount: number } {
-    if (is_ad) {
+    if (is_ad === true) {
       // 광고를 시청한 경우: 최대 보상 시간 기준으로 보상 지급
       const rewardCount = Math.floor(
         offlineData.time_max / offlineData.offline_reward_peirod,
