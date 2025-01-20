@@ -35,8 +35,6 @@ export class UserOfflineRewardService {
       throw new BadRequestException('Invalid user_id provided.');
     }
 
-    console.log('is_ad', is_ad);
-
     const queryRunner = qr || this.dataSource.createQueryRunner();
     let isTransactionOwner = false;
 
@@ -67,40 +65,20 @@ export class UserOfflineRewardService {
           ad_reward_count: 0,
         });
       }
-      let rewardCount = 0;
-      let currencyCount = 0;
+
+      // 보상 및 화폐 계산
+      const { rewardCount, currencyCount } = this.calculateRewards(
+        userOfflineReward.last_reward_date,
+        offlineData,
+        is_ad,
+      );
+
+      console.log('Reward Calculation:', { rewardCount, currencyCount });
 
       if (is_ad) {
-        // 보상 및 화폐 계산
-        console.log('is_ad', 1);
-        rewardCount = this.calculateOfflineRewards(
-          userOfflineReward.last_reward_date,
-          offlineData.offline_reward_peirod,
-        );
-
-        currencyCount = this.calculateOfflineRewards(
-          userOfflineReward.last_reward_date,
-          1, // 1분 기준
-        );
-        if (currencyCount > 480) {
-          currencyCount = 480;
-        }
-
-        console.log(`Reward Count: ${rewardCount}`);
-        console.log(`Currency Count (Capped at 480): ${currencyCount}`);
-
         userOfflineReward.last_reward_date = new Date(); // 마지막 보상 날짜 갱신
-      } else {
-        console.log('is_ad', 2);
-        rewardCount = Math.floor(
-          offlineData.time_max / offlineData.offline_reward_peirod,
-        );
-
-        currencyCount = offlineData.time_max;
       }
 
-      console.log('rewardCount', rewardCount);
-      console.log('currencyCount', currencyCount);
       // 보상 처리
       for (let i = 0; i < rewardCount; i++) {
         await this.rewardOfferService.reward(
@@ -156,12 +134,45 @@ export class UserOfflineRewardService {
       if (isTransactionOwner) {
         await queryRunner.rollbackTransaction();
       }
-      console.error('Transaction failed:', error.message, error.stack);
+      console.error('Transaction failed:', {
+        error: error.message,
+        stack: error.stack,
+        user_id,
+        is_ad,
+      });
       throw new Error(`Transaction failed: ${error.message}`);
     } finally {
       if (isTransactionOwner) {
         await queryRunner.release();
       }
+    }
+  }
+
+  private calculateRewards(
+    lastRewardDate: Date,
+    offlineData: any,
+    is_ad: boolean,
+  ): { rewardCount: number; currencyCount: number } {
+    if (is_ad) {
+      // 광고를 시청한 경우: 최대 보상 시간 기준으로 보상 지급
+      const rewardCount = Math.floor(
+        offlineData.time_max / offlineData.offline_reward_peirod,
+      );
+
+      const currencyCount = offlineData.time_max;
+
+      return { rewardCount, currencyCount };
+    } else {
+      // 광고를 시청하지 않은 경우: 실제 경과 시간 기준으로 보상 지급
+      const rewardCount = this.calculateOfflineRewards(
+        lastRewardDate,
+        offlineData.offline_reward_peirod,
+      );
+
+      let currencyCount = this.calculateOfflineRewards(lastRewardDate, 1); // 1분 기준
+      currencyCount = Math.min(currencyCount, 480); // 480 제한
+
+      return { rewardCount, currencyCount };
     }
   }
 
