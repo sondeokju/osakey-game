@@ -29,6 +29,7 @@ export class UserOfflineRewardController {
     @Body('is_ad') is_ad: boolean,
     @QueryRunner() qr?: QR,
   ) {
+    console.log(typeof is_ad);
     const result = await this.userOfflineRewardService.saveOfflineReward(
       user.user_id,
       is_ad,
