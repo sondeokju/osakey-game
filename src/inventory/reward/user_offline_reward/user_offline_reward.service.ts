@@ -75,8 +75,17 @@ export class UserOfflineRewardService {
 
       console.log('Reward Calculation:', { rewardCount, currencyCount });
 
-      if (is_ad) {
+      if (is_ad === 'false') {
         userOfflineReward.last_reward_date = new Date(); // 마지막 보상 날짜 갱신
+      } else {
+        if (userOfflineReward.ad_reward_count >= 2) {
+          return {
+            message:
+              'You have received all the rewards available from ads for today.',
+          };
+        }
+        userOfflineReward.last_ad_date = new Date();
+        userOfflineReward.ad_reward_count += 1;
       }
 
       // 보상 처리
