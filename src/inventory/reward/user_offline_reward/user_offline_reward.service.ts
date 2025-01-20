@@ -74,15 +74,14 @@ export class UserOfflineRewardService {
         });
         //rewardCount = 0;
       } else {
+        rewardCount = this.calculateOfflineRewards(
+          userOfflineReward.last_reward_date,
+          offlineData.offline_reward_peirod,
+        );
+
+        console.log('rewardCount', rewardCount);
         userOfflineReward.last_reward_date = new Date();
       }
-
-      rewardCount = this.calculateOfflineRewards(
-        userOfflineReward.last_reward_date,
-        offlineData.offline_reward_peirod,
-      );
-
-      console.log('rewardCount', rewardCount);
 
       for (let i = 1; i <= rewardCount; i++) {
         await this.rewardOfferService.reward(
