@@ -116,7 +116,7 @@ export class UserOfflineRewardService {
       }
 
       // 보상 데이터 저장
-      const rewardID =
+      const userOfflineRewardData =
         await userOfflineRewardRepository.save(userOfflineReward);
 
       if (isTransactionOwner) {
@@ -124,14 +124,16 @@ export class UserOfflineRewardService {
       }
 
       console.log('Offline reward saved successfully:', {
-        item: rewardID,
+        item: offlineData.reward_id,
+        rewardCount,
         gord: totalGord,
         exp: totalExp,
       });
 
       return {
         offlineReward: {
-          item: rewardID,
+          item: offlineData.reward_id,
+          rewardCount,
           gord: totalGord,
           exp: totalExp,
         },
