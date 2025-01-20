@@ -130,7 +130,7 @@ export class UserOfflineRewardService {
 
       return {
         offlineReward: {
-          rewardId: rewardID,
+          rewardId: offlineData.reward_id,
           rewardCount,
           gord: totalGord,
           exp: totalExp,
