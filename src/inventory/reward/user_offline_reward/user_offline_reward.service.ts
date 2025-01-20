@@ -124,7 +124,7 @@ export class UserOfflineRewardService {
       }
 
       console.log('Offline reward saved successfully:', {
-        item: offlineData.reward_id,
+        rewardId: offlineData.reward_id,
         rewardCount,
         gord: totalGord,
         exp: totalExp,
@@ -132,7 +132,7 @@ export class UserOfflineRewardService {
 
       return {
         offlineReward: {
-          item: offlineData.reward_id,
+          rewardId: offlineData.reward_id,
           rewardCount,
           gord: totalGord,
           exp: totalExp,
