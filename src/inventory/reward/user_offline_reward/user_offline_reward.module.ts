@@ -16,6 +16,8 @@ import { Users } from 'src/users/entity/users.entity';
 import { UsersService } from 'src/users/users.service';
 import { Offline } from 'src/static-table/offline/offline/entities/offline.entity';
 import { OfflineService } from 'src/static-table/offline/offline/offline.service';
+import { ServerConfig } from 'src/static-table/config/server_config/entities/server_config.entity';
+import { ServerConfigService } from 'src/static-table/config/server_config/server_config.service';
 
 @Module({
   imports: [
@@ -27,6 +29,7 @@ import { OfflineService } from 'src/static-table/offline/offline/offline.service
       UserItem,
       Hero,
       Offline,
+      ServerConfig,
     ]),
   ],
   exports: [UserOfflineRewardService],
@@ -40,6 +43,7 @@ import { OfflineService } from 'src/static-table/offline/offline/offline.service
     UserItemService,
     HeroService,
     OfflineService,
+    ServerConfigService,
   ],
 })
 export class UserOfflineRewardModule {}

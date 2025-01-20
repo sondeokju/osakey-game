@@ -12,6 +12,7 @@ import { UserOfflineReward } from './entities/user_offline_reward.entity';
 import { OfflineService } from 'src/static-table/offline/offline/offline.service';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { UsersService } from 'src/users/users.service';
+import { ServerConfigService } from 'src/static-table/config/server_config/server_config.service';
 
 @Injectable()
 export class UserOfflineRewardService {
@@ -22,6 +23,7 @@ export class UserOfflineRewardService {
     private readonly rewardOfferService: RewardOfferService,
     private readonly offlineService: OfflineService,
     private readonly usersService: UsersService,
+    private readonly serverConfigService: ServerConfigService,
   ) {}
 
   getUserOfflineRewardRepository(qr?: QueryRunner) {
@@ -51,6 +53,10 @@ export class UserOfflineRewardService {
       const offlineData = await this.offlineService.getOfflineLevel(
         usersData.level,
       );
+      const adRewardCountLimit = await this.serverConfigService.getServerConfig(
+        1014,
+        qr,
+      );
 
       // 유저 보상 데이터 가져오기
       let userOfflineReward = await userOfflineRewardRepository.findOne({
@@ -78,7 +84,9 @@ export class UserOfflineRewardService {
       if (is_ad === 'false') {
         userOfflineReward.last_reward_date = new Date(); // 마지막 보상 날짜 갱신
       } else {
-        if (userOfflineReward.ad_reward_count >= 2) {
+        if (
+          userOfflineReward.ad_reward_count >= adRewardCountLimit.config_value
+        ) {
           return {
             message:
               'You have received all the rewards available from ads for today.',
