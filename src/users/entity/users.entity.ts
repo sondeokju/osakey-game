@@ -150,13 +150,12 @@ export class Users extends BaseModel {
   @Index({ unique: false })
   member_id: string;
 
-  // @Column({
-  //   length: 256,
-  //   type: 'varchar',
-  //   default: '',
-  // })
-  // @Index({ unique: false })
-  // social_user_id: string;
+  @Column({
+    length: 128,
+    type: 'varchar',
+    default: '',
+  })
+  ban: string;
 
   // @Column({
   //   length: 128,
