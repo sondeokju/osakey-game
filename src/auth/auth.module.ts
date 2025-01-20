@@ -5,13 +5,12 @@ import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from 'src/users/users.module';
 import { AppleService } from './sns/apple/apple.service';
-import { ZLoginLogService } from 'src/game_log/login/z_login_log/z_login_log.service';
-import { ZLoginLog } from 'src/game_log/login/z_login_log/entities/z_login_log.entity';
+import { ZLoginLogModule } from 'src/game_log/login/z_login_log/z_login_log.module';
 
 @Module({
-  imports: [JwtModule.register({}), UsersModule, ZLoginLog],
+  imports: [JwtModule.register({}), UsersModule, ZLoginLogModule],
   controllers: [AuthController],
-  providers: [AuthService, GoogleService, AppleService, ZLoginLogService],
+  providers: [AuthService, GoogleService, AppleService],
   exports: [AuthService],
 })
 export class AuthModule {}
