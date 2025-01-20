@@ -123,7 +123,7 @@ export class UsersService {
     });
 
     if (!userData) {
-      throw new Error(`User with id ${id} not found.`);
+      throw new Error(`User with id ${user_id} not found.`);
     }
 
     return userData.ban;
