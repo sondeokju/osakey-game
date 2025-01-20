@@ -66,6 +66,13 @@ export class UsersController {
     return JSON.stringify(result);
   }
 
+  @Get('ban')
+  @UseInterceptors(TransactionInterceptor)
+  async offlineRewardList(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = this.usersService.getUserBan(user.user_id, qr);
+    return result;
+  }
+
   @Post('redis/del')
   async redisDel() {
     console.log('redis/del');

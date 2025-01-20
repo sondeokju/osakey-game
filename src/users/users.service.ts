@@ -108,6 +108,27 @@ export class UsersService {
     });
   }
 
+  async getUserBan(user_id: string, qr?: QueryRunner) {
+    if (!qr || !qr.isTransactionActive) {
+      throw new Error(
+        'QueryRunner is required and must have an active transaction.',
+      );
+    }
+
+    const usersRepository = this.getUsersRepository(qr);
+    const userData = await usersRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    if (!userData) {
+      throw new Error(`User with id ${id} not found.`);
+    }
+
+    return userData.ban;
+  }
+
   async createUserEmail(id: number, email: string, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({
