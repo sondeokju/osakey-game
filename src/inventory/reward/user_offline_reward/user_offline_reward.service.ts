@@ -115,9 +115,7 @@ export class UserOfflineRewardService {
         );
       }
 
-      // 보상 데이터 저장
-      const userOfflineRewardData =
-        await userOfflineRewardRepository.save(userOfflineReward);
+      await userOfflineRewardRepository.save(userOfflineReward);
 
       if (isTransactionOwner) {
         await queryRunner.commitTransaction();
@@ -132,7 +130,7 @@ export class UserOfflineRewardService {
 
       return {
         offlineReward: {
-          rewardId: offlineData.reward_id,
+          rewardId: rewardID,
           rewardCount,
           gord: totalGord,
           exp: totalExp,

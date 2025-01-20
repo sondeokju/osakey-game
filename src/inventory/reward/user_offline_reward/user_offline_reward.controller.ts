@@ -12,7 +12,7 @@ export class UserOfflineRewardController {
     private readonly userOfflineRewardService: UserOfflineRewardService,
   ) {}
 
-  @Get()
+  @Get('reward')
   @UseInterceptors(TransactionInterceptor)
   async offlineRewardList(@User() user: Users, @QueryRunner() qr: QR) {
     const result = this.userOfflineRewardService.getUserOfflineReward(
