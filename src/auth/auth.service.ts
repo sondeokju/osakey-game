@@ -93,9 +93,9 @@ export class AuthService {
 
     await this.zLoginLogService.loginLog(
       userData.user_id,
-      userData.member_id,
-      userData.social_user_id,
-      userData.name,
+      socialData.memberid,
+      socialData.userid,
+      socialData.name,
     );
 
     const accessToken = this.socialSignToken(userData, false);
