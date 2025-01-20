@@ -30,10 +30,12 @@ export class UserOfflineRewardService {
       : this.userOfflineRewardRepository;
   }
 
-  async saveOfflineReward(user_id: string, qr?: QueryRunner) {
+  async saveOfflineReward(user_id: string, is_ad: boolean, qr?: QueryRunner) {
     if (!user_id || typeof user_id !== 'string') {
       throw new BadRequestException('Invalid user_id provided.');
     }
+
+    console.log('is_ad', is_ad);
 
     const queryRunner = qr || this.dataSource.createQueryRunner();
     let isTransactionOwner = false;
@@ -65,25 +67,35 @@ export class UserOfflineRewardService {
           ad_reward_count: 0,
         });
       }
+      let rewardCount = 0;
+      let currencyCount = 0;
 
-      // 보상 및 화폐 계산
-      const rewardCount = this.calculateOfflineRewards(
-        userOfflineReward.last_reward_date,
-        offlineData.offline_reward_peirod,
-      );
+      if (!is_ad) {
+        // 보상 및 화폐 계산
+        rewardCount = this.calculateOfflineRewards(
+          userOfflineReward.last_reward_date,
+          offlineData.offline_reward_peirod,
+        );
 
-      let currencyCount = this.calculateOfflineRewards(
-        userOfflineReward.last_reward_date,
-        1, // 1분 기준
-      );
-      if (currencyCount > 480) {
-        currencyCount = 480;
+        currencyCount = this.calculateOfflineRewards(
+          userOfflineReward.last_reward_date,
+          1, // 1분 기준
+        );
+        if (currencyCount > 480) {
+          currencyCount = 480;
+        }
+
+        console.log(`Reward Count: ${rewardCount}`);
+        console.log(`Currency Count (Capped at 480): ${currencyCount}`);
+
+        userOfflineReward.last_reward_date = new Date(); // 마지막 보상 날짜 갱신
+      } else {
+        rewardCount = Math.floor(
+          offlineData.time_max / offlineData.offline_reward_peirod,
+        );
+
+        currencyCount = offlineData.time_max;
       }
-
-      console.log(`Reward Count: ${rewardCount}`);
-      console.log(`Currency Count (Capped at 480): ${currencyCount}`);
-
-      userOfflineReward.last_reward_date = new Date(); // 마지막 보상 날짜 갱신
 
       // 보상 처리
       for (let i = 0; i < rewardCount; i++) {
