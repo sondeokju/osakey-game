@@ -72,6 +72,7 @@ export class UserOfflineRewardService {
 
       if (!is_ad) {
         // 보상 및 화폐 계산
+        console.log('is_ad', 1);
         rewardCount = this.calculateOfflineRewards(
           userOfflineReward.last_reward_date,
           offlineData.offline_reward_peirod,
@@ -90,6 +91,7 @@ export class UserOfflineRewardService {
 
         userOfflineReward.last_reward_date = new Date(); // 마지막 보상 날짜 갱신
       } else {
+        console.log('is_ad', 2);
         rewardCount = Math.floor(
           offlineData.time_max / offlineData.offline_reward_peirod,
         );
@@ -97,6 +99,8 @@ export class UserOfflineRewardService {
         currencyCount = offlineData.time_max;
       }
 
+      console.log('rewardCount', rewardCount);
+      console.log('currencyCount', currencyCount);
       // 보상 처리
       for (let i = 0; i < rewardCount; i++) {
         await this.rewardOfferService.reward(
