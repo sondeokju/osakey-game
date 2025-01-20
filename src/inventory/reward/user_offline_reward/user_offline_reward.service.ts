@@ -119,6 +119,8 @@ export class UserOfflineRewardService {
     const timeDifference = currentTime.getTime() - lastRewardDate.getTime(); // 경과 시간 (밀리초 단위)
     const periodInMilliseconds = offlineRewardPeriod * 60 * 1000; // 기간 (밀리초 단위, 분 기준)
 
+    console.log('timeDifference', timeDifference);
+    console.log('periodInMilliseconds', periodInMilliseconds);
     // 경과한 보상 가능한 횟수 계산
     return Math.floor(timeDifference / periodInMilliseconds);
   }
