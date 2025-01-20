@@ -30,7 +30,7 @@ export class UserOfflineRewardService {
       : this.userOfflineRewardRepository;
   }
 
-  async saveOfflineReward(user_id: string, is_ad: boolean, qr?: QueryRunner) {
+  async saveOfflineReward(user_id: string, is_ad: string, qr?: QueryRunner) {
     if (!user_id || typeof user_id !== 'string') {
       throw new BadRequestException('Invalid user_id provided.');
     }
@@ -151,9 +151,10 @@ export class UserOfflineRewardService {
   private calculateRewards(
     lastRewardDate: Date,
     offlineData: any,
-    is_ad: boolean,
+    is_ad: string,
   ): { rewardCount: number; currencyCount: number } {
-    if (is_ad === true) {
+    if (is_ad === 'true') {
+      console.log('true');
       // 광고를 시청한 경우: 최대 보상 시간 기준으로 보상 지급
       const rewardCount = Math.floor(
         offlineData.time_max / offlineData.offline_reward_peirod,
@@ -163,6 +164,7 @@ export class UserOfflineRewardService {
 
       return { rewardCount, currencyCount };
     } else {
+      console.log('false');
       // 광고를 시청하지 않은 경우: 실제 경과 시간 기준으로 보상 지급
       const rewardCount = this.calculateOfflineRewards(
         lastRewardDate,

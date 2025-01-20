@@ -26,7 +26,7 @@ export class UserOfflineRewardController {
   @UseInterceptors(TransactionInterceptor)
   async saveAchieve(
     @User() user: Users,
-    @Body('is_ad') is_ad: boolean,
+    @Body('is_ad') is_ad: string,
     @QueryRunner() qr?: QR,
   ) {
     console.log(typeof is_ad);
