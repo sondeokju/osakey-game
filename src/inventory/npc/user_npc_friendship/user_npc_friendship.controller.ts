@@ -15,7 +15,7 @@ import { Users } from 'src/users/entity/users.entity';
 import { UserNpcFriendshipService } from './user_npc_friendship.service';
 
 @Controller('npc')
-export class UserEduStatsController {
+export class UserNpcFriendshipController {
   constructor(
     private readonly userNpcFriendshipService: UserNpcFriendshipService,
   ) {}
