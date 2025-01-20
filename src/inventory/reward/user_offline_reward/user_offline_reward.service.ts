@@ -34,16 +34,10 @@ export class UserOfflineRewardService {
     if (!user_id || typeof user_id !== 'string') {
       throw new BadRequestException('Invalid user_id provided.');
     }
-    // const currentDate = new Date(); // 현재 날짜와 시간
-    // const deadline = new Date(currentDate); // 현재 날짜 복사
-    // deadline.setDate(deadline.getDate() + +deadline_day); // 7일 추가
 
     const queryRunner = qr || this.dataSource.createQueryRunner();
-
-    // console.log('last_reward_date', last_reward_date);
-    // console.log('last_ad_date', last_ad_date, typeof last_ad_date);
-
     let isTransactionOwner = false;
+
     if (!qr) {
       await queryRunner.connect();
       await queryRunner.startTransaction();
@@ -53,17 +47,15 @@ export class UserOfflineRewardService {
     try {
       const userOfflineRewardRepository =
         queryRunner.manager.getRepository(UserOfflineReward);
-
       const usersData = await this.usersService.getMe(user_id, qr);
       const offlineData = await this.offlineService.getOfflineLevel(
         usersData.level,
       );
 
+      // 유저 보상 데이터 가져오기
       let userOfflineReward = await userOfflineRewardRepository.findOne({
         where: { user_id },
       });
-
-      let rewardCount = 0;
 
       if (!userOfflineReward) {
         userOfflineReward = userOfflineRewardRepository.create({
@@ -72,18 +64,29 @@ export class UserOfflineRewardService {
           last_ad_date: new Date('1970-01-01 00:00:00'),
           ad_reward_count: 0,
         });
-        //rewardCount = 0;
-      } else {
-        rewardCount = this.calculateOfflineRewards(
-          userOfflineReward.last_reward_date,
-          offlineData.offline_reward_peirod,
-        );
-
-        console.log('rewardCount', rewardCount);
-        userOfflineReward.last_reward_date = new Date();
       }
 
-      for (let i = 1; i <= rewardCount; i++) {
+      // 보상 및 화폐 계산
+      const rewardCount = this.calculateOfflineRewards(
+        userOfflineReward.last_reward_date,
+        offlineData.offline_reward_peirod,
+      );
+
+      let currencyCount = this.calculateOfflineRewards(
+        userOfflineReward.last_reward_date,
+        1, // 1분 기준
+      );
+      if (currencyCount > 480) {
+        currencyCount = 480;
+      }
+
+      console.log('rewardCount:', rewardCount);
+      console.log('currencyCount:', currencyCount);
+
+      userOfflineReward.last_reward_date = new Date(); // 마지막 보상 날짜 갱신
+
+      // 보상 처리
+      for (let i = 0; i < rewardCount; i++) {
         await this.rewardOfferService.reward(
           user_id,
           offlineData.reward_id,
@@ -91,18 +94,43 @@ export class UserOfflineRewardService {
         );
       }
 
-      const result = await userOfflineRewardRepository.save(userOfflineReward);
+      // 화폐 보상 처리
+      if (currencyCount > 0) {
+        await this.rewardOfferService.rewardCurrency(
+          user_id,
+          'gord',
+          offlineData.gord_qty * currencyCount,
+          qr,
+        );
+
+        await this.rewardOfferService.rewardCurrency(
+          user_id,
+          'exp',
+          offlineData.exp_qty * currencyCount,
+          qr,
+        );
+      }
+
+      // 보상 데이터 저장
+      const rewardID =
+        await userOfflineRewardRepository.save(userOfflineReward);
 
       if (isTransactionOwner) {
         await queryRunner.commitTransaction();
       }
 
-      return result;
+      return {
+        offlineReward: {
+          item: rewardID,
+          gord: offlineData.gord_qty * currencyCount,
+          exp: offlineData.exp_qty * currencyCount,
+        },
+      };
     } catch (error) {
       if (isTransactionOwner) {
         await queryRunner.rollbackTransaction();
       }
-      console.error('Transaction failed:', error);
+      console.error('Transaction failed:', error.message, error.stack);
       throw new Error(`Transaction failed: ${error.message}`);
     } finally {
       if (isTransactionOwner) {
