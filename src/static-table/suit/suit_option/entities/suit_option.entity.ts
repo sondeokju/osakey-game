@@ -8,7 +8,7 @@ export class SuitOption {
   @Column({
     default: 0,
   })
-  suit_info_id: number;
+  suit_id: number;
 
   @Column({
     default: 0,

@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryColumn } from 'typeorm';
 @Entity()
 export class SuitUltimateInfo {
   @PrimaryColumn()
-  suit_ultimate_info_id: number;
+  suit_ultimate_id: number;
 
   @Column({
     type: 'varchar',

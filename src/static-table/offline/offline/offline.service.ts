@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
-import { CreateOfflineDto } from './dto/create-offline.dto';
-import { UpdateOfflineDto } from './dto/update-offline.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { Offline } from './entities/offline.entity';
 
 @Injectable()
 export class OfflineService {
-  create(createOfflineDto: CreateOfflineDto) {
-    return 'This action adds a new offline';
+  constructor(
+    @InjectRepository(Offline)
+    private readonly offlineRepository: Repository<Offline>,
+  ) {}
+
+  getOfflineRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<Offline>(Offline)
+      : this.offlineRepository;
   }
 
-  findAll() {
-    return `This action returns all offline`;
+  async getOfflineAll(qr?: QueryRunner) {
+    const attendanceRepository = this.getOfflineRepository(qr);
+    const result = await attendanceRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} offline`;
-  }
+  async getOfflineLevel(id: number, qr?: QueryRunner) {
+    const offlineRepository = this.getOfflineRepository(qr);
+    const result = await offlineRepository.findOne({
+      where: {
+        level: id,
+      },
+    });
 
-  update(id: number, updateOfflineDto: UpdateOfflineDto) {
-    return `This action updates a #${id} offline`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} offline`;
+    return result;
   }
 }

@@ -9,13 +9,19 @@ import { InjectRepository } from '@nestjs/typeorm';
 //import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { QueryRunner, Repository } from 'typeorm';
 import { UserOfflineReward } from './entities/user_offline_reward.entity';
+import { OfflineService } from 'src/static-table/offline/offline/offline.service';
+import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class UserOfflineRewardService {
   dataSource: any;
   constructor(
     @InjectRepository(UserOfflineReward)
-    private readonly userOfflineRewardRepository: Repository<UserOfflineReward>, //  private readonly rewardOfferService: RewardOfferService,
+    private readonly userOfflineRewardRepository: Repository<UserOfflineReward>,
+    private readonly rewardOfferService: RewardOfferService,
+    private readonly offlineService: OfflineService,
+    private readonly usersService: UsersService,
   ) {}
 
   getUserOfflineRewardRepository(qr?: QueryRunner) {
@@ -24,13 +30,7 @@ export class UserOfflineRewardService {
       : this.userOfflineRewardRepository;
   }
 
-  async saveOfflineReward(
-    user_id: string,
-    last_reward_date?: string,
-    last_ad_date?: string,
-    ad_reward_count?: number,
-    qr?: QueryRunner,
-  ) {
+  async saveOfflineReward(user_id: string, qr?: QueryRunner) {
     if (!user_id || typeof user_id !== 'string') {
       throw new BadRequestException('Invalid user_id provided.');
     }
@@ -40,8 +40,8 @@ export class UserOfflineRewardService {
 
     const queryRunner = qr || this.dataSource.createQueryRunner();
 
-    console.log('last_reward_date', last_reward_date);
-    console.log('last_ad_date', last_ad_date, typeof last_ad_date);
+    // console.log('last_reward_date', last_reward_date);
+    // console.log('last_ad_date', last_ad_date, typeof last_ad_date);
 
     let isTransactionOwner = false;
     if (!qr) {
@@ -54,39 +54,42 @@ export class UserOfflineRewardService {
       const userOfflineRewardRepository =
         queryRunner.manager.getRepository(UserOfflineReward);
 
+      const usersData = await this.usersService.getMe(user_id, qr);
+      const offlineData = await this.offlineService.getOfflineLevel(
+        usersData.level,
+      );
+
       let userOfflineReward = await userOfflineRewardRepository.findOne({
         where: { user_id },
       });
 
+      let rewardCount = 0;
+
       if (!userOfflineReward) {
         userOfflineReward = userOfflineRewardRepository.create({
           user_id,
-          last_reward_date:
-            new Date(last_reward_date) || new Date('1970-01-01 00:00:00'),
-          last_ad_date:
-            new Date(last_ad_date) || new Date('1970-01-01 00:00:00'),
-          ad_reward_count: ad_reward_count ?? 0,
+          last_reward_date: new Date(),
+          last_ad_date: new Date('1970-01-01 00:00:00'),
+          ad_reward_count: 0,
         });
+        //rewardCount = 0;
       } else {
-        // 기존 레코드 업데이트 시 조건부 처리
-        if (
-          last_reward_date !== undefined &&
-          last_reward_date !== null &&
-          last_reward_date !== ''
-        ) {
-          userOfflineReward.last_reward_date = new Date(last_reward_date);
-        }
-        if (
-          last_ad_date !== undefined &&
-          last_ad_date !== null &&
-          last_ad_date !== ''
-        ) {
-          userOfflineReward.last_ad_date = new Date(last_ad_date);
-        }
+        userOfflineReward.last_reward_date = new Date();
+      }
 
-        if (ad_reward_count !== undefined && ad_reward_count !== null) {
-          userOfflineReward.ad_reward_count += +ad_reward_count;
-        }
+      rewardCount = this.calculateOfflineRewards(
+        userOfflineReward.last_reward_date,
+        offlineData.offline_reward_peirod,
+      );
+
+      console.log('rewardCount', rewardCount);
+
+      for (let i = 1; i <= rewardCount; i++) {
+        await this.rewardOfferService.reward(
+          user_id,
+          offlineData.reward_id,
+          qr,
+        );
       }
 
       const result = await userOfflineRewardRepository.save(userOfflineReward);
@@ -107,6 +110,18 @@ export class UserOfflineRewardService {
         await queryRunner.release();
       }
     }
+  }
+
+  calculateOfflineRewards(
+    lastRewardDate: Date,
+    offlineRewardPeriod: number,
+  ): number {
+    const currentTime = new Date(); // 현재 시간
+    const timeDifference = currentTime.getTime() - lastRewardDate.getTime(); // 경과 시간 (밀리초 단위)
+    const periodInMilliseconds = offlineRewardPeriod * 60 * 1000; // 기간 (밀리초 단위, 분 기준)
+
+    // 경과한 보상 가능한 횟수 계산
+    return Math.floor(timeDifference / periodInMilliseconds);
   }
 
   async offlineRewardList(user_id: string, qr?: QueryRunner) {
