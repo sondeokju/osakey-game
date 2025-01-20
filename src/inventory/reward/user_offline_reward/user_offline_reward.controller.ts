@@ -15,7 +15,7 @@ export class UserOfflineRewardController {
   @Get()
   @UseInterceptors(TransactionInterceptor)
   async offlineRewardList(@User() user: Users, @QueryRunner() qr: QR) {
-    const result = this.userOfflineRewardService.offlineRewardList(
+    const result = this.userOfflineRewardService.getUserOfflineReward(
       user.user_id,
       qr,
     );

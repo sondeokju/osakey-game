@@ -163,9 +163,9 @@ export class UserOfflineRewardService {
     return Math.floor(timeDifference / periodInMilliseconds);
   }
 
-  async offlineRewardList(user_id: string, qr?: QueryRunner) {
+  async getUserOfflineReward(user_id: string, qr?: QueryRunner) {
     const userOfflineRewardRepository = this.getUserOfflineRewardRepository(qr);
-    const userOfflineReward = await userOfflineRewardRepository.find({
+    const userOfflineReward = await userOfflineRewardRepository.findOne({
       where: {
         user_id,
       },
