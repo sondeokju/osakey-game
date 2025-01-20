@@ -70,7 +70,7 @@ export class UserOfflineRewardService {
       let rewardCount = 0;
       let currencyCount = 0;
 
-      if (!is_ad) {
+      if (is_ad) {
         // 보상 및 화폐 계산
         console.log('is_ad', 1);
         rewardCount = this.calculateOfflineRewards(
