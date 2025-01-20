@@ -1,26 +1,22 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserNpcFriendshipDto } from './dto/create-user_npc_friendship.dto';
-import { UpdateUserNpcFriendshipDto } from './dto/update-user_npc_friendship.dto';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { UserNpcFriendship } from './entities/user_npc_friendship.entity';
 
 @Injectable()
 export class UserNpcFriendshipService {
-  create(createUserNpcFriendshipDto: CreateUserNpcFriendshipDto) {
-    return 'This action adds a new userNpcFriendship';
-  }
+  constructor(
+    @InjectRepository(UserNpcFriendship)
+    private readonly userNpcFriendshipRepository: Repository<UserNpcFriendship>,
+  ) {}
 
-  findAll() {
-    return `This action returns all userNpcFriendship`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} userNpcFriendship`;
-  }
-
-  update(id: number, updateUserNpcFriendshipDto: UpdateUserNpcFriendshipDto) {
-    return `This action updates a #${id} userNpcFriendship`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} userNpcFriendship`;
+  getUserNpcFriendshipRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<UserNpcFriendship>(UserNpcFriendship)
+      : this.userNpcFriendshipRepository;
   }
 }
