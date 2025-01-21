@@ -91,6 +91,9 @@ export class AuthService {
     console.log(socialData);
     const userData = await this.usersService.lineSocialLogin(socialData);
 
+    console.log('memberid', socialData.memberid);
+    console.log('userid', socialData.userid);
+    console.log('name', socialData.name);
     await this.zLoginLogService.loginLog(
       userData.user_id,
       socialData['memberid'],
