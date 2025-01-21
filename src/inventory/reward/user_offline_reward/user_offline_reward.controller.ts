@@ -19,7 +19,7 @@ export class UserOfflineRewardController {
       user.user_id,
       qr,
     );
-    return result;
+    return JSON.stringify(result);
   }
 
   @Post('reward')
