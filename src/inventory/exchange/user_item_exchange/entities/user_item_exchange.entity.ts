@@ -31,14 +31,4 @@ export class UserItemExchange extends BaseModel {
     default: '0',
   })
   result_exchange_count: number;
-
-  @Column({
-    type: 'datetime',
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: string) => new Date(value),
-    },
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  exchange_date: Date;
 }
