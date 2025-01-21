@@ -39,7 +39,7 @@ export class UserOfflineRewardService {
 
     const queryRunner = qr || this.dataSource.createQueryRunner();
     let isTransactionOwner = false;
-    let itemData = {};
+    let itemData;
 
     if (!qr) {
       await queryRunner.connect();
@@ -147,8 +147,8 @@ export class UserOfflineRewardService {
 
       return {
         offlineReward: {
-          rewardId: offlineData.reward_id,
-          rewardCount,
+          item_id: itemData.item_id,
+          item_count: rewardCount,
           gord: totalGord,
           exp: totalExp,
         },
