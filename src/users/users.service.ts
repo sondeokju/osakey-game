@@ -240,7 +240,13 @@ export class UsersService {
       },
     });
 
-    return result;
+    //return result;
+    return {
+      result,
+      suit: {
+        suit_id: 11500000,
+      },
+    };
   }
 
   async patchTakeGord(user_id: string, gord: number, qr?: QueryRunner) {
