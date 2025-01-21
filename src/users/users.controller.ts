@@ -80,6 +80,18 @@ export class UsersController {
     return JSON.stringify(result);
   }
 
+  @Get('data')
+  @UseInterceptors(TransactionInterceptor)
+  async getUserData(
+    @User() user: Users,
+    @QueryRunner() qr: QR,
+    //@Query('includeNotConfirmed', new DefaultValuePipe(false), ParseBoolPipe)
+    //includeNotConfirmed: boolean,
+  ) {
+    const result = await this.usersService.getUserData(user.user_id, qr);
+    return result;
+  }
+
   @Get('me')
   @UseInterceptors(TransactionInterceptor)
   async getMeTest(

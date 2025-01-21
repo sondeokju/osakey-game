@@ -232,6 +232,22 @@ export class UsersService {
     return result;
   }
 
+  async getUserData(user_id: string, qr?: QueryRunner) {
+    const usersRepository = this.getUsersRepository(qr);
+    const result = await usersRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    return {
+      result,
+      suit: {
+        suit_id: 11500000,
+      },
+    };
+  }
+
   async getMe(user_id: string, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
     const result = await usersRepository.findOne({
@@ -240,13 +256,13 @@ export class UsersService {
       },
     });
 
-    //return result;
-    return {
-      result,
-      suit: {
-        suit_id: 11500000,
-      },
-    };
+    return result;
+    // return {
+    //   result,
+    //   suit: {
+    //     suit_id: 11500000,
+    //   },
+    // };
   }
 
   async patchTakeGord(user_id: string, gord: number, qr?: QueryRunner) {
