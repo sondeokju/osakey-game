@@ -33,6 +33,7 @@ export class ResourceManagerService {
     // 2. 아이템 체크
     if (resources.item) {
       const userItemData = await this.userItemService.getItem(
+        user_id,
         resources.item.item_id,
         qr,
       );
@@ -110,7 +111,11 @@ export class ResourceManagerService {
     if (resources.item) {
       const { item_id, count } = resources.item;
       if (item_id && count) {
-        const userItemData = await this.userItemService.getItem(item_id, qr);
+        const userItemData = await this.userItemService.getItem(
+          user_id,
+          item_id,
+          qr,
+        );
         if (!userItemData || count > userItemData.item_count) {
           return false;
         }
