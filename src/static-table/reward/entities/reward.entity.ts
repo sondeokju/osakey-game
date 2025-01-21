@@ -1,3 +1,4 @@
+import { Expose } from 'class-transformer';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -16,5 +17,5 @@ export class Reward {
   @Column({
     default: 0,
   })
-  item_qty: number;
+  item_count: number;
 }
