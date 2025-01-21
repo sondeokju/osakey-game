@@ -134,7 +134,7 @@ export class UserMailService {
       return data; // item_qty가 없는 경우 원래 객체 반환
     });
 
-    console.log('mail rewardData', rewardData);
+    console.log('mail updatedRewardData', updatedRewardData);
 
     if (!rewardData) {
       throw new BadRequestException('Failed to process reward.');
