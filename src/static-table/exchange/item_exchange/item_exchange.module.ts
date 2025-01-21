@@ -37,6 +37,7 @@ import { UsersService } from 'src/users/users.service';
     ItemService,
     UserItemService,
     HeroService,
+    RewardOfferService,
   ],
 })
 export class ItemExchangeModule {}
