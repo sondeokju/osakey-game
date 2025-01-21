@@ -88,6 +88,9 @@ export class AuthService {
   }
 
   async lineSocialLogin(socialData: any) {
+    if (typeof socialData === 'string') {
+      socialData = JSON.parse(socialData);
+    }
     console.log('socialData', socialData);
     console.log('memberid', socialData.memberid);
     console.log('userid', socialData.userid);
