@@ -199,19 +199,33 @@ export class UserOfflineRewardService {
       return { rewardCount, currencyCount };
     }
   }
-
   calculateOfflineRewards(
     lastRewardDate: Date,
-    offlineRewardPeriod: number,
+    offlineRewardPeriod: number, // 보상 주기 (분 단위)
   ): number {
     const currentTime = new Date(); // 현재 시간
     const timeDifference = currentTime.getTime() - lastRewardDate.getTime(); // 경과 시간 (밀리초 단위)
-    const periodInMilliseconds = offlineRewardPeriod * 60 * 1000; // 기간 (밀리초 단위, 분 기준)
+    const periodInMilliseconds = offlineRewardPeriod * 60 * 1000; // 보상 주기 (밀리초 단위)
 
-    console.log('timeDifference', timeDifference);
-    console.log('periodInMilliseconds', periodInMilliseconds);
-    // 경과한 보상 가능한 횟수 계산
-    return Math.floor(timeDifference / periodInMilliseconds);
+    // 전체 날짜, 시간, 분 계산
+    const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24)); // 일 단위
+    const remainingHours = Math.floor(
+      (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+    ); // 남은 시간
+    const remainingMinutes = Math.floor(
+      (timeDifference % (1000 * 60 * 60)) / (1000 * 60),
+    ); // 남은 분
+
+    console.log(`경과 일수: ${days}일`);
+    console.log(`남은 시간: ${remainingHours}시간`);
+    console.log(`남은 분: ${remainingMinutes}분`);
+    console.log(`경과 시간(밀리초): ${timeDifference}`);
+    console.log(`보상 주기(밀리초): ${periodInMilliseconds}`);
+
+    // 전체 경과 시간(밀리초) / 보상 주기(밀리초)로 보상 횟수 계산
+    const totalRewards = Math.floor(timeDifference / periodInMilliseconds);
+
+    return totalRewards;
   }
 
   async getUserOfflineReward(user_id: string, qr?: QueryRunner) {
