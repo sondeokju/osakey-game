@@ -151,7 +151,7 @@ export class UserItemService {
       where: {
         user_id,
         item_id,
-        item_leve,
+        //  item_leve,
       },
     });
 
