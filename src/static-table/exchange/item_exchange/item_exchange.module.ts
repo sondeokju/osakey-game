@@ -5,9 +5,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ItemExchange } from './entities/item_exchange.entity';
 import { RewardOfferModule } from 'src/supervisor/reward_offer/reward_offer.module';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
+import { RewardModule } from 'src/static-table/reward/reward.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ItemExchange]), RewardOfferModule],
+  imports: [
+    TypeOrmModule.forFeature([ItemExchange]),
+    RewardOfferModule,
+    RewardModule,
+  ],
   exports: [ItemExchangeService],
   controllers: [ItemExchangeController],
   providers: [ItemExchangeService, RewardOfferService],
