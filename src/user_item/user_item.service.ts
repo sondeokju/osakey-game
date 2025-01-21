@@ -141,7 +141,7 @@ export class UserItemService {
   async rewardItem(
     user_id: string,
     item_id: number,
-    item_leve: number,
+    item_level: number,
     item_type: string,
     item_count: number,
     qr?: QueryRunner,
@@ -151,7 +151,7 @@ export class UserItemService {
       where: {
         user_id,
         item_id,
-        //  item_leve,
+        item_level,
       },
     });
 
@@ -159,7 +159,7 @@ export class UserItemService {
       const newUserItem = {
         user_id,
         item_id,
-        item_leve,
+        item_level,
         item_type,
         item_count,
       };
@@ -172,8 +172,8 @@ export class UserItemService {
         updatedData.item_id = item_id;
       }
 
-      if (item_leve !== undefined) {
-        updatedData.item_level = item_leve;
+      if (item_level !== undefined) {
+        updatedData.item_level = item_level;
       }
 
       if (item_type !== undefined) {
