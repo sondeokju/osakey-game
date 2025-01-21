@@ -1,34 +1,42 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
+import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
+import { User } from 'src/users/decorator/user.decorator';
+import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
+import { QueryRunner as QR } from 'typeorm';
+import { Users } from 'src/users/entity/users.entity';
 import { UserItemExchangeService } from './user_item_exchange.service';
-import { CreateUserItemExchangeDto } from './dto/create-user_item_exchange.dto';
-import { UpdateUserItemExchangeDto } from './dto/update-user_item_exchange.dto';
 
-@Controller('user-item-exchange')
+@Controller('exchange')
 export class UserItemExchangeController {
-  constructor(private readonly userItemExchangeService: UserItemExchangeService) {}
-
-  @Post()
-  create(@Body() createUserItemExchangeDto: CreateUserItemExchangeDto) {
-    return this.userItemExchangeService.create(createUserItemExchangeDto);
-  }
+  constructor(
+    private readonly userItemExchangeService: UserItemExchangeService,
+  ) {}
 
   @Get()
-  findAll() {
-    return this.userItemExchangeService.findAll();
+  @UseInterceptors(TransactionInterceptor)
+  async getItemExchange(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = this.userItemExchangeService.getItemExchange(
+      user.user_id,
+      qr,
+    );
+    return result;
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userItemExchangeService.findOne(+id);
-  }
+  @Post('item')
+  @UseInterceptors(TransactionInterceptor)
+  async missionReward(
+    @User() user: Users,
+    @Body('exchange_item_id') exchange_item_id: number,
+    @Body('exchange_item_count') exchange_item_count: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userItemExchangeService.saveItemExchange(
+      user.user_id,
+      exchange_item_id,
+      exchange_item_count,
+      qr,
+    );
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserItemExchangeDto: UpdateUserItemExchangeDto) {
-    return this.userItemExchangeService.update(+id, updateUserItemExchangeDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userItemExchangeService.remove(+id);
+    return result;
   }
 }

@@ -1,26 +1,72 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserItemExchangeDto } from './dto/create-user_item_exchange.dto';
-import { UpdateUserItemExchangeDto } from './dto/update-user_item_exchange.dto';
+import {
+  BadRequestException,
+  ConsoleLogger,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
+import { UserItemExchange } from './entities/user_item_exchange.entity';
+import { ItemExchangeService } from 'src/static-table/exchange/item_exchange/item_exchange.service';
 
 @Injectable()
 export class UserItemExchangeService {
-  create(createUserItemExchangeDto: CreateUserItemExchangeDto) {
-    return 'This action adds a new userItemExchange';
+  constructor(
+    @InjectRepository(UserItemExchange)
+    private readonly userItemExchangeRepository: Repository<UserItemExchange>,
+    private readonly rewardOfferService: RewardOfferService,
+    private readonly itemExchangeService: ItemExchangeService,
+  ) {}
+
+  getUserItemExchangeRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<UserItemExchange>(UserItemExchange)
+      : this.userItemExchangeRepository;
   }
 
-  findAll() {
-    return `This action returns all userItemExchange`;
+  async getItemExchange(user_id: string, qr?: QueryRunner) {
+    const userItemExchangeRepository = this.getUserItemExchangeRepository(qr);
+    const result = await userItemExchangeRepository.find({
+      where: {
+        user_id,
+      },
+    });
+
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} userItemExchange`;
-  }
+  async saveItemExchange(
+    user_id: string,
+    exchange_item_id: number,
+    exchange_item_count: number,
+    qr?: QueryRunner,
+  ) {
+    if (!user_id || typeof user_id !== 'string') {
+      throw new BadRequestException('Invalid user_id provided.');
+    }
 
-  update(id: number, updateUserItemExchangeDto: UpdateUserItemExchangeDto) {
-    return `This action updates a #${id} userItemExchange`;
-  }
+    const userItemExchangeRepository = this.getUserItemExchangeRepository(qr);
 
-  remove(id: number) {
-    return `This action removes a #${id} userItemExchange`;
+    try {
+      const itemExchangeData =
+        await this.itemExchangeService.getItemExchange(exchange_item_id);
+
+      const insertItemExchange = userItemExchangeRepository.create({
+        user_id,
+        exchange_item_id,
+        exchange_item_count,
+        result_item_id: itemExchangeData.result_item_id,
+        result_item_count: itemExchangeData.result_item_qty,
+      });
+
+      const savedData =
+        await userItemExchangeRepository.save(insertItemExchange);
+      return savedData;
+    } catch (error) {
+      console.error('Error saving attendance:', error);
+      throw new InternalServerErrorException('Failed to save attendance.');
+    }
   }
 }

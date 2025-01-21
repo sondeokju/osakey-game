@@ -3,9 +3,10 @@ import { UserItemExchangeService } from './user_item_exchange.service';
 import { UserItemExchangeController } from './user_item_exchange.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserItemExchange } from './entities/user_item_exchange.entity';
+import { ItemExchangeModule } from 'src/static-table/exchange/item_exchange/item_exchange.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserItemExchange])],
+  imports: [TypeOrmModule.forFeature([UserItemExchange]), ItemExchangeModule],
   exports: [UserItemExchangeService],
   controllers: [UserItemExchangeController],
   providers: [UserItemExchangeService],

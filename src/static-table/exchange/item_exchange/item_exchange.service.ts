@@ -1,26 +1,34 @@
 import { Injectable } from '@nestjs/common';
-import { CreateItemExchangeDto } from './dto/create-item_exchange.dto';
-import { UpdateItemExchangeDto } from './dto/update-item_exchange.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { ItemExchange } from './entities/item_exchange.entity';
 
 @Injectable()
 export class ItemExchangeService {
-  create(createItemExchangeDto: CreateItemExchangeDto) {
-    return 'This action adds a new itemExchange';
+  constructor(
+    @InjectRepository(ItemExchange)
+    private readonly itemExchangeRepository: Repository<ItemExchange>,
+  ) {}
+
+  getItemExchangeRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<ItemExchange>(ItemExchange)
+      : this.itemExchangeRepository;
   }
 
-  findAll() {
-    return `This action returns all itemExchange`;
+  async getItemExchangeAll(qr?: QueryRunner) {
+    const itemExchangeRepository = this.getItemExchangeRepository(qr);
+    const result = await itemExchangeRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} itemExchange`;
-  }
-
-  update(id: number, updateItemExchangeDto: UpdateItemExchangeDto) {
-    return `This action updates a #${id} itemExchange`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} itemExchange`;
+  async getItemExchange(exchange_item_id: number, qr?: QueryRunner) {
+    const itemExchangeRepository = this.getItemExchangeRepository(qr);
+    const result = await itemExchangeRepository.findOne({
+      where: {
+        exchange_item_id,
+      },
+    });
+    return result;
   }
 }

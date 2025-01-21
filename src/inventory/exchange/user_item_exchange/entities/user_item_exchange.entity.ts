@@ -15,20 +15,20 @@ export class UserItemExchange extends BaseModel {
   @Column({
     default: '0',
   })
-  exchange_id: number;
+  exchange_item_id: number;
 
   @Column({
     default: '0',
   })
-  exchange_count: number;
+  exchange_item_count: number;
 
   @Column({
     default: '0',
   })
-  result_exchange_id: number;
+  result_item_id: number;
 
   @Column({
     default: '0',
   })
-  result_exchange_count: number;
+  result_item_count: number;
 }
