@@ -13,6 +13,7 @@ import { OfflineService } from 'src/static-table/offline/offline/offline.service
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { UsersService } from 'src/users/users.service';
 import { ServerConfigService } from 'src/static-table/config/server_config/server_config.service';
+import { RewardService } from 'src/static-table/reward/reward.service';
 
 @Injectable()
 export class UserOfflineRewardService {
@@ -24,6 +25,7 @@ export class UserOfflineRewardService {
     private readonly offlineService: OfflineService,
     private readonly usersService: UsersService,
     private readonly serverConfigService: ServerConfigService,
+    private readonly rewardService: RewardService,
   ) {}
 
   getUserOfflineRewardRepository(qr?: QueryRunner) {
@@ -39,7 +41,6 @@ export class UserOfflineRewardService {
 
     const queryRunner = qr || this.dataSource.createQueryRunner();
     let isTransactionOwner = false;
-    let itemData;
 
     if (!qr) {
       await queryRunner.connect();
@@ -104,7 +105,7 @@ export class UserOfflineRewardService {
 
       // 보상 처리
       for (let i = 0; i < rewardCount; i++) {
-        itemData = await this.rewardOfferService.reward(
+        await this.rewardOfferService.reward(
           user_id,
           offlineData.reward_id,
           qr,
@@ -145,9 +146,13 @@ export class UserOfflineRewardService {
         exp: totalExp,
       });
 
+      const rewardData = await this.rewardService.getReward(
+        offlineData.reward_id,
+      );
+
       return {
         offlineReward: {
-          item_id: itemData.item_id,
+          item_id: rewardData[0].item_id,
           item_count: rewardCount,
           gord: totalGord,
           exp: totalExp,

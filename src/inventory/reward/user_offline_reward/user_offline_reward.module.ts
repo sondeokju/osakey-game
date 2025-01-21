@@ -18,6 +18,7 @@ import { Offline } from 'src/static-table/offline/offline/entities/offline.entit
 import { OfflineService } from 'src/static-table/offline/offline/offline.service';
 import { ServerConfig } from 'src/static-table/config/server_config/entities/server_config.entity';
 import { ServerConfigService } from 'src/static-table/config/server_config/server_config.service';
+import { RewardModule } from 'src/static-table/reward/reward.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ServerConfigService } from 'src/static-table/config/server_config/serve
       Offline,
       ServerConfig,
     ]),
+    RewardModule,
   ],
   exports: [UserOfflineRewardService],
   controllers: [UserOfflineRewardController],
