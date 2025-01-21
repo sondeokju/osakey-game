@@ -33,7 +33,7 @@ export class RewardService {
 
     const result = await rewardRepository
       .createQueryBuilder('reward')
-      .select(['reward.reward_id', 'reward.item_id', 'reward.item_qty'])
+      .select(['reward.reward_id', 'reward.item_id', 'reward.item_count'])
       .getMany();
 
     return result;
