@@ -91,17 +91,13 @@ export class AuthService {
     if (typeof socialData === 'string') {
       socialData = JSON.parse(socialData);
     }
-    console.log('socialData', socialData);
-    console.log('memberid', socialData.memberid);
-    console.log('userid', socialData.userid);
-    console.log('name', socialData.name);
-    const userData = await this.usersService.lineSocialLogin(socialData);
 
+    const userData = await this.usersService.lineSocialLogin(socialData);
     await this.zLoginLogService.loginLog(
       userData.user_id,
-      socialData['memberid'],
-      socialData['userid'],
-      socialData['name'],
+      socialData.memberid,
+      socialData.userid,
+      socialData.name,
     );
 
     const accessToken = this.socialSignToken(userData, false);
