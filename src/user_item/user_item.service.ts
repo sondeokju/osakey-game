@@ -107,11 +107,30 @@ export class UserItemService {
     return true;
   }
 
-  async getItem(item_id: number, qr?: QueryRunner) {
+  async getItem(user_id: string, item_id: number, qr?: QueryRunner) {
     const userItemRepository = this.getUserItemRepository(qr);
     const userItemData = await userItemRepository.findOne({
       where: {
+        user_id,
         item_id,
+      },
+    });
+
+    return userItemData;
+  }
+
+  async getItemLevel(
+    user_id: string,
+    item_id: number,
+    item_level: number,
+    qr?: QueryRunner,
+  ) {
+    const userItemRepository = this.getUserItemRepository(qr);
+    const userItemData = await userItemRepository.findOne({
+      where: {
+        user_id,
+        item_id,
+        item_level,
       },
     });
 

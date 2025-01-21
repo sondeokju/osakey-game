@@ -10,6 +10,7 @@ import { QueryRunner, Repository } from 'typeorm';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { UserItemExchange } from './entities/user_item_exchange.entity';
 import { ItemExchangeService } from 'src/static-table/exchange/item_exchange/item_exchange.service';
+import { UserItemService } from 'src/user_item/user_item.service';
 
 @Injectable()
 export class UserItemExchangeService {
@@ -18,6 +19,7 @@ export class UserItemExchangeService {
     private readonly userItemExchangeRepository: Repository<UserItemExchange>,
     private readonly rewardOfferService: RewardOfferService,
     private readonly itemExchangeService: ItemExchangeService,
+    private readonly userItemService: UserItemService,
   ) {}
 
   getUserItemExchangeRepository(qr?: QueryRunner) {
@@ -52,20 +54,37 @@ export class UserItemExchangeService {
     try {
       const itemExchangeData =
         await this.itemExchangeService.getItemExchange(exchange_item_id);
+      const userItemData = await this.userItemService.getItem(
+        user_id,
+        exchange_item_id,
+      );
+
+      const rewardItemCount =
+        itemExchangeData.result_item_qty * exchange_item_count;
+
+      console.log(userItemData);
+
+      if (
+        userItemData.item_count <= 0 ||
+        userItemData.item_count < exchange_item_count
+      ) {
+        return {
+          message: 'item not enough',
+        };
+      }
 
       const insertItemExchange = userItemExchangeRepository.create({
         user_id,
         exchange_item_id,
         exchange_item_count,
         result_item_id: itemExchangeData.result_item_id,
-        result_item_count:
-          itemExchangeData.result_item_qty * exchange_item_count,
+        result_item_count: rewardItemCount,
       });
 
       await this.rewardOfferService.rewardItem(
         user_id,
         itemExchangeData.result_item_id,
-        itemExchangeData.result_item_qty * exchange_item_count,
+        rewardItemCount,
       );
 
       const savedData =
