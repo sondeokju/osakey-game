@@ -151,7 +151,7 @@ export class UserOfflineRewardService {
       );
 
       return {
-        offlineReward: {
+        reward: {
           item_id: rewardData[0].item_id,
           item_count: rewardCount,
           gord: totalGord,
