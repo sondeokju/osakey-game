@@ -72,12 +72,17 @@ export class UserOfflineRewardService {
         });
       }
 
+      console.log('offlineData', offlineData);
+      console.log('is_ad', is_ad);
       // 보상 및 화폐 계산
       const { rewardCount, currencyCount } = this.calculateRewards(
         userOfflineReward.last_reward_date,
         offlineData,
         is_ad,
       );
+
+      console.log('rewardCount', rewardCount);
+      console.log('currencyCount', currencyCount);
 
       console.log('Reward Calculation:', { rewardCount, currencyCount });
 
