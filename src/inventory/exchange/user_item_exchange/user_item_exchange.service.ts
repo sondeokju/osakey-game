@@ -62,6 +62,12 @@ export class UserItemExchangeService {
           itemExchangeData.result_item_qty * exchange_item_count,
       });
 
+      await this.rewardOfferService.rewardItem(
+        user_id,
+        itemExchangeData.result_item_id,
+        itemExchangeData.result_item_qty * exchange_item_count,
+      );
+
       const savedData =
         await userItemExchangeRepository.save(insertItemExchange);
       return savedData;
