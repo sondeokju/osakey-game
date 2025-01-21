@@ -52,7 +52,7 @@ export class RewardOfferService {
       obj['item_id'] = itemData.item_id;
       obj['item_type'] = itemData.item_type;
       obj['item_name'] = itemData.item_name;
-      obj['item_count'] = reward.item_qty;
+      //obj['item_count'] = reward.item_qty;
 
       result.push(obj);
     }

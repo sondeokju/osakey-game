@@ -122,6 +122,18 @@ export class UserMailService {
       qr,
     );
 
+    // 배열 데이터에서 item_qty를 item_count로 변경
+    const updatedRewardData = rewardData.map((data) => {
+      if (data.item_qty !== undefined) {
+        // 새로운 객체를 반환하면서 item_qty를 item_count로 변환
+        return {
+          ...data,
+          item_count: data.item_qty, // item_qty 값을 item_count로 복사
+        };
+      }
+      return data; // item_qty가 없는 경우 원래 객체 반환
+    });
+
     console.log('mail rewardData', rewardData);
 
     if (!rewardData) {
@@ -133,7 +145,7 @@ export class UserMailService {
 
     return {
       success: true,
-      reward: rewardData,
+      reward: updatedRewardData,
       userMail: updatedUserMail,
     };
   }
