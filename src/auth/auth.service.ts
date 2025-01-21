@@ -88,7 +88,7 @@ export class AuthService {
   }
 
   async lineSocialLogin(socialData: any) {
-    console.log(socialData);
+    console.log('socialData', socialData);
     const userData = await this.usersService.lineSocialLogin(socialData);
 
     console.log('memberid', socialData.memberid);
