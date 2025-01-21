@@ -18,27 +18,9 @@ import { Users } from 'src/users/entity/users.entity';
 import { UsersService } from 'src/users/users.service';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([
-      ItemExchange,
-      Reward,
-      Users,
-      Item,
-      UserItem,
-      Hero,
-    ]),
-    RewardOfferModule,
-  ],
+  imports: [TypeOrmModule.forFeature([ItemExchange])],
   exports: [ItemExchangeService],
   controllers: [ItemExchangeController],
-  providers: [
-    ItemExchangeService,
-    RewardService,
-    UsersService,
-    ItemService,
-    UserItemService,
-    HeroService,
-    RewardOfferService,
-  ],
+  providers: [ItemExchangeService],
 })
 export class ItemExchangeModule {}
