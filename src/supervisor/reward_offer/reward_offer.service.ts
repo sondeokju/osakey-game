@@ -65,18 +65,22 @@ export class RewardOfferService {
     qty: number,
     qr?: QueryRunner,
   ) {
-    // let result = [];
-    // let obj = {};
+    let result = [];
+    let obj = {};
 
     const itemData = await this.itemService.getItem(item_id);
 
-    console.log('item_type', itemData.item_type);
+    console.log('-------- rewardItem ---------');
+    console.log('item_id', item_id);
+    console.log('qty', qty);
+    console.log('itemData', itemData);
+    console.log('-------- rewardItem ---------');
 
     if (itemData.item_type == 'C') {
       await this.rewardCurrency(user_id, itemData.item_name, qty, qr);
     }
 
-    if (['M', 'E'].includes(itemData.item_type)) {
+    if (['M'].includes(itemData.item_type)) {
       await this.userItemService.rewardItem(
         user_id,
         itemData.item_id,
@@ -87,21 +91,17 @@ export class RewardOfferService {
       );
     }
 
-    if (['C'].includes(itemData.item_type)) {
-      await this.rewardCurrency(user_id, itemData.item_type, qty, qr);
-    }
+    // if (['C'].includes(itemData.item_type)) {
+    //   await this.rewardCurrency(user_id, itemData.item_type, qty, qr);
+    // }
 
-    // obj['item_id'] = itemData.item_id;
-    // obj['item_type'] = itemData.item_type;
-    // obj['item_name'] = itemData.item_name;
+    obj['item_id'] = itemData.item_id;
+    obj['item_type'] = itemData.item_type;
+    obj['item_name'] = itemData.item_name;
 
-    //..result.push(obj);
+    result.push(obj);
 
-    return {
-      item_id: itemData.item_id,
-      item_type: itemData.item_type,
-      item_name: itemData.item_name,
-    };
+    return result;
   }
 
   async rewardCurrency(

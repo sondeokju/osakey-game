@@ -153,6 +153,14 @@ export class UserItemService {
       },
     });
 
+    console.log('-------- userItemRepository rewardItem ---------');
+    console.log('item_id', item_id);
+    console.log('item_leve', item_leve);
+    console.log('item_type', item_type);
+    console.log('item_count', item_count);
+    console.log('userItemData', userItemData);
+    console.log('-------- userItemRepository rewardItem ---------');
+
     if (!userItemData) {
       const newUserItem = {
         user_id,
