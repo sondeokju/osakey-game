@@ -33,7 +33,7 @@ export class RewardOfferService {
         await this.rewardCurrency(
           user_id,
           itemData.item_name,
-          reward.item_qty,
+          reward.item_count
           qr,
         );
       }
@@ -44,7 +44,7 @@ export class RewardOfferService {
           itemData.item_id,
           itemData.item_grade,
           itemData.item_type,
-          reward.item_qty,
+          reward.item_count,
           qr,
         );
       }
