@@ -224,6 +224,7 @@ export class UserOfflineRewardService {
 
     // 전체 경과 시간(밀리초) / 보상 주기(밀리초)로 보상 횟수 계산
     const totalRewards = Math.floor(timeDifference / periodInMilliseconds);
+    console.log(`totalRewards: ${totalRewards}`);
 
     return totalRewards;
   }
