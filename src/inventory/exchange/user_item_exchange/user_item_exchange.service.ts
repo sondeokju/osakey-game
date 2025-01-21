@@ -62,7 +62,7 @@ export class UserItemExchangeService {
       const rewardItemCount =
         itemExchangeData.result_item_qty * exchange_item_count;
 
-      console.log(userItemData);
+      console.log('userItemData', userItemData);
 
       if (
         userItemData.item_count <= 0 ||
@@ -91,8 +91,10 @@ export class UserItemExchangeService {
         await userItemExchangeRepository.save(insertItemExchange);
       return savedData;
     } catch (error) {
-      console.error('Error saving attendance:', error);
-      throw new InternalServerErrorException('Failed to save attendance.');
+      console.error('Error saving itemexchange:', error);
+      throw new InternalServerErrorException(
+        'Failed to save user itemexchange.',
+      );
     }
   }
 }

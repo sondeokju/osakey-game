@@ -38,7 +38,7 @@ export class RewardOfferService {
         );
       }
 
-      if (['M', 'E'].includes(itemData.item_type)) {
+      if (['M'].includes(itemData.item_type)) {
         await this.userItemService.rewardItem(
           user_id,
           itemData.item_id,
@@ -52,6 +52,7 @@ export class RewardOfferService {
       obj['item_id'] = itemData.item_id;
       obj['item_type'] = itemData.item_type;
       obj['item_name'] = itemData.item_name;
+      obj['item_count'] = reward.item_qty;
 
       result.push(obj);
     }

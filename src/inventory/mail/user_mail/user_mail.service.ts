@@ -122,6 +122,8 @@ export class UserMailService {
       qr,
     );
 
+    console.log('mail rewardData', rewardData);
+
     if (!rewardData) {
       throw new BadRequestException('Failed to process reward.');
     }
