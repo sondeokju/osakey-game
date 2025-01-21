@@ -58,7 +58,8 @@ export class UserItemExchangeService {
         exchange_item_id,
         exchange_item_count,
         result_item_id: itemExchangeData.result_item_id,
-        result_item_count: itemExchangeData.result_item_qty,
+        result_item_count:
+          itemExchangeData.result_item_qty * exchange_item_count,
       });
 
       const savedData =

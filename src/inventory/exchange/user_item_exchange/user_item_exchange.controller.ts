@@ -12,7 +12,7 @@ export class UserItemExchangeController {
     private readonly userItemExchangeService: UserItemExchangeService,
   ) {}
 
-  @Get()
+  @Get('item')
   @UseInterceptors(TransactionInterceptor)
   async getItemExchange(@User() user: Users, @QueryRunner() qr: QR) {
     const result = this.userItemExchangeService.getItemExchange(
