@@ -65,8 +65,8 @@ export class RewardOfferService {
     qty: number,
     qr?: QueryRunner,
   ) {
-    let result = [];
-    let obj = {};
+    // let result = [];
+    // let obj = {};
 
     const itemData = await this.itemService.getItem(item_id);
 
@@ -91,13 +91,17 @@ export class RewardOfferService {
       await this.rewardCurrency(user_id, itemData.item_type, qty, qr);
     }
 
-    obj['item_id'] = itemData.item_id;
-    obj['item_type'] = itemData.item_type;
-    obj['item_name'] = itemData.item_name;
+    // obj['item_id'] = itemData.item_id;
+    // obj['item_type'] = itemData.item_type;
+    // obj['item_name'] = itemData.item_name;
 
-    result.push(obj);
+    //..result.push(obj);
 
-    return result;
+    return {
+      item_id: itemData.item_id,
+      item_type: itemData.item_type,
+      item_name: itemData.item_name,
+    };
   }
 
   async rewardCurrency(

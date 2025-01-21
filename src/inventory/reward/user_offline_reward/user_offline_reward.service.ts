@@ -39,6 +39,7 @@ export class UserOfflineRewardService {
 
     const queryRunner = qr || this.dataSource.createQueryRunner();
     let isTransactionOwner = false;
+    let itemData = {};
 
     if (!qr) {
       await queryRunner.connect();
@@ -103,7 +104,7 @@ export class UserOfflineRewardService {
 
       // 보상 처리
       for (let i = 0; i < rewardCount; i++) {
-        await this.rewardOfferService.reward(
+        itemData = await this.rewardOfferService.reward(
           user_id,
           offlineData.reward_id,
           qr,
