@@ -27,6 +27,7 @@ import { UsersService } from 'src/users/users.service';
       UserItem,
       Hero,
     ]),
+    RewardOfferModule,
   ],
   exports: [ItemExchangeService],
   controllers: [ItemExchangeController],
