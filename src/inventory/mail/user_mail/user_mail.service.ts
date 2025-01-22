@@ -104,18 +104,18 @@ export class UserMailService {
       .createQueryBuilder('um')
       .select([
         'um.id as id',
-        'um.update_at',
-        'um.created_at',
-        'um.user_id',
-        'um.send_type',
-        'um.image_text',
-        'um.mail_text',
-        'um.mail_title',
-        'um.reward_id',
-        'um.reward_yn',
-        'um.deadline',
-        'r.item_id',
-        'r.item_count',
+        'um.update_at as update_at',
+        'um.created_at as created_at',
+        'um.user_id as user_id',
+        'um.send_type as send_type',
+        'um.image_text as image_text',
+        'um.mail_text as mail_text',
+        'um.mail_title as mail_title',
+        'um.reward_id as reward_id',
+        'um.reward_yn as reward_yn',
+        'um.deadline as deadline',
+        'r.item_id as item_id',
+        'r.item_count as item_count',
       ])
       .innerJoin('reward', 'r', 'um.reward_id = r.reward_id')
       .where('um.user_id = :user_id', { user_id });
