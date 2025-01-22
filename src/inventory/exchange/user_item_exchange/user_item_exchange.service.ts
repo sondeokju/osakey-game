@@ -91,7 +91,7 @@ export class UserItemExchangeService {
         user_id,
         {
           item: {
-            item_id: exchange_item_id,
+            item_id: userItemData.item_id,
             count: exchange_item_count,
           },
         },
