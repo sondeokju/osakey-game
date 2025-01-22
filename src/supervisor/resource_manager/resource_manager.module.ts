@@ -7,12 +7,14 @@ import { Users } from 'src/users/entity/users.entity';
 import { HeroModule } from 'src/static-table/hero/hero.module';
 import { UserItemModule } from 'src/user_item/user_item.module';
 import { UserItem } from 'src/user_item/entities/user_item.entity';
+import { ItemModule } from 'src/static-table/item/item.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Users, UserItem]),
     HeroModule,
     UserItemModule,
+    ItemModule,
   ],
   providers: [ResourceManagerService, UsersService, UserItemService],
   exports: [ResourceManagerService],
