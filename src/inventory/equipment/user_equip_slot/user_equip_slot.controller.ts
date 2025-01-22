@@ -35,4 +35,30 @@ export class UserEquipSlotController {
 
     return JSON.stringify(result);
   }
+
+  @Post('release')
+  @UseInterceptors(TransactionInterceptor)
+  async equipSlotRelease(
+    @User() user: Users,
+    @Body('acc') acc: number,
+    @Body('engine') engine: number,
+    @Body('armor') armor: number,
+    @Body('boost') boost: number,
+    @Body('shoes') shoes: number,
+    @Body('weapon') weapon: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userEquipSlotService.equipSlotRelease(
+      user.user_id,
+      acc,
+      engine,
+      armor,
+      boost,
+      shoes,
+      weapon,
+      qr,
+    );
+
+    return result;
+  }
 }

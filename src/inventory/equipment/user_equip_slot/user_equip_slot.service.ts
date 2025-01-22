@@ -71,6 +71,41 @@ export class UserEquipSlotService {
     return result;
   }
 
+  async equipSlotRelease(
+    user_id: string,
+    acc: number,
+    engine: number,
+    armor: number,
+    boost: number,
+    shoes: number,
+    weapon: number,
+    qr?: QueryRunner,
+  ) {
+    const userEquipSlotRepository = this.getUserEquipSlotRepository(qr);
+    const userEquipSlot = await userEquipSlotRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    // 현재 장비 슬롯 상태를 복사
+    const updateEquipSlot = {
+      acc: acc === 0 ? 0 : userEquipSlot.acc,
+      engine: engine === 0 ? 0 : userEquipSlot.engine,
+      armor: armor === 0 ? 0 : userEquipSlot.armor,
+      boost: boost === 0 ? 0 : userEquipSlot.boost,
+      shoes: shoes === 0 ? 0 : userEquipSlot.shoes,
+      weapon: weapon === 0 ? 0 : userEquipSlot.weapon,
+    };
+
+    const result = await userEquipSlotRepository.save({
+      ...userEquipSlot,
+      updateEquipSlot,
+    });
+
+    return result;
+  }
+
   async equipSlotReset(user_id: string, qr?: QueryRunner) {
     const userEquipSlotRepository = this.getUserEquipSlotRepository(qr);
     const userEquipSlot = await userEquipSlotRepository.findOne({

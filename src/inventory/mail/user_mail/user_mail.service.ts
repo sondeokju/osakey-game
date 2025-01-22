@@ -89,13 +89,39 @@ export class UserMailService {
 
   async userMailList(user_id: string, qr?: QueryRunner) {
     const userMailRepository = this.getUserMailRepository(qr);
-    const userAchieve = await userMailRepository.find({
+    const userMail = await userMailRepository.find({
       where: {
         user_id,
       },
     });
 
-    return userAchieve;
+    return userMail;
+  }
+  async userMailItemList(user_id: string, qr?: QueryRunner) {
+    const userMailRepository = this.getUserMailRepository(qr);
+
+    const queryBuilder = userMailRepository
+      .createQueryBuilder('um')
+      .select([
+        'um.id',
+        'um.update_at',
+        'um.created_at',
+        'um.user_id',
+        'um.send_type',
+        'um.image_text',
+        'um.mail_text',
+        'um.mail_title',
+        'um.reward_id',
+        'um.reward_yn',
+        'um.deadline',
+        'r.item_id',
+        'r.item_count',
+      ])
+      .innerJoin('reward', 'r', 'um.reward_id = r.reward_id')
+      .where('um.user_id = :user_id', { user_id });
+
+    const userMail = await queryBuilder.getRawMany();
+    return userMail;
   }
 
   async mailReward(user_id: string, user_mail_id: number, qr?: QueryRunner) {
