@@ -49,7 +49,7 @@ export class AuthController {
     //@QueryRunner() qr: QR,
   ) {
     const result = this.authService.lineSocialLogin(socialData);
-    return JSON.stringify(result);
+    return result;
   }
 
   // @IsPublic()
