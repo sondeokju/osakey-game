@@ -115,9 +115,16 @@ export class UserMailService {
     const userMailWithItems = await Promise.all(
       userMail.map(async (mail) => {
         const itemData = await this.rewardService.getReward(mail.reward_id);
+
+        // itemData에서 필요한 필드만 선택
+        const filteredItemData = itemData.map((item) => ({
+          item_id: item.item_id,
+          item_count: item.item_count,
+        }));
+
         return {
           ...mail,
-          itemData, // itemData 추가
+          itemData: filteredItemData, // 필터링된 itemData 추가
         };
       }),
     );
