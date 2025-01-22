@@ -104,7 +104,7 @@ export class AuthService {
     // //const accessToken = this.socialSignToken(userData, false);
     // console.log('accessToken:', accessToken);
 
-    return this.loginUserID(userData);
+    return this.loginUser(userData);
   }
 
   // async handleGoogleCallback(code: string) {
