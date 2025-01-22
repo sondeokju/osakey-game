@@ -238,6 +238,26 @@ export class AuthService {
     });
   }
 
+  socialSignToken(
+    user: Pick<Users, 'user_id' | 'id'>,
+    isRefreshToken: boolean,
+  ) {
+    console.log('socialSignToken', user);
+    console.log('user.id', user.id);
+    const payload = {
+      user_id: user.user_id,
+      sub: user.id,
+      type: isRefreshToken ? 'refresh' : 'access',
+    };
+
+    return this.jwtService.sign(payload, {
+      secret: this.configService.get<string>(ENV_JWT_SECRET_KEY),
+      // seconds
+      //expiresIn: isRefreshToken ? 86400 : 86400,
+      expiresIn: isRefreshToken ? 3.154e11 : 3.154e11,
+    });
+  }
+
   loginUser(user: Pick<Users, 'email' | 'id'>) {
     const result = {
       accessToken: this.signToken(user, false),
@@ -264,26 +284,6 @@ export class AuthService {
     //   accessToken: this.signToken(user, false),
     //   //refreshToken: this.signToken(user, true),
     // };
-  }
-
-  socialSignToken(
-    user: Pick<Users, 'user_id' | 'id'>,
-    isRefreshToken: boolean,
-  ) {
-    console.log('socialSignToken', user);
-    console.log('user.id', user.id);
-    const payload = {
-      user_id: user.user_id,
-      sub: user.id,
-      type: isRefreshToken ? 'refresh' : 'access',
-    };
-
-    return this.jwtService.sign(payload, {
-      secret: this.configService.get<string>(ENV_JWT_SECRET_KEY),
-      // seconds
-      //expiresIn: isRefreshToken ? 86400 : 86400,
-      expiresIn: isRefreshToken ? 3.154e11 : 3.154e11,
-    });
   }
 
   socialLoginUseToken(user: Pick<Users, 'user_id' | 'id'>) {
