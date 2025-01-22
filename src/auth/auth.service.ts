@@ -285,7 +285,7 @@ export class AuthService {
     });
   }
 
-  socialLoginUseToken(user: Pick<Users, 'id'>) {
+  socialLoginUseToken(user: Pick<Users, 'user_id' | 'id'>) {
     const result = {
       accessToken: this.socialSignToken(user, false),
     };
