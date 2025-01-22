@@ -11,6 +11,7 @@ import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.ser
 import { UserItemExchange } from './entities/user_item_exchange.entity';
 import { ItemExchangeService } from 'src/static-table/exchange/item_exchange/item_exchange.service';
 import { UserItemService } from 'src/user_item/user_item.service';
+import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager.service';
 
 @Injectable()
 export class UserItemExchangeService {
@@ -20,6 +21,7 @@ export class UserItemExchangeService {
     private readonly rewardOfferService: RewardOfferService,
     private readonly itemExchangeService: ItemExchangeService,
     private readonly userItemService: UserItemService,
+    private readonly resourceManagerService: ResourceManagerService,
   ) {}
 
   getUserItemExchangeRepository(qr?: QueryRunner) {
@@ -62,8 +64,6 @@ export class UserItemExchangeService {
       const rewardItemCount =
         itemExchangeData.result_item_qty * exchange_item_count;
 
-      console.log('userItemData', userItemData);
-
       if (
         userItemData.item_count <= 0 ||
         userItemData.item_count < exchange_item_count
@@ -85,6 +85,17 @@ export class UserItemExchangeService {
         user_id,
         itemExchangeData.result_item_id,
         rewardItemCount,
+      );
+
+      await this.resourceManagerService.validateAndDeductResources(
+        user_id,
+        {
+          item: {
+            item_id: itemExchangeData.result_item_id,
+            count: rewardItemCount,
+          },
+        },
+        qr,
       );
 
       const savedData =

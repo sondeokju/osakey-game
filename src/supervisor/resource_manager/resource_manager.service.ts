@@ -87,6 +87,7 @@ export class ResourceManagerService {
     //   await this.usersService.reduceCoin(user_id, resources.coin, qr);
     // }
   }
+  
   async validateResources(
     user_id: string,
     resources: {
