@@ -43,7 +43,7 @@ export class UserItemExchangeService {
 
   async saveItemExchange(
     user_id: string,
-    exchange_item_id: number,
+    exchange_user_item_id: number,
     exchange_item_count: number,
     qr?: QueryRunner,
   ) {
@@ -54,11 +54,11 @@ export class UserItemExchangeService {
     const userItemExchangeRepository = this.getUserItemExchangeRepository(qr);
 
     try {
-      const itemExchangeData =
-        await this.itemExchangeService.getItemExchange(exchange_item_id);
-      const userItemData = await this.userItemService.getItem(
-        user_id,
-        exchange_item_id,
+      const userItemData = await this.userItemService.getUserItemID(
+        exchange_user_item_id,
+      );
+      const itemExchangeData = await this.itemExchangeService.getItemExchange(
+        userItemData.item_id,
       );
 
       const rewardItemCount =
@@ -75,7 +75,7 @@ export class UserItemExchangeService {
 
       const insertItemExchange = userItemExchangeRepository.create({
         user_id,
-        exchange_item_id,
+        exchange_item_id: userItemData.item_id,
         exchange_item_count,
         result_item_id: itemExchangeData.result_item_id,
         result_item_count: rewardItemCount,

@@ -124,7 +124,7 @@ export class UserMailService {
 
         return {
           ...mail,
-          itemData: filteredItemData, // 필터링된 itemData 추가
+          reward: filteredItemData, // 필터링된 itemData 추가
         };
       }),
     );

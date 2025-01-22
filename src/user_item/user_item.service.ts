@@ -119,6 +119,17 @@ export class UserItemService {
     return userItemData;
   }
 
+  async getUserItemID(exchange_user_item_id: number, qr?: QueryRunner) {
+    const userItemRepository = this.getUserItemRepository(qr);
+    const userItemData = await userItemRepository.findOne({
+      where: {
+        id: exchange_user_item_id,
+      },
+    });
+
+    return userItemData;
+  }
+
   async getItemLevel(
     user_id: string,
     item_id: number,
