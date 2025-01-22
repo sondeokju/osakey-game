@@ -99,7 +99,7 @@ export class UserEquipSlotService {
     };
 
     const result = await userEquipSlotRepository.save({
-      ...userEquipSlot,
+      user_id,
       updateEquipSlot,
     });
 
