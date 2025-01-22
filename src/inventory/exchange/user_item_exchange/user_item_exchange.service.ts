@@ -91,8 +91,8 @@ export class UserItemExchangeService {
         user_id,
         {
           item: {
-            item_id: itemExchangeData.result_item_id,
-            count: rewardItemCount,
+            item_id: exchange_item_id,
+            count: exchange_item_count,
           },
         },
         qr,
