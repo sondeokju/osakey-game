@@ -50,12 +50,12 @@ export class UserEquipSlotController {
   ) {
     const result = await this.userEquipSlotService.equipSlotRelease(
       user.user_id,
-      acc,
-      engine,
-      armor,
-      boost,
-      shoes,
-      weapon,
+      +acc,
+      +engine,
+      +armor,
+      +boost,
+      +shoes,
+      +weapon,
       qr,
     );
 

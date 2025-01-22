@@ -82,27 +82,24 @@ export class UserEquipSlotService {
     qr?: QueryRunner,
   ) {
     const userEquipSlotRepository = this.getUserEquipSlotRepository(qr);
-    const userEquipSlot = await userEquipSlotRepository.findOne({
+    let userEquipSlot = await userEquipSlotRepository.findOne({
       where: {
         user_id,
       },
     });
 
-    // 현재 장비 슬롯 상태를 복사
-    const updateEquipSlot = {
-      acc: +acc === 0 ? 0 : userEquipSlot.acc,
-      engine: +engine === 0 ? 0 : userEquipSlot.engine,
-      armor: +armor === 0 ? 0 : userEquipSlot.armor,
-      boost: +boost === 0 ? 0 : userEquipSlot.boost,
-      shoes: +shoes === 0 ? 0 : userEquipSlot.shoes,
-      weapon: +weapon === 0 ? 0 : userEquipSlot.weapon,
-    };
+    if (!userEquipSlot) {
+      throw new Error(`EquipSlot not found for user_id: ${user_id}`);
+    }
 
-    const result = await userEquipSlotRepository.save({
-      user_id,
-      updateEquipSlot,
-    });
+    userEquipSlot.acc = acc === 0 ? 0 : userEquipSlot.acc;
+    userEquipSlot.engine = engine === 0 ? 0 : userEquipSlot.engine;
+    userEquipSlot.armor = armor === 0 ? 0 : userEquipSlot.armor;
+    userEquipSlot.boost = boost === 0 ? 0 : userEquipSlot.boost;
+    userEquipSlot.shoes = shoes === 0 ? 0 : userEquipSlot.shoes;
+    userEquipSlot.weapon = weapon === 0 ? 0 : userEquipSlot.weapon;
 
+    const result = await userEquipSlotRepository.save(userEquipSlot);
     return result;
   }
 
