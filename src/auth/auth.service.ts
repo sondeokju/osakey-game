@@ -252,6 +252,20 @@ export class AuthService {
     // };
   }
 
+  loginUserID(user: Pick<Users, 'id'>) {
+    const result = {
+      accessToken: this.socialSignToken(user, false),
+    };
+
+    //console.log('uuid', uuidv4());
+
+    return JSON.stringify(result);
+    // return {
+    //   accessToken: this.signToken(user, false),
+    //   //refreshToken: this.signToken(user, true),
+    // };
+  }
+
   socialSignToken(user: Pick<Users, 'id'>, isRefreshToken: boolean) {
     console.log('socialSignToken', user);
     console.log('user.id', user.id);
