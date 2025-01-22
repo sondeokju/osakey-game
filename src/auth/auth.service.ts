@@ -257,6 +257,7 @@ export class AuthService {
 
   socialSignToken(user: Pick<Users, 'id'>, isRefreshToken: boolean) {
     console.log('socialSignToken', user);
+    console.log('user.id', user.id);
     const payload = {
       sub: user.id,
       type: isRefreshToken ? 'refresh' : 'access',
