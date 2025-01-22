@@ -4,9 +4,10 @@ import { UsersService } from 'src/users/users.service';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Users } from 'src/users/entity/users.entity';
+import { HeroModule } from 'src/static-table/hero/hero.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Users])],
+  imports: [TypeOrmModule.forFeature([Users]), HeroModule],
   providers: [ResourceManagerService, UsersService, UserItemService],
   exports: [ResourceManagerService],
 })
