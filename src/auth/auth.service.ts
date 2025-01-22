@@ -105,7 +105,7 @@ export class AuthService {
 
     return {
       accessToken: accessToken,
-      userData: userData,
+      //userData: userData,
     };
   }
 
