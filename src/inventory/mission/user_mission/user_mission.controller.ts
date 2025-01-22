@@ -56,4 +56,20 @@ export class UserMissionController {
 
     return JSON.stringify(result);
   }
+
+  @Post('try')
+  @UseInterceptors(TransactionInterceptor)
+  async missionTry(
+    @User() user: Users,
+    @Body('mission_try_yn') mission_try_yn: string,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userMissionService.missionTry(
+      user.user_id,
+      mission_try_yn,
+      qr,
+    );
+
+    return JSON.stringify(result);
+  }
 }

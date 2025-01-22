@@ -45,4 +45,11 @@ export class UserMission extends BaseModel {
     default: 'N',
   })
   reward_yn: string;
+
+  @Column({
+    type: 'char',
+    length: 1,
+    default: 'N',
+  })
+  mission_try_yn: string;
 }
