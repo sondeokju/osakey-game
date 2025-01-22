@@ -29,4 +29,9 @@ export class UserEquip extends BaseModel {
     default: '0',
   })
   equip_skill_id: number;
+
+  @Column({
+    default: '0',
+  })
+  skill_roll_count: number;
 }
