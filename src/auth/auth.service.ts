@@ -223,7 +223,8 @@ export class AuthService {
    * 3) type : 'access' | 'refresh'
    *
    */
-  signToken(user: Pick<Users, 'email' | 'id'>, isRefreshToken: boolean) {
+  //signToken(user: Pick<Users, 'email' | 'id'>, isRefreshToken: boolean) {
+  signToken(user: Users, isRefreshToken: boolean) {
     const payload = {
       email: user.email,
       sub: user.id,
@@ -258,7 +259,8 @@ export class AuthService {
     });
   }
 
-  loginUser(user: Pick<Users, 'email' | 'id'>) {
+  //loginUser(user: Pick<Users, 'email' | 'id'>) {
+  loginUser(user: Users) {
     const result = {
       accessToken: this.signToken(user, false),
     };
