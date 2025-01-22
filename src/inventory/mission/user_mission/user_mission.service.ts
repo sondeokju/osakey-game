@@ -73,11 +73,17 @@ export class UserMissionService {
     return savedMission;
   }
 
-  async missionTry(user_id: string, mission_try_yn: string, qr?: QueryRunner) {
+  async missionTry(
+    user_id: string,
+    mission_id: number,
+    mission_try_yn: string,
+    qr?: QueryRunner,
+  ) {
     const userMissionRepository = this.getUserMissionRepository(qr);
-    const userMission = await userMissionRepository.find({
+    const userMission = await userMissionRepository.findOne({
       where: {
         user_id,
+        mission_id,
       },
     });
 

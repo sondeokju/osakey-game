@@ -61,11 +61,13 @@ export class UserMissionController {
   @UseInterceptors(TransactionInterceptor)
   async missionTry(
     @User() user: Users,
+    @Body('mission_id') mission_id: string,
     @Body('mission_try_yn') mission_try_yn: string,
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userMissionService.missionTry(
       user.user_id,
+      mission_id,
       mission_try_yn,
       qr,
     );
