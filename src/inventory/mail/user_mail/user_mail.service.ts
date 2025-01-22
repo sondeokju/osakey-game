@@ -103,7 +103,7 @@ export class UserMailService {
     const queryBuilder = userMailRepository
       .createQueryBuilder('um')
       .select([
-        'um.id',
+        'um.id as id',
         'um.update_at',
         'um.created_at',
         'um.user_id',
