@@ -57,9 +57,12 @@ export class UserItemExchangeService {
       const userItemData = await this.userItemService.getUserItemID(
         exchange_user_item_id,
       );
+
+      console.log('userItemData', userItemData);
       const itemExchangeData = await this.itemExchangeService.getItemExchange(
         userItemData.item_id,
       );
+      console.log('itemExchangeData', itemExchangeData);
 
       const rewardItemCount =
         itemExchangeData.result_item_qty * exchange_item_count;
