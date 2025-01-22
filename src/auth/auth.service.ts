@@ -93,6 +93,7 @@ export class AuthService {
     }
 
     const userData = await this.usersService.lineSocialLogin(socialData);
+    console.log('lineSocialLogin userData:', userData);
     await this.zLoginLogService.loginLog(
       userData.user_id,
       socialData.memberid,
@@ -100,7 +101,7 @@ export class AuthService {
       socialData.name,
     );
 
-    const accessToken = this.socialSignToken(userData.id, false);
+    const accessToken = this.socialSignToken(userData, false);
     console.log('accessToken:', accessToken);
 
     return {
