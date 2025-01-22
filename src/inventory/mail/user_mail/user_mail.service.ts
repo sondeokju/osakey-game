@@ -9,6 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { UserMail } from './entities/user_mail.entity';
+import { RewardService } from 'src/static-table/reward/reward.service';
 
 @Injectable()
 export class UserMailService {
@@ -16,6 +17,7 @@ export class UserMailService {
     @InjectRepository(UserMail)
     private readonly userMailRepository: Repository<UserMail>,
     private readonly rewardOfferService: RewardOfferService,
+    private readonly rewardService: RewardService,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -95,34 +97,60 @@ export class UserMailService {
       },
     });
 
+    await this.rewardService.getReward(userMail[0].reward_id);
+
     return userMail;
   }
+
   async userMailItemList(user_id: string, qr?: QueryRunner) {
     const userMailRepository = this.getUserMailRepository(qr);
+    // 사용자 메일 데이터를 조회합니다.
+    const userMail = await userMailRepository.find({
+      where: {
+        user_id,
+      },
+    });
 
-    const queryBuilder = userMailRepository
-      .createQueryBuilder('um')
-      .select([
-        'um.id as id',
-        'um.update_at as update_at',
-        'um.created_at as created_at',
-        'um.user_id as user_id',
-        'um.send_type as send_type',
-        'um.image_text as image_text',
-        'um.mail_text as mail_text',
-        'um.mail_title as mail_title',
-        'um.reward_id as reward_id',
-        'um.reward_yn as reward_yn',
-        'um.deadline as deadline',
-        'r.item_id as item_id',
-        'r.item_count as item_count',
-      ])
-      .innerJoin('reward', 'r', 'um.reward_id = r.reward_id')
-      .where('um.user_id = :user_id', { user_id });
+    // 각 userMail의 reward_id를 기반으로 itemData를 가져오고 userMail에 추가합니다.
+    const userMailWithItems = await Promise.all(
+      userMail.map(async (mail) => {
+        const itemData = await this.rewardService.getReward(mail.reward_id);
+        return {
+          ...mail,
+          itemData, // itemData 추가
+        };
+      }),
+    );
 
-    const userMail = await queryBuilder.getRawMany();
-    return userMail;
+    return userMailWithItems; // itemData가 포함된 userMail 배열 반환
   }
+
+  // async userMailItemList(user_id: string, qr?: QueryRunner) {
+  //   const userMailRepository = this.getUserMailRepository(qr);
+
+  //   const queryBuilder = userMailRepository
+  //     .createQueryBuilder('um')
+  //     .select([
+  //       'um.id as id',
+  //       'um.update_at as update_at',
+  //       'um.created_at as created_at',
+  //       'um.user_id as user_id',
+  //       'um.send_type as send_type',
+  //       'um.image_text as image_text',
+  //       'um.mail_text as mail_text',
+  //       'um.mail_title as mail_title',
+  //       'um.reward_id as reward_id',
+  //       'um.reward_yn as reward_yn',
+  //       'um.deadline as deadline',
+  //       'r.item_id as item_id',
+  //       'r.item_count as item_count',
+  //     ])
+  //     .innerJoin('reward', 'r', 'um.reward_id = r.reward_id')
+  //     .where('um.user_id = :user_id', { user_id });
+
+  //   const userMail = await queryBuilder.getRawMany();
+  //   return userMail;
+  // }
 
   async mailReward(user_id: string, user_mail_id: number, qr?: QueryRunner) {
     const userMailRepository = this.getUserMailRepository(qr);

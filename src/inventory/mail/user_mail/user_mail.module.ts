@@ -14,10 +14,12 @@ import { UserItem } from 'src/user_item/entities/user_item.entity';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { Users } from 'src/users/entity/users.entity';
 import { UsersService } from 'src/users/users.service';
+import { RewardModule } from 'src/static-table/reward/reward.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([UserMail, Reward, Users, Item, UserItem, Hero]),
+    RewardModule,
   ],
   exports: [UserMailService],
   controllers: [UserMailController],

@@ -29,6 +29,8 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
 import { entities } from './entity_group/entity';
 import { entities_module } from './entity_group/entity_module';
+import { UserBattlePassModule } from './inventory/battlepass/user_battle_pass/user_battle_pass.module';
+import { UserBattlePassRewardModule } from './inventory/battlepass/user_battle_pass_reward/user_battle_pass_reward.module';
 
 @Module({
   imports: [
@@ -68,6 +70,8 @@ import { entities_module } from './entity_group/entity_module';
         process.env[ENV_KEEPCONNECTIONALIVE_KEY] === 'true' ? true : false,
     }),
     ...entities_module,
+    UserBattlePassModule,
+    UserBattlePassRewardModule,
   ],
   controllers: [AppController],
   providers: [
