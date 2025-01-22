@@ -100,7 +100,7 @@ export class AuthService {
       socialData.name,
     );
 
-    const accessToken = this.socialSignToken(userData, false);
+    const accessToken = this.socialSignToken(userData.id, false);
     console.log('accessToken:', accessToken);
 
     return {
