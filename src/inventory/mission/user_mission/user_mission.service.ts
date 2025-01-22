@@ -87,6 +87,10 @@ export class UserMissionService {
       },
     });
 
+    console.log('mission_id', mission_id);
+    console.log('mission_try_yn', mission_try_yn);
+    console.log('userMission', userMission);
+
     const savedMission = await userMissionRepository.save({
       ...userMission,
       mission_try_yn,
