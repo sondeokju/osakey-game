@@ -61,7 +61,7 @@ export class UserMissionController {
   @UseInterceptors(TransactionInterceptor)
   async missionTry(
     @User() user: Users,
-    @Body('mission_id') mission_id: string,
+    @Body('mission_id') mission_id: number,
     @Body('mission_try_yn') mission_try_yn: string,
     @QueryRunner() qr: QR,
   ) {
