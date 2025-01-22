@@ -100,14 +100,11 @@ export class AuthService {
       socialData.userid,
       socialData.name,
     );
-
-    const accessToken = this.socialSignToken(userData, false);
+    const accessToken = this.loginUser(userData, false);
+    //const accessToken = this.socialSignToken(userData, false);
     console.log('accessToken:', accessToken);
 
-    return {
-      accessToken: accessToken,
-      //userData: userData,
-    };
+    return accessToken;
   }
 
   // async handleGoogleCallback(code: string) {
