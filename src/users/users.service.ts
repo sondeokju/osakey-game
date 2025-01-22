@@ -234,14 +234,14 @@ export class UsersService {
 
   async getUserData(user_id: string, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
-    const result = await usersRepository.findOne({
+    const user_data = await usersRepository.findOne({
       where: {
         user_id,
       },
     });
 
     return {
-      result,
+      user_data,
       suit: {
         suit_id: 11500000,
       },
