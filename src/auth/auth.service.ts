@@ -273,6 +273,7 @@ export class AuthService {
     console.log('socialSignToken', user);
     console.log('user.id', user.id);
     const payload = {
+      user_id: user.user_id,
       sub: user.id,
       type: isRefreshToken ? 'refresh' : 'access',
     };
