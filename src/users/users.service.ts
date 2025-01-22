@@ -754,6 +754,7 @@ export class UsersService {
         await queryRunner.commitTransaction();
       }
 
+      console.log('lineSocialLogin', result);
       return result;
     } catch (error) {
       if (!qr) {
