@@ -252,7 +252,7 @@ export class AuthService {
     // };
   }
 
-  loginUserID(user: Pick<Users, 'id'>) {
+  loginUserID(user: Pick<Users, 'user_id' | 'id'>) {
     const result = {
       accessToken: this.socialSignToken(user, false),
     };
@@ -266,7 +266,10 @@ export class AuthService {
     // };
   }
 
-  socialSignToken(user: Pick<Users, 'id'>, isRefreshToken: boolean) {
+  socialSignToken(
+    user: Pick<Users, 'user_id' | 'id'>,
+    isRefreshToken: boolean,
+  ) {
     console.log('socialSignToken', user);
     console.log('user.id', user.id);
     const payload = {
