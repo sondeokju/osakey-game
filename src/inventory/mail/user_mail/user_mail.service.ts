@@ -27,7 +27,7 @@ export class UserMailService {
       : this.userMailRepository;
   }
 
-  async rewardAll_YN(user_id: string, user_mail_id: number, qr?: QueryRunner) {
+  async rewardAll_YN(user_id: string, qr?: QueryRunner) {
     if (!user_id || typeof user_id !== 'string') {
       throw new BadRequestException('Invalid user_id provided.');
     }
