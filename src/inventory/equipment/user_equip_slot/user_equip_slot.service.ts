@@ -15,8 +15,8 @@ export class UserEquipSlotService {
     @InjectRepository(UserEquipSlot)
     private readonly userEquipSlotRepository: Repository<UserEquipSlot>,
     private readonly equipService: EquipService,
-    private readonly userEquipService: UserEquipService,
-  ) {}
+  ) //private readonly userEquipService: UserEquipService,
+  {}
 
   getUserEquipSlotRepository(qr?: QueryRunner) {
     return qr
