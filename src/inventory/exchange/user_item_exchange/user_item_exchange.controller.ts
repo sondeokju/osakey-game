@@ -26,7 +26,7 @@ export class UserItemExchangeController {
   @UseInterceptors(TransactionInterceptor)
   async missionReward(
     @User() user: Users,
-    @Body('exchange_item_id') exchange_item_id: number,
+    @Body('exchange_user_item_id') exchange_item_id: number,
     @Body('exchange_item_count') exchange_item_count: number,
     @QueryRunner() qr: QR,
   ) {
