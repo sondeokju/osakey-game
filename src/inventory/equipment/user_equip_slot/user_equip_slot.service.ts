@@ -168,6 +168,8 @@ export class UserEquipSlotService {
     userEquipSlot.shoes = shoes === 0 ? 0 : userEquipSlot.shoes;
     userEquipSlot.weapon = weapon === 0 ? 0 : userEquipSlot.weapon;
 
+    console.log('userEquipSlot', userEquipSlot);
+
     // UserEquipSlot에서 equipIds 생성
     const equipIds = [
       userEquipSlot.acc,
