@@ -11,6 +11,22 @@ import { IsPublic } from 'src/common/decorator/is-public.decorator';
 export class UserMailController {
   constructor(private readonly userMailService: UserMailService) {}
 
+  @Post('remove')
+  @UseInterceptors(TransactionInterceptor)
+  async removeYN(
+    @User() user: Users,
+    @Body('user_mail_id') user_mail_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userMailService.removeYN(
+      user.user_id,
+      user_mail_id,
+      qr,
+    );
+
+    return JSON.stringify(result);
+  }
+
   @IsPublic()
   @Post('save')
   @UseInterceptors(TransactionInterceptor)
