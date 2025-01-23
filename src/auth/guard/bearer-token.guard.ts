@@ -73,6 +73,7 @@ export class AccessTokenGuard extends BearerTokenGuard {
     await super.canActivate(context);
 
     const req = context.switchToHttp().getRequest();
+    console.log('AccessTokenGuard', req);
 
     if (req.isRoutePublic) {
       return true;
