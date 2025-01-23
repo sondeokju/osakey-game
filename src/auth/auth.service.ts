@@ -226,6 +226,7 @@ export class AuthService {
   //signToken(user: Pick<Users, 'email' | 'id'>, isRefreshToken: boolean) {
   signToken(user: Users, isRefreshToken: boolean) {
     const payload = {
+      user_id: user.user_id,
       email: user.email,
       sub: user.id,
       type: isRefreshToken ? 'refresh' : 'access',
