@@ -28,7 +28,6 @@ export class UserEquipSlotService {
     equip_id: number,
     qr?: QueryRunner,
   ) {
-    console.log('equipSlotMount 1');
     const userEquipSlotRepository = this.getUserEquipSlotRepository(qr);
     let userEquipSlot = await userEquipSlotRepository.findOne({
       where: {
@@ -47,8 +46,6 @@ export class UserEquipSlotService {
         weapon: 0,
       });
     }
-
-    console.log('equipSlotMount 2');
 
     if (equip_id > 0) {
       console.log('equip_id', equip_id);
@@ -69,8 +66,6 @@ export class UserEquipSlotService {
       const equipSlotKey = equip.equip_slot.toLowerCase();
       userEquipSlot[equipSlotMap[equipSlotKey]] = +user_equip_id;
     }
-
-    console.log('equipSlotMount 3');
 
     const result = await userEquipSlotRepository.save({
       ...userEquipSlot,
