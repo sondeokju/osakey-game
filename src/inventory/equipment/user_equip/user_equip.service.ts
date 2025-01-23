@@ -94,9 +94,7 @@ export class UserEquipService {
       },
     });
 
-    // if (!userEquip) {
-    //   throw new NotFoundException('equip_id not found');
-    // }
+    console.log('userEquip', userEquip);
 
     return await this.userEquipSlotService.equipSlotMount(
       user_id,
