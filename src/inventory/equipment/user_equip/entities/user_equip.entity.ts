@@ -34,4 +34,11 @@ export class UserEquip extends BaseModel {
     default: '0',
   })
   skill_roll_count: number;
+
+  @Column({
+    type: 'char',
+    length: 1,
+    default: 'N',
+  })
+  mount_yn: string;
 }

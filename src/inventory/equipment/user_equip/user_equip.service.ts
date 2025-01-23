@@ -94,6 +94,12 @@ export class UserEquipService {
       },
     });
 
+
+      await userEquipRepository.save({
+        ...userEquip,
+        mount_yn: 'Y',
+      });
+
     console.log('userEquip', userEquip);
     const equip_id = userEquip?.equip_id ?? 0;
 
