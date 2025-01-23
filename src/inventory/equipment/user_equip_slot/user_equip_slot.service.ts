@@ -48,6 +48,7 @@ export class UserEquipSlotService {
     }
 
     if (!equip_id) {
+      console.log('equip_id', equip_id);
       const equip = await this.equipService.getEquip(equip_id, qr);
       if (!equip) {
         throw new NotFoundException(`Equip with ID ${equip_id} not found.`);
