@@ -160,6 +160,7 @@ export class UserEquipSlotService {
       throw new Error(`EquipSlot not found for user_id: ${user_id}`);
     }
 
+    console.log('boost', boost);
     userEquipSlot.acc = acc === 0 ? 0 : userEquipSlot.acc;
     userEquipSlot.engine = engine === 0 ? 0 : userEquipSlot.engine;
     userEquipSlot.armor = armor === 0 ? 0 : userEquipSlot.armor;
