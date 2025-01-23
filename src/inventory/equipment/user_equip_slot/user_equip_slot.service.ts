@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEquipSlot } from './entities/user_equip_slot.entity';
-import { In, QueryRunner, Repository } from 'typeorm';
+import { QueryRunner, Repository } from 'typeorm';
 import { EquipService } from 'src/static-table/equipment/equip/equip.service';
 import { UserEquipService } from '../user_equip/user_equip.service';
 
