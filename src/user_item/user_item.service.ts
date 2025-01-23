@@ -119,11 +119,16 @@ export class UserItemService {
     return userItemData;
   }
 
-  async getUserItemID(exchange_user_item_id: number, qr?: QueryRunner) {
+  async getUserItemID(
+    user_id: string,
+    exchange_user_item_id: number,
+    qr?: QueryRunner,
+  ) {
     const userItemRepository = this.getUserItemRepository(qr);
     const userItemData = await userItemRepository.findOne({
       where: {
         id: exchange_user_item_id,
+        user_id,
       },
     });
 
