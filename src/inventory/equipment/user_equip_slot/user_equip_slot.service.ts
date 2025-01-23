@@ -66,6 +66,7 @@ export class UserEquipSlotService {
       throw new Error('equipIds array is empty. No IDs to update.');
     }
 
+    console.log('equipIds', equipIds);
     // 2. SQL 쿼리 작성
     const sql = `
     UPDATE user_equip
