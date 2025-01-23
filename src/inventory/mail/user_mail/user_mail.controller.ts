@@ -11,7 +11,7 @@ import { IsPublic } from 'src/common/decorator/is-public.decorator';
 export class UserMailController {
   constructor(private readonly userMailService: UserMailService) {}
 
-  @Post('rewardAll')
+  @Post('reward/all')
   @UseInterceptors(TransactionInterceptor)
   async rewardAll_YN(@User() user: Users, @QueryRunner() qr: QR) {
     const result = await this.userMailService.rewardAll_YN(user.user_id, qr);
