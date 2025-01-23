@@ -30,6 +30,7 @@ export class UserItemExchangeController {
     @Body('exchange_item_count') exchange_item_count: number,
     @QueryRunner() qr: QR,
   ) {
+    console.log('saveItemExchange:', user);
     const result = await this.userItemExchangeService.saveItemExchange(
       user.user_id,
       exchange_item_id,
