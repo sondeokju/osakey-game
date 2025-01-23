@@ -24,6 +24,38 @@ export class UserEquipSlotService {
       : this.userEquipSlotRepository;
   }
 
+  async equipMountYN(user_id: string, user_equip_id: number, qr?: QueryRunner) {
+    const manager = qr ? qr.manager : this.dataSource.manager;
+
+    // SQL 쿼리 실행: mount_yn을 'Y'로 업데이트
+    const sql = `
+    UPDATE user_equip
+    SET mount_yn = 'Y'
+    WHERE user_id = ? AND id = ?
+  `;
+    const parameters = [user_id, user_equip_id];
+
+    await manager.query(sql, parameters);
+  }
+
+  async equipUnMountYN(
+    user_id: string,
+    user_equip_id: number,
+    qr?: QueryRunner,
+  ) {
+    const manager = qr ? qr.manager : this.dataSource.manager;
+
+    // SQL 쿼리 실행: mount_yn을 'N'으로 업데이트
+    const sql = `
+    UPDATE user_equip
+    SET mount_yn = 'N'
+    WHERE user_id = ? AND id = ?
+  `;
+    const parameters = [user_id, user_equip_id];
+
+    await manager.query(sql, parameters);
+  }
+
   async resetUserEquipMount(
     user_id: string,
     equipIds: number[],
@@ -39,7 +71,7 @@ export class UserEquipSlotService {
     UPDATE user_equip
     SET mount_yn = 'N'
     WHERE user_id = ?
-      AND equip_id IN (${equipIds.map(() => '?').join(', ')})
+      AND id IN (${equipIds.map(() => '?').join(', ')})
   `;
 
     // 3. 쿼리 실행
@@ -50,12 +82,7 @@ export class UserEquipSlotService {
     );
 
     // 4. 결과 반환
-    return {
-      message:
-        'Successfully updated mount_yn to N for all related UserEquip entries',
-      affectedRows: result.affectedRows || 0, // MySQL에서는 affectedRows 사용
-      updatedEquipIds: equipIds,
-    };
+    return result;
   }
 
   async equipSlotMount(
@@ -103,7 +130,7 @@ export class UserEquipSlotService {
       userEquipSlot[equipSlotMap[equipSlotKey]] = +user_equip_id;
     }
 
-    //await this.userEquipService.equipMountYN(user_id, +user_equip_id);
+    await this.equipMountYN(user_id, +user_equip_id);
     const result = await userEquipSlotRepository.save({
       ...userEquipSlot,
     });
