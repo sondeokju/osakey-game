@@ -95,11 +95,12 @@ export class UserEquipService {
     });
 
     console.log('userEquip', userEquip);
+    const equip_id = userEquip?.equip_id ?? 0;
 
     return await this.userEquipSlotService.equipSlotMount(
       user_id,
       user_equip_id,
-      userEquip.equip_id,
+      equip_id,
       qr,
     );
   }
