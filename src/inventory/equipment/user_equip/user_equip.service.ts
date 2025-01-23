@@ -571,10 +571,6 @@ export class UserEquipService {
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
-    console.log('user_equip_id_01', user_equip_id_01);
-    console.log('user_equip_id_02', user_equip_id_02);
-    console.log('user_equip_id_03', user_equip_id_03);
-
     try {
       const userEquipRepository = this.getUserEquipRepository(qr);
 

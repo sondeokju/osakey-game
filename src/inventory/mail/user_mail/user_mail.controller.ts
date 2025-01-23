@@ -19,18 +19,14 @@ export class UserMailController {
     return JSON.stringify(result);
   }
 
-  @Post('remove')
+  @Post('remove/all')
   @UseInterceptors(TransactionInterceptor)
-  async removeYN(
+  async removeAll_YN(
     @User() user: Users,
-    @Body('user_mail_id') user_mail_id: number,
+    //@Body('user_mail_id') user_mail_id: number,
     @QueryRunner() qr: QR,
   ) {
-    const result = await this.userMailService.removeYN(
-      user.user_id,
-      user_mail_id,
-      qr,
-    );
+    const result = await this.userMailService.removeAll_YN(user.user_id, qr);
 
     return JSON.stringify(result);
   }

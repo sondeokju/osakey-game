@@ -74,7 +74,7 @@ export class UserMailService {
     }
   }
 
-  async removeYN(user_id: string, user_mail_id: number, qr?: QueryRunner) {
+  async removeAll_YN(user_id: string, user_mail_id: number, qr?: QueryRunner) {
     if (!user_id || typeof user_id !== 'string') {
       throw new BadRequestException('Invalid user_id provided.');
     }
@@ -95,14 +95,17 @@ export class UserMailService {
         await queryRunner.commitTransaction();
       }
 
-      const userMailData = await userMailRepository.findOne({
-        where: { id: user_mail_id, user_id },
+      const userMailData = await userMailRepository.find({
+        where: { user_id },
       });
 
-      const updatedUserMail = await userMailRepository.save({
-        ...userMailData,
+      const updatedUserMailData = userMailData.map((mail) => ({
+        ...mail,
         remove_yn: 'Y',
-      });
+      }));
+
+      const updatedUserMail =
+        await userMailRepository.save(updatedUserMailData);
 
       return updatedUserMail;
     } catch (error) {
