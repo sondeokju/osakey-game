@@ -54,7 +54,7 @@ export class UserMailService {
 
       const updatedUserMail = await userMailRepository.save({
         ...userMailData,
-        reward_yn: 'Y',
+        remove_yn: 'Y',
       });
 
       return updatedUserMail;
