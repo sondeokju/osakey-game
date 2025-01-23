@@ -170,15 +170,12 @@ export class UserEquipSlotService {
       userEquipSlot.weapon,
     ];
 
-    console.log('boost', boost);
     userEquipSlot.acc = acc === 0 ? 0 : userEquipSlot.acc;
     userEquipSlot.engine = engine === 0 ? 0 : userEquipSlot.engine;
     userEquipSlot.armor = armor === 0 ? 0 : userEquipSlot.armor;
     userEquipSlot.boost = boost === 0 ? 0 : userEquipSlot.boost;
     userEquipSlot.shoes = shoes === 0 ? 0 : userEquipSlot.shoes;
     userEquipSlot.weapon = weapon === 0 ? 0 : userEquipSlot.weapon;
-
-    console.log('userEquipSlot', userEquipSlot);
 
     await this.resetUserEquipMount(user_id, equipIds, qr);
 
