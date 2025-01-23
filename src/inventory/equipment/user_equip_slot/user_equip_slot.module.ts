@@ -7,6 +7,7 @@ import { Equip } from 'src/static-table/equipment/equip/entities/equip.entity';
 import { EquipService } from 'src/static-table/equipment/equip/equip.service';
 import { UserEquipModule } from '../user_equip/user_equip.module';
 import { UserEquip } from '../user_equip/entities/user_equip.entity';
+import { UserEquipService } from '../user_equip/user_equip.service';
 
 @Module({
   imports: [
@@ -15,6 +16,6 @@ import { UserEquip } from '../user_equip/entities/user_equip.entity';
   ],
   exports: [UserEquipSlotService],
   controllers: [UserEquipSlotController],
-  providers: [UserEquipSlotService, EquipService],
+  providers: [UserEquipSlotService, EquipService, UserEquipService],
 })
 export class UserEquipSlotModule {}
