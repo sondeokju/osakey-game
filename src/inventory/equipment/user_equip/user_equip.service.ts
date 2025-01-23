@@ -557,15 +557,15 @@ export class UserEquipService {
     console.log('user_equip_id_02', typeof user_equip_id_02, user_equip_id_01);
     console.log('user_equip_id_03', typeof user_equip_id_03, user_equip_id_03);
 
-    if (
-      ![user_equip_id_01, user_equip_id_02, user_equip_id_03].every(
-        (id) => typeof id === 'number' && id > 0,
-      )
-    ) {
-      throw new Error(
-        'Invalid equipment IDs: All IDs must be positive numbers.',
-      );
-    }
+    // if (
+    //   ![user_equip_id_01, user_equip_id_02, user_equip_id_03].every(
+    //     (id) => typeof id === 'number' && id > 0,
+    //   )
+    // ) {
+    //   throw new Error(
+    //     'Invalid equipment IDs: All IDs must be positive numbers.',
+    //   );
+    // }
 
     const queryRunner = qr || this.dataSource.createQueryRunner();
     await queryRunner.connect();
