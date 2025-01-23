@@ -7,7 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEquipSlot } from './entities/user_equip_slot.entity';
 import { QueryRunner, Repository } from 'typeorm';
 import { EquipService } from 'src/static-table/equipment/equip/equip.service';
-import { UserEquipService } from '../user_equip/user_equip.service';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class UserEquipSlotService {
@@ -15,13 +15,47 @@ export class UserEquipSlotService {
     @InjectRepository(UserEquipSlot)
     private readonly userEquipSlotRepository: Repository<UserEquipSlot>,
     private readonly equipService: EquipService,
-  ) //private readonly userEquipService: UserEquipService,
-  {}
+    private readonly dataSource: DataSource,
+  ) {}
 
   getUserEquipSlotRepository(qr?: QueryRunner) {
     return qr
       ? qr.manager.getRepository<UserEquipSlot>(UserEquipSlot)
       : this.userEquipSlotRepository;
+  }
+
+  async resetUserEquipMount(
+    user_id: string,
+    equipIds: number[],
+    qr?: QueryRunner,
+  ) {
+    // 1. equipIds 배열이 비어있는 경우 처리
+    if (!equipIds || equipIds.length === 0) {
+      throw new Error('equipIds array is empty. No IDs to update.');
+    }
+
+    // 2. SQL 쿼리 작성
+    const sql = `
+    UPDATE user_equip
+    SET mount_yn = 'N'
+    WHERE user_id = ?
+      AND equip_id IN (${equipIds.map(() => '?').join(', ')})
+  `;
+
+    // 3. 쿼리 실행
+    const parameters = [user_id, ...equipIds];
+    const result = await (qr ? qr.manager : this.dataSource.manager).query(
+      sql,
+      parameters,
+    );
+
+    // 4. 결과 반환
+    return {
+      message:
+        'Successfully updated mount_yn to N for all related UserEquip entries',
+      affectedRows: result.affectedRows || 0, // MySQL에서는 affectedRows 사용
+      updatedEquipIds: equipIds,
+    };
   }
 
   async equipSlotMount(
@@ -69,7 +103,7 @@ export class UserEquipSlotService {
       userEquipSlot[equipSlotMap[equipSlotKey]] = +user_equip_id;
     }
 
-    await this.userEquipService.equipMountYN(user_id, +user_equip_id);
+    //await this.userEquipService.equipMountYN(user_id, +user_equip_id);
     const result = await userEquipSlotRepository.save({
       ...userEquipSlot,
     });
@@ -115,7 +149,7 @@ export class UserEquipSlotService {
       userEquipSlot.weapon,
     ];
 
-    await this.userEquipService.resetUserEquipMount(user_id, equipIds, qr);
+    await this.resetUserEquipMount(user_id, equipIds, qr);
 
     const result = await userEquipSlotRepository.save(userEquipSlot);
     return result;
@@ -149,7 +183,7 @@ export class UserEquipSlotService {
       userEquipSlot.weapon,
     ];
 
-    await this.userEquipService.resetUserEquipMount(user_id, equipIds, qr);
+    await this.resetUserEquipMount(user_id, equipIds, qr);
     return result;
   }
 
