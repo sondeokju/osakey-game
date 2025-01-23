@@ -62,6 +62,14 @@ export class UserItemExchangeService {
       const itemExchangeData = await this.itemExchangeService.getItemExchange(
         userItemData.item_id,
       );
+      if (!itemExchangeData) {
+        return {
+          message: 'Item exchange data not found',
+          //errorCode: 'ITEM_EXCHANGE_NOT_FOUND',
+          //status: 404,
+          //itemId: userItemData.item_id,
+        };
+      }
       console.log('itemExchangeData', itemExchangeData);
 
       const rewardItemCount =
