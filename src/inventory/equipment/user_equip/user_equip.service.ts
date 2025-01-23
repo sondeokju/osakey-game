@@ -45,6 +45,41 @@ export class UserEquipService {
       : this.userEquipRepository;
   }
 
+  async resetUserEquipMount(
+    user_id: string,
+    equipIds: number[],
+    qr?: QueryRunner,
+  ) {
+    const userEquipRepository = this.getUserEquipRepository(qr);
+
+    // 1. userEquip 테이블의 mount_yn을 모두 'N'으로 업데이트
+    const userEquips = await userEquipRepository.findBy({
+      user_id,
+      equip_id: In(equipIds), // TypeORM의 In 연산자를 사용하여 여러 equip_id를 조회
+    });
+
+    if (userEquips.length === 0) {
+      throw new Error(
+        `No matching UserEquip entries found for user_id=${user_id}`,
+      );
+    }
+
+    // 2. mount_yn 값을 'N'으로 업데이트
+    const updatedUserEquips = userEquips.map((equip) => ({
+      ...equip,
+      mount_yn: 'N',
+    }));
+
+    // 3. 데이터 저장
+    await userEquipRepository.save(updatedUserEquips);
+
+    return {
+      message:
+        'Successfully updated mount_yn to N for all related UserEquip entries',
+      updatedEquipIds: equipIds,
+    };
+  }
+
   async createEquip(user_id: string, equip_id: number, qr?: QueryRunner) {
     if (!user_id || typeof user_id !== 'string') {
       throw new BadRequestException('Invalid user_id provided.');
