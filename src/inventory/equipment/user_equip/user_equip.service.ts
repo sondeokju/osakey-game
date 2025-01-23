@@ -553,6 +553,10 @@ export class UserEquipService {
       throw new Error('Invalid user_id: Must be a non-empty string.');
     }
 
+    console.log('user_equip_id_01', typeof user_equip_id_01, user_equip_id_01);
+    console.log('user_equip_id_02', typeof user_equip_id_02, user_equip_id_01);
+    console.log('user_equip_id_03', typeof user_equip_id_03, user_equip_id_03);
+
     if (
       ![user_equip_id_01, user_equip_id_02, user_equip_id_03].every(
         (id) => typeof id === 'number' && id > 0,
