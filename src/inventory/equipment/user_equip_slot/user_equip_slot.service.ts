@@ -47,22 +47,24 @@ export class UserEquipSlotService {
       });
     }
 
-    const equip = await this.equipService.getEquip(equip_id, qr);
-    if (!equip) {
-      throw new NotFoundException(`Equip with ID ${equip_id} not found.`);
+    if (!equip_id) {
+      const equip = await this.equipService.getEquip(equip_id, qr);
+      if (!equip) {
+        throw new NotFoundException(`Equip with ID ${equip_id} not found.`);
+      }
+
+      const equipSlotMap = {
+        acc: 'acc',
+        engine: 'engine',
+        armor: 'armor',
+        boost: 'boost',
+        shoes: 'shoes',
+        weapon: 'weapon',
+      };
+
+      const equipSlotKey = equip.equip_slot.toLowerCase();
+      userEquipSlot[equipSlotMap[equipSlotKey]] = +user_equip_id;
     }
-
-    const equipSlotMap = {
-      acc: 'acc',
-      engine: 'engine',
-      armor: 'armor',
-      boost: 'boost',
-      shoes: 'shoes',
-      weapon: 'weapon',
-    };
-
-    const equipSlotKey = equip.equip_slot.toLowerCase();
-    userEquipSlot[equipSlotMap[equipSlotKey]] = +user_equip_id;
 
     const result = await userEquipSlotRepository.save({
       ...userEquipSlot,
