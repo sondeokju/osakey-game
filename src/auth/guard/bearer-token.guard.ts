@@ -46,7 +46,7 @@ export class BearerTokenGuard implements CanActivate {
     const token = this.authService.extractTokenFromHeader(rawToken, true);
 
     const result = await this.authService.verifyToken(token);
-    console.log('canActivate', result);
+    console.log('canActivate:', result);
 
     /**
      * request에 넣을 정보
@@ -56,7 +56,8 @@ export class BearerTokenGuard implements CanActivate {
      * 3) tokenType - access | refresh
      */
     //const user = await this.usersService.getUserByEmail(result.email);
-    const user = await this.usersService.getUserByEmail(result.user_id);
+    const user = await this.usersService.getMe(result.user_id);
+    console.log('canActivate user:', user);
 
     req.user = user;
     req.token = token;
