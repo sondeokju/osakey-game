@@ -52,6 +52,13 @@ export class UserMail extends BaseModel {
   reward_yn: string;
 
   @Column({
+    type: 'char',
+    length: 1,
+    default: 'N',
+  })
+  remove_yn: string;
+
+  @Column({
     type: 'datetime',
     transformer: {
       to: (value: Date) => value,

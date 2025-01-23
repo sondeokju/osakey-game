@@ -27,6 +27,50 @@ export class UserMailService {
       : this.userMailRepository;
   }
 
+  async removeYN(user_id: string, user_mail_id: number, qr?: QueryRunner) {
+    if (!user_id || typeof user_id !== 'string') {
+      throw new BadRequestException('Invalid user_id provided.');
+    }
+
+    const queryRunner = qr || this.dataSource.createQueryRunner();
+
+    let isTransactionOwner = false;
+    if (!qr) {
+      await queryRunner.connect();
+      await queryRunner.startTransaction();
+      isTransactionOwner = true;
+    }
+
+    try {
+      const userMailRepository = queryRunner.manager.getRepository(UserMail);
+
+      if (isTransactionOwner) {
+        await queryRunner.commitTransaction();
+      }
+
+      const userMailData = await userMailRepository.findOne({
+        where: { id: user_mail_id, user_id },
+      });
+
+      const updatedUserMail = await userMailRepository.save({
+        ...userMailData,
+        reward_yn: 'Y',
+      });
+
+      return updatedUserMail;
+    } catch (error) {
+      if (isTransactionOwner) {
+        await queryRunner.rollbackTransaction();
+      }
+      console.error('Transaction failed:', error);
+      throw new Error(`Transaction failed: ${error.message}`);
+    } finally {
+      if (isTransactionOwner) {
+        await queryRunner.release();
+      }
+    }
+  }
+
   async saveMail(
     user_id: string,
     send_type: string,
