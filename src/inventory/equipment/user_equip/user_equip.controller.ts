@@ -94,9 +94,9 @@ export class UserEquipController {
   ) {
     const result = await this.userEquipService.equipFusion(
       user.user_id,
-      user_equip_id_01,
-      user_equip_id_02,
-      user_equip_id_03,
+      +user_equip_id_01,
+      +user_equip_id_02,
+      +user_equip_id_03,
       qr,
     );
 
