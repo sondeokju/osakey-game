@@ -50,7 +50,7 @@ export class UserEquipSlotService {
 
     console.log('equipSlotMount 2');
 
-    if (!equip_id) {
+    if (equip_id > 0) {
       console.log('equip_id', equip_id);
       const equip = await this.equipService.getEquip(equip_id, qr);
       if (!equip) {
