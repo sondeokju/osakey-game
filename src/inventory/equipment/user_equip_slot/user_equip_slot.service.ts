@@ -160,16 +160,6 @@ export class UserEquipSlotService {
       throw new Error(`EquipSlot not found for user_id: ${user_id}`);
     }
 
-    console.log('boost', boost);
-    userEquipSlot.acc = acc === 0 ? 0 : userEquipSlot.acc;
-    userEquipSlot.engine = engine === 0 ? 0 : userEquipSlot.engine;
-    userEquipSlot.armor = armor === 0 ? 0 : userEquipSlot.armor;
-    userEquipSlot.boost = boost === 0 ? 0 : userEquipSlot.boost;
-    userEquipSlot.shoes = shoes === 0 ? 0 : userEquipSlot.shoes;
-    userEquipSlot.weapon = weapon === 0 ? 0 : userEquipSlot.weapon;
-
-    console.log('userEquipSlot', userEquipSlot);
-
     // UserEquipSlot에서 equipIds 생성
     const equipIds = [
       userEquipSlot.acc,
@@ -179,6 +169,16 @@ export class UserEquipSlotService {
       userEquipSlot.shoes,
       userEquipSlot.weapon,
     ];
+
+    console.log('boost', boost);
+    userEquipSlot.acc = acc === 0 ? 0 : userEquipSlot.acc;
+    userEquipSlot.engine = engine === 0 ? 0 : userEquipSlot.engine;
+    userEquipSlot.armor = armor === 0 ? 0 : userEquipSlot.armor;
+    userEquipSlot.boost = boost === 0 ? 0 : userEquipSlot.boost;
+    userEquipSlot.shoes = shoes === 0 ? 0 : userEquipSlot.shoes;
+    userEquipSlot.weapon = weapon === 0 ? 0 : userEquipSlot.weapon;
+
+    console.log('userEquipSlot', userEquipSlot);
 
     await this.resetUserEquipMount(user_id, equipIds, qr);
 
