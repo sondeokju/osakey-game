@@ -37,6 +37,7 @@ import { UserIngameRewardModule } from './inventory/stage/user_ingame_reward/use
 import { BattleStageModule } from './static-table/stage/battle_stage/battle_stage.module';
 import { RunStageModule } from './static-table/stage/run_stage/run_stage.module';
 import { PuzzleStageModule } from './static-table/stage/puzzle_stage/puzzle_stage.module';
+import { SuitModule } from './static-table/suit/suit/suit.module';
 
 @Module({
   imports: [

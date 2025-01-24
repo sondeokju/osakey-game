@@ -1,9 +1,9 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
-export class SuitInfo {
+export class Suit {
   @PrimaryColumn()
-  suit_info_id: number;
+  suit_id: number;
 
   @Column({
     default: 0,
@@ -13,7 +13,7 @@ export class SuitInfo {
   @Column({
     default: 0,
   })
-  ultimate_index: number;
+  ultimate_id: number;
 
   @Column({
     default: 0,
