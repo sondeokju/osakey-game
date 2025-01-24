@@ -16,9 +16,11 @@ export class SuitSkill {
   unlock_level: number;
 
   @Column({
-    default: 0,
+    type: 'varchar',
+    length: 10,
+    default: '',
   })
-  is_passive: number;
+  is_passive: string;
 
   @Column({
     default: 0,
