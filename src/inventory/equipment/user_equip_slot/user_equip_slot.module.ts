@@ -7,9 +7,13 @@ import { Equip } from 'src/static-table/equipment/equip/entities/equip.entity';
 import { EquipService } from 'src/static-table/equipment/equip/equip.service';
 import { UserEquipService } from '../user_equip/user_equip.service';
 import { UserEquip } from '../user_equip/entities/user_equip.entity';
+import { UserEquipModule } from '../user_equip/user_equip.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEquipSlot, Equip, UserEquip])],
+  imports: [
+    TypeOrmModule.forFeature([UserEquipSlot, Equip, UserEquip]),
+    UserEquipModule,
+  ],
   exports: [UserEquipSlotService],
   controllers: [UserEquipSlotController],
   providers: [UserEquipSlotService, EquipService, UserEquipService],
