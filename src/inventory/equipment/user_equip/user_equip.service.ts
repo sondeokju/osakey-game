@@ -300,6 +300,7 @@ export class UserEquipService {
       equip_max_level_id,
     );
     console.log('equipMaxLevelData', equipMaxLevelData);
+    console.log('equipMaxLevelData', (await equipMaxLevelData).max_level);
 
     const equipLevelMax = await this.equipLevelService.getEquipLevel(
       (await equipMaxLevelData).max_level,
