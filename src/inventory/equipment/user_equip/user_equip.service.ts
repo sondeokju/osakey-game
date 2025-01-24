@@ -590,6 +590,7 @@ export class UserEquipService {
           id: user_equip_id_01,
         },
       });
+      const level = userEquipData.equip_level_id.toString().slice(-2);
 
       console.log('userEquipData', userEquipData);
       const equipIds = equipIdList.map((item) => item.equip_id);
@@ -614,13 +615,14 @@ export class UserEquipService {
       console.log('nextEquipID', nextEquipID);
 
       // 새로운 장비 생성 (equip_level_id 계산)
-      const equipLevelId = `${nextEquipID.next_grade_equip_id}01`;
+      //const equipLevelId = `${nextEquipID.next_grade_equip_id}01`;
+      const equipLevelId = `${nextEquipID.next_grade_equip_id}${level}`;
+      console.log('equipLevelId', equipLevelId);
       await userEquipRepository.insert({
         user_id,
         equip_id: +nextEquipID.next_grade_equip_id,
         equip_level_id: +equipLevelId,
       });
-      console.log('equipLevelId', equipLevelId);
 
       // 기존 장비 삭제
       await userEquipRepository.delete({
