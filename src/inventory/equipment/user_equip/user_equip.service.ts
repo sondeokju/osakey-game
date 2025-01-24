@@ -152,12 +152,16 @@ export class UserEquipService {
       },
     });
 
-    const result = await userEquipRepository
-      .createQueryBuilder()
-      .update('user_equip') // 테이블 이름
-      .set({ mount_yn: 'Y' }) // 업데이트할 필드
-      .where('id = :id AND user_id = :user_id', { id: user_equip_id, user_id })
-      .execute();
+    const queryRunner = qr || this.dataSource.createQueryRunner();
+    if (!qr) {
+      await queryRunner.connect();
+      await queryRunner.startTransaction();
+    }
+
+    const result = await queryRunner.query(
+      `UPDATE user_equip SET mount_yn = 'Y' WHERE id = ? AND user_id = ?`,
+      [user_equip_id, user_id], // 파라미터 바인딩
+    );
 
     return result;
   }
