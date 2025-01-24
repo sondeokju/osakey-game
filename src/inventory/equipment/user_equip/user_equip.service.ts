@@ -603,6 +603,8 @@ export class UserEquipService {
         qr,
       );
 
+      console.log('nextEquipID', nextEquipID);
+
       // 새로운 장비 생성 (equip_level_id 계산)
       const equipLevelId = `${nextEquipID.next_grade_equip_id}01`;
       await userEquipRepository.insert({
