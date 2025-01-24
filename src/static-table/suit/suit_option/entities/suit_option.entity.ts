@@ -13,7 +13,7 @@ export class SuitOption {
   @Column({
     default: 0,
   })
-  suit_option: number;
+  suit_option_number: number;
 
   @Column({
     default: 0,
