@@ -585,7 +585,7 @@ export class UserEquipService {
         ) // 순서를 명시적으로 지정
         .getRawMany();
 
-      const equipIds = equipIdList.map((item) => item.equip_id);
+      const equipIds = equipIdList.map((item) => item.id);
 
       // 배열 길이 검증
       if (equipIds.length < 3) {
@@ -615,7 +615,7 @@ export class UserEquipService {
       // 기존 장비 삭제
       await userEquipRepository.delete({
         user_id,
-        equip_id: In(equipIds),
+        id: In(equipIds),
       });
 
       console.log('equipIds', equipIds);
