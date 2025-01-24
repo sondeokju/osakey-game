@@ -238,18 +238,24 @@ export class UserEquipService {
     return updateUserEquip;
   }
 
-  async equipMaxLevelUp(user_id: string, equip_id: number, qr?: QueryRunner) {
+  async equipMaxLevelUp(
+    user_id: string,
+    user_equip_id: number,
+    qr?: QueryRunner,
+  ) {
     const userEquipRepository = this.getUserEquipRepository(qr);
 
     const userEquip = await userEquipRepository.findOne({
       where: {
         user_id,
-        equip_id,
+        id: user_equip_id,
       },
     });
 
     if (!userEquip) {
-      throw new NotFoundException(`User equip with ID ${equip_id} not found.`);
+      throw new NotFoundException(
+        `User equip with ID ${user_equip_id} not found.`,
+      );
     }
 
     const equipLevel = this.equipLevelService.getEquipLevel(

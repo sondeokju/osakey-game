@@ -62,13 +62,13 @@ export class UserEquipController {
   @UseInterceptors(TransactionInterceptor)
   async equipMaxLevelUp(
     @User() user: Users,
-    @Body('equip_id') equip_id: number,
+    @Body('user_equip_id') user_equip_id: number,
     @QueryRunner() qr: QR,
   ) {
-    console.log(equip_id);
+    console.log('user_equip_id', user_equip_id);
     const result = await this.userEquipService.equipMaxLevelUp(
       user.user_id,
-      equip_id,
+      user_equip_id,
       qr,
     );
 

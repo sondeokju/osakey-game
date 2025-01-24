@@ -27,7 +27,7 @@ export class UserItemService {
       },
     });
 
-    console.log('useritem:', result);
+    //console.log('useritem:', result);
     return result;
   }
 

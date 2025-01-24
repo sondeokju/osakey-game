@@ -4,7 +4,7 @@ import { Column, Entity, Index } from 'typeorm';
 @Entity()
 // @Index('user_memory_user_id_boss_id', ['user_id', 'boss_id'], { unique: true })
 // @Index('user_memory_boss_id_memory', ['boss_id', 'memory'], { unique: false })
-export class UserSuit extends BaseModel {
+export class UserMemoryShare extends BaseModel {
   @Column({
     nullable: false,
     type: 'char',
@@ -17,24 +17,29 @@ export class UserSuit extends BaseModel {
     default: '0',
   })
   @Index({ unique: false })
-  suit_id: number;
-
-  @Column({
-    default: '0',
-  })
-  @Index({ unique: false })
-  suit_level: number;
-
-  @Column({
-    default: '0',
-  })
-  @Index({ unique: false })
-  suit_special_level: number;
+  boss_id: number;
 
   @Column({
     type: 'char',
     length: 1,
     default: 'N',
   })
-  unlock_yn: string;
+  memory_id: number;
+
+  @Column({
+    type: 'char',
+    length: 1,
+    default: 'N',
+  })
+  memory_rent_yn: string;
+
+  @Column({
+    type: 'datetime',
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: string) => new Date(value),
+    },
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  memorise_rent_start_date: Date;
 }

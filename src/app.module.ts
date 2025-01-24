@@ -31,6 +31,8 @@ import { entities } from './entity_group/entity';
 import { entities_module } from './entity_group/entity_module';
 import { UserBattlePassModule } from './inventory/battlepass/user_battle_pass/user_battle_pass.module';
 import { UserBattlePassRewardModule } from './inventory/battlepass/user_battle_pass_reward/user_battle_pass_reward.module';
+import { UserMemorizeModule } from './inventory/boss/user_memorize/user_memorize.module';
+import { UserMemoryShareModule } from './inventory/boss/user_memory_share/user_memory_share.module';
 
 @Module({
   imports: [
@@ -72,6 +74,8 @@ import { UserBattlePassRewardModule } from './inventory/battlepass/user_battle_p
     ...entities_module,
     UserBattlePassModule,
     UserBattlePassRewardModule,
+    UserMemorizeModule,
+    UserMemoryShareModule,
   ],
   controllers: [AppController],
   providers: [
