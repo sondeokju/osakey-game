@@ -585,6 +585,7 @@ export class UserEquipService {
         ) // 순서를 명시적으로 지정
         .getRawMany();
 
+      console.log('equipIdList', equipIdList);
       const equipIds = equipIdList.map((item) => item.equip_id);
       const deleteEquipIds = equipIdList.map((item) => item.id);
 
