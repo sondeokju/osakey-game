@@ -129,9 +129,6 @@ export class UserEquipService {
       },
     });
 
-    //await this.equipMountYN(user_id, user_equip_id, qr);
-
-    console.log('userEquip', userEquip);
     const equip_id = userEquip?.equip_id ?? 0;
 
     const result = await this.userEquipSlotService.equipSlotMount(
@@ -166,12 +163,12 @@ export class UserEquipService {
     return result;
   }
 
-  async equipLevelUp(user_id: string, equip_id: number, qr?: QueryRunner) {
+  async equipLevelUp(user_id: string, user_equip_id: number, qr?: QueryRunner) {
     const userEquipRepository = this.getUserEquipRepository(qr);
     const userEquip = await userEquipRepository.findOne({
       where: {
+        id: user_equip_id,
         user_id,
-        equip_id,
       },
     });
 
