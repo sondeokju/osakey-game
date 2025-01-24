@@ -107,7 +107,11 @@ export class UserMailService {
       const updatedUserMail =
         await userMailRepository.save(updatedUserMailData);
 
-      return updatedUserMail;
+      const result = await userMailRepository.find({
+        where: { user_id },
+      });
+
+      return result;
     } catch (error) {
       if (isTransactionOwner) {
         await queryRunner.rollbackTransaction();
@@ -218,7 +222,7 @@ export class UserMailService {
 
         return {
           ...mail,
-          reward: filteredItemData, // 필터링된 itemData 추가
+          item: filteredItemData, // 필터링된 itemData 추가
         };
       }),
     );
