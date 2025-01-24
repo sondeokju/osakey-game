@@ -129,10 +129,7 @@ export class UserEquipService {
       },
     });
 
-    await userEquipRepository.save({
-      ...userEquip,
-      mount_yn: 'Y',
-    });
+    await this.equipMountYN(user_id, user_equip_id, qr);
 
     console.log('userEquip', userEquip);
     const equip_id = userEquip?.equip_id ?? 0;
@@ -143,6 +140,23 @@ export class UserEquipService {
       equip_id,
       qr,
     );
+  }
+
+  async equipMountYN(user_id: string, user_equip_id: number, qr?: QueryRunner) {
+    const userEquipRepository = this.getUserEquipRepository(qr);
+    const userEquip = await userEquipRepository.findOne({
+      where: {
+        user_id,
+        id: user_equip_id,
+      },
+    });
+
+    const result = await userEquipRepository.save({
+      ...userEquip,
+      mount_yn: 'Y',
+    });
+
+    return result;
   }
 
   async equipLevelUp(user_id: string, equip_id: number, qr?: QueryRunner) {

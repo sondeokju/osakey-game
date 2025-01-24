@@ -8,7 +8,6 @@ import { UserEquipSlot } from './entities/user_equip_slot.entity';
 import { QueryRunner, Repository } from 'typeorm';
 import { EquipService } from 'src/static-table/equipment/equip/equip.service';
 import { DataSource } from 'typeorm';
-import { UserEquipService } from '../user_equip/user_equip.service';
 
 @Injectable()
 export class UserEquipSlotService {
@@ -17,7 +16,6 @@ export class UserEquipSlotService {
     private readonly userEquipSlotRepository: Repository<UserEquipSlot>,
     private readonly equipService: EquipService,
     private readonly dataSource: DataSource,
-    private readonly userEquipService: UserEquipService,
   ) {}
 
   getUserEquipSlotRepository(qr?: QueryRunner) {
