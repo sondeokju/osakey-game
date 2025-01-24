@@ -10,7 +10,7 @@ export const User = createParamDecorator(
     const req = context.switchToHttp().getRequest();
 
     const user = req.user as Users;
-    console.log('createParamDecorator', req.user);
+    //console.log('createParamDecorator', req.user);
 
     if (!user) {
       throw new InternalServerErrorException(
