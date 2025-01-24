@@ -100,6 +100,13 @@ import { UserSecameMailModule } from 'src/inventory/secame/user_secame_mail/user
 import { UserSuitModule } from 'src/inventory/suit/user_suit/user_suit.module';
 import { UserDispatchModule } from 'src/inventory/dispatch/user_dispatch/user_dispatch.module';
 import { UserDispatchRentamaModule } from 'src/inventory/dispatch/user_dispatch_rentama/user_dispatch_rentama.module';
+import { UserBattlePassModule } from 'src/inventory/battlepass/user_battle_pass/user_battle_pass.module';
+import { UserBattlePassRewardModule } from 'src/inventory/battlepass/user_battle_pass_reward/user_battle_pass_reward.module';
+import { UserMemorizeModule } from 'src/inventory/boss/user_memorize/user_memorize.module';
+import { UserMemoryShareModule } from 'src/inventory/boss/user_memory_share/user_memory_share.module';
+import { BattleStageModule } from 'src/static-table/stage/battle_stage/battle_stage.module';
+import { PuzzleStageModule } from 'src/static-table/stage/puzzle_stage/puzzle_stage.module';
+import { RunStageModule } from 'src/static-table/stage/run_stage/run_stage.module';
 
 export const entities_module = [
   UsersModule,
@@ -204,4 +211,12 @@ export const entities_module = [
   UserMembershipModule,
   UserDispatchModule,
   UserDispatchRentamaModule,
+  UserBattlePassModule,
+  UserBattlePassRewardModule,
+  UserMemorizeModule,
+  UserMemoryShareModule,
+  UserIngameRewardModule,
+  BattleStageModule,
+  RunStageModule,
+  PuzzleStageModule,
 ];

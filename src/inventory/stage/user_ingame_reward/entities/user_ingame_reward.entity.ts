@@ -3,7 +3,7 @@ import { BaseModel } from 'src/common/entity/base.entity';
 
 @Entity()
 //@Index('IDX_user_mail_id_user_id', ['id', 'user_id'], { unique: true }) // 복합 인덱스 설정
-export class UserSecameDiary extends BaseModel {
+export class UserIngameReward extends BaseModel {
   @Column({
     nullable: false,
     type: 'char',
@@ -13,16 +13,42 @@ export class UserSecameDiary extends BaseModel {
   user_id: string;
 
   @Column({
+    type: 'varchar',
+    length: 30,
+    default: '',
+  })
+  game_mode: string;
+
+  @Column({
     default: 0,
   })
-  mission_id: number;
+  stage_id: number;
 
   @Column({
     type: 'char',
     length: 1,
     default: 'N',
   })
-  reward_yn: string;
+  stage_clear_yn: string;
+
+  @Column({
+    type: 'varchar',
+    length: 30,
+    default: '',
+  })
+  rank: string;
+
+  @Column({
+    type: 'char',
+    length: 1,
+    default: 'N',
+  })
+  first_clear_yn: string;
+
+  @Column({
+    default: 0,
+  })
+  reward_id: number;
 
   @Column({
     type: 'datetime',
@@ -32,5 +58,5 @@ export class UserSecameDiary extends BaseModel {
     },
     default: () => 'CURRENT_TIMESTAMP',
   })
-  diary_reward_date: Date;
+  reward_date: Date;
 }

@@ -93,6 +93,14 @@ import { UserSecameMail } from 'src/inventory/secame/user_secame_mail/entities/u
 import { UserSuit } from 'src/inventory/suit/user_suit/entities/user_suit.entity';
 import { UserDispatch } from 'src/inventory/dispatch/user_dispatch/entities/user_dispatch.entity';
 import { UserDispatchRentama } from 'src/inventory/dispatch/user_dispatch_rentama/entities/user_dispatch_rentama.entity';
+import { UserBattlePass } from 'src/inventory/battlepass/user_battle_pass/entities/user_battle_pass.entity';
+import { UserBattlePassReward } from 'src/inventory/battlepass/user_battle_pass_reward/entities/user_battle_pass_reward.entity';
+import { UserMemorize } from 'src/inventory/boss/user_memorize/entities/user_memorize.entity';
+import { UserMemoryShare } from 'src/inventory/boss/user_memory_share/entities/user_memory_share.entity';
+import { UserIngameReward } from 'src/inventory/reward/user_ingame_reward/entities/user_ingame_reward.entity';
+import { BattleStage } from 'src/static-table/stage/battle_stage/entities/battle_stage.entity';
+import { PuzzleStage } from 'src/static-table/stage/puzzle_stage/entities/puzzle_stage.entity';
+import { RunStage } from 'src/static-table/stage/run_stage/entities/run_stage.entity';
 
 export const entities = [
   Users,
@@ -190,4 +198,12 @@ export const entities = [
   UserMembership,
   UserDispatch,
   UserDispatchRentama,
+  UserBattlePass,
+  UserBattlePassReward,
+  UserMemorize,
+  UserMemoryShare,
+  UserIngameReward,
+  BattleStage,
+  RunStage,
+  PuzzleStage,
 ];

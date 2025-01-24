@@ -33,6 +33,10 @@ import { UserBattlePassModule } from './inventory/battlepass/user_battle_pass/us
 import { UserBattlePassRewardModule } from './inventory/battlepass/user_battle_pass_reward/user_battle_pass_reward.module';
 import { UserMemorizeModule } from './inventory/boss/user_memorize/user_memorize.module';
 import { UserMemoryShareModule } from './inventory/boss/user_memory_share/user_memory_share.module';
+import { UserIngameRewardModule } from './inventory/stage/user_ingame_reward/user_ingame_reward.module';
+import { BattleStageModule } from './static-table/stage/battle_stage/battle_stage.module';
+import { RunStageModule } from './static-table/stage/run_stage/run_stage.module';
+import { PuzzleStageModule } from './static-table/stage/puzzle_stage/puzzle_stage.module';
 
 @Module({
   imports: [
@@ -72,10 +76,6 @@ import { UserMemoryShareModule } from './inventory/boss/user_memory_share/user_m
         process.env[ENV_KEEPCONNECTIONALIVE_KEY] === 'true' ? true : false,
     }),
     ...entities_module,
-    UserBattlePassModule,
-    UserBattlePassRewardModule,
-    UserMemorizeModule,
-    UserMemoryShareModule,
   ],
   controllers: [AppController],
   providers: [
