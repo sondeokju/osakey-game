@@ -89,7 +89,6 @@ import { SecameMailModule } from 'src/static-table/secame/secame_mail/secame_mai
 import { MembershipModule } from 'src/static-table/membership/membership/membership.module';
 import { SuitOptionModule } from 'src/static-table/suit/suit_option/suit_option.module';
 import { SuitSkillModule } from 'src/static-table/suit/suit_skill/suit_skill.module';
-import { SuitUltimateLevelInfoModule } from 'src/static-table/suit/suit_ultimate_level_info/suit_ultimate_level_info.module';
 import { UserItemExchangeModule } from 'src/inventory/exchange/user_item_exchange/user_item_exchange.module';
 import { UserMembershipModule } from 'src/inventory/membership/user_membership/user_membership.module';
 import { UserSecameDiaryModule } from 'src/inventory/secame/user_secame_diary/user_secame_diary.module';
@@ -107,6 +106,7 @@ import { RunStageModule } from 'src/static-table/stage/run_stage/run_stage.modul
 import { SuitModule } from 'src/static-table/suit/suit/suit.module';
 import { SuitLevelModule } from 'src/static-table/suit/suit_level/suit_level.module';
 import { SuitUltimateModule } from 'src/static-table/suit/suit_ultimate/suit_ultimate.module';
+import { SuitUltimateLevelModule } from 'src/static-table/suit/suit_ultimate_level/suit_ultimate_level.module';
 
 export const entities_module = [
   UsersModule,
@@ -200,7 +200,6 @@ export const entities_module = [
   MembershipModule,
   SuitOptionModule,
   SuitSkillModule,
-  SuitUltimateLevelInfoModule,
   UserItemExchangeModule,
   UserSuitModule,
   UserSecameDiaryModule,
@@ -219,4 +218,5 @@ export const entities_module = [
   SuitModule,
   SuitLevelModule,
   SuitUltimateModule,
+  SuitUltimateLevelModule,
 ];
