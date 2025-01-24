@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SuitLevelInfoService } from './suit_level_info.service';
+import { SuitLevelService } from './suit_level.service';
 
-describe('SuitLevelInfoService', () => {
-  let service: SuitLevelInfoService;
+describe('SuitLevelService', () => {
+  let service: SuitLevelService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [SuitLevelInfoService],
+      providers: [SuitLevelService],
     }).compile();
 
-    service = module.get<SuitLevelInfoService>(SuitLevelInfoService);
+    service = module.get<SuitLevelService>(SuitLevelService);
   });
 
   it('should be defined', () => {

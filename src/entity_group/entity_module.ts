@@ -107,6 +107,7 @@ import { BattleStageModule } from 'src/static-table/stage/battle_stage/battle_st
 import { PuzzleStageModule } from 'src/static-table/stage/puzzle_stage/puzzle_stage.module';
 import { RunStageModule } from 'src/static-table/stage/run_stage/run_stage.module';
 import { SuitModule } from 'src/static-table/suit/suit/suit.module';
+import { SuitLevelModule } from 'src/static-table/suit/suit_level/suit_level.module';
 
 export const entities_module = [
   UsersModule,
@@ -219,4 +220,5 @@ export const entities_module = [
   RunStageModule,
   PuzzleStageModule,
   SuitModule,
+  SuitLevelModule,
 ];

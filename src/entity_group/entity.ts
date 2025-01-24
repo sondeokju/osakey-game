@@ -84,7 +84,6 @@ import { SuitOption } from 'src/static-table/suit/suit_option/entities/suit_opti
 import { SuitSkill } from 'src/static-table/suit/suit_skill/entities/suit_skill.entity';
 import { SuitUltimateInfo } from 'src/static-table/suit/suit_ultimate_info/entities/suit_ultimate_info.entity';
 import { SuitUltimateLevelInfo } from 'src/static-table/suit/suit_ultimate_level_info/entities/suit_ultimate_level_info.entity';
-import { SuitLevelInfo } from 'src/static-table/suit/suit_level_info/entities/suit_level_info.entity';
 import { UserItemExchange } from 'src/inventory/exchange/user_item_exchange/entities/user_item_exchange.entity';
 import { UserMembership } from 'src/inventory/membership/user_membership/entities/user_membership.entity';
 import { UserSecameDiary } from 'src/inventory/secame/user_secame_diary/entities/user_secame_diary.entity';
@@ -101,6 +100,7 @@ import { BattleStage } from 'src/static-table/stage/battle_stage/entities/battle
 import { PuzzleStage } from 'src/static-table/stage/puzzle_stage/entities/puzzle_stage.entity';
 import { RunStage } from 'src/static-table/stage/run_stage/entities/run_stage.entity';
 import { Suit } from 'src/static-table/suit/suit/entities/suit.entity';
+import { SuitLevel } from 'src/static-table/suit/suit_level/entities/suit_level.entity';
 
 export const entities = [
   Users,
@@ -189,7 +189,6 @@ export const entities = [
   SuitSkill,
   SuitUltimateInfo,
   SuitUltimateLevelInfo,
-  SuitLevelInfo,
   UserItemExchange,
   UserSuit,
   UserSecameDiary,
@@ -206,4 +205,5 @@ export const entities = [
   RunStage,
   PuzzleStage,
   Suit,
+  SuitLevel,
 ];

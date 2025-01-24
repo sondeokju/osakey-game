@@ -29,15 +29,6 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
 import { entities } from './entity_group/entity';
 import { entities_module } from './entity_group/entity_module';
-import { UserBattlePassModule } from './inventory/battlepass/user_battle_pass/user_battle_pass.module';
-import { UserBattlePassRewardModule } from './inventory/battlepass/user_battle_pass_reward/user_battle_pass_reward.module';
-import { UserMemorizeModule } from './inventory/boss/user_memorize/user_memorize.module';
-import { UserMemoryShareModule } from './inventory/boss/user_memory_share/user_memory_share.module';
-import { UserIngameRewardModule } from './inventory/stage/user_ingame_reward/user_ingame_reward.module';
-import { BattleStageModule } from './static-table/stage/battle_stage/battle_stage.module';
-import { RunStageModule } from './static-table/stage/run_stage/run_stage.module';
-import { PuzzleStageModule } from './static-table/stage/puzzle_stage/puzzle_stage.module';
-import { SuitModule } from './static-table/suit/suit/suit.module';
 
 @Module({
   imports: [
