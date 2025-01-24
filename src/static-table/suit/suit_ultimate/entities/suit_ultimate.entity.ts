@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
-export class SuitUltimateInfo {
+export class SuitUltimate {
   @PrimaryColumn()
   suit_ultimate_id: number;
 
@@ -20,12 +20,12 @@ export class SuitUltimateInfo {
   @Column({
     default: 0,
   })
-  max_gauge_value: number;
+  max_gauge: number;
 
   @Column({
     default: 0,
   })
-  gauge_gauge_value: number;
+  gauge_change: number;
 
   @Column({
     default: 0,

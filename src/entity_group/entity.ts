@@ -82,7 +82,6 @@ import { SecameMail } from 'src/static-table/secame/secame_mail/entities/secame_
 import { Membership } from 'src/static-table/membership/membership/entities/membership.entity';
 import { SuitOption } from 'src/static-table/suit/suit_option/entities/suit_option.entity';
 import { SuitSkill } from 'src/static-table/suit/suit_skill/entities/suit_skill.entity';
-import { SuitUltimateInfo } from 'src/static-table/suit/suit_ultimate_info/entities/suit_ultimate_info.entity';
 import { SuitUltimateLevelInfo } from 'src/static-table/suit/suit_ultimate_level_info/entities/suit_ultimate_level_info.entity';
 import { UserItemExchange } from 'src/inventory/exchange/user_item_exchange/entities/user_item_exchange.entity';
 import { UserMembership } from 'src/inventory/membership/user_membership/entities/user_membership.entity';
@@ -101,6 +100,7 @@ import { PuzzleStage } from 'src/static-table/stage/puzzle_stage/entities/puzzle
 import { RunStage } from 'src/static-table/stage/run_stage/entities/run_stage.entity';
 import { Suit } from 'src/static-table/suit/suit/entities/suit.entity';
 import { SuitLevel } from 'src/static-table/suit/suit_level/entities/suit_level.entity';
+import { SuitUltimate } from 'src/static-table/suit/suit_ultimate/entities/suit_ultimate.entity';
 
 export const entities = [
   Users,
@@ -187,7 +187,6 @@ export const entities = [
   Membership,
   SuitOption,
   SuitSkill,
-  SuitUltimateInfo,
   SuitUltimateLevelInfo,
   UserItemExchange,
   UserSuit,
@@ -206,4 +205,5 @@ export const entities = [
   PuzzleStage,
   Suit,
   SuitLevel,
+  SuitUltimate,
 ];
