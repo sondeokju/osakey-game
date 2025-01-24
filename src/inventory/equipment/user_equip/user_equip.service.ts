@@ -173,7 +173,9 @@ export class UserEquipService {
     });
 
     if (!userEquip) {
-      throw new NotFoundException(`User equip with ID ${equip_id} not found.`);
+      throw new NotFoundException(
+        `User equip with ID ${user_equip_id} not found.`,
+      );
     }
 
     const equipLevel = await this.equipLevelService.getEquipLevel(
