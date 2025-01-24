@@ -312,7 +312,7 @@ export class UserEquipService {
     await this.resourceManagerService.validateAndDeductResources(
       user_id,
       {
-        gord: equipLevelMax.require_gold,
+        gord: equipLevelMax.used_gold_total,
         item: {
           item_id: equipLevelMax.require_item_id,
           count: equipLevelMax.require_item_count,
