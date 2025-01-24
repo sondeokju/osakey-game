@@ -288,19 +288,22 @@ export class UserEquipService {
     );
     console.log('equipLevelMaxData', equipLevelMaxData);
 
-    const equip_max_level_id = this.getEquipMaxLevelId(
+    const equip_max_level_id = await this.getEquipMaxLevelId(
       userEquip.equip_level_id,
       (await equipLevelMaxData).level_max,
     );
     console.log('equip_max_level_id', equip_max_level_id);
 
-    const equipMaxLevelData = this.getEquipMaxLevelBuilder(
+    const equipMaxLevelData = await this.getEquipMaxLevelBuilder(
       user_id,
       userEquip.equip_level_id,
       equip_max_level_id,
     );
     console.log('equipMaxLevelData', equipMaxLevelData);
-    console.log('equipMaxLevelData', (await equipMaxLevelData).max_level);
+    console.log(
+      'equipMaxLevelData max_level',
+      (await equipMaxLevelData).max_level,
+    );
 
     const equipLevelMax = await this.equipLevelService.getEquipLevel(
       (await equipMaxLevelData).max_level,
