@@ -24,34 +24,21 @@ export class UserEquipSlotService {
       : this.userEquipSlotRepository;
   }
 
-  async equipMountYN(user_id: string, user_equip_id: number, qr?: QueryRunner) {
+  async equipMountYN(
+    user_id: string,
+    user_equip_id: number,
+    mount_yn: string,
+    qr?: QueryRunner,
+  ) {
     const manager = qr ? qr.manager : this.dataSource.manager;
 
     // SQL 쿼리 실행: mount_yn을 'Y'로 업데이트
     const sql = `
     UPDATE user_equip
-    SET mount_yn = 'Y'
+    SET mount_yn = ?
     WHERE user_id = ? AND id = ?
   `;
-    const parameters = [user_id, user_equip_id];
-
-    await manager.query(sql, parameters);
-  }
-
-  async equipUnMountYN(
-    user_id: string,
-    user_equip_id: number,
-    qr?: QueryRunner,
-  ) {
-    const manager = qr ? qr.manager : this.dataSource.manager;
-
-    // SQL 쿼리 실행: mount_yn을 'N'으로 업데이트
-    const sql = `
-    UPDATE user_equip
-    SET mount_yn = 'N'
-    WHERE user_id = ? AND id = ?
-  `;
-    const parameters = [user_id, user_equip_id];
+    const parameters = [mount_yn, user_id, user_equip_id];
 
     await manager.query(sql, parameters);
   }
@@ -131,7 +118,7 @@ export class UserEquipSlotService {
       userEquipSlot[equipSlotMap[equipSlotKey]] = +user_equip_id;
     }
 
-    await this.equipMountYN(user_id, +user_equip_id);
+    await this.equipMountYN(user_id, +user_equip_id, 'Y', qr);
     const result = await userEquipSlotRepository.save({
       ...userEquipSlot,
     });

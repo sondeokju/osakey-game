@@ -129,7 +129,7 @@ export class UserEquipService {
       },
     });
 
-    await this.equipMountYN(user_id, user_equip_id, qr);
+    //await this.equipMountYN(user_id, user_equip_id, qr);
 
     console.log('userEquip', userEquip);
     const equip_id = userEquip?.equip_id ?? 0;
