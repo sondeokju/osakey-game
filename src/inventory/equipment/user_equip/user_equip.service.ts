@@ -134,12 +134,13 @@ export class UserEquipService {
     console.log('userEquip', userEquip);
     const equip_id = userEquip?.equip_id ?? 0;
 
-    return await this.userEquipSlotService.equipSlotMount(
+    const result = await this.userEquipSlotService.equipSlotMount(
       user_id,
       user_equip_id,
       equip_id,
       qr,
     );
+    return result;
   }
 
   async equipMountYN(user_id: string, user_equip_id: number, qr?: QueryRunner) {
