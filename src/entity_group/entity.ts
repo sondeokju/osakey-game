@@ -80,7 +80,6 @@ import { ItemExchange } from 'src/static-table/exchange/item_exchange/entities/i
 import { SecameDiary } from 'src/static-table/secame/secame_diary/entities/secame_diary.entity';
 import { SecameMail } from 'src/static-table/secame/secame_mail/entities/secame_mail.entity';
 import { Membership } from 'src/static-table/membership/membership/entities/membership.entity';
-import { SuitInfo } from 'src/static-table/suit/suit_info/entities/suit_info.entity';
 import { SuitOption } from 'src/static-table/suit/suit_option/entities/suit_option.entity';
 import { SuitSkill } from 'src/static-table/suit/suit_skill/entities/suit_skill.entity';
 import { SuitUltimateInfo } from 'src/static-table/suit/suit_ultimate_info/entities/suit_ultimate_info.entity';
@@ -186,7 +185,6 @@ export const entities = [
   SecameDiary,
   SecameMail,
   Membership,
-  SuitInfo,
   SuitOption,
   SuitSkill,
   SuitUltimateInfo,
