@@ -80,6 +80,12 @@ import { SystemNotice } from '../config/system_notice/entities/system_notice.ent
 import { SystemNoticeService } from '../config/system_notice/system_notice.service';
 import { AchieveListService } from '../achieve/achieve_list/achieve_list.service';
 import { AchieveList } from '../achieve/achieve_list/entities/achieve_list.entity';
+import { BattleStage } from '../stage/battle_stage/entities/battle_stage.entity';
+import { PuzzleStage } from '../stage/puzzle_stage/entities/puzzle_stage.entity';
+import { RunStage } from '../stage/run_stage/entities/run_stage.entity';
+import { BattleStageService } from '../stage/battle_stage/battle_stage.service';
+import { PuzzleStageService } from '../stage/puzzle_stage/puzzle_stage.service';
+import { RunStageService } from '../stage/run_stage/run_stage.service';
 
 @Module({
   imports: [
@@ -124,6 +130,9 @@ import { AchieveList } from '../achieve/achieve_list/entities/achieve_list.entit
       Attendance,
       SystemNotice,
       AchieveList,
+      BattleStage,
+      PuzzleStage,
+      RunStage,
     ]),
   ],
   exports: [ControlTableService],
@@ -169,6 +178,9 @@ import { AchieveList } from '../achieve/achieve_list/entities/achieve_list.entit
     AttendanceService,
     SystemNoticeService,
     AchieveListService,
+    BattleStageService,
+    PuzzleStageService,
+    RunStageService,
   ],
 })
 export class ControlTableModule {}

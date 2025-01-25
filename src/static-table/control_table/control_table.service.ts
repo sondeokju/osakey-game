@@ -39,6 +39,9 @@ import { ServerConfigService } from '../config/server_config/server_config.servi
 import { AttendanceService } from '../attendance/attendance/attendance.service';
 import { SystemNoticeService } from '../config/system_notice/system_notice.service';
 import { AchieveListService } from '../achieve/achieve_list/achieve_list.service';
+import { BattleStageService } from '../stage/battle_stage/battle_stage.service';
+import { PuzzleStageService } from '../stage/puzzle_stage/puzzle_stage.service';
+import { RunStageService } from '../stage/run_stage/run_stage.service';
 
 @Injectable()
 export class ControlTableService {
@@ -82,6 +85,9 @@ export class ControlTableService {
     private readonly attendanceService: AttendanceService,
     private readonly systemNoticeService: SystemNoticeService,
     private readonly achieveListService: AchieveListService,
+    private readonly battleStageService: BattleStageService,
+    private readonly puzzleStageService: PuzzleStageService,
+    private readonly runStageService: RunStageService,
   ) {}
 
   async getControlTableAll(qr?: QueryRunner) {
@@ -101,6 +107,7 @@ export class ControlTableService {
       attendance: await this.attendanceService.getAttendanceAll(qr),
       system_notice: await this.systemNoticeService.getSystemNoticeAll(qr),
       acheve_list: await this.achieveListService.getAttendanceAll(qr),
+      stage: await this.getStageAll(qr),
     };
 
     return static_table;
@@ -211,6 +218,16 @@ export class ControlTableService {
   async getConfigAll(qr?: QueryRunner) {
     const obj = {
       server_config: await this.serverConfigService.getServerConfigAll(qr),
+    };
+
+    return obj;
+  }
+
+  async getStageAll(qr?: QueryRunner) {
+    const obj = {
+      battle_stage: await this.battleStageService.getBattleStageAll(qr),
+      puzzle_stage: await this.puzzleStageService.getPuzzleStageAll(qr),
+      run_stage: await this.runStageService.getRunStageAll(qr),
     };
 
     return obj;

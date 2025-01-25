@@ -1,26 +1,47 @@
 import { Injectable } from '@nestjs/common';
-import { CreateRunStageDto } from './dto/create-run_stage.dto';
-import { UpdateRunStageDto } from './dto/update-run_stage.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { RunStage } from './entities/run_stage.entity';
 
 @Injectable()
 export class RunStageService {
-  create(createRunStageDto: CreateRunStageDto) {
-    return 'This action adds a new runStage';
+  constructor(
+    @InjectRepository(RunStage)
+    private readonly runStageRepository: Repository<RunStage>,
+  ) {}
+
+  getRunStageRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<RunStage>(RunStage)
+      : this.runStageRepository;
   }
 
-  findAll() {
-    return `This action returns all runStage`;
+  async getRunStageAll(qr?: QueryRunner) {
+    const runStageRepository = this.getRunStageRepository(qr);
+    const result = await runStageRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} runStage`;
+  async getRunStage(run_stage_id: number, qr?: QueryRunner) {
+    const runStageRepository = this.getRunStageRepository(qr);
+    const result = await runStageRepository.findOne({
+      where: {
+        run_stage_id,
+      },
+    });
+
+    return result;
   }
 
-  update(id: number, updateRunStageDto: UpdateRunStageDto) {
-    return `This action updates a #${id} runStage`;
-  }
+  // async getbattleStage(board_num: number, day: number, qr?: QueryRunner) {
+  //   const attendanceRepository = this.getAttendanceRepository(qr);
+  //   const result = await attendanceRepository.findOne({
+  //     where: {
+  //       board_num,
+  //       day,
+  //     },
+  //   });
 
-  remove(id: number) {
-    return `This action removes a #${id} runStage`;
-  }
+  //   return result;
+  // }
 }

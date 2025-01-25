@@ -1,26 +1,47 @@
 import { Injectable } from '@nestjs/common';
-import { CreateBattleStageDto } from './dto/create-battle_stage.dto';
-import { UpdateBattleStageDto } from './dto/update-battle_stage.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { BattleStage } from './entities/battle_stage.entity';
 
 @Injectable()
 export class BattleStageService {
-  create(createBattleStageDto: CreateBattleStageDto) {
-    return 'This action adds a new battleStage';
+  constructor(
+    @InjectRepository(BattleStage)
+    private readonly battleStageRepository: Repository<BattleStage>,
+  ) {}
+
+  getBattleStageRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<BattleStage>(BattleStage)
+      : this.battleStageRepository;
   }
 
-  findAll() {
-    return `This action returns all battleStage`;
+  async getBattleStageAll(qr?: QueryRunner) {
+    const battleStageRepository = this.getBattleStageRepository(qr);
+    const result = await battleStageRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} battleStage`;
+  async getBattleStage(battle_stage_id: number, qr?: QueryRunner) {
+    const battleStageRepository = this.getBattleStageRepository(qr);
+    const result = await battleStageRepository.findOne({
+      where: {
+        battle_stage_id,
+      },
+    });
+
+    return result;
   }
 
-  update(id: number, updateBattleStageDto: UpdateBattleStageDto) {
-    return `This action updates a #${id} battleStage`;
-  }
+  // async getbattleStage(board_num: number, day: number, qr?: QueryRunner) {
+  //   const attendanceRepository = this.getAttendanceRepository(qr);
+  //   const result = await attendanceRepository.findOne({
+  //     where: {
+  //       board_num,
+  //       day,
+  //     },
+  //   });
 
-  remove(id: number) {
-    return `This action removes a #${id} battleStage`;
-  }
+  //   return result;
+  // }
 }
