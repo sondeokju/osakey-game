@@ -1,26 +1,47 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSecameMailDto } from './dto/create-secame_mail.dto';
-import { UpdateSecameMailDto } from './dto/update-secame_mail.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { SecameMail } from './entities/secame_mail.entity';
 
 @Injectable()
 export class SecameMailService {
-  create(createSecameMailDto: CreateSecameMailDto) {
-    return 'This action adds a new secameMail';
+  constructor(
+    @InjectRepository(SecameMail)
+    private readonly secameMailRepository: Repository<SecameMail>,
+  ) {}
+
+  getSecameMailRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<SecameMail>(SecameMail)
+      : this.secameMailRepository;
   }
 
-  findAll() {
-    return `This action returns all secameMail`;
+  async getSecameMailAll(qr?: QueryRunner) {
+    const secameMailRepository = this.getSecameMailRepository(qr);
+    const result = await secameMailRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} secameMail`;
+  async getSecameMail(secame_mail_id: number, qr?: QueryRunner) {
+    const secameMailRepository = this.getSecameMailRepository(qr);
+    const result = await secameMailRepository.findOne({
+      where: {
+        secame_mail_id,
+      },
+    });
+
+    return result;
   }
 
-  update(id: number, updateSecameMailDto: UpdateSecameMailDto) {
-    return `This action updates a #${id} secameMail`;
-  }
+  // async getbattleStage(board_num: number, day: number, qr?: QueryRunner) {
+  //   const attendanceRepository = this.getAttendanceRepository(qr);
+  //   const result = await attendanceRepository.findOne({
+  //     where: {
+  //       board_num,
+  //       day,
+  //     },
+  //   });
 
-  remove(id: number) {
-    return `This action removes a #${id} secameMail`;
-  }
+  //   return result;
+  // }
 }

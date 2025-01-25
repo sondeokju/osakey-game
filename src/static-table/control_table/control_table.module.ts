@@ -98,6 +98,10 @@ import { SuitOption } from '../suit/suit_option/entities/suit_option.entity';
 import { SuitSkill } from '../suit/suit_skill/entities/suit_skill.entity';
 import { SuitUltimate } from '../suit/suit_ultimate/entities/suit_ultimate.entity';
 import { SuitUltimateLevel } from '../suit/suit_ultimate_level/entities/suit_ultimate_level.entity';
+import { SecameDiary } from '../secame/secame_diary/entities/secame_diary.entity';
+import { SecameMail } from '../secame/secame_mail/entities/secame_mail.entity';
+import { SecameDiaryService } from '../secame/secame_diary/secame_diary.service';
+import { SecameMailService } from '../secame/secame_mail/secame_mail.service';
 
 @Module({
   imports: [
@@ -151,6 +155,8 @@ import { SuitUltimateLevel } from '../suit/suit_ultimate_level/entities/suit_ult
       SuitSkill,
       SuitUltimate,
       SuitUltimateLevel,
+      SecameDiary,
+      SecameMail,
     ]),
   ],
   exports: [ControlTableService],
@@ -205,6 +211,8 @@ import { SuitUltimateLevel } from '../suit/suit_ultimate_level/entities/suit_ult
     SuitSkillService,
     SuitUltimateService,
     SuitUltimateLevelService,
+    SecameDiaryService,
+    SecameMailService,
   ],
 })
 export class ControlTableModule {}

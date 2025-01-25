@@ -1,26 +1,47 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSecameDiaryDto } from './dto/create-secame_diary.dto';
-import { UpdateSecameDiaryDto } from './dto/update-secame_diary.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { SecameDiary } from './entities/secame_diary.entity';
 
 @Injectable()
 export class SecameDiaryService {
-  create(createSecameDiaryDto: CreateSecameDiaryDto) {
-    return 'This action adds a new secameDiary';
+  constructor(
+    @InjectRepository(SecameDiary)
+    private readonly secameDiaryRepository: Repository<SecameDiary>,
+  ) {}
+
+  getSecameDiaryRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<SecameDiary>(SecameDiary)
+      : this.secameDiaryRepository;
   }
 
-  findAll() {
-    return `This action returns all secameDiary`;
+  async getSecameDiaryAll(qr?: QueryRunner) {
+    const secameDiaryRepository = this.getSecameDiaryRepository(qr);
+    const result = await secameDiaryRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} secameDiary`;
+  async getSecameDiary(secame_diary_id: number, qr?: QueryRunner) {
+    const secameDiaryRepository = this.getSecameDiaryRepository(qr);
+    const result = await secameDiaryRepository.findOne({
+      where: {
+        secame_diary_id,
+      },
+    });
+
+    return result;
   }
 
-  update(id: number, updateSecameDiaryDto: UpdateSecameDiaryDto) {
-    return `This action updates a #${id} secameDiary`;
-  }
+  // async getbattleStage(board_num: number, day: number, qr?: QueryRunner) {
+  //   const attendanceRepository = this.getAttendanceRepository(qr);
+  //   const result = await attendanceRepository.findOne({
+  //     where: {
+  //       board_num,
+  //       day,
+  //     },
+  //   });
 
-  remove(id: number) {
-    return `This action removes a #${id} secameDiary`;
-  }
+  //   return result;
+  // }
 }

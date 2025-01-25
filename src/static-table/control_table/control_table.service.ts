@@ -48,6 +48,8 @@ import { SuitOptionService } from '../suit/suit_option/suit_option.service';
 import { SuitSkillService } from '../suit/suit_skill/suit_skill.service';
 import { SuitUltimateService } from '../suit/suit_ultimate/suit_ultimate.service';
 import { SuitUltimateLevelService } from '../suit/suit_ultimate_level/suit_ultimate_level.service';
+import { SecameDiaryService } from '../secame/secame_diary/secame_diary.service';
+import { SecameMailService } from '../secame/secame_mail/secame_mail.service';
 
 @Injectable()
 export class ControlTableService {
@@ -100,6 +102,8 @@ export class ControlTableService {
     private readonly suitSkillService: SuitSkillService,
     private readonly suitUltimateService: SuitUltimateService,
     private readonly suitUltimateLevelService: SuitUltimateLevelService,
+    private readonly secameDiaryService: SecameDiaryService,
+    private readonly secameMailService: SecameMailService,
   ) {}
 
   async getControlTableAll(qr?: QueryRunner) {
@@ -255,6 +259,15 @@ export class ControlTableService {
       suit_ultimate: await this.suitUltimateService.getSuitUltimateAll(qr),
       suit_ultimate_level:
         await this.suitUltimateLevelService.getSuitUltimateLevelAll(qr),
+    };
+
+    return obj;
+  }
+
+  async getSecameAll(qr?: QueryRunner) {
+    const obj = {
+      secame_diary: await this.secameDiaryService.getSecameDiaryAll(qr),
+      secame_mail: await this.secameMailService.getSecameMailAll(qr),
     };
 
     return obj;
