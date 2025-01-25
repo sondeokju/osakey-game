@@ -1,26 +1,47 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSuitUltimateDto } from './dto/create-suit_ultimate.dto';
-import { UpdateSuitUltimateDto } from './dto/update-suit_ultimate.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { SuitUltimate } from './entities/suit_ultimate.entity';
 
 @Injectable()
 export class SuitUltimateService {
-  create(createSuitUltimateDto: CreateSuitUltimateDto) {
-    return 'This action adds a new suitUltimate';
+  constructor(
+    @InjectRepository(SuitUltimate)
+    private readonly suitUltimateRepository: Repository<SuitUltimate>,
+  ) {}
+
+  getSuitUltimateRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<SuitUltimate>(SuitUltimate)
+      : this.suitUltimateRepository;
   }
 
-  findAll() {
-    return `This action returns all suitUltimate`;
+  async getSuitUltimateAll(qr?: QueryRunner) {
+    const suitUltimateRepository = this.getSuitUltimateRepository(qr);
+    const result = await suitUltimateRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} suitUltimate`;
+  async getSuitUltimate(suit_ultimate_id: number, qr?: QueryRunner) {
+    const runStageRepository = this.getSuitUltimateRepository(qr);
+    const result = await runStageRepository.findOne({
+      where: {
+        suit_ultimate_id,
+      },
+    });
+
+    return result;
   }
 
-  update(id: number, updateSuitUltimateDto: UpdateSuitUltimateDto) {
-    return `This action updates a #${id} suitUltimate`;
-  }
+  // async getbattleStage(board_num: number, day: number, qr?: QueryRunner) {
+  //   const attendanceRepository = this.getAttendanceRepository(qr);
+  //   const result = await attendanceRepository.findOne({
+  //     where: {
+  //       board_num,
+  //       day,
+  //     },
+  //   });
 
-  remove(id: number) {
-    return `This action removes a #${id} suitUltimate`;
-  }
+  //   return result;
+  // }
 }

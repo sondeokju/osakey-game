@@ -1,26 +1,47 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSuitOptionDto } from './dto/create-suit_option.dto';
-import { UpdateSuitOptionDto } from './dto/update-suit_option.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { SuitOption } from './entities/suit_option.entity';
 
 @Injectable()
 export class SuitOptionService {
-  create(createSuitOptionDto: CreateSuitOptionDto) {
-    return 'This action adds a new suitOption';
+  constructor(
+    @InjectRepository(SuitOption)
+    private readonly suitOptionRepository: Repository<SuitOption>,
+  ) {}
+
+  getSuitOptionRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<SuitOption>(SuitOption)
+      : this.suitOptionRepository;
   }
 
-  findAll() {
-    return `This action returns all suitOption`;
+  async getSuitOptionAll(qr?: QueryRunner) {
+    const suitOptionRepository = this.getSuitOptionRepository(qr);
+    const result = await suitOptionRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} suitOption`;
+  async getSuitOption(id: number, qr?: QueryRunner) {
+    const suitOptionRepository = this.getSuitOptionRepository(qr);
+    const result = await suitOptionRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    return result;
   }
 
-  update(id: number, updateSuitOptionDto: UpdateSuitOptionDto) {
-    return `This action updates a #${id} suitOption`;
-  }
+  // async getbattleStage(board_num: number, day: number, qr?: QueryRunner) {
+  //   const attendanceRepository = this.getAttendanceRepository(qr);
+  //   const result = await attendanceRepository.findOne({
+  //     where: {
+  //       board_num,
+  //       day,
+  //     },
+  //   });
 
-  remove(id: number) {
-    return `This action removes a #${id} suitOption`;
-  }
+  //   return result;
+  // }
 }

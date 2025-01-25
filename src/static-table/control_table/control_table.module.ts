@@ -86,6 +86,18 @@ import { RunStage } from '../stage/run_stage/entities/run_stage.entity';
 import { BattleStageService } from '../stage/battle_stage/battle_stage.service';
 import { PuzzleStageService } from '../stage/puzzle_stage/puzzle_stage.service';
 import { RunStageService } from '../stage/run_stage/run_stage.service';
+import { SuitService } from '../suit/suit/suit.service';
+import { SuitLevelService } from '../suit/suit_level/suit_level.service';
+import { SuitOptionService } from '../suit/suit_option/suit_option.service';
+import { SuitSkillService } from '../suit/suit_skill/suit_skill.service';
+import { SuitUltimateService } from '../suit/suit_ultimate/suit_ultimate.service';
+import { SuitUltimateLevelService } from '../suit/suit_ultimate_level/suit_ultimate_level.service';
+import { Suit } from '../suit/suit/entities/suit.entity';
+import { SuitLevel } from '../suit/suit_level/entities/suit_level.entity';
+import { SuitOption } from '../suit/suit_option/entities/suit_option.entity';
+import { SuitSkill } from '../suit/suit_skill/entities/suit_skill.entity';
+import { SuitUltimate } from '../suit/suit_ultimate/entities/suit_ultimate.entity';
+import { SuitUltimateLevel } from '../suit/suit_ultimate_level/entities/suit_ultimate_level.entity';
 
 @Module({
   imports: [
@@ -133,6 +145,12 @@ import { RunStageService } from '../stage/run_stage/run_stage.service';
       BattleStage,
       PuzzleStage,
       RunStage,
+      Suit,
+      SuitLevel,
+      SuitOption,
+      SuitSkill,
+      SuitUltimate,
+      SuitUltimateLevel,
     ]),
   ],
   exports: [ControlTableService],
@@ -181,6 +199,12 @@ import { RunStageService } from '../stage/run_stage/run_stage.service';
     BattleStageService,
     PuzzleStageService,
     RunStageService,
+    SuitService,
+    SuitLevelService,
+    SuitOptionService,
+    SuitSkillService,
+    SuitUltimateService,
+    SuitUltimateLevelService,
   ],
 })
 export class ControlTableModule {}

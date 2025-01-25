@@ -42,6 +42,12 @@ import { AchieveListService } from '../achieve/achieve_list/achieve_list.service
 import { BattleStageService } from '../stage/battle_stage/battle_stage.service';
 import { PuzzleStageService } from '../stage/puzzle_stage/puzzle_stage.service';
 import { RunStageService } from '../stage/run_stage/run_stage.service';
+import { SuitService } from '../suit/suit/suit.service';
+import { SuitLevelService } from '../suit/suit_level/suit_level.service';
+import { SuitOptionService } from '../suit/suit_option/suit_option.service';
+import { SuitSkillService } from '../suit/suit_skill/suit_skill.service';
+import { SuitUltimateService } from '../suit/suit_ultimate/suit_ultimate.service';
+import { SuitUltimateLevelService } from '../suit/suit_ultimate_level/suit_ultimate_level.service';
 
 @Injectable()
 export class ControlTableService {
@@ -88,6 +94,12 @@ export class ControlTableService {
     private readonly battleStageService: BattleStageService,
     private readonly puzzleStageService: PuzzleStageService,
     private readonly runStageService: RunStageService,
+    private readonly suitService: SuitService,
+    private readonly suitLevelService: SuitLevelService,
+    private readonly suitOptionService: SuitOptionService,
+    private readonly suitSkillService: SuitSkillService,
+    private readonly suitUltimateService: SuitUltimateService,
+    private readonly suitUltimateLevelService: SuitUltimateLevelService,
   ) {}
 
   async getControlTableAll(qr?: QueryRunner) {
@@ -108,6 +120,7 @@ export class ControlTableService {
       system_notice: await this.systemNoticeService.getSystemNoticeAll(qr),
       acheve_list: await this.achieveListService.getAttendanceAll(qr),
       stage: await this.getStageAll(qr),
+      suit: await this.getSuitAll(qr),
     };
 
     return static_table;
@@ -228,6 +241,20 @@ export class ControlTableService {
       battle_stage: await this.battleStageService.getBattleStageAll(qr),
       puzzle_stage: await this.puzzleStageService.getPuzzleStageAll(qr),
       run_stage: await this.runStageService.getRunStageAll(qr),
+    };
+
+    return obj;
+  }
+
+  async getSuitAll(qr?: QueryRunner) {
+    const obj = {
+      suit: await this.suitService.getSuitAll(qr),
+      suit_level: await this.suitLevelService.getSuitLevelAll(qr),
+      suit_option: await this.suitOptionService.getSuitOptionAll(qr),
+      suit_skill: await this.suitSkillService.getSuitSkillAll(qr),
+      suit_ultimate: await this.suitUltimateService.getSuitUltimateAll(qr),
+      suit_ultimate_level:
+        await this.suitUltimateLevelService.getSuitUltimateLevelAll(qr),
     };
 
     return obj;

@@ -1,26 +1,47 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSuitLevelDto } from './dto/create-suit_level.dto';
-import { UpdateSuitLevelDto } from './dto/update-suit_level.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { SuitLevel } from './entities/suit_level.entity';
 
 @Injectable()
 export class SuitLevelService {
-  create(createSuitLevelDto: CreateSuitLevelDto) {
-    return 'This action adds a new suitLevel';
+  constructor(
+    @InjectRepository(SuitLevel)
+    private readonly suitLevelRepository: Repository<SuitLevel>,
+  ) {}
+
+  getSuitLevelRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<SuitLevel>(SuitLevel)
+      : this.suitLevelRepository;
   }
 
-  findAll() {
-    return `This action returns all suitLevel`;
+  async getSuitLevelAll(qr?: QueryRunner) {
+    const suitLevelRepository = this.getSuitLevelRepository(qr);
+    const result = await suitLevelRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} suitLevel`;
+  async getSuitLevel(suit_level_id: number, qr?: QueryRunner) {
+    const suitLevelRepository = this.getSuitLevelRepository(qr);
+    const result = await suitLevelRepository.findOne({
+      where: {
+        suit_level_id,
+      },
+    });
+
+    return result;
   }
 
-  update(id: number, updateSuitLevelDto: UpdateSuitLevelDto) {
-    return `This action updates a #${id} suitLevel`;
-  }
+  // async getbattleStage(board_num: number, day: number, qr?: QueryRunner) {
+  //   const attendanceRepository = this.getAttendanceRepository(qr);
+  //   const result = await attendanceRepository.findOne({
+  //     where: {
+  //       board_num,
+  //       day,
+  //     },
+  //   });
 
-  remove(id: number) {
-    return `This action removes a #${id} suitLevel`;
-  }
+  //   return result;
+  // }
 }
