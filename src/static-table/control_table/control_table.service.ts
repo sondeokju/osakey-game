@@ -125,6 +125,7 @@ export class ControlTableService {
       acheve_list: await this.achieveListService.getAttendanceAll(qr),
       stage: await this.getStageAll(qr),
       suit: await this.getSuitAll(qr),
+      secame: await this.getSecameAll(qr),
     };
 
     return static_table;
