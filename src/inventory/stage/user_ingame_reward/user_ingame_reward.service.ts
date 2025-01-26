@@ -6,8 +6,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserIngameReward } from 'src/inventory/reward/user_ingame_reward/entities/user_ingame_reward.entity';
 import { QueryRunner, Repository } from 'typeorm';
+import { UserIngameReward } from './entities/user_ingame_reward.entity';
 
 @Injectable()
 export class UserIngameRewardService {
