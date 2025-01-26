@@ -1,26 +1,35 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserSecameDiaryDto } from './dto/create-user_secame_diary.dto';
-import { UpdateUserSecameDiaryDto } from './dto/update-user_secame_diary.dto';
+import {
+  BadRequestException,
+  ConsoleLogger,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { UserSecameDiary } from './entities/user_secame_diary.entity';
 
 @Injectable()
 export class UserSecameDiaryService {
-  create(createUserSecameDiaryDto: CreateUserSecameDiaryDto) {
-    return 'This action adds a new userSecameDiary';
+  constructor(
+    @InjectRepository(UserSecameDiary)
+    private readonly userSecameDiaryRepository: Repository<UserSecameDiary>,
+  ) {}
+
+  getUserSecameDiaryRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<UserSecameDiary>(UserSecameDiary)
+      : this.userSecameDiaryRepository;
   }
 
-  findAll() {
-    return `This action returns all userSecameDiary`;
-  }
+  async getUserSecameDiary(user_id: string, qr?: QueryRunner) {
+    const userSecameDiaryRepository = this.getUserSecameDiaryRepository(qr);
+    const result = await userSecameDiaryRepository.find({
+      where: {
+        user_id,
+      },
+    });
 
-  findOne(id: number) {
-    return `This action returns a #${id} userSecameDiary`;
-  }
-
-  update(id: number, updateUserSecameDiaryDto: UpdateUserSecameDiaryDto) {
-    return `This action updates a #${id} userSecameDiary`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} userSecameDiary`;
+    return result;
   }
 }
