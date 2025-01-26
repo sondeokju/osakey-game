@@ -1,26 +1,35 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserMemorizeDto } from './dto/create-user_memorize.dto';
-import { UpdateUserMemorizeDto } from './dto/update-user_memorize.dto';
+import {
+  BadRequestException,
+  ConsoleLogger,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { UserMemorize } from './entities/user_memorize.entity';
 
 @Injectable()
 export class UserMemorizeService {
-  create(createUserMemorizeDto: CreateUserMemorizeDto) {
-    return 'This action adds a new userMemorize';
+  constructor(
+    @InjectRepository(UserMemorize)
+    private readonly userMemorizeRepository: Repository<UserMemorize>,
+  ) {}
+
+  getUserMemorizeRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<UserMemorize>(UserMemorize)
+      : this.userMemorizeRepository;
   }
 
-  findAll() {
-    return `This action returns all userMemorize`;
-  }
+  async getUserMemorize(user_id: string, qr?: QueryRunner) {
+    const userMemorizeRepository = this.getUserMemorizeRepository(qr);
+    const result = await userMemorizeRepository.find({
+      where: {
+        user_id,
+      },
+    });
 
-  findOne(id: number) {
-    return `This action returns a #${id} userMemorize`;
-  }
-
-  update(id: number, updateUserMemorizeDto: UpdateUserMemorizeDto) {
-    return `This action updates a #${id} userMemorize`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} userMemorize`;
+    return result;
   }
 }

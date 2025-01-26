@@ -1,34 +1,55 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
+import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
+import { User } from 'src/users/decorator/user.decorator';
+import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
+import { QueryRunner as QR } from 'typeorm';
+import { Users } from 'src/users/entity/users.entity';
 import { UserMemorizeService } from './user_memorize.service';
-import { CreateUserMemorizeDto } from './dto/create-user_memorize.dto';
-import { UpdateUserMemorizeDto } from './dto/update-user_memorize.dto';
 
-@Controller('user-memorize')
+@Controller('memorize')
 export class UserMemorizeController {
   constructor(private readonly userMemorizeService: UserMemorizeService) {}
 
-  @Post()
-  create(@Body() createUserMemorizeDto: CreateUserMemorizeDto) {
-    return this.userMemorizeService.create(createUserMemorizeDto);
-  }
-
   @Get()
-  findAll() {
-    return this.userMemorizeService.findAll();
+  @UseInterceptors(TransactionInterceptor)
+  async getUserMemorize(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = this.userMemorizeService.getUserMemorize(user.user_id, qr);
+    return result;
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userMemorizeService.findOne(+id);
-  }
+  // @Post('save')
+  // @UseInterceptors(TransactionInterceptor)
+  // async saveAchieve(
+  //   @User() user: Users,
+  //   @Body('achieve_id') achieve_id: number,
+  //   @Body('achieve_count') achieve_count: number,
+  //   @Body('process_status') process_status: string,
+  //   @QueryRunner() qr: QR,
+  // ) {
+  //   const result = await this.userAchievementsService.saveAchieve(
+  //     user.user_id,
+  //     achieve_id,
+  //     achieve_count,
+  //     process_status,
+  //     qr,
+  //   );
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserMemorizeDto: UpdateUserMemorizeDto) {
-    return this.userMemorizeService.update(+id, updateUserMemorizeDto);
-  }
+  //   return JSON.stringify(result);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userMemorizeService.remove(+id);
-  }
+  // @Post('reward')
+  // @UseInterceptors(TransactionInterceptor)
+  // async achieveReward(
+  //   @User() user: Users,
+  //   @Body('user_achievements_id') user_achievements_id: number,
+  //   @QueryRunner() qr: QR,
+  // ) {
+  //   const result = await this.userAchievementsService.achieveReward(
+  //     user.user_id,
+  //     user_achievements_id,
+  //     qr,
+  //   );
+
+  //   return JSON.stringify(result);
+  // }
 }
