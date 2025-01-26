@@ -105,7 +105,7 @@ import { SuitModule } from 'src/static-table/suit/suit/suit.module';
 import { SuitLevelModule } from 'src/static-table/suit/suit_level/suit_level.module';
 import { SuitUltimateModule } from 'src/static-table/suit/suit_ultimate/suit_ultimate.module';
 import { SuitUltimateLevelModule } from 'src/static-table/suit/suit_ultimate_level/suit_ultimate_level.module';
-import { UserIngameRewardModule } from 'src/inventory/reward/user_ingame_reward/user_ingame_reward.module';
+import { UserIngameRewardModule } from 'src/inventory/stage/user_ingame_reward/user_ingame_reward.module';
 
 export const entities_module = [
   UsersModule,
@@ -181,7 +181,6 @@ export const entities_module = [
   AchieveListModule,
   UserAchievementsModule,
   UserOfflineRewardModule,
-  UserIngameRewardModule,
   UserCollectionModule,
   UserNpcFriendshipModule,
   ZLoginLogModule,
@@ -216,4 +215,5 @@ export const entities_module = [
   SuitLevelModule,
   SuitUltimateModule,
   SuitUltimateLevelModule,
+  UserIngameRewardModule,
 ];

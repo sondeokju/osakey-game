@@ -93,7 +93,6 @@ import { UserBattlePass } from 'src/inventory/battlepass/user_battle_pass/entiti
 import { UserBattlePassReward } from 'src/inventory/battlepass/user_battle_pass_reward/entities/user_battle_pass_reward.entity';
 import { UserMemorize } from 'src/inventory/boss/user_memorize/entities/user_memorize.entity';
 import { UserMemoryShare } from 'src/inventory/boss/user_memory_share/entities/user_memory_share.entity';
-import { UserIngameReward } from 'src/inventory/reward/user_ingame_reward/entities/user_ingame_reward.entity';
 import { BattleStage } from 'src/static-table/stage/battle_stage/entities/battle_stage.entity';
 import { PuzzleStage } from 'src/static-table/stage/puzzle_stage/entities/puzzle_stage.entity';
 import { RunStage } from 'src/static-table/stage/run_stage/entities/run_stage.entity';
@@ -101,6 +100,7 @@ import { Suit } from 'src/static-table/suit/suit/entities/suit.entity';
 import { SuitLevel } from 'src/static-table/suit/suit_level/entities/suit_level.entity';
 import { SuitUltimate } from 'src/static-table/suit/suit_ultimate/entities/suit_ultimate.entity';
 import { SuitUltimateLevel } from 'src/static-table/suit/suit_ultimate_level/entities/suit_ultimate_level.entity';
+import { UserIngameReward } from 'src/inventory/stage/user_ingame_reward/entities/user_ingame_reward.entity';
 
 export const entities = [
   Users,
