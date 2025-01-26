@@ -1,26 +1,35 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserMemoryShareDto } from './dto/create-user_memory_share.dto';
-import { UpdateUserMemoryShareDto } from './dto/update-user_memory_share.dto';
+import {
+  BadRequestException,
+  ConsoleLogger,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { UserMemoryShare } from './entities/user_memory_share.entity';
 
 @Injectable()
 export class UserMemoryShareService {
-  create(createUserMemoryShareDto: CreateUserMemoryShareDto) {
-    return 'This action adds a new userMemoryShare';
+  constructor(
+    @InjectRepository(UserMemoryShare)
+    private readonly userMemoryShareRepository: Repository<UserMemoryShare>,
+  ) {}
+
+  getUserMemorizeShareRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<UserMemoryShare>(UserMemoryShare)
+      : this.userMemoryShareRepository;
   }
 
-  findAll() {
-    return `This action returns all userMemoryShare`;
-  }
+  async getUserMemorizeShare(user_id: string, qr?: QueryRunner) {
+    const userMemoryShareRepository = this.getUserMemorizeShareRepository(qr);
+    const result = await userMemoryShareRepository.find({
+      where: {
+        user_id,
+      },
+    });
 
-  findOne(id: number) {
-    return `This action returns a #${id} userMemoryShare`;
-  }
-
-  update(id: number, updateUserMemoryShareDto: UpdateUserMemoryShareDto) {
-    return `This action updates a #${id} userMemoryShare`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} userMemoryShare`;
+    return result;
   }
 }

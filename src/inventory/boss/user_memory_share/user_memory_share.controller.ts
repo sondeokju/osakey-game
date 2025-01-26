@@ -1,34 +1,60 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
+import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
+import { User } from 'src/users/decorator/user.decorator';
+import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
+import { QueryRunner as QR } from 'typeorm';
+import { Users } from 'src/users/entity/users.entity';
 import { UserMemoryShareService } from './user_memory_share.service';
-import { CreateUserMemoryShareDto } from './dto/create-user_memory_share.dto';
-import { UpdateUserMemoryShareDto } from './dto/update-user_memory_share.dto';
 
-@Controller('user-memory-share')
-export class UserMemoryShareController {
-  constructor(private readonly userMemoryShareService: UserMemoryShareService) {}
-
-  @Post()
-  create(@Body() createUserMemoryShareDto: CreateUserMemoryShareDto) {
-    return this.userMemoryShareService.create(createUserMemoryShareDto);
-  }
+@Controller('memorize')
+export class UserMemorizeController {
+  constructor(
+    private readonly userMemoryShareService: UserMemoryShareService,
+  ) {}
 
   @Get()
-  findAll() {
-    return this.userMemoryShareService.findAll();
+  @UseInterceptors(TransactionInterceptor)
+  async getUserMemorize(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = this.userMemoryShareService.getUserMemorizeShare(
+      user.user_id,
+      qr,
+    );
+    return result;
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userMemoryShareService.findOne(+id);
-  }
+  // @Post('save')
+  // @UseInterceptors(TransactionInterceptor)
+  // async saveAchieve(
+  //   @User() user: Users,
+  //   @Body('achieve_id') achieve_id: number,
+  //   @Body('achieve_count') achieve_count: number,
+  //   @Body('process_status') process_status: string,
+  //   @QueryRunner() qr: QR,
+  // ) {
+  //   const result = await this.userAchievementsService.saveAchieve(
+  //     user.user_id,
+  //     achieve_id,
+  //     achieve_count,
+  //     process_status,
+  //     qr,
+  //   );
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserMemoryShareDto: UpdateUserMemoryShareDto) {
-    return this.userMemoryShareService.update(+id, updateUserMemoryShareDto);
-  }
+  //   return JSON.stringify(result);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userMemoryShareService.remove(+id);
-  }
+  // @Post('reward')
+  // @UseInterceptors(TransactionInterceptor)
+  // async achieveReward(
+  //   @User() user: Users,
+  //   @Body('user_achievements_id') user_achievements_id: number,
+  //   @QueryRunner() qr: QR,
+  // ) {
+  //   const result = await this.userAchievementsService.achieveReward(
+  //     user.user_id,
+  //     user_achievements_id,
+  //     qr,
+  //   );
+
+  //   return JSON.stringify(result);
+  // }
 }
