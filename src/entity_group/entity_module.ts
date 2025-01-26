@@ -70,8 +70,6 @@ import { SystemNoticeModule } from 'src/static-table/config/system_notice/system
 import { UserMailModule } from 'src/inventory/mail/user_mail/user_mail.module';
 import { AchieveListModule } from 'src/static-table/achieve/achieve_list/achieve_list.module';
 import { UserAchievementsModule } from 'src/inventory/achievement/user_achievements/user_achievements.module';
-import { UserIngameLogModule } from 'src/inventory/reward/user_ingame_log/user_ingame_log.module';
-import { UserIngameRewardModule } from 'src/inventory/reward/user_ingame_reward/user_ingame_reward.module';
 import { UserOfflineRewardModule } from 'src/inventory/reward/user_offline_reward/user_offline_reward.module';
 import { UserCollectionModule } from 'src/inventory/collection/user_collection/user_collection.module';
 import { UserNpcFriendshipModule } from 'src/inventory/npc/user_npc_friendship/user_npc_friendship.module';
@@ -107,6 +105,7 @@ import { SuitModule } from 'src/static-table/suit/suit/suit.module';
 import { SuitLevelModule } from 'src/static-table/suit/suit_level/suit_level.module';
 import { SuitUltimateModule } from 'src/static-table/suit/suit_ultimate/suit_ultimate.module';
 import { SuitUltimateLevelModule } from 'src/static-table/suit/suit_ultimate_level/suit_ultimate_level.module';
+import { UserIngameRewardModule } from 'src/inventory/reward/user_ingame_reward/user_ingame_reward.module';
 
 export const entities_module = [
   UsersModule,
@@ -183,7 +182,6 @@ export const entities_module = [
   UserAchievementsModule,
   UserOfflineRewardModule,
   UserIngameRewardModule,
-  UserIngameLogModule,
   UserCollectionModule,
   UserNpcFriendshipModule,
   ZLoginLogModule,
@@ -211,7 +209,6 @@ export const entities_module = [
   UserBattlePassRewardModule,
   UserMemorizeModule,
   UserMemoryShareModule,
-  UserIngameRewardModule,
   BattleStageModule,
   RunStageModule,
   PuzzleStageModule,

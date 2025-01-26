@@ -198,7 +198,6 @@ export const entities = [
   UserBattlePassReward,
   UserMemorize,
   UserMemoryShare,
-  UserIngameReward,
   BattleStage,
   RunStage,
   PuzzleStage,
