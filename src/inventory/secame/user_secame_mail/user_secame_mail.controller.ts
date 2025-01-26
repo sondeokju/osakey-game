@@ -1,34 +1,58 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
+import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
+import { User } from 'src/users/decorator/user.decorator';
+import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
+import { QueryRunner as QR } from 'typeorm';
+import { Users } from 'src/users/entity/users.entity';
 import { UserSecameMailService } from './user_secame_mail.service';
-import { CreateUserSecameMailDto } from './dto/create-user_secame_mail.dto';
-import { UpdateUserSecameMailDto } from './dto/update-user_secame_mail.dto';
 
-@Controller('user-secame-mail')
+@Controller('secame')
 export class UserSecameMailController {
   constructor(private readonly userSecameMailService: UserSecameMailService) {}
 
-  @Post()
-  create(@Body() createUserSecameMailDto: CreateUserSecameMailDto) {
-    return this.userSecameMailService.create(createUserSecameMailDto);
-  }
+  // @Get()
+  // @UseInterceptors(TransactionInterceptor)
+  // async getUserSecameMail(@User() user: Users, @QueryRunner() qr: QR) {
+  //   const result = this.userSecameMailService.getUserSecameMail(
+  //     user.user_id,
+  //     qr,
+  //   );
+  //   return result;
+  // }
 
-  @Get()
-  findAll() {
-    return this.userSecameMailService.findAll();
-  }
+  // @Post('save')
+  // @UseInterceptors(TransactionInterceptor)
+  // async saveAchieve(
+  //   @User() user: Users,
+  //   @Body('achieve_id') achieve_id: number,
+  //   @Body('achieve_count') achieve_count: number,
+  //   @Body('process_status') process_status: string,
+  //   @QueryRunner() qr: QR,
+  // ) {
+  //   const result = await this.userAchievementsService.saveAchieve(
+  //     user.user_id,
+  //     achieve_id,
+  //     achieve_count,
+  //     process_status,
+  //     qr,
+  //   );
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userSecameMailService.findOne(+id);
-  }
+  //   return JSON.stringify(result);
+  // }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserSecameMailDto: UpdateUserSecameMailDto) {
-    return this.userSecameMailService.update(+id, updateUserSecameMailDto);
-  }
+  // @Post('reward')
+  // @UseInterceptors(TransactionInterceptor)
+  // async achieveReward(
+  //   @User() user: Users,
+  //   @Body('user_achievements_id') user_achievements_id: number,
+  //   @QueryRunner() qr: QR,
+  // ) {
+  //   const result = await this.userAchievementsService.achieveReward(
+  //     user.user_id,
+  //     user_achievements_id,
+  //     qr,
+  //   );
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userSecameMailService.remove(+id);
-  }
+  //   return JSON.stringify(result);
+  // }
 }

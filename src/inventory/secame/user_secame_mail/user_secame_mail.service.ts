@@ -1,26 +1,35 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserSecameMailDto } from './dto/create-user_secame_mail.dto';
-import { UpdateUserSecameMailDto } from './dto/update-user_secame_mail.dto';
+import {
+  BadRequestException,
+  ConsoleLogger,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { UserSecameMail } from './entities/user_secame_mail.entity';
 
 @Injectable()
 export class UserSecameMailService {
-  create(createUserSecameMailDto: CreateUserSecameMailDto) {
-    return 'This action adds a new userSecameMail';
+  constructor(
+    @InjectRepository(UserSecameMail)
+    private readonly userSecameMailRepository: Repository<UserSecameMail>,
+  ) {}
+
+  getUserSecameMailRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<UserSecameMail>(UserSecameMail)
+      : this.userSecameMailRepository;
   }
 
-  findAll() {
-    return `This action returns all userSecameMail`;
-  }
+  // async getUserSecameMail(mail_id: number, qr?: QueryRunner) {
+  //   const userSecameMailRepository = this.getUserSecameMailRepository(qr);
+  //   const result = await userSecameMailRepository.find({
+  //     where: {
+  //       mail_id,
+  //     },
+  //   });
 
-  findOne(id: number) {
-    return `This action returns a #${id} userSecameMail`;
-  }
-
-  update(id: number, updateUserSecameMailDto: UpdateUserSecameMailDto) {
-    return `This action updates a #${id} userSecameMail`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} userSecameMail`;
-  }
+  //   return result;
+  // }
 }
