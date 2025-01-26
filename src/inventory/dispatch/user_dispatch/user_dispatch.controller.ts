@@ -12,7 +12,7 @@ export class UserDispatchController {
 
   @Get()
   @UseInterceptors(TransactionInterceptor)
-  async achieve(@User() user: Users, @QueryRunner() qr: QR) {
+  async getUserDispatch(@User() user: Users, @QueryRunner() qr: QR) {
     const result = this.userDispatchService.getUserDispatch(user.user_id, qr);
     return result;
   }

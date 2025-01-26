@@ -1,26 +1,36 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserDispatchRentamaDto } from './dto/create-user_dispatch_rentama.dto';
-import { UpdateUserDispatchRentamaDto } from './dto/update-user_dispatch_rentama.dto';
+import {
+  BadRequestException,
+  ConsoleLogger,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { UserDispatchRentama } from './entities/user_dispatch_rentama.entity';
 
 @Injectable()
 export class UserDispatchRentamaService {
-  create(createUserDispatchRentamaDto: CreateUserDispatchRentamaDto) {
-    return 'This action adds a new userDispatchRentama';
+  constructor(
+    @InjectRepository(UserDispatchRentama)
+    private readonly userDispatchRentamaRepository: Repository<UserDispatchRentama>,
+  ) {}
+
+  getUserDispatchRentamaRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<UserDispatchRentama>(UserDispatchRentama)
+      : this.userDispatchRentamaRepository;
   }
 
-  findAll() {
-    return `This action returns all userDispatchRentama`;
-  }
+  async getUserDispatchRentama(user_id: string, qr?: QueryRunner) {
+    const userDispatchRentamaRepository =
+      this.getUserDispatchRentamaRepository(qr);
+    const result = await userDispatchRentamaRepository.find({
+      where: {
+        user_id,
+      },
+    });
 
-  findOne(id: number) {
-    return `This action returns a #${id} userDispatchRentama`;
-  }
-
-  update(id: number, updateUserDispatchRentamaDto: UpdateUserDispatchRentamaDto) {
-    return `This action updates a #${id} userDispatchRentama`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} userDispatchRentama`;
+    return result;
   }
 }
