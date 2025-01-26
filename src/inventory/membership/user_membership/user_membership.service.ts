@@ -1,26 +1,35 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserMembershipDto } from './dto/create-user_membership.dto';
-import { UpdateUserMembershipDto } from './dto/update-user_membership.dto';
+import {
+  BadRequestException,
+  ConsoleLogger,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { UserMembership } from './entities/user_membership.entity';
 
 @Injectable()
 export class UserMembershipService {
-  create(createUserMembershipDto: CreateUserMembershipDto) {
-    return 'This action adds a new userMembership';
+  constructor(
+    @InjectRepository(UserMembership)
+    private readonly userMembershipRepository: Repository<UserMembership>,
+  ) {}
+
+  getUserMembershipRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<UserMembership>(UserMembership)
+      : this.userMembershipRepository;
   }
 
-  findAll() {
-    return `This action returns all userMembership`;
-  }
+  async getUserMembership(user_id: string, qr?: QueryRunner) {
+    const userMembershipRepository = this.getUserMembershipRepository(qr);
+    const result = await userMembershipRepository.find({
+      where: {
+        user_id,
+      },
+    });
 
-  findOne(id: number) {
-    return `This action returns a #${id} userMembership`;
-  }
-
-  update(id: number, updateUserMembershipDto: UpdateUserMembershipDto) {
-    return `This action updates a #${id} userMembership`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} userMembership`;
+    return result;
   }
 }
