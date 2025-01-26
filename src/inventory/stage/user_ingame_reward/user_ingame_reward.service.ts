@@ -1,26 +1,35 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserIngameRewardDto } from './dto/create-user_ingame_reward.dto';
-import { UpdateUserIngameRewardDto } from './dto/update-user_ingame_reward.dto';
+import {
+  BadRequestException,
+  ConsoleLogger,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserIngameReward } from 'src/inventory/reward/user_ingame_reward/entities/user_ingame_reward.entity';
+import { QueryRunner, Repository } from 'typeorm';
 
 @Injectable()
 export class UserIngameRewardService {
-  create(createUserIngameRewardDto: CreateUserIngameRewardDto) {
-    return 'This action adds a new userIngameReward';
+  constructor(
+    @InjectRepository(UserIngameReward)
+    private readonly userIngameRewardRepository: Repository<UserIngameReward>,
+  ) {}
+
+  getUserIngameRewardRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<UserIngameReward>(UserIngameReward)
+      : this.userIngameRewardRepository;
   }
 
-  findAll() {
-    return `This action returns all userIngameReward`;
-  }
+  async getUserIngameReward(user_id: string, qr?: QueryRunner) {
+    const userIngameRewardRepository = this.getUserIngameRewardRepository(qr);
+    const result = await userIngameRewardRepository.find({
+      where: {
+        user_id,
+      },
+    });
 
-  findOne(id: number) {
-    return `This action returns a #${id} userIngameReward`;
-  }
-
-  update(id: number, updateUserIngameRewardDto: UpdateUserIngameRewardDto) {
-    return `This action updates a #${id} userIngameReward`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} userIngameReward`;
+    return result;
   }
 }
