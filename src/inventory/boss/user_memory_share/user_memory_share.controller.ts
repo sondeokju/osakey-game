@@ -7,7 +7,7 @@ import { Users } from 'src/users/entity/users.entity';
 import { UserMemoryShareService } from './user_memory_share.service';
 
 @Controller('memorize')
-export class UserMemorizeController {
+export class UserMemoryShareController {
   constructor(
     private readonly userMemoryShareService: UserMemoryShareService,
   ) {}
