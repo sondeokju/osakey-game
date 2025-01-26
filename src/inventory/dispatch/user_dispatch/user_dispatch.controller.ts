@@ -1,34 +1,55 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
+import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
+import { User } from 'src/users/decorator/user.decorator';
+import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
+import { QueryRunner as QR } from 'typeorm';
+import { Users } from 'src/users/entity/users.entity';
 import { UserDispatchService } from './user_dispatch.service';
-import { CreateUserDispatchDto } from './dto/create-user_dispatch.dto';
-import { UpdateUserDispatchDto } from './dto/update-user_dispatch.dto';
 
-@Controller('user-dispatch')
+@Controller('achievements')
 export class UserDispatchController {
   constructor(private readonly userDispatchService: UserDispatchService) {}
 
-  @Post()
-  create(@Body() createUserDispatchDto: CreateUserDispatchDto) {
-    return this.userDispatchService.create(createUserDispatchDto);
-  }
-
   @Get()
-  findAll() {
-    return this.userDispatchService.findAll();
+  @UseInterceptors(TransactionInterceptor)
+  async achieve(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = this.userDispatchService.getUserDispatch(user.user_id, qr);
+    return result;
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userDispatchService.findOne(+id);
-  }
+  // @Post('save')
+  // @UseInterceptors(TransactionInterceptor)
+  // async saveAchieve(
+  //   @User() user: Users,
+  //   @Body('achieve_id') achieve_id: number,
+  //   @Body('achieve_count') achieve_count: number,
+  //   @Body('process_status') process_status: string,
+  //   @QueryRunner() qr: QR,
+  // ) {
+  //   const result = await this.userAchievementsService.saveAchieve(
+  //     user.user_id,
+  //     achieve_id,
+  //     achieve_count,
+  //     process_status,
+  //     qr,
+  //   );
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDispatchDto: UpdateUserDispatchDto) {
-    return this.userDispatchService.update(+id, updateUserDispatchDto);
-  }
+  //   return JSON.stringify(result);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userDispatchService.remove(+id);
-  }
+  // @Post('reward')
+  // @UseInterceptors(TransactionInterceptor)
+  // async achieveReward(
+  //   @User() user: Users,
+  //   @Body('user_achievements_id') user_achievements_id: number,
+  //   @QueryRunner() qr: QR,
+  // ) {
+  //   const result = await this.userAchievementsService.achieveReward(
+  //     user.user_id,
+  //     user_achievements_id,
+  //     qr,
+  //   );
+
+  //   return JSON.stringify(result);
+  // }
 }
