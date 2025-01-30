@@ -106,9 +106,10 @@ export class AuthService {
     const inven = await this.getUserInvens(userData.user_id);
     const user = await this.getUser(userData.user_id);
     const login = this.loginUser(userData);
-    console.log('login', login['accessToken']);
+    const loginObj = JSON.parse(login);
+    console.log('login', loginObj.accessToken);
     return {
-      login,
+      accessToken: loginObj.accessToken,
       user,
       inven: inven,
     };
