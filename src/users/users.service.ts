@@ -573,13 +573,13 @@ export class UsersService {
       },
     });
 
-    const rewardGord = userData.gord + gord;
+    userData.gord = userData.gord + gord;
 
-    console.log('rewardGord', rewardGord);
+    console.log('userData', userData);
 
     await usersRepository.save({
       ...userData,
-      gord: rewardGord,
+      //gord: rewardGord,
     });
 
     return true;
