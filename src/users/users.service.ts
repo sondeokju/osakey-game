@@ -569,19 +569,20 @@ export class UsersService {
     const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({
       where: { user_id },
+      select: ['gord'], // 필요한 필드만 조회
     });
 
     if (!userData) {
       throw new Error('User not found');
     }
 
-    console.log('addGord userData.gord:', typeof userData.gord, userData.gord);
-    console.log('addGord gord:', typeof gord, gord);
+    const newGord = (userData.gord ?? 0) + gord;
 
-    await usersRepository.save({
-      ...userData,
-      gord: (userData.gord ?? 0) + gord,
-    });
+    console.log('Current gord:', userData.gord);
+    console.log('Adding gord:', gord);
+    console.log('New gord:', newGord);
+
+    await usersRepository.update({ user_id }, { gord: newGord });
 
     return true;
   }
