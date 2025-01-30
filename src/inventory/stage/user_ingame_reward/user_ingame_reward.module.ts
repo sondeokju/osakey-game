@@ -6,7 +6,7 @@ import { UserIngameReward } from './entities/user_ingame_reward.entity';
 import { BattleStageModule } from 'src/static-table/stage/battle_stage/battle_stage.module';
 import { RunStageModule } from 'src/static-table/stage/run_stage/run_stage.module';
 import { PuzzleStageModule } from 'src/static-table/stage/puzzle_stage/puzzle_stage.module';
-import { ResourceManagerModule } from 'src/supervisor/resource_manager/resource_manager.module';
+import { RewardOfferModule } from 'src/supervisor/reward_offer/reward_offer.module';
 
 @Module({
   imports: [
@@ -14,7 +14,7 @@ import { ResourceManagerModule } from 'src/supervisor/resource_manager/resource_
     BattleStageModule,
     RunStageModule,
     PuzzleStageModule,
-    ResourceManagerModule,
+    RewardOfferModule,
   ],
   exports: [UserIngameRewardService],
   controllers: [UserIngameRewardController],

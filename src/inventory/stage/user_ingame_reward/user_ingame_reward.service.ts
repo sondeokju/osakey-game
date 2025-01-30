@@ -12,6 +12,7 @@ import { BattleStageService } from 'src/static-table/stage/battle_stage/battle_s
 import { RunStageService } from 'src/static-table/stage/run_stage/run_stage.service';
 import { PuzzleStageService } from 'src/static-table/stage/puzzle_stage/puzzle_stage.service';
 import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager.service';
+import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 
 @Injectable()
 export class UserIngameRewardService {
@@ -21,7 +22,7 @@ export class UserIngameRewardService {
     private readonly battleStageService: BattleStageService,
     private readonly runStageService: RunStageService,
     private readonly puzzleStageService: PuzzleStageService,
-    private readonly resourceManagerService: ResourceManagerService,
+    private readonly rewardOfferService: RewardOfferService,
   ) {}
 
   getUserIngameRewardRepository(qr?: QueryRunner) {
@@ -94,13 +95,20 @@ export class UserIngameRewardService {
 
     console.log('cacluRewardData', cacluRewardData);
 
-    await this.resourceManagerService.validateAndAddResources(
+    // await this.resourceManagerService.validateAndAddResources(
+    //   user_id,
+    //   {
+    //     gord: +cacluRewardData.gold,
+    //     exp: +cacluRewardData.exp,
+    //     dia: +cacluRewardData.dia,
+    //   },
+    //   qr,
+    // );
+
+    await this.rewardOfferService.rewardCurrency(
       user_id,
-      {
-        gord: +cacluRewardData.gold,
-        exp: +cacluRewardData.exp,
-        dia: +cacluRewardData.dia,
-      },
+      'gord',
+      cacluRewardData.gold,
       qr,
     );
 
