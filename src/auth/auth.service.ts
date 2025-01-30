@@ -127,7 +127,7 @@ export class AuthService {
     console.log('user', user);
 
     return {
-      user: user,
+      user,
     };
   }
 
