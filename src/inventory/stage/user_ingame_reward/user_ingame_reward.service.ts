@@ -95,9 +95,9 @@ export class UserIngameRewardService {
     await this.resourceManagerService.validateAndAddResources(
       user_id,
       {
-        gord: cacluRewardData.gold,
-        exp: cacluRewardData.exp,
-        dia: cacluRewardData.dia,
+        gord: +cacluRewardData.gold,
+        exp: +cacluRewardData.exp,
+        dia: +cacluRewardData.dia,
       },
       qr,
     );

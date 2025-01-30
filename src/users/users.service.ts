@@ -573,9 +573,11 @@ export class UsersService {
       },
     });
 
+    console.log('addGord', typeof userData.gord, typeof gord);
+
     await usersRepository.save({
       ...userData,
-      gord: userData.gord + +gord,
+      gord: userData.gord + gord,
     });
 
     return true;
