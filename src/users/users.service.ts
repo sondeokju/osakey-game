@@ -575,6 +575,8 @@ export class UsersService {
       throw new Error('User not found');
     }
 
+    console.log('addGord:', userData.gord);
+
     await usersRepository.save({
       ...userData,
       gord: (userData.gord ?? 0) + gord,
