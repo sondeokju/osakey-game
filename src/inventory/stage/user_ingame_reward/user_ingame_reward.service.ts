@@ -28,6 +28,17 @@ export class UserIngameRewardService {
       : this.userIngameRewardRepository;
   }
 
+  async getIngameReward(user_id: string, qr?: QueryRunner) {
+    const userIngameRewardRepository = this.getUserIngameRewardRepository(qr);
+
+    // 기존 보상 내역 확인
+    const ingameReward = await userIngameRewardRepository.find({
+      where: { user_id },
+    });
+
+    return ingameReward;
+  }
+
   async stageReward(
     user_id: string,
     game_mode: string,

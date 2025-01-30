@@ -12,15 +12,15 @@ export class UserIngameRewardController {
     private readonly userIngameRewardService: UserIngameRewardService,
   ) {}
 
-  // @Get()
-  // @UseInterceptors(TransactionInterceptor)
-  // async getUserIngameReward(@User() user: Users, @QueryRunner() qr: QR) {
-  //   const result = this.userIngameRewardService.getUserIngameReward(
-  //     user.user_id,
-  //     qr,
-  //   );
-  //   return result;
-  // }
+  @Get()
+  @UseInterceptors(TransactionInterceptor)
+  async getIngameReward(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = this.userIngameRewardService.getIngameReward(
+      user.user_id,
+      qr,
+    );
+    return JSON.stringify(result);
+  }
 
   @Post('reward')
   @UseInterceptors(TransactionInterceptor)
