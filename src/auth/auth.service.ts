@@ -121,11 +121,11 @@ export class AuthService {
       [user_id],
     );
 
-    const missionData = missionDataArray[0] ?? null;
-    console.log('missionData', missionData);
+    const mission = missionDataArray[0] ?? null;
+    console.log('missionData', mission);
 
     return {
-      missionData: missionData,
+      mission: mission,
     };
   }
 
