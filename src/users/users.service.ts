@@ -575,7 +575,7 @@ export class UsersService {
 
     await usersRepository.save({
       ...userData,
-      gord: userData.gord + gord,
+      gord: userData.gord + +gord,
     });
 
     return true;
