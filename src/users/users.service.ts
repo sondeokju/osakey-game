@@ -567,31 +567,32 @@ export class UsersService {
 
   async addGord(user_id: string, gord: number, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
-    const userData = await usersRepository.findOne({
-      where: { user_id },
-      select: ['gord'], // 필요한 필드만 조회
-    });
 
-    if (!userData) {
-      throw new Error('User not found');
+    try {
+      if (qr) {
+        await qr.startTransaction();
+      }
+
+      console.log('Adding gord:', gord);
+
+      await usersRepository
+        .createQueryBuilder()
+        .update('users')
+        .set({ gord: () => `COALESCE(gord, 0) + ${gord}` }) // NULL 방지
+        .where('user_id = :user_id', { user_id })
+        .execute();
+
+      if (qr) {
+        await qr.commitTransaction();
+      }
+
+      return true;
+    } catch (error) {
+      if (qr) {
+        await qr.rollbackTransaction();
+      }
+      throw error;
     }
-
-    //const newGord = (userData.gord ?? 0) + gord;
-
-    // console.log('user_id:', user_id);
-    // console.log('Current gord:', userData.gord);
-    console.log('Adding gord:', gord);
-    // console.log('New gord:', newGord);
-
-    //await usersRepository.update({ user_id }, { gord: newGord });
-    await usersRepository
-      .createQueryBuilder()
-      .update('users')
-      .set({ gord: () => `gord + ${gord}` }) // SQL에서 직접 증가
-      .where('user_id = :user_id', { user_id })
-      .execute();
-
-    return true;
   }
 
   async patchTakeBattery(id: number, battery: number, qr?: QueryRunner) {

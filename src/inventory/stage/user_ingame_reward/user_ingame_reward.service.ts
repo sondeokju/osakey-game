@@ -92,6 +92,8 @@ export class UserIngameRewardService {
       stage_clear_yn,
     );
 
+    console.log('cacluRewardData', cacluRewardData);
+
     await this.resourceManagerService.validateAndAddResources(
       user_id,
       {
@@ -101,7 +103,6 @@ export class UserIngameRewardService {
       },
       qr,
     );
-    console.log('cacluRewardData', cacluRewardData);
 
     const newReward = userIngameRewardRepository.create({
       user_id,
