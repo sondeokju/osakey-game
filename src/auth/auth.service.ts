@@ -105,8 +105,9 @@ export class AuthService {
 
     const inven = await this.getUserInvens(userData.user_id);
     const user = await this.getUser(userData.user_id);
-    console.log('user', user);
+
     const login = this.loginUser(userData);
+    console.log('login', login);
     return {
       login,
       user,
