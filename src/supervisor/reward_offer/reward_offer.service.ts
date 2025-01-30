@@ -158,4 +158,35 @@ export class RewardOfferService {
 
     return true;
   }
+
+  async rewardCurrencyAll(
+    user_id: string,
+    rewards: { [key: string]: number }, // 여러 개의 보상을 받도록 변경
+    qr?: QueryRunner,
+  ) {
+    const usersRepository = this.usersService.getUsersRepository(qr);
+    const userData = await usersRepository.findOne({
+      where: { user_id },
+    });
+
+    if (!userData) {
+      throw new Error('User not found');
+    }
+
+    console.log('Rewards:', rewards);
+
+    // 각 보상을 userData에 반영
+    Object.keys(rewards).forEach((item_name) => {
+      if (userData.hasOwnProperty(item_name)) {
+        userData[item_name] += rewards[item_name]; // 기존 값에 추가
+      } else {
+        console.warn(`Unknown reward item: ${item_name}`);
+      }
+    });
+
+    // 업데이트된 데이터 저장
+    await usersRepository.save(userData);
+
+    return true;
+  }
 }

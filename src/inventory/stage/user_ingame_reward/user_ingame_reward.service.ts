@@ -95,22 +95,22 @@ export class UserIngameRewardService {
 
     console.log('cacluRewardData', cacluRewardData);
 
-    // await this.resourceManagerService.validateAndAddResources(
-    //   user_id,
-    //   {
-    //     gord: +cacluRewardData.gold,
-    //     exp: +cacluRewardData.exp,
-    //     dia: +cacluRewardData.dia,
-    //   },
-    //   qr,
-    // );
-
-    await this.rewardOfferService.rewardCurrency(
+    await this.rewardOfferService.rewardCurrencyAll(
       user_id,
-      'gord',
-      cacluRewardData.gold,
+      {
+        gord: cacluRewardData.gold,
+        exp: cacluRewardData.exp,
+        diamond_free: cacluRewardData.dia,
+      },
       qr,
     );
+
+    // await this.rewardOfferService.rewardCurrency(
+    //   user_id,
+    //   'gord',
+    //   cacluRewardData.gold,
+    //   qr,
+    // );
 
     const newReward = userIngameRewardRepository.create({
       user_id,
