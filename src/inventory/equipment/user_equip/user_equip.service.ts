@@ -47,6 +47,45 @@ export class UserEquipService {
       : this.userEquipRepository;
   }
 
+  async equipSkillRandomMount(
+    user_id: string,
+    user_equip_id: number,
+    qr?: QueryRunner,
+  ) {
+    const userEquipRepository = this.getUserEquipRepository(qr);
+    const userEquip = await userEquipRepository.findOne({
+      where: { id: user_equip_id, user_id },
+    });
+
+    if (!userEquip) {
+      throw new Error(
+        `No matching UserEquip entries found for user_equip_id=${user_equip_id}`,
+      );
+    }
+
+    const equipLevelData = await this.equipLevelService.getEquipLevel(
+      userEquip.equip_level_id,
+    );
+
+    userEquip.equip_level_id = +`${userEquip.equip_id}01`;
+    const result = await userEquipRepository.save(userEquip);
+
+    await this.rewardOfferService.rewardItem(
+      user_id,
+      equipLevelData.require_item_id,
+      equipLevelData.used_item_total_count,
+    );
+
+    await this.rewardOfferService.rewardCurrency(
+      user_id,
+      'gord',
+      equipLevelData.used_gold_total,
+      qr,
+    );
+
+    return result;
+  }
+
   async equipLevelReset(
     user_id: string,
     user_equip_id: number,

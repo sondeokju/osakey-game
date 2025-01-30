@@ -7,6 +7,7 @@ import { BadRequestException } from '@nestjs/common';
 import Redis from 'ioredis';
 import { HeroService } from 'src/static-table/hero/hero.service';
 import { User } from './decorator/user.decorator';
+import { UserMissionService } from 'src/inventory/mission/user_mission/user_mission.service';
 
 @Injectable()
 export class UsersService {
@@ -18,6 +19,7 @@ export class UsersService {
     //private readonly redisService: RedisService,
     private readonly heroService: HeroService,
     private readonly dataSource: DataSource,
+    private readonly userMissionService: UserMissionService,
   ) {
     //this.redisClient = redisService.getClient();
   }
@@ -82,6 +84,16 @@ export class UsersService {
     return newUser;
   }
 
+  async firstUserSetting(user_id: string, qr?: QueryRunner) {
+    if (!qr || !qr.isTransactionActive) {
+      throw new Error(
+        'QueryRunner is required and must have an active transaction.',
+      );
+    }
+
+    await this.userMissionService.insertMission(user_id, 12101001, qr);
+  }
+
   async createUserID(id: number, qr?: QueryRunner) {
     if (!qr || !qr.isTransactionActive) {
       throw new Error(
@@ -101,6 +113,8 @@ export class UsersService {
     }
 
     const newUserId = userData.id.toString().padStart(10, '0');
+
+    await this.firstUserSetting(newUserId, qr);
 
     return await usersRepository.save({
       ...userData,

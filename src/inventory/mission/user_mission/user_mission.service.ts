@@ -24,6 +24,24 @@ export class UserMissionService {
       : this.userMissionRepository;
   }
 
+  async insertMission(user_id: string, mission_id: number, qr?: QueryRunner) {
+    if (!user_id || typeof user_id !== 'string') {
+      throw new BadRequestException('Invalid user_id provided.');
+    }
+    if (!mission_id || typeof mission_id !== 'number') {
+      throw new BadRequestException('Invalid mission_id provided.');
+    }
+
+    const userMissionRepository = this.getUserMissionRepository(qr);
+
+    const savedMission = await userMissionRepository.insert({
+      user_id,
+      mission_id,
+    });
+
+    return savedMission;
+  }
+
   async saveMssion(
     user_id: string,
     mission_id: number,
