@@ -48,7 +48,9 @@ export class AuthController {
     @Body('socialData') socialData: any,
     //@QueryRunner() qr: QR,
   ) {
-    return JSON.stringify(this.authService.lineSocialLogin(socialData));
+    const result = this.authService.lineSocialLogin(socialData);
+    console.log('line-social/login', result);
+    return JSON.stringify(result);
   }
 
   // @IsPublic()
