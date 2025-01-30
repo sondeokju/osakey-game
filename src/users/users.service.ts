@@ -7,7 +7,7 @@ import { BadRequestException } from '@nestjs/common';
 import Redis from 'ioredis';
 import { HeroService } from 'src/static-table/hero/hero.service';
 import { User } from './decorator/user.decorator';
-import { UserMissionService } from 'src/inventory/mission/user_mission/user_mission.service';
+import { UserSettingService } from 'src/supervisor/user_setting/user_setting.service';
 
 @Injectable()
 export class UsersService {
@@ -19,7 +19,7 @@ export class UsersService {
     //private readonly redisService: RedisService,
     private readonly heroService: HeroService,
     private readonly dataSource: DataSource,
-    private readonly userMissionService: UserMissionService,
+    private readonly userSettingService: UserSettingService,
   ) {
     //this.redisClient = redisService.getClient();
   }
@@ -91,7 +91,7 @@ export class UsersService {
       );
     }
 
-    await this.userMissionService.insertMission(user_id, 12101001, qr);
+    await this.userSettingService.userSetting(user_id, qr);
   }
 
   async createUserID(id: number, qr?: QueryRunner) {

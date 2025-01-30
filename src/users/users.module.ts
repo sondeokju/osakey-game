@@ -5,14 +5,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Users } from './entity/users.entity';
 import { Hero } from 'src/static-table/hero/entities/hero.entity';
 import { HeroService } from 'src/static-table/hero/hero.service';
-import { UserMissionModule } from 'src/inventory/mission/user_mission/user_mission.module';
-import { UserMissionService } from 'src/inventory/mission/user_mission/user_mission.service';
-import { UserMission } from 'src/inventory/mission/user_mission/entities/user_mission.entity';
+import { UserSettingModule } from 'src/supervisor/user_setting/user_setting.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Users, Hero, UserMission])],
+  imports: [TypeOrmModule.forFeature([Users, Hero]), UserSettingModule],
   exports: [UsersService],
   controllers: [UsersController],
-  providers: [UsersService, HeroService, UserMissionService],
+  providers: [UsersService, HeroService],
 })
 export class UsersModule {}

@@ -106,6 +106,7 @@ import { SuitLevelModule } from 'src/static-table/suit/suit_level/suit_level.mod
 import { SuitUltimateModule } from 'src/static-table/suit/suit_ultimate/suit_ultimate.module';
 import { SuitUltimateLevelModule } from 'src/static-table/suit/suit_ultimate_level/suit_ultimate_level.module';
 import { UserIngameRewardModule } from 'src/inventory/stage/user_ingame_reward/user_ingame_reward.module';
+import { UserSettingModule } from 'src/supervisor/user_setting/user_setting.module';
 
 export const entities_module = [
   UsersModule,
@@ -216,4 +217,5 @@ export const entities_module = [
   SuitUltimateModule,
   SuitUltimateLevelModule,
   UserIngameRewardModule,
+  UserSettingModule,
 ];
