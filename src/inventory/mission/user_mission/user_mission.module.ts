@@ -21,7 +21,7 @@ import { UsersModule } from 'src/users/users.module';
     TypeOrmModule.forFeature([
       UserMission,
       Reward,
-      //Users,
+      Users,
       Item,
       UserItem,
       Hero,
@@ -34,7 +34,7 @@ import { UsersModule } from 'src/users/users.module';
     UserMissionService,
     RewardOfferService,
     RewardService,
-    //UsersService,
+    UsersService,
     ItemService,
     UserItemService,
     HeroService,
