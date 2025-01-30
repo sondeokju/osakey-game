@@ -107,7 +107,7 @@ export class AuthService {
     const user = await this.getUser(userData.user_id);
     const login = this.loginUser(userData);
     const loginObj = JSON.parse(login);
-    console.log('login', loginObj.accessToken);
+
     return {
       accessToken: loginObj.accessToken,
       user,

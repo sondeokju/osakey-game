@@ -111,6 +111,14 @@ export class UsersService {
       `INSERT INTO user_secame_diary (user_id, mission_id) VALUES (?, ?)`,
       [user_id, secame_diary_id],
     );
+
+    //오프라인 보상 세팅
+    const last_reward_date = new Date();
+    const last_ad_date = new Date();
+    await this.dataSource.query(
+      `INSERT INTO user_offline_reward (user_id, last_reward_date, last_ad_date) VALUES (?, ?, ?)`,
+      [user_id, last_reward_date, last_ad_date],
+    );
   }
 
   async createUserID(id: number, qr?: QueryRunner) {
