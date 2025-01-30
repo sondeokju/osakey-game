@@ -573,11 +573,13 @@ export class UsersService {
       },
     });
 
-    console.log('addGord', typeof userData.gord, typeof gord);
+    const rewardGord = userData.gord + gord;
+
+    console.log('rewardGord', rewardGord);
 
     await usersRepository.save({
       ...userData,
-      gord: userData.gord + gord,
+      gord: rewardGord,
     });
 
     return true;
