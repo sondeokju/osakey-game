@@ -108,7 +108,7 @@ export class AuthService {
     console.log('user', user);
     const login = this.loginUser(userData);
     return {
-      login: login,
+      login,
       user,
       inven: inven,
     };
