@@ -105,12 +105,7 @@ export class UserIngameRewardService {
       qr,
     );
 
-    // await this.rewardOfferService.rewardCurrency(
-    //   user_id,
-    //   'gord',
-    //   cacluRewardData.gold,
-    //   qr,
-    // );
+    await this.rewardOfferService.reward(user_id, cacluRewardData.group_id, qr);
 
     const newReward = userIngameRewardRepository.create({
       user_id,
