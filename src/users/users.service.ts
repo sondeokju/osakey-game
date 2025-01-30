@@ -568,16 +568,17 @@ export class UsersService {
   async addGord(user_id: string, gord: number, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({
-      where: {
-        user_id,
-      },
+      where: { user_id },
     });
 
-    userData.gord = userData.gord + gord;
+    if (!userData) {
+      throw new Error('User not found');
+    }
 
-    console.log('addGord userData:', userData);
-
-    await usersRepository.save(userData);
+    await usersRepository.save({
+      ...userData,
+      gord: (userData.gord ?? 0) + gord,
+    });
 
     return true;
   }
