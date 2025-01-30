@@ -72,7 +72,7 @@ export class UserEquipService {
 
     await this.rewardOfferService.rewardItem(
       user_id,
-      equipLevelData.equip_level_id,
+      equipLevelData.require_item_id,
       equipLevelData.used_item_total_count,
     );
 
