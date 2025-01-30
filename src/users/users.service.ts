@@ -575,7 +575,7 @@ export class UsersService {
 
     userData.gord = userData.gord + gord;
 
-    console.log('userData', userData);
+    console.log('addGord userData:', userData);
 
     await usersRepository.save({
       ...userData,
