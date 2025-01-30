@@ -125,6 +125,7 @@ export class RewardOfferService {
     const updatedData = { ...userData };
 
     console.log('item_name', item_name);
+    console.log('qty', qty);
 
     switch (item_name) {
       case 'seca_coin':
