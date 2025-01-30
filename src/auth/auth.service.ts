@@ -115,13 +115,15 @@ export class AuthService {
   }
 
   async getUserData(user_id: string) {
-    const userMissionData = await this.dataSource.query(
+    const missionData = await this.dataSource.query(
       `SELECT * FROM user_mission WHERE user_id = ?`,
       [user_id],
     );
 
+    console.log('missionData', missionData);
+
     return {
-      missionData: userMissionData,
+      missionData: missionData,
     };
   }
 
