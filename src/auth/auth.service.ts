@@ -106,26 +106,62 @@ export class AuthService {
     // //const accessToken = this.socialSignToken(userData, false);
     // console.log('accessToken:', accessToken);
 
-    const inven = await this.getUserData(userData.user_id);
+    const inven = await this.getUserInvens(userData.user_id);
+    const user = await this.getUser(userData.user_id);
     console.log('userInven', inven);
     const login = this.loginUser(userData);
     return {
       login: login,
+      user: user,
       inven: inven,
     };
   }
 
-  async getUserData(user_id: string) {
+  async getUser(user_id: string) {
+    const userDataArray = await this.dataSource.query(
+      `SELECT * FROM users WHERE user_id = ?`,
+      [user_id],
+    );
+
+    const user = userDataArray[0] ?? null;
+    console.log('user', user);
+
+    return {
+      user: user,
+    };
+  }
+
+  async getUserInvens(user_id: string) {
     const missionDataArray = await this.dataSource.query(
       `SELECT * FROM user_mission WHERE user_id = ?`,
       [user_id],
     );
 
-    const mission = missionDataArray[0] ?? null;
-    console.log('missionData', mission);
+    const equipDataArray = await this.dataSource.query(
+      `SELECT * FROM user_equip WHERE user_id = ?`,
+      [user_id],
+    );
+
+    const suitDataArray = await this.dataSource.query(
+      `SELECT * FROM user_suit WHERE user_id = ?`,
+      [user_id],
+    );
+
+    const itemDataArray = await this.dataSource.query(
+      `SELECT * FROM user_item WHERE user_id = ?`,
+      [user_id],
+    );
+
+    const mission = missionDataArray ?? null;
+    const equip = equipDataArray ?? null;
+    const suit = suitDataArray ?? null;
+    const item = itemDataArray ?? null;
 
     return {
       mission: mission,
+      equip: equip,
+      suit: suit,
+      item: item,
     };
   }
 
