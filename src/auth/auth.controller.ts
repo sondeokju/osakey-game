@@ -49,7 +49,7 @@ export class AuthController {
     //@QueryRunner() qr: QR,
   ) {
     const result = await this.authService.lineSocialLogin(socialData);
-    console.log('line-social/login', result);
+    //console.log('line-social/login', result);
     return JSON.stringify(result);
   }
 
