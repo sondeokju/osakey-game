@@ -577,10 +577,7 @@ export class UsersService {
 
     console.log('addGord userData:', userData);
 
-    await usersRepository.save({
-      ...userData,
-      //gord: rewardGord,
-    });
+    await usersRepository.save(userData);
 
     return true;
   }
