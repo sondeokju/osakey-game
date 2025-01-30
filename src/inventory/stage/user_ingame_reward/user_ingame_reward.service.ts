@@ -8,12 +8,18 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { UserIngameReward } from './entities/user_ingame_reward.entity';
+import { BattleStageService } from 'src/static-table/stage/battle_stage/battle_stage.service';
+import { RunStageService } from 'src/static-table/stage/run_stage/run_stage.service';
+import { PuzzleStageService } from 'src/static-table/stage/puzzle_stage/puzzle_stage.service';
 
 @Injectable()
 export class UserIngameRewardService {
   constructor(
     @InjectRepository(UserIngameReward)
     private readonly userIngameRewardRepository: Repository<UserIngameReward>,
+    private readonly battleStageService: BattleStageService,
+    private readonly runStageService: RunStageService,
+    private readonly puzzleStageService: PuzzleStageService,
   ) {}
 
   getUserIngameRewardRepository(qr?: QueryRunner) {
@@ -22,14 +28,96 @@ export class UserIngameRewardService {
       : this.userIngameRewardRepository;
   }
 
-  async getUserIngameReward(user_id: string, qr?: QueryRunner) {
+  async stageReward(
+    user_id: string,
+    game_mode: string,
+    stage_id: number,
+    stage_clear_yn: string,
+    qr?: QueryRunner,
+  ) {
+    let rewardData = {};
+    let firstClear = false;
+
     const userIngameRewardRepository = this.getUserIngameRewardRepository(qr);
-    const result = await userIngameRewardRepository.find({
-      where: {
-        user_id,
-      },
+
+    // 기존 보상 내역 확인
+    const existingReward = await userIngameRewardRepository.findOne({
+      where: { user_id, game_mode, stage_id },
     });
 
-    return result;
+    if (!existingReward) {
+      firstClear = true;
+    }
+
+    switch (game_mode) {
+      case 'BATTLE':
+        rewardData = await this.battleStageService.getBattleStage(stage_id, qr);
+        break;
+      case 'RUN':
+        rewardData = await this.runStageService.getRunStage(stage_id, qr);
+        break;
+      case 'PUZZLE':
+        rewardData = await this.puzzleStageService.getPuzzleStage(stage_id, qr);
+        break;
+      case 'BOUNTY':
+        //await this.puzzleStageService.getPuzzleStage(stage_id, qr);
+        break;
+      default:
+        console.log('Unregistered game mode.');
+    }
+
+    if (!rewardData) {
+      throw new Error('Stage not found');
+    }
+
+    console.log('rewardData', rewardData);
+
+    const { gold, exp, dia, group_id } = this.calculateRewards(
+      rewardData,
+      firstClear,
+      stage_clear_yn,
+    );
+
+    const newReward = userIngameRewardRepository.create({
+      user_id,
+      game_mode,
+      stage_id,
+      stage_clear_yn,
+      first_clear_yn: firstClear ? 'Y' : 'N',
+      rank: '',
+      reward_id: group_id,
+    });
+
+    await userIngameRewardRepository.save(newReward);
+  }
+
+  async calculateRewards(
+    rewardData: any,
+    firstClear: boolean,
+    stage_clear_yn: string,
+  ) {
+    let gold = 0,
+      exp = 0,
+      dia = 0,
+      group_id = 0;
+
+    if (stage_clear_yn === 'Y') {
+      if (firstClear) {
+        gold = rewardData.first_clear_gold;
+        exp = rewardData.first_clear_exp;
+        dia = rewardData.first_clear_dia;
+        group_id = rewardData.first_clear_group_id;
+      } else {
+        gold = rewardData.reclear_gold;
+        exp = rewardData.reclear_exp;
+        group_id = rewardData.reclear_group_id;
+      }
+    } else {
+      gold = rewardData.fail_gold;
+      exp = rewardData.fail_exp;
+      group_id = rewardData.fail_group_id;
+    }
+
+    return { gold, exp, dia, group_id };
   }
 }
