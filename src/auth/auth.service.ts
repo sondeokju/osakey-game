@@ -105,6 +105,7 @@ export class AuthService {
 
     const inven = await this.getUserInvens(userData.user_id);
     const user = await this.getUser(userData.user_id);
+    console.log('user', user);
     const login = this.loginUser(userData);
     return {
       login: login,
@@ -119,12 +120,8 @@ export class AuthService {
       [user_id],
     );
 
-    const user = userDataArray[0] ?? null;
-    console.log('user', user);
-
-    return {
-      user,
-    };
+    console.log('user', userDataArray[0]);
+    return userDataArray[0] ?? null;
   }
 
   async getUserInvens(user_id: string) {
