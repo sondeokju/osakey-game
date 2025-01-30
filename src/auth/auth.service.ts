@@ -145,16 +145,23 @@ export class AuthService {
       [user_id],
     );
 
+    const offlineRewardDataArray = await this.dataSource.query(
+      `SELECT * FROM user_offline_reward WHERE user_id = ?`,
+      [user_id],
+    );
+
     const mission = missionDataArray ?? null;
     const equip = equipDataArray ?? null;
     const suit = suitDataArray ?? null;
     const item = itemDataArray ?? null;
+    const offlineReward = offlineRewardDataArray ?? null;
 
     return {
       mission: mission,
       equip: equip,
       suit: suit,
       item: item,
+      offlineReward: offlineReward,
     };
   }
 
