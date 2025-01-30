@@ -19,19 +19,4 @@ export class UserSettingService {
 
     this.userMissionService.insertMission(user_id, 12101001, qr);
   }
-
-  private async initializeAttendance(
-    user_id: string,
-    qr: QueryRunner,
-    repository,
-  ) {
-    const attendanceData = await this.fetchAttendanceData(1, 1, qr);
-    const userAttendance = {
-      user_id,
-      board_num: attendanceData.board_num,
-      day: attendanceData.day,
-      reward_id: attendanceData.reward_id,
-    };
-    return userAttendance;
-  }
 }
