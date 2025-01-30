@@ -90,12 +90,12 @@ export class UsersService {
     }
 
     const mission_id = 12101001;
+    const mission_kind = 'MM';
+    const mission_goal = 100;
     await this.dataSource.query(
-      `INSERT INTO user_mission (user_id, mission_id) VALUES (?, ?)`,
-      [user_id, mission_id],
+      `INSERT INTO user_mission (user_id, mission_id, mission_kind, mission_goal) VALUES (?, ?, ?, ?)`,
+      [user_id, mission_id, mission_kind, mission_goal],
     );
-
-    //await this.userSettingService.userSetting(user_id, qr);
   }
 
   async createUserID(id: number, qr?: QueryRunner) {
