@@ -578,10 +578,10 @@ export class UsersService {
 
     //const newGord = (userData.gord ?? 0) + gord;
 
-    console.log('user_id:', user_id);
-    console.log('Current gord:', userData.gord);
-    console.log('Adding gord:', gord);
-    console.log('New gord:', newGord);
+    // console.log('user_id:', user_id);
+    // console.log('Current gord:', userData.gord);
+    // console.log('Adding gord:', gord);
+    // console.log('New gord:', newGord);
 
     //await usersRepository.update({ user_id }, { gord: newGord });
     await usersRepository
