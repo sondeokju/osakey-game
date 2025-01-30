@@ -81,7 +81,8 @@ export class UserIngameRewardService {
       stage_clear_yn,
       first_clear_yn: firstClear ? 'Y' : 'N',
       rank: '',
-      reward_id: group_id,
+      //reward_id: group_id,
+      reward_id: 1,
     });
 
     await userIngameRewardRepository.save(newReward);
