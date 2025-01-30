@@ -107,6 +107,7 @@ export class AuthService {
     // console.log('accessToken:', accessToken);
 
     const userInven = this.getUserData(userData.user_id);
+    console.log('userInven', userInven);
     const login = this.loginUser(userData);
     return {
       login: login,
@@ -120,8 +121,8 @@ export class AuthService {
       [user_id],
     );
 
-    console.log('missionData', missionDataArray);
     const missionData = missionDataArray[0] ?? null;
+    console.log('missionData', missionData);
 
     return {
       missionData: missionData,
