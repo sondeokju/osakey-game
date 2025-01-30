@@ -18,6 +18,7 @@ import { UserEquipOptionService } from '../user_equip_option/user_equip_option.s
 import { EquipGradeService } from 'src/static-table/equipment/equip_grade/equip_grade.service';
 import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager.service';
 import { DataSource } from 'typeorm';
+import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 
 interface EquipMaxLevelData {
   equip_slot: string;
@@ -37,12 +38,53 @@ export class UserEquipService {
     private readonly equipGradeService: EquipGradeService,
     private readonly resourceManagerService: ResourceManagerService,
     private readonly dataSource: DataSource,
+    private readonly rewardOfferService: RewardOfferService,
   ) {}
 
   getUserEquipRepository(qr?: QueryRunner) {
     return qr
       ? qr.manager.getRepository<UserEquip>(UserEquip)
       : this.userEquipRepository;
+  }
+
+  async equipLevelReset(
+    user_id: string,
+    user_equip_id: number,
+    qr?: QueryRunner,
+  ) {
+    const userEquipRepository = this.getUserEquipRepository(qr);
+    const userEquip = await userEquipRepository.findOne({
+      where: { id: user_equip_id, user_id },
+    });
+
+    if (!userEquip) {
+      throw new Error(
+        `No matching UserEquip entries found for user_equip_id=${user_equip_id}`,
+      );
+    }
+
+    userEquip.equip_level_id = 0;
+
+    const equipLevelData = await this.equipLevelService.getEquipLevel(
+      userEquip.equip_level_id,
+    );
+
+    const result = await userEquipRepository.save(userEquip);
+
+    await this.rewardOfferService.rewardItem(
+      user_id,
+      equipLevelData.equip_level_id,
+      equipLevelData.used_item_total_count,
+    );
+
+    await this.rewardOfferService.rewardCurrency(
+      user_id,
+      'gord',
+      equipLevelData.used_gold_total,
+      qr,
+    );
+
+    return result;
   }
 
   async resetUserEquipMount(

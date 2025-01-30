@@ -25,6 +25,23 @@ export class UserEquipController {
     return result;
   }
 
+  @Post('/level/reset')
+  @UseInterceptors(TransactionInterceptor)
+  async equipLevelReset(
+    @User() user: Users,
+    @Body('user_equip_id') user_equip_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    console.log('user_equip_id', user_equip_id);
+    const result = await this.userEquipService.equipLevelReset(
+      user.user_id,
+      user_equip_id,
+      qr,
+    );
+
+    return result;
+  }
+
   @Post('mount')
   @UseInterceptors(TransactionInterceptor)
   async equipMount(
