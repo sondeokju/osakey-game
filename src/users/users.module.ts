@@ -5,13 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Users } from './entity/users.entity';
 import { Hero } from 'src/static-table/hero/entities/hero.entity';
 import { HeroService } from 'src/static-table/hero/hero.service';
-import { UserSettingModule } from 'src/supervisor/user_setting/user_setting.module';
-import { UserSettingService } from 'src/supervisor/user_setting/user_setting.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Users, Hero]), UserSettingModule],
+  imports: [TypeOrmModule.forFeature([Users, Hero])],
   exports: [UsersService],
   controllers: [UsersController],
-  providers: [UsersService, HeroService, UserSettingService],
+  providers: [UsersService, HeroService],
 })
 export class UsersModule {}
