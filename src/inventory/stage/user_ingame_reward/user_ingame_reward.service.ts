@@ -72,7 +72,13 @@ export class UserIngameRewardService {
 
     console.log('rewardData', rewardData);
 
-    this.calculateRewards(rewardData, firstClear, stage_clear_yn);
+    const cacluRewardData = await this.calculateRewards(
+      rewardData,
+      firstClear,
+      stage_clear_yn,
+    );
+
+    console.log('cacluRewardData', cacluRewardData);
 
     const newReward = userIngameRewardRepository.create({
       user_id,
@@ -81,8 +87,7 @@ export class UserIngameRewardService {
       stage_clear_yn,
       first_clear_yn: firstClear ? 'Y' : 'N',
       rank: '',
-      //reward_id: group_id,
-      reward_id: 1,
+      reward_id: cacluRewardData.group_id,
     });
 
     await userIngameRewardRepository.save(newReward);
