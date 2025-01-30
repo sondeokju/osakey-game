@@ -10,6 +10,7 @@ export class ResourceManagerService {
     private readonly usersService: UsersService,
     private readonly userItemService: UserItemService,
   ) {}
+
   async validateAndDeductResources(
     user_id: string,
     resources: {
@@ -64,12 +65,12 @@ export class ResourceManagerService {
     // }
 
     // 4. 경험치 차감
-    // if (resources.exp) {
-    //   if (resources.exp > userExp) {
-    //     throw new BadRequestException('Not enough experience points.');
-    //   }
-    //   await this.usersService.reduceExp(user_id, resources.exp, qr);
-    // }
+    if (resources.exp) {
+      if (resources.exp > userCurrency.exp) {
+        throw new BadRequestException('Not enough experience points.');
+      }
+      await this.usersService.addExp(user_id, resources.exp, qr);
+    }
 
     // 5. 배터리 차감
     // if (resources.battery) {
@@ -87,7 +88,57 @@ export class ResourceManagerService {
     //   await this.usersService.reduceCoin(user_id, resources.coin, qr);
     // }
   }
-  
+
+  async validateAndAddResources(
+    user_id: string,
+    resources: {
+      gord?: number;
+      item?: { item_id: number; count: number };
+      dia?: number;
+      exp?: number;
+      battery?: number;
+      seca_coin?: number;
+    },
+    qr: QueryRunner,
+  ) {
+    //const userCurrency = await this.usersService.getUserMoney(user_id, qr);
+
+    // 1. 고드 추가
+    if (resources.gord) {
+      await this.usersService.addGord(user_id, resources.gord, qr);
+    }
+
+    // 2. 아이템 추가
+    if (resources.item) {
+      await this.userItemService.addItem(
+        user_id,
+        resources.item.item_id,
+        resources.item.count,
+        qr,
+      );
+    }
+
+    // 3. 다이아몬드 추가
+    if (resources.dia) {
+      await this.usersService.addDia(user_id, resources.dia, qr);
+    }
+
+    // 4. 경험치 추가
+    if (resources.exp) {
+      await this.usersService.addExp(user_id, resources.exp, qr);
+    }
+
+    // 5. 배터리 추가
+    if (resources.battery) {
+      await this.usersService.addBattery(user_id, resources.battery, qr);
+    }
+
+    // 6. 코인 추가
+    if (resources.seca_coin) {
+      await this.usersService.addSecaCoin(user_id, resources.coin, qr);
+    }
+  }
+
   async validateResources(
     user_id: string,
     resources: {

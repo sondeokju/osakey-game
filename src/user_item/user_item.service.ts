@@ -81,6 +81,7 @@ export class UserItemService {
 
     return true;
   }
+
   async reduceItem(
     user_id: string,
     item_id: number,
@@ -102,6 +103,32 @@ export class UserItemService {
     await userItemRepository.save({
       ...userItemData,
       item_count: userItemData.item_count - qty,
+    });
+
+    return true;
+  }
+
+  async addItem(
+    user_id: string,
+    item_id: number,
+    qty: number,
+    qr?: QueryRunner,
+  ) {
+    const userItemRepository = this.getUserItemRepository(qr);
+    const userItemData = await userItemRepository.findOne({
+      where: {
+        user_id,
+        item_id,
+      },
+    });
+
+    if (!userItemData || userItemData.item_count <= 0) {
+      throw new NotFoundException(`item ${item_id} not enough`);
+    }
+
+    await userItemRepository.save({
+      ...userItemData,
+      item_count: userItemData.item_count + qty,
     });
 
     return true;

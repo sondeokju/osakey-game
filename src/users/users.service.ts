@@ -485,6 +485,102 @@ export class UsersService {
     return true;
   }
 
+  async reduceExp(user_id: string, exp: number, qr?: QueryRunner) {
+    const usersRepository = this.getUsersRepository(qr);
+    const userData = await usersRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    await usersRepository.save({
+      ...userData,
+      gord: userData.exp - exp,
+    });
+
+    return true;
+  }
+
+  async addExp(user_id: string, exp: number, qr?: QueryRunner) {
+    const usersRepository = this.getUsersRepository(qr);
+    const userData = await usersRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    await usersRepository.save({
+      ...userData,
+      gord: userData.exp + exp,
+    });
+
+    return true;
+  }
+
+  async addBattery(user_id: string, battery: number, qr?: QueryRunner) {
+    const usersRepository = this.getUsersRepository(qr);
+    const userData = await usersRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    await usersRepository.save({
+      ...userData,
+      gord: userData.battery + battery,
+    });
+
+    return true;
+  }
+
+  async addSecaCoin(user_id: string, seca_coin: number, qr?: QueryRunner) {
+    const usersRepository = this.getUsersRepository(qr);
+    const userData = await usersRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    await usersRepository.save({
+      ...userData,
+      gord: userData.seca_coin + seca_coin,
+    });
+
+    return true;
+  }
+
+  async addDia(user_id: string, dia: number, qr?: QueryRunner) {
+    const usersRepository = this.getUsersRepository(qr);
+    const userData = await usersRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    await usersRepository.save({
+      ...userData,
+      gord: userData.diamond_free + dia,
+    });
+
+    return true;
+  }
+
+  async addGord(user_id: string, gord: number, qr?: QueryRunner) {
+    const usersRepository = this.getUsersRepository(qr);
+    const userData = await usersRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    await usersRepository.save({
+      ...userData,
+      gord: userData.gord + gord,
+    });
+
+    return true;
+  }
+
   async patchTakeBattery(id: number, battery: number, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({

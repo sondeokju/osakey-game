@@ -11,6 +11,7 @@ import { UserIngameReward } from './entities/user_ingame_reward.entity';
 import { BattleStageService } from 'src/static-table/stage/battle_stage/battle_stage.service';
 import { RunStageService } from 'src/static-table/stage/run_stage/run_stage.service';
 import { PuzzleStageService } from 'src/static-table/stage/puzzle_stage/puzzle_stage.service';
+import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager.service';
 
 @Injectable()
 export class UserIngameRewardService {
@@ -20,6 +21,7 @@ export class UserIngameRewardService {
     private readonly battleStageService: BattleStageService,
     private readonly runStageService: RunStageService,
     private readonly puzzleStageService: PuzzleStageService,
+    private readonly resourceManagerService: ResourceManagerService,
   ) {}
 
   getUserIngameRewardRepository(qr?: QueryRunner) {
@@ -90,6 +92,15 @@ export class UserIngameRewardService {
       stage_clear_yn,
     );
 
+    await this.resourceManagerService.validateAndAddResources(
+      user_id,
+      {
+        gord: cacluRewardData.gold,
+        exp: cacluRewardData.exp,
+        dia: cacluRewardData.dia,
+      },
+      qr,
+    );
     console.log('cacluRewardData', cacluRewardData);
 
     const newReward = userIngameRewardRepository.create({
@@ -102,7 +113,7 @@ export class UserIngameRewardService {
       reward_id: cacluRewardData.group_id,
     });
 
-    await userIngameRewardRepository.save(newReward);
+    return await userIngameRewardRepository.save(newReward);
   }
 
   async calculateRewards(
