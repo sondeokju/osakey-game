@@ -72,11 +72,7 @@ export class UserIngameRewardService {
 
     console.log('rewardData', rewardData);
 
-    const { gold, exp, dia, group_id } = this.calculateRewards(
-      rewardData,
-      firstClear,
-      stage_clear_yn,
-    );
+    this.calculateRewards(rewardData, firstClear, stage_clear_yn);
 
     const newReward = userIngameRewardRepository.create({
       user_id,
