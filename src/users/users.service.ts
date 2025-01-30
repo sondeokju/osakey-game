@@ -89,6 +89,12 @@ export class UsersService {
       );
     }
 
+    const mission_id = 12101001;
+    await this.dataSource.query(
+      `INSERT INTO user_mission (user_id, ?) VALUES (?, ?)`,
+      [mission_id, user_id, 1],
+    );
+
     //await this.userSettingService.userSetting(user_id, qr);
   }
 
