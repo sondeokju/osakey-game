@@ -576,14 +576,20 @@ export class UsersService {
       throw new Error('User not found');
     }
 
-    const newGord = (userData.gord ?? 0) + gord;
+    //const newGord = (userData.gord ?? 0) + gord;
 
     console.log('user_id:', user_id);
     console.log('Current gord:', userData.gord);
     console.log('Adding gord:', gord);
     console.log('New gord:', newGord);
 
-    await usersRepository.update({ user_id }, { gord: newGord });
+    //await usersRepository.update({ user_id }, { gord: newGord });
+    await usersRepository
+      .createQueryBuilder()
+      .update('users')
+      .set({ gord: () => `gord + ${gord}` }) // SQL에서 직접 증가
+      .where('user_id = :user_id', { user_id })
+      .execute();
 
     return true;
   }
