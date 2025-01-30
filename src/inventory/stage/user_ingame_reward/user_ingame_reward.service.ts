@@ -36,6 +36,7 @@ export class UserIngameRewardService {
       where: { user_id },
     });
 
+    console.log('ingameReward', ingameReward);
     return ingameReward;
   }
 
