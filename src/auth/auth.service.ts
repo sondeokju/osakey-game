@@ -17,6 +17,7 @@ import { GoogleService } from './sns/google/google.service';
 import { AppleService } from './sns/apple/apple.service';
 import { QueryRunner } from 'typeorm';
 import { ZLoginLogService } from 'src/game_log/login/z_login_log/z_login_log.service';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class AuthService {
@@ -27,6 +28,7 @@ export class AuthService {
     private readonly googleService: GoogleService,
     private readonly appleService: AppleService,
     private readonly zLoginLogService: ZLoginLogService,
+    private readonly dataSource: DataSource,
   ) {}
 
   /**
@@ -104,7 +106,23 @@ export class AuthService {
     // //const accessToken = this.socialSignToken(userData, false);
     // console.log('accessToken:', accessToken);
 
-    return this.loginUser(userData);
+    const userInven = this.getUserData(userData.user_id);
+    const login = this.loginUser(userData);
+    return {
+      login: login,
+      userInven: userInven,
+    };
+  }
+
+  async getUserData(user_id: string) {
+    const userMissionData = await this.dataSource.query(
+      `SELECT * FROM user_mission WHERE user_id = ?`,
+      [user_id],
+    );
+
+    return {
+      missionData: userMissionData,
+    };
   }
 
   // async handleGoogleCallback(code: string) {
