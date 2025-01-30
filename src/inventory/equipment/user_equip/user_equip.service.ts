@@ -67,7 +67,7 @@ export class UserEquipService {
       userEquip.equip_level_id,
     );
 
-    userEquip.equip_level_id = 0;
+    userEquip.equip_level_id = +`${userEquip.equip_id}01`;
     const result = await userEquipRepository.save(userEquip);
 
     await this.rewardOfferService.rewardItem(
