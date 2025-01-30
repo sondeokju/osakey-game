@@ -103,6 +103,7 @@ export class ResourceManagerService {
   ) {
     //const userCurrency = await this.usersService.getUserMoney(user_id, qr);
 
+    console.log('resources.gord', resources.gord);
     // 1. 고드 추가
     if (resources.gord) {
       await this.usersService.addGord(user_id, resources.gord, qr);
