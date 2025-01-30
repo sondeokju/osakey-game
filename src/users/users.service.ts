@@ -89,12 +89,27 @@ export class UsersService {
       );
     }
 
+    // 미션 세팅
     const mission_id = 12101001;
     const mission_kind = 'MM';
     const mission_goal = 100;
     await this.dataSource.query(
       `INSERT INTO user_mission (user_id, mission_id, mission_kind, mission_goal) VALUES (?, ?, ?, ?)`,
       [user_id, mission_id, mission_kind, mission_goal],
+    );
+
+    //suit 세팅 11500000
+    const suit_id = 11500000;
+    await this.dataSource.query(
+      `INSERT INTO user_suit (user_id, suit_id) VALUES (?, ?)`,
+      [user_id, suit_id],
+    );
+
+    //세카메 다이어리 세팅 12600001
+    const secame_diary_id = 12600001;
+    await this.dataSource.query(
+      `INSERT INTO user_secame_diary (user_id, mission_id) VALUES (?, ?)`,
+      [user_id, secame_diary_id],
     );
   }
 
