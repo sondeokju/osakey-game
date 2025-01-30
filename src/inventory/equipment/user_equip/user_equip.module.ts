@@ -27,6 +27,7 @@ import { Hero } from 'src/static-table/hero/entities/hero.entity';
 import { Item } from 'src/static-table/item/entities/item.entity';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { RewardService } from 'src/static-table/reward/reward.service';
+import { Reward } from 'src/static-table/reward/entities/reward.entity';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { RewardService } from 'src/static-table/reward/reward.service';
       UserItem,
       Hero,
       Item,
+      Reward,
     ]),
   ],
   exports: [UserEquipService],
