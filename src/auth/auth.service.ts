@@ -106,7 +106,7 @@ export class AuthService {
     // //const accessToken = this.socialSignToken(userData, false);
     // console.log('accessToken:', accessToken);
 
-    const userInven = this.getUserData(userData.user_id);
+    const userInven = await this.getUserData(userData.user_id);
     console.log('userInven', userInven);
     const login = this.loginUser(userData);
     return {
