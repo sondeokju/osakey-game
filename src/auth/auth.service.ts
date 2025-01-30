@@ -106,12 +106,12 @@ export class AuthService {
     // //const accessToken = this.socialSignToken(userData, false);
     // console.log('accessToken:', accessToken);
 
-    const userInven = await this.getUserData(userData.user_id);
-    console.log('userInven', userInven);
+    const inven = await this.getUserData(userData.user_id);
+    console.log('userInven', inven);
     const login = this.loginUser(userData);
     return {
       login: login,
-      userInven: userInven,
+      inven: inven,
     };
   }
 
