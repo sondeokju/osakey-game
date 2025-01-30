@@ -14,6 +14,7 @@ import { UserItem } from 'src/user_item/entities/user_item.entity';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { Users } from 'src/users/entity/users.entity';
 import { UsersService } from 'src/users/users.service';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { UsersService } from 'src/users/users.service';
       UserItem,
       Hero,
     ]),
+    UsersModule,
   ],
   exports: [UserMissionService],
   controllers: [UserMissionController],
