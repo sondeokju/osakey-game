@@ -135,7 +135,7 @@ export class ResourceManagerService {
 
     // 6. 코인 추가
     if (resources.seca_coin) {
-      await this.usersService.addSecaCoin(user_id, resources.coin, qr);
+      await this.usersService.addSecaCoin(user_id, resources.seca_coin, qr);
     }
   }
 
