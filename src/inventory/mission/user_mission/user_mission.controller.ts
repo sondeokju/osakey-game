@@ -10,6 +10,22 @@ import { Users } from 'src/users/entity/users.entity';
 export class UserMissionController {
   constructor(private readonly userMissionService: UserMissionService) {}
 
+  @Post('delete')
+  @UseInterceptors(TransactionInterceptor)
+  async deleteMission(
+    @User() user: Users,
+    @Body('user_mission_id') user_mission_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userMissionService.deleteMission(
+      user.user_id,
+      user_mission_id,
+      qr,
+    );
+
+    return JSON.stringify(result);
+  }
+
   @Post('save')
   @UseInterceptors(TransactionInterceptor)
   async saveMssion(

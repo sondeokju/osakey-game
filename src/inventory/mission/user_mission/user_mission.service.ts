@@ -24,6 +24,28 @@ export class UserMissionService {
       : this.userMissionRepository;
   }
 
+  async deleteMission(
+    user_id: string,
+    user_mission_id: number,
+    qr?: QueryRunner,
+  ) {
+    if (!user_id || typeof user_id !== 'string') {
+      throw new BadRequestException('Invalid user_id provided.');
+    }
+    if (!user_mission_id || typeof user_mission_id !== 'number') {
+      throw new BadRequestException('Invalid mission_id provided.');
+    }
+
+    const userMissionRepository = this.getUserMissionRepository(qr);
+
+    const savedMission = await userMissionRepository.delete({
+      id: user_mission_id,
+      user_id,
+    });
+
+    return savedMission;
+  }
+
   async insertMission(user_id: string, mission_id: number, qr?: QueryRunner) {
     if (!user_id || typeof user_id !== 'string') {
       throw new BadRequestException('Invalid user_id provided.');
