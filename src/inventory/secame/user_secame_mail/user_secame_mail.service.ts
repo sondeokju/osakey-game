@@ -22,24 +22,23 @@ export class UserSecameMailService {
       : this.userSecameMailRepository;
   }
 
+  // async unlockSuitWithSuitPieces(
+  //   user_id: string,
+  //   user_suit_id: number,
+  //   qr?: QueryRunner,
+  // ) {
+  //   const userSecameMailRepository = this.getUserSecameMailRepository(qr);
+  //   const userSuit = await userSecameMailRepository.findOne({
+  //     where: { id: user_suit_id, user_id },
+  //   });
 
-  async unlockSuitWithSuitPieces(
-    user_id: string,
-    user_suit_id: number,
-    qr?: QueryRunner,
-  ) {
-    const userSecameMailRepository = this.getUserSecameMailRepository(qr);
-    const userSuit = await userSecameMailRepository.findOne({
-      where: { id: user_suit_id, user_id },
-    });
+  //   if (!userSuit) {
+  //     throw new NotFoundException('User suit not found');
+  //   }
 
-    if (!userSuit) {
-      throw new NotFoundException('User suit not found');
-    }
+  //   userSuit.unlock_yn = 'Y';
+  //   const result = await userSuitRepository.save(userSuit);
 
-    userSuit.unlock_yn = 'Y';
-    const result = await userSuitRepository.save(userSuit);
-
-    return result;
-  }
+  //   return result;
+  // }
 }
