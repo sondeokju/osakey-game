@@ -17,6 +17,7 @@ export class UserMissionController {
     @Body('user_mission_id') user_mission_id: number,
     @QueryRunner() qr: QR,
   ) {
+    console.log('user_mission_id', user_mission_id);
     const result = await this.userMissionService.deleteMission(
       user.user_id,
       user_mission_id,
