@@ -15,12 +15,17 @@ export class UserNpcFriendship extends BaseModel {
   @Column({
     default: 0,
   })
-  npc_likability: number;
+  npc_id: number;
 
   @Column({
-    type: 'char',
-    length: 1,
-    default: 'N',
+    default: 0,
   })
-  reward_yn: string;
+  npc_likability: number;
+
+  // @Column({
+  //   type: 'char',
+  //   length: 1,
+  //   default: 'N',
+  // })
+  // reward_yn: string;
 }
