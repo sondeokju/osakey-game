@@ -56,4 +56,20 @@ export class UserSuitController {
 
     return JSON.stringify(result);
   }
+
+  @Post('unlock')
+  @UseInterceptors(TransactionInterceptor)
+  async unlockSuitWithSuitPieces(
+    @User() user: Users,
+    @Body('user_suit_id') user_suit_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userSuitService.unlockSuitWithSuitPieces(
+      user.user_id,
+      user_suit_id,
+      qr,
+    );
+
+    return JSON.stringify(result);
+  }
 }
