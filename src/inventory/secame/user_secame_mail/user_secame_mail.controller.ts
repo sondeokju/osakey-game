@@ -10,7 +10,7 @@ import { UserSecameMailService } from './user_secame_mail.service';
 export class UserSecameMailController {
   constructor(private readonly userSecameMailService: UserSecameMailService) {}
 
-  @Get()
+  @Get('mail')
   @UseInterceptors(TransactionInterceptor)
   async getUserSecameMail(@User() user: Users, @QueryRunner() qr: QR) {
     const result = this.userSecameMailService.getUserSecameMail(
