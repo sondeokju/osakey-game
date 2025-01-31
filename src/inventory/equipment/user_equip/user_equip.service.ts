@@ -66,6 +66,8 @@ export class UserEquipService {
       }
     }
 
+    console.log('resultCounts', resultCounts);
+
     return resultCounts;
   }
 
