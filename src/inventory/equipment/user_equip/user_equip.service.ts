@@ -92,6 +92,7 @@ export class UserEquipService {
     console.log('equipSkillId', equipSkillId);
 
     userEquip.equip_skill_id = equipSkillId;
+    userEquip.skill_roll_count += 1;
     const result = await userEquipRepository.save(userEquip);
 
     return result;
