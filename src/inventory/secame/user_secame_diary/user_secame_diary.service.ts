@@ -66,6 +66,12 @@ export class UserSecameDiaryService {
       throw new NotFoundException('UserSecameDiary not found');
     }
 
+    if (userSecameDiary.reward_yn === 'Y') {
+      return {
+        message: 'You have already claimed the reward.',
+      };
+    }
+
     const secameDiary = await this.secameDiaryService.getSecameDiary(
       userSecameDiary.mission_id,
       qr,
