@@ -128,7 +128,7 @@ export class ControlTableService {
       stage: await this.getStageAll(qr),
       suit: await this.getSuitAll(qr),
       secame: await this.getSecameAll(qr),
-      skill: await this.getSkillAll(qr),
+      equip_skill: await this.getSkillAll(qr),
     };
 
     return static_table;
