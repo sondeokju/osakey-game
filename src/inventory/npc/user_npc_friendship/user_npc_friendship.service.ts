@@ -31,13 +31,13 @@ export class UserNpcFriendshipService {
 
   async addNpcLikeability(
     user_id: string,
-    user_suit_id: number,
+    user_npcfriendship_id: number,
     npc_likeability: number,
     qr?: QueryRunner,
   ) {
     const userNpcFriendshipRepository = this.getUserNpcFriendshipRepository(qr);
     const userNpcFriendship = await userNpcFriendshipRepository.findOne({
-      where: { id: user_suit_id, user_id },
+      where: { id: user_npcfriendship_id, user_id },
     });
 
     if (!userNpcFriendship) {
