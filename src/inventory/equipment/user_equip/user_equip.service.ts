@@ -84,6 +84,7 @@ export class UserEquipService {
       0,
     );
     let random = Math.random() * totalWeight;
+    console.log('Math.random()', Math.random(), 'totalWeight', totalWeight);
 
     for (const skill of skills) {
       if (random < skill.skill_equip_rate) {
