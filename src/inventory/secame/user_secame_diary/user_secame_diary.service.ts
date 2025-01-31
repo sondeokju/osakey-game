@@ -32,4 +32,39 @@ export class UserSecameDiaryService {
 
     return result;
   }
+
+  async secameDiaryAdd(user_id: string, mission_id: number, qr?: QueryRunner) {
+    const userSecameDiaryRepository = this.getUserSecameDiaryRepository(qr);
+
+    const newDiary = userSecameDiaryRepository.create({
+      user_id,
+      mission_id: +mission_id,
+      reward_yn: 'N',
+      diary_reward_date: new Date(),
+    });
+
+    const result = await userSecameDiaryRepository.save(newDiary);
+
+    return result;
+  }
+
+  async secameDiaryReward(
+    user_id: string,
+    user_secame_diary_id: number,
+    qr?: QueryRunner,
+  ) {
+    const userSecameDiaryRepository = this.getUserSecameDiaryRepository(qr);
+    const userSecameDiary = await userSecameDiaryRepository.findOne({
+      where: { id: user_secame_diary_id, user_id },
+    });
+
+    if (!userSecameDiary) {
+      throw new NotFoundException('UserSecameMail not found');
+    }
+
+    userSecameDiary.reward_yn = 'Y';
+    const result = await userSecameDiaryRepository.save(userSecameDiary);
+
+    return result;
+  }
 }

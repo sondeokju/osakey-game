@@ -22,39 +22,35 @@ export class UserSecameDiaryController {
     return result;
   }
 
-  // @Post('save')
-  // @UseInterceptors(TransactionInterceptor)
-  // async saveAchieve(
-  //   @User() user: Users,
-  //   @Body('achieve_id') achieve_id: number,
-  //   @Body('achieve_count') achieve_count: number,
-  //   @Body('process_status') process_status: string,
-  //   @QueryRunner() qr: QR,
-  // ) {
-  //   const result = await this.userAchievementsService.saveAchieve(
-  //     user.user_id,
-  //     achieve_id,
-  //     achieve_count,
-  //     process_status,
-  //     qr,
-  //   );
+  @Post('diary/add')
+  @UseInterceptors(TransactionInterceptor)
+  async secameDiaryAdd(
+    @User() user: Users,
+    @Body('mission_id') mission_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userSecameDiaryService.secameDiaryAdd(
+      user.user_id,
+      mission_id,
+      qr,
+    );
 
-  //   return JSON.stringify(result);
-  // }
+    return JSON.stringify(result);
+  }
 
-  // @Post('reward')
-  // @UseInterceptors(TransactionInterceptor)
-  // async achieveReward(
-  //   @User() user: Users,
-  //   @Body('user_achievements_id') user_achievements_id: number,
-  //   @QueryRunner() qr: QR,
-  // ) {
-  //   const result = await this.userAchievementsService.achieveReward(
-  //     user.user_id,
-  //     user_achievements_id,
-  //     qr,
-  //   );
+  @Post('diary/reward')
+  @UseInterceptors(TransactionInterceptor)
+  async secameDiaryReward(
+    @User() user: Users,
+    @Body('user_secame_diary_id') user_secame_diary_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userSecameDiaryService.secameDiaryReward(
+      user.user_id,
+      user_secame_diary_id,
+      qr,
+    );
 
-  //   return JSON.stringify(result);
-  // }
+    return JSON.stringify(result);
+  }
 }
