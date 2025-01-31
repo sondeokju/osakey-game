@@ -614,7 +614,7 @@ export class UsersService {
         await qr.startTransaction();
       }
 
-      const result = await usersRepository
+      await usersRepository
         .createQueryBuilder()
         .update('users')
         .set({ battery: () => `COALESCE(battery, 0) - ${battery}` }) // NULL 방지
@@ -625,7 +625,13 @@ export class UsersService {
         await qr.commitTransaction();
       }
 
-      return result;
+      const userData = await usersRepository.findOne({
+        where: {
+          user_id,
+        },
+      });
+
+      return userData;
     } catch (error) {
       if (qr) {
         await qr.rollbackTransaction();
