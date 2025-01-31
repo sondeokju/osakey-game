@@ -22,23 +22,54 @@ export class UserSecameMailService {
       : this.userSecameMailRepository;
   }
 
-  // async unlockSuitWithSuitPieces(
-  //   user_id: string,
-  //   user_suit_id: number,
-  //   qr?: QueryRunner,
-  // ) {
-  //   const userSecameMailRepository = this.getUserSecameMailRepository(qr);
-  //   const userSuit = await userSecameMailRepository.findOne({
-  //     where: { id: user_suit_id, user_id },
-  //   });
+  async getUserSecameMail(user_id: string, qr?: QueryRunner) {
+    const userSecameMailRepository = this.getUserSecameMailRepository(qr);
+    const userSecameMail = await userSecameMailRepository.find({
+      where: { user_id },
+    });
 
-  //   if (!userSuit) {
-  //     throw new NotFoundException('User suit not found');
-  //   }
+    return userSecameMail;
+  }
 
-  //   userSuit.unlock_yn = 'Y';
-  //   const result = await userSuitRepository.save(userSuit);
+  async npcSendMailToPlayer(
+    user_id: string,
+    mail_id: number,
+    qr?: QueryRunner,
+  ) {
+    const userSecameMailRepository = this.getUserSecameMailRepository(qr);
+    // const userSecameMail = await userSecameMailRepository.findOne({
+    //   where: { id: user_suit_id, user_id },
+    // });
 
-  //   return result;
-  // }
+    const newMail = userSecameMailRepository.create({
+      user_id,
+      mail_id: +mail_id,
+      read_yn: 'N',
+      mail_accept_date: new Date(),
+    });
+
+    const result = await userSecameMailRepository.save(newMail);
+
+    return result;
+  }
+
+  async readSecameMail(
+    user_id: string,
+    user_secame_mail_id: number,
+    qr?: QueryRunner,
+  ) {
+    const userSecameMailRepository = this.getUserSecameMailRepository(qr);
+    const userSecameMail = await userSecameMailRepository.findOne({
+      where: { id: user_secame_mail_id, user_id },
+    });
+
+    if (!userSecameMail) {
+      throw new NotFoundException('UserSecameMail not found');
+    }
+
+    userSecameMail.read_yn = 'Y';
+    const result = await userSecameMailRepository.save(userSecameMail);
+
+    return result;
+  }
 }
