@@ -29,12 +29,11 @@ export class UserEquipController {
   @UseInterceptors(TransactionInterceptor)
   async simulateEquipSkillRandom(
     @User() user: Users,
-    @Body('skill_equip_category') skill_equip_category: number,
+    @Body('skill_equip_category') skill_equip_category: string,
     @QueryRunner() qr: QR,
   ) {
     console.log('skill_equip_category', skill_equip_category);
     const result = await this.userEquipService.simulateEquipSkillRandom(
-      user.user_id,
       skill_equip_category,
       qr,
     );
