@@ -32,9 +32,9 @@ export class UserMissionService {
     if (!user_id || typeof user_id !== 'string') {
       throw new BadRequestException('Invalid user_id provided.');
     }
-    if (!user_mission_id || typeof user_mission_id !== 'number') {
-      throw new BadRequestException('Invalid mission_id provided.');
-    }
+    // if (!user_mission_id || typeof user_mission_id !== 'number') {
+    //   throw new BadRequestException('Invalid mission_id provided.');
+    // }
 
     const userMissionRepository = this.getUserMissionRepository(qr);
 
