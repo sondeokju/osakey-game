@@ -69,7 +69,6 @@ import { SkillModule } from './static-table/skill/skill/skill.module';
         process.env[ENV_KEEPCONNECTIONALIVE_KEY] === 'true' ? true : false,
     }),
     ...entities_module,
-    SkillModule,
   ],
   controllers: [AppController],
   providers: [

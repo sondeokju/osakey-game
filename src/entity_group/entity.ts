@@ -101,6 +101,7 @@ import { SuitLevel } from 'src/static-table/suit/suit_level/entities/suit_level.
 import { SuitUltimate } from 'src/static-table/suit/suit_ultimate/entities/suit_ultimate.entity';
 import { SuitUltimateLevel } from 'src/static-table/suit/suit_ultimate_level/entities/suit_ultimate_level.entity';
 import { UserIngameReward } from 'src/inventory/stage/user_ingame_reward/entities/user_ingame_reward.entity';
+import { Skill } from 'src/static-table/skill/skill/entities/skill.entity';
 
 export const entities = [
   Users,
@@ -206,4 +207,5 @@ export const entities = [
   SuitUltimate,
   SuitUltimateLevel,
   UserIngameReward,
+  Skill,
 ];
