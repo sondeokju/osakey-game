@@ -83,8 +83,10 @@ export class UserEquipService {
       (sum, skill) => sum + skill.skill_equip_rate,
       0,
     );
+    console.log('totalWeight', totalWeight);
 
     const rawRandom = Math.random(); // 난수 생성
+    console.log('rawRandom', rawRandom);
 
     let random = rawRandom * totalWeight;
     console.log(
