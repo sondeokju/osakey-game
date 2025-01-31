@@ -30,11 +30,13 @@ export class UserEquipController {
   async simulateEquipSkillRandom(
     @User() user: Users,
     @Body('skill_equip_category') skill_equip_category: string,
+    @Body('count') count: number,
     @QueryRunner() qr: QR,
   ) {
     console.log('skill_equip_category', skill_equip_category);
     const result = await this.userEquipService.simulateEquipSkillRandom(
       skill_equip_category,
+      count,
       qr,
     );
 
