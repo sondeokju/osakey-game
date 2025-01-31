@@ -50,6 +50,7 @@ import { SuitUltimateService } from '../suit/suit_ultimate/suit_ultimate.service
 import { SuitUltimateLevelService } from '../suit/suit_ultimate_level/suit_ultimate_level.service';
 import { SecameDiaryService } from '../secame/secame_diary/secame_diary.service';
 import { SecameMailService } from '../secame/secame_mail/secame_mail.service';
+import { SkillService } from '../skill/skill/skill.service';
 
 @Injectable()
 export class ControlTableService {
@@ -104,6 +105,7 @@ export class ControlTableService {
     private readonly suitUltimateLevelService: SuitUltimateLevelService,
     private readonly secameDiaryService: SecameDiaryService,
     private readonly secameMailService: SecameMailService,
+    private readonly skillService: SkillService,
   ) {}
 
   async getControlTableAll(qr?: QueryRunner) {
@@ -126,6 +128,7 @@ export class ControlTableService {
       stage: await this.getStageAll(qr),
       suit: await this.getSuitAll(qr),
       secame: await this.getSecameAll(qr),
+      skill: await this.getSkillAll(qr),
     };
 
     return static_table;
@@ -269,6 +272,14 @@ export class ControlTableService {
     const obj = {
       secame_diary: await this.secameDiaryService.getSecameDiaryAll(qr),
       secame_mail: await this.secameMailService.getSecameMailAll(qr),
+    };
+
+    return obj;
+  }
+
+  async getSkillAll(qr?: QueryRunner) {
+    const obj = {
+      skill: await this.skillService.getSkillAll(qr),
     };
 
     return obj;

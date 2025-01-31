@@ -102,6 +102,8 @@ import { SecameDiary } from '../secame/secame_diary/entities/secame_diary.entity
 import { SecameMail } from '../secame/secame_mail/entities/secame_mail.entity';
 import { SecameDiaryService } from '../secame/secame_diary/secame_diary.service';
 import { SecameMailService } from '../secame/secame_mail/secame_mail.service';
+import { Skill } from '../skill/skill/entities/skill.entity';
+import { SkillService } from '../skill/skill/skill.service';
 
 @Module({
   imports: [
@@ -157,6 +159,7 @@ import { SecameMailService } from '../secame/secame_mail/secame_mail.service';
       SuitUltimateLevel,
       SecameDiary,
       SecameMail,
+      Skill,
     ]),
   ],
   exports: [ControlTableService],
@@ -213,6 +216,7 @@ import { SecameMailService } from '../secame/secame_mail/secame_mail.service';
     SuitUltimateLevelService,
     SecameDiaryService,
     SecameMailService,
+    SkillService,
   ],
 })
 export class ControlTableModule {}
