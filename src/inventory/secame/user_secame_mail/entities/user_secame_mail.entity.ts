@@ -22,7 +22,7 @@ export class UserSecameMail extends BaseModel {
     length: 1,
     default: 'N',
   })
-  reward_yn: string;
+  read_yn: string;
 
   @Column({
     type: 'datetime',
@@ -32,5 +32,5 @@ export class UserSecameMail extends BaseModel {
     },
     default: () => 'CURRENT_TIMESTAMP',
   })
-  diary_reward_date: Date;
+  mail_accept_date: Date;
 }
