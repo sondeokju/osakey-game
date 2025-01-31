@@ -614,7 +614,7 @@ export class UsersService {
         await qr.startTransaction();
       }
 
-      await usersRepository
+      const result = await usersRepository
         .createQueryBuilder()
         .update('users')
         .set({ battery: () => `COALESCE(battery, 0) - ${battery}` }) // NULL 방지
@@ -625,7 +625,7 @@ export class UsersService {
         await qr.commitTransaction();
       }
 
-      return true;
+      return result;
     } catch (error) {
       if (qr) {
         await qr.rollbackTransaction();
