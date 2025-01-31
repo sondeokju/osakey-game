@@ -29,6 +29,7 @@ import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.ser
 import { RewardService } from 'src/static-table/reward/reward.service';
 import { Reward } from 'src/static-table/reward/entities/reward.entity';
 import { RewardOfferModule } from 'src/supervisor/reward_offer/reward_offer.module';
+import { SkillModule } from 'src/static-table/skill/skill/skill.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { RewardOfferModule } from 'src/supervisor/reward_offer/reward_offer.modu
       Reward,
     ]),
     RewardOfferModule,
+    SkillModule,
   ],
   exports: [UserEquipService],
   controllers: [UserEquipController],

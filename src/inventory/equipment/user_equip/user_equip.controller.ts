@@ -25,6 +25,23 @@ export class UserEquipController {
     return result;
   }
 
+  @Post('/skill/random')
+  @UseInterceptors(TransactionInterceptor)
+  async equipSkillRandomMount(
+    @User() user: Users,
+    @Body('user_equip_id') user_equip_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    console.log('user_equip_id', user_equip_id);
+    const result = await this.userEquipService.equipSkillRandomMount(
+      user.user_id,
+      user_equip_id,
+      qr,
+    );
+
+    return result;
+  }
+
   @Post('/level/reset')
   @UseInterceptors(TransactionInterceptor)
   async equipLevelReset(

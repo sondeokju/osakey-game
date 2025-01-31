@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSkillDto } from './dto/create-skill.dto';
-import { UpdateSkillDto } from './dto/update-skill.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { Skill } from './entities/skill.entity';
 
 @Injectable()
 export class SkillService {
-  create(createSkillDto: CreateSkillDto) {
-    return 'This action adds a new skill';
+  constructor(
+    @InjectRepository(Skill)
+    private readonly skillRepository: Repository<Skill>,
+  ) {}
+
+  getSkillRepository(qr?: QueryRunner) {
+    return qr ? qr.manager.getRepository<Skill>(Skill) : this.skillRepository;
   }
 
-  findAll() {
-    return `This action returns all skill`;
+  async getSkillAll(qr?: QueryRunner) {
+    const skillRepository = this.getSkillRepository(qr);
+    const result = await skillRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} skill`;
+  async getSkill(skill_id: number, qr?: QueryRunner) {
+    const skillRepository = this.getSkillRepository(qr);
+    const result = await skillRepository.findOne({
+      where: {
+        skill_id,
+      },
+    });
+
+    return result;
   }
 
-  update(id: number, updateSkillDto: UpdateSkillDto) {
-    return `This action updates a #${id} skill`;
-  }
+  async getSkillCategory(skill_equip_category: string, qr?: QueryRunner) {
+    const skillRepository = this.getSkillRepository(qr);
+    const result = await skillRepository.find({
+      where: {
+        skill_equip_category,
+      },
+    });
 
-  remove(id: number) {
-    return `This action removes a #${id} skill`;
+    return result;
   }
 }

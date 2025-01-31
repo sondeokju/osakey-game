@@ -19,6 +19,7 @@ import { EquipGradeService } from 'src/static-table/equipment/equip_grade/equip_
 import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager.service';
 import { DataSource } from 'typeorm';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
+import { SkillService } from 'src/static-table/skill/skill/skill.service';
 
 interface EquipMaxLevelData {
   equip_slot: string;
@@ -39,12 +40,35 @@ export class UserEquipService {
     private readonly resourceManagerService: ResourceManagerService,
     private readonly dataSource: DataSource,
     private readonly rewardOfferService: RewardOfferService,
+    private readonly skillService: SkillService,
   ) {}
 
   getUserEquipRepository(qr?: QueryRunner) {
     return qr
       ? qr.manager.getRepository<UserEquip>(UserEquip)
       : this.userEquipRepository;
+  }
+
+  async calculEquipSkillRandom(skill_equip_category: string, qr?: QueryRunner) {
+    const skills = await this.skillService.getSkillCategory(
+      skill_equip_category,
+      qr,
+    );
+
+    const totalWeight = skills.reduce(
+      (sum, skill) => sum + skill.skill_equip_rate,
+      0,
+    );
+    let random = Math.random() * totalWeight;
+
+    for (const skill of skills) {
+      if (random < skill.skill_equip_rate) {
+        return skill.skill_id;
+      }
+      random -= skill.skill_equip_rate;
+    }
+
+    return skills[skills.length - 1].skill_id;
   }
 
   async equipSkillRandomMount(
@@ -63,25 +87,12 @@ export class UserEquipService {
       );
     }
 
-    const equipLevelData = await this.equipLevelService.getEquipLevel(
-      userEquip.equip_level_id,
-    );
+    const equip = await this.equipService.getEquip(userEquip.equip_id, qr);
+    const equipSkillId = await this.calculEquipSkillRandom(equip.equip_slot);
+    console.log('equipSkillId', equipSkillId);
 
-    userEquip.equip_level_id = +`${userEquip.equip_id}01`;
+    userEquip.equip_skill_id = equipSkillId;
     const result = await userEquipRepository.save(userEquip);
-
-    await this.rewardOfferService.rewardItem(
-      user_id,
-      equipLevelData.require_item_id,
-      equipLevelData.used_item_total_count,
-    );
-
-    await this.rewardOfferService.rewardCurrency(
-      user_id,
-      'gord',
-      equipLevelData.used_gold_total,
-      qr,
-    );
 
     return result;
   }
