@@ -8,12 +8,16 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { UserSecameDiary } from './entities/user_secame_diary.entity';
+import { SecameDiaryService } from 'src/static-table/secame/secame_diary/secame_diary.service';
+import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 
 @Injectable()
 export class UserSecameDiaryService {
   constructor(
     @InjectRepository(UserSecameDiary)
     private readonly userSecameDiaryRepository: Repository<UserSecameDiary>,
+    private readonly secameDiaryService: SecameDiaryService,
+    private readonly rewardOfferService: RewardOfferService,
   ) {}
 
   getUserSecameDiaryRepository(qr?: QueryRunner) {
@@ -59,12 +63,25 @@ export class UserSecameDiaryService {
     });
 
     if (!userSecameDiary) {
-      throw new NotFoundException('UserSecameMail not found');
+      throw new NotFoundException('UserSecameDiary not found');
     }
+
+    const secameDiary = await this.secameDiaryService.getSecameDiary(
+      userSecameDiary.mission_id,
+      qr,
+    );
+
+    const reward = await this.rewardOfferService.reward(
+      user_id,
+      secameDiary.reward_id,
+    );
 
     userSecameDiary.reward_yn = 'Y';
     const result = await userSecameDiaryRepository.save(userSecameDiary);
 
-    return result;
+    return {
+      user_secame_diary: result,
+      reward,
+    };
   }
 }
