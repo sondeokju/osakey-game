@@ -38,12 +38,18 @@ export class UserMissionService {
 
     const userMissionRepository = this.getUserMissionRepository(qr);
 
-    const savedMission = await userMissionRepository.delete({
+    await userMissionRepository.delete({
       id: user_mission_id,
       user_id,
     });
 
-    return savedMission;
+    const result = await userMissionRepository.find({
+      where: {
+        user_id,
+      },
+    });
+
+    return result;
   }
 
   async insertMission(user_id: string, mission_id: number, qr?: QueryRunner) {
