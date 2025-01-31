@@ -11,15 +11,25 @@ import {
 @Entity()
 export class ItemType {
   @PrimaryGeneratedColumn()
-  item_type: number;
+  id: number;
 
   @Column({
     default: '',
   })
-  item_enum: string;
+  item_type: string;
 
   @Column({
     default: '',
   })
   type_desc: string;
+
+  @Column({
+    default: 0,
+  })
+  item_id_min: number;
+
+  @Column({
+    default: 0,
+  })
+  item_id_max: number;
 }
