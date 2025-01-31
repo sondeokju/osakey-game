@@ -18,7 +18,7 @@ import { UserSuitService } from './user_suit.service';
 export class UserSuitController {
   constructor(private readonly userSuitService: UserSuitService) {}
 
-  @Get('list')
+  @Get('')
   @UseInterceptors(TransactionInterceptor)
   async getUserSuit(@User() user: Users, @QueryRunner() qr: QR) {
     const result = this.userSuitService.getUserSuit(user.user_id, qr);
