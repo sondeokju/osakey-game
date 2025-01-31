@@ -51,7 +51,7 @@ export class UserEquipService {
 
   async simulateEquipSkillRandom(
     skill_equip_category: string,
-    iterations: number = 10000,
+    iterations: number = 10,
     qr?: QueryRunner,
   ) {
     const resultCounts: Record<number, number> = {};
@@ -61,8 +61,10 @@ export class UserEquipService {
         skill_equip_category,
         qr,
       );
+      console.log('skillId', skillId);
       if (skillId !== null) {
         resultCounts[skillId] = (resultCounts[skillId] || 0) + 1;
+        console.log('resultCounts', resultCounts);
       }
     }
 
