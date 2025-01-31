@@ -595,6 +595,45 @@ export class UsersService {
     }
   }
 
+  async reduceBattery(user_id: string, battery: number, qr?: QueryRunner) {
+    const usersRepository = this.getUsersRepository(qr);
+    const userData = await usersRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    if (userData.battery < battery) {
+      return {
+        message: 'The battery is low.',
+      };
+    }
+
+    try {
+      if (qr) {
+        await qr.startTransaction();
+      }
+
+      await usersRepository
+        .createQueryBuilder()
+        .update('users')
+        .set({ battery: () => `COALESCE(battery, 0) - ${battery}` }) // NULL 방지
+        .where('user_id = :user_id', { user_id })
+        .execute();
+
+      if (qr) {
+        await qr.commitTransaction();
+      }
+
+      return true;
+    } catch (error) {
+      if (qr) {
+        await qr.rollbackTransaction();
+      }
+      throw error;
+    }
+  }
+
   async patchTakeBattery(id: number, battery: number, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({

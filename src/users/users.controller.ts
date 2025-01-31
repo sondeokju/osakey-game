@@ -342,5 +342,21 @@ export class UsersController {
     });
   }
 
+  @Post('battery/reduce')
+  @UseInterceptors(TransactionInterceptor)
+  async reduceBattery(
+    @User() user: Users,
+    @Body('battery') battery: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.usersService.reduceBattery(
+      user.user_id,
+      battery,
+      qr,
+    );
+
+    return JSON.stringify(result);
+  }
+
   //testtest
 }
