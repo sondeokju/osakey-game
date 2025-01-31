@@ -44,7 +44,7 @@ export class UserNpcFriendshipService {
       throw new NotFoundException('UserNpcFriendship not found');
     }
 
-    userNpcFriendship.npc_likeability += npc_likeability;
+    userNpcFriendship.npc_likeability += +npc_likeability;
     const result = await userNpcFriendshipRepository.save(userNpcFriendship);
 
     return result;
