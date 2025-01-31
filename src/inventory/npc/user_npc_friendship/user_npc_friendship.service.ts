@@ -19,4 +19,34 @@ export class UserNpcFriendshipService {
       ? qr.manager.getRepository<UserNpcFriendship>(UserNpcFriendship)
       : this.userNpcFriendshipRepository;
   }
+
+  async getUserNpcFriendship(user_id: string, qr?: QueryRunner) {
+    const userNpcFriendshipRepository = this.getUserNpcFriendshipRepository(qr);
+    const userNpcFriendship = await userNpcFriendshipRepository.find({
+      where: { user_id },
+    });
+
+    return userNpcFriendship;
+  }
+
+  async addNpcLikeability(
+    user_id: string,
+    user_suit_id: number,
+    npc_likeability: number,
+    qr?: QueryRunner,
+  ) {
+    const userNpcFriendshipRepository = this.getUserNpcFriendshipRepository(qr);
+    const userNpcFriendship = await userNpcFriendshipRepository.findOne({
+      where: { id: user_suit_id, user_id },
+    });
+
+    if (!userNpcFriendship) {
+      throw new NotFoundException('UserNpcFriendship not found');
+    }
+
+    userNpcFriendship.npc_likeability += npc_likeability;
+    const result = await userNpcFriendshipRepository.save(userNpcFriendship);
+
+    return result;
+  }
 }

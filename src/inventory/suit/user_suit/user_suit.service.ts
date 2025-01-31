@@ -32,9 +32,9 @@ export class UserSuitService {
     }
 
     userSuit.suit_level += 1;
-    await userSuitRepository.save(userSuit);
+    const result = await userSuitRepository.save(userSuit);
 
-    return userSuit;
+    return result;
   }
 
   // 슈트 필살기 레벨업
@@ -53,9 +53,9 @@ export class UserSuitService {
     }
 
     userSuit.suit_special_level += 1;
-    await userSuitRepository.save(userSuit);
+    const result = await userSuitRepository.save(userSuit);
 
-    return userSuit;
+    return result;
   }
 
   // 슈트 조각으로 슈트 해금
@@ -74,9 +74,9 @@ export class UserSuitService {
     }
 
     userSuit.unlock_yn = 'Y';
-    await userSuitRepository.save(userSuit);
+    const result = await userSuitRepository.save(userSuit);
 
-    return userSuit;
+    return result;
   }
 
   async getUserSuit(user_id: string, qr?: QueryRunner) {
