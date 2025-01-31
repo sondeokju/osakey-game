@@ -12,7 +12,7 @@ export class UserSecameDiaryController {
     private readonly userSecameDiaryService: UserSecameDiaryService,
   ) {}
 
-  @Get()
+  @Get('diary')
   @UseInterceptors(TransactionInterceptor)
   async getUserSecameDiary(@User() user: Users, @QueryRunner() qr: QR) {
     const result = this.userSecameDiaryService.getUserSecameDiary(
