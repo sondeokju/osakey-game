@@ -22,7 +22,7 @@ export class UserSuitController {
   @UseInterceptors(TransactionInterceptor)
   async getUserSuit(@User() user: Users, @QueryRunner() qr: QR) {
     const result = this.userSuitService.getUserSuit(user.user_id, qr);
-    return JSON.stringify(result);
+    return result;
   }
 
   @Post('levelUp')
