@@ -61,14 +61,14 @@ export class UserEquipService {
         skill_equip_category,
         qr,
       );
-      console.log('skillId', skillId);
+      //console.log('skillId', skillId);
       if (skillId !== null) {
         resultCounts[skillId] = (resultCounts[skillId] || 0) + 1;
-        console.log('resultCounts', resultCounts);
+        //console.log('resultCounts', resultCounts);
       }
     }
 
-    console.log('resultCounts', resultCounts);
+    //console.log('resultCounts', resultCounts);
 
     return resultCounts;
   }
