@@ -1,34 +1,59 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { UserSuitService } from './user_suit.service';
-import { CreateUserSuitDto } from './dto/create-user_suit.dto';
-import { UpdateUserSuitDto } from './dto/update-user_suit.dto';
+import {
+  Body,
+  Controller,
+  Get,
+  ParseIntPipe,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
 
-@Controller('user-suit')
+import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
+import { User } from 'src/users/decorator/user.decorator';
+import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
+import { QueryRunner as QR } from 'typeorm';
+import { Users } from 'src/users/entity/users.entity';
+import { UserSuitService } from './user_suit.service';
+
+@Controller('suit')
 export class UserSuitController {
   constructor(private readonly userSuitService: UserSuitService) {}
 
-  @Post()
-  create(@Body() createUserSuitDto: CreateUserSuitDto) {
-    return this.userSuitService.create(createUserSuitDto);
+  @Get('list')
+  @UseInterceptors(TransactionInterceptor)
+  async getUserSuit(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = this.userSuitService.getUserSuit(user.user_id, qr);
+    return JSON.stringify(result);
   }
 
-  @Get()
-  findAll() {
-    return this.userSuitService.findAll();
+  @Post('levelUp')
+  @UseInterceptors(TransactionInterceptor)
+  async suitLevelUp(
+    @User() user: Users,
+    @Body('user_suit_id') user_suit_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userSuitService.suitLevelUp(
+      user.user_id,
+      user_suit_id,
+      qr,
+    );
+
+    return JSON.stringify(result);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userSuitService.findOne(+id);
-  }
+  @Post('special/levelUp')
+  @UseInterceptors(TransactionInterceptor)
+  async suitSpecialLevelUp(
+    @User() user: Users,
+    @Body('user_suit_id') user_suit_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userSuitService.suitSpecialLevelUp(
+      user.user_id,
+      user_suit_id,
+      qr,
+    );
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserSuitDto: UpdateUserSuitDto) {
-    return this.userSuitService.update(+id, updateUserSuitDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userSuitService.remove(+id);
+    return JSON.stringify(result);
   }
 }
