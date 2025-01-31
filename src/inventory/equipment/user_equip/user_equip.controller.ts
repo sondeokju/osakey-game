@@ -25,6 +25,23 @@ export class UserEquipController {
     return result;
   }
 
+  @Post('/skill/random/simulate')
+  @UseInterceptors(TransactionInterceptor)
+  async simulateEquipSkillRandom(
+    @User() user: Users,
+    @Body('skill_equip_category') skill_equip_category: number,
+    @QueryRunner() qr: QR,
+  ) {
+    console.log('skill_equip_category', skill_equip_category);
+    const result = await this.userEquipService.simulateEquipSkillRandom(
+      user.user_id,
+      skill_equip_category,
+      qr,
+    );
+
+    return result;
+  }
+
   @Post('/skill/random')
   @UseInterceptors(TransactionInterceptor)
   async equipSkillRandomMount(

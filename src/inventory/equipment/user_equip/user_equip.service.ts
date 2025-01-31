@@ -49,6 +49,26 @@ export class UserEquipService {
       : this.userEquipRepository;
   }
 
+  async simulateEquipSkillRandom(
+    skill_equip_category: string,
+    iterations: number = 10000,
+    qr?: QueryRunner,
+  ) {
+    const resultCounts: Record<number, number> = {};
+
+    for (let i = 0; i < iterations; i++) {
+      const skillId = await this.calculEquipSkillRandom(
+        skill_equip_category,
+        qr,
+      );
+      if (skillId !== null) {
+        resultCounts[skillId] = (resultCounts[skillId] || 0) + 1;
+      }
+    }
+
+    return resultCounts;
+  }
+
   async calculEquipSkillRandom(skill_equip_category: string, qr?: QueryRunner) {
     const skills = await this.skillService.getSkillCategory(
       skill_equip_category,
