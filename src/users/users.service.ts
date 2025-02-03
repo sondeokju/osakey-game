@@ -974,7 +974,7 @@ export class UsersService {
         result = await this.handleMemberIdLogic(member_id, queryRunner);
       }
 
-      if (member_id && social_user_id) {
+      if (member_id && member_id !== 'UnityEditor_Member' && social_user_id) {
         console.log('222222222222222');
         result = await this.handleSocialUserIdLogic(
           social_user_id,
