@@ -46,11 +46,12 @@ export class AuthController {
   //@UseInterceptors(TransactionInterceptor)
   async lineSocialLogin2(
     @Body('socialData') socialData: any,
+    @Request() req: any, // <-- req 객체 추가
     //@QueryRunner() qr: QR,
   ) {
     console.log('line-social/login 01');
     console.log('line-social/login socialData:', socialData);
-    const result = await this.authService.lineSocialLogin(socialData);
+    const result = await this.authService.lineSocialLogin(socialData, req);
     //console.log('line-social/login', result);
     return JSON.stringify(result);
   }
