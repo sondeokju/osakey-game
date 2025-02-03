@@ -90,7 +90,7 @@ export class UsersService {
     }
 
     // 미션 세팅
-    const mission_id = 12101001;
+    const mission_id = 12200001;
     const mission_kind = 'MM';
     const mission_goal = 100;
     await this.dataSource.query(
