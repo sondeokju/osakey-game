@@ -961,29 +961,17 @@ export class UsersService {
     social_user_id: string,
     qr?: QueryRunner,
   ) {
-    let queryRunner = qr;
-    if (!queryRunner) {
-      queryRunner = this.dataSource.createQueryRunner();
+    const queryRunner = qr ?? this.dataSource.createQueryRunner();
+    let isNewQueryRunner = false;
+
+    if (!qr) {
       await queryRunner.connect();
       await queryRunner.startTransaction();
+      isNewQueryRunner = true;
     }
 
     try {
       let result = null;
-
-      if (member_id && member_id !== 'UnityEditor_Member' && !social_user_id) {
-        console.log('111111111111111');
-        result = await this.handleMemberIdLogic(member_id, queryRunner);
-      }
-
-      if (member_id && member_id !== 'UnityEditor_Member' && social_user_id) {
-        console.log('222222222222222');
-        result = await this.handleSocialUserIdLogic(
-          social_user_id,
-          member_id,
-          queryRunner,
-        );
-      }
 
       if (member_id === 'UnityEditor_Member' && social_user_id) {
         console.log('33333333333');
@@ -992,22 +980,32 @@ export class UsersService {
           member_id,
           queryRunner,
         );
+      } else if (member_id && member_id !== 'UnityEditor_Member') {
+        if (!social_user_id) {
+          console.log('111111111111111');
+          result = await this.handleMemberIdLogic(member_id, queryRunner);
+        } else {
+          console.log('222222222222222');
+          result = await this.handleSocialUserIdLogic(
+            social_user_id,
+            member_id,
+            queryRunner,
+          );
+        }
       }
 
-      // log
-
-      if (!qr) {
+      if (isNewQueryRunner) {
         await queryRunner.commitTransaction();
       }
 
       return result;
     } catch (error) {
-      if (!qr) {
+      if (isNewQueryRunner) {
         await queryRunner.rollbackTransaction();
       }
       throw error;
     } finally {
-      if (!qr) {
+      if (isNewQueryRunner) {
         await queryRunner.release();
       }
     }
