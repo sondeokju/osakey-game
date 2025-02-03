@@ -145,8 +145,12 @@ export class UsersService {
 
     //await this.firstUserSetting(newUserId, qr);
 
-    const result = await usersRepository.update({ id }, { user_id: newUserId });
-
+    await usersRepository.update({ id }, { user_id: newUserId });
+    const result = await usersRepository.findOne({
+      where: {
+        id,
+      },
+    });
     return result;
   }
 
