@@ -1070,15 +1070,14 @@ export class UsersService {
   async handleEditorLogic(
     social_user_id: string,
     member_id: string,
-    queryRunner: QueryRunner,
+    qr?: QueryRunner,
   ) {
-    const usersRepository = this.getUsersRepository(queryRunner);
+    const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({
       where: { member_id: social_user_id },
     });
 
     if (!userData) {
-      // 사용자 삽입 (중복 삽입 방지)
       const insertResult = await usersRepository.insert({
         member_id: social_user_id,
       });
@@ -1088,15 +1087,11 @@ export class UsersService {
       }
 
       const u_id = insertResult.identifiers[0]['id'];
-      console.log('handleEditorLogic newUser:', u_id);
 
-      // 트랜잭션 내에서 ID 생성 로직 호출
-      const result = await this.createUserID(u_id, queryRunner);
-      console.log('createUserID result:', result);
+      const result = await this.createUserID(u_id, qr);
 
       return result;
     } else {
-      // 기존 사용자 업데이트
       userData.update_at = new Date();
       const result = await usersRepository.save(userData);
       return result;
