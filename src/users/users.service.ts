@@ -149,7 +149,10 @@ export class UsersService {
       return userData;
     }
 
-    await usersRepository.update({ id }, { user_id: newUserId });
+    await usersRepository.update(
+      { id },
+      { user_id: newUserId, nickname: 'SY372F9' },
+    );
 
     await this.firstUserSetting(newUserId, qr);
 
