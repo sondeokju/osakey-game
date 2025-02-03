@@ -24,6 +24,8 @@ import { IsPublic } from 'src/common/decorator/is-public.decorator';
 import { QueryRunner as QR } from 'typeorm';
 import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
 import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
+import qs from 'qs';
+//import * as qs from 'querystring';
 
 @Controller('auth')
 export class AuthController {
