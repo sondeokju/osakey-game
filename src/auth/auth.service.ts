@@ -89,7 +89,11 @@ export class AuthService {
     );
   }
 
-  async lineSocialLogin(member_id, social_user_id, name) {
+  async lineSocialLogin(
+    member_id: string,
+    social_user_id: string,
+    name: string,
+  ) {
     const userData = await this.usersService.lineSocialLogin(
       member_id,
       social_user_id,

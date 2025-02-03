@@ -917,7 +917,7 @@ export class UsersService {
   async lineSocialLogin(
     member_id: string,
     social_user_id: string,
-    qr: QueryRunner,
+    qr?: QueryRunner,
   ) {
     // if (typeof socialData === 'string') {
     //   socialData = JSON.parse(socialData);
