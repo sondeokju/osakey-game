@@ -1019,10 +1019,21 @@ export class UsersService {
     console.log('handleSocialUserIdLogic social_user_id :', social_user_id);
     console.log('handleSocialUserIdLogic member_id', member_id);
 
-    if (member_id === 'UnityEditor_Member' || !userData) {
+    if (member_id === 'UnityEditor_Member' && !userData) {
       console.log('handleSocialUserIdLogic 03');
       console.log('Creating new social user');
       const newUser = usersRepository.create({ member_id: member_id });
+      const savedUser = await usersRepository.save(newUser);
+
+      if (!savedUser.id) {
+        throw new Error('Failed to create social user: ID not generated.');
+      }
+
+      console.log('handleSocialUserIdLogic 04');
+
+      return this.createUserID(savedUser.id, queryRunner); // 생성된 ID를 사용
+    } else if (member_id === 'UnityEditor_Member' && !member_id) {
+      const newUser = usersRepository.create({ member_id: social_user_id });
       const savedUser = await usersRepository.save(newUser);
 
       if (!savedUser.id) {
