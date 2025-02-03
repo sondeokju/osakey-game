@@ -1030,10 +1030,10 @@ export class UsersService {
   ) {
     const usersRepository = this.getUsersRepository(queryRunner);
     const userData = await usersRepository.findOne({
-      where: { member_id: member_id },
+      where: { member_id: social_user_id },
     });
 
-    if (member_id === 'UnityEditor_Member' && !userData) {
+    if (!userData) {
       const newUser = usersRepository.create({ member_id: social_user_id });
       const savedUser = await usersRepository.save(newUser);
 
