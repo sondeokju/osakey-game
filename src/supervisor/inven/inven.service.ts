@@ -12,8 +12,12 @@ export class InvenService {
   constructor(private readonly userSuitService: UserSuitService) {}
 
   async getUserInventoryAll(user_id: string, qr?: QueryRunner) {
-    const result = await this.userSuitService.getUserSuit(user_id, qr);
+    const suit = await this.userSuitService.getUserSuit(user_id, qr);
 
-    return result;
+    const inven = {
+      suit,
+    };
+
+    return inven;
   }
 }
