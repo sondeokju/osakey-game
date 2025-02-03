@@ -50,7 +50,63 @@ export class AuthController {
     //@QueryRunner() qr: QR,
   ) {
     console.log('line-social/login 01');
-    console.log('line-social/login socialData:', socialData);
+    console.log('Received socialData:', socialData);
+    console.log('Content-Type:', req.headers['content-type']);
+
+    // 데이터 변환 로직
+    if (typeof socialData === 'string') {
+      const trimmedData = socialData.trim();
+
+      if (req.headers['content-type']?.includes('application/json')) {
+        try {
+          socialData = JSON.parse(trimmedData);
+        } catch (error) {
+          console.error(
+            'JSON parsing error:',
+            error.message,
+            'Received:',
+            socialData,
+          );
+          throw new UnauthorizedException('Invalid JSON format');
+        }
+      } else if (
+        req.headers['content-type']?.includes(
+          'application/x-www-form-urlencoded',
+        )
+      ) {
+        try {
+          socialData = qs.parse(trimmedData);
+
+          // 혹시 값이 JSON 형식이라면, 다시 변환
+          if (
+            typeof socialData === 'object' &&
+            Object.keys(socialData).length === 1
+          ) {
+            const firstKey = Object.keys(socialData)[0];
+            if (firstKey.startsWith('{') || firstKey.startsWith('[')) {
+              socialData = JSON.parse(firstKey);
+            }
+          }
+        } catch (error) {
+          console.error(
+            'Querystring parsing error:',
+            error.message,
+            'Received:',
+            socialData,
+          );
+        }
+      }
+    }
+
+    console.log('Final parsed socialData:', socialData);
+
+    // 값 추출 및 처리
+    const member_id = socialData?.memberid ?? null;
+    const social_user_id = socialData?.userid ?? null;
+
+    console.log('lineSocialLogin socialData memberid:', member_id);
+    console.log('lineSocialLogin social_user_id:', social_user_id);
+
     const result = await this.authService.lineSocialLogin(socialData, req);
     //console.log('line-social/login', result);
     return JSON.stringify(result);

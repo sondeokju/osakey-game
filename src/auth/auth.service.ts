@@ -91,33 +91,6 @@ export class AuthService {
   }
 
   async lineSocialLogin(socialData: any, req: Request) {
-    console.log('line-social/login 02', socialData); // socialData 원본 확인
-    console.log('line-social/login 02-1', typeof socialData);
-
-    const contentType = req.headers['content-type'];
-
-    if (
-      typeof socialData === 'string' &&
-      contentType?.includes('application/x-www-form-urlencoded')
-    ) {
-      socialData = qs.parse(socialData); // URL-encoded 데이터 → JSON 변환
-      console.log('Parsed URL-encoded data:', socialData);
-    } else if (
-      typeof socialData === 'string' &&
-      contentType?.includes('application/json')
-    ) {
-      try {
-        socialData = JSON.parse(socialData);
-      } catch (error) {
-        console.error('JSON parsing error:', error.message);
-        return;
-      }
-    }
-
-    console.log('Final parsed data:', socialData);
-
-    console.log('line-social/login 04');
-
     const userData = await this.usersService.lineSocialLogin(socialData);
     //console.log('lineSocialLogin userData:', userData);
     await this.zLoginLogService.loginLog(
