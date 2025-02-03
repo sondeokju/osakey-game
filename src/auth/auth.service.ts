@@ -4,6 +4,7 @@ import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Users } from 'src/users/entity/users.entity';
 import { v4 as uuidv4 } from 'uuid'; // uuid v4를 가져옵니다.
+import * as qs from 'querystring';
 
 import * as bcrypt from 'bcrypt';
 import { RegisterUserDto } from './dto/register-user.dto';
@@ -89,32 +90,31 @@ export class AuthService {
     );
   }
 
-  async lineSocialLogin(socialData: any) {
+  async lineSocialLogin(socialData: any, req: Request) {
     console.log('line-social/login 02', socialData); // socialData 원본 확인
     console.log('line-social/login 02-1', typeof socialData);
 
-    if (typeof socialData === 'string') {
-      if (
-        !socialData.trim().startsWith('{') &&
-        !socialData.trim().startsWith('[')
-      ) {
-        console.error('Invalid JSON format:', socialData);
-        return;
-      }
+    const contentType = req.headers['content-type'];
 
+    if (
+      typeof socialData === 'string' &&
+      contentType?.includes('application/x-www-form-urlencoded')
+    ) {
+      socialData = qs.parse(socialData); // URL-encoded 데이터 → JSON 변환
+      console.log('Parsed URL-encoded data:', socialData);
+    } else if (
+      typeof socialData === 'string' &&
+      contentType?.includes('application/json')
+    ) {
       try {
         socialData = JSON.parse(socialData);
-        console.log('line-social/login 03', socialData);
       } catch (error) {
-        console.error(
-          'JSON parsing error:',
-          error.message,
-          'Received:',
-          socialData,
-        );
+        console.error('JSON parsing error:', error.message);
         return;
       }
     }
+
+    console.log('Final parsed data:', socialData);
 
     console.log('line-social/login 04');
 
