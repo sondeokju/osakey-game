@@ -914,15 +914,15 @@ export class UsersService {
     return usersRepository.save(user);
   }
 
-  async lineSocialLogin(socialData: any, qr?: QueryRunner) {
+  async lineSocialLogin(member_id, social_user_id) {
     // if (typeof socialData === 'string') {
     //   socialData = JSON.parse(socialData);
     // }
 
     console.log('lineSocialLogin socialData memberid:', socialData['memberid']);
 
-    const member_id = socialData['memberid'] ?? null;
-    const social_user_id = socialData.userid ?? null;
+    // const member_id = member_id ?? null;
+    // const social_user_id = social_user_id ?? null;
 
     let queryRunner = qr;
     if (!queryRunner) {
