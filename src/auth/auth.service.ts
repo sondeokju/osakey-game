@@ -18,6 +18,7 @@ import { AppleService } from './sns/apple/apple.service';
 import { QueryRunner } from 'typeorm';
 import { ZLoginLogService } from 'src/game_log/login/z_login_log/z_login_log.service';
 import { DataSource } from 'typeorm';
+import { InvenService } from 'src/supervisor/inven/inven.service';
 
 @Injectable()
 export class AuthService {
@@ -29,6 +30,7 @@ export class AuthService {
     private readonly appleService: AppleService,
     private readonly zLoginLogService: ZLoginLogService,
     private readonly dataSource: DataSource,
+    private readonly invenService: InvenService,
   ) {}
 
   /**
@@ -106,7 +108,8 @@ export class AuthService {
       name,
     );
 
-    const inven = await this.getUserInvens(userData.user_id);
+    //const inven = await this.getUserInvens(userData.user_id);
+    const inven = await this.invenService.getUserInventoryAll(userData.user_id);
     const user = await this.getUser(userData.user_id);
     const login = this.loginUser(userData);
     const loginObj = JSON.parse(login);
@@ -174,6 +177,11 @@ export class AuthService {
       [user_id],
     );
 
+    const snsLevelDataArray = await this.dataSource.query(
+      `SELECT * FROM user_sns_level WHERE user_id = ?`,
+      [user_id],
+    );
+
     const mission = missionDataArray ?? null;
     const equip = equipDataArray ?? null;
     const suit = suitDataArray ?? null;
@@ -183,6 +191,7 @@ export class AuthService {
     const tunaTv = tunaTvDataArray ?? null;
     const snsReward = snsRewardDataArray ?? null;
     const snsLikes = snsLikesDataArray ?? null;
+    const snsLevel = snsLevelDataArray ?? null;
 
     return {
       mission,
@@ -193,6 +202,7 @@ export class AuthService {
       tunaTv,
       snsReward,
       snsLikes,
+      snsLevel,
     };
   }
 

@@ -6,9 +6,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from 'src/users/users.module';
 import { AppleService } from './sns/apple/apple.service';
 import { ZLoginLogModule } from 'src/game_log/login/z_login_log/z_login_log.module';
+import { InvenModule } from 'src/supervisor/inven/inven.module';
 
 @Module({
-  imports: [JwtModule.register({}), UsersModule, ZLoginLogModule],
+  imports: [JwtModule.register({}), UsersModule, ZLoginLogModule, InvenModule],
   controllers: [AuthController],
   providers: [AuthService, GoogleService, AppleService],
   exports: [AuthService],
