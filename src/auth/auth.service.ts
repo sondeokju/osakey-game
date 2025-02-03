@@ -108,8 +108,8 @@ export class AuthService {
       name,
     );
 
-    //const inven = await this.getUserInvens(userData.user_id);
-    const inven = await this.invenService.getUserInventoryAll(userData.user_id);
+    const inven = await this.getUserInvens(userData.user_id);
+    //const inven = await this.invenService.getUserInventoryAll(userData.user_id);
     const user = await this.getUser(userData.user_id);
     const login = this.loginUser(userData);
     const loginObj = JSON.parse(login);
