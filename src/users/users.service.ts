@@ -952,7 +952,7 @@ export class UsersService {
           queryRunner,
         );
 
-        console.log('lineSocialLogin result:', result);
+        //console.log('lineSocialLogin result:', result);
       }
 
       // log
@@ -961,7 +961,7 @@ export class UsersService {
         await queryRunner.commitTransaction();
       }
 
-      console.log('lineSocialLogin', result);
+      //console.log('lineSocialLogin', result);
       return result;
     } catch (error) {
       if (!qr) {
