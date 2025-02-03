@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { InvenService } from './inven.service';
 import { InvenController } from './inven.controller';
-import { entities_module } from 'src/entity_group/entity_module';
+import { UserSuitModule } from 'src/inventory/suit/user_suit/user_suit.module';
 
 @Module({
-  imports: [...entities_module],
+  imports: [UserSuitModule],
   exports: [InvenService],
   controllers: [InvenController],
   providers: [InvenService],
