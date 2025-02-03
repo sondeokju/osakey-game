@@ -31,17 +31,21 @@ export class UserNpcFriendshipService {
 
   async addNpcLikeability(
     user_id: string,
-    user_npcfriendship_id: number,
+    npc_id: number,
     npc_likeability: number,
     qr?: QueryRunner,
   ) {
     const userNpcFriendshipRepository = this.getUserNpcFriendshipRepository(qr);
-    const userNpcFriendship = await userNpcFriendshipRepository.findOne({
-      where: { id: user_npcfriendship_id, user_id },
+    let userNpcFriendship = await userNpcFriendshipRepository.findOne({
+      where: { user_id, npc_id },
     });
 
     if (!userNpcFriendship) {
-      throw new NotFoundException('UserNpcFriendship not found');
+      userNpcFriendship = userNpcFriendshipRepository.create({
+        user_id,
+        npc_id,
+        npc_likeability: 0, // 기본 호감도를 0으로 설정
+      });
     }
 
     userNpcFriendship.npc_likeability += +npc_likeability;

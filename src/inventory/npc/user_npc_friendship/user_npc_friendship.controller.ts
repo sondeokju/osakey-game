@@ -34,13 +34,13 @@ export class UserNpcFriendshipController {
   @UseInterceptors(TransactionInterceptor)
   async suitLevelUp(
     @User() user: Users,
-    @Body('user_npcfriendship_id') user_npcfriendship_id: number,
+    @Body('npc_id') npc_id: number,
     @Body('npc_likeability') npc_likeability: number,
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userNpcFriendshipService.addNpcLikeability(
       user.user_id,
-      user_npcfriendship_id,
+      npc_id,
       npc_likeability,
       qr,
     );

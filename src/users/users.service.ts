@@ -119,12 +119,6 @@ export class UsersService {
       `INSERT INTO user_offline_reward (user_id, last_reward_date, last_ad_date) VALUES (?, ?, ?)`,
       [user_id, last_reward_date, last_ad_date],
     );
-
-    //npc 호감도
-    await this.dataSource.query(
-      `INSERT INTO user_npc_friendship (user_id, npc_likeability) VALUES (?, ?)`,
-      [user_id, 0],
-    );
   }
 
   async createUserID(id: number, qr?: QueryRunner) {
