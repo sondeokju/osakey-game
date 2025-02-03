@@ -945,7 +945,7 @@ export class UsersService {
 
       console.log('lineSocialLogin social_user_id:', social_user_id);
 
-      if (social_user_id) {
+      if (member_id && social_user_id) {
         result = await this.handleSocialUserIdLogic(
           social_user_id,
           member_id,
@@ -1014,7 +1014,7 @@ export class UsersService {
     console.log('handleSocialUserIdLogic 01');
     const usersRepository = this.getUsersRepository(queryRunner);
     const userData = await usersRepository.findOne({
-      where: { member_id: social_user_id },
+      where: { member_id: member_id },
     });
     console.log('handleSocialUserIdLogic social_user_id :', social_user_id);
     console.log('handleSocialUserIdLogic member_id', member_id);
@@ -1022,7 +1022,7 @@ export class UsersService {
     if (member_id === 'UnityEditor_Member' || !userData) {
       console.log('handleSocialUserIdLogic 03');
       console.log('Creating new social user');
-      const newUser = usersRepository.create({ member_id: social_user_id });
+      const newUser = usersRepository.create({ member_id: member_id });
       const savedUser = await usersRepository.save(newUser);
 
       if (!savedUser.id) {
