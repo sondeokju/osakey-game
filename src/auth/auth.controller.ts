@@ -24,7 +24,6 @@ import { IsPublic } from 'src/common/decorator/is-public.decorator';
 import { QueryRunner as QR } from 'typeorm';
 import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
 import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
-import * as qs from 'querystring';
 
 @Controller('auth')
 export class AuthController {
@@ -50,10 +49,6 @@ export class AuthController {
     @Request() req: any, // <-- req 객체 추가
     //@QueryRunner() qr: QR,
   ) {
-    console.log('line-social/login 01');
-    console.log('Received socialData:', socialData);
-    console.log('Content-Type:', req.headers['content-type']);
-
     // 데이터 변환 로직
     if (typeof socialData === 'string') {
       const trimmedData = socialData.trim();
@@ -78,14 +73,13 @@ export class AuthController {
         try {
           socialData = qs.parse(trimmedData);
 
-          // 혹시 값이 JSON 형식이라면, 다시 변환
-          if (
-            typeof socialData === 'object' &&
-            Object.keys(socialData).length === 1
-          ) {
-            const firstKey = Object.keys(socialData)[0];
-            if (firstKey.startsWith('{') || firstKey.startsWith('[')) {
+          // 만약 데이터가 JSON 형식으로 변환될 필요가 있으면 변환
+          const firstKey = Object.keys(socialData)[0];
+          if (firstKey.startsWith('{') || firstKey.startsWith('[')) {
+            try {
               socialData = JSON.parse(firstKey);
+            } catch (error) {
+              console.error('Error parsing extracted JSON:', error.message);
             }
           }
         } catch (error) {
