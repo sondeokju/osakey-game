@@ -1020,33 +1020,25 @@ export class UsersService {
     console.log('handleSocialUserIdLogic member_id', member_id);
 
     if (member_id === 'UnityEditor_Member' || !userData) {
-      const user = await usersRepository.findOne({
-        where: { member_id: social_user_id },
-      });
+      console.log('handleSocialUserIdLogic 03');
+      console.log('Creating new social user');
+      const newUser = usersRepository.create({ member_id: social_user_id });
+      const savedUser = await usersRepository.save(newUser);
 
-      console.log('handleSocialUserIdLogic user:', user);
-
-      if (!user) {
-        console.log('handleSocialUserIdLogic 03');
-        console.log('Creating new social user');
-        const newUser = usersRepository.create({ member_id: social_user_id });
-        const savedUser = await usersRepository.save(newUser);
-
-        if (!savedUser.id) {
-          throw new Error('Failed to create social user: ID not generated.');
-        }
-
-        console.log('handleSocialUserIdLogic 04');
-
-        return this.createUserID(savedUser.id, queryRunner); // 생성된 ID를 사용
-      } else {
-        console.log('handleSocialUserIdLogic 05');
-        console.log('Updating existing social user');
-        return await usersRepository.save({
-          ...user,
-          update_at: new Date(),
-        });
+      if (!savedUser.id) {
+        throw new Error('Failed to create social user: ID not generated.');
       }
+
+      console.log('handleSocialUserIdLogic 04');
+
+      return this.createUserID(savedUser.id, queryRunner); // 생성된 ID를 사용
+    } else {
+      console.log('handleSocialUserIdLogic 05');
+      console.log('Updating existing social user: ', userData);
+      return await usersRepository.save({
+        ...userData,
+        update_at: new Date(),
+      });
     }
   }
 }
