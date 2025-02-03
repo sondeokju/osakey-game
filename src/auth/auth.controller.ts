@@ -48,51 +48,12 @@ export class AuthController {
   //@UseInterceptors(TransactionInterceptor)
   async lineSocialLogin2(
     @Body('socialData') socialData: any,
-    @Request() req: any, // <-- req 객체 추가
+    //@Request() req: any, // <-- req 객체 추가
     //@QueryRunner() qr: QR,
   ) {
     // 데이터 변환 로직
     if (typeof socialData === 'string') {
-      const trimmedData = socialData.trim();
-
-      if (req.headers['content-type']?.includes('application/json')) {
-        try {
-          socialData = JSON.parse(trimmedData);
-        } catch (error) {
-          console.error(
-            'JSON parsing error:',
-            error.message,
-            'Received:',
-            socialData,
-          );
-          throw new UnauthorizedException('Invalid JSON format');
-        }
-      } else if (
-        req.headers['content-type']?.includes(
-          'application/x-www-form-urlencoded',
-        )
-      ) {
-        try {
-          socialData = qs.parse(trimmedData);
-
-          // 만약 데이터가 JSON 형식으로 변환될 필요가 있으면 변환
-          const firstKey = Object.keys(socialData)[0];
-          if (firstKey.startsWith('{') || firstKey.startsWith('[')) {
-            try {
-              socialData = JSON.parse(firstKey);
-            } catch (error) {
-              console.error('Error parsing extracted JSON:', error.message);
-            }
-          }
-        } catch (error) {
-          console.error(
-            'Querystring parsing error:',
-            error.message,
-            'Received:',
-            socialData,
-          );
-        }
-      }
+      socialData = JSON.parse(socialData);
     }
 
     console.log('Final parsed socialData:', socialData);
@@ -104,10 +65,76 @@ export class AuthController {
     console.log('lineSocialLogin socialData memberid:', member_id);
     console.log('lineSocialLogin social_user_id:', social_user_id);
 
-    const result = await this.authService.lineSocialLogin(socialData, req);
+    const result = await this.authService.lineSocialLogin(socialData);
     //console.log('line-social/login', result);
     return JSON.stringify(result);
   }
+
+  // @IsPublic()
+  // @Post('line-social/login')
+  // //@UseInterceptors(TransactionInterceptor)
+  // async lineSocialLogin2(
+  //   @Body('socialData') socialData: any,
+  //   @Request() req: any, // <-- req 객체 추가
+  //   //@QueryRunner() qr: QR,
+  // ) {
+  //   // 데이터 변환 로직
+  //   if (typeof socialData === 'string') {
+  //     const trimmedData = socialData.trim();
+
+  //     if (req.headers['content-type']?.includes('application/json')) {
+  //       try {
+  //         socialData = JSON.parse(trimmedData);
+  //       } catch (error) {
+  //         console.error(
+  //           'JSON parsing error:',
+  //           error.message,
+  //           'Received:',
+  //           socialData,
+  //         );
+  //         throw new UnauthorizedException('Invalid JSON format');
+  //       }
+  //     } else if (
+  //       req.headers['content-type']?.includes(
+  //         'application/x-www-form-urlencoded',
+  //       )
+  //     ) {
+  //       try {
+  //         socialData = qs.parse(trimmedData);
+
+  //         // 만약 데이터가 JSON 형식으로 변환될 필요가 있으면 변환
+  //         const firstKey = Object.keys(socialData)[0];
+  //         if (firstKey.startsWith('{') || firstKey.startsWith('[')) {
+  //           try {
+  //             socialData = JSON.parse(firstKey);
+  //           } catch (error) {
+  //             console.error('Error parsing extracted JSON:', error.message);
+  //           }
+  //         }
+  //       } catch (error) {
+  //         console.error(
+  //           'Querystring parsing error:',
+  //           error.message,
+  //           'Received:',
+  //           socialData,
+  //         );
+  //       }
+  //     }
+  //   }
+
+  //   console.log('Final parsed socialData:', socialData);
+
+  //   // 값 추출 및 처리
+  //   const member_id = socialData?.memberid ?? null;
+  //   const social_user_id = socialData?.userid ?? null;
+
+  //   console.log('lineSocialLogin socialData memberid:', member_id);
+  //   console.log('lineSocialLogin social_user_id:', social_user_id);
+
+  //   const result = await this.authService.lineSocialLogin(socialData, req);
+  //   //console.log('line-social/login', result);
+  //   return JSON.stringify(result);
+  // }
 
   // @IsPublic()
   // @Get('callback')

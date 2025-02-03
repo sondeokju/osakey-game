@@ -89,7 +89,7 @@ export class AuthService {
     );
   }
 
-  async lineSocialLogin(socialData: any, req: Request) {
+  async lineSocialLogin(socialData: any) {
     const userData = await this.usersService.lineSocialLogin(socialData);
     //console.log('lineSocialLogin userData:', userData);
     await this.zLoginLogService.loginLog(
