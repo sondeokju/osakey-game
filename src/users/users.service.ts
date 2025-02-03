@@ -1050,7 +1050,10 @@ export class UsersService {
       //   throw new Error('Failed to create social user: ID not generated.');
       // }
 
-      const result = await this.createUserID(newUser.id, queryRunner); // 생성된 ID를 사용
+      const result = await this.createUserID(
+        +insertResult.identifiers[0],
+        queryRunner,
+      ); // 생성된 ID를 사용
       console.log('createUserID result:', result);
 
       return result;
