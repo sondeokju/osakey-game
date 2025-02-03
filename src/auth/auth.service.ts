@@ -169,6 +169,11 @@ export class AuthService {
       [user_id],
     );
 
+    const snsLikesDataArray = await this.dataSource.query(
+      `SELECT * FROM user_sns_likes WHERE user_id = ?`,
+      [user_id],
+    );
+
     const mission = missionDataArray ?? null;
     const equip = equipDataArray ?? null;
     const suit = suitDataArray ?? null;
@@ -177,6 +182,7 @@ export class AuthService {
     //const tunaTvOnline = tunaTvOnlineDataArray ?? null;
     const tunaTv = tunaTvDataArray ?? null;
     const snsReward = snsRewardDataArray ?? null;
+    const snsLikes = snsLikesDataArray ?? null;
 
     return {
       mission,
@@ -186,6 +192,7 @@ export class AuthService {
       offlineReward,
       tunaTv,
       snsReward,
+      snsLikes,
     };
   }
 
