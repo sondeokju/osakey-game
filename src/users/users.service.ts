@@ -1040,14 +1040,14 @@ export class UsersService {
 
     if (!userData) {
       const newUser = usersRepository.create({ member_id: social_user_id });
-      const savedUser = await usersRepository.save(newUser);
-      console.log('handleEditorLogic savedUser:', savedUser);
+      console.log('handleEditorLogic newUser:', newUser);
+      //onst savedUser = await usersRepository.save(newUser);
 
-      if (!savedUser.id) {
-        throw new Error('Failed to create social user: ID not generated.');
-      }
+      // if (!savedUser.id) {
+      //   throw new Error('Failed to create social user: ID not generated.');
+      // }
 
-      const result = await this.createUserID(savedUser.id, queryRunner); // 생성된 ID를 사용
+      const result = await this.createUserID(newUser.id, queryRunner); // 생성된 ID를 사용
       console.log('createUserID result:', result);
 
       return result;
