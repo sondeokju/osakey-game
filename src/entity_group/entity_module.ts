@@ -219,3 +219,5 @@ export const entities_module = [
   UserIngameRewardModule,
   SkillModule,
 ];
+
+console.log('[DEBUG] entities_module.ts loaded:', entities_module);
