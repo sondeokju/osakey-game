@@ -93,20 +93,28 @@ export class AuthService {
     console.log('line-social/login 02', socialData); // socialData 원본 확인
     console.log('line-social/login 02-1', typeof socialData);
 
-    // if (typeof socialData === 'string') {
-    //   try {
-    //     socialData = JSON.parse(socialData);
-    //     console.log('line-social/login 03', socialData); // 변환 후 확인
-    //   } catch (error) {
-    //     console.error(
-    //       'JSON parsing error:',
-    //       error.message,
-    //       'Received:',
-    //       socialData,
-    //     );
-    //     return;
-    //   }
-    // }
+    if (typeof socialData === 'string') {
+      if (
+        !socialData.trim().startsWith('{') &&
+        !socialData.trim().startsWith('[')
+      ) {
+        console.error('Invalid JSON format:', socialData);
+        return;
+      }
+
+      try {
+        socialData = JSON.parse(socialData);
+        console.log('line-social/login 03', socialData);
+      } catch (error) {
+        console.error(
+          'JSON parsing error:',
+          error.message,
+          'Received:',
+          socialData,
+        );
+        return;
+      }
+    }
 
     console.log('line-social/login 04');
 
