@@ -157,6 +157,13 @@ export class Users extends BaseModel {
   })
   ban: string;
 
+  @Column({
+    length: 1,
+    type: 'char',
+    default: 'N',
+  })
+  tutorial_yn: string;
+
   // @Column({
   //   length: 128,
   //   default: '',

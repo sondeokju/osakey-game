@@ -1095,4 +1095,20 @@ export class UsersService {
       return result;
     }
   }
+
+  async updateTutorial(user_id: string, tutorial_yn: string, qr?: QueryRunner) {
+    const usersRepository = this.getUsersRepository(qr);
+    const userData = await usersRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    const result = await usersRepository.save({
+      ...userData,
+      tutorial_yn: tutorial_yn,
+    });
+
+    return result;
+  }
 }

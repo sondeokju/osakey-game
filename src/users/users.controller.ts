@@ -34,6 +34,22 @@ export class UsersController {
   //   return this.usersService.getAllUsers();
   // }
 
+  @Post('tutorial')
+  @UseInterceptors(TransactionInterceptor)
+  async updateTutorial(
+    @User() user: Users,
+    @Body('tutorial_yn') tutorial_yn: string,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.usersService.updateTutorial(
+      user.user_id,
+      tutorial_yn,
+      qr,
+    );
+
+    return result;
+  }
+
   @Get('/root')
   test() {
     console.log('root');
