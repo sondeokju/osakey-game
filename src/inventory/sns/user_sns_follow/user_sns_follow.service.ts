@@ -134,4 +134,11 @@ export class UserSnsFollowService {
 
     return result;
   }
+
+  async getUserFollowAll(user_id: string, qr?: QueryRunner) {
+    const userSnsFollowRepository = this.getUserSnsFollowRepository(qr);
+    const userSnsFollowData = await userSnsFollowRepository.find({});
+
+    return userSnsFollowData;
+  }
 }

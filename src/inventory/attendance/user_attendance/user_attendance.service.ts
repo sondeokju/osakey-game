@@ -239,6 +239,17 @@ export class UserAttendanceService {
     return userAttendance;
   }
 
+  async getAttendanceAll(user_id: string, qr?: QueryRunner) {
+    const userAttendanceRepository = this.getUserAttendanceRepository(qr);
+    const userAttendance = await userAttendanceRepository.find({
+      where: {
+        user_id,
+      },
+    });
+
+    return userAttendance;
+  }
+
   async attendanceReward(
     user_id: string,
     //ser_attendance_id: number,

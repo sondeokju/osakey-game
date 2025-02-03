@@ -200,6 +200,17 @@ export class UserMailService {
     return userMail;
   }
 
+  async getUserMailAll(user_id: string, qr?: QueryRunner) {
+    const userMailRepository = this.getUserMailRepository(qr);
+    const userMail = await userMailRepository.find({
+      where: {
+        user_id,
+      },
+    });
+
+    return userMail;
+  }
+
   async userMailItemList(user_id: string, qr?: QueryRunner) {
     const userMailRepository = this.getUserMailRepository(qr);
     // 사용자 메일 데이터를 조회합니다.

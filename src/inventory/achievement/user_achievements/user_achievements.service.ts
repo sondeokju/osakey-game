@@ -102,6 +102,17 @@ export class UserAchievementsService {
     return userAchieve;
   }
 
+  async getUserAchieveAll(user_id: string, qr?: QueryRunner) {
+    const userAchievementsRepository = this.getUserAchievementsRepository(qr);
+    const userAchieve = await userAchievementsRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    return userAchieve;
+  }
+
   async achieveReward(
     user_id: string,
     user_achievements_id: number,

@@ -245,4 +245,15 @@ export class UserOfflineRewardService {
 
     return userOfflineReward;
   }
+
+  async getUserOfflineRewardAll(user_id: string, qr?: QueryRunner) {
+    const userOfflineRewardRepository = this.getUserOfflineRewardRepository(qr);
+    const userOfflineReward = await userOfflineRewardRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    return userOfflineReward;
+  }
 }
