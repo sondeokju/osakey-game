@@ -141,7 +141,7 @@ export class UsersService {
 
     const newUserId = userData.id.toString().padStart(10, '0');
 
-    await this.firstUserSetting(newUserId, qr);
+    //await this.firstUserSetting(newUserId, qr);
 
     return await usersRepository.save({
       ...userData,
@@ -1041,7 +1041,9 @@ export class UsersService {
         throw new Error('Failed to create social user: ID not generated.');
       }
 
-      return this.createUserID(savedUser.id, queryRunner); // 생성된 ID를 사용
+      const result = this.createUserID(savedUser.id, queryRunner); // 생성된 ID를 사용
+
+      return result;
     } else {
       return await usersRepository.save({
         ...userData,
