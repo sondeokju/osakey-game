@@ -127,6 +127,7 @@ export class UsersService {
         'QueryRunner is required and must have an active transaction.',
       );
     }
+    console.log('createUserID id:', id);
 
     const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({
@@ -140,6 +141,7 @@ export class UsersService {
     }
 
     const newUserId = userData.id.toString().padStart(10, '0');
+    console.log('createUserID newUserId:', newUserId);
 
     //await this.firstUserSetting(newUserId, qr);
 
@@ -1036,12 +1038,14 @@ export class UsersService {
     if (!userData) {
       const newUser = usersRepository.create({ member_id: social_user_id });
       const savedUser = await usersRepository.save(newUser);
+      console.log('handleEditorLogic savedUser:', savedUser);
 
       if (!savedUser.id) {
         throw new Error('Failed to create social user: ID not generated.');
       }
 
       const result = this.createUserID(savedUser.id, queryRunner); // 생성된 ID를 사용
+      console.log('createUserID result:', result);
 
       return result;
     } else {
