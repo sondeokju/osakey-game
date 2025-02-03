@@ -1047,16 +1047,14 @@ export class UsersService {
         'handleEditorLogic newUser:',
         insertResult.identifiers[0]['id'],
       );
+      const u_id = insertResult.identifiers[0]['id'];
       //onst savedUser = await usersRepository.save(newUser);
 
       // if (!savedUser.id) {
       //   throw new Error('Failed to create social user: ID not generated.');
       // }
 
-      const result = await this.createUserID(
-        +insertResult.identifiers[0],
-        queryRunner,
-      ); // 생성된 ID를 사용
+      const result = await this.createUserID(u_id, queryRunner); // 생성된 ID를 사용
       console.log('createUserID result:', result);
 
       return result;
