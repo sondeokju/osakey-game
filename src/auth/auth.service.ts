@@ -90,11 +90,23 @@ export class AuthService {
   }
 
   async lineSocialLogin(socialData: any) {
-    console.log('line-social/login 02');
+    console.log('line-social/login 02', socialData); // socialData 원본 확인
+
     if (typeof socialData === 'string') {
-      socialData = JSON.parse(socialData);
-      console.log('line-social/login 03');
+      try {
+        socialData = JSON.parse(socialData);
+        console.log('line-social/login 03', socialData); // 변환 후 확인
+      } catch (error) {
+        console.error(
+          'JSON parsing error:',
+          error.message,
+          'Received:',
+          socialData,
+        );
+        return;
+      }
     }
+
     console.log('line-social/login 04');
 
     const userData = await this.usersService.lineSocialLogin(socialData);
