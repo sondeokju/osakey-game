@@ -48,6 +48,7 @@ export class AuthController {
     @Body('socialData') socialData: any,
     //@QueryRunner() qr: QR,
   ) {
+    console.log('line-social/login 01');
     console.log('line-social/login socialData:', socialData);
     const result = await this.authService.lineSocialLogin(socialData);
     //console.log('line-social/login', result);
