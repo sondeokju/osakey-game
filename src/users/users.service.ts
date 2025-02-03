@@ -131,9 +131,7 @@ export class UsersService {
 
     const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({
-      where: {
-        id,
-      },
+      where: { id },
     });
 
     if (!userData) {
@@ -143,16 +141,53 @@ export class UsersService {
     const newUserId = userData.id.toString().padStart(10, '0');
     console.log('createUserID newUserId:', newUserId);
 
-    //await this.firstUserSetting(newUserId, qr);
+    // 기존 `user_id`가 존재하면 중복 업데이트 방지
+    if (userData.user_id) {
+      console.log(
+        `User ${id} already has user_id: ${userData.user_id}, skipping update.`,
+      );
+      return userData;
+    }
 
     await usersRepository.update({ id }, { user_id: newUserId });
-    const result = await usersRepository.findOne({
-      where: {
-        id,
-      },
+
+    return await usersRepository.findOne({
+      where: { id },
     });
-    return result;
   }
+
+  // async createUserID(id: number, qr?: QueryRunner) {
+  //   if (!qr || !qr.isTransactionActive) {
+  //     throw new Error(
+  //       'QueryRunner is required and must have an active transaction.',
+  //     );
+  //   }
+  //   console.log('createUserID id:', id);
+
+  //   const usersRepository = this.getUsersRepository(qr);
+  //   const userData = await usersRepository.findOne({
+  //     where: {
+  //       id,
+  //     },
+  //   });
+
+  //   if (!userData) {
+  //     throw new Error(`User with id ${id} not found.`);
+  //   }
+
+  //   const newUserId = userData.id.toString().padStart(10, '0');
+  //   console.log('createUserID newUserId:', newUserId);
+
+  //   //await this.firstUserSetting(newUserId, qr);
+
+  //   await usersRepository.update({ id }, { user_id: newUserId });
+  //   const result = await usersRepository.findOne({
+  //     where: {
+  //       id,
+  //     },
+  //   });
+  //   return result;
+  // }
 
   async getUserBan(user_id: string, qr?: QueryRunner) {
     if (!qr || !qr.isTransactionActive) {
@@ -1027,42 +1062,40 @@ export class UsersService {
       });
     }
   }
-
   async handleEditorLogic(
     social_user_id: string,
     member_id: string,
     queryRunner: QueryRunner,
   ) {
     const usersRepository = this.getUsersRepository(queryRunner);
-    const userData = await usersRepository.findOne({
+    let userData = await usersRepository.findOne({
       where: { member_id: social_user_id },
     });
 
     if (!userData) {
-      //const newUser = usersRepository.create({ member_id: social_user_id });
+      // 사용자 삽입 (중복 삽입 방지)
       const insertResult = await usersRepository.insert({
         member_id: social_user_id,
       });
-      console.log(
-        'handleEditorLogic newUser:',
-        insertResult.identifiers[0]['id'],
-      );
+
+      if (!insertResult.identifiers.length) {
+        throw new Error('User insertion failed.');
+      }
+
       const u_id = insertResult.identifiers[0]['id'];
-      //onst savedUser = await usersRepository.save(newUser);
+      console.log('handleEditorLogic newUser:', u_id);
 
-      // if (!savedUser.id) {
-      //   throw new Error('Failed to create social user: ID not generated.');
-      // }
-
-      const result = await this.createUserID(u_id, queryRunner); // 생성된 ID를 사용
+      // 트랜잭션 내에서 ID 생성 로직 호출
+      const result = await this.createUserID(u_id, queryRunner);
       console.log('createUserID result:', result);
 
       return result;
     } else {
-      return await usersRepository.save({
-        ...userData,
-        update_at: new Date(),
-      });
+      // 기존 사용자 업데이트
+      return await usersRepository.update(
+        { id: userData.id },
+        { update_at: new Date() },
+      );
     }
   }
 }
