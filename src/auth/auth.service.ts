@@ -91,6 +91,7 @@ export class AuthService {
 
   async lineSocialLogin(socialData: any) {
     console.log('line-social/login 02', socialData); // socialData 원본 확인
+    console.log('line-social/login 02-1', typeof socialData);
 
     if (typeof socialData === 'string') {
       try {
