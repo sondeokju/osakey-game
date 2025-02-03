@@ -154,18 +154,39 @@ export class AuthService {
       [user_id],
     );
 
+    const tunaTvOnlineDataArray = await this.dataSource.query(
+      `SELECT * FROM user_tuna_tv_oneline WHERE user_id = ?`,
+      [user_id],
+    );
+
+    const tunaTvDataArray = await this.dataSource.query(
+      `SELECT * FROM user_tuna_tv WHERE user_id = ?`,
+      [user_id],
+    );
+
+    const snsRewardDataArray = await this.dataSource.query(
+      `SELECT * FROM user_sns_reward WHERE user_id = ?`,
+      [user_id],
+    );
+
     const mission = missionDataArray ?? null;
     const equip = equipDataArray ?? null;
     const suit = suitDataArray ?? null;
     const item = itemDataArray ?? null;
     const offlineReward = offlineRewardDataArray ?? null;
+    const tunaTvOnline = tunaTvOnlineDataArray ?? null;
+    const tunaTv = tunaTvDataArray ?? null;
+    const snsReward = snsRewardDataArray ?? null;
 
     return {
-      mission: mission,
-      equip: equip,
-      suit: suit,
-      item: item,
-      offlineReward: offlineReward,
+      mission,
+      equip,
+      suit,
+      item,
+      offlineReward,
+      tunaTvOnline,
+      tunaTv,
+      snsReward,
     };
   }
 

@@ -72,8 +72,8 @@ export class AuthController {
       social_user_id,
       name,
     );
-    //console.log('line-social/login', result);
-    return JSON.stringify(result);
+
+    return result;
   }
 
   // @IsPublic()
