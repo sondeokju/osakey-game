@@ -4,7 +4,6 @@ import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Users } from 'src/users/entity/users.entity';
 import { v4 as uuidv4 } from 'uuid'; // uuid v4를 가져옵니다.
-import * as qs from 'querystring';
 
 import * as bcrypt from 'bcrypt';
 import { RegisterUserDto } from './dto/register-user.dto';
