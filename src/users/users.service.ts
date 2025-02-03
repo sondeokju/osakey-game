@@ -1010,6 +1010,7 @@ export class UsersService {
     member_id: string,
     queryRunner: QueryRunner,
   ) {
+    console.log('handleSocialUserIdLogic 01');
     const usersRepository = this.getUsersRepository(queryRunner);
 
     if (member_id === 'UnityEditor_Member') {
@@ -1017,7 +1018,10 @@ export class UsersService {
         where: { member_id: social_user_id },
       });
 
+      console.log('handleSocialUserIdLogic 02');
+
       if (!user) {
+        console.log('handleSocialUserIdLogic 03');
         console.log('Creating new social user');
         const newUser = usersRepository.create({ member_id: social_user_id });
         const savedUser = await usersRepository.save(newUser);
@@ -1026,8 +1030,11 @@ export class UsersService {
           throw new Error('Failed to create social user: ID not generated.');
         }
 
+        console.log('handleSocialUserIdLogic 04');
+
         return this.createUserID(savedUser.id, queryRunner); // 생성된 ID를 사용
       } else {
+        console.log('handleSocialUserIdLogic 05');
         console.log('Updating existing social user');
         return await usersRepository.save({
           ...user,
