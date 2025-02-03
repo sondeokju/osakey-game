@@ -1043,7 +1043,10 @@ export class UsersService {
       const insertResult = await usersRepository.insert({
         member_id: social_user_id,
       });
-      console.log('handleEditorLogic newUser:', insertResult.identifiers[0]);
+      console.log(
+        'handleEditorLogic newUser:',
+        insertResult.identifiers[0]['id'],
+      );
       //onst savedUser = await usersRepository.save(newUser);
 
       // if (!savedUser.id) {
