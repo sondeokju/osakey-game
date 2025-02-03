@@ -919,13 +919,6 @@ export class UsersService {
     social_user_id: string,
     qr?: QueryRunner,
   ) {
-    // if (typeof socialData === 'string') {
-    //   socialData = JSON.parse(socialData);
-    // }
-
-    // const member_id = member_id ?? null;
-    // const social_user_id = social_user_id ?? null;
-
     let queryRunner = qr;
     if (!queryRunner) {
       queryRunner = this.dataSource.createQueryRunner();
@@ -936,14 +929,9 @@ export class UsersService {
     try {
       let result = null;
 
-      console.log('lineSocialLogin member_id:', member_id);
-
-      if (member_id) {
+      if (member_id && !social_user_id) {
         result = await this.handleMemberIdLogic(member_id, queryRunner);
-        console.log('lineSocialLogin handleMemberIdLogic:', result);
       }
-
-      console.log('lineSocialLogin social_user_id:', social_user_id);
 
       if (member_id && social_user_id) {
         result = await this.handleSocialUserIdLogic(
@@ -951,8 +939,14 @@ export class UsersService {
           member_id,
           queryRunner,
         );
+      }
 
-        //console.log('lineSocialLogin result:', result);
+      if (member_id === 'UnityEditor_Member' && social_user_id) {
+        result = await this.handleEditorLogic(
+          social_user_id,
+          member_id,
+          queryRunner,
+        );
       }
 
       // log
@@ -961,7 +955,6 @@ export class UsersService {
         await queryRunner.commitTransaction();
       }
 
-      //console.log('lineSocialLogin', result);
       return result;
     } catch (error) {
       if (!qr) {
@@ -975,10 +968,7 @@ export class UsersService {
     }
   }
 
-  private async handleMemberIdLogic(
-    member_id: string,
-    queryRunner: QueryRunner,
-  ) {
+  async handleMemberIdLogic(member_id: string, queryRunner: QueryRunner) {
     const usersRepository = this.getUsersRepository(queryRunner);
     const userData = await usersRepository.findOne({ where: { member_id } });
 
@@ -1006,22 +996,17 @@ export class UsersService {
     return null;
   }
 
-  private async handleSocialUserIdLogic(
+  async handleSocialUserIdLogic(
     social_user_id: string,
     member_id: string,
     queryRunner: QueryRunner,
   ) {
-    console.log('handleSocialUserIdLogic 01');
     const usersRepository = this.getUsersRepository(queryRunner);
     const userData = await usersRepository.findOne({
       where: { member_id: member_id },
     });
-    console.log('handleSocialUserIdLogic social_user_id :', social_user_id);
-    console.log('handleSocialUserIdLogic member_id', member_id);
 
-    if (member_id === 'UnityEditor_Member' && !userData) {
-      console.log('handleSocialUserIdLogic 03');
-      console.log('Creating new social user');
+    if (member_id !== 'UnityEditor_Member' && !userData) {
       const newUser = usersRepository.create({ member_id: member_id });
       const savedUser = await usersRepository.save(newUser);
 
@@ -1029,10 +1014,26 @@ export class UsersService {
         throw new Error('Failed to create social user: ID not generated.');
       }
 
-      console.log('handleSocialUserIdLogic 04');
-
       return this.createUserID(savedUser.id, queryRunner); // 생성된 ID를 사용
-    } else if (member_id === 'UnityEditor_Member' && !member_id) {
+    } else {
+      return await usersRepository.save({
+        ...userData,
+        update_at: new Date(),
+      });
+    }
+  }
+
+  async handleEditorLogic(
+    social_user_id: string,
+    member_id: string,
+    queryRunner: QueryRunner,
+  ) {
+    const usersRepository = this.getUsersRepository(queryRunner);
+    const userData = await usersRepository.findOne({
+      where: { member_id: member_id },
+    });
+
+    if (member_id === 'UnityEditor_Member' && !userData) {
       const newUser = usersRepository.create({ member_id: social_user_id });
       const savedUser = await usersRepository.save(newUser);
 
@@ -1040,12 +1041,8 @@ export class UsersService {
         throw new Error('Failed to create social user: ID not generated.');
       }
 
-      console.log('handleSocialUserIdLogic 04');
-
       return this.createUserID(savedUser.id, queryRunner); // 생성된 ID를 사용
     } else {
-      console.log('handleSocialUserIdLogic 05');
-      console.log('Updating existing social user: ', userData);
       return await usersRepository.save({
         ...userData,
         update_at: new Date(),

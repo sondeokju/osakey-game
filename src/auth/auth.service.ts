@@ -98,7 +98,7 @@ export class AuthService {
       member_id,
       social_user_id,
     );
-    //console.log('lineSocialLogin userData:', userData);
+
     await this.zLoginLogService.loginLog(
       userData.user_id,
       member_id,
