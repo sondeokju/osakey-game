@@ -145,10 +145,9 @@ export class UsersService {
 
     //await this.firstUserSetting(newUserId, qr);
 
-    return await usersRepository.save({
-      ...userData,
-      user_id: newUserId,
-    });
+    const result = await usersRepository.update({ id }, { user_id: newUserId });
+
+    return result;
   }
 
   async getUserBan(user_id: string, qr?: QueryRunner) {
