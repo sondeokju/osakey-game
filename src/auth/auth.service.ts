@@ -182,6 +182,11 @@ export class AuthService {
       [user_id],
     );
 
+    const npcFriendshipDataArray = await this.dataSource.query(
+      `SELECT * FROM user_npc_friendship WHERE user_id = ?`,
+      [user_id],
+    );
+
     const mission = missionDataArray ?? null;
     const equip = equipDataArray ?? null;
     const suit = suitDataArray ?? null;
@@ -192,6 +197,7 @@ export class AuthService {
     const snsReward = snsRewardDataArray ?? null;
     const snsLikes = snsLikesDataArray ?? null;
     const snsLevel = snsLevelDataArray ?? null;
+    const npcFriendship = npcFriendshipDataArray ?? null;
 
     return {
       mission,
@@ -203,6 +209,7 @@ export class AuthService {
       snsReward,
       snsLikes,
       snsLevel,
+      npcFriendship,
     };
   }
 
