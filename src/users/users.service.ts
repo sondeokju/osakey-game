@@ -1012,6 +1012,9 @@ export class UsersService {
   ) {
     console.log('handleSocialUserIdLogic 01');
     const usersRepository = this.getUsersRepository(queryRunner);
+    console.log('handleSocialUserIdLogic social_user_id :', social_user_id);
+
+    console.log('handleSocialUserIdLogic member_id', member_id);
 
     if (member_id === 'UnityEditor_Member') {
       const user = await usersRepository.findOne({
