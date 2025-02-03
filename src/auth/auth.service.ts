@@ -90,9 +90,12 @@ export class AuthService {
   }
 
   async lineSocialLogin(socialData: any) {
+    console.log('line-social/login 02');
     if (typeof socialData === 'string') {
       socialData = JSON.parse(socialData);
+      console.log('line-social/login 03');
     }
+    console.log('line-social/login 04');
 
     const userData = await this.usersService.lineSocialLogin(socialData);
     //console.log('lineSocialLogin userData:', userData);
