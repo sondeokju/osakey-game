@@ -919,6 +919,8 @@ export class UsersService {
       socialData = JSON.parse(socialData);
     }
 
+    console.log('lineSocialLogin socialData:', socialData);
+
     const member_id = socialData.memberid ?? null;
     const social_user_id = socialData.userid ?? null;
 
@@ -932,9 +934,14 @@ export class UsersService {
     try {
       let result = null;
 
+      console.log('lineSocialLogin member_id:', member_id);
+
       if (member_id) {
         result = await this.handleMemberIdLogic(member_id, queryRunner);
+        console.log('lineSocialLogin handleMemberIdLogic:', result);
       }
+
+      console.log('lineSocialLogin social_user_id:', social_user_id);
 
       if (social_user_id) {
         result = await this.handleSocialUserIdLogic(
@@ -942,6 +949,8 @@ export class UsersService {
           member_id,
           queryRunner,
         );
+
+        console.log('lineSocialLogin result:', result);
       }
 
       // log
