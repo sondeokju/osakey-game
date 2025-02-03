@@ -34,6 +34,22 @@ export class UsersController {
   //   return this.usersService.getAllUsers();
   // }
 
+  @Post('nickname')
+  @UseInterceptors(TransactionInterceptor)
+  async updateNickname(
+    @User() user: Users,
+    @Body('nickname') nickname: string,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.usersService.updateNickname(
+      user.user_id,
+      nickname,
+      qr,
+    );
+
+    return result;
+  }
+
   @Post('tutorial')
   @UseInterceptors(TransactionInterceptor)
   async updateTutorial(

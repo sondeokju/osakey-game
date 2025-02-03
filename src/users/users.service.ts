@@ -1114,4 +1114,20 @@ export class UsersService {
 
     return result;
   }
+
+  async updateNickname(user_id: string, nickname: string, qr?: QueryRunner) {
+    const usersRepository = this.getUsersRepository(qr);
+    const userData = await usersRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    const result = await usersRepository.save({
+      ...userData,
+      nickname: nickname,
+    });
+
+    return result;
+  }
 }
