@@ -1024,7 +1024,7 @@ export class UsersService {
         where: { member_id: social_user_id },
       });
 
-      console.log('handleSocialUserIdLogic 02');
+      console.log('handleSocialUserIdLogic user:', user);
 
       if (!user) {
         console.log('handleSocialUserIdLogic 03');
