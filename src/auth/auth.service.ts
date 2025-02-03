@@ -155,7 +155,7 @@ export class AuthService {
     );
 
     const tunaTvOnlineDataArray = await this.dataSource.query(
-      `SELECT * FROM user_tuna_tv_oneline WHERE user_id = ?`,
+      `SELECT * FROM user_tuna_tv_online WHERE user_id = ?`,
       [user_id],
     );
 
