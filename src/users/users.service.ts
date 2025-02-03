@@ -914,12 +914,14 @@ export class UsersService {
     return usersRepository.save(user);
   }
 
-  async lineSocialLogin(member_id, social_user_id) {
+  async lineSocialLogin(
+    member_id: string,
+    social_user_id: string,
+    qr: QueryRunner,
+  ) {
     // if (typeof socialData === 'string') {
     //   socialData = JSON.parse(socialData);
     // }
-
-    console.log('lineSocialLogin socialData memberid:', socialData['memberid']);
 
     // const member_id = member_id ?? null;
     // const social_user_id = social_user_id ?? null;
