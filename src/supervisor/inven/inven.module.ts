@@ -9,7 +9,7 @@ console.log('Type:', typeof entities_module);
 console.log('Is Array:', Array.isArray(entities_module));
 
 @Module({
-  imports: [],
+  imports: [...entities_module],
   exports: [InvenService],
   controllers: [InvenController],
   providers: [InvenService],
