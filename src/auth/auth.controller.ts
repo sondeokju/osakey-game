@@ -63,10 +63,6 @@ export class AuthController {
     const social_user_id = socialData?.userid ?? null;
     const name = socialData?.name ?? null;
 
-    console.log('lineSocialLogin socialData memberid:', member_id);
-    console.log('lineSocialLogin social_user_id:', social_user_id);
-    console.log('lineSocialLogin name:', name);
-
     const result = await this.authService.lineSocialLogin(
       member_id,
       social_user_id,

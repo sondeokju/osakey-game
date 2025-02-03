@@ -69,7 +69,6 @@ import { InvenModule } from './supervisor/inven/inven.module';
         process.env[ENV_KEEPCONNECTIONALIVE_KEY] === 'true' ? true : false,
     }),
     ...entities_module,
-    InvenModule,
   ],
   controllers: [AppController],
   providers: [
