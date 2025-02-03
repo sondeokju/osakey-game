@@ -915,13 +915,13 @@ export class UsersService {
   }
 
   async lineSocialLogin(socialData: any, qr?: QueryRunner) {
-    if (typeof socialData === 'string') {
-      socialData = JSON.parse(socialData);
-    }
+    // if (typeof socialData === 'string') {
+    //   socialData = JSON.parse(socialData);
+    // }
 
-    console.log('lineSocialLogin socialData:', socialData);
+    console.log('lineSocialLogin socialData memberid:', socialData['memberid']);
 
-    const member_id = socialData.memberid ?? null;
+    const member_id = socialData['memberid'] ?? null;
     const social_user_id = socialData.userid ?? null;
 
     let queryRunner = qr;
