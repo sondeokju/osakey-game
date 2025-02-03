@@ -1073,7 +1073,7 @@ export class UsersService {
     queryRunner: QueryRunner,
   ) {
     const usersRepository = this.getUsersRepository(queryRunner);
-    let userData = await usersRepository.findOne({
+    const userData = await usersRepository.findOne({
       where: { member_id: social_user_id },
     });
 
@@ -1097,10 +1097,9 @@ export class UsersService {
       return result;
     } else {
       // 기존 사용자 업데이트
-      return await usersRepository.update(
-        { id: userData.id },
-        { update_at: new Date() },
-      );
+      userData.update_at = new Date();
+      const result = await usersRepository.save(userData);
+      return result;
     }
   }
 }
