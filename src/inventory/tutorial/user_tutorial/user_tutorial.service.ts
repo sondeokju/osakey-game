@@ -65,7 +65,8 @@ export class UserTutorialService {
       const tutorialRewardData =
         await this.tutorialRewardService.getTutorialReward(tutorial_sub_id, qr);
 
-      if (tutorialRewardData.reward_id > 0) {
+      console.log('tutorialRewardData.reward_id', tutorialRewardData.reward_id);
+      if (tutorialRewardData.reward_id > 0 && !tutorialRewardData.reward_id) {
         rewardData = await this.rewardOfferService.reward(
           user_id,
           tutorialRewardData.reward_id,

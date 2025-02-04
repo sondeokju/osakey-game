@@ -33,7 +33,7 @@ export class GachaDrawService {
       0,
     );
 
-    const selectedItems: number[] = [];
+    //const selectedItems: number[] = [];
 
     let random = Math.random() * totalWeight;
     for (const gacha of gachaList) {
