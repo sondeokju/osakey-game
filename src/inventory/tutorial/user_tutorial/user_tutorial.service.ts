@@ -37,6 +37,8 @@ export class UserTutorialService {
       throw new BadRequestException('Invalid user_id provided.');
     }
 
+    console.log('tutorial_id', tutorial_id);
+    console.log('tutorial_sub_id', tutorial_sub_id);
     const queryRunner = qr || this.dataSource.createQueryRunner();
     let rewardData = {};
 
@@ -64,6 +66,8 @@ export class UserTutorialService {
 
       const tutorialRewardData =
         await this.tutorialRewardService.getTutorialReward(tutorial_sub_id, qr);
+
+      console.log('tutorialRewardData', tutorialRewardData);
 
       // console.log('tutorialRewardData.reward_id', tutorialRewardData.reward_id);
       // if (tutorialRewardData.reward_id > 0 && !tutorialRewardData.reward_id) {
