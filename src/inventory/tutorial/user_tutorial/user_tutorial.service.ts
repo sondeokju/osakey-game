@@ -38,7 +38,7 @@ export class UserTutorialService {
     }
 
     const queryRunner = qr || this.dataSource.createQueryRunner();
-    let rewardData;
+    let rewardData = {};
 
     let isTransactionOwner = false;
     if (!qr) {
@@ -89,7 +89,7 @@ export class UserTutorialService {
       }
 
       return {
-        reward: rewardData,
+        reward: Array.isArray(rewardData) ? rewardData : [],
         userTutorial: updatedUserTutorial,
       };
     } catch (error) {
