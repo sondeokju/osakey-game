@@ -9,6 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { UserTutorial } from './entities/user_tutorial.entity';
+import { TutorialRewardService } from 'src/static-table/tutorial/tutorial_reward/tutorial_reward.service';
 
 @Injectable()
 export class UserTutorialService {
@@ -16,6 +17,7 @@ export class UserTutorialService {
     @InjectRepository(UserTutorial)
     private readonly userTutorialRepository: Repository<UserTutorial>,
     private readonly rewardOfferService: RewardOfferService,
+    private readonly tutorialRewardService: TutorialRewardService,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -59,15 +61,36 @@ export class UserTutorialService {
         });
       }
 
+      const tutorialRewardData =
+        await this.tutorialRewardService.getTutorialReward(tutorial_sub_id, qr);
+
+      if (tutorialRewardData.reward_id > 0) {
+        const rewardData = await this.rewardOfferService.reward(
+          user_id,
+          tutorialRewardData.reward_id,
+          qr,
+        );
+
+        if (!rewardData) {
+          throw new BadRequestException('Failed to process reward.');
+        }
+
+        userTutorial.reward_yn = 'Y';
+      }
+
       userTutorial.tutorial_sub_id = tutorial_sub_id;
 
-      const result = await userTutorialRepository.save(userTutorial);
+      const updatedUserTutorial =
+        await userTutorialRepository.save(userTutorial);
 
       if (isTransactionOwner) {
         await queryRunner.commitTransaction();
       }
 
-      return result;
+      return {
+        reward: rewardData,
+        userTutorial: updatedUserTutorial,
+      };
     } catch (error) {
       if (isTransactionOwner) {
         await queryRunner.rollbackTransaction();
@@ -91,52 +114,4 @@ export class UserTutorialService {
 
     return userTutorial;
   }
-
-  // async achieveReward(
-  //   user_id: string,
-  //   user_achievements_id: number,
-  //   qr?: QueryRunner,
-  // ) {
-  //   const userAchievementsRepository = this.getUserAchievementsRepository(qr);
-  //   const userAchieve = await userAchievementsRepository.findOne({
-  //     where: {
-  //       id: user_achievements_id,
-  //       user_id,
-  //     },
-  //   });
-
-  //   if (!userAchieve) {
-  //     throw new NotFoundException('userAchieve not found.');
-  //   }
-
-  //   const achieveData = await this.achieveListService.getAttendance(
-  //     userAchieve.achieve_id,
-  //     qr,
-  //   );
-
-  //   if (userAchieve.reward_yn === 'Y') {
-  //     throw new NotFoundException(
-  //       'You have already claimed the Achieve reward.',
-  //     );
-  //   }
-  //   const rewardData = await this.rewardOfferService.reward(
-  //     user_id,
-  //     achieveData.reward_id,
-  //     qr,
-  //   );
-
-  //   if (!rewardData) {
-  //     throw new BadRequestException('Failed to process reward.');
-  //   }
-
-  //   userAchieve.reward_yn = 'Y';
-  //   const updatedUserAchieve =
-  //     await userAchievementsRepository.save(userAchieve);
-
-  //   return {
-  //     success: true,
-  //     reward: rewardData,
-  //     userAchievement: updatedUserAchieve,
-  //   };
-  // }
 }
