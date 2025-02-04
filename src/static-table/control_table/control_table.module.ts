@@ -104,6 +104,8 @@ import { SecameDiaryService } from '../secame/secame_diary/secame_diary.service'
 import { SecameMailService } from '../secame/secame_mail/secame_mail.service';
 import { Skill } from '../skill/skill/entities/skill.entity';
 import { SkillService } from '../skill/skill/skill.service';
+import { TutorialReward } from '../tutorial/tutorial_reward/entities/tutorial_reward.entity';
+import { TutorialRewardService } from '../tutorial/tutorial_reward/tutorial_reward.service';
 
 @Module({
   imports: [
@@ -160,6 +162,7 @@ import { SkillService } from '../skill/skill/skill.service';
       SecameDiary,
       SecameMail,
       Skill,
+      TutorialReward,
     ]),
   ],
   exports: [ControlTableService],
@@ -217,6 +220,7 @@ import { SkillService } from '../skill/skill/skill.service';
     SecameDiaryService,
     SecameMailService,
     SkillService,
+    TutorialRewardService,
   ],
 })
 export class ControlTableModule {}
