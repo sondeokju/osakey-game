@@ -106,6 +106,10 @@ import { Skill } from '../skill/skill/entities/skill.entity';
 import { SkillService } from '../skill/skill/skill.service';
 import { TutorialReward } from '../tutorial/tutorial_reward/entities/tutorial_reward.entity';
 import { TutorialRewardService } from '../tutorial/tutorial_reward/tutorial_reward.service';
+import { Gacha } from '../draw/gacha/entities/gacha.entity';
+import { GachaOutput } from '../draw/gacha_output/entities/gacha_output.entity';
+import { GachaService } from '../draw/gacha/gacha.service';
+import { GachaOutputService } from '../draw/gacha_output/gacha_output.service';
 
 @Module({
   imports: [
@@ -163,6 +167,8 @@ import { TutorialRewardService } from '../tutorial/tutorial_reward/tutorial_rewa
       SecameMail,
       Skill,
       TutorialReward,
+      Gacha,
+      GachaOutput,
     ]),
   ],
   exports: [ControlTableService],
@@ -221,6 +227,8 @@ import { TutorialRewardService } from '../tutorial/tutorial_reward/tutorial_rewa
     SecameMailService,
     SkillService,
     TutorialRewardService,
+    GachaService,
+    GachaOutputService,
   ],
 })
 export class ControlTableModule {}

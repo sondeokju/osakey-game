@@ -19,7 +19,7 @@ import { Edu } from 'src/static-table/edu/edu/entities/edu.entity';
 import { EduCurriculum } from 'src/static-table/edu/edu_curriculum/entities/edu_curriculum.entity';
 import { EduList } from 'src/static-table/edu/edu_list/entities/edu_list.entity';
 import { EduReduceTime } from 'src/static-table/edu/edu_reduce_time/entities/edu_reduce_time.entity';
-import { Gacha } from 'src/static-table/gacha/entities/gacha.entity';
+import { Gacha } from 'src/static-table/draw/gacha/entities/gacha.entity';
 import { Hero } from 'src/static-table/hero/entities/hero.entity';
 import { ItemEquipslot } from 'src/static-table/item-equipslot/entities/item-equipslot.entity';
 import { ItemGrade } from 'src/static-table/item-grade/entities/item-grade.entity';
@@ -104,6 +104,7 @@ import { UserIngameReward } from 'src/inventory/stage/user_ingame_reward/entitie
 import { Skill } from 'src/static-table/skill/skill/entities/skill.entity';
 import { UserTutorial } from 'src/inventory/tutorial/user_tutorial/entities/user_tutorial.entity';
 import { TutorialReward } from 'src/static-table/tutorial/tutorial_reward/entities/tutorial_reward.entity';
+import { GachaOutput } from 'src/static-table/draw/gacha_output/entities/gacha_output.entity';
 
 export const entities = [
   Users,
@@ -212,4 +213,5 @@ export const entities = [
   Skill,
   UserTutorial,
   TutorialReward,
+  GachaOutput,
 ];

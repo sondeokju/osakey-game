@@ -18,7 +18,7 @@ import { EduModule } from 'src/static-table/edu/edu/edu.module';
 import { EduCurriculumModule } from 'src/static-table/edu/edu_curriculum/edu_curriculum.module';
 import { EduListModule } from 'src/static-table/edu/edu_list/edu_list.module';
 import { EduReduceTime } from 'src/static-table/edu/edu_reduce_time/entities/edu_reduce_time.entity';
-import { GachaModule } from 'src/static-table/gacha/gacha.module';
+import { GachaModule } from 'src/static-table/draw/gacha/gacha.module';
 import { HeroModule } from 'src/static-table/hero/hero.module';
 import { ItemEquipslotModule } from 'src/static-table/item-equipslot/item-equipslot.module';
 import { ItemGradeModule } from 'src/static-table/item-grade/item-grade.module';
@@ -110,6 +110,7 @@ import { SkillModule } from 'src/static-table/skill/skill/skill.module';
 import { InvenModule } from 'src/supervisor/inven/inven.module';
 import { UserTutorialModule } from 'src/inventory/tutorial/user_tutorial/user_tutorial.module';
 import { TutorialRewardModule } from 'src/static-table/tutorial/tutorial_reward/tutorial_reward.module';
+import { GachaOutputModule } from 'src/static-table/draw/gacha_output/gacha_output.module';
 
 export const entities_module = [
   UsersModule,
@@ -224,6 +225,7 @@ export const entities_module = [
   SkillModule,
   InvenModule,
   TutorialRewardModule,
+  GachaOutputModule,
 ];
 
 //console.log('[DEBUG] entities_module.ts loaded:', entities_module);

@@ -52,6 +52,8 @@ import { SecameDiaryService } from '../secame/secame_diary/secame_diary.service'
 import { SecameMailService } from '../secame/secame_mail/secame_mail.service';
 import { SkillService } from '../skill/skill/skill.service';
 import { TutorialRewardService } from '../tutorial/tutorial_reward/tutorial_reward.service';
+import { GachaService } from '../draw/gacha/gacha.service';
+import { GachaOutputService } from '../draw/gacha_output/gacha_output.service';
 
 @Injectable()
 export class ControlTableService {
@@ -108,6 +110,8 @@ export class ControlTableService {
     private readonly secameMailService: SecameMailService,
     private readonly skillService: SkillService,
     private readonly tutorialRewardService: TutorialRewardService,
+    private readonly gachaService: GachaService,
+    private readonly gachaOutputService: GachaOutputService,
   ) {}
 
   async getControlTableAll(qr?: QueryRunner) {
@@ -132,6 +136,7 @@ export class ControlTableService {
       secame: await this.getSecameAll(qr),
       equipment_skill: await this.getSkillAll(qr),
       tutorial: await this.getTutorialAll(qr),
+      gacha: await this.getGachaAll(qr),
     };
 
     return static_table;
@@ -292,6 +297,15 @@ export class ControlTableService {
     const obj = {
       tutorial_reward:
         await this.tutorialRewardService.getTutorialRewardAll(qr),
+    };
+
+    return obj;
+  }
+
+  async getGachaAll(qr?: QueryRunner) {
+    const obj = {
+      gacha: await this.gachaService.getGachaAll(qr),
+      gacha_output: await this.gachaOutputService.getGachaOutputAll(qr),
     };
 
     return obj;
