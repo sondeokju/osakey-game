@@ -22,11 +22,11 @@ export class TutorialRewardService {
     return result;
   }
 
-  async getTutorialReward(id: number, qr?: QueryRunner) {
+  async getTutorialReward(tutorial_sub_id: number, qr?: QueryRunner) {
     const tutorialRewardRepository = this.getTutorialRewardRepository(qr);
     const result = await tutorialRewardRepository.findOne({
       where: {
-        id,
+        tutorial_sub_id,
       },
     });
 
