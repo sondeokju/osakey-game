@@ -108,6 +108,7 @@ import { SuitUltimateLevelModule } from 'src/static-table/suit/suit_ultimate_lev
 import { UserIngameRewardModule } from 'src/inventory/stage/user_ingame_reward/user_ingame_reward.module';
 import { SkillModule } from 'src/static-table/skill/skill/skill.module';
 import { InvenModule } from 'src/supervisor/inven/inven.module';
+import { UserTutorialModule } from 'src/inventory/tutorial/user_tutorial/user_tutorial.module';
 
 export const entities_module = [
   UsersModule,
@@ -210,6 +211,7 @@ export const entities_module = [
   UserBattlePassRewardModule,
   UserMemorizeModule,
   UserMemoryShareModule,
+  UserTutorialModule,
   BattleStageModule,
   RunStageModule,
   PuzzleStageModule,
