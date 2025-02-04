@@ -52,7 +52,7 @@ export class UserAchievementsService {
         queryRunner.manager.getRepository(UserAchievements);
 
       let userAchieve = await userAchievementsRepository.findOne({
-        where: { user_id },
+        where: { user_id, achieve_id },
       });
 
       if (!userAchieve) {

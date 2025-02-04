@@ -6,7 +6,7 @@ export class UserTunaTvOnline extends BaseModel {
   @Column({
     default: 0,
   })
-  @Index({ unique: true })
+  @Index({ unique: false })
   tuna_tv_id: number;
 
   @Column({
