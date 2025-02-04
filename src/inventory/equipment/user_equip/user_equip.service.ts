@@ -56,6 +56,10 @@ export class UserEquipService {
   ) {
     const resultCounts: Record<number, number> = {};
 
+    if (iterations > 5000) {
+      iterations = 5000;
+    }
+
     for (let i = 0; i < iterations; i++) {
       const skillId = await this.calculEquipSkillRandom(
         skill_equip_category,

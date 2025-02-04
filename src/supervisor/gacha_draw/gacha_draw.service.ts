@@ -29,6 +29,9 @@ export class GachaDrawService {
   ) {
     const resultCount: Record<number, number> = {};
 
+    if (iterations > 5000) {
+      iterations = 5000;
+    }
     for (let i = 0; i < iterations; i++) {
       const drawResult = await this.calculEquipGachaDrawRandom(gacha_id, qr);
       drawResult.forEach((item_id) => {
