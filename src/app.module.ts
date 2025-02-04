@@ -29,8 +29,6 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
 import { entities } from './entity_group/entity';
 import { entities_module } from './entity_group/entity_module';
-import { DrawGachaModule } from './draw_gacha/draw_gacha.module';
-import { GachaDrawModule } from './supervisor/gacha_draw/gacha_draw.module';
 
 @Module({
   imports: [
@@ -70,8 +68,6 @@ import { GachaDrawModule } from './supervisor/gacha_draw/gacha_draw.module';
         process.env[ENV_KEEPCONNECTIONALIVE_KEY] === 'true' ? true : false,
     }),
     ...entities_module,
-    DrawGachaModule,
-    GachaDrawModule,
   ],
   controllers: [AppController],
   providers: [

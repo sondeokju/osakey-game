@@ -111,6 +111,7 @@ import { InvenModule } from 'src/supervisor/inven/inven.module';
 import { UserTutorialModule } from 'src/inventory/tutorial/user_tutorial/user_tutorial.module';
 import { TutorialRewardModule } from 'src/static-table/tutorial/tutorial_reward/tutorial_reward.module';
 import { GachaOutputModule } from 'src/static-table/draw/gacha_output/gacha_output.module';
+import { GachaDrawModule } from 'src/supervisor/gacha_draw/gacha_draw.module';
 
 export const entities_module = [
   UsersModule,
@@ -226,6 +227,7 @@ export const entities_module = [
   InvenModule,
   TutorialRewardModule,
   GachaOutputModule,
+  GachaDrawModule,
 ];
 
 //console.log('[DEBUG] entities_module.ts loaded:', entities_module);
