@@ -3,7 +3,9 @@ import { Column, Entity, Index } from 'typeorm';
 
 @Entity()
 // @Index('user_memory_user_id_boss_id', ['user_id', 'boss_id'], { unique: true })
-//@Index('user_memory_boss_id_memory', ['boss_id', 'memory'], { unique: false })
+@Index('UserTutorial_user_id_tutorial_id', ['user_id', 'tutorial_id'], {
+  unique: false,
+})
 export class UserTutorial extends BaseModel {
   @Column({
     nullable: false,
@@ -16,7 +18,7 @@ export class UserTutorial extends BaseModel {
   @Column({
     default: '0',
   })
-  @Index({ unique: true })
+  @Index({ unique: false })
   tutorial_sub_id: number;
 
   @Column({
