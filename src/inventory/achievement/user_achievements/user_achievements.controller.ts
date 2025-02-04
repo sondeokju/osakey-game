@@ -12,7 +12,7 @@ export class UserAchievementsController {
     private readonly userAchievementsService: UserAchievementsService,
   ) {}
 
-  @Get()
+  @Get('')
   @UseInterceptors(TransactionInterceptor)
   async achieve(@User() user: Users, @QueryRunner() qr: QR) {
     const result = this.userAchievementsService.getUserAchieveAll(
