@@ -109,6 +109,7 @@ import { UserIngameRewardModule } from 'src/inventory/stage/user_ingame_reward/u
 import { SkillModule } from 'src/static-table/skill/skill/skill.module';
 import { InvenModule } from 'src/supervisor/inven/inven.module';
 import { UserTutorialModule } from 'src/inventory/tutorial/user_tutorial/user_tutorial.module';
+import { TutorialRewardModule } from 'src/static-table/tutorial/tutorial_reward/tutorial_reward.module';
 
 export const entities_module = [
   UsersModule,
@@ -222,6 +223,7 @@ export const entities_module = [
   SuitUltimateLevelModule,
   SkillModule,
   InvenModule,
+  TutorialRewardModule,
 ];
 
 //console.log('[DEBUG] entities_module.ts loaded:', entities_module);

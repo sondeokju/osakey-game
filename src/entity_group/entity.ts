@@ -103,6 +103,7 @@ import { SuitUltimateLevel } from 'src/static-table/suit/suit_ultimate_level/ent
 import { UserIngameReward } from 'src/inventory/stage/user_ingame_reward/entities/user_ingame_reward.entity';
 import { Skill } from 'src/static-table/skill/skill/entities/skill.entity';
 import { UserTutorial } from 'src/inventory/tutorial/user_tutorial/entities/user_tutorial.entity';
+import { TutorialReward } from 'src/static-table/tutorial/tutorial_reward/entities/tutorial_reward.entity';
 
 export const entities = [
   Users,
@@ -210,4 +211,5 @@ export const entities = [
   UserIngameReward,
   Skill,
   UserTutorial,
+  TutorialReward,
 ];
