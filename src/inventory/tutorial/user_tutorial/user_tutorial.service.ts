@@ -65,20 +65,20 @@ export class UserTutorialService {
       const tutorialRewardData =
         await this.tutorialRewardService.getTutorialReward(tutorial_sub_id, qr);
 
-      console.log('tutorialRewardData.reward_id', tutorialRewardData.reward_id);
-      if (tutorialRewardData.reward_id > 0 && !tutorialRewardData.reward_id) {
-        rewardData = await this.rewardOfferService.reward(
-          user_id,
-          tutorialRewardData.reward_id,
-          qr,
-        );
+      // console.log('tutorialRewardData.reward_id', tutorialRewardData.reward_id);
+      // if (tutorialRewardData.reward_id > 0 && !tutorialRewardData.reward_id) {
+      //   rewardData = await this.rewardOfferService.reward(
+      //     user_id,
+      //     tutorialRewardData.reward_id,
+      //     qr,
+      //   );
 
-        if (!rewardData) {
-          throw new BadRequestException('Failed to process reward.');
-        }
+      //   if (!rewardData) {
+      //     throw new BadRequestException('Failed to process reward.');
+      //   }
 
-        userTutorial.reward_yn = 'Y';
-      }
+      //   userTutorial.reward_yn = 'Y';
+      // }
 
       userTutorial.tutorial_sub_id = tutorial_sub_id;
 
