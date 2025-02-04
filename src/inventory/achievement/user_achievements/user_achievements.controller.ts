@@ -15,6 +15,7 @@ export class UserAchievementsController {
   @Get('')
   @UseInterceptors(TransactionInterceptor)
   async achieve(@User() user: Users, @QueryRunner() qr: QR) {
+    console.log('achievements get');
     const result = this.userAchievementsService.getUserAchieveAll(
       user.user_id,
       qr,

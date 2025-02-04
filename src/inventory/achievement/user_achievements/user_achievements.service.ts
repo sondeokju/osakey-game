@@ -111,6 +111,8 @@ export class UserAchievementsService {
       },
     });
 
+    console.log('userAchieve', userAchieve);
+
     return userAchieve;
   }
 
