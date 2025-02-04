@@ -38,6 +38,7 @@ export class UserTutorialService {
     }
 
     const queryRunner = qr || this.dataSource.createQueryRunner();
+    let rewardData;
 
     let isTransactionOwner = false;
     if (!qr) {
@@ -65,7 +66,7 @@ export class UserTutorialService {
         await this.tutorialRewardService.getTutorialReward(tutorial_sub_id, qr);
 
       if (tutorialRewardData.reward_id > 0) {
-        const rewardData = await this.rewardOfferService.reward(
+        rewardData = await this.rewardOfferService.reward(
           user_id,
           tutorialRewardData.reward_id,
           qr,
