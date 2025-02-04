@@ -31,6 +31,7 @@ import { UserSnsRewardService } from 'src/inventory/sns/user_sns_reward/user_sns
 import { UserTunaTvService } from 'src/inventory/sns/user_tuna_tv/user_tuna_tv.service';
 import { UserIngameRewardService } from 'src/inventory/stage/user_ingame_reward/user_ingame_reward.service';
 import { UserSuitService } from 'src/inventory/suit/user_suit/user_suit.service';
+import { UserTutorialService } from 'src/inventory/tutorial/user_tutorial/user_tutorial.service';
 import { QueryRunner, Repository } from 'typeorm';
 
 @Injectable()
@@ -63,6 +64,7 @@ export class InvenService {
     private readonly userEquipService: UserEquipService,
     private readonly userEquipSlotService: UserEquipSlotService,
     private readonly userEquipOptionService: UserEquipOptionService,
+    private readonly userTutorialService: UserTutorialService,
   ) {}
 
   async getUserInventoryAll(user_id: string, qr?: QueryRunner) {
@@ -134,6 +136,11 @@ export class InvenService {
       qr,
     );
 
+    const tutorial = await this.userTutorialService.getUserTutorialAll(
+      user_id,
+      qr,
+    );
+
     const inven = {
       suit,
       itemExchange,
@@ -158,6 +165,7 @@ export class InvenService {
       equip,
       equipSlot,
       equipOption,
+      tutorial,
     };
 
     return inven;
