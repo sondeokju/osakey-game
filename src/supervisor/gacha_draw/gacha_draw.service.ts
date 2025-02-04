@@ -35,6 +35,32 @@ export class GachaDrawService {
 
     const selectedItems: number[] = [];
 
+    let random = Math.random() * totalWeight;
+    for (const gacha of gachaList) {
+      if (random < gacha.item_rate) {
+        return Array(gacha.item_qty).fill(gacha.item_id);
+      }
+      random -= gacha.item_rate;
+    }
+
+    return Array(gachaList[gachaList.length - 1].item_qty).fill(
+      gachaList[gachaList.length - 1].item_id,
+    );
+  }
+
+  async calculEquipGachaDrawRandom3(gacha_id: number, qr?: QueryRunner) {
+    const gachaList = await this.gachaOutputService.getGachaOutputList(
+      gacha_id,
+      qr,
+    );
+
+    const totalWeight = gachaList.reduce(
+      (sum, gacha) => sum + gacha.item_rate,
+      0,
+    );
+
+    const selectedItems: number[] = [];
+
     const drawItem = () => {
       let random = Math.random() * totalWeight;
       for (const gacha of gachaList) {
