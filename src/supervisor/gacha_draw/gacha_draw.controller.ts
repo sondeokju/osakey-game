@@ -8,7 +8,7 @@ import { GachaDrawService } from './gacha_draw.service';
 
 @Controller('gacha-draw')
 export class GachaDrawController {
-  constructor(private readonly userAchievementsService: GachaDrawService) {}
+  constructor(private readonly gachaDrawService: GachaDrawService) {}
 
   // @Get('')
   // @UseInterceptors(TransactionInterceptor)
@@ -21,23 +21,19 @@ export class GachaDrawController {
   //   return result;
   // }
 
-  // @Post('save')
-  // @UseInterceptors(TransactionInterceptor)
-  // async saveAchieve(
-  //   @User() user: Users,
-  //   @Body('achieve_id') achieve_id: number,
-  //   @Body('achieve_count') achieve_count: number,
-  //   @Body('process_status') process_status: string,
-  //   @QueryRunner() qr: QR,
-  // ) {
-  //   const result = await this.userAchievementsService.saveAchieve(
-  //     user.user_id,
-  //     achieve_id,
-  //     achieve_count,
-  //     process_status,
-  //     qr,
-  //   );
+  @Post('equip')
+  @UseInterceptors(TransactionInterceptor)
+  async equipRandom(
+    @User() user: Users,
+    @Body('gacha_id') gacha_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.gachaDrawService.equipRandom(
+      user.user_id,
+      gacha_id,
+      qr,
+    );
 
-  //   return JSON.stringify(result);
-  // }
+    return JSON.stringify(result);
+  }
 }
