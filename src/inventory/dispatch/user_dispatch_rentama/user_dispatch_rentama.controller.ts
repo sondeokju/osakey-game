@@ -6,7 +6,7 @@ import { QueryRunner as QR } from 'typeorm';
 import { Users } from 'src/users/entity/users.entity';
 import { UserDispatchRentamaService } from './user_dispatch_rentama.service';
 
-@Controller('achievements')
+@Controller('dispatch')
 export class UserDispatchRentamaController {
   constructor(
     private readonly userDispatchRentamaService: UserDispatchRentamaService,
