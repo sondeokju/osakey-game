@@ -27,26 +27,26 @@ export class GachaDrawService {
     private readonly dataSource: DataSource,
   ) {}
 
-  async simulateGachaDraws(
-    gacha_id: number,
-    iterations: number = 1000,
-    qr?: QueryRunner,
-  ) {
-    const resultCount: Record<number, number> = {};
+  // async simulateGachaDraws(
+  //   gacha_id: number,
+  //   iterations: number = 1000,
+  //   qr?: QueryRunner,
+  // ) {
+  //   const resultCount: Record<number, number> = {};
 
-    if (iterations > 5000) {
-      iterations = 5000;
-    }
-    for (let i = 0; i < iterations; i++) {
-      const drawResult = await this.calculEquipGachaDrawRandom(gacha_id, qr);
-      drawResult.forEach((item_id) => {
-        resultCount[item_id] = (resultCount[item_id] || 0) + 1;
-      });
-    }
+  //   if (iterations > 5000) {
+  //     iterations = 5000;
+  //   }
+  //   for (let i = 0; i < iterations; i++) {
+  //     const drawResult = await this.calculEquipGachaDrawRandom(gacha_id, qr);
+  //     drawResult.forEach((item_id) => {
+  //       resultCount[item_id] = (resultCount[item_id] || 0) + 1;
+  //     });
+  //   }
 
-    //console.log('Simulation Results:', resultCount);
-    return resultCount;
-  }
+  //   //console.log('Simulation Results:', resultCount);
+  //   return resultCount;
+  // }
 
   async calculEquipGachaDrawRandom(gacha_id: number, qr?: QueryRunner) {
     const gachaList = await this.gachaOutputService.getGachaOutputList(
