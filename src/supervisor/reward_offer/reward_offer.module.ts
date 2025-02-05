@@ -8,6 +8,7 @@ import { UserItemModule } from 'src/user_item/user_item.module';
 import { UsersModule } from 'src/users/users.module';
 import { HeroModule } from 'src/static-table/hero/hero.module';
 import { UserEquipModule } from 'src/inventory/equipment/user_equip/user_equip.module';
+import { EquipService } from 'src/static-table/equipment/equip/equip.service';
 
 console.log('RewardOfferModule imports:', {
   RewardModule,
@@ -16,6 +17,7 @@ console.log('RewardOfferModule imports:', {
   UsersModule,
   HeroModule,
   UserEquipModule,
+  EquipService,
 });
 
 @Module({

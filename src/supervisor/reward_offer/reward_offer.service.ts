@@ -183,7 +183,7 @@ export class RewardOfferService {
     let result = [];
 
     for (const { equip_id } of equips) {
-      await this.userEquipService.createEquip(user_id, equip_id, qr);
+      //await this.userEquipService.createEquip(user_id, equip_id, qr);
 
       const equipData = await this.equipService.getEquip(equip_id, qr);
 
