@@ -23,7 +23,7 @@ import { EquipService } from 'src/static-table/equipment/equip/equip.service';
     TypeOrmModule.forFeature([Reward, Item, UserItem, Users, Hero]),
     UserEquipModule,
     EquipModule,
-    //ResourceManagerModule,
+    ResourceManagerModule,
     //forwardRef(() => UserEquipModule),
   ],
   exports: [RewardOfferService],
