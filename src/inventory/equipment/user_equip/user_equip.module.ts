@@ -67,7 +67,7 @@ import { SkillModule } from 'src/static-table/skill/skill/skill.module';
     UserItemService,
     HeroService,
     ItemService,
-    RewardOfferService,
+    //RewardOfferService,
     RewardService,
   ],
 })
