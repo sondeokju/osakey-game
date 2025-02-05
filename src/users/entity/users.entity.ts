@@ -18,19 +18,10 @@ export class Users extends BaseModel {
   user_id: string;
 
   @Column({
-    length: 20,
-    default: '',
+    type: 'varchar',
+    length: 256,
+    default: 'SY372F9',
   })
-  @IsString({
-    message: stringValidatioMessage,
-  })
-  // @Length(1, 20, {
-  //   message: '닉네임은 1~20자 사로 입력해주세요.',
-  // })
-  @Length(1, 30, {
-    message: lengthValidationMessage,
-  })
-  //@Expose
   @Index({ unique: false })
   nickname: string;
 
@@ -171,3 +162,20 @@ export class Users extends BaseModel {
   // @Index({ unique: false })
   // uuid: string;
 }
+
+// @Column({
+//   length: 20,
+//   default: '',
+// })
+// @IsString({
+//   message: stringValidatioMessage,
+// })
+// // @Length(1, 20, {
+// //   message: '닉네임은 1~20자 사로 입력해주세요.',
+// // })
+// // @Length(1, 30, {
+// //   message: lengthValidationMessage,
+// // })
+// //@Expose
+// @Index({ unique: false })
+// nickname: string;
