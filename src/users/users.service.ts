@@ -119,6 +119,12 @@ export class UsersService {
       `INSERT INTO user_offline_reward (user_id, last_reward_date, last_ad_date) VALUES (?, ?, ?)`,
       [user_id, last_reward_date, last_ad_date],
     );
+
+    //sns Level
+    await this.dataSource.query(
+      `INSERT INTO user_sns_level (user_id, sns_level) VALUES (?, ?,)`,
+      [user_id, 1],
+    );
   }
 
   async createUserID(id: number, qr?: QueryRunner) {

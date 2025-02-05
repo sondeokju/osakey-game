@@ -12,7 +12,7 @@ export class UserSnsLevel extends BaseModel {
   user_id: string;
 
   @Column({
-    default: 0,
+    default: 1,
   })
   sns_level: number;
 
