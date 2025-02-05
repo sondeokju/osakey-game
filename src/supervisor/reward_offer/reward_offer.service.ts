@@ -306,6 +306,7 @@ export class RewardOfferService {
     }
 
     const equip_level_id = `${equip_id}01`;
+    console.log('equip_level_id', equip_level_id);
 
     // QueryRunner 사용 설정 (없으면 생성)
     const queryRunner = qr ?? this.dataSource.createQueryRunner();
