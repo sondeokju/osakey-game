@@ -70,10 +70,17 @@ export class GachaDrawService {
 
   async itemGradeCheck(items: number[], item_grade: number, qr?: QueryRunner) {
     const itemDataList = await Promise.all(
-      items.map((item) => this.itemService.getItem(item, qr)),
+      items.map((item) => this.equipService.getEquip(item, qr)),
     );
-    return itemDataList.some((itemData) => itemData.item_grade === item_grade);
+    return itemDataList.some((itemData) => itemData.equip_grade === item_grade);
   }
+
+  // async itemGradeCheck(items: number[], item_grade: number, qr?: QueryRunner) {
+  //   const itemDataList = await Promise.all(
+  //     items.map((item) => this.itemService.getItem(item, qr)),
+  //   );
+  //   return itemDataList.some((itemData) => itemData.item_grade === item_grade);
+  // }
 
   async itemGradeRandom(
     gacha_id: number,
