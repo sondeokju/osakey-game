@@ -138,9 +138,11 @@ export class GachaDrawService {
       if (['E'].includes(gachaList[0].item_kind)) {
         equipData = await this.equipService.getEquip(item, qr);
         item_grade = equipData.equip_grade;
+        console.log('E item_grade:', item_grade);
       } else {
         itemData = await this.itemService.getItem(item, qr);
         item_grade = itemData.item_grade;
+        console.log('M item_grade:', item_grade);
       }
 
       if (item_grade === gachaCostData.fixed_item_grade_1) {
