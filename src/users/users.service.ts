@@ -7,6 +7,7 @@ import { BadRequestException } from '@nestjs/common';
 import Redis from 'ioredis';
 import { HeroService } from 'src/static-table/hero/hero.service';
 import { User } from './decorator/user.decorator';
+import { randomBytes } from 'crypto';
 
 @Injectable()
 export class UsersService {
@@ -122,8 +123,8 @@ export class UsersService {
 
     //sns Level
     await this.dataSource.query(
-      `INSERT INTO user_sns_level (user_id, sns_level) VALUES (?, ?)`,
-      [user_id, 1],
+      `INSERT INTO user_sns_level (user_id, sns_level, reward_yn) VALUES (?, ?, ?)`,
+      [user_id, 1, 'N'],
     );
   }
 
@@ -155,9 +156,12 @@ export class UsersService {
       return userData;
     }
 
+    const randomNickname = randomBytes(4).toString('hex').toUpperCase(); // 8자리 랜덤 문자열
+
     await usersRepository.update(
       { id },
-      { user_id: newUserId, nickname: 'SY372F9' },
+      { user_id: newUserId, nickname: randomNickname },
+      //{ user_id: newUserId, nickname: 'SY372F9' },
     );
 
     await this.firstUserSetting(newUserId, qr);
