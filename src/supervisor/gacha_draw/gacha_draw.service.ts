@@ -62,10 +62,14 @@ export class GachaDrawService {
     for (const gacha of gachaList) {
       random -= gacha.item_rate;
       if (random <= 0) {
-        return Array(gacha.item_qty).fill(gacha.item_id);
+        return {
+          items: Array(gacha.item_qty).fill(gacha.item_id),
+          item_kind: gacha.item_kind,
+        };
       }
     }
-    return [];
+
+    return { items: [], item_kind: null }; // ✅ 수정된 부분: 항상 같은 형식으로 반환
   }
 
   async itemGradeCheck(items: number[], item_grade: number, qr?: QueryRunner) {
@@ -214,8 +218,10 @@ export class GachaDrawService {
     gacha_id: number,
     qr?: QueryRunner,
   ) {
-    let gachaItem = await this.calculEquipGachaDrawRandom(gacha_id);
-    const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
+    const calcuGachaItem = await this.calculEquipGachaDrawRandom(gacha_id);
+    const gachaItem = calcuGachaItem.items;
+    const itemKind = calcuGachaItem.item_kind;
+    //const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
 
     const gachaList = await this.gachaOutputService.getGachaOutputList(
       gacha_id,
@@ -228,19 +234,19 @@ export class GachaDrawService {
     //   gacha_id,
     //   gachaItem,
     //   gachaCostData,
-    //   gachaList[0].item_kind,
+    //    itemKind,
     //   qr,
     // );
     /////////////////////////////////
 
     let rewardData;
-    if (['E'].includes(gachaList[0].item_kind)) {
+    if (['E'].includes(itemKind)) {
       rewardData = await this.rewardOfferService.rewardEquipArray(
         user_id,
         gachaItem,
         qr,
       );
-    } else if (['M', 'S'].includes(gachaList[0].item_kind)) {
+    } else if (['M', 'S'].includes(itemKind)) {
       rewardData = await this.rewardOfferService.rewardSameItemArray(
         user_id,
         gachaItem,
