@@ -1,9 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { QueryRunner } from 'typeorm';
 import { UsersService } from 'src/users/users.service';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { RewardService } from 'src/static-table/reward/reward.service';
 import { ItemService } from 'src/static-table/item/item.service';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class RewardOfferService {
@@ -12,6 +18,7 @@ export class RewardOfferService {
     private readonly usersService: UsersService,
     private readonly itemService: ItemService,
     private readonly userItemService: UserItemService,
+    private readonly dataSource: DataSource,
   ) {}
   async reward(user_id: string, reward_id: number, qr?: QueryRunner) {
     const rewardData = await this.rewardService.getReward(reward_id);
@@ -86,9 +93,9 @@ export class RewardOfferService {
         qr,
       );
     } else if (['E'].includes(itemData.item_type)) {
-      //await this.userEquipService.createEquip(user_id, item_id, qr);
+      await this.createEquipQuery(user_id, item_id, qr);
     } else if (['C'].includes(itemData.item_type)) {
-      //await this.rewardCurrency(user_id, itemData.item_type, qty, qr);
+      await this.rewardCurrency(user_id, itemData.item_type, qty, qr);
     }
 
     obj['item_id'] = itemData.item_id;
@@ -121,10 +128,6 @@ export class RewardOfferService {
         );
       } else if (itemData.item_type === 'C') {
         await this.rewardCurrency(user_id, itemData.item_name, qty, qr);
-      } else if (itemData.item_type === 'E') {
-        // for (let i = 0; i < qty; i++) {
-        //   await this.userEquipService.createEquip(user_id, item_id, qr);
-        // }
       }
 
       result.push({
@@ -179,17 +182,17 @@ export class RewardOfferService {
     let result = [];
 
     for (const { equip_id } of equips) {
-      //await this.userEquipService.createEquip(user_id, equip_id, qr);
+      await this.createEquipQuery(user_id, equip_id, qr);
 
-      //const equipData = await this.equipService.getEquip(equip_id, qr);
+      const equipData = await this.getEquipQuery(equip_id, qr);
 
       result.push({
         equip_id,
-        // origin_equip_id: equipData.origin_equip_id,
-        // equip_enum: equipData.equip_enum,
-        // equip_name: equipData.equip_name,
-        // equip_slot: equipData.equip_slot,
-        // equip_grade: equipData.equip_grade,
+        origin_equip_id: equipData.origin_equip_id,
+        equip_enum: equipData.equip_enum,
+        equip_name: equipData.equip_name,
+        equip_slot: equipData.equip_slot,
+        equip_grade: equipData.equip_grade,
       });
     }
 
@@ -279,5 +282,66 @@ export class RewardOfferService {
     await usersRepository.save(userData);
 
     return true;
+  }
+
+  async getEquipQuery(equip_id: number, qr?: QueryRunner) {
+    const queryRunner = qr ?? this.dataSource.createQueryRunner(); // QueryRunner가 없으면 새로 생성
+    const connection = queryRunner.manager;
+
+    const result = await connection.query(
+      `SELECT * FROM equip WHERE equip_id = ?`,
+      [equip_id],
+    );
+
+    return result.length > 0 ? result[0] : null; // 단일 객체 반환
+  }
+
+  async createEquipQuery(user_id: string, equip_id: number, qr?: QueryRunner) {
+    if (!user_id || typeof user_id !== 'string') {
+      throw new BadRequestException('Invalid user_id provided.');
+    }
+    if (!equip_id || isNaN(equip_id)) {
+      throw new BadRequestException('Invalid equip_id provided.');
+    }
+
+    const equip_level_id = `${equip_id}01`;
+
+    // QueryRunner 사용 설정 (없으면 생성)
+    const queryRunner = qr ?? this.dataSource.createQueryRunner();
+    if (!qr) await queryRunner.connect();
+
+    try {
+      // Equip Level 조회
+      const equipLevelResult = await queryRunner.query(
+        `SELECT * FROM equip_level WHERE equip_level_id = ?`,
+        [+equip_level_id],
+      );
+
+      if (equipLevelResult.length === 0) {
+        throw new NotFoundException(
+          `Equip level with ID ${equip_level_id} not found.`,
+        );
+      }
+
+      const equipLevel = equipLevelResult[0];
+
+      // 새로운 장비 추가
+      await queryRunner.query(
+        `INSERT INTO user_equip (user_id, equip_id, equip_level_id) VALUES (?, ?, ?)`,
+        [user_id, equip_id, equipLevel.equip_level_id],
+      );
+
+      // 사용자 장비 목록 조회
+      const userEquipList = await queryRunner.query(
+        `SELECT * FROM user_equip WHERE user_id = ?`,
+        [user_id],
+      );
+
+      return userEquipList;
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to create equip', error);
+    } finally {
+      if (!qr) await queryRunner.release(); // 사용한 QueryRunner 해제
+    }
   }
 }
