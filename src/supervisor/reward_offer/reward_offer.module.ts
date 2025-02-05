@@ -19,6 +19,7 @@ import { UserItem } from 'src/user_item/entities/user_item.entity';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { Users } from 'src/users/entity/users.entity';
 import { UsersService } from 'src/users/users.service';
+import { Equip } from 'src/static-table/equipment/equip/entities/equip.entity';
 
 // console.log('RewardOfferModule imports:', {
 //   RewardModule,
@@ -31,7 +32,9 @@ import { UsersService } from 'src/users/users.service';
 // });
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Reward, Item, UserItem, Users, Hero])],
+  imports: [
+    TypeOrmModule.forFeature([Reward, Item, UserItem, Users, Hero, Equip]),
+  ],
   exports: [RewardOfferService],
   controllers: [RewardInvenController],
   providers: [
@@ -41,6 +44,7 @@ import { UsersService } from 'src/users/users.service';
     UserItemService,
     UsersService,
     HeroService,
+    EquipService,
   ],
 })
 export class RewardOfferModule {}

@@ -4,7 +4,6 @@ import { UsersService } from 'src/users/users.service';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { RewardService } from 'src/static-table/reward/reward.service';
 import { ItemService } from 'src/static-table/item/item.service';
-//import { UserEquipService } from 'src/inventory/equipment/user_equip/user_equip.service';
 import { EquipService } from 'src/static-table/equipment/equip/equip.service';
 
 @Injectable()
@@ -14,7 +13,6 @@ export class RewardOfferService {
     private readonly usersService: UsersService,
     private readonly itemService: ItemService,
     private readonly userItemService: UserItemService,
-    //private readonly userEquipService: UserEquipService,
     private readonly equipService: EquipService,
   ) {}
   async reward(user_id: string, reward_id: number, qr?: QueryRunner) {
