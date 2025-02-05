@@ -133,24 +133,24 @@ export class GachaDrawService {
 
     let itemData;
     let equipData;
-    let grade = 0;
+    let item_grade = 0;
     for (const item of gachaItem) {
       if (['E'].includes(gachaList[0].item_kind)) {
         equipData = await this.equipService.getEquip(item, qr);
-        grade = equipData.equip_grade;
+        item_grade = equipData.equip_grade;
       } else {
         itemData = await this.itemService.getItem(item, qr);
-        grade = itemData.item_grade;
+        item_grade = itemData.item_grade;
       }
 
-      if (grade === gachaCostData.fixed_item_grade_1) {
+      if (item_grade === gachaCostData.fixed_item_grade_1) {
         await this.userGachaCheckService.gachaDrawItemGradeSave(
           user_id,
           gachaCostData.fixed_item_grade_1,
           1,
           qr,
         );
-      } else if (grade === gachaCostData.fixed_item_grade_2) {
+      } else if (item_grade === gachaCostData.fixed_item_grade_2) {
         await this.userGachaCheckService.gachaDrawItemGradeSave(
           user_id,
           gachaCostData.fixed_item_grade_2,
