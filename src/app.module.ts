@@ -63,6 +63,7 @@ import { entities_module } from './entity_group/entity_module';
       //synchronize: true,
       // keepConnectionAlive: true,
       //logging: ['schema'],
+      logging: true,
       synchronize: process.env[ENV_SYNCHRONIZE_KEY] === 'true' ? true : false,
       keepConnectionAlive:
         process.env[ENV_KEEPCONNECTIONALIVE_KEY] === 'true' ? true : false,

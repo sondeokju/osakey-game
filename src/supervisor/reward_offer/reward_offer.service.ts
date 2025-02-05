@@ -340,6 +340,12 @@ export class RewardOfferService {
 
       return userEquipList;
     } catch (error) {
+      console.error('🔥 Error in createEquipQuery:', error); // 에러 메시지 출력
+      console.error(
+        '🔥 QueryRunner:',
+        qr ? 'Using existing QueryRunner' : 'Created new QueryRunner',
+      );
+
       throw new InternalServerErrorException('Failed to create equip', error);
     } finally {
       if (!qr) await queryRunner.release(); // 사용한 QueryRunner 해제
