@@ -13,6 +13,7 @@ import { GachaService } from 'src/static-table/draw/gacha/gacha.service';
 import { GachaOutputService } from 'src/static-table/draw/gacha_output/gacha_output.service';
 import { UserGachaCheckService } from './user_gacha_check/user_gacha_check.service';
 import { ItemService } from 'src/static-table/item/item.service';
+import { EquipService } from 'src/static-table/equipment/equip/equip.service';
 
 @Injectable()
 export class GachaDrawService {
@@ -22,6 +23,7 @@ export class GachaDrawService {
     private readonly gachaService: GachaService,
     private readonly gachaOutputService: GachaOutputService,
     private readonly userGachaCheckService: UserGachaCheckService,
+    private readonly equipService: EquipService,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -119,21 +121,36 @@ export class GachaDrawService {
       await this.userGachaCheckService.getGachaDrawItemGrade(user_id, qr);
     const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
 
+    const gachaList = await this.gachaOutputService.getGachaOutputList(
+      gacha_id,
+      qr,
+    );
+
     const [grade4, grade5] = await Promise.all([
       this.itemGradeCheck(gachaItem, gachaCostData.fixed_item_grade_1, qr),
       this.itemGradeCheck(gachaItem, gachaCostData.fixed_item_grade_2, qr),
     ]);
 
+    let itemData;
+    let equipData;
+    let grade = 0;
     for (const item of gachaItem) {
-      const itemData = await this.itemService.getItem(item, qr);
-      if (itemData.item_grade === gachaCostData.fixed_item_grade_1) {
+      if (['E'].includes(gachaList[0].item_kind)) {
+        equipData = await this.equipService.getEquip(item, qr);
+        grade = equipData.equip_grade;
+      } else {
+        itemData = await this.itemService.getItem(item, qr);
+        grade = itemData.item_grade;
+      }
+
+      if (grade === gachaCostData.fixed_item_grade_1) {
         await this.userGachaCheckService.gachaDrawItemGradeSave(
           user_id,
           gachaCostData.fixed_item_grade_1,
           1,
           qr,
         );
-      } else if (itemData.item_grade === gachaCostData.fixed_item_grade_2) {
+      } else if (grade === gachaCostData.fixed_item_grade_2) {
         await this.userGachaCheckService.gachaDrawItemGradeSave(
           user_id,
           gachaCostData.fixed_item_grade_2,
@@ -188,11 +205,6 @@ export class GachaDrawService {
         gachaCostData.fixed_item_grade_2,
       );
     }
-
-    const gachaList = await this.gachaOutputService.getGachaOutputList(
-      gacha_id,
-      qr,
-    );
 
     let rewardData;
     if (['E'].includes(gachaList[0].item_kind)) {
