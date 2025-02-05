@@ -132,6 +132,12 @@ export class UsersService {
       `INSERT INTO user_attendance (user_id, board_num, day, reward_id, reward_yn) VALUES (?, ?, ?, ?, ?)`,
       [user_id, 1, 1, '11600001', 'N'],
     );
+
+    //equip_slot
+    await this.dataSource.query(
+      `INSERT INTO user_equip_slot (user_id, acc, engine, armor, boost, shoes, weapon) VALUES (?, ?, ?, ?, ?)`,
+      [user_id, 0, 0, 0, 0, 0, 0],
+    );
   }
 
   async createUserID(id: number, qr?: QueryRunner) {
