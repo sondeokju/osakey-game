@@ -48,11 +48,10 @@ import { SkillModule } from 'src/static-table/skill/skill/skill.module';
       Item,
       Reward,
     ]),
-    //RewardOfferModule,
-    forwardRef(() => RewardOfferModule),
+    RewardOfferModule,
     SkillModule,
   ],
-  exports: [UserEquipService, UserEquipModule],
+  exports: [UserEquipService],
   controllers: [UserEquipController],
   providers: [
     UserEquipService,
