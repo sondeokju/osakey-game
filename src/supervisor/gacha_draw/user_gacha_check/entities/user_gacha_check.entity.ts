@@ -15,12 +15,22 @@ export class UserGachaCheck extends BaseModel {
   @Column({
     default: 0,
   })
+  fixed_1_draw_count: number;
+
+  @Column({
+    default: 0,
+  })
   fixed_item_grade_1: number;
 
   @Column({
     default: 0,
   })
   fixed_item_grade_1_count: number;
+
+  @Column({
+    default: 0,
+  })
+  fixed_2_draw_count: number;
 
   @Column({
     default: 0,
