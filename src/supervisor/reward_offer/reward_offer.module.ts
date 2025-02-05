@@ -2,13 +2,6 @@ import { forwardRef, Module } from '@nestjs/common';
 import { RewardOfferService } from './reward_offer.service';
 import { RewardInvenController } from './reward_offer.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RewardModule } from 'src/static-table/reward/reward.module';
-import { ItemModule } from 'src/static-table/item/item.module';
-import { UserItemModule } from 'src/user_item/user_item.module';
-import { UsersModule } from 'src/users/users.module';
-import { HeroModule } from 'src/static-table/hero/hero.module';
-import { UserEquipModule } from 'src/inventory/equipment/user_equip/user_equip.module';
-import { EquipService } from 'src/static-table/equipment/equip/equip.service';
 import { Hero } from 'src/static-table/hero/entities/hero.entity';
 import { HeroService } from 'src/static-table/hero/hero.service';
 import { Item } from 'src/static-table/item/entities/item.entity';
@@ -19,7 +12,6 @@ import { UserItem } from 'src/user_item/entities/user_item.entity';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { Users } from 'src/users/entity/users.entity';
 import { UsersService } from 'src/users/users.service';
-import { Equip } from 'src/static-table/equipment/equip/entities/equip.entity';
 
 // console.log('RewardOfferModule imports:', {
 //   RewardModule,
@@ -32,9 +24,7 @@ import { Equip } from 'src/static-table/equipment/equip/entities/equip.entity';
 // });
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Reward, Item, UserItem, Users, Hero, Equip]),
-  ],
+  imports: [TypeOrmModule.forFeature([Reward, Item, UserItem, Users, Hero])],
   exports: [RewardOfferService],
   controllers: [RewardInvenController],
   providers: [
@@ -44,7 +34,6 @@ import { Equip } from 'src/static-table/equipment/equip/entities/equip.entity';
     UserItemService,
     UsersService,
     HeroService,
-    EquipService,
   ],
 })
 export class RewardOfferModule {}

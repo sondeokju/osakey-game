@@ -4,7 +4,6 @@ import { UsersService } from 'src/users/users.service';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { RewardService } from 'src/static-table/reward/reward.service';
 import { ItemService } from 'src/static-table/item/item.service';
-import { EquipService } from 'src/static-table/equipment/equip/equip.service';
 
 @Injectable()
 export class RewardOfferService {
@@ -13,7 +12,6 @@ export class RewardOfferService {
     private readonly usersService: UsersService,
     private readonly itemService: ItemService,
     private readonly userItemService: UserItemService,
-    private readonly equipService: EquipService,
   ) {}
   async reward(user_id: string, reward_id: number, qr?: QueryRunner) {
     const rewardData = await this.rewardService.getReward(reward_id);
@@ -90,7 +88,7 @@ export class RewardOfferService {
     } else if (['E'].includes(itemData.item_type)) {
       //await this.userEquipService.createEquip(user_id, item_id, qr);
     } else if (['C'].includes(itemData.item_type)) {
-      await this.rewardCurrency(user_id, itemData.item_type, qty, qr);
+      //await this.rewardCurrency(user_id, itemData.item_type, qty, qr);
     }
 
     obj['item_id'] = itemData.item_id;
@@ -183,15 +181,15 @@ export class RewardOfferService {
     for (const { equip_id } of equips) {
       //await this.userEquipService.createEquip(user_id, equip_id, qr);
 
-      const equipData = await this.equipService.getEquip(equip_id, qr);
+      //const equipData = await this.equipService.getEquip(equip_id, qr);
 
       result.push({
         equip_id,
-        origin_equip_id: equipData.origin_equip_id,
-        equip_enum: equipData.equip_enum,
-        equip_name: equipData.equip_name,
-        equip_slot: equipData.equip_slot,
-        equip_grade: equipData.equip_grade,
+        // origin_equip_id: equipData.origin_equip_id,
+        // equip_enum: equipData.equip_enum,
+        // equip_name: equipData.equip_name,
+        // equip_slot: equipData.equip_slot,
+        // equip_grade: equipData.equip_grade,
       });
     }
 
