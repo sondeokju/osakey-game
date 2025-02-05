@@ -12,31 +12,32 @@ import { RewardService } from 'src/static-table/reward/reward.service';
 import { ItemService } from 'src/static-table/item/item.service';
 import { HeroService } from 'src/static-table/hero/hero.service';
 import { Hero } from 'src/static-table/hero/entities/hero.entity';
+import { RewardModule } from 'src/static-table/reward/reward.module';
+import { ItemModule } from 'src/static-table/item/item.module';
+import { UserItemModule } from 'src/user_item/user_item.module';
+import { UsersModule } from 'src/users/users.module';
+import { HeroModule } from 'src/static-table/hero/hero.module';
 import { UserEquipModule } from 'src/inventory/equipment/user_equip/user_equip.module';
-import { UserEquipService } from 'src/inventory/equipment/user_equip/user_equip.service';
-import { EquipModule } from 'src/static-table/equipment/equip/equip.module';
-import { ResourceManagerModule } from '../resource_manager/resource_manager.module';
-import { EquipService } from 'src/static-table/equipment/equip/equip.service';
 
 @Module({
+  //imports: [TypeOrmModule.forFeature([Reward, Item, UserItem, Users, Hero])],
   imports: [
-    TypeOrmModule.forFeature([Reward, Item, UserItem, Users, Hero]),
+    RewardModule,
+    ItemModule,
+    UserItemModule,
+    UsersModule,
+    HeroModule,
     UserEquipModule,
-    EquipModule,
-    ResourceManagerModule,
-    forwardRef(() => UserEquipModule),
   ],
   exports: [RewardOfferService],
   controllers: [RewardInvenController],
   providers: [
     RewardOfferService,
-    RewardService,
-    ItemService,
-    UserItemService,
-    UsersService,
-    HeroService,
-    UserEquipService,
-    EquipService,
+    //RewardService,
+    //ItemService,
+    //UserItemService,
+    //UsersService,
+    //HeroService,
   ],
 })
 export class RewardOfferModule {}
