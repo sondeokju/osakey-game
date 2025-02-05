@@ -21,22 +21,22 @@ export class GachaDrawController {
   //   return result;
   // }
 
-  @Post('simul')
-  @UseInterceptors(TransactionInterceptor)
-  async simulateGachaDraws(
-    @User() user: Users,
-    @Body('gacha_id') gacha_id: number,
-    @Body('count') count: number,
-    @QueryRunner() qr: QR,
-  ) {
-    const result = await this.gachaDrawService.simulateGachaDraws(
-      gacha_id,
-      count,
-      qr,
-    );
+  // @Post('simul')
+  // @UseInterceptors(TransactionInterceptor)
+  // async simulateGachaDraws(
+  //   @User() user: Users,
+  //   @Body('gacha_id') gacha_id: number,
+  //   @Body('count') count: number,
+  //   @QueryRunner() qr: QR,
+  // ) {
+  //   const result = await this.gachaDrawService.simulateGachaDraws(
+  //     gacha_id,
+  //     count,
+  //     qr,
+  //   );
 
-    return result;
-  }
+  //   return result;
+  // }
 
   @Post('draw')
   @UseInterceptors(TransactionInterceptor)
