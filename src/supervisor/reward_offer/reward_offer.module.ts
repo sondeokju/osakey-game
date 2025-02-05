@@ -39,7 +39,7 @@ console.log('RewardOfferModule imports:', {
     //UserEquipModule,
     forwardRef(() => UserEquipModule),
   ],
-  exports: [RewardOfferService],
+  exports: [RewardOfferService, RewardOfferModule],
   controllers: [RewardInvenController],
   providers: [
     RewardOfferService,
