@@ -4,6 +4,8 @@ import { UsersService } from 'src/users/users.service';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { RewardService } from 'src/static-table/reward/reward.service';
 import { ItemService } from 'src/static-table/item/item.service';
+import { UserEquipService } from 'src/inventory/equipment/user_equip/user_equip.service';
+import { EquipService } from 'src/static-table/equipment/equip/equip.service';
 
 @Injectable()
 export class RewardOfferService {
@@ -12,6 +14,8 @@ export class RewardOfferService {
     private readonly usersService: UsersService,
     private readonly itemService: ItemService,
     private readonly userItemService: UserItemService,
+    private readonly userEquipService: UserEquipService,
+    private readonly equipService: EquipService,
   ) {}
   async reward(user_id: string, reward_id: number, qr?: QueryRunner) {
     const rewardData = await this.rewardService.getReward(reward_id);
@@ -72,17 +76,11 @@ export class RewardOfferService {
 
     const itemData = await this.itemService.getItem(item_id);
 
-    console.log('-------- rewardItem ---------');
-    console.log('item_id', item_id);
-    console.log('qty', qty);
-    console.log('itemData', itemData);
-    console.log('-------- rewardItem ---------');
-
     if (itemData.item_type == 'C') {
       await this.rewardCurrency(user_id, itemData.item_name, qty, qr);
     }
 
-    if (['M'].includes(itemData.item_type)) {
+    if (['M', 'S'].includes(itemData.item_type)) {
       await this.userItemService.rewardItem(
         user_id,
         itemData.item_id,
@@ -91,17 +89,113 @@ export class RewardOfferService {
         qty,
         qr,
       );
+    } else if (['E'].includes(itemData.item_type)) {
+      await this.userEquipService.createEquip(user_id, item_id, qr);
+    } else if (['C'].includes(itemData.item_type)) {
+      await this.rewardCurrency(user_id, itemData.item_type, qty, qr);
     }
-
-    // if (['C'].includes(itemData.item_type)) {
-    //   await this.rewardCurrency(user_id, itemData.item_type, qty, qr);
-    // }
 
     obj['item_id'] = itemData.item_id;
     obj['item_type'] = itemData.item_type;
     obj['item_name'] = itemData.item_name;
 
     result.push(obj);
+
+    return result;
+  }
+
+  async rewardItemsArray(
+    items: { item_id: number; qty: number }[],
+    user_id: string,
+    qr?: QueryRunner,
+  ) {
+    let result = [];
+
+    for (const { item_id, qty } of items) {
+      const itemData = await this.itemService.getItem(item_id);
+
+      if (['M', 'S'].includes(itemData.item_type)) {
+        await this.userItemService.rewardItem(
+          user_id,
+          itemData.item_id,
+          itemData.item_grade,
+          itemData.item_type,
+          qty,
+          qr,
+        );
+      } else if (itemData.item_type === 'C') {
+        await this.rewardCurrency(user_id, itemData.item_name, qty, qr);
+      } else if (itemData.item_type === 'E') {
+        // for (let i = 0; i < qty; i++) {
+        //   await this.userEquipService.createEquip(user_id, item_id, qr);
+        // }
+      }
+
+      result.push({
+        item_id: itemData.item_id,
+        item_type: itemData.item_type,
+        item_name: itemData.item_name,
+        qty,
+      });
+    }
+
+    return result;
+  }
+
+  async rewardSameItemArray(
+    user_id: string,
+    items: { item_id: number }[],
+    qr?: QueryRunner,
+  ) {
+    let result = [];
+
+    const qty = items.length;
+    for (const { item_id } of items) {
+      const itemData = await this.itemService.getItem(item_id);
+
+      if (['M', 'S'].includes(itemData.item_type)) {
+        await this.userItemService.rewardItem(
+          user_id,
+          itemData.item_id,
+          itemData.item_grade,
+          itemData.item_type,
+          qty,
+          qr,
+        );
+      }
+
+      result.push({
+        item_id: itemData.item_id,
+        item_type: itemData.item_type,
+        item_name: itemData.item_name,
+        qty,
+      });
+    }
+
+    return result;
+  }
+
+  async rewardEquipArray(
+    user_id: string,
+    equips: { equip_id: number }[],
+    qr?: QueryRunner,
+  ) {
+    let result = [];
+
+    for (const { equip_id } of equips) {
+      await this.userEquipService.createEquip(user_id, equip_id, qr);
+
+      const equipData = await this.equipService.getEquip(equip_id, qr);
+
+      result.push({
+        equip_id,
+        origin_equip_id: equipData.origin_equip_id,
+        equip_enum: equipData.equip_enum,
+        equip_name: equipData.equip_name,
+        equip_slot: equipData.equip_slot,
+        equip_grade: equipData.equip_grade,
+      });
+    }
 
     return result;
   }

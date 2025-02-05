@@ -39,7 +39,7 @@ export class GachaDrawService {
       });
     }
 
-    console.log('Simulation Results:', resultCount);
+    //console.log('Simulation Results:', resultCount);
     return resultCount;
   }
 
@@ -74,10 +74,33 @@ export class GachaDrawService {
     gacha_id: number,
     qr?: QueryRunner,
   ) {
+    let rewardData = {};
     const gachaItem = await this.calculEquipGachaDrawRandom(gacha_id);
+
+    const gachaList = await this.gachaOutputService.getGachaOutputList(
+      gacha_id,
+      qr,
+    );
 
     console.log('gachaItem', gachaItem);
 
-    return gachaItem;
+    if (['E'].includes(gachaList[0].item_kind)) {
+      rewardData = await this.rewardOfferService.rewardEquipArray(
+        user_id,
+        gachaItem,
+        qr,
+      );
+    } else if (['M', 'S'].includes(gachaList[0].item_kind)) {
+      await this.rewardOfferService.rewardSameItemArray(user_id, gachaItem);
+    }
+
+    if (!rewardData) {
+      throw new BadRequestException('Failed to process reward.');
+    }
+
+    return {
+      gachaItem,
+      rewardData,
+    };
   }
 }
