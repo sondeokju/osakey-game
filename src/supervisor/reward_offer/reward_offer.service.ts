@@ -187,7 +187,7 @@ export class RewardOfferService {
       console.log('getEquipQuery equipData:', equipData);
 
       result.push({
-        equip_id,
+        equip_id: equip.equip_id,
         origin_equip_id: equipData.origin_equip_id,
         equip_enum: equipData.equip_enum,
         equip_name: equipData.equip_name,
