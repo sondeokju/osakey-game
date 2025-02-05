@@ -37,16 +37,14 @@ export class RewardOfferService {
 
       console.log('item_type', itemData.item_type);
 
-      if (itemData.item_type == 'C') {
+      if (['C'].includes(itemData.item_type)) {
         await this.rewardCurrency(
           user_id,
           itemData.item_name,
           reward.item_count,
           qr,
         );
-      }
-
-      if (['M'].includes(itemData.item_type)) {
+      } else if (['M', 'S'].includes(itemData.item_type)) {
         await this.userItemService.rewardItem(
           user_id,
           itemData.item_id,
@@ -180,11 +178,13 @@ export class RewardOfferService {
     qr?: QueryRunner,
   ) {
     let result = [];
+    console.log('rewardEquipArray equips:', equips);
 
     for (const { equip_id } of equips) {
       await this.createEquipQuery(user_id, equip_id, qr);
-
+      console.log('getEquipQuery:', equipData);
       const equipData = await this.getEquipQuery(equip_id, qr);
+      console.log('getEquipQuery:', equipData);
 
       result.push({
         equip_id,

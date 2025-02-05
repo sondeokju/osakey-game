@@ -85,6 +85,7 @@ export class GachaDrawService {
     console.log('gachaItem', gachaItem);
 
     if (['E'].includes(gachaList[0].item_kind)) {
+      console.log('item_kind', gachaList[0].item_kind);
       rewardData = await this.rewardOfferService.rewardEquipArray(
         user_id,
         gachaItem,
