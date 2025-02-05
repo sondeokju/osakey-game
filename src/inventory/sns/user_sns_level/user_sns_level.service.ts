@@ -105,7 +105,7 @@ export class UserSnsLevelService {
 
   async getSnsLevelAll(user_id: string, qr?: QueryRunner) {
     const userSnsLevelRepository = this.getUserSnsLevelRepository(qr);
-    const userSnsLevelData = await userSnsLevelRepository.find({
+    const userSnsLevelData = await userSnsLevelRepository.findOne({
       where: { user_id },
     });
 
