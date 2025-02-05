@@ -83,7 +83,7 @@ export class GachaDrawService {
                CASE
                    WHEN go.item_kind = 'E' THEN e.equip_grade
                    WHEN go.item_kind = 'M' THEN i.item_grade
-               END AS grade,
+               END AS item_grade,
                e.equip_name,
                i.item_name
         FROM gacha_output go
