@@ -24,7 +24,7 @@ import { EquipService } from 'src/static-table/equipment/equip/equip.service';
     UserEquipModule,
     EquipModule,
     ResourceManagerModule,
-    //forwardRef(() => UserEquipModule),
+    forwardRef(() => UserEquipModule),
   ],
   exports: [RewardOfferService],
   controllers: [RewardInvenController],
