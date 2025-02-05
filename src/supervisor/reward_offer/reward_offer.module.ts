@@ -13,12 +13,13 @@ import { ItemService } from 'src/static-table/item/item.service';
 import { HeroService } from 'src/static-table/hero/hero.service';
 import { Hero } from 'src/static-table/hero/entities/hero.entity';
 import { UserEquipModule } from 'src/inventory/equipment/user_equip/user_equip.module';
+import { UserEquipService } from 'src/inventory/equipment/user_equip/user_equip.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Reward, Item, UserItem, Users, Hero]),
-    //UserEquipModule,
-    forwardRef(() => UserEquipModule),
+    UserEquipModule,
+    //forwardRef(() => UserEquipModule),
   ],
   exports: [RewardOfferService],
   controllers: [RewardInvenController],
@@ -29,6 +30,7 @@ import { UserEquipModule } from 'src/inventory/equipment/user_equip/user_equip.m
     UserItemService,
     UsersService,
     HeroService,
+    UserEquipService,
   ],
 })
 export class RewardOfferModule {}
