@@ -133,87 +133,87 @@ export class GachaDrawService {
       qr,
     );
 
-    const [grade4, grade5] = await Promise.all([
-      this.itemGradeCheck(gachaItem, gachaCostData.fixed_item_grade_1, qr),
-      this.itemGradeCheck(gachaItem, gachaCostData.fixed_item_grade_2, qr),
-    ]);
+    // const [grade4, grade5] = await Promise.all([
+    //   this.itemGradeCheck(gachaItem, gachaCostData.fixed_item_grade_1, qr),
+    //   this.itemGradeCheck(gachaItem, gachaCostData.fixed_item_grade_2, qr),
+    // ]);
 
-    let itemData;
-    let equipData;
-    let item_grade = 0;
-    for (const item of gachaItem) {
-      if (['E'].includes(gachaList[0].item_kind)) {
-        equipData = await this.equipService.getEquip(item, qr);
-        item_grade = equipData.equip_grade;
-        console.log('E item_grade:', item_grade);
-      } else {
-        itemData = await this.itemService.getItem(item, qr);
-        item_grade = itemData.item_grade;
-        console.log('M item_grade:', item_grade);
-      }
+    // let itemData;
+    // let equipData;
+    // let item_grade = 0;
+    // for (const item of gachaItem) {
+    //   if (['E'].includes(gachaList[0].item_kind)) {
+    //     equipData = await this.equipService.getEquip(item, qr);
+    //     item_grade = equipData.equip_grade;
+    //     console.log('E item_grade:', item_grade);
+    //   } else {
+    //     itemData = await this.itemService.getItem(item, qr);
+    //     item_grade = itemData.item_grade;
+    //     console.log('M item_grade:', item_grade);
+    //   }
 
-      if (item_grade === gachaCostData.fixed_item_grade_1) {
-        await this.userGachaCheckService.gachaDrawItemGradeSave(
-          user_id,
-          gachaCostData.fixed_item_grade_1,
-          1,
-          qr,
-        );
-      } else if (item_grade === gachaCostData.fixed_item_grade_2) {
-        await this.userGachaCheckService.gachaDrawItemGradeSave(
-          user_id,
-          gachaCostData.fixed_item_grade_2,
-          1,
-          qr,
-        );
-      }
-    }
+    //   if (item_grade === gachaCostData.fixed_item_grade_1) {
+    //     await this.userGachaCheckService.gachaDrawItemGradeSave(
+    //       user_id,
+    //       gachaCostData.fixed_item_grade_1,
+    //       1,
+    //       qr,
+    //     );
+    //   } else if (item_grade === gachaCostData.fixed_item_grade_2) {
+    //     await this.userGachaCheckService.gachaDrawItemGradeSave(
+    //       user_id,
+    //       gachaCostData.fixed_item_grade_2,
+    //       1,
+    //       qr,
+    //     );
+    //   }
+    // }
 
-    if (!grade4) {
-      const gradeRandomData = await this.itemGradeRandom(
-        gacha_id,
-        gachaCostData.fixed_item_grade_1,
-        qr,
-      );
-      if (gradeRandomData) {
-        // 기존 아이템 중 무작위로 하나 선택하여 교체
-        const replaceIndex = Math.floor(Math.random() * gachaItem.length);
-        gachaItem[replaceIndex] = gradeRandomData.item_id;
-      }
-    }
+    // if (!grade4) {
+    //   const gradeRandomData = await this.itemGradeRandom(
+    //     gacha_id,
+    //     gachaCostData.fixed_item_grade_1,
+    //     qr,
+    //   );
+    //   if (gradeRandomData) {
+    //     // 기존 아이템 중 무작위로 하나 선택하여 교체
+    //     const replaceIndex = Math.floor(Math.random() * gachaItem.length);
+    //     gachaItem[replaceIndex] = gradeRandomData.item_id;
+    //   }
+    // }
 
-    if (!grade5) {
-      const gradeRandomData = await this.itemGradeRandom(
-        gacha_id,
-        gachaCostData.fixed_item_grade_2,
-        qr,
-      );
-      if (gradeRandomData) {
-        // 기존 아이템 중 무작위로 하나 선택하여 교체
-        const replaceIndex = Math.floor(Math.random() * gachaItem.length);
-        gachaItem[replaceIndex] = gradeRandomData.item_id;
-      }
-    }
+    // if (!grade5) {
+    //   const gradeRandomData = await this.itemGradeRandom(
+    //     gacha_id,
+    //     gachaCostData.fixed_item_grade_2,
+    //     qr,
+    //   );
+    //   if (gradeRandomData) {
+    //     // 기존 아이템 중 무작위로 하나 선택하여 교체
+    //     const replaceIndex = Math.floor(Math.random() * gachaItem.length);
+    //     gachaItem[replaceIndex] = gradeRandomData.item_id;
+    //   }
+    // }
 
-    if (
-      gachaCheckData.fixed_1_draw_count >=
-      gachaCostData.fixed_item_grade_1_count
-    ) {
-      await this.userGachaCheckService.gachaDrawItemGradeReset(
-        user_id,
-        gachaCostData.fixed_item_grade_1,
-      );
-    }
+    // if (
+    //   gachaCheckData.fixed_1_draw_count >=
+    //   gachaCostData.fixed_item_grade_1_count
+    // ) {
+    //   await this.userGachaCheckService.gachaDrawItemGradeReset(
+    //     user_id,
+    //     gachaCostData.fixed_item_grade_1,
+    //   );
+    // }
 
-    if (
-      gachaCheckData.fixed_2_draw_count >=
-      gachaCostData.fixed_item_grade_2_count
-    ) {
-      await this.userGachaCheckService.gachaDrawItemGradeReset(
-        user_id,
-        gachaCostData.fixed_item_grade_2,
-      );
-    }
+    // if (
+    //   gachaCheckData.fixed_2_draw_count >=
+    //   gachaCostData.fixed_item_grade_2_count
+    // ) {
+    //   await this.userGachaCheckService.gachaDrawItemGradeReset(
+    //     user_id,
+    //     gachaCostData.fixed_item_grade_2,
+    //   );
+    // }
 
     let rewardData;
     if (['E'].includes(gachaList[0].item_kind)) {
