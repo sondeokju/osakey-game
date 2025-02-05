@@ -19,6 +19,15 @@ import { UsersModule } from 'src/users/users.module';
 import { HeroModule } from 'src/static-table/hero/hero.module';
 import { UserEquipModule } from 'src/inventory/equipment/user_equip/user_equip.module';
 
+console.log('RewardOfferModule imports:', {
+  RewardModule,
+  ItemModule,
+  UserItemModule,
+  UsersModule,
+  HeroModule,
+  UserEquipModule,
+});
+
 @Module({
   //imports: [TypeOrmModule.forFeature([Reward, Item, UserItem, Users, Hero])],
   imports: [
