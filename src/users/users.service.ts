@@ -135,7 +135,7 @@ export class UsersService {
 
     //equip_slot
     await this.dataSource.query(
-      `INSERT INTO user_equip_slot (user_id, acc, engine, armor, boost, shoes, weapon) VALUES (?, ?, ?, ?, ?)`,
+      `INSERT INTO user_equip_slot (user_id, acc, engine, armor, boost, shoes, weapon) VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [user_id, 0, 0, 0, 0, 0, 0],
     );
   }
