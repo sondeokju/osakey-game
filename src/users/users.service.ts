@@ -122,7 +122,7 @@ export class UsersService {
 
     //sns Level
     await this.dataSource.query(
-      `INSERT INTO user_sns_level (user_id, sns_level) VALUES (?, ?,)`,
+      `INSERT INTO user_sns_level (user_id, sns_level) VALUES (?, ?)`,
       [user_id, 1],
     );
   }
