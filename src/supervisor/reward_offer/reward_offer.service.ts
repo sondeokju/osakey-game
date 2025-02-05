@@ -174,24 +174,21 @@ export class RewardOfferService {
 
   async rewardEquipArray(
     user_id: string,
-    equips: { equip_id: number }[],
+    equips: number[], // 숫자 배열로 받도록 변경
     qr?: QueryRunner,
   ) {
     let result = [];
     console.log('rewardEquipArray equips:', equips);
 
-    for (const equip of equips) {
-      console.log(
-        'getEquipQuery equip_id:',
-        equip.equip_id,
-        typeof equip.equip_id,
-      );
-      await this.createEquipQuery(user_id, equip.equip_id, qr);
-      const equipData = await this.getEquipQuery(equip.equip_id, qr);
+    for (const equip_id of equips) {
+      console.log('getEquipQuery equip_id:', equip_id, typeof equip_id);
+
+      await this.createEquipQuery(user_id, equip_id, qr);
+      const equipData = await this.getEquipQuery(equip_id, qr);
       console.log('getEquipQuery equipData:', equipData);
 
       result.push({
-        equip_id: equip.equip_id,
+        equip_id: equip_id,
         origin_equip_id: equipData.origin_equip_id,
         equip_enum: equipData.equip_enum,
         equip_name: equipData.equip_name,
