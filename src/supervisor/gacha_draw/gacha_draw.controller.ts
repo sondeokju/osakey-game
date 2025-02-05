@@ -6,7 +6,7 @@ import { QueryRunner as QR } from 'typeorm';
 import { Users } from 'src/users/entity/users.entity';
 import { GachaDrawService } from './gacha_draw.service';
 
-@Controller('gacha-draw')
+@Controller('gacha')
 export class GachaDrawController {
   constructor(private readonly gachaDrawService: GachaDrawService) {}
 
@@ -38,7 +38,7 @@ export class GachaDrawController {
     return result;
   }
 
-  @Post('equip')
+  @Post('draw')
   @UseInterceptors(TransactionInterceptor)
   async equipGachaDrawRandom(
     @User() user: Users,

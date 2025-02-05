@@ -16,10 +16,8 @@ import { UserEquipModule } from 'src/inventory/equipment/user_equip/user_equip.m
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature(
-      [Reward, Item, UserItem, Users, Hero],
-      UserEquipModule,
-    ),
+    TypeOrmModule.forFeature([Reward, Item, UserItem, Users, Hero]),
+    UserEquipModule,
   ],
   exports: [RewardOfferService],
   controllers: [RewardInvenController],
