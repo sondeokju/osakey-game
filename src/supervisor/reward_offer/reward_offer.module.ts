@@ -9,29 +9,38 @@ import { UsersModule } from 'src/users/users.module';
 import { HeroModule } from 'src/static-table/hero/hero.module';
 import { UserEquipModule } from 'src/inventory/equipment/user_equip/user_equip.module';
 import { EquipService } from 'src/static-table/equipment/equip/equip.service';
+import { Hero } from 'src/static-table/hero/entities/hero.entity';
+import { HeroService } from 'src/static-table/hero/hero.service';
+import { Item } from 'src/static-table/item/entities/item.entity';
+import { ItemService } from 'src/static-table/item/item.service';
+import { Reward } from 'src/static-table/reward/entities/reward.entity';
+import { RewardService } from 'src/static-table/reward/reward.service';
+import { UserItem } from 'src/user_item/entities/user_item.entity';
+import { UserItemService } from 'src/user_item/user_item.service';
+import { Users } from 'src/users/entity/users.entity';
+import { UsersService } from 'src/users/users.service';
 
-console.log('RewardOfferModule imports:', {
-  RewardModule,
-  ItemModule,
-  UserItemModule,
-  UsersModule,
-  HeroModule,
-  UserEquipModule,
-  EquipService,
-});
+// console.log('RewardOfferModule imports:', {
+//   RewardModule,
+//   ItemModule,
+//   UserItemModule,
+//   UsersModule,
+//   HeroModule,
+//   UserEquipModule,
+//   EquipService,
+// });
 
 @Module({
-  //imports: [TypeOrmModule.forFeature([Reward, Item, UserItem, Users, Hero])],
-  imports: [RewardModule, ItemModule, UserItemModule, UsersModule, HeroModule],
+  imports: [TypeOrmModule.forFeature([Reward, Item, UserItem, Users, Hero])],
   exports: [RewardOfferService],
   controllers: [RewardInvenController],
   providers: [
     RewardOfferService,
-    //RewardService,
-    //ItemService,
-    //UserItemService,
-    //UsersService,
-    //HeroService,
+    RewardService,
+    ItemService,
+    UserItemService,
+    UsersService,
+    HeroService,
   ],
 })
 export class RewardOfferModule {}
