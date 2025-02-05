@@ -181,8 +181,12 @@ export class RewardOfferService {
     console.log('rewardEquipArray equips:', equips);
 
     for (const equip of equips) {
+      console.log(
+        'getEquipQuery equip_id:',
+        equip.equip_id,
+        typeof equip.equip_id,
+      );
       await this.createEquipQuery(user_id, equip.equip_id, qr);
-      console.log('getEquipQuery equip_id:', equip.equip_id);
       const equipData = await this.getEquipQuery(equip.equip_id, qr);
       console.log('getEquipQuery equipData:', equipData);
 
