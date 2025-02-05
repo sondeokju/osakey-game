@@ -241,7 +241,7 @@ export class UserAttendanceService {
 
   async getAttendanceAll(user_id: string, qr?: QueryRunner) {
     const userAttendanceRepository = this.getUserAttendanceRepository(qr);
-    const userAttendance = await userAttendanceRepository.find({
+    const userAttendance = await userAttendanceRepository.findOne({
       where: {
         user_id,
       },
