@@ -180,7 +180,7 @@ export class RewardOfferService {
     let result = [];
     console.log('rewardEquipArray equips:', equips);
 
-    for (const { equip_id } of equips) {
+    for (const equip_id of equips) {
       await this.createEquipQuery(user_id, equip_id, qr);
       console.log('getEquipQuery:', equip_id);
       const equipData = await this.getEquipQuery(equip_id, qr);
