@@ -7,9 +7,6 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
-import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
-import { UserAchievements } from './entities/user_achievements.entity';
-import { AchieveListService } from 'src/static-table/achieve/achieve_list/achieve_list.service';
 import { UserGachaCheck } from './entities/user_gacha_check.entity';
 
 @Injectable()
