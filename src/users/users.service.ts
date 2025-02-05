@@ -126,6 +126,12 @@ export class UsersService {
       `INSERT INTO user_sns_level (user_id, sns_level, reward_yn) VALUES (?, ?, ?)`,
       [user_id, 1, 'N'],
     );
+
+    //attendance
+    await this.dataSource.query(
+      `INSERT INTO user_attendance (user_id, board_num, day, reward_id, reward_yn) VALUES (?, ?, ?, ?, ?)`,
+      [user_id, 1, 1, '11600001', 'N'],
+    );
   }
 
   async createUserID(id: number, qr?: QueryRunner) {
