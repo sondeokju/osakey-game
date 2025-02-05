@@ -1,5 +1,5 @@
 import { ResourceManagerModule } from 'src/supervisor/resource_manager/resource_manager.module';
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { UserEquipService } from './user_equip.service';
 import { UserEquipController } from './user_equip.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -48,7 +48,8 @@ import { SkillModule } from 'src/static-table/skill/skill/skill.module';
       Item,
       Reward,
     ]),
-    RewardOfferModule,
+    //RewardOfferModule,
+    forwardRef(() => RewardOfferModule),
     SkillModule,
   ],
   exports: [UserEquipService],

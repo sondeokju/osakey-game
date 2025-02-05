@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { RewardOfferService } from './reward_offer.service';
 import { RewardInvenController } from './reward_offer.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -17,7 +17,8 @@ import { UserEquipModule } from 'src/inventory/equipment/user_equip/user_equip.m
 @Module({
   imports: [
     TypeOrmModule.forFeature([Reward, Item, UserItem, Users, Hero]),
-    UserEquipModule,
+    //UserEquipModule,
+    forwardRef(() => UserEquipModule),
   ],
   exports: [RewardOfferService],
   controllers: [RewardInvenController],
