@@ -223,27 +223,37 @@ export class RewardOfferService {
     console.log('qty', qty);
 
     switch (item_name) {
-      case 'seca_coin':
-        updatedData.seca_coin = updatedData.seca_coin + qty;
+      case 'secame_credit':
+        console.log('secame_credit');
+        updatedData.secame_credit = updatedData.secame_credit + qty;
         break;
       case 'gord':
+        console.log('gord');
         updatedData.gord = updatedData.gord + qty;
         break;
       case 'diamond_paid':
+        console.log('diamond_paid');
         updatedData.diamond_paid = updatedData.diamond_paid + qty;
         break;
       case 'diamond_free':
+        console.log('diamond_free');
         updatedData.diamond_free = updatedData.diamond_free + qty;
         break;
       case 'exp':
+        console.log('exp');
         updatedData.exp = updatedData.exp + qty;
         break;
       case 'battery':
+        console.log('battery');
         updatedData.battery = updatedData.battery + qty;
         break;
       case 'revive_coin':
+        console.log('revive_coin');
         updatedData.revive_coin = updatedData.revive_coin + qty;
         break;
+      // case 'seca_coin':
+      //   updatedData.seca_coin = updatedData.seca_coin + qty;
+      //   break;
       // default:
       //   response = 'Unknown item type.';
       //   break;
