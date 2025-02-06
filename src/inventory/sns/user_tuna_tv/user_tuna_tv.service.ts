@@ -142,21 +142,54 @@ export class UserTunaTvService {
     return userTunaTvData;
   }
 
-  async TunaTvUploadList(user_id: string, qr?: QueryRunner) {
+  async TunaTvUploadList(qr?: QueryRunner) {
     const userTunaTvRepository = this.getUserTunaTvRepository(qr);
-    const userTunaTvData = await userTunaTvRepository.find({
-      where: {
-        user_id: user_id,
-        upload_yn: 'Y',
-      },
-    });
+    const userTunaTvData = await userTunaTvRepository.find({});
 
-    if (!userTunaTvData) {
-      throw new NotFoundException('Tuna TV not found');
+    if (!userTunaTvData || userTunaTvData.length === 0) {
+      console.log('No online users found.');
+      return []; // 빈 배열을 명시적으로 반환
     }
 
-    return userTunaTvData;
+    let result = [];
+    try {
+      result = await userTunaTvRepository
+        .createQueryBuilder('tuna_tv_online')
+        .select('tuna_tv_online.tuna_tv_id', 'tuna_tv_id')
+        .addSelect('tuna_tv_online.online_type', 'online_type')
+        .addSelect('tuna_tv')
+        .addSelect('user.nickname', 'nickname')
+        .addSelect('user.level', 'level')
+        .addSelect('user.id', 'id')
+        .innerJoin(
+          'user_tuna_tv',
+          'tuna_tv',
+          'tuna_tv_online.tuna_tv_id = tuna_tv.id',
+        )
+        .innerJoin('users', 'user', 'tuna_tv.user_id = user.id')
+        .getRawMany();
+    } catch (error) {
+      console.error('Error fetching tuna_tv_online:', error);
+    }
+
+    return result; // 항상 배열 반환
   }
+
+  // async TunaTvUploadList(user_id: string, qr?: QueryRunner) {
+  //   const userTunaTvRepository = this.getUserTunaTvRepository(qr);
+  //   const userTunaTvData = await userTunaTvRepository.find({
+  //     where: {
+  //       user_id: user_id,
+  //       upload_yn: 'Y',
+  //     },
+  //   });
+
+  //   if (!userTunaTvData) {
+  //     throw new NotFoundException('Tuna TV not found');
+  //   }
+
+  //   return userTunaTvData;
+  // }
 
   async TunaTvViewAdd(tuna_tv_id: number, qr?: QueryRunner) {
     const userTunaTvRepository = this.getUserTunaTvRepository(qr);
