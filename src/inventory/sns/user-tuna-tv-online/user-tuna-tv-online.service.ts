@@ -53,6 +53,8 @@ export class UserTunaTvOnlineService {
       .innerJoin('users', 'user', 'tuna_tv.user_id = user.id')
       .getRawMany();
 
+    console.log('tuna_tv_online:', result);
+
     return result;
   }
 

@@ -141,10 +141,14 @@ export class UserIngameRewardService {
         exp = rewardData.reclear_exp;
         group_id = rewardData.reclear_group_id;
       }
+
+      // 승
     } else {
       gold = rewardData.fail_gold;
       exp = rewardData.fail_exp;
       group_id = rewardData.fail_group_id;
+
+      // 패
     }
 
     return { gold, exp, dia, group_id };
