@@ -1161,7 +1161,7 @@ export class UsersService {
       },
     });
 
-    userData.secame_credit += secame_credit;
+    userData.secame_credit += +secame_credit;
     const result = await usersRepository.save({
       ...userData,
     });
