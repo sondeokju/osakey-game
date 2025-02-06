@@ -22,11 +22,9 @@ export class UserTunaTvOnlineService {
     const userTunaTvOnlineRepository = this.getUserTunaTvOnlineRepository(qr);
     const userTunaTvOnline = await userTunaTvOnlineRepository.find({});
 
-    let result;
-
     if (!userTunaTvOnline || userTunaTvOnline.length === 0) {
       console.log('No online users found.');
-      return;
+      return []; // 빈 배열을 명시적으로 반환
     }
 
     for (const online of userTunaTvOnline) {
@@ -34,35 +32,33 @@ export class UserTunaTvOnlineService {
         await this.userTunaTvServer.TunaTvViewAdd(online.tuna_tv_id, qr);
       } catch (error) {
         console.error(
-          `Failed to increase view count for user_id: tuna_tv_id: ${online.tuna_tv_id}`,
+          `Failed to increase view count for tuna_tv_id: ${online.tuna_tv_id}`,
         );
         console.error(error.message);
       }
     }
 
-    result = await userTunaTvOnlineRepository
-      .createQueryBuilder('tuna_tv_online')
-      .select('tuna_tv_online.tuna_tv_id', 'tuna_tv_id')
-      .addSelect('tuna_tv_online.online_type', 'online_type')
-      .addSelect('tuna_tv')
-      .addSelect('user.nickname', 'nickname')
-      .addSelect('user.level', 'level')
-      .innerJoin(
-        'user_tuna_tv',
-        'tuna_tv',
-        'tuna_tv_online.tuna_tv_id = tuna_tv.id',
-      )
-      .innerJoin('users', 'user', 'tuna_tv.user_id = user.id')
-      .getRawMany();
-
-    //console.log('tuna_tv_online:', result);
-
-    if (result.length === 0) {
-      //console.log('tuna_tv_online result.length === 0:', result);
-      result = [];
+    let result = [];
+    try {
+      result = await userTunaTvOnlineRepository
+        .createQueryBuilder('tuna_tv_online')
+        .select('tuna_tv_online.tuna_tv_id', 'tuna_tv_id')
+        .addSelect('tuna_tv_online.online_type', 'online_type')
+        .addSelect('tuna_tv')
+        .addSelect('user.nickname', 'nickname')
+        .addSelect('user.level', 'level')
+        .innerJoin(
+          'user_tuna_tv',
+          'tuna_tv',
+          'tuna_tv_online.tuna_tv_id = tuna_tv.id',
+        )
+        .innerJoin('users', 'user', 'tuna_tv.user_id = user.id')
+        .getRawMany();
+    } catch (error) {
+      console.error('Error fetching tuna_tv_online:', error);
     }
 
-    return result;
+    return result; // 항상 배열 반환
   }
 
   // async tunaTvOnlineList(qr?: QueryRunner) {
