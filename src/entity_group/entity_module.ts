@@ -113,6 +113,7 @@ import { TutorialRewardModule } from 'src/static-table/tutorial/tutorial_reward/
 import { GachaOutputModule } from 'src/static-table/draw/gacha_output/gacha_output.module';
 import { GachaDrawModule } from 'src/supervisor/gacha_draw/gacha_draw.module';
 import { UserGachaCheckModule } from 'src/supervisor/gacha_draw/user_gacha_check/user_gacha_check.module';
+import { BountyStageModule } from 'src/static-table/stage/bounty_stage/bounty_stage.module';
 
 export const entities_module = [
   UsersModule,
@@ -230,6 +231,7 @@ export const entities_module = [
   GachaOutputModule,
   GachaDrawModule,
   UserGachaCheckModule,
+  BountyStageModule,
 ];
 
 //console.log('[DEBUG] entities_module.ts loaded:', entities_module);

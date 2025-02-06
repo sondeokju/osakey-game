@@ -106,6 +106,7 @@ import { UserTutorial } from 'src/inventory/tutorial/user_tutorial/entities/user
 import { TutorialReward } from 'src/static-table/tutorial/tutorial_reward/entities/tutorial_reward.entity';
 import { GachaOutput } from 'src/static-table/draw/gacha_output/entities/gacha_output.entity';
 import { UserGachaCheck } from 'src/supervisor/gacha_draw/user_gacha_check/entities/user_gacha_check.entity';
+import { BountyStage } from 'src/static-table/stage/bounty_stage/entities/bounty_stage.entity';
 
 export const entities = [
   Users,
@@ -216,4 +217,5 @@ export const entities = [
   TutorialReward,
   GachaOutput,
   UserGachaCheck,
+  BountyStage,
 ];
