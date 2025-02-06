@@ -26,15 +26,14 @@ export class RewardService {
 
     return result;
   }
-
   async getRewardAll(qr?: QueryRunner) {
     const rewardRepository = this.getRewardRepository(qr);
-    //const result = await rewardRepository.find({});
 
     const result = await rewardRepository
       .createQueryBuilder('reward')
-      .select(['reward.reward_id', 'reward.item_id', 'reward.item_count'])
-      .getMany();
+      .select(['reward.id', 'reward.reward_id', 'reward.item_id'])
+      .addSelect('reward.item_count', 'item_qty') // ✅ 별칭 적용 방법 수정
+      .getRawMany(); // ✅ getRawMany() 사용하여 가공된 데이터 반환
 
     return result;
   }
