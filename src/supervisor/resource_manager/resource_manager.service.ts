@@ -43,7 +43,7 @@ export class ResourceManagerService {
       // }
     }
 
-    if (resources.gord) {
+    if (resources.item.count > 0) {
       await this.usersService.reduceGord(user_id, resources.gord, qr);
     }
 
