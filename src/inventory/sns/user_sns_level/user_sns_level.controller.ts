@@ -32,6 +32,6 @@ export class UserSnsLevelController {
   async TunaTvList(@User() user: Users, @QueryRunner() qr: QR) {
     const result = await this.userSnsLevelService.getSnsLevel(user.user_id, qr);
 
-    return JSON.stringify(result);
+    return result;
   }
 }
