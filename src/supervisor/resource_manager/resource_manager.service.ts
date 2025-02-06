@@ -32,7 +32,7 @@ export class ResourceManagerService {
     }
 
     // 2. 아이템 체크
-    if (resources.item) {
+    if (resources.item.count > 0) {
       const userItemData = await this.userItemService.getItem(
         user_id,
         resources.item.item_id,
