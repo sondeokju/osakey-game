@@ -45,9 +45,9 @@ export class UserTunaTvOnlineService {
         .select('tuna_tv_online.tuna_tv_id', 'tuna_tv_id')
         .addSelect('tuna_tv_online.online_type', 'online_type')
         .addSelect('tuna_tv')
-        .addSelect('tuna_tv.id', 'id')
         .addSelect('user.nickname', 'nickname')
         .addSelect('user.level', 'level')
+        .addSelect('user.id', 'id')
         .innerJoin(
           'user_tuna_tv',
           'tuna_tv',
