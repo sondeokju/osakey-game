@@ -34,6 +34,22 @@ export class UsersController {
   //   return this.usersService.getAllUsers();
   // }
 
+  @Post('secame_credit/reward')
+  @UseInterceptors(TransactionInterceptor)
+  async secameReward(
+    @User() user: Users,
+    @Body('secame_credit') secame_credit: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.usersService.secameReward(
+      user.user_id,
+      secame_credit,
+      qr,
+    );
+
+    return result;
+  }
+
   @Post('nickname')
   @UseInterceptors(TransactionInterceptor)
   async updateNickname(

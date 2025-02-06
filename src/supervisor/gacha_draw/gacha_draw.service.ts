@@ -244,10 +244,10 @@ export class GachaDrawService {
       qr,
     );
 
-    const gachaList = await this.gachaOutputService.getGachaOutputList(
-      gacha_id,
-      qr,
-    );
+    // const gachaList = await this.gachaOutputService.getGachaOutputList(
+    //   gacha_id,
+    //   qr,
+    // );
 
     // 랜덤 아이템 보정
     // gachaItem = await this.fixedItemRandom(

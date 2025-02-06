@@ -1152,4 +1152,20 @@ export class UsersService {
 
     return result;
   }
+
+  async secameReward(user_id: string, secame_credit: number, qr?: QueryRunner) {
+    const usersRepository = this.getUsersRepository(qr);
+    const userData = await usersRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    userData.secame_credit += secame_credit;
+    const result = await usersRepository.save({
+      ...userData,
+    });
+
+    return result;
+  }
 }
