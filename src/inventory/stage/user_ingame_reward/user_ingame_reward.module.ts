@@ -7,6 +7,7 @@ import { BattleStageModule } from 'src/static-table/stage/battle_stage/battle_st
 import { RunStageModule } from 'src/static-table/stage/run_stage/run_stage.module';
 import { PuzzleStageModule } from 'src/static-table/stage/puzzle_stage/puzzle_stage.module';
 import { RewardOfferModule } from 'src/supervisor/reward_offer/reward_offer.module';
+import { BountyStageModule } from 'src/static-table/stage/bounty_stage/bounty_stage.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { RewardOfferModule } from 'src/supervisor/reward_offer/reward_offer.modu
     BattleStageModule,
     RunStageModule,
     PuzzleStageModule,
+    BountyStageModule,
     RewardOfferModule,
   ],
   exports: [UserIngameRewardService],

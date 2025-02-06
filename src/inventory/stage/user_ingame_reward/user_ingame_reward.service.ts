@@ -13,6 +13,7 @@ import { RunStageService } from 'src/static-table/stage/run_stage/run_stage.serv
 import { PuzzleStageService } from 'src/static-table/stage/puzzle_stage/puzzle_stage.service';
 import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager.service';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
+import { BountyStageService } from 'src/static-table/stage/bounty_stage/bounty_stage.service';
 
 @Injectable()
 export class UserIngameRewardService {
@@ -22,6 +23,7 @@ export class UserIngameRewardService {
     private readonly battleStageService: BattleStageService,
     private readonly runStageService: RunStageService,
     private readonly puzzleStageService: PuzzleStageService,
+    private readonly bountyStageService: BountyStageService,
     private readonly rewardOfferService: RewardOfferService,
   ) {}
 
@@ -75,7 +77,7 @@ export class UserIngameRewardService {
         rewardData = await this.puzzleStageService.getPuzzleStage(stage_id, qr);
         break;
       case 'BOUNTY':
-        //await this.puzzleStageService.getPuzzleStage(stage_id, qr);
+        rewardData = await this.bountyStageService.getBountyStage(stage_id, qr);
         break;
       default:
         console.log('Unregistered game mode.');
