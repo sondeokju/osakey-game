@@ -14,6 +14,7 @@ import { GachaOutputService } from 'src/static-table/draw/gacha_output/gacha_out
 import { UserGachaCheckService } from './user_gacha_check/user_gacha_check.service';
 import { ItemService } from 'src/static-table/item/item.service';
 import { EquipService } from 'src/static-table/equipment/equip/equip.service';
+import { ResourceManagerService } from '../resource_manager/resource_manager.service';
 
 @Injectable()
 export class GachaDrawService {
@@ -24,6 +25,7 @@ export class GachaDrawService {
     private readonly gachaOutputService: GachaOutputService,
     private readonly userGachaCheckService: UserGachaCheckService,
     private readonly equipService: EquipService,
+    private readonly resourceManagerService: ResourceManagerService,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -216,12 +218,31 @@ export class GachaDrawService {
   async equipGachaDrawRandom(
     user_id: string,
     gacha_id: number,
+    //gacha_count: number,
     qr?: QueryRunner,
   ) {
     const calcuGachaItem = await this.calculEquipGachaDrawRandom(gacha_id);
     const gachaItem = calcuGachaItem.items;
     const itemKind = calcuGachaItem.item_kind;
-    //const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
+    const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
+
+    // if(gacha_count === 1) {
+
+    // } else if (gacha_count === 10) {
+
+    // }
+
+    await this.resourceManagerService.validateAndDeductResources(
+      user_id,
+      {
+        dia: gachaCostData.dia_1,
+        item: {
+          item_id: gachaCostData.item_id_1,
+          count: gachaCostData.item_id_1_count,
+        },
+      },
+      qr,
+    );
 
     const gachaList = await this.gachaOutputService.getGachaOutputList(
       gacha_id,

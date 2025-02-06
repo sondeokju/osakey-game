@@ -1,3 +1,4 @@
+import { ResourceManagerModule } from 'src/supervisor/resource_manager/resource_manager.module';
 import { Module } from '@nestjs/common';
 import { GachaDrawService } from './gacha_draw.service';
 import { GachaDrawController } from './gacha_draw.controller';
@@ -16,6 +17,7 @@ import { EquipModule } from 'src/static-table/equipment/equip/equip.module';
     UserGachaCheckModule,
     ItemModule,
     EquipModule,
+    ResourceManagerModule,
   ],
   exports: [GachaDrawService],
   controllers: [GachaDrawController],
