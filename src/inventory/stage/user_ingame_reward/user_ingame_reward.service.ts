@@ -80,7 +80,8 @@ export class UserIngameRewardService {
         rewardData = await this.bountyStageService.getBountyStage(stage_id, qr);
         break;
       default:
-        console.log('Unregistered game mode.');
+        console.log('game mode not exist.');
+        throw new BadRequestException('game mode not exist.');
     }
 
     if (!rewardData) {
