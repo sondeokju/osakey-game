@@ -149,9 +149,9 @@ export class UserIngameRewardService {
 
       // 승
     } else {
-      gold = rewardData.fail_gold;
-      exp = rewardData.fail_exp;
-      group_id = rewardData.fail_group_id;
+      gold = rewardData.fail_gold ?? 0;
+      exp = rewardData.fail_exp ?? 0;
+      group_id = rewardData.fail_group_id ?? 0;
 
       // 패
     }
