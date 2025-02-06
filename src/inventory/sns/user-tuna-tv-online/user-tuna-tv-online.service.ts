@@ -55,10 +55,10 @@ export class UserTunaTvOnlineService {
       .innerJoin('users', 'user', 'tuna_tv.user_id = user.id')
       .getRawMany();
 
-    console.log('tuna_tv_online:', result);
+    //console.log('tuna_tv_online:', result);
 
     if (result.length === 0) {
-      console.log('tuna_tv_online result.length === 0:', result);
+      //console.log('tuna_tv_online result.length === 0:', result);
       result = [];
     }
 
