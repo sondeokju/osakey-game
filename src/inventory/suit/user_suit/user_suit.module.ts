@@ -3,11 +3,11 @@ import { Module } from '@nestjs/common';
 import { UserSuitService } from './user_suit.service';
 import { UserSuitController } from './user_suit.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserItem } from 'src/user_item/entities/user_item.entity';
 import { SuitModule } from 'src/static-table/suit/suit/suit.module';
+import { UserItemModule } from 'src/user_item/user_item.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserSuit]), UserItem, SuitModule],
+  imports: [TypeOrmModule.forFeature([UserSuit]), UserItemModule, SuitModule],
   exports: [UserSuitService],
   controllers: [UserSuitController],
   providers: [UserSuitService],
