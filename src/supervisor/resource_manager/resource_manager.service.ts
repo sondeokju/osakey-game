@@ -38,7 +38,7 @@ export class ResourceManagerService {
         resources.item.item_id,
         qr,
       );
-      if (!userItemData || resources.item.count > userItemData.item_count) {
+      if (resources.item.count > userItemData.item_count) {
         throw new BadRequestException('Not enough items.');
       }
     }
