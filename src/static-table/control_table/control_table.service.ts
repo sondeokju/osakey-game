@@ -54,6 +54,7 @@ import { SkillService } from '../skill/skill/skill.service';
 import { TutorialRewardService } from '../tutorial/tutorial_reward/tutorial_reward.service';
 import { GachaService } from '../draw/gacha/gacha.service';
 import { GachaOutputService } from '../draw/gacha_output/gacha_output.service';
+import { BountyStageService } from '../stage/bounty_stage/bounty_stage.service';
 
 @Injectable()
 export class ControlTableService {
@@ -112,6 +113,7 @@ export class ControlTableService {
     private readonly tutorialRewardService: TutorialRewardService,
     private readonly gachaService: GachaService,
     private readonly gachaOutputService: GachaOutputService,
+    private readonly bountyStageService: BountyStageService,
   ) {}
 
   async getControlTableAll(qr?: QueryRunner) {
@@ -257,6 +259,7 @@ export class ControlTableService {
       battle_stage: await this.battleStageService.getBattleStageAll(qr),
       puzzle_stage: await this.puzzleStageService.getPuzzleStageAll(qr),
       run_stage: await this.runStageService.getRunStageAll(qr),
+      bounty_stage: await this.bountyStageService.getBountyStageAll(qr),
     };
 
     return obj;

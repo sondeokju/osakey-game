@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
-import { CreateBountyStageDto } from './dto/create-bounty_stage.dto';
-import { UpdateBountyStageDto } from './dto/update-bounty_stage.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { BountyStage } from './entities/bounty_stage.entity';
 
 @Injectable()
 export class BountyStageService {
-  create(createBountyStageDto: CreateBountyStageDto) {
-    return 'This action adds a new bountyStage';
+  constructor(
+    @InjectRepository(BountyStage)
+    private readonly bountyStageRepository: Repository<BountyStage>,
+  ) {}
+
+  getBountyStageRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<BountyStage>(BountyStage)
+      : this.bountyStageRepository;
   }
 
-  findAll() {
-    return `This action returns all bountyStage`;
+  async getBountyStageAll(qr?: QueryRunner) {
+    const bountyStageRepository = this.getBountyStageRepository(qr);
+    const result = await bountyStageRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} bountyStage`;
-  }
+  async getBountyStage(bounty_stage_id: number, qr?: QueryRunner) {
+    const bountyStageRepository = this.getBountyStageRepository(qr);
+    const result = await bountyStageRepository.findOne({
+      where: {
+        bounty_stage_id,
+      },
+    });
 
-  update(id: number, updateBountyStageDto: UpdateBountyStageDto) {
-    return `This action updates a #${id} bountyStage`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} bountyStage`;
+    return result;
   }
 }

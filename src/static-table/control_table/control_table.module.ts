@@ -110,6 +110,8 @@ import { Gacha } from '../draw/gacha/entities/gacha.entity';
 import { GachaOutput } from '../draw/gacha_output/entities/gacha_output.entity';
 import { GachaService } from '../draw/gacha/gacha.service';
 import { GachaOutputService } from '../draw/gacha_output/gacha_output.service';
+import { BountyStage } from '../stage/bounty_stage/entities/bounty_stage.entity';
+import { BountyStageService } from '../stage/bounty_stage/bounty_stage.service';
 
 @Module({
   imports: [
@@ -169,6 +171,7 @@ import { GachaOutputService } from '../draw/gacha_output/gacha_output.service';
       TutorialReward,
       Gacha,
       GachaOutput,
+      BountyStage,
     ]),
   ],
   exports: [ControlTableService],
@@ -229,6 +232,7 @@ import { GachaOutputService } from '../draw/gacha_output/gacha_output.service';
     TutorialRewardService,
     GachaService,
     GachaOutputService,
+    BountyStageService,
   ],
 })
 export class ControlTableModule {}
