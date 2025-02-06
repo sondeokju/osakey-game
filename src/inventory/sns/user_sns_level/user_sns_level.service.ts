@@ -100,15 +100,15 @@ export class UserSnsLevelService {
       where: { user_id },
     });
 
-    return userSnsLevelData;
+    return userSnsLevelData ?? {};
   }
 
   async getSnsLevelAll(user_id: string, qr?: QueryRunner) {
     const userSnsLevelRepository = this.getUserSnsLevelRepository(qr);
-    const userSnsLevelData = await userSnsLevelRepository.findOne({
+    const userSnsLevelData = await userSnsLevelRepository.find({
       where: { user_id },
     });
 
-    return userSnsLevelData ?? {};
+    return userSnsLevelData;
   }
 }
