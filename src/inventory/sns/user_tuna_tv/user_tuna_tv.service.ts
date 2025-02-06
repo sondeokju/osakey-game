@@ -127,7 +127,6 @@ export class UserTunaTvService {
 
     const result = await userTunaTvRepository.find({
       where: {
-        id: user_tuna_tv_id,
         user_id,
       },
     });
