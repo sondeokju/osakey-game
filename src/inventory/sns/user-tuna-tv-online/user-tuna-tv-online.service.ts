@@ -22,6 +22,8 @@ export class UserTunaTvOnlineService {
     const userTunaTvOnlineRepository = this.getUserTunaTvOnlineRepository(qr);
     const userTunaTvOnline = await userTunaTvOnlineRepository.find({});
 
+    let result;
+
     if (!userTunaTvOnline || userTunaTvOnline.length === 0) {
       console.log('No online users found.');
       return;
@@ -38,7 +40,7 @@ export class UserTunaTvOnlineService {
       }
     }
 
-    const result = await userTunaTvOnlineRepository
+    result = await userTunaTvOnlineRepository
       .createQueryBuilder('tuna_tv_online')
       .select('tuna_tv_online.tuna_tv_id', 'tuna_tv_id')
       .addSelect('tuna_tv_online.online_type', 'online_type')
@@ -54,6 +56,10 @@ export class UserTunaTvOnlineService {
       .getRawMany();
 
     console.log('tuna_tv_online:', result);
+
+    if (result.length === 0) {
+      result = [];
+    }
 
     return result;
   }
