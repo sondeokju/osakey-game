@@ -81,20 +81,15 @@ export class UserSuitService {
     const suitUnlockSuitPieceId = suitUnlockData.suit_piece_id;
     const suitUnlockPieceCount = suitUnlockData.unlock_piece_count;
 
-    // const userItemRepository = this.getUserItemRepository(qr);
-    // const userItem = await userItemRepository.findOne({
-    //   where: { user_id, item_id: suitUnlockSuitPieceId },
-    // });
-
-    // if (userItem.item_count < suitUnlockPieceCount) {
-    //   throw new NotFoundException(
-    //     `userItem item ${suitUnlockSuitPieceId} not enough`,
-    //   );
-    // } else {
-    //   userItem.item_count -= suitUnlockPieceCount;
-    //   await userItemRepository.save(userItem);
-    //   userSuit.unlock_yn = 'Y';
-    // }
+    const reduceItemresult = await this.userItemService.reduceItem(
+      user_id,
+      suitUnlockSuitPieceId,
+      suitUnlockPieceCount,
+      qr,
+    );
+    if (reduceItemresult) {
+      userSuit.unlock_yn = 'Y';
+    }
 
     const result = await userSuitRepository.save(userSuit);
 
