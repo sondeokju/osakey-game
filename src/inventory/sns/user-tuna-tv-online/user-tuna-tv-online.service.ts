@@ -58,6 +58,7 @@ export class UserTunaTvOnlineService {
     console.log('tuna_tv_online:', result);
 
     if (result.length === 0) {
+      console.log('tuna_tv_online result.length === 0:', result);
       result = [];
     }
 
