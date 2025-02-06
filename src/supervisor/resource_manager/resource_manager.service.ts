@@ -25,7 +25,7 @@ export class ResourceManagerService {
   ) {
     const userCurrency = await this.usersService.getUserMoney(user_id, qr);
     // 1. 고드 체크
-    if (resources.gord) {
+    if (resources.gord > 0) {
       if (resources.gord > userCurrency.gord) {
         throw new BadRequestException('Not enough gord.');
       }
@@ -38,9 +38,9 @@ export class ResourceManagerService {
         resources.item.item_id,
         qr,
       );
-      // if (resources.item.count > userItemData.item_count) {
-      //   throw new BadRequestException('Not enough items.');
-      // }
+      if (resources.item.count > userItemData.item_count) {
+        throw new BadRequestException('Not enough items.');
+      }
     }
 
     if (resources.gord) {
@@ -57,15 +57,15 @@ export class ResourceManagerService {
     }
 
     // 3. 다이아몬드 차감
-    // if (resources.dia) {
-    //   if (resources.dia > userCurrency.dia) {
-    //     throw new BadRequestException('Not enough dia.');
-    //   }
-    //   await this.usersService.reduceDia(user_id, resources.dia, qr);
-    // }
+    if (resources.dia > 0) {
+      if (resources.dia > userCurrency.diamond_free) {
+        throw new BadRequestException('Not enough dia.');
+      }
+      await this.usersService.reduceDiamondFree(user_id, resources.dia, qr);
+    }
 
     // 4. 경험치 차감
-    if (resources.exp) {
+    if (resources.exp > 0) {
       if (resources.exp > userCurrency.exp) {
         throw new BadRequestException('Not enough experience points.');
       }
