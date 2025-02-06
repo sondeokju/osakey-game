@@ -109,6 +109,6 @@ export class UserSnsLevelService {
       where: { user_id },
     });
 
-    return userSnsLevelData;
+    return userSnsLevelData ?? {};
   }
 }
