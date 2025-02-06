@@ -6,16 +6,16 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { UserSuit } from './entities/user_suit.entity';
-import { UserItem } from 'src/user_item/entities/user_item.entity';
 import { SuitService } from 'src/static-table/suit/suit/suit.service';
+import { UserItemService } from 'src/user_item/user_item.service';
 
 @Injectable()
 export class UserSuitService {
   constructor(
     @InjectRepository(UserSuit)
     private readonly userSuitRepository: Repository<UserSuit>,
-    private readonly userItemRepository: Repository<UserItem>,
     private readonly suitService: SuitService,
+    private readonly userItemService: UserItemService,
   ) {}
 
   getUserSuitRepository(qr?: QueryRunner) {
@@ -87,20 +87,20 @@ export class UserSuitService {
     const suitUnlockSuitPieceId = suitUnlockData.suit_piece_id;
     const suitUnlockPieceCount = suitUnlockData.unlock_piece_count;
 
-    const userItemRepository = this.getUserItemRepository(qr);
-    const userItem = await userItemRepository.findOne({
-      where: { user_id, item_id: suitUnlockSuitPieceId },
-    });
+    // const userItemRepository = this.getUserItemRepository(qr);
+    // const userItem = await userItemRepository.findOne({
+    //   where: { user_id, item_id: suitUnlockSuitPieceId },
+    // });
 
-    if (userItem.item_count < suitUnlockPieceCount) {
-      throw new NotFoundException(
-        `userItem item ${suitUnlockSuitPieceId} not enough`,
-      );
-    } else {
-      userItem.item_count -= suitUnlockPieceCount;
-      await userItemRepository.save(userItem);
-      userSuit.unlock_yn = 'Y';
-    }
+    // if (userItem.item_count < suitUnlockPieceCount) {
+    //   throw new NotFoundException(
+    //     `userItem item ${suitUnlockSuitPieceId} not enough`,
+    //   );
+    // } else {
+    //   userItem.item_count -= suitUnlockPieceCount;
+    //   await userItemRepository.save(userItem);
+    //   userSuit.unlock_yn = 'Y';
+    // }
 
     const result = await userSuitRepository.save(userSuit);
 
