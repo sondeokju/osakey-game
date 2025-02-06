@@ -78,7 +78,9 @@ export class UserSuitService {
     }
 
     if (userSuit.unlock_yn === 'Y') {
-      throw new NotFoundException('already unlocked it.');
+      return {
+        message: 'already unlocked it.',
+      };
     }
 
     const suitUnlockData = await this.suitService.getSuit(userSuit.suit_id);
