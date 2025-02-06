@@ -6,18 +6,28 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { UserSuit } from './entities/user_suit.entity';
+import { UserItem } from 'src/user_item/entities/user_item.entity';
+import { SuitService } from 'src/static-table/suit/suit/suit.service';
 
 @Injectable()
 export class UserSuitService {
   constructor(
     @InjectRepository(UserSuit)
-    private readonly userSuitRepository: Repository<UserSuit>, //private readonly rewardOfferService: RewardOfferService,
+    private readonly userSuitRepository: Repository<UserSuit>,
+    private readonly userItemRepository: Repository<UserItem>,
+    private readonly suitService: SuitService,
   ) {}
 
   getUserSuitRepository(qr?: QueryRunner) {
     return qr
       ? qr.manager.getRepository<UserSuit>(UserSuit)
       : this.userSuitRepository;
+  }
+
+  getUserItemRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<UserItem>(UserItem)
+      : this.userItemRepository;
   }
 
   //슈트 레벨업
@@ -73,7 +83,25 @@ export class UserSuitService {
       throw new NotFoundException('User suit not found');
     }
 
-    userSuit.unlock_yn = 'Y';
+    const suitUnlockData = await this.suitService.getSuit(userSuit.suit_id);
+    const suitUnlockSuitPieceId = suitUnlockData.suit_piece_id;
+    const suitUnlockPieceCount = suitUnlockData.unlock_piece_count;
+
+    const userItemRepository = this.getUserItemRepository(qr);
+    const userItem = await userItemRepository.findOne({
+      where: { user_id, item_id: suitUnlockSuitPieceId },
+    });
+
+    if (userItem.item_count < suitUnlockPieceCount) {
+      throw new NotFoundException(
+        `userItem item ${suitUnlockSuitPieceId} not enough`,
+      );
+    } else {
+      userItem.item_count -= suitUnlockPieceCount;
+      await userItemRepository.save(userItem);
+      userSuit.unlock_yn = 'Y';
+    }
+
     const result = await userSuitRepository.save(userSuit);
 
     return result;
