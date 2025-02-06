@@ -44,6 +44,7 @@ export class UserTunaTvOnlineService {
         .createQueryBuilder('tuna_tv_online')
         .select('tuna_tv_online.tuna_tv_id', 'tuna_tv_id')
         .addSelect('tuna_tv_online.online_type', 'online_type')
+        .addSelect('tuna_tv_online.user_id', 'follow_user_id')
         .addSelect('tuna_tv')
         .addSelect('user.nickname', 'nickname')
         .addSelect('user.level', 'level')
