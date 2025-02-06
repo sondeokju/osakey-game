@@ -63,10 +63,14 @@ export class UserTunaTvController {
   @UseInterceptors(TransactionInterceptor)
   async TunaTvDelete(
     @User() user: Users,
-    @Body('tunaTv_id') tunaTv_id: number,
+    @Body('user_tuna_tv_id') user_tuna_tv_id: number,
     @QueryRunner() qr: QR,
   ) {
-    const result = await this.userTunaTvService.TunaTvDelete(tunaTv_id, qr);
+    const result = await this.userTunaTvService.TunaTvDelete(
+      user_tuna_tv_id,
+      user.user_id,
+      qr,
+    );
 
     return JSON.stringify(result);
   }

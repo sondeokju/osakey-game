@@ -106,11 +106,16 @@ export class UserTunaTvService {
     return userTunaTvData;
   }
 
-  async TunaTvDelete(tuna_tv_id: number, qr?: QueryRunner) {
+  async TunaTvDelete(
+    user_tuna_tv_id: number,
+    user_id: string,
+    qr?: QueryRunner,
+  ) {
     const userTunaTvRepository = this.getUserTunaTvRepository(qr);
     const userTunaTvData = await userTunaTvRepository.find({
       where: {
-        id: tuna_tv_id,
+        id: user_tuna_tv_id,
+        user_id,
       },
     });
 
