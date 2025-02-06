@@ -137,14 +137,14 @@ export class UserIngameRewardService {
 
     if (stage_clear_yn === 'Y') {
       if (firstClear) {
-        gold = rewardData.first_clear_gold;
-        exp = rewardData.first_clear_exp;
-        dia = rewardData.first_clear_dia;
-        group_id = rewardData.first_clear_group_id;
+        gold = rewardData.first_clear_gold ?? 0;
+        exp = rewardData.first_clear_exp ?? 0;
+        dia = rewardData.first_clear_dia ?? 0;
+        group_id = rewardData.first_clear_group_id ?? 0;
       } else {
-        gold = rewardData.reclear_gold;
-        exp = rewardData.reclear_exp;
-        group_id = rewardData.reclear_group_id;
+        gold = rewardData.reclear_gold ?? 0;
+        exp = rewardData.reclear_exp ?? 0;
+        group_id = rewardData.reclear_group_id ?? 0;
       }
 
       // 승
