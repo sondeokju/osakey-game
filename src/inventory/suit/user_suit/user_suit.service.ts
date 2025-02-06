@@ -24,12 +24,6 @@ export class UserSuitService {
       : this.userSuitRepository;
   }
 
-  getUserItemRepository(qr?: QueryRunner) {
-    return qr
-      ? qr.manager.getRepository<UserItem>(UserItem)
-      : this.userItemRepository;
-  }
-
   //슈트 레벨업
   async suitLevelUp(user_id: string, user_suit_id: number, qr?: QueryRunner) {
     const userSuitRepository = this.getUserSuitRepository(qr);
