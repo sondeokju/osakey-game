@@ -95,6 +95,16 @@ export class Users extends BaseModel {
   @Column({
     default: 0,
   })
+  secame_credit: number;
+
+  @Column({
+    default: 0,
+  })
+  secame_value: number;
+
+  @Column({
+    default: 0,
+  })
   seca_coin: number;
 
   @Column({
