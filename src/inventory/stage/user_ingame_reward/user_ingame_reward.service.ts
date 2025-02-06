@@ -82,7 +82,7 @@ export class UserIngameRewardService {
       default:
         console.log('game mode not exist.');
         throw new BadRequestException(
-          'BATTLE, RUN, PUZZLE, BOUNT 로 요청 해주세요.',
+          'BATTLE, RUN, PUZZLE, BOUNTY 로 요청 해주세요.',
         );
     }
 
