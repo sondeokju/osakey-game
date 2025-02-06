@@ -1153,7 +1153,11 @@ export class UsersService {
     return result;
   }
 
-  async secameReward(user_id: string, secame_credit: number, qr?: QueryRunner) {
+  async secamCreditReward(
+    user_id: string,
+    secame_credit: number,
+    qr?: QueryRunner,
+  ) {
     const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({
       where: {

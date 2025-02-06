@@ -36,12 +36,12 @@ export class UsersController {
 
   @Post('secame_credit/reward')
   @UseInterceptors(TransactionInterceptor)
-  async secameReward(
+  async secamCreditReward(
     @User() user: Users,
     @Body('secame_credit') secame_credit: number,
     @QueryRunner() qr: QR,
   ) {
-    const result = await this.usersService.secameReward(
+    const result = await this.usersService.secamCreditReward(
       user.user_id,
       secame_credit,
       qr,
