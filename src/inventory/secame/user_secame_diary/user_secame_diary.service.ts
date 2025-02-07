@@ -93,8 +93,10 @@ export class UserSecameDiaryService {
           userSecameDiary.mission_id,
         );
       const nextSecameDiaryId = userSecameDiary.mission_id + 1;
+      console.log('nextSecameDiaryId:', nextSecameDiaryId);
       const nextSecameDiaryData =
         await this.secameDiaryService.getSecameDiary(nextSecameDiaryId);
+      console.log('nextSecameDiaryData:', nextSecameDiaryData);
 
       const heroData = await this.heroService.getHeroLevel(userData.level, qr);
 
