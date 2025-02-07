@@ -6,12 +6,14 @@ import { UserSecameDiary } from './entities/user_secame_diary.entity';
 import { SecameDiaryModule } from 'src/static-table/secame/secame_diary/secame_diary.module';
 import { RewardOfferModule } from 'src/supervisor/reward_offer/reward_offer.module';
 import { HeroModule } from 'src/static-table/hero/hero.module';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([UserSecameDiary]),
     SecameDiaryModule,
     RewardOfferModule,
+    UsersModule,ss
     HeroModule,
   ],
   exports: [UserSecameDiaryService],
