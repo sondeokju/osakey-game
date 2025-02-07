@@ -127,7 +127,7 @@ export class UserSecameDiaryService {
       if (shouldInsertNextDiary) {
         await userSecameDiaryRepository.insert({
           user_id,
-          mission_id: nextSecameDiaryData.mission_id,
+          mission_id: nextSecameDiaryData.secame_diary_id,
         });
       }
 
