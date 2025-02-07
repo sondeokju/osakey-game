@@ -113,6 +113,7 @@ export class UserSecameDiaryService {
           userData.secame_credit >= nextSecameDiaryData.credit_goal_qty) ||
           (typeof currentSecameDiaryData.credit_goal_qty === 'number' &&
             !isNaN(userData.secame_credit) &&
+            nextSecameDiaryData.hero_rank.trim() === heroData.rank.trim() &&
             userData.secame_credit >= currentSecameDiaryData.credit_goal_qty))
       ) {
         if (userSecameDiary.reward_yn === 'Y') {
