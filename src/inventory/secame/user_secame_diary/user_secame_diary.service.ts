@@ -84,28 +84,19 @@ export class UserSecameDiaryService {
           userSecameDiary.mission_id,
         );
       const nextSecameDiaryId = userSecameDiary.mission_id + 1;
-      console.log('nextSecameDiaryId:', nextSecameDiaryId);
+
       const nextSecameDiaryData =
         await this.secameDiaryService.getSecameDiary(nextSecameDiaryId);
-      console.log('nextSecameDiaryData:', nextSecameDiaryData);
 
-      console.log('userData.exp:', userData.exp);
       const heroData = await this.heroService.getHeroRankByExp(
         userData.exp,
         qr,
       );
-      console.log('heroData :', heroData);
 
       // 🔹 4️⃣ 다음 다이어리 등록 로직
       let shouldInsertNextDiary = false;
       let isRepeatReward = false;
-      console.log(
-        'nextSecameDiaryData.hero_rank :',
-        nextSecameDiaryData.hero_rank,
-        typeof nextSecameDiaryData.hero_rank,
-      );
 
-      console.log('heroData.rank :', heroData.rank, typeof heroData.rank);
       if (
         nextSecameDiaryData &&
         ((currentSecameDiaryData.is_repeat === 'TRUE' &&
