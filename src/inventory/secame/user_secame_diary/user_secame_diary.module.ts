@@ -13,7 +13,7 @@ import { UsersModule } from 'src/users/users.module';
     TypeOrmModule.forFeature([UserSecameDiary]),
     SecameDiaryModule,
     RewardOfferModule,
-    UsersModule,ss
+    UsersModule,
     HeroModule,
   ],
   exports: [UserSecameDiaryService],
