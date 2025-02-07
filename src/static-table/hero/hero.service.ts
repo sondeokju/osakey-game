@@ -33,15 +33,17 @@ export class HeroService {
   async getHeroRankByExp(exp: number, qr?: QueryRunner) {
     const heroRepository = this.getMissionMainRepository(qr);
 
-    // `exp_min`과 `exp_max` 범위 내의 rank 찾기
+    // `exp`가 해당 레벨의 `exp` 이상이고 `total_exp` 이하인 rank 찾기
     const result = await heroRepository
       .createQueryBuilder('hero')
       .select('hero.rank') // rank만 가져오기
-      .where('hero.exp <= :exp AND hero.total_exp >= :exp', { exp })
+      .where(':exp BETWEEN hero.exp AND hero.total_exp', { exp })
       .getRawOne();
 
     if (!result) {
-      throw new NotFoundException('No matching hero rank found for given EXP.');
+      throw new NotFoundException(
+        `No matching hero rank found for EXP: ${exp}`,
+      );
     }
 
     return result.rank;
