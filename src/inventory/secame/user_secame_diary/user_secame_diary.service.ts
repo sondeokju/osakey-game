@@ -134,6 +134,11 @@ export class UserSecameDiaryService {
         });
       }
 
+      if (!nextSecameDiaryData) {
+        if (currentSecameDiaryData.is_repeat === 'TRUE') {
+          isRepeatReward = true;
+        }
+      }
       let reward;
       let result;
       if (isRepeatReward) {
