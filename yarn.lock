@@ -702,6 +702,13 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+"@keyv/serialize@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/@keyv/serialize/-/serialize-1.0.2.tgz"
+  integrity sha512-+E/LyaAeuABniD/RvUezWVXKpeuvwLEA9//nE9952zBaOdBd2mQ3pPoM8cUe2X6IcMByfuSLzmYqnYshG60+HQ==
+  dependencies:
+    buffer "^6.0.3"
+
 "@liaoliaots/nestjs-redis@^10.0.0":
   version "10.0.0"
   resolved "https://registry.npmjs.org/@liaoliaots/nestjs-redis/-/nestjs-redis-10.0.0.tgz"
@@ -728,6 +735,18 @@
     rimraf "^3.0.2"
     semver "^7.3.5"
     tar "^6.1.11"
+
+"@nestjs-modules/ioredis@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.npmjs.org/@nestjs-modules/ioredis/-/ioredis-2.0.2.tgz"
+  integrity sha512-8pzSvT8R3XP6p8ZzQmEN8OnY0yWrJ/elFhwQK+PID2zf1SLBkAZ18bDcx3SKQ2atledt0gd9kBeP5xT4MlyS7Q==
+  optionalDependencies:
+    "@nestjs/terminus" "10.2.0"
+
+"@nestjs/cache-manager@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/@nestjs/cache-manager/-/cache-manager-3.0.0.tgz"
+  integrity sha512-csKvxHSQWfC0OiDo0bNEhLqrmYDopHEvRyC81MxV9xFj1AO+rOKocpHa4M1ZGH//6uKFIPGN9oiR0mvZY77APA==
 
 "@nestjs/cli@^10.0.0":
   version "10.2.0"
@@ -758,7 +777,7 @@
     webpack "5.89.0"
     webpack-node-externals "3.0.0"
 
-"@nestjs/common@^10.0.0", "@nestjs/common@^10.4.6", "@nestjs/common@^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0", "@nestjs/common@^8.0.0 || ^9.0.0 || ^10.0.0", "@nestjs/common@^9.0.0 || ^10.0.0":
+"@nestjs/common@^10.0.0", "@nestjs/common@^10.4.6", "@nestjs/common@^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0", "@nestjs/common@^8.0.0 || ^9.0.0 || ^10.0.0", "@nestjs/common@^9.0.0 || ^10.0.0", "@nestjs/common@^9.0.0 || ^10.0.0 || ^11.0.0", "@nestjs/common@>=6.7.0":
   version "10.4.6"
   resolved "https://registry.npmjs.org/@nestjs/common/-/common-10.4.6.tgz"
   integrity sha512-KkezkZvU9poWaNq4L+lNvx+386hpOxPJkfXBBeSMrcqBOx8kVr36TGN2uYkF4Ta4zNu1KbCjmZbc0rhHSg296g==
@@ -787,7 +806,7 @@
     lodash "4.17.21"
     uuid "9.0.0"
 
-"@nestjs/core@^10.0.0", "@nestjs/core@^10.4.6", "@nestjs/core@^8.0.0 || ^9.0.0 || ^10.0.0", "@nestjs/core@^9.0.0 || ^10.0.0":
+"@nestjs/core@^10.0.0", "@nestjs/core@^10.4.6", "@nestjs/core@^8.0.0 || ^9.0.0 || ^10.0.0", "@nestjs/core@^9.0.0 || ^10.0.0", "@nestjs/core@^9.0.0 || ^10.0.0 || ^11.0.0", "@nestjs/core@>=6.7.0":
   version "10.4.6"
   resolved "https://registry.npmjs.org/@nestjs/core/-/core-10.4.6.tgz"
   integrity sha512-zXVPxCNRfO6gAy0yvEDjUxE/8gfZICJFpsl2lZAUH31bPb6m+tXuhUq2mVCTEltyMYQ+DYtRe+fEYM2v152N1g==
@@ -2014,6 +2033,20 @@ bytes@3.1.2:
   version "3.1.2"
   resolved "https://registry.npmjs.org/bytes/-/bytes-3.1.2.tgz"
   integrity sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==
+
+cache-manager-redis-store@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/cache-manager-redis-store/-/cache-manager-redis-store-3.0.1.tgz"
+  integrity sha512-o560kw+dFqusC9lQJhcm6L2F2fMKobJ5af+FoR2PdnMVdpQ3f3Bz6qzvObTGyvoazQJxjQNWgMQeChP4vRTuXQ==
+  dependencies:
+    redis "^4.3.1"
+
+cache-manager@*, cache-manager@>=6:
+  version "6.4.0"
+  resolved "https://registry.npmjs.org/cache-manager/-/cache-manager-6.4.0.tgz"
+  integrity sha512-eUmPyVqQYzWCt7hx1QrYzQ7oC3MGKM1etxxe8zuq1o7IB4NzdBeWcUGDSWYahaI8fkd538SEZRGadyZWQfvOzQ==
+  dependencies:
+    keyv "^5.2.3"
 
 call-bind@^1.0.7:
   version "1.0.7"
@@ -3691,10 +3724,10 @@ interpret@^1.0.0:
   resolved "https://registry.npmjs.org/interpret/-/interpret-1.4.0.tgz"
   integrity sha512-agE4QfB2Lkp9uICn7BAqoscw4SZP9kTE2hxiFI3jBPmXJfdqiahTbUuKGsMoN2GtqL9AxhYioAcVvgsb1HvRbA==
 
-ioredis@^5.0.0, ioredis@^5.0.4, ioredis@^5.4.1:
-  version "5.4.1"
-  resolved "https://registry.npmjs.org/ioredis/-/ioredis-5.4.1.tgz"
-  integrity sha512-2YZsvl7jopIa1gaePkeMtd9rAcSjOOjPtpcLlOeusyO+XH2SK5ZcT+UCrElPP+WVIInh2TzeI4XW9ENaSLVVHA==
+ioredis@^5.0.0, ioredis@^5.0.4, ioredis@^5.5.0, ioredis@>=5.0.0:
+  version "5.5.0"
+  resolved "https://registry.npmjs.org/ioredis/-/ioredis-5.5.0.tgz"
+  integrity sha512-7CutT89g23FfSa8MDoIFs2GYYa0PaNiW/OrT+nRyjRXHDZd17HmIgy+reOQ/yhh72NznNjGuS8kbCAcA4Ro4mw==
   dependencies:
     "@ioredis/commands" "^1.1.1"
     cluster-key-slot "^1.1.0"
@@ -4392,6 +4425,13 @@ keyv@^4.5.3:
   integrity sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==
   dependencies:
     json-buffer "3.0.1"
+
+keyv@^5.2.3:
+  version "5.2.3"
+  resolved "https://registry.npmjs.org/keyv/-/keyv-5.2.3.tgz"
+  integrity sha512-AGKecUfzrowabUv0bH1RIR5Vf7w+l4S3xtQAypKaUpTdIR1EbrAcTxHCrpo9Q+IWeUlFE2palRtgIQcgm+PQJw==
+  dependencies:
+    "@keyv/serialize" "^1.0.2"
 
 kleur@^3.0.3:
   version "3.0.3"
@@ -5485,7 +5525,7 @@ redis-parser@^3.0.0:
   dependencies:
     redis-errors "^1.0.0"
 
-"redis@^3.1.1 || ^4.0.0", redis@^4.6.13:
+"redis@^3.1.1 || ^4.0.0", redis@^4.3.1, redis@^4.6.13:
   version "4.7.0"
   resolved "https://registry.npmjs.org/redis/-/redis-4.7.0.tgz"
   integrity sha512-zvmkHEAdGMn+hMRXuMBtu4Vo5P6rHQjLoHftu+lBqq8ZTA3RCVC/WzD790bkKKiNFp7d5/9PcSD19fJyyRvOdQ==

@@ -25,10 +25,11 @@ import { PUBLIC_FOLDER_PATH } from './common/const/path.const';
 //import { LogMiddleware } from './common/middleware/log.middleware';
 import { RolesGuard } from './users/guard/roles.guard';
 import { AccessTokenGuard } from './auth/guard/bearer-token.guard';
-import { RedisModule } from '@liaoliaots/nestjs-redis';
+//import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
 import { entities } from './entity_group/entity';
 import { entities_module } from './entity_group/entity_module';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
@@ -42,14 +43,14 @@ import { entities_module } from './entity_group/entity_module';
       isGlobal: true,
     }),
 
-    RedisModule.forRoot({
-      readyLog: true,
-      config: {
-        host: 'localhost',
-        port: 6379,
-        //password: 'bitnami',
-      },
-    }),
+    // RedisModule.forRoot({
+    //   readyLog: true,
+    //   config: {
+    //     host: 'localhost',
+    //     port: 6379,
+    //     //password: 'bitnami',
+    //   },
+    // }),
 
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -69,6 +70,7 @@ import { entities_module } from './entity_group/entity_module';
         process.env[ENV_KEEPCONNECTIONALIVE_KEY] === 'true' ? true : false,
     }),
     ...entities_module,
+    RedisModule,
   ],
   controllers: [AppController],
   providers: [
