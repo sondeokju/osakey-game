@@ -105,7 +105,7 @@ export class UserSecameDiaryService {
         typeof userSecameDiary.reward_yn,
       );
       if (
-        currentSecameDiaryData.is_repeat === 'FASLE' &&
+        currentSecameDiaryData.is_repeat === 'FALSE' &&
         userSecameDiary.reward_yn === 'Y'
       ) {
         return {
