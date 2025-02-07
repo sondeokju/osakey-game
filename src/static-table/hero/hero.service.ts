@@ -46,6 +46,6 @@ export class HeroService {
       );
     }
 
-    return result.rank;
+    return result;
   }
 }
