@@ -94,7 +94,7 @@ export class UserSecameDiaryService {
         userData.exp,
         qr,
       );
-      console.log('heroData.rank :', heroData.rank);
+      console.log('heroData :', heroData);
 
       // 🔹 4️⃣ 다음 다이어리 등록 로직
       let shouldInsertNextDiary = false;

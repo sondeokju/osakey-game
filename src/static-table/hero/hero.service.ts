@@ -10,18 +10,18 @@ export class HeroService {
     private readonly heroRepository: Repository<Hero>,
   ) {}
 
-  getMissionMainRepository(qr?: QueryRunner) {
+  getHeroRepository(qr?: QueryRunner) {
     return qr ? qr.manager.getRepository<Hero>(Hero) : this.heroRepository;
   }
 
   async getHeroAll(qr?: QueryRunner) {
-    const heroRepository = this.getMissionMainRepository(qr);
+    const heroRepository = this.getHeroRepository(qr);
     const result = await heroRepository.find({});
     return result;
   }
 
   async getHeroLevel(level: number, qr?: QueryRunner) {
-    const heroRepository = this.getMissionMainRepository(qr);
+    const heroRepository = this.getHeroRepository(qr);
     const result = await heroRepository.findOne({
       where: {
         level,
@@ -31,7 +31,7 @@ export class HeroService {
   }
 
   async getHeroRankByExp(exp: number, qr?: QueryRunner) {
-    const heroRepository = this.getMissionMainRepository(qr);
+    const heroRepository = this.getHeroRepository(qr);
 
     // `exp` 값이 가장 가까운 `exp` 이상을 가진 `rank` 찾기
     const result = await heroRepository
@@ -42,6 +42,7 @@ export class HeroService {
       .limit(1) // 1개만 가져오기
       .getRawOne();
 
+    console.log(result);
     if (!result) {
       throw new NotFoundException(
         `No matching hero rank found for EXP: ${exp}`,
