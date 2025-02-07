@@ -66,16 +66,16 @@ export class UsersController {
     return result;
   }
 
-  @Post('tutorial')
+  @Post('prologue')
   @UseInterceptors(TransactionInterceptor)
-  async updateTutorial(
+  async updatePrologue(
     @User() user: Users,
-    @Body('tutorial_yn') tutorial_yn: string,
+    @Body('prologue_yn') prologue_yn: string,
     @QueryRunner() qr: QR,
   ) {
-    const result = await this.usersService.updateTutorial(
+    const result = await this.usersService.updatePrologue(
       user.user_id,
-      tutorial_yn,
+      prologue_yn,
       qr,
     );
 

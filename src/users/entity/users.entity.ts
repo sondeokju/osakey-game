@@ -163,7 +163,7 @@ export class Users extends BaseModel {
     type: 'char',
     default: 'N',
   })
-  tutorial_yn: string;
+  prologue_yn: string;
 
   // @Column({
   //   length: 128,

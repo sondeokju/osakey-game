@@ -1121,7 +1121,7 @@ export class UsersService {
     }
   }
 
-  async updateTutorial(user_id: string, tutorial_yn: string, qr?: QueryRunner) {
+  async updatePrologue(user_id: string, prologue_yn: string, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({
       where: {
@@ -1131,7 +1131,7 @@ export class UsersService {
 
     const result = await usersRepository.save({
       ...userData,
-      tutorial_yn: tutorial_yn,
+      prologue_yn: prologue_yn,
     });
 
     return result;
