@@ -119,8 +119,10 @@ export class UserSecameDiaryService {
       );
       if (
         nextSecameDiaryData &&
+        //currentSecameDiaryData.is_repeat === 'FALSE' &&
         userData.secame_credit >= currentSecameDiaryData.credit_goal_qty
       ) {
+        console.log('shouldInsertNextDiary : true');
         shouldInsertNextDiary = true;
       }
 
