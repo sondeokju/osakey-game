@@ -10,6 +10,8 @@ import { QueryRunner, Repository } from 'typeorm';
 import { UserSecameDiary } from './entities/user_secame_diary.entity';
 import { SecameDiaryService } from 'src/static-table/secame/secame_diary/secame_diary.service';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
+import { UsersService } from 'src/users/users.service';
+import { HeroService } from 'src/static-table/hero/hero.service';
 
 @Injectable()
 export class UserSecameDiaryService {
@@ -18,6 +20,8 @@ export class UserSecameDiaryService {
     private readonly userSecameDiaryRepository: Repository<UserSecameDiary>,
     private readonly secameDiaryService: SecameDiaryService,
     private readonly rewardOfferService: RewardOfferService,
+    private readonly usersService: UsersService,
+    private readonly heroService: HeroService,
   ) {}
 
   getUserSecameDiaryRepository(qr?: QueryRunner) {
@@ -58,36 +62,96 @@ export class UserSecameDiaryService {
     qr?: QueryRunner,
   ) {
     const userSecameDiaryRepository = this.getUserSecameDiaryRepository(qr);
-    const userSecameDiary = await userSecameDiaryRepository.findOne({
-      where: { id: user_secame_diary_id, user_id },
-    });
 
-    if (!userSecameDiary) {
-      throw new NotFoundException('UserSecameDiary not found');
+    // 1️⃣ 트랜잭션 시작
+    const isExternalTransaction = !!qr;
+    if (!isExternalTransaction) {
+      qr = userSecameDiaryRepository.manager.connection.createQueryRunner();
+      await qr.startTransaction();
     }
 
-    if (userSecameDiary.reward_yn === 'Y') {
+    try {
+      // 🔹 2️⃣ 현재 다이어리 조회
+      const userSecameDiary = await userSecameDiaryRepository.findOne({
+        where: { id: user_secame_diary_id, user_id },
+      });
+
+      if (!userSecameDiary) {
+        throw new NotFoundException('UserSecameDiary not found');
+      }
+
+      if (userSecameDiary.reward_yn === 'Y') {
+        return {
+          message: 'You have already claimed the reward.',
+        };
+      }
+
+      // 🔹 3️⃣ 사용자 데이터 조회
+      const userData = await this.usersService.getMe(user_id, qr);
+      const currentSecameDiaryRewardData =
+        await this.secameDiaryService.getSecameDiary(
+          userSecameDiary.mission_id,
+        );
+      const nextSecameDiaryId = userSecameDiary.mission_id + 1;
+      const nextSecameDiaryData =
+        await this.secameDiaryService.getSecameDiary(nextSecameDiaryId);
+
+      const heroData = await this.heroService.getHeroLevel(userData.level, qr);
+
+      // 🔹 4️⃣ 다음 다이어리 등록 로직 (한 번만 실행)
+      let shouldInsertNextDiary = false;
+
+      if (
+        currentSecameDiaryRewardData.is_repeat === 'TRUE' &&
+        nextSecameDiaryData &&
+        nextSecameDiaryData.hero_rank === heroData.rank &&
+        userData.secame_credit >= nextSecameDiaryData.credit_goal_qty
+      ) {
+        shouldInsertNextDiary = true;
+      }
+
+      if (
+        nextSecameDiaryData &&
+        userData.secame_credit >= nextSecameDiaryData.credit_goal_qty
+      ) {
+        shouldInsertNextDiary = true;
+      }
+
+      if (shouldInsertNextDiary) {
+        await userSecameDiaryRepository.insert({
+          user_id,
+          mission_id: nextSecameDiaryData.mission_id,
+        });
+      }
+
+      // 🔹 5️⃣ 보상 지급
+      const reward = await this.rewardOfferService.reward(
+        user_id,
+        currentSecameDiaryRewardData.reward_id,
+      );
+
+      // 🔹 6️⃣ `reward_yn` 업데이트
+      userSecameDiary.reward_yn = 'Y';
+      const result = await userSecameDiaryRepository.save(userSecameDiary);
+
+      // 7️⃣ 트랜잭션 커밋
+      if (!isExternalTransaction) {
+        await qr.commitTransaction();
+      }
+
       return {
-        message: 'You have already claimed the reward.',
+        user_secame_diary: result,
+        reward,
       };
+    } catch (error) {
+      if (!isExternalTransaction) {
+        await qr.rollbackTransaction();
+      }
+      throw error;
+    } finally {
+      if (!isExternalTransaction) {
+        await qr.release();
+      }
     }
-
-    const secameDiary = await this.secameDiaryService.getSecameDiary(
-      userSecameDiary.mission_id,
-      qr,
-    );
-
-    const reward = await this.rewardOfferService.reward(
-      user_id,
-      secameDiary.reward_id,
-    );
-
-    userSecameDiary.reward_yn = 'Y';
-    const result = await userSecameDiaryRepository.save(userSecameDiary);
-
-    return {
-      user_secame_diary: result,
-      reward,
-    };
   }
 }
