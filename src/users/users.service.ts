@@ -138,12 +138,6 @@ export class UsersService {
       `INSERT INTO user_equip_slot (user_id, acc, engine, armor, boost, shoes, weapon) VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [user_id, 0, 0, 0, 0, 0, 0],
     );
-
-    //secame diary
-    await this.dataSource.query(
-      `INSERT INTO user_secame_diary (user_id) VALUES (?)`,
-      [user_id],
-    );
   }
 
   async createUserID(id: number, qr?: QueryRunner) {
