@@ -80,12 +80,6 @@ export class UserSecameDiaryService {
         throw new NotFoundException('UserSecameDiary not found');
       }
 
-      // if (userSecameDiary.reward_yn === 'Y') {
-      //   return {
-      //     message: 'You have already claimed the reward.',
-      //   };
-      // }
-
       // 🔹 3️⃣ 사용자 데이터 조회
       const userData = await this.usersService.getMe(user_id, qr);
       const currentSecameDiaryData =
@@ -100,6 +94,15 @@ export class UserSecameDiaryService {
 
       const heroData = await this.heroService.getHeroLevel(userData.level, qr);
 
+      if (
+        currentSecameDiaryData.is_repeat === 'FASLE' &&
+        userSecameDiary.reward_yn === 'Y'
+      ) {
+        return {
+          message: 'You have already claimed the reward.',
+        };
+      }
+
       // 🔹 4️⃣ 다음 다이어리 등록 로직 (한 번만 실행)
       let shouldInsertNextDiary = false;
 
@@ -112,18 +115,6 @@ export class UserSecameDiaryService {
         shouldInsertNextDiary = true;
       }
 
-      console.log(
-        'currentSecameDiaryData.credit_goal_qty :',
-        currentSecameDiaryData.credit_goal_qty,
-      );
-      console.log('userData.secame_credit :', userData.secame_credit);
-
-      console.log(
-        'nextSecameDiaryData.credit_goal_qty:',
-        typeof nextSecameDiaryData.credit_goal_qty,
-      );
-
-      console.log('userData.secame_credit:', typeof userData.secame_credit);
       if (
         nextSecameDiaryData !== null &&
         nextSecameDiaryData !== undefined &&
