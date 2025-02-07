@@ -125,8 +125,10 @@ export class UserSecameDiaryService {
 
       console.log('userData.secame_credit:', typeof userData.secame_credit);
       if (
-        nextSecameDiaryData &&
-        //currentSecameDiaryData.is_repeat === 'FALSE' &&
+        nextSecameDiaryData !== null &&
+        nextSecameDiaryData !== undefined &&
+        typeof currentSecameDiaryData.credit_goal_qty === 'number' &&
+        !isNaN(userData.secame_credit) &&
         userData.secame_credit >= currentSecameDiaryData.credit_goal_qty
       ) {
         console.log('shouldInsertNextDiary : true');
