@@ -109,7 +109,7 @@ export class UserSecameDiaryService {
       if (
         nextSecameDiaryData &&
         ((currentSecameDiaryData.is_repeat === 'TRUE' &&
-          nextSecameDiaryData.hero_rank === heroData.rank &&
+          nextSecameDiaryData.hero_rank.trim() === heroData.rank.trim() &&
           userData.secame_credit >= nextSecameDiaryData.credit_goal_qty) ||
           (typeof currentSecameDiaryData.credit_goal_qty === 'number' &&
             !isNaN(userData.secame_credit) &&
