@@ -112,7 +112,8 @@ export class UserSecameDiaryService {
       ) {
         if (userSecameDiary.reward_yn === 'Y') {
           return {
-            message: ' already claimed the reward.',
+            message:
+              '반복 세카메 다이어리가 아닙니다. 보상을 이미 획득 했습니다. ',
           };
         }
         shouldInsertNextDiary = true;
