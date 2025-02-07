@@ -102,9 +102,10 @@ export class UserSecameDiaryService {
       console.log(
         'nextSecameDiaryData.hero_rank :',
         nextSecameDiaryData.hero_rank,
+        typeof nextSecameDiaryData.hero_rank,
       );
 
-      console.log('heroData.rank :', heroData.rank);
+      console.log('heroData.rank :', heroData.rank, typeof heroData.rank);
       if (
         nextSecameDiaryData &&
         ((currentSecameDiaryData.is_repeat === 'TRUE' &&
