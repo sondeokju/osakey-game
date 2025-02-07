@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { Hero } from './entities/hero.entity';
@@ -28,5 +28,22 @@ export class HeroService {
       },
     });
     return result;
+  }
+
+  async getHeroRankByExp(exp: number, qr?: QueryRunner) {
+    const heroRepository = this.getMissionMainRepository(qr);
+
+    // `exp_min`과 `exp_max` 범위 내의 rank 찾기
+    const result = await heroRepository
+      .createQueryBuilder('hero')
+      .select('hero.rank') // rank만 가져오기
+      .where('hero.exp_min <= :exp AND hero.exp_max >= :exp', { exp })
+      .getRawOne();
+
+    if (!result) {
+      throw new NotFoundException('No matching hero rank found for given EXP.');
+    }
+
+    return result.rank;
   }
 }

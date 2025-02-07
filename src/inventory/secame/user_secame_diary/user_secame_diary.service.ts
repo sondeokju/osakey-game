@@ -90,7 +90,8 @@ export class UserSecameDiaryService {
       console.log('nextSecameDiaryData:', nextSecameDiaryData);
 
       console.log('userData.level:', userData.level);
-      const heroData = await this.heroService.getHeroLevel(userData.level, qr);
+      //const heroData = await this.heroService.getHeroLevel(userData.level, qr);
+      const heroData = await this.heroService.getHeroLevel(userData.exp, qr);
       console.log('heroData.rank :', heroData.rank);
 
       // 🔹 4️⃣ 다음 다이어리 등록 로직
