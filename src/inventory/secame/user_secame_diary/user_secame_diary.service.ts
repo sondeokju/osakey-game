@@ -117,6 +117,13 @@ export class UserSecameDiaryService {
         nextSecameDiaryData,
         userData.secame_credit,
       );
+
+      console.log(
+        'nextSecameDiaryData.credit_goal_qty:',
+        typeof nextSecameDiaryData.credit_goal_qty,
+      );
+
+      console.log('userData.secame_credit:', typeof userData.secame_credit);
       if (
         nextSecameDiaryData &&
         //currentSecameDiaryData.is_repeat === 'FALSE' &&
