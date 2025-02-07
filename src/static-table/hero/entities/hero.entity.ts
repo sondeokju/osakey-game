@@ -21,7 +21,7 @@ export class Hero {
   @Column({
     default: 0,
   })
-  atribute: number;
+  attribute: number;
 
   @Column({
     default: 0,
