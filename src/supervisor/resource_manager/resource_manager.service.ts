@@ -16,69 +16,104 @@ export class ResourceManagerService {
     resources: {
       gord?: number;
       item?: { item_id: number; count: number };
-      //dia?: number;
       dia?: { amount: number; mode: 'free' | 'paid' | 'mixed' };
       exp?: number;
       battery?: number;
       secame_credit?: number;
     },
-    qr: QueryRunner,
+    qr?: QueryRunner,
   ) {
-    const userCurrency = await this.usersService.getUserMoney(user_id, qr);
+    const usersRepository = this.usersService.getUsersRepository(qr);
 
-    // 2. 아이템 체크
-    if (resources.item.count > 0) {
-      const userItemData = await this.userItemService.getItem(
-        user_id,
-        resources.item.item_id,
-        qr,
-      );
-      if (resources.item.count > userItemData.item_count) {
-        throw new BadRequestException('Not enough items.');
+    // 1️⃣ 트랜잭션 시작 (외부에서 주어진 qr이 없을 경우 생성)
+    const isExternalTransaction = !!qr;
+    if (!isExternalTransaction) {
+      qr = usersRepository.manager.connection.createQueryRunner();
+      await qr.startTransaction();
+    }
+
+    try {
+      const userCurrency = await this.usersService.getUserMoney(user_id, qr);
+
+      // 🔹 1️⃣ 아이템 체크
+      if (resources.item?.count && resources.item.count > 0) {
+        const userItemData = await this.userItemService.getItem(
+          user_id,
+          resources.item.item_id,
+          qr,
+        );
+        if (resources.item.count > userItemData.item_count) {
+          throw new BadRequestException('Not enough items.');
+        }
       }
-    }
 
-    if (resources.gord) {
-      if (resources.gord > userCurrency.gord) {
-        throw new BadRequestException('Not enough gord.');
+      // 🔹 2️⃣ 고드(Gord) 차감
+      if (resources.gord) {
+        if (resources.gord <= 0) {
+          throw new BadRequestException('Invalid gord amount.');
+        }
+        if (resources.gord > userCurrency.gord) {
+          throw new BadRequestException('Not enough gord.');
+        }
+        await this.usersService.reduceGord(user_id, resources.gord, qr);
       }
-      await this.usersService.reduceGord(user_id, resources.gord, qr);
-    }
 
-    if (resources.item.count > 0) {
-      await this.userItemService.reduceItem(
-        user_id,
-        resources.item.item_id,
-        resources.item.count,
-        qr,
-      );
-    }
+      // 🔹 3️⃣ 아이템 차감
+      if (resources.item?.count && resources.item.count > 0) {
+        await this.userItemService.reduceItem(
+          user_id,
+          resources.item.item_id,
+          resources.item.count,
+          qr,
+        );
+      }
 
-    // 3. 다이아몬드 차감 (mode: free | paid | mixed)
-    if (resources.dia && resources.dia.amount > 0) {
-      await this.usersService.deductDiamonds(
-        user_id,
-        resources.dia.amount,
-        resources.dia.mode,
-        qr,
-      );
-    }
+      // 🔹 4️⃣ 다이아몬드 차감 (mode: free | paid | mixed)
+      if (resources.dia?.amount && resources.dia.amount > 0) {
+        await this.usersService.deductDiamonds(
+          user_id,
+          resources.dia.amount,
+          resources.dia.mode,
+          qr,
+        );
+      }
 
-    // 4. 경험치 차감
-    // if (resources.exp > 0) {
-    //   if (resources.exp > userCurrency.exp) {
-    //     throw new BadRequestException('Not enough exp');
-    //   }
-    //   await this.usersService.addExp(user_id, resources.exp, qr);
-    // }
+      // 🔹 5️⃣ 경험치 차감
+      if (resources.exp) {
+        if (resources.exp <= 0) {
+          throw new BadRequestException('Invalid exp amount.');
+        }
+        if (resources.exp > userCurrency.exp) {
+          throw new BadRequestException('Not enough exp.');
+        }
+        await this.usersService.addExp(user_id, resources.exp, qr);
+      }
 
-    // 5. 세카메 크레딧
-    if (resources.secame_credit) {
-      await this.usersService.secameCreditDeduct(
-        user_id,
-        resources.secame_credit,
-        qr,
-      );
+      // 🔹 6️⃣ 세카메 크레딧 차감
+      if (resources.secame_credit) {
+        if (resources.secame_credit <= 0) {
+          throw new BadRequestException('Invalid secame credit amount.');
+        }
+        await this.usersService.secameCreditDeduct(
+          user_id,
+          resources.secame_credit,
+          qr,
+        );
+      }
+
+      // 7️⃣ 트랜잭션 커밋
+      if (!isExternalTransaction) {
+        await qr.commitTransaction();
+      }
+    } catch (error) {
+      if (!isExternalTransaction) {
+        await qr.rollbackTransaction();
+      }
+      throw error;
+    } finally {
+      if (!isExternalTransaction) {
+        await qr.release();
+      }
     }
   }
 
