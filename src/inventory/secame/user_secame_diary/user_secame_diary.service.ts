@@ -91,7 +91,7 @@ export class UserSecameDiaryService {
 
       const heroData = await this.heroService.getHeroLevel(userData.level, qr);
 
-      // 🔹 4️⃣ 다음 다이어리 등록 로직 (한 번만 실행)
+      // 🔹 4️⃣ 다음 다이어리 등록 로직
       let shouldInsertNextDiary = false;
       let isRepeatReward = false;
 
@@ -106,8 +106,7 @@ export class UserSecameDiaryService {
       }
 
       if (
-        nextSecameDiaryData !== null &&
-        nextSecameDiaryData !== undefined &&
+        nextSecameDiaryData &&
         typeof currentSecameDiaryData.credit_goal_qty === 'number' &&
         !isNaN(userData.secame_credit) &&
         userData.secame_credit >= currentSecameDiaryData.credit_goal_qty
@@ -115,14 +114,14 @@ export class UserSecameDiaryService {
         if (userSecameDiary.reward_yn === 'Y') {
           return {
             message:
-              '반복 세카메 다이어리가 아닙니다. 보상을 이미 획득 했습니다. ',
+              'This is not a repeatable Secame Diary. You have already claimed the reward.',
           };
         }
         shouldInsertNextDiary = true;
         isRepeatReward = true;
       }
 
-      if (shouldInsertNextDiary) {
+      if (shouldInsertNextDiary && nextSecameDiaryData) {
         await userSecameDiaryRepository.insert({
           user_id,
           mission_id: nextSecameDiaryData.secame_diary_id,
@@ -138,13 +137,13 @@ export class UserSecameDiaryService {
           currentSecameDiaryData.reward_id,
         );
 
-        // 🔹 6️⃣ `reward_yn` 업데이트.
+        // 🔹 6️⃣ `reward_yn` 업데이트
         userSecameDiary.reward_yn = 'Y';
         result = await userSecameDiaryRepository.save(userSecameDiary);
       } else {
         return {
           message:
-            '반복 세카메 다이어리가 아닙니다. 보상을 이미 획득 했습니다. ',
+            'This is not a repeatable Secame Diary. You have already claimed the reward.',
           user_secame_diary: {},
           reward: {},
         };
