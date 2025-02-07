@@ -37,7 +37,7 @@ export class HeroService {
     const result = await heroRepository
       .createQueryBuilder('hero')
       .select('hero.rank') // rank만 가져오기
-      .where('hero.exp_min <= :exp AND hero.exp_max >= :exp', { exp })
+      .where('hero.exp <= :exp AND hero.total_exp >= :exp', { exp })
       .getRawOne();
 
     if (!result) {
