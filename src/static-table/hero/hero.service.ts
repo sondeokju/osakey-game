@@ -36,7 +36,7 @@ export class HeroService {
     // `exp` 값이 가장 가까운 `exp` 이상을 가진 `rank` 찾기
     const result = await heroRepository
       .createQueryBuilder('hero')
-      //.select('hero.rank')
+      .select('hero.rank', 'rank')
       .where('hero.exp <= :exp', { exp }) // `exp` 이상인 rank 찾기
       .orderBy('hero.exp', 'DESC') // 가장 높은 exp를 가진 데이터 우선
       .limit(1) // 1개만 가져오기
