@@ -235,7 +235,10 @@ export class GachaDrawService {
     await this.resourceManagerService.validateAndDeductResources(
       user_id,
       {
-        dia: gachaCostData.dia_1,
+        dia: {
+          amount: gachaCostData.dia_1,
+          mode: 'mixed',
+        },
         item: {
           item_id: gachaCostData.item_id_1,
           count: gachaCostData.item_id_1_count,
