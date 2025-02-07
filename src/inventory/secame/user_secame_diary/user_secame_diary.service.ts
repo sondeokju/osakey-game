@@ -89,8 +89,7 @@ export class UserSecameDiaryService {
         await this.secameDiaryService.getSecameDiary(nextSecameDiaryId);
       console.log('nextSecameDiaryData:', nextSecameDiaryData);
 
-      console.log('userData.level:', userData.level);
-      //const heroData = await this.heroService.getHeroLevel(userData.level, qr);
+      console.log('userData.exp:', userData.exp);
       const heroData = await this.heroService.getHeroRankByExp(
         userData.exp,
         qr,
