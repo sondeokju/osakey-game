@@ -110,7 +110,11 @@ export class UserSecameDiaryService {
         !isNaN(userData.secame_credit) &&
         userData.secame_credit >= currentSecameDiaryData.credit_goal_qty
       ) {
-        console.log('shouldInsertNextDiary : true');
+        if (userSecameDiary.reward_yn === 'Y') {
+          return {
+            message: ' already claimed the reward.',
+          };
+        }
         shouldInsertNextDiary = true;
       }
 
