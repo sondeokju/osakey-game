@@ -20,7 +20,7 @@ export class ResourceManagerService {
       dia?: { amount: number; mode: 'free' | 'paid' | 'mixed' };
       exp?: number;
       battery?: number;
-      coin?: number;
+      secame_credit?: number;
     },
     qr: QueryRunner,
   ) {
@@ -67,15 +67,6 @@ export class ResourceManagerService {
       );
     }
 
-    // // 3. 다이아몬드 차감
-    // if (resources.dia > 0) {
-    //   if (resources.dia > userCurrency.diamond_free) {
-    //     throw new BadRequestException('Not enough dia.');
-    //   }
-    //   await this.usersService.deductDiamonds(user_id, resources.dia, mode, qr);
-    //   //await this.usersService.reduceDiamondFree(user_id, resources.dia, qr);
-    // }
-
     // 4. 경험치 차감
     if (resources.exp > 0) {
       if (resources.exp > userCurrency.exp) {
@@ -84,21 +75,17 @@ export class ResourceManagerService {
       await this.usersService.addExp(user_id, resources.exp, qr);
     }
 
-    // 5. 배터리 차감
-    // if (resources.battery) {
-    //   if (resources.battery > userBattery) {
-    //     throw new BadRequestException('Not enough battery.');
-    //   }
-    //   await this.usersService.reduceBattery(user_id, resources.battery, qr);
-    // }
-
-    // 6. 코인 차감
-    // if (resources.coin) {
-    //   if (resources.coin > userCoin) {
-    //     throw new BadRequestException('Not enough coins.');
-    //   }
-    //   await this.usersService.reduceCoin(user_id, resources.coin, qr);
-    // }
+    // 5. 세카메 크레딧
+    if (resources.secame_credit) {
+      if (resources.secame_credit > userCurrency.secame_credit) {
+        throw new BadRequestException('Not enough coins.');
+      }
+      await this.usersService.secameCreditDeduct(
+        user_id,
+        resources.secame_credit,
+        qr,
+      );
+    }
   }
 
   async validateAndAddResources(

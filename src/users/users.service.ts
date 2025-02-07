@@ -530,12 +530,15 @@ export class UsersService {
 
     if (mode === 'free') {
       // 무료 다이아만 차감
+      //throw new BadRequestException('Not enough free dia');
       diamondFree = Math.max(0, diamondFree - amount);
     } else if (mode === 'paid') {
       // 유료 다이아만 차감
+      //throw new BadRequestException('Not enough free dia');
       diamondPaid = Math.max(0, diamondPaid - amount);
     } else if (mode === 'mixed') {
       // 무료 다이아 먼저 차감 후 부족하면 유료 다이아에서 차감
+      //throw new BadRequestException('Not enough free dia');
       if (diamondFree >= amount) {
         diamondFree -= amount;
       } else {
@@ -1216,6 +1219,26 @@ export class UsersService {
     });
 
     userData.secame_credit += +secame_credit;
+    const result = await usersRepository.save({
+      ...userData,
+    });
+
+    return result;
+  }
+
+  async secameCreditDeduct(
+    user_id: string,
+    secame_credit: number,
+    qr?: QueryRunner,
+  ) {
+    const usersRepository = this.getUsersRepository(qr);
+    const userData = await usersRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    userData.secame_credit -= +secame_credit;
     const result = await usersRepository.save({
       ...userData,
     });
