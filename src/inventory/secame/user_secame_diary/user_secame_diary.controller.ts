@@ -42,12 +42,11 @@ export class UserSecameDiaryController {
   @UseInterceptors(TransactionInterceptor)
   async secameDiaryReward(
     @User() user: Users,
-    @Body('user_secame_diary_id') user_secame_diary_id: number,
+    //@Body('user_secame_diary_id') user_secame_diary_id: number,
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userSecameDiaryService.secameDiaryReward(
       user.user_id,
-      user_secame_diary_id,
       qr,
     );
 

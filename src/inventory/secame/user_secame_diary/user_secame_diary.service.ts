@@ -56,11 +56,7 @@ export class UserSecameDiaryService {
     return result;
   }
 
-  async secameDiaryReward(
-    user_id: string,
-    user_secame_diary_id: number,
-    qr?: QueryRunner,
-  ) {
+  async secameDiaryReward(user_id: string, qr?: QueryRunner) {
     const userSecameDiaryRepository = this.getUserSecameDiaryRepository(qr);
 
     // 1️⃣ 트랜잭션 시작
