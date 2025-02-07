@@ -141,6 +141,13 @@ export class UserSecameDiaryService {
         // 🔹 6️⃣ `reward_yn` 업데이트.
         userSecameDiary.reward_yn = 'Y';
         result = await userSecameDiaryRepository.save(userSecameDiary);
+      } else {
+        return {
+          message:
+            '반복 세카메 다이어리가 아닙니다. 보상을 이미 획득 했습니다. ',
+          user_secame_diary: {},
+          reward: {},
+        };
       }
 
       // 7️⃣ 트랜잭션 커밋
