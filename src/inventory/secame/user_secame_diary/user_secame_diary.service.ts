@@ -89,11 +89,19 @@ export class UserSecameDiaryService {
         await this.secameDiaryService.getSecameDiary(nextSecameDiaryId);
       console.log('nextSecameDiaryData:', nextSecameDiaryData);
 
+      console.log('userData.level:', userData.level);
       const heroData = await this.heroService.getHeroLevel(userData.level, qr);
+      console.log('heroData.rank :', heroData.rank);
 
       // 🔹 4️⃣ 다음 다이어리 등록 로직
       let shouldInsertNextDiary = false;
       let isRepeatReward = false;
+      console.log(
+        'nextSecameDiaryData.hero_rank :',
+        nextSecameDiaryData.hero_rank,
+      );
+
+      console.log('heroData.rank :', heroData.rank);
       if (
         nextSecameDiaryData &&
         ((currentSecameDiaryData.is_repeat === 'TRUE' &&
