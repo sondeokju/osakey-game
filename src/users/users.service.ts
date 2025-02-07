@@ -517,6 +517,98 @@ export class UsersService {
     qr?: QueryRunner,
   ) {
     const usersRepository = this.getUsersRepository(qr);
+
+    // 🔹 1️⃣ 트랜잭션 시작
+    const isExternalTransaction = !!qr;
+    if (!isExternalTransaction) {
+      qr = usersRepository.manager.connection.createQueryRunner();
+      await qr.startTransaction();
+    }
+
+    try {
+      // 🔹 2️⃣ 사용자 데이터 조회 + 잠금 획득 (동시 업데이트 방지)
+      const user = await qr.manager.query(
+        `SELECT * FROM users WHERE user_id = ? FOR UPDATE`,
+        [user_id],
+      );
+
+      if (!user.length) {
+        throw new Error('User not found');
+      }
+
+      let diamondFree = user[0].diamond_free;
+      let diamondPaid = user[0].diamond_paid;
+
+      // 🔹 3️⃣ 차감 로직 적용
+      if (mode === 'free') {
+        if (amount > diamondFree) {
+          throw new BadRequestException('Not enough free dia');
+        }
+        diamondFree -= amount;
+      } else if (mode === 'paid') {
+        if (amount > diamondPaid) {
+          throw new BadRequestException('Not enough paid dia');
+        }
+        diamondPaid -= amount;
+      } else if (mode === 'mixed') {
+        const dia_sum = diamondFree + diamondPaid;
+        if (amount > dia_sum) {
+          throw new BadRequestException('Not enough dia');
+        }
+        if (diamondFree >= amount) {
+          diamondFree -= amount;
+        } else {
+          const remaining = amount - diamondFree;
+          diamondFree = 0;
+          diamondPaid -= remaining;
+        }
+      } else {
+        throw new Error('Invalid mode');
+      }
+
+      // 🔹 4️⃣ 업데이트 실행 (기존 값과 비교 후 변경)
+      const updateResult = await qr.manager.query(
+        `UPDATE users SET diamond_free = ?, diamond_paid = ?, update_at = CURRENT_TIMESTAMP
+       WHERE user_id = ? AND diamond_free = ? AND diamond_paid = ?`,
+        [
+          diamondFree,
+          diamondPaid,
+          user_id,
+          user[0].diamond_free,
+          user[0].diamond_paid,
+        ],
+      );
+
+      if (updateResult.affectedRows === 0) {
+        throw new Error('Update failed due to concurrent modification.');
+      }
+
+      // 🔹 5️⃣ 트랜잭션 커밋
+      if (!isExternalTransaction) {
+        await qr.commitTransaction();
+      }
+
+      // 🔹 6️⃣ 갱신된 데이터 반환
+      return { user_id, diamond_free: diamondFree, diamond_paid: diamondPaid };
+    } catch (error) {
+      if (!isExternalTransaction) {
+        await qr.rollbackTransaction();
+      }
+      throw error;
+    } finally {
+      if (!isExternalTransaction) {
+        await qr.release();
+      }
+    }
+  }
+
+  async deductDiamonds2(
+    user_id: string,
+    amount: number,
+    mode: 'free' | 'paid' | 'mixed',
+    qr?: QueryRunner,
+  ) {
+    const usersRepository = this.getUsersRepository(qr);
     const user = await usersRepository.findOne({
       where: { user_id },
     });
