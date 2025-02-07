@@ -88,7 +88,7 @@ export class UserSecameDiaryService {
 
       // 🔹 3️⃣ 사용자 데이터 조회
       const userData = await this.usersService.getMe(user_id, qr);
-      const currentSecameDiaryRewardData =
+      const currentSecameDiaryData =
         await this.secameDiaryService.getSecameDiary(
           userSecameDiary.mission_id,
         );
@@ -102,7 +102,7 @@ export class UserSecameDiaryService {
       let shouldInsertNextDiary = false;
 
       if (
-        currentSecameDiaryRewardData.is_repeat === 'TRUE' &&
+        currentSecameDiaryData.is_repeat === 'TRUE' &&
         nextSecameDiaryData &&
         nextSecameDiaryData.hero_rank === heroData.rank &&
         userData.secame_credit >= nextSecameDiaryData.credit_goal_qty
@@ -117,7 +117,7 @@ export class UserSecameDiaryService {
       );
       if (
         nextSecameDiaryData &&
-        userData.secame_credit >= currentSecameDiaryRewardData.credit_goal_qty
+        userData.secame_credit >= currentSecameDiaryData.credit_goal_qty
       ) {
         shouldInsertNextDiary = true;
       }
@@ -132,7 +132,7 @@ export class UserSecameDiaryService {
       // 🔹 5️⃣ 보상 지급
       const reward = await this.rewardOfferService.reward(
         user_id,
-        currentSecameDiaryRewardData.reward_id,
+        currentSecameDiaryData.reward_id,
       );
 
       // 🔹 6️⃣ `reward_yn` 업데이트.
