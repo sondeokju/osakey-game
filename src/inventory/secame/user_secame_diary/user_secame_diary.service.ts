@@ -110,6 +110,11 @@ export class UserSecameDiaryService {
         shouldInsertNextDiary = true;
       }
 
+      console.log(
+        'shouldInsertNextDiary :',
+        nextSecameDiaryData,
+        userData.secame_credit,
+      );
       if (
         nextSecameDiaryData &&
         userData.secame_credit >= nextSecameDiaryData.credit_goal_qty
@@ -130,7 +135,7 @@ export class UserSecameDiaryService {
         currentSecameDiaryRewardData.reward_id,
       );
 
-      // 🔹 6️⃣ `reward_yn` 업데이트
+      // 🔹 6️⃣ `reward_yn` 업데이트.
       userSecameDiary.reward_yn = 'Y';
       const result = await userSecameDiaryRepository.save(userSecameDiary);
 
