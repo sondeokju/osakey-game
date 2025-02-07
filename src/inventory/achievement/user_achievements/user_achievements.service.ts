@@ -66,6 +66,7 @@ export class UserAchievementsService {
 
       if (progress_status === 'Y') {
         userAchieve.progress_status = progress_status;
+        userAchieve.achieve_count += +achieve_count;
         userAchieve.complete_date = new Date();
       } else {
         userAchieve.achieve_count += +achieve_count;
