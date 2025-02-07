@@ -73,7 +73,8 @@ export class UserSecameDiaryService {
     try {
       // 🔹 2️⃣ 현재 다이어리 조회
       const userSecameDiary = await userSecameDiaryRepository.findOne({
-        where: { id: user_secame_diary_id, user_id },
+        where: { user_id },
+        order: { mission_id: 'DESC' }, // 내림차순 정렬
       });
 
       if (!userSecameDiary) {
@@ -93,25 +94,6 @@ export class UserSecameDiaryService {
       console.log('nextSecameDiaryData:', nextSecameDiaryData);
 
       const heroData = await this.heroService.getHeroLevel(userData.level, qr);
-
-      console.log(
-        'currentSecameDiaryData.is_repeat:',
-        currentSecameDiaryData.is_repeat,
-        typeof currentSecameDiaryData.is_repeat,
-      );
-      console.log(
-        'userSecameDiary.reward_yn:',
-        userSecameDiary.reward_yn,
-        typeof userSecameDiary.reward_yn,
-      );
-      if (
-        currentSecameDiaryData.is_repeat === 'FALSE' &&
-        userSecameDiary.reward_yn === 'Y'
-      ) {
-        return {
-          message: 'You have already claimed the reward.',
-        };
-      }
 
       // 🔹 4️⃣ 다음 다이어리 등록 로직 (한 번만 실행)
       let shouldInsertNextDiary = false;
