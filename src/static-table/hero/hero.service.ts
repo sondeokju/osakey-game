@@ -38,7 +38,7 @@ export class HeroService {
       .createQueryBuilder('hero')
       //.select('hero.rank')
       .where('hero.exp <= :exp', { exp }) // `exp` 이상인 rank 찾기
-      .orderBy('hero.exp', 'ASC') // 가장 높은 exp를 가진 데이터 우선
+      .orderBy('hero.exp', 'DESC') // 가장 높은 exp를 가진 데이터 우선
       .limit(1) // 1개만 가져오기
       .getRawOne();
 
