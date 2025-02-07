@@ -80,11 +80,11 @@ export class UserSecameDiaryService {
         throw new NotFoundException('UserSecameDiary not found');
       }
 
-      if (userSecameDiary.reward_yn === 'Y') {
-        return {
-          message: 'You have already claimed the reward.',
-        };
-      }
+      // if (userSecameDiary.reward_yn === 'Y') {
+      //   return {
+      //     message: 'You have already claimed the reward.',
+      //   };
+      // }
 
       // 🔹 3️⃣ 사용자 데이터 조회
       const userData = await this.usersService.getMe(user_id, qr);
