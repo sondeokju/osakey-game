@@ -117,7 +117,7 @@ export class UserSecameDiaryService {
       );
       if (
         nextSecameDiaryData &&
-        userData.secame_credit >= nextSecameDiaryData.credit_goal_qty
+        userData.secame_credit >= currentSecameDiaryRewardData.credit_goal_qty
       ) {
         shouldInsertNextDiary = true;
       }
