@@ -97,8 +97,13 @@ export class UserSecameDiaryService {
       console.log(
         'currentSecameDiaryData.is_repeat:',
         currentSecameDiaryData.is_repeat,
+        typeof currentSecameDiaryData.is_repeat,
       );
-      console.log('userSecameDiary.reward_yn:', userSecameDiary.reward_yn);
+      console.log(
+        'userSecameDiary.reward_yn:',
+        userSecameDiary.reward_yn,
+        typeof userSecameDiary.reward_yn,
+      );
       if (
         currentSecameDiaryData.is_repeat === 'FASLE' &&
         userSecameDiary.reward_yn === 'Y'
