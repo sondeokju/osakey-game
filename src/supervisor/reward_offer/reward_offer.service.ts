@@ -251,17 +251,9 @@ export class RewardOfferService {
         console.log('revive_coin');
         updatedData.revive_coin = updatedData.revive_coin + qty;
         break;
-      // case 'seca_coin':
-      //   updatedData.seca_coin = updatedData.seca_coin + qty;
-      //   break;
-      // default:
-      //   response = 'Unknown item type.';
-      //   break;
     }
 
-    await usersRepository.save(updatedData);
-
-    return true;
+    return await usersRepository.save(updatedData);
   }
 
   async rewardCurrencyAll(

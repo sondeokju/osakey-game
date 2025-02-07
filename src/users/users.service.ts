@@ -529,16 +529,20 @@ export class UsersService {
     let diamondPaid = user.diamond_paid;
 
     if (mode === 'free') {
-      // 무료 다이아만 차감
-      //throw new BadRequestException('Not enough free dia');
+      if (amount > user.diamond_free) {
+        throw new BadRequestException('Not enough free dia');
+      }
       diamondFree = Math.max(0, diamondFree - amount);
     } else if (mode === 'paid') {
-      // 유료 다이아만 차감
-      //throw new BadRequestException('Not enough free dia');
+      if (amount > user.diamond_paid) {
+        throw new BadRequestException('Not enough paid dia');
+      }
       diamondPaid = Math.max(0, diamondPaid - amount);
     } else if (mode === 'mixed') {
-      // 무료 다이아 먼저 차감 후 부족하면 유료 다이아에서 차감
-      //throw new BadRequestException('Not enough free dia');
+      const dia_sum = user.diamond_free + user.diamond_paid;
+      if (amount > dia_sum) {
+        throw new BadRequestException('Not enough dia');
+      }
       if (diamondFree >= amount) {
         diamondFree -= amount;
       } else {
@@ -591,16 +595,18 @@ export class UsersService {
 
   async reduceGord(user_id: string, gord: number, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
-    const userData = await usersRepository.findOne({
-      where: {
-        user_id,
-      },
-    });
+    const user = await usersRepository.findOne({ where: { user_id } });
 
-    await usersRepository.save({
-      ...userData,
-      gord: userData.gord - gord,
-    });
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    if (user.gord < gord) {
+      throw new BadRequestException('Not enough gord.');
+    }
+
+    // `gord` 차감 후 업데이트
+    await usersRepository.update(user_id, { gord: user.gord - gord });
 
     return true;
   }
@@ -1212,37 +1218,39 @@ export class UsersService {
     qr?: QueryRunner,
   ) {
     const usersRepository = this.getUsersRepository(qr);
-    const userData = await usersRepository.findOne({
-      where: {
-        user_id,
-      },
-    });
+    const user = await usersRepository.findOne({ where: { user_id } });
 
-    userData.secame_credit += +secame_credit;
-    const result = await usersRepository.save({
-      ...userData,
-    });
+    if (!user) {
+      throw new Error('User not found');
+    }
 
-    return result;
+    const newCredit = user.secame_credit + secame_credit;
+
+    await usersRepository.update(user_id, { secame_credit: newCredit });
+
+    return await usersRepository.findOne({ where: { user_id } });
   }
 
-  async secameCreditDeduct(
-    user_id: string,
-    secame_credit: number,
-    qr?: QueryRunner,
-  ) {
+  async secameCreditDeduct(user_id: string, amount: number, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
-    const userData = await usersRepository.findOne({
-      where: {
-        user_id,
-      },
+    const user = await usersRepository.findOne({
+      where: { user_id },
     });
 
-    userData.secame_credit -= +secame_credit;
-    const result = await usersRepository.save({
-      ...userData,
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    if (user.secame_credit < amount) {
+      throw new BadRequestException('Not enough secame credit.');
+    }
+
+    await usersRepository.update(user_id, {
+      secame_credit: user.secame_credit - amount,
     });
 
-    return result;
+    return await usersRepository.findOne({
+      where: { user_id },
+    });
   }
 }
