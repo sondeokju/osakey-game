@@ -94,22 +94,14 @@ export class UserSecameDiaryService {
       // 🔹 4️⃣ 다음 다이어리 등록 로직
       let shouldInsertNextDiary = false;
       let isRepeatReward = false;
-
-      if (
-        currentSecameDiaryData.is_repeat === 'TRUE' &&
-        nextSecameDiaryData &&
-        nextSecameDiaryData.hero_rank === heroData.rank &&
-        userData.secame_credit >= nextSecameDiaryData.credit_goal_qty
-      ) {
-        shouldInsertNextDiary = true;
-        isRepeatReward = true;
-      }
-
       if (
         nextSecameDiaryData &&
-        typeof currentSecameDiaryData.credit_goal_qty === 'number' &&
-        !isNaN(userData.secame_credit) &&
-        userData.secame_credit >= currentSecameDiaryData.credit_goal_qty
+        ((currentSecameDiaryData.is_repeat === 'TRUE' &&
+          nextSecameDiaryData.hero_rank === heroData.rank &&
+          userData.secame_credit >= nextSecameDiaryData.credit_goal_qty) ||
+          (typeof currentSecameDiaryData.credit_goal_qty === 'number' &&
+            !isNaN(userData.secame_credit) &&
+            userData.secame_credit >= currentSecameDiaryData.credit_goal_qty))
       ) {
         if (userSecameDiary.reward_yn === 'Y') {
           return {
@@ -117,6 +109,7 @@ export class UserSecameDiaryService {
               'This is not a repeatable Secame Diary. You have already claimed the reward.',
           };
         }
+
         shouldInsertNextDiary = true;
         isRepeatReward = true;
       }
