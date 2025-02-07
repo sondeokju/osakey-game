@@ -24,7 +24,7 @@ export class UserMissionService {
       : this.userMissionRepository;
   }
 
-  async deleteMission(
+  async clearMission(
     user_id: string,
     user_mission_id: number,
     qr?: QueryRunner,
@@ -38,10 +38,10 @@ export class UserMissionService {
 
     const userMissionRepository = this.getUserMissionRepository(qr);
 
-    await userMissionRepository.delete({
-      id: user_mission_id,
-      user_id,
-    });
+    await userMissionRepository.update(
+      { id: user_mission_id, user_id }, // 조건
+      { clear_count: () => 'clear_count + 1' }, // `clear_count` 증가
+    );
 
     const result = await userMissionRepository.find({
       where: {
