@@ -10,7 +10,7 @@ import { EduListService } from 'src/static-table/edu/edu_list/edu_list.service';
 import { EduCurriculumService } from 'src/static-table/edu/edu_curriculum/edu_curriculum.service';
 import { EduReduceTimeService } from 'src/static-table/edu/edu_reduce_time/edu_reduce_time.service';
 import { ItemService } from 'src/static-table/item/item.service';
-import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
+//import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { UsersService } from 'src/users/users.service';
 
@@ -23,7 +23,7 @@ export class UserEduStatsService {
     private readonly eduCurriculumService: EduCurriculumService,
     private readonly eduReduceTimeService: EduReduceTimeService,
     private readonly itemService: ItemService,
-    private readonly rewardOfferService: RewardOfferService,
+    //private readonly rewardOfferService: RewardOfferService,
     private readonly userItemService: UserItemService,
     private readonly usersService: UsersService,
   ) {}
@@ -286,12 +286,6 @@ export class UserEduStatsService {
       'free',
       qr,
     );
-
-    // await this.usersService.reduceDiamondFree(
-    //   user_id,
-    //   eduReduceTime.diamond_free,
-    //   qr,
-    // );
 
     // Update education end date
     const eduEndDate = new Date(userEduStats.edu_end_date);

@@ -16,7 +16,8 @@ export class ResourceManagerService {
     resources: {
       gord?: number;
       item?: { item_id: number; count: number };
-      dia?: number;
+      //dia?: number;
+      dia?: { amount: number; mode: 'free' | 'paid' | 'mixed' };
       exp?: number;
       battery?: number;
       coin?: number;
@@ -56,13 +57,24 @@ export class ResourceManagerService {
       );
     }
 
-    // 3. 다이아몬드 차감
-    if (resources.dia > 0) {
-      if (resources.dia > userCurrency.diamond_free) {
-        throw new BadRequestException('Not enough dia.');
-      }
-      await this.usersService.reduceDiamondFree(user_id, resources.dia, qr);
+    // 3. 다이아몬드 차감 (mode: free | paid | mixed)
+    if (resources.dia && resources.dia.amount > 0) {
+      await this.usersService.deductDiamonds(
+        user_id,
+        resources.dia.amount,
+        resources.dia.mode,
+        qr,
+      );
     }
+
+    // // 3. 다이아몬드 차감
+    // if (resources.dia > 0) {
+    //   if (resources.dia > userCurrency.diamond_free) {
+    //     throw new BadRequestException('Not enough dia.');
+    //   }
+    //   await this.usersService.deductDiamonds(user_id, resources.dia, mode, qr);
+    //   //await this.usersService.reduceDiamondFree(user_id, resources.dia, qr);
+    // }
 
     // 4. 경험치 차감
     if (resources.exp > 0) {

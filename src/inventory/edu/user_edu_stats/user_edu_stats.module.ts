@@ -11,7 +11,7 @@ import { EduReduceTimeService } from 'src/static-table/edu/edu_reduce_time/edu_r
 import { EduReduceTime } from 'src/static-table/edu/edu_reduce_time/entities/edu_reduce_time.entity';
 import { Item } from 'src/static-table/item/entities/item.entity';
 import { ItemService } from 'src/static-table/item/item.service';
-import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
+//import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { RewardService } from 'src/static-table/reward/reward.service';
 import { Reward } from 'src/static-table/reward/entities/reward.entity';
 import { UsersService } from 'src/users/users.service';
@@ -44,7 +44,7 @@ import { UserItemService } from 'src/user_item/user_item.service';
     EduCurriculumService,
     EduReduceTimeService,
     ItemService,
-    RewardOfferService,
+    //RewardOfferService,
     RewardService,
     UsersService,
     UserItemService,
