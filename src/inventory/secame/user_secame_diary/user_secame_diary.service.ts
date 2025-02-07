@@ -113,10 +113,10 @@ export class UserSecameDiaryService {
       }
 
       console.log(
-        'shouldInsertNextDiary :',
-        nextSecameDiaryData,
-        userData.secame_credit,
+        'currentSecameDiaryData.credit_goal_qty :',
+        currentSecameDiaryData.credit_goal_qty,
       );
+      console.log('userData.secame_credit :', userData.secame_credit);
 
       console.log(
         'nextSecameDiaryData.credit_goal_qty:',
