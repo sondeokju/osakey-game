@@ -36,7 +36,7 @@ export class HeroService {
     // `exp`가 해당 레벨의 `exp` 이상이고 `total_exp` 이하인 rank 찾기
     const result = await heroRepository
       .createQueryBuilder('hero')
-      .select('hero.rank') // rank만 가져오기
+      .select('') // rank만 가져오기
       .where(':exp BETWEEN hero.exp AND hero.total_exp', { exp })
       .getRawOne();
 
