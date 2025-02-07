@@ -147,12 +147,12 @@ export class UserSecameDiaryService {
         userSecameDiary.reward_yn = 'Y';
         result = await userSecameDiaryRepository.save(userSecameDiary);
       } else {
-        return {
-          message:
-            'This is not a repeatable Secame Diary. You have already claimed the reward.',
-          user_secame_diary: {},
-          reward: {},
-        };
+        // return {
+        //   message:
+        //     'This is not a repeatable Secame Diary. You have already claimed the reward.',
+        //   user_secame_diary: {},
+        //   reward: {},
+        // };
       }
 
       // 7️⃣ 트랜잭션 커밋
