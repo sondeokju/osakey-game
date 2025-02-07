@@ -510,6 +510,56 @@ export class UsersService {
     return result;
   }
 
+  async deductDiamonds(
+    user_id: string,
+    amount: number,
+    mode: 'free' | 'paid' | 'mixed',
+    qr?: QueryRunner,
+  ) {
+    const usersRepository = this.getUsersRepository(qr);
+    const user = await usersRepository.findOne({
+      where: { user_id },
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    let diamondFree = user.diamond_free;
+    let diamondPaid = user.diamond_paid;
+
+    if (mode === 'free') {
+      // 무료 다이아만 차감
+      diamondFree = Math.max(0, diamondFree - amount);
+    } else if (mode === 'paid') {
+      // 유료 다이아만 차감
+      diamondPaid = Math.max(0, diamondPaid - amount);
+    } else if (mode === 'mixed') {
+      // 무료 다이아 먼저 차감 후 부족하면 유료 다이아에서 차감
+      if (diamondFree >= amount) {
+        diamondFree -= amount;
+      } else {
+        const remaining = amount - diamondFree;
+        diamondFree = 0;
+        diamondPaid = Math.max(0, diamondPaid - remaining);
+      }
+    } else {
+      throw new Error('Invalid mode');
+    }
+
+    // DB 업데이트
+    await this.usersRepository.update(user_id, {
+      diamond_free: diamondFree,
+      diamond_paid: diamondPaid,
+    });
+
+    const result = await usersRepository.findOne({
+      where: { user_id },
+    });
+
+    return result;
+  }
+
   async reduceDiamondFree(
     user_id: string,
     diamond_free: number,

@@ -280,11 +280,18 @@ export class UserEduStatsService {
     }
     await this.usersService.reduceGord(user_id, eduReduceTime.gord, qr);
 
-    await this.usersService.reduceDiamondFree(
+    await this.usersService.deductDiamonds(
       user_id,
       eduReduceTime.diamond_free,
+      'free',
       qr,
     );
+
+    // await this.usersService.reduceDiamondFree(
+    //   user_id,
+    //   eduReduceTime.diamond_free,
+    //   qr,
+    // );
 
     // Update education end date
     const eduEndDate = new Date(userEduStats.edu_end_date);
