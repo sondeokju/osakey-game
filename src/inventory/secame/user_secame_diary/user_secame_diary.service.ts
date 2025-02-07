@@ -93,6 +93,7 @@ export class UserSecameDiaryService {
 
       // 🔹 4️⃣ 다음 다이어리 등록 로직 (한 번만 실행)
       let shouldInsertNextDiary = false;
+      let isRepeatReward = false;
 
       if (
         currentSecameDiaryData.is_repeat === 'TRUE' &&
@@ -101,6 +102,7 @@ export class UserSecameDiaryService {
         userData.secame_credit >= nextSecameDiaryData.credit_goal_qty
       ) {
         shouldInsertNextDiary = true;
+        isRepeatReward = true;
       }
 
       if (
@@ -117,6 +119,7 @@ export class UserSecameDiaryService {
           };
         }
         shouldInsertNextDiary = true;
+        isRepeatReward = true;
       }
 
       if (shouldInsertNextDiary) {
@@ -126,15 +129,19 @@ export class UserSecameDiaryService {
         });
       }
 
-      // 🔹 5️⃣ 보상 지급
-      const reward = await this.rewardOfferService.reward(
-        user_id,
-        currentSecameDiaryData.reward_id,
-      );
+      let reward;
+      let result;
+      if (isRepeatReward) {
+        // 🔹 5️⃣ 보상 지급
+        reward = await this.rewardOfferService.reward(
+          user_id,
+          currentSecameDiaryData.reward_id,
+        );
 
-      // 🔹 6️⃣ `reward_yn` 업데이트.
-      userSecameDiary.reward_yn = 'Y';
-      const result = await userSecameDiaryRepository.save(userSecameDiary);
+        // 🔹 6️⃣ `reward_yn` 업데이트.
+        userSecameDiary.reward_yn = 'Y';
+        result = await userSecameDiaryRepository.save(userSecameDiary);
+      }
 
       // 7️⃣ 트랜잭션 커밋
       if (!isExternalTransaction) {
