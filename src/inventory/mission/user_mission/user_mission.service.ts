@@ -99,6 +99,7 @@ export class UserMissionService {
     let userMission = await userMissionRepository.findOne({
       where: {
         user_id,
+        mission_id,
       },
     });
 
