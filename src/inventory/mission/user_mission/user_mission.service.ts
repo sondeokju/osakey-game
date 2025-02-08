@@ -115,8 +115,13 @@ export class UserMissionService {
       //userMission.clear_count += +clear_count; // 기존 값에 새로운 clear_count 더하기
     }
 
-    const savedMission = await userMissionRepository.save(userMission);
-    return savedMission;
+    await userMissionRepository.save(userMission);
+    const result = await userMissionRepository.find({
+      where: {
+        user_id,
+      },
+    });
+    return result;
   }
 
   async missionTry(
