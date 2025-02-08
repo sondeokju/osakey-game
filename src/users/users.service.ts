@@ -8,7 +8,6 @@ import Redis from 'ioredis';
 import { HeroService } from 'src/static-table/hero/hero.service';
 import { User } from './decorator/user.decorator';
 import { randomBytes } from 'crypto';
-import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 
 @Injectable()
 export class UsersService {
@@ -19,7 +18,6 @@ export class UsersService {
     private readonly usersRepository: Repository<Users>,
     //private readonly redisService: RedisService,
     private readonly heroService: HeroService,
-    private readonly rewardOfferService: RewardOfferService,
     private readonly dataSource: DataSource,
   ) {
     //this.redisClient = redisService.getClient();
@@ -1059,21 +1057,21 @@ export class UsersService {
     if (currentExp >= heroLevelData.total_exp) {
       updateLevel = currentLevel + 1;
     }
-    const rewardData = await this.rewardOfferService.reward(
-      user_id,
-      heroLevelData.reward_id,
-      qr,
-    );
+    // const rewardData = await this.rewardOfferService.reward(
+    //   user_id,
+    //   heroLevelData.reward_id,
+    //   qr,
+    // );
 
-    if (!rewardData) {
-      throw new BadRequestException('Failed to process reward.');
-    }
+    // if (!rewardData) {
+    //   throw new BadRequestException('Failed to process reward.');
+    // }
 
     userData.level = updateLevel;
     const updatedUserData = await usersRepository.save(userData);
 
     return {
-      reward: rewardData,
+      //reward: rewardData,
       updatedUserData: updatedUserData,
     };
   }
