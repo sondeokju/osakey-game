@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HeroService } from 'src/static-table/hero/hero.service';
+import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { UsersService } from 'src/users/users.service';
 import { QueryRunner, Repository } from 'typeorm';
 
@@ -13,6 +14,7 @@ export class UserHeroService {
   constructor(
     private readonly usersService: UsersService,
     private readonly heroService: HeroService,
+    private readonly rewardOfferService: RewardOfferService,
   ) {}
 
   async heroLevelUp(user_id: string, qr?: QueryRunner) {
