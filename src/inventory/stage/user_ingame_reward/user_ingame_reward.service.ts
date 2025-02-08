@@ -14,6 +14,7 @@ import { PuzzleStageService } from 'src/static-table/stage/puzzle_stage/puzzle_s
 import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager.service';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { BountyStageService } from 'src/static-table/stage/bounty_stage/bounty_stage.service';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class UserIngameRewardService {
@@ -25,6 +26,7 @@ export class UserIngameRewardService {
     private readonly puzzleStageService: PuzzleStageService,
     private readonly bountyStageService: BountyStageService,
     private readonly rewardOfferService: RewardOfferService,
+    private readonly dataSource: DataSource,
   ) {}
 
   getUserIngameRewardRepository(qr?: QueryRunner) {
@@ -51,6 +53,7 @@ export class UserIngameRewardService {
     stage_id: number,
     stage_clear_yn: string,
     secame_credit: number,
+    mission_id: number,
     qr?: QueryRunner,
   ) {
     let rewardData = {};
@@ -123,6 +126,8 @@ export class UserIngameRewardService {
       qr,
     );
 
+    await this.incrementMissionClearCount(user_id, mission_id);
+
     const newReward = userIngameRewardRepository.create({
       user_id,
       game_mode,
@@ -136,10 +141,20 @@ export class UserIngameRewardService {
     const result = await userIngameRewardRepository.save(newReward);
 
     return {
+      mission_id,
       secame_credit,
       reward,
       result,
     };
+  }
+
+  async incrementMissionClearCount(user_id: string, mission_id: number) {
+    await this.dataSource.query(
+      `UPDATE user_mission 
+     SET clear_count = clear_count + 1 
+     WHERE user_id = ? AND mission_id = ?`,
+      [user_id, mission_id],
+    );
   }
 
   async calculateRewards(
