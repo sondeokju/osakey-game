@@ -29,6 +29,7 @@ export class UserIngameRewardController {
     @Body('game_mode') game_mode: string,
     @Body('stage_id') stage_id: number,
     @Body('stage_clear_yn') stage_clear_yn: string,
+    @Body('secame_credit') secame_credit: number,
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userIngameRewardService.stageReward(
@@ -36,6 +37,7 @@ export class UserIngameRewardController {
       game_mode,
       stage_id,
       stage_clear_yn,
+      secame_credit,
       qr,
     );
 

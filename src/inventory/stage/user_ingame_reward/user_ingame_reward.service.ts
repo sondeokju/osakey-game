@@ -50,6 +50,7 @@ export class UserIngameRewardService {
     game_mode: string,
     stage_id: number,
     stage_clear_yn: string,
+    secame_credit: number,
     qr?: QueryRunner,
   ) {
     let rewardData = {};
@@ -113,6 +114,12 @@ export class UserIngameRewardService {
     const reward = await this.rewardOfferService.reward(
       user_id,
       cacluRewardData.group_id,
+      qr,
+    );
+
+    await this.rewardOfferService.secameCreditReward(
+      user_id,
+      secame_credit,
       qr,
     );
 

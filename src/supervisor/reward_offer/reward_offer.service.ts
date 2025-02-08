@@ -20,6 +20,21 @@ export class RewardOfferService {
     private readonly userItemService: UserItemService,
     private readonly dataSource: DataSource,
   ) {}
+
+  async secameCreditReward(
+    user_id: string,
+    secame_credit: number,
+    qr?: QueryRunner,
+  ) {
+    await this.usersService.secamCreditReward(user_id, secame_credit, qr);
+
+    return await this.usersService.secamCreditReward(
+      user_id,
+      secame_credit,
+      qr,
+    );
+  }
+
   async reward(user_id: string, reward_id: number, qr?: QueryRunner) {
     const rewardData = await this.rewardService.getReward(reward_id);
     console.log('rewardData', rewardData);
