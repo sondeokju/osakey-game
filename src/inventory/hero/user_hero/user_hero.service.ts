@@ -43,18 +43,18 @@ export class UserHeroService {
       qr,
     );
 
-    // const rewardData = await this.rewardOfferService.reward(
-    //   user_id,
-    //   heroLevelData.reward_id,
-    //   qr,
-    // );
+    const rewardData = await this.rewardOfferService.reward(
+      user_id,
+      heroLevelData.reward_id,
+      qr,
+    );
 
-    // if (!rewardData) {
-    //   throw new BadRequestException('Failed to process reward.');
-    // }
+    if (!rewardData) {
+      throw new BadRequestException('Failed to process reward.');
+    }
 
     return {
-      //reward: rewardData,
+      reward: rewardData,
       updatedUserData: updatedUserData,
     };
   }
