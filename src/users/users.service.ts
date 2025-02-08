@@ -1272,7 +1272,11 @@ export class UsersService {
       throw new Error('User not found');
     }
 
+    console.log('user.secame_credit : ', user.secame_credit);
+    console.log('secame_credit : ', secame_credit);
+
     const newCredit = user.secame_credit + +secame_credit;
+    console.log('newCredit : ', newCredit);
 
     await usersRepository.update(user_id, { secame_credit: newCredit });
 
