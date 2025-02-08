@@ -1035,45 +1035,18 @@ export class UsersService {
     return result;
   }
 
-  async userLevelUp(user_id: string, qr?: QueryRunner) {
+  async userLevelUp(user_id: string, updateLevel: number, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({
       where: {
         user_id,
       },
     });
-    if (!userData) return -1;
-
-    const currentExp = userData.exp;
-    const currentLevel = userData.level;
-    const nextLevel = currentLevel + 1;
-    let updateLevel = currentLevel;
-
-    const heroLevelData = await this.heroService.getHeroLevel(+nextLevel);
-    if (!heroLevelData) {
-      throw new NotFoundException('level up exp not enough.');
-    }
-
-    if (currentExp >= heroLevelData.total_exp) {
-      updateLevel = currentLevel + 1;
-    }
-    // const rewardData = await this.rewardOfferService.reward(
-    //   user_id,
-    //   heroLevelData.reward_id,
-    //   qr,
-    // );
-
-    // if (!rewardData) {
-    //   throw new BadRequestException('Failed to process reward.');
-    // }
 
     userData.level = updateLevel;
     const updatedUserData = await usersRepository.save(userData);
 
-    return {
-      //reward: rewardData,
-      updatedUserData: updatedUserData,
-    };
+    return updatedUserData;
   }
 
   async socialLoginSaveUser(
