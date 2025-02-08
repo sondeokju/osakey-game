@@ -20,6 +20,7 @@ export class UsersService {
     //private readonly redisService: RedisService,
     private readonly heroService: HeroService,
     private readonly rewardOfferService: RewardOfferService,
+    private readonly dataSource: DataSource,
   ) {
     //this.redisClient = redisService.getClient();
   }
