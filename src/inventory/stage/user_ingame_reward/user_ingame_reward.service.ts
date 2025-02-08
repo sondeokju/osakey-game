@@ -136,6 +136,7 @@ export class UserIngameRewardService {
     const result = await userIngameRewardRepository.save(newReward);
 
     return {
+      secame_credit,
       reward,
       result,
     };
