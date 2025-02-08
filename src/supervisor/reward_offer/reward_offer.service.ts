@@ -26,8 +26,6 @@ export class RewardOfferService {
     secame_credit: number,
     qr?: QueryRunner,
   ) {
-    await this.usersService.secamCreditReward(user_id, secame_credit, qr);
-
     return await this.usersService.secamCreditReward(
       user_id,
       secame_credit,
