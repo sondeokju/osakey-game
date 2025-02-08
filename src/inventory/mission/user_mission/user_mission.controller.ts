@@ -34,7 +34,7 @@ export class UserMissionController {
     @Body('mission_id') mission_id: number,
     @Body('mission_kind') mission_kind: string,
     @Body('mission_goal') mission_goal: number,
-    @Body('clear_count') clear_count: number,
+    //@Body('clear_count') clear_count: number,
     @Body('reward_id') reward_id: number,
     @QueryRunner() qr: QR,
   ) {
@@ -43,7 +43,7 @@ export class UserMissionController {
       mission_id,
       mission_goal,
       mission_kind,
-      clear_count,
+      //clear_count,
       reward_id,
       qr,
     );
