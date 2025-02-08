@@ -30,8 +30,6 @@ import { RequestLoggingMiddleware } from './common/middleware/request-logging.mi
 import { entities } from './entity_group/entity';
 import { entities_module } from './entity_group/entity_module';
 //import { RedisModule } from './redis/redis.module';
-import { HeroModule } from './inventory/hero/hero.module';
-import { UserHeroModule } from './inventory/hero/user_hero/user_hero.module';
 
 @Module({
   imports: [
@@ -72,8 +70,6 @@ import { UserHeroModule } from './inventory/hero/user_hero/user_hero.module';
         process.env[ENV_KEEPCONNECTIONALIVE_KEY] === 'true' ? true : false,
     }),
     ...entities_module,
-    HeroModule,
-    UserHeroModule,
     //RedisModule,
   ],
   controllers: [AppController],

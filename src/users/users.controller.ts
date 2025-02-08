@@ -351,20 +351,6 @@ export class UsersController {
     return result;
   }
 
-  @Post('levelup')
-  @UseInterceptors(TransactionInterceptor)
-  async userLevelUp(
-    @User() user: Users,
-    // @Body('diamond_paid', ParseIntPipe) diamond_paid: number,
-    // @Body('revive_coin', ParseIntPipe) revive_coin: number,
-    @QueryRunner() qr: QR,
-  ) {
-    console.log('userlevelup');
-    const result = await this.usersService.userLevelUp(user.user_id, qr);
-
-    return result;
-  }
-
   // @Patch('gord/:qty/update')
   // @UseInterceptors(TransactionInterceptor)
   // async patchUpdateGord(
