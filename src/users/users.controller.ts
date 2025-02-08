@@ -351,7 +351,7 @@ export class UsersController {
     return result;
   }
 
-  @Post('userlevelup')
+  @Post('levelup')
   @UseInterceptors(TransactionInterceptor)
   async userLevelUp(
     @User() user: Users,
@@ -360,7 +360,7 @@ export class UsersController {
     @QueryRunner() qr: QR,
   ) {
     console.log('userlevelup');
-    const result = await this.usersService.userLevelUp(user.id, qr);
+    const result = await this.usersService.userLevelUp(user.user_id, qr);
 
     return result;
   }

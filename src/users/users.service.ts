@@ -1,5 +1,5 @@
 import { Length } from 'class-validator';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from './entity/users.entity';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
@@ -8,6 +8,7 @@ import Redis from 'ioredis';
 import { HeroService } from 'src/static-table/hero/hero.service';
 import { User } from './decorator/user.decorator';
 import { randomBytes } from 'crypto';
+import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 
 @Injectable()
 export class UsersService {
@@ -18,7 +19,7 @@ export class UsersService {
     private readonly usersRepository: Repository<Users>,
     //private readonly redisService: RedisService,
     private readonly heroService: HeroService,
-    private readonly dataSource: DataSource,
+    private readonly rewardOfferService: RewardOfferService,
   ) {
     //this.redisClient = redisService.getClient();
   }
@@ -1035,11 +1036,11 @@ export class UsersService {
     return result;
   }
 
-  async userLevelUp(id: number, qr?: QueryRunner) {
+  async userLevelUp(user_id: string, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({
       where: {
-        id,
+        user_id,
       },
     });
     if (!userData) return -1;
@@ -1048,16 +1049,32 @@ export class UsersService {
     const currentLevel = userData.level;
     const nextLevel = currentLevel + 1;
     let updateLevel = currentLevel;
-    //let obj = {};
 
     const heroLevelData = await this.heroService.getHeroLevel(+nextLevel);
-    if (!heroLevelData) return -1;
+    if (!heroLevelData) {
+      throw new NotFoundException('level up exp not enough.');
+    }
 
     if (currentExp >= heroLevelData.total_exp) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       updateLevel = currentLevel + 1;
     }
-    //await this.rewardService.reward()
+    const rewardData = await this.rewardOfferService.reward(
+      user_id,
+      heroLevelData.reward_id,
+      qr,
+    );
+
+    if (!rewardData) {
+      throw new BadRequestException('Failed to process reward.');
+    }
+
+    userData.level = updateLevel;
+    const updatedUserData = await usersRepository.save(userData);
+
+    return {
+      reward: rewardData,
+      updatedUserData: updatedUserData,
+    };
   }
 
   async socialLoginSaveUser(
