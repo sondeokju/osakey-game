@@ -295,14 +295,14 @@ export class GachaDrawService {
   async equipGachaDraw10Random(
     user_id: string,
     gacha_id: number,
-    gacha_count: number,
+    //gacha_count?: number,
     qr?: QueryRunner,
   ) {
     const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
     let gachaItems: number[] = [];
     let itemKind: string | null = null;
 
-    for (let i = 0; i < gacha_count; i++) {
+    for (let i = 0; i < 10; i++) {
       const calcuGachaItem = await this.calculEquipGachaDrawRandom(gacha_id);
       gachaItems.push(...calcuGachaItem.items);
       if (!itemKind) {
