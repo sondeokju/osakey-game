@@ -25,10 +25,10 @@ export class UserHeroService {
 
     const currentExp = userData.exp;
     const currentLevel = userData.level;
-    const nextLevel = currentLevel + 1;
+    //const nextLevel = currentLevel + 1;
     let updateLevel = currentLevel;
 
-    const heroLevelData = await this.heroService.getHeroLevel(+nextLevel);
+    const heroLevelData = await this.heroService.getHeroLevel(+currentLevel);
     if (!heroLevelData) {
       throw new NotFoundException('level up exp not enough.');
     }
