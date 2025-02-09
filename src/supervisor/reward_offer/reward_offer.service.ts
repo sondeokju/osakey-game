@@ -159,7 +159,7 @@ export class RewardOfferService {
   ) {
     let result = [];
 
-    const item_qty = items.length;
+    const item_count = items.length;
     for (const { item_id } of items) {
       const itemData = await this.itemService.getItem(item_id);
 
@@ -169,7 +169,7 @@ export class RewardOfferService {
           itemData.item_id,
           itemData.item_grade,
           itemData.item_type,
-          item_qty,
+          item_count,
           qr,
         );
       }
@@ -178,7 +178,7 @@ export class RewardOfferService {
         item_id: itemData.item_id,
         item_type: itemData.item_type,
         item_name: itemData.item_name,
-        item_qty,
+        item_count,
       });
     }
 
