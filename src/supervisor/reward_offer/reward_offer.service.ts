@@ -152,10 +152,42 @@ export class RewardOfferService {
     return result;
   }
 
+  async rewardSameItemNumberArray(
+    user_id: string,
+    items: number[],
+    qr?: QueryRunner,
+  ) {
+    let result = [];
+
+    const item_count = items.length;
+    for (const { item_id } of items) {
+      const itemData = await this.itemService.getItem(item_id);
+
+      if (['M', 'S'].includes(itemData.item_type)) {
+        await this.userItemService.rewardItem(
+          user_id,
+          itemData.item_id,
+          itemData.item_grade,
+          itemData.item_type,
+          item_count,
+          qr,
+        );
+      }
+
+      result.push({
+        item_id: itemData.item_id,
+        item_type: itemData.item_type,
+        item_name: itemData.item_name,
+        item_count,
+      });
+    }
+
+    return result;
+  }
+
   async rewardSameItemArray(
     user_id: string,
-    //items: { item_id: number }[],
-    items: number[],
+    items: { item_id: number }[],
     qr?: QueryRunner,
   ) {
     let result = [];
