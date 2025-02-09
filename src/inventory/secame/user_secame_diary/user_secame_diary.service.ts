@@ -118,7 +118,11 @@ export class UserSecameDiaryService {
         isRepeatReward = true;
       }
 
-      if (shouldInsertNextDiary && nextSecameDiaryData) {
+      if (
+        shouldInsertNextDiary &&
+        nextSecameDiaryData &&
+        currentSecameDiaryData.is_repeat !== 'TRUE'
+      ) {
         await userSecameDiaryRepository.insert({
           user_id,
           mission_id: nextSecameDiaryData.secame_diary_id,
