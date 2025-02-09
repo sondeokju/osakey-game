@@ -284,10 +284,10 @@ export class GachaDrawService {
       throw new BadRequestException('Failed to process reward.');
     }
 
-    reward = reward.map(({ item_count, ...rest }) => ({
-      ...rest,
-      item_qty: item_count, // item_count 값을 qty로 변경
-    }));
+    // reward = reward.map(({ item_count, ...rest }) => ({
+    //   ...rest,
+    //   item_qty: item_count, // item_count 값을 qty로 변경
+    // }));
 
     return { gachaItem, reward };
   }
