@@ -160,7 +160,7 @@ export class RewardOfferService {
     let result = [];
 
     const item_count = items.length;
-    for (const { item_id } of items) {
+    for (const item_id of items) {
       const itemData = await this.itemService.getItem(item_id);
 
       if (['M', 'S'].includes(itemData.item_type)) {
