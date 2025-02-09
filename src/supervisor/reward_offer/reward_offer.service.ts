@@ -154,7 +154,8 @@ export class RewardOfferService {
 
   async rewardSameItemArray(
     user_id: string,
-    items: { item_id: number }[],
+    //items: { item_id: number }[],
+    items: number[],
     qr?: QueryRunner,
   ) {
     let result = [];
