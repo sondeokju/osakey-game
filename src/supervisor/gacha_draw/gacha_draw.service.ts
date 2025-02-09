@@ -288,9 +288,9 @@ export class GachaDrawService {
     //   item_qty: item.item_count, // 새로운 키 추가
     //   item_count: undefined, // 기존 키 제거
     // }));
-    reward = reward.map(({ item_count, ...rest }) => ({
+    reward = reward.map(({ qty, ...rest }) => ({
       ...rest,
-      item_qty: item_count, // item_count 값을 qty로 변경
+      item_qty: qty, // item_count 값을 qty로 변경
     }));
 
     return { gachaItem, reward };
