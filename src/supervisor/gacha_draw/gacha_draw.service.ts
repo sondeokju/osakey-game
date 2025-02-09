@@ -278,16 +278,12 @@ export class GachaDrawService {
       );
     }
 
+    console.log('reward', reward);
+
     if (!reward) {
       throw new BadRequestException('Failed to process reward.');
     }
 
-    // item_count -> item_qty 변환
-    // reward = reward.map((item) => ({
-    //   ...item,
-    //   item_qty: item.item_count, // 새로운 키 추가
-    //   item_count: undefined, // 기존 키 제거
-    // }));
     reward = reward.map(({ qty, ...rest }) => ({
       ...rest,
       item_qty: qty, // item_count 값을 qty로 변경
