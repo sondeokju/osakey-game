@@ -263,25 +263,32 @@ export class GachaDrawService {
     // );
     /////////////////////////////////
 
-    let rewardData;
+    let reward;
     if (['E'].includes(itemKind)) {
-      rewardData = await this.rewardOfferService.rewardEquipArray(
+      reward = await this.rewardOfferService.rewardEquipArray(
         user_id,
         gachaItem,
         qr,
       );
     } else if (['M', 'S'].includes(itemKind)) {
-      rewardData = await this.rewardOfferService.rewardSameItemArray(
+      reward = await this.rewardOfferService.rewardSameItemArray(
         user_id,
         gachaItem,
         qr,
       );
     }
 
-    if (!rewardData) {
+    if (!reward) {
       throw new BadRequestException('Failed to process reward.');
     }
 
-    return { gachaItem, rewardData };
+    // item_count -> item_qty 변환
+    reward = reward.map((item) => ({
+      ...item,
+      item_qty: item.item_count, // 새로운 키 추가
+      item_count: undefined, // 기존 키 제거
+    }));
+
+    return { gachaItem, reward };
   }
 }
