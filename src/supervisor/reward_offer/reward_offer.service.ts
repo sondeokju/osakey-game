@@ -178,7 +178,7 @@ export class RewardOfferService {
         item_id: itemData.item_id,
         item_type: itemData.item_type,
         item_name: itemData.item_name,
-        qty,
+        item_qty,
       });
     }
 
