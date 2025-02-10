@@ -235,7 +235,7 @@ export class RewardOfferService {
     let result: any = {}; // 단일 JSON 형태로 저장
     console.log('rewardEquipArray equips:', equips);
 
-    let equipList: any[] = [];
+    let equipList: any = [];
 
     for (const equip_id of equips) {
       console.log('getEquipQuery equip_id:', equip_id, typeof equip_id);
