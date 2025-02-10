@@ -143,6 +143,9 @@ export class UserSecameDiaryService {
           currentSecameDiaryData.reward_id,
         );
 
+        //세카메 크레딧 0으로 초기화
+        await this.usersService.secamCreditReset(user_id, qr);
+
         // 🔹 6️⃣ `reward_yn` 업데이트
         userSecameDiary.reward_yn = 'Y';
         result = await userSecameDiaryRepository.save(userSecameDiary);

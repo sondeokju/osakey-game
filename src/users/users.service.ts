@@ -1260,6 +1260,19 @@ export class UsersService {
     return result;
   }
 
+  async secamCreditReset(user_id: string, qr?: QueryRunner) {
+    const usersRepository = this.getUsersRepository(qr);
+    const user = await usersRepository.findOne({ where: { user_id } });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    await usersRepository.update(user_id, { secame_credit: 0 });
+
+    return await usersRepository.findOne({ where: { user_id } });
+  }
+
   async secamCreditReward(
     user_id: string,
     secame_credit: number,
