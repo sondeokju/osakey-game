@@ -250,7 +250,7 @@ export class GachaDrawService {
     // 중복된 item_id를 합쳐서 { item_id, item_count } 형태로 변환
     const gachaItem: Record<number, number> = {};
     for (const item_id of gachaItem) {
-      gachaItem[item_id] = (itemCountMap[item_id] || 0) + 1;
+      gachaItem[item_id] = (gachaItem[item_id] || 0) + 1;
     }
 
     let reward;
