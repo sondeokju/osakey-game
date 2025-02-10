@@ -250,28 +250,31 @@ export class GachaDrawService {
     // 중복된 item_id를 합쳐서 { item_id, item_count } 형태로 변환
     const gachaItemData: { item_id: number; item_count: number }[] = [];
 
-    const itemCountMap: Record<number, number> = {};
-    for (const item_id of gachaItem) {
-      itemCountMap[item_id] = (itemCountMap[item_id] || 0) + 1;
-    }
-
-    // 객체를 원하는 형태의 배열로 변환
-    for (const [item_id, item_count] of Object.entries(itemCountMap)) {
-      gachaItemData.push({
-        item_id: Number(item_id),
-        item_count: Number(item_count),
-      });
-    }
-
     console.log(gachaItemData);
 
     let reward;
     if (['E'].includes(itemKind)) {
-      reward = await this.rewardOfferService.rewardEquipArray(
-        user_id,
-        gachaItem,
-        qr,
-      );
+      await this.rewardOfferService.rewardEquipArray(user_id, gachaItem, qr);
+
+      const itemCountMap: Record<number, number> = {};
+      for (const item_id of gachaItem) {
+        itemCountMap[item_id] = (itemCountMap[item_id] || 0) + 1;
+      }
+
+      // 객체를 원하는 형태의 배열로 변환
+      for (const [item_id, item_count] of Object.entries(itemCountMap)) {
+        gachaItemData.push({
+          item_id: Number(item_id),
+          item_count: Number(item_count),
+        });
+      }
+
+      reward = gachaItemData;
+
+      // reward = reward.map(({ item_count, ...rest }) => ({
+      //   ...rest,
+      //   item_qty: item_count, // item_count 값을 qty로 변경
+      // }));
     } else if (['M', 'S'].includes(itemKind)) {
       reward = await this.rewardOfferService.rewardSameItemNumberArray(
         user_id,
@@ -285,11 +288,6 @@ export class GachaDrawService {
     if (!reward) {
       throw new BadRequestException('Failed to process reward.');
     }
-
-    // reward = reward.map(({ item_count, ...rest }) => ({
-    //   ...rest,
-    //   item_qty: item_count, // item_count 값을 qty로 변경
-    // }));
 
     return { reward };
   }
