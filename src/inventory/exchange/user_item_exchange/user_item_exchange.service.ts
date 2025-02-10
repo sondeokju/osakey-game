@@ -38,8 +38,8 @@ export class UserItemExchangeService {
       },
     });
     const result = {
-      item_id: exchangeData[0].result_item_id,
-      item_count: exchangeData[0].result_item_count,
+      //item_id: exchangeData[0].result_item_id,
+      //item_count: exchangeData[0].result_item_count,
     };
     return [result];
   }
