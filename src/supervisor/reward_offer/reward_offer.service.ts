@@ -234,7 +234,7 @@ export class RewardOfferService {
   ) {
     console.log('rewardEquipArray equips:', equips);
 
-    let equipList: any[] = []; // 배열로 저장
+    let equipList: any[] = []; // 단일 배열로 유지
 
     for (const equip_id of equips) {
       console.log('getEquipQuery equip_id:', equip_id, typeof equip_id);
@@ -242,13 +242,11 @@ export class RewardOfferService {
       const userEquipData = await this.createEquipQuery(user_id, equip_id, qr);
       console.log('getEquipQuery userEquipData:', userEquipData);
 
-      // 배열에 추가
-      equipList.push(userEquipData);
+      equipList.push(userEquipData); // 중복 배열 방지
     }
 
-    // "userEquipData": [...] 형태로 반환
     return {
-      userEquipData: equipList,
+      userEquipData: equipList, // 이중 배열 없이 반환
     };
   }
 
