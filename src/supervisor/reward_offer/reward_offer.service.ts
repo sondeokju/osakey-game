@@ -88,6 +88,8 @@ export class RewardOfferService {
       result.push(obj);
     }
 
+    // 🔹 "id" 및 "reward_id" 키 삭제
+    result = result.map(({ id, reward_id, ...rest }) => rest);
     console.log('result:', result);
     return result;
   }
