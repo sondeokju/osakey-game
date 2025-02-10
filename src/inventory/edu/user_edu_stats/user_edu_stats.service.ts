@@ -310,10 +310,12 @@ export class UserEduStatsService {
       },
     });
 
-    const result = [
-      { item_id: 11100004, item_count: eduReduceTime.diamond_free },
-      { item_id: 11100002, item_count: eduReduceTime.gord },
-    ];
+    const result = {
+      userItemData: [
+        { item_id: 11100004, item_count: eduReduceTime.diamond_free },
+        { item_id: 11100002, item_count: eduReduceTime.gord },
+      ],
+    };
 
     return { reward: result };
   }
