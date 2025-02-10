@@ -316,8 +316,8 @@ export class UserMailService {
     return {
       reward: {
         userItemData: rewardData,
-        userMailData: updatedUserMail,
       },
+      userMailData: updatedUserMail,
     };
   }
 }
