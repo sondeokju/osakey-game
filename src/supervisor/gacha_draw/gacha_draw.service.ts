@@ -254,7 +254,22 @@ export class GachaDrawService {
 
     let reward;
     if (['E'].includes(itemKind)) {
-      await this.rewardOfferService.rewardEquipArray(user_id, gachaItem, qr);
+      reward = await this.rewardOfferService.rewardEquipArray(
+        user_id,
+        gachaItem,
+        qr,
+      );
+
+      // reward = reward.map(({ item_count, ...rest }) => ({
+      //   ...rest,
+      //   item_qty: item_count, // item_count 값을 qty로 변경
+      // }));
+    } else if (['M', 'S'].includes(itemKind)) {
+      await this.rewardOfferService.rewardSameItemNumberArray(
+        user_id,
+        gachaItem,
+        qr,
+      );
 
       const itemCountMap: Record<number, number> = {};
       for (const item_id of gachaItem) {
@@ -270,17 +285,6 @@ export class GachaDrawService {
       }
 
       reward = gachaItemData;
-
-      // reward = reward.map(({ item_count, ...rest }) => ({
-      //   ...rest,
-      //   item_qty: item_count, // item_count 값을 qty로 변경
-      // }));
-    } else if (['M', 'S'].includes(itemKind)) {
-      reward = await this.rewardOfferService.rewardSameItemNumberArray(
-        user_id,
-        gachaItem,
-        qr,
-      );
     }
 
     console.log('reward', reward);
