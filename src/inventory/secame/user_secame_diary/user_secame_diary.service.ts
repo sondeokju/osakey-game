@@ -164,7 +164,7 @@ export class UserSecameDiaryService {
       }
 
       return {
-        //user_secame_diary: result,
+        user_secame_diary: result,
         userItemData: reward,
       };
     } catch (error) {

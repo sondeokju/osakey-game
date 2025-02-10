@@ -316,7 +316,7 @@ export class UserMailService {
     return {
       //success: true,
       userItemData: rewardData,
-      //userMail: updatedUserMail,
+      userMailData: updatedUserMail,
     };
   }
 }

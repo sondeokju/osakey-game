@@ -296,7 +296,7 @@ export class UserAttendanceService {
     return {
       //success: true,
       userItemData: rewardData,
-      //userAttendance: updatedUserAttendance,
+      userAttendanceData: updatedUserAttendance,
     };
   }
 }
