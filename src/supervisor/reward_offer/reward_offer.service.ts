@@ -177,7 +177,7 @@ export class RewardOfferService {
       const itemData = await this.itemService.getItem(item_id);
 
       if (['M', 'S'].includes(itemData.item_type)) {
-        const result = await this.userItemService.rewardItem(
+        await this.userItemService.rewardItem(
           user_id,
           itemData.item_id,
           itemData.item_grade,
@@ -188,10 +188,7 @@ export class RewardOfferService {
       }
     }
 
-    return {
-      item_id: itemId,
-      item_count,
-    };
+    return await this.userItemService.getItem(user_id, itemId, qr);
   }
 
   async rewardSameItemArray(
