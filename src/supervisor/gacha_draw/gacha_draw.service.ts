@@ -247,21 +247,11 @@ export class GachaDrawService {
       qr,
     );
 
-    // const gachaList = await this.gachaOutputService.getGachaOutputList(
-    //   gacha_id,
-    //   qr,
-    // );
-
-    // 랜덤 아이템 보정
-    // gachaItem = await this.fixedItemRandom(
-    //   user_id,
-    //   gacha_id,
-    //   gachaItem,
-    //   gachaCostData,
-    //    itemKind,
-    //   qr,
-    // );
-    /////////////////////////////////
+    // 중복된 item_id를 합쳐서 { item_id, item_count } 형태로 변환
+    const itemCountMap: Record<number, number> = {};
+    for (const item_id of gachaItem) {
+      itemCountMap[item_id] = (itemCountMap[item_id] || 0) + 1;
+    }
 
     let reward;
     if (['E'].includes(itemKind)) {
@@ -289,7 +279,7 @@ export class GachaDrawService {
     //   item_qty: item_count, // item_count 값을 qty로 변경
     // }));
 
-    return { reward };
+    return { itemCountMap, reward };
   }
 
   async equipGachaDraw10Random(

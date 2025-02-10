@@ -390,8 +390,12 @@ export class RewardOfferService {
         [user_id, equip_id, equipLevel.equip_level_id],
       );
 
+      // const newEquip = await queryRunner.query(
+      //   `SELECT * FROM user_equip WHERE id = LAST_INSERT_ID()`,
+      // );
       const newEquip = await queryRunner.query(
-        `SELECT * FROM user_equip WHERE id = LAST_INSERT_ID()`,
+        `SELECT * FROM user_equip WHERE id = LAST_INSERT_ID() AND user_id = ?`,
+        [user_id],
       );
 
       return newEquip;

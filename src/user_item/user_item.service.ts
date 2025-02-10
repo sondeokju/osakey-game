@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { UserItem } from './entities/user_item.entity';
@@ -208,47 +212,70 @@ export class UserItemService {
     item_count: number,
     qr?: QueryRunner,
   ) {
-    const userItemRepository = this.getUserItemRepository(qr);
-    const userItemData = await userItemRepository.findOne({
-      where: {
-        user_id,
-        item_id,
-        item_level,
-      },
-    });
+    // QueryRunner 사용 설정 (없으면 새로 생성)
+    const queryRunner = qr ?? this.dataSource.createQueryRunner();
+    let isNewQueryRunner = false;
 
-    if (!userItemData) {
-      const newUserItem = {
-        user_id,
-        item_id,
-        item_level,
-        item_type,
-        item_count,
-      };
-
-      await userItemRepository.insert(newUserItem);
-    } else {
-      const updatedData = { ...userItemData };
-
-      if (item_id !== undefined) {
-        updatedData.item_id = item_id;
-      }
-
-      if (item_level !== undefined) {
-        updatedData.item_level = item_level;
-      }
-
-      if (item_type !== undefined) {
-        updatedData.item_type = item_type;
-      }
-
-      if (item_count !== undefined) {
-        updatedData.item_count = updatedData.item_count + item_count;
-      }
-
-      await userItemRepository.save(updatedData);
+    if (!qr) {
+      await queryRunner.connect();
+      await queryRunner.startTransaction();
+      isNewQueryRunner = true;
     }
 
-    return true;
+    try {
+      const userItemRepository = this.getUserItemRepository(queryRunner);
+
+      const userItemData = await userItemRepository.findOne({
+        where: {
+          user_id,
+          item_id,
+          item_level,
+        },
+      });
+
+      if (!userItemData) {
+        const newUserItem = {
+          user_id,
+          item_id,
+          item_level,
+          item_type,
+          item_count,
+        };
+
+        await userItemRepository.insert(newUserItem);
+      } else {
+        await userItemRepository.update(
+          { user_id, item_id, item_level },
+          { item_count: userItemData.item_count + item_count },
+        );
+      }
+
+      // 🔹 user_id와 item_id로 안전하게 조회
+      const newItem = await queryRunner.query(
+        `SELECT * FROM user_item WHERE user_id = ? AND item_id = ? AND item_level = ?`,
+        [user_id, item_id, item_level],
+      );
+
+      if (isNewQueryRunner) {
+        await queryRunner.commitTransaction();
+      }
+
+      return newItem;
+    } catch (error) {
+      console.error('🔥 Error in rewardItem:', error);
+
+      if (isNewQueryRunner) {
+        await queryRunner.rollbackTransaction();
+      }
+
+      throw new InternalServerErrorException(
+        'Failed to process item reward.',
+        error,
+      );
+    } finally {
+      if (isNewQueryRunner) {
+        await queryRunner.release();
+      }
+    }
   }
 }
