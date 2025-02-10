@@ -271,7 +271,7 @@ export class GachaDrawService {
         qr,
       );
     } else if (['M', 'S'].includes(itemKind)) {
-      reward = await this.rewardOfferService.rewardSameItemArray(
+      reward = await this.rewardOfferService.rewardSameItemNumberArray(
         user_id,
         gachaItem,
         qr,

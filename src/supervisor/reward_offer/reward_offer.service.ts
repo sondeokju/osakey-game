@@ -169,10 +169,11 @@ export class RewardOfferService {
     items: number[],
     qr?: QueryRunner,
   ) {
-    let result = [];
+    let itemId;
 
     const item_count = items.length;
     for (const item_id of items) {
+      itemId = item_id;
       const itemData = await this.itemService.getItem(item_id);
 
       if (['M', 'S'].includes(itemData.item_type)) {
@@ -185,16 +186,12 @@ export class RewardOfferService {
           qr,
         );
       }
-
-      result.push({
-        item_id: itemData.item_id,
-        item_type: itemData.item_type,
-        item_name: itemData.item_name,
-        item_count,
-      });
     }
 
-    return result;
+    return {
+      item_id: itemId,
+      item_count,
+    };
   }
 
   async rewardSameItemArray(
