@@ -240,7 +240,7 @@ export class UserEduStatsService {
         item_count: 1,
       },
     };
-    return [result];
+    return { reward: [result] };
   }
 
   async reduceLearnTimeCurrency(
@@ -313,7 +313,7 @@ export class UserEduStatsService {
       { item_id: 11100002, item_count: eduReduceTime.gord },
     ];
 
-    return result;
+    return { reward: result };
   }
 
   async learnComplete(user_id: string, edu_list_id: number, qr?: QueryRunner) {
