@@ -235,6 +235,8 @@ export class RewardOfferService {
     let result: any = {}; // 단일 JSON 형태로 저장
     console.log('rewardEquipArray equips:', equips);
 
+    let equipList: any[] = [];
+
     for (const equip_id of equips) {
       console.log('getEquipQuery equip_id:', equip_id, typeof equip_id);
 
@@ -242,12 +244,14 @@ export class RewardOfferService {
       const equipData = await this.getEquipQuery(equip_id, qr);
       console.log('getEquipQuery equipData:', equipData);
 
-      // equipList 배열을 사용하지 않고, 객체에 직접 추가
-      result = {
-        ...result,
-        ...userEquipData, // 기존 객체에 새로운 데이터를 병합
-      };
+      equipList.push({
+        userEquipData,
+      });
     }
+
+    result = {
+      equips: equipList, // equip_id를 제거하고 리스트로 변환
+    };
 
     return result;
   }
