@@ -393,7 +393,8 @@ export class RewardOfferService {
         [user_id],
       );
 
-      return newEquip;
+      // 배열에서 첫 번째 요소만 반환
+      return newEquip.length > 0 ? newEquip[0] : null;
 
       // 사용자 장비 목록 조회
       // const userEquipList = await queryRunner.query(
