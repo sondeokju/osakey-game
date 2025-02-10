@@ -98,7 +98,10 @@ export class UserTutorialService {
       }
 
       return {
-        userItemData: rewardData ?? [],
+        reward: {
+          userItemData: rewardData ?? [],
+        },
+
         userTutorial: updatedUserTutorial,
       };
     } catch (error) {
