@@ -114,7 +114,7 @@ export class UserIngameRewardService {
       qr,
     );
 
-    const rewardData = await this.rewardOfferService.reward(
+    const rewarItemdData = await this.rewardOfferService.reward(
       user_id,
       cacluRewardData.group_id,
       qr,
@@ -144,7 +144,7 @@ export class UserIngameRewardService {
     return {
       user,
       rewward: {
-        userItemData: rewardData,
+        userItemData: rewarItemdData,
       },
     };
 
