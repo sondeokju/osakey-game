@@ -361,6 +361,12 @@ export class UserEquipService {
       );
     }
 
+    const userEquipData = await userEquipRepository.find({
+      where: {
+        user_id,
+      },
+    });
+
     const result = {
       userItemData: [
         {
@@ -368,6 +374,7 @@ export class UserEquipService {
           item_count: equipLevel.require_item_count,
         },
       ],
+      userEquipData,
     };
 
     return result;
@@ -467,6 +474,12 @@ export class UserEquipService {
       qr,
     );
 
+    const userEquipData = await userEquipRepository.find({
+      where: {
+        user_id,
+      },
+    });
+
     const result = {
       userItemData: [
         {
@@ -474,6 +487,7 @@ export class UserEquipService {
           item_count: equipLevelMax.require_item_count,
         },
       ],
+      userEquipData: userEquipData,
     };
 
     return result;
