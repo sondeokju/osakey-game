@@ -202,8 +202,10 @@ export class RewardOfferService {
     items: { item_id: number }[],
     qr?: QueryRunner,
   ) {
+    let itemId;
     const item_count = items.length;
     for (const { item_id } of items) {
+      itemId = item_id;
       const itemData = await this.itemService.getItem(item_id);
 
       if (['M', 'S'].includes(itemData.item_type)) {
@@ -219,7 +221,7 @@ export class RewardOfferService {
     }
 
     return {
-      item_id: items[0].item_id,
+      item_id: itemId,
       item_count,
     };
   }
