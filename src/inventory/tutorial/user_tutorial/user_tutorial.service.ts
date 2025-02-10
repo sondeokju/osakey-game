@@ -98,7 +98,7 @@ export class UserTutorialService {
       }
 
       return {
-        userItemData: rewardData,
+        userItemData: rewardData ?? [],
         //userTutorial: updatedUserTutorial,
       };
     } catch (error) {
