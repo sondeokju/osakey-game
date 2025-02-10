@@ -83,7 +83,7 @@ export class UserTunaTvService {
 
       const result = await userTunaTvRepository.find({
         where: {
-          upload_yn: 'Y',
+          user_id: userTunaTvData.user_id,
         },
       });
 
