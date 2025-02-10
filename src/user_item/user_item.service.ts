@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { UserItem } from './entities/user_item.entity';
 import { ItemService } from 'src/static-table/item/item.service';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class UserItemService {
@@ -14,6 +15,7 @@ export class UserItemService {
     @InjectRepository(UserItem)
     private readonly userItemRepository: Repository<UserItem>,
     private readonly itemService: ItemService,
+    private readonly dataSource: DataSource,
   ) {}
 
   getUserItemRepository(qr?: QueryRunner) {
@@ -252,8 +254,8 @@ export class UserItemService {
 
       // 🔹 user_id와 item_id로 안전하게 조회
       const newItem = await queryRunner.query(
-        `SELECT * FROM user_item WHERE user_id = ? AND item_id = ? AND item_level = ?`,
-        [user_id, item_id, item_level],
+        `SELECT * FROM user_item WHERE user_id = ? AND item_id = ?`,
+        [user_id, item_id],
       );
 
       if (isNewQueryRunner) {

@@ -177,7 +177,7 @@ export class RewardOfferService {
       const itemData = await this.itemService.getItem(item_id);
 
       if (['M', 'S'].includes(itemData.item_type)) {
-        await this.userItemService.rewardItem(
+        const result = await this.userItemService.rewardItem(
           user_id,
           itemData.item_id,
           itemData.item_grade,
