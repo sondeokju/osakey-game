@@ -92,7 +92,9 @@ export class UserSnsLevelService {
     };
 
     const result = {
-      userItemData: reward,
+      reward: {
+        userItemData: reward,
+      },
       //level_reward: levelRewardData,
       //user_sns_level: returnUserSnsLevelData,
     };

@@ -192,6 +192,6 @@ export class UserMissionService {
     userMission.reward_yn = 'Y';
     const updatedMission = await userMissionRepository.save(userMission);
 
-    return { userItemData: rewardData };
+    return { reward: { userItemData: rewardData } };
   }
 }
