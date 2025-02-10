@@ -250,7 +250,7 @@ export class RewardOfferService {
     }
 
     result = {
-      equips: equipList, // equip_id를 제거하고 리스트로 변환
+      equipList, // equip_id를 제거하고 리스트로 변환
     };
 
     return result;
