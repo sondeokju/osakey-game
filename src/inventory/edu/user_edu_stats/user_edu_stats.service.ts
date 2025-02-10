@@ -308,11 +308,10 @@ export class UserEduStatsService {
       },
     });
 
-    const result = {
-      gord: eduReduceTime.gord,
-      diamond_free: eduReduceTime.diamond_free,
-      user_edu: updateData,
-    };
+    const result = [
+      { item_id: 11100004, item_count: eduReduceTime.diamond_free },
+      { item_id: 11100002, item_count: eduReduceTime.gord },
+    ];
 
     return result;
   }

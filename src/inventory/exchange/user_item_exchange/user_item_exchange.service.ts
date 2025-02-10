@@ -32,13 +32,16 @@ export class UserItemExchangeService {
 
   async getItemExchange(user_id: string, qr?: QueryRunner) {
     const userItemExchangeRepository = this.getUserItemExchangeRepository(qr);
-    const result = await userItemExchangeRepository.find({
+    const exchangeData = await userItemExchangeRepository.find({
       where: {
         user_id,
       },
     });
-
-    return result;
+    const result = {
+      item_id: exchangeData[0].result_item_id,
+      item_count: exchangeData[0].result_item_count,
+    };
+    return [result];
   }
 
   async saveItemExchange(

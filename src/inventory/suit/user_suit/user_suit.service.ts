@@ -57,9 +57,13 @@ export class UserSuitService {
     }
 
     userSuit.suit_special_level += 1;
-    const result = await userSuitRepository.save(userSuit);
+    const suitData = await userSuitRepository.save(userSuit);
 
-    return result;
+    const result = {
+      item_id: suitData.suit_id,
+      item_count: 1,
+    };
+    return suitData;
   }
 
   // 슈트 조각으로 슈트 해금
