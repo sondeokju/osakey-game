@@ -219,7 +219,7 @@ export class RewardOfferService {
     }
 
     return {
-      item_id: items[0].item_id,s
+      item_id: items[0].item_id,
       item_count,
     };
   }
