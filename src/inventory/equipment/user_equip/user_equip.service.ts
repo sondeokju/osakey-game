@@ -368,13 +368,15 @@ export class UserEquipService {
     });
 
     const result = {
-      userItemData: [
-        {
-          item_id: equipLevel.require_item_id,
-          item_count: equipLevel.require_item_count,
-        },
-      ],
-      userEquipData,
+      reward: {
+        userItemData: [
+          {
+            item_id: equipLevel.require_item_id,
+            item_count: equipLevel.require_item_count,
+          },
+        ],
+        userEquipData,
+      },
     };
 
     return result;
@@ -490,7 +492,11 @@ export class UserEquipService {
       userEquipData: userEquipData,
     };
 
-    return result;
+    return {
+      reward: {
+        result,
+      },
+    };
   }
 
   getMaxLevelId(currentLevelId: number): number {
