@@ -314,9 +314,9 @@ export class UserMailService {
     const updatedUserMail = await userMailRepository.save(userMailData);
 
     return {
-      success: true,
-      reward: updatedRewardData,
-      userMail: updatedUserMail,
+      //success: true,
+      userItemData: rewardData,
+      //userMail: updatedUserMail,
     };
   }
 }

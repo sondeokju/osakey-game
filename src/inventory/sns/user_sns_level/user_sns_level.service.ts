@@ -85,10 +85,10 @@ export class UserSnsLevelService {
     });
 
     const result = {
-      sns_exp: snsReward.sns_reward_exp,
-      like_reward: likeRewardData,
-      level_reward: levelRewardData,
-      user_sns_level: returnUserSnsLevelData,
+      //sns_exp: snsReward.sns_reward_exp,
+      userItemData: likeRewardData.concat(levelRewardData),
+      //level_reward: levelRewardData,
+      //user_sns_level: returnUserSnsLevelData,
     };
 
     return result;

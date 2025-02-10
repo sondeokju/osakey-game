@@ -54,8 +54,8 @@ export class UserHeroService {
     }
 
     return {
-      reward: rewardData,
-      updatedUserData: updatedUserData,
+      userItemData: rewardData,
+      //updatedUserData: updatedUserData,
     };
   }
 }

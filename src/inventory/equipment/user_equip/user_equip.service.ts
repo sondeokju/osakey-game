@@ -361,7 +361,13 @@ export class UserEquipService {
       );
     }
 
-    return updateUserEquip;
+    const result = {
+      userItemData: {
+        item_id: equipLevel.require_item_id,
+        item_count: equipLevel.require_item_count,
+      },
+    };
+    return [result];
   }
 
   async equipMaxLevelUp(
@@ -458,7 +464,13 @@ export class UserEquipService {
       qr,
     );
 
-    return updatedUserEquip;
+    const result = {
+      userItemData: {
+        item_id: equipLevelMax.require_item_id,
+        item_count: equipLevelMax.require_item_count,
+      },
+    };
+    return [result];
   }
 
   getMaxLevelId(currentLevelId: number): number {

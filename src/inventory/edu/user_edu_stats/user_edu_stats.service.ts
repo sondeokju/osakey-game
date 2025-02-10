@@ -228,13 +228,19 @@ export class UserEduStatsService {
       edu_end_date: eduEndDate,
     });
 
-    const result = await userEduStatsRepository.find({
+    await userEduStatsRepository.find({
       where: {
         user_id,
       },
     });
 
-    return result;
+    const result = {
+      userItemData: {
+        item_id: item.item_id,
+        item_count: 1,
+      },
+    };
+    return [result];
   }
 
   async reduceLearnTimeCurrency(

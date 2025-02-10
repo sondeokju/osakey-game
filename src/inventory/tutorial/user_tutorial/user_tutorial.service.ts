@@ -94,8 +94,8 @@ export class UserTutorialService {
       }
 
       return {
-        reward: Array.isArray(rewardData) ? rewardData : [],
-        userTutorial: updatedUserTutorial,
+        userItemData: Array.isArray(rewardData) ? rewardData : [],
+        //userTutorial: updatedUserTutorial,
       };
     } catch (error) {
       if (isTransactionOwner) {

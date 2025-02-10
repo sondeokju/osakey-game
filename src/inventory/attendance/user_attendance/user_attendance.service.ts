@@ -294,9 +294,9 @@ export class UserAttendanceService {
       await userAttendanceRepository.save(userAttendanceData);
 
     return {
-      success: true,
-      reward: rewardData,
-      userAttendance: updatedUserAttendance,
+      //success: true,
+      userItemData: rewardData,
+      //userAttendance: updatedUserAttendance,
     };
   }
 }

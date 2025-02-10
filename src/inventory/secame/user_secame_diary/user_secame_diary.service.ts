@@ -164,8 +164,8 @@ export class UserSecameDiaryService {
       }
 
       return {
-        user_secame_diary: result,
-        reward,
+        //user_secame_diary: result,
+        userItemData: reward,
       };
     } catch (error) {
       if (!isExternalTransaction) {
