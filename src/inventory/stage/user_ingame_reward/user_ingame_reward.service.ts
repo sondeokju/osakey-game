@@ -142,7 +142,7 @@ export class UserIngameRewardService {
       await userIngameRewardRepository.save(newReward);
 
     return {
-      //user,
+      user,
       userItemData: reward,
     };
   }
