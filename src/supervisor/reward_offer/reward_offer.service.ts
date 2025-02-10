@@ -21,6 +21,18 @@ export class RewardOfferService {
     private readonly dataSource: DataSource,
   ) {}
 
+  // async secameCreditReward(
+  //   user_id: string,
+  //   secame_credit: number,
+  //   qr?: QueryRunner,
+  // ) {
+  //   return await this.usersService.secamCreditReward(
+  //     user_id,
+  //     secame_credit,
+  //     qr,
+  //   );
+  // }
+
   async secameCreditReward(
     user_id: string,
     secame_credit: number,
