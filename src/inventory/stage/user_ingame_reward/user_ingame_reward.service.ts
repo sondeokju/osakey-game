@@ -138,13 +138,14 @@ export class UserIngameRewardService {
       reward_id: cacluRewardData.group_id,
     });
 
-    const result = await userIngameRewardRepository.save(newReward);
+    const updatedUserIngameRewardData =
+      await userIngameRewardRepository.save(newReward);
 
     return {
       //mission_id,
       updatedUserData,
       reward,
-      result,
+      updatedUserIngameRewardData,
     };
   }
 
