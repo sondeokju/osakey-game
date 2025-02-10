@@ -249,11 +249,11 @@ export class RewardOfferService {
       });
     }
 
-    result = {
-      equipList, // equip_id를 제거하고 리스트로 변환
-    };
+    // result = {
+    //   userEquipData: equipList, // equip_id를 제거하고 리스트로 변환
+    // };
 
-    return result;
+    return equipList;
   }
 
   async rewardCurrency(
