@@ -156,9 +156,8 @@ export class UserAchievementsService {
       await userAchievementsRepository.save(userAchieve);
 
     return {
-      success: true,
       reward: rewardData,
-      userAchievement: updatedUserAchieve,
+      //userAchievement: updatedUserAchieve,
     };
   }
 }
