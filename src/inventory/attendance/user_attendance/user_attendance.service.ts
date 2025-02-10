@@ -296,8 +296,8 @@ export class UserAttendanceService {
     return {
       reward: {
         userItemData: rewardData,
-        userAttendanceData: updatedUserAttendance,
       },
+      userAttendanceData: updatedUserAttendance,
     };
   }
 }

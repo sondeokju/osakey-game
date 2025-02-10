@@ -375,8 +375,8 @@ export class UserEquipService {
             item_count: equipLevel.require_item_count,
           },
         ],
-        userEquipData,
       },
+      userEquipData,
     };
 
     return result;

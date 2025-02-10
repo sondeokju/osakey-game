@@ -84,7 +84,7 @@ export class UserSnsLevelService {
       where: { user_id },
     });
 
-    const reward = {
+    const rewardData = {
       userItemData: [
         ...likeRewardData,
         ...(Object.keys(levelRewardData).length > 0 ? [levelRewardData] : []),
@@ -93,7 +93,7 @@ export class UserSnsLevelService {
 
     const result = {
       reward: {
-        userItemData: reward,
+        rewardData,
       },
       //level_reward: levelRewardData,
       //user_sns_level: returnUserSnsLevelData,
