@@ -392,10 +392,16 @@ export class RewardOfferService {
       const equipLevel = equipLevelResult[0];
 
       // 새로운 장비 추가
-      const newEquip = await queryRunner.query(
-        `INSERT INTO user_equip (user_id, equip_id, equip_level_id) VALUES (?, ?, ?) RETURNING *`,
+      await queryRunner.query(
+        `INSERT INTO user_equip (user_id, equip_id, equip_level_id) VALUES (?, ?, ?)`,
         [user_id, equip_id, equipLevel.equip_level_id],
       );
+
+      const newEquip = await queryRunner.query(
+        `SELECT * FROM user_equip WHERE id = LAST_INSERT_ID()`,
+      );
+
+      return newEquip;
 
       // 사용자 장비 목록 조회
       // const userEquipList = await queryRunner.query(
@@ -403,7 +409,7 @@ export class RewardOfferService {
       //   [user_id],
       // );
 
-      return newEquip;
+      //return newEquip;
     } catch (error) {
       console.error('🔥 Error in createEquipQuery:', error); // 에러 메시지 출력
       console.error(
