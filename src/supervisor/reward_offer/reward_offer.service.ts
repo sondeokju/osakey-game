@@ -193,7 +193,9 @@ export class RewardOfferService {
       itemId,
       qr,
     );
-    return userItemData;
+    return {
+      userItemData: userItemData,
+    };
   }
 
   async rewardSameItemArray(
