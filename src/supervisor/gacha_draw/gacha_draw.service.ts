@@ -284,7 +284,9 @@ export class GachaDrawService {
         });
       }
 
-      reward = gachaItemData;
+      reward = {
+        userItemData: gachaItemData,
+      };
     }
 
     console.log('reward', reward);
