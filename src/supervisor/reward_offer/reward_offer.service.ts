@@ -188,7 +188,12 @@ export class RewardOfferService {
       }
     }
 
-    return await this.userItemService.getItem(user_id, itemId, qr);
+    const userItemData = await this.userItemService.getItem(
+      user_id,
+      itemId,
+      qr,
+    );
+    return userItemData;
   }
 
   async rewardSameItemArray(
