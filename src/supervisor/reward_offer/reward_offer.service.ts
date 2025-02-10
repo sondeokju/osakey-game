@@ -232,28 +232,24 @@ export class RewardOfferService {
     equips: number[], // 숫자 배열
     qr?: QueryRunner,
   ) {
-    let result: any = {}; // 단일 JSON 형태로 저장
     console.log('rewardEquipArray equips:', equips);
 
-    let equipList: any = [];
+    let equipList: any[] = []; // 배열로 저장
 
     for (const equip_id of equips) {
       console.log('getEquipQuery equip_id:', equip_id, typeof equip_id);
 
       const userEquipData = await this.createEquipQuery(user_id, equip_id, qr);
-      const equipData = await this.getEquipQuery(equip_id, qr);
-      console.log('getEquipQuery equipData:', equipData);
+      console.log('getEquipQuery userEquipData:', userEquipData);
 
-      equipList.push({
-        userEquipData,
-      });
+      // 배열에 추가
+      equipList.push(userEquipData);
     }
 
-    // result = {
-    //   userEquipData: equipList, // equip_id를 제거하고 리스트로 변환
-    // };
-
-    return equipList;
+    // "userEquipData": [...] 형태로 반환
+    return {
+      userEquipData: equipList,
+    };
   }
 
   async rewardCurrency(
