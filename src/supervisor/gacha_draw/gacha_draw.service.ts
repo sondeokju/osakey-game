@@ -289,7 +289,7 @@ export class GachaDrawService {
     //   item_qty: item_count, // item_count 값을 qty로 변경
     // }));
 
-    return { gachaItem, reward };
+    return { reward };
   }
 
   async equipGachaDraw10Random(
