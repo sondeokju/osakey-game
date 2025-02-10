@@ -202,8 +202,6 @@ export class RewardOfferService {
     items: { item_id: number }[],
     qr?: QueryRunner,
   ) {
-    let result = [];
-
     const item_count = items.length;
     for (const { item_id } of items) {
       const itemData = await this.itemService.getItem(item_id);
@@ -218,16 +216,12 @@ export class RewardOfferService {
           qr,
         );
       }
-
-      result.push({
-        item_id: itemData.item_id,
-        item_type: itemData.item_type,
-        item_name: itemData.item_name,
-        item_count,
-      });
     }
 
-    return result;
+    return {
+      item_id: items[0].item_id,s
+      item_count,
+    };
   }
 
   async rewardEquipArray(
