@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { QueryRunner } from 'typeorm';
+import { DeleteResult, QueryRunner } from 'typeorm';
 import { UsersService } from 'src/users/users.service';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { RewardService } from 'src/static-table/reward/reward.service';
@@ -241,9 +241,13 @@ export class RewardOfferService {
     for (const equip_id of equips) {
       console.log('getEquipQuery equip_id:', equip_id, typeof equip_id);
 
-      result = await this.createEquipQuery(user_id, equip_id, qr);
+      const userEquipData = await this.createEquipQuery(user_id, equip_id, qr);
       const equipData = await this.getEquipQuery(equip_id, qr);
       console.log('getEquipQuery equipData:', equipData);
+
+      result.push({
+        userEquipData,
+      });
 
       // result.push({
       //   equip_id: equip_id,
@@ -388,18 +392,18 @@ export class RewardOfferService {
       const equipLevel = equipLevelResult[0];
 
       // 새로운 장비 추가
-      await queryRunner.query(
-        `INSERT INTO user_equip (user_id, equip_id, equip_level_id) VALUES (?, ?, ?)`,
+      const newEquip = await queryRunner.query(
+        `INSERT INTO user_equip (user_id, equip_id, equip_level_id) VALUES (?, ?, ?) RETURNING *`,
         [user_id, equip_id, equipLevel.equip_level_id],
       );
 
       // 사용자 장비 목록 조회
-      const userEquipList = await queryRunner.query(
-        `SELECT * FROM user_equip WHERE user_id = ?`,
-        [user_id],
-      );
+      // const userEquipList = await queryRunner.query(
+      //   `SELECT * FROM user_equip WHERE user_id = ?`,
+      //   [user_id],
+      // );
 
-      return userEquipList;
+      return newEquip;
     } catch (error) {
       console.error('🔥 Error in createEquipQuery:', error); // 에러 메시지 출력
       console.error(
