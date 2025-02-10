@@ -226,12 +226,13 @@ export class RewardOfferService {
       item_count,
     };
   }
+
   async rewardEquipArray(
     user_id: string,
     equips: number[], // 숫자 배열
     qr?: QueryRunner,
   ) {
-    let result: Record<number, any> = {}; // 결과를 객체로 저장
+    let result: any = {}; // 단일 JSON 형태로 저장
     console.log('rewardEquipArray equips:', equips);
 
     for (const equip_id of equips) {
@@ -241,9 +242,10 @@ export class RewardOfferService {
       const equipData = await this.getEquipQuery(equip_id, qr);
       console.log('getEquipQuery equipData:', equipData);
 
-      // 객체 형태로 저장
-      result[equip_id] = {
-        userEquipData,
+      // equipList 배열을 사용하지 않고, 객체에 직접 추가
+      result = {
+        ...result,
+        ...userEquipData, // 기존 객체에 새로운 데이터를 병합
       };
     }
 
