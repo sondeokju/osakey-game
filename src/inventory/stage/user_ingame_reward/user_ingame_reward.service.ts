@@ -142,7 +142,6 @@ export class UserIngameRewardService {
       await userIngameRewardRepository.save(newReward);
 
     return {
-      //mission_id,
       user,
       reward,
       updatedUserIngameRewardData,

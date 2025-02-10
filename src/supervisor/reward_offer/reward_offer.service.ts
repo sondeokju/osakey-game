@@ -241,18 +241,18 @@ export class RewardOfferService {
     for (const equip_id of equips) {
       console.log('getEquipQuery equip_id:', equip_id, typeof equip_id);
 
-      await this.createEquipQuery(user_id, equip_id, qr);
+      result = await this.createEquipQuery(user_id, equip_id, qr);
       const equipData = await this.getEquipQuery(equip_id, qr);
       console.log('getEquipQuery equipData:', equipData);
 
-      result.push({
-        equip_id: equip_id,
-        origin_equip_id: equipData.origin_equip_id,
-        equip_enum: equipData.equip_enum,
-        equip_name: equipData.equip_name,
-        equip_slot: equipData.equip_slot,
-        equip_grade: equipData.equip_grade,
-      });
+      // result.push({
+      //   equip_id: equip_id,
+      //   origin_equip_id: equipData.origin_equip_id,
+      //   equip_enum: equipData.equip_enum,
+      //   equip_name: equipData.equip_name,
+      //   equip_slot: equipData.equip_slot,
+      //   equip_grade: equipData.equip_grade,
+      // });
     }
 
     return result;
