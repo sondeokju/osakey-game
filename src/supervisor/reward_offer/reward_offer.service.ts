@@ -234,7 +234,7 @@ export class RewardOfferService {
   ) {
     console.log('rewardEquipArray equips:', equips);
 
-    let equipList: any[] = []; // 단일 배열로 유지
+    let equipList = []; // 단일 배열로 유지
 
     for (const equip_id of equips) {
       console.log('getEquipQuery equip_id:', equip_id, typeof equip_id);
