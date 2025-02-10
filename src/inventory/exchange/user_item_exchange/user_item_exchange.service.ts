@@ -41,7 +41,7 @@ export class UserItemExchangeService {
       //item_id: exchangeData[0].result_item_id,
       //item_count: exchangeData[0].result_item_count,
     };
-    return [result];
+    return exchangeData;
   }
 
   async saveItemExchange(
