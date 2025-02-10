@@ -194,7 +194,7 @@ export class RewardOfferService {
       qr,
     );
     return {
-      userItemData: userItemData,
+      userItemData: [userItemData],
     };
   }
 
