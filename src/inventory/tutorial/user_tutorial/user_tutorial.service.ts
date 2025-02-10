@@ -99,7 +99,7 @@ export class UserTutorialService {
 
       return {
         userItemData: rewardData ?? [],
-        //userTutorial: updatedUserTutorial,
+        userTutorial: updatedUserTutorial,
       };
     } catch (error) {
       if (isTransactionOwner) {
