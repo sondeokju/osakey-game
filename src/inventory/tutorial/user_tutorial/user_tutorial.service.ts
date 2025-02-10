@@ -70,19 +70,19 @@ export class UserTutorialService {
       console.log('tutorialRewardData', tutorialRewardData);
 
       // console.log('tutorialRewardData.reward_id', tutorialRewardData.reward_id);
-      // if (tutorialRewardData.reward_id > 0 && !tutorialRewardData.reward_id) {
-      //   rewardData = await this.rewardOfferService.reward(
-      //     user_id,
-      //     tutorialRewardData.reward_id,
-      //     qr,
-      //   );
+      if (tutorialRewardData.reward_id > 0 && !tutorialRewardData.reward_id) {
+        rewardData = await this.rewardOfferService.reward(
+          user_id,
+          tutorialRewardData.reward_id,
+          qr,
+        );
 
-      //   if (!rewardData) {
-      //     throw new BadRequestException('Failed to process reward.');
-      //   }
+        if (!rewardData) {
+          throw new BadRequestException('Failed to process reward.');
+        }
 
-      //   userTutorial.reward_yn = 'Y';
-      // }
+        userTutorial.reward_yn = 'Y';
+      }
 
       userTutorial.tutorial_sub_id = tutorial_sub_id;
 
@@ -94,7 +94,7 @@ export class UserTutorialService {
       }
 
       return {
-        userItemData: Array.isArray(rewardData) ? rewardData : [],
+        userItemData: rewardData,
         //userTutorial: updatedUserTutorial,
       };
     } catch (error) {
