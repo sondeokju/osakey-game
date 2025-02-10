@@ -114,7 +114,7 @@ export class UserIngameRewardService {
       qr,
     );
 
-    const reward = await this.rewardOfferService.reward(
+    const rewardData = await this.rewardOfferService.reward(
       user_id,
       cacluRewardData.group_id,
       qr,
@@ -143,8 +143,15 @@ export class UserIngameRewardService {
 
     return {
       user,
-      userItemData: reward,
+      rewward: {
+        userItemData: rewardData,
+      },
     };
+
+    // return {
+    //   user,
+    //   userItemData: reward,
+    // };
   }
 
   async incrementMissionClearCount(user_id: string, mission_id: number) {
