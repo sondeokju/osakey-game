@@ -226,13 +226,12 @@ export class RewardOfferService {
       item_count,
     };
   }
-
   async rewardEquipArray(
     user_id: string,
-    equips: number[], // 숫자 배열로 받도록 변경
+    equips: number[], // 숫자 배열
     qr?: QueryRunner,
   ) {
-    let result = [];
+    let result: Record<number, any> = {}; // 결과를 객체로 저장
     console.log('rewardEquipArray equips:', equips);
 
     for (const equip_id of equips) {
@@ -242,18 +241,10 @@ export class RewardOfferService {
       const equipData = await this.getEquipQuery(equip_id, qr);
       console.log('getEquipQuery equipData:', equipData);
 
-      result.push({
+      // 객체 형태로 저장
+      result[equip_id] = {
         userEquipData,
-      });
-
-      // result.push({
-      //   equip_id: equip_id,
-      //   origin_equip_id: equipData.origin_equip_id,
-      //   equip_enum: equipData.equip_enum,
-      //   equip_name: equipData.equip_name,
-      //   equip_slot: equipData.equip_slot,
-      //   equip_grade: equipData.equip_grade,
-      // });
+      };
     }
 
     return result;
