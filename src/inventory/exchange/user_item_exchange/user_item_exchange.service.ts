@@ -50,9 +50,6 @@ export class UserItemExchangeService {
     exchange_item_count: number,
     qr?: QueryRunner,
   ) {
-    console.log('user_id:', user_id);
-    console.log('exchange_user_item_id:', exchange_user_item_id);
-    console.log('exchange_item_count:', exchange_item_count);
     if (!user_id || typeof user_id !== 'string') {
       throw new BadRequestException('Invalid user_id provided.');
     }
@@ -86,7 +83,6 @@ export class UserItemExchangeService {
           //itemId: userItemData.item_id,
         };
       }
-      console.log('itemExchangeData', itemExchangeData);
 
       const rewardItemCount =
         itemExchangeData.result_item_qty * exchange_item_count;

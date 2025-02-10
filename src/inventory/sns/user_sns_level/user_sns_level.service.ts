@@ -84,9 +84,15 @@ export class UserSnsLevelService {
       where: { user_id },
     });
 
+    const reward = {
+      userItemData: [
+        ...likeRewardData,
+        ...(Object.keys(levelRewardData).length > 0 ? [levelRewardData] : []),
+      ].filter((item) => Object.keys(item).length > 0), // 빈 객체 제거
+    };
+
     const result = {
-      //sns_exp: snsReward.sns_reward_exp,
-      userItemData: likeRewardData.concat(levelRewardData),
+      userItemData: reward,
       //level_reward: levelRewardData,
       //user_sns_level: returnUserSnsLevelData,
     };
