@@ -120,7 +120,7 @@ export class UserIngameRewardService {
       qr,
     );
 
-    const updatedUserData = await this.rewardOfferService.secameCreditReward(
+    const user = await this.rewardOfferService.secameCreditReward(
       user_id,
       secame_credit,
       qr,
@@ -143,7 +143,7 @@ export class UserIngameRewardService {
 
     return {
       //mission_id,
-      updatedUserData,
+      user,
       reward,
       updatedUserIngameRewardData,
     };
