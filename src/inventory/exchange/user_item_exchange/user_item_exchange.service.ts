@@ -39,10 +39,7 @@ export class UserItemExchangeService {
         user_id,
       },
     });
-    const result = {
-      //item_id: exchangeData[0].result_item_id,
-      //item_count: exchangeData[0].result_item_count,
-    };
+
     return exchangeData;
   }
   async ItemExchange(
@@ -53,6 +50,11 @@ export class UserItemExchangeService {
   ) {
     if (!user_id || typeof user_id !== 'string') {
       throw new BadRequestException('Invalid user_id provided.');
+    }
+    if (exchange_item_count <= 0) {
+      throw new BadRequestException(
+        'Exchange item count must be greater than zero.',
+      );
     }
 
     const userItemExchangeRepository = this.getUserItemExchangeRepository(qr);
@@ -67,12 +69,14 @@ export class UserItemExchangeService {
         useTransaction = true;
       }
 
+      // 아이템 교환 정보 조회
       const itemExchangeData =
         await this.itemExchangeService.getItemExchangeId(id);
       if (!itemExchangeData) {
         throw new NotFoundException(`ItemExchange ${id} data not found.`);
       }
 
+      // 사용자 아이템 조회
       const userItemData = await this.userItemService.getItem(
         user_id,
         itemExchangeData.exchange_item_id,
@@ -91,15 +95,17 @@ export class UserItemExchangeService {
         );
       }
 
+      // 보상 개수 계산
       const rewardItemCount =
         itemExchangeData.result_item_qty * exchange_item_count;
 
+      // 교환 내역 저장
       const insertItemExchange = userItemExchangeRepository.create({
         user_id,
         exchange_item_id: itemExchangeData.exchange_item_id,
         exchange_item_count,
         result_item_id: itemExchangeData.result_item_id,
-        result_item_count: itemExchangeData.result_item_qty,
+        result_item_count: rewardItemCount,
       });
 
       // 리소스 검증 및 차감, 반드시 `qr`을 넘겨줌
@@ -119,6 +125,7 @@ export class UserItemExchangeService {
         user_id,
         itemExchangeData.result_item_id,
         rewardItemCount,
+        qr, // QueryRunner 전달
       );
 
       // 교환 정보 저장
@@ -131,17 +138,16 @@ export class UserItemExchangeService {
       }
 
       return {
-        reward: rewardData,
+        reward: rewardData, // 보상 배열 반환
         userItemExchangeData: savedData,
       };
     } catch (error) {
       if (useTransaction) {
         await qr.rollbackTransaction();
       }
-      console.error('Error processing item exchange:', error);
+      console.error('❌ Error in ItemExchange:', error.message);
       throw new InternalServerErrorException(
         'An error occurred during item exchange.',
-        error.message,
       );
     } finally {
       if (useTransaction) {

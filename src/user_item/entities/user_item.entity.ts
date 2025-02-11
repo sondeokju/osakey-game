@@ -1,6 +1,8 @@
 import { BaseModel } from 'src/common/entity/base.entity';
 import { Column, Entity, Index } from 'typeorm';
 
+//CREATE INDEX idx_user_item ON user_item(user_id, item_id, item_level);
+
 @Entity()
 export class UserItem extends BaseModel {
   @Column({

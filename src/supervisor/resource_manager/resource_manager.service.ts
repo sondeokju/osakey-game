@@ -14,7 +14,6 @@ export class ResourceManagerService {
     private readonly usersService: UsersService,
     private readonly userItemService: UserItemService,
   ) {}
-
   async validateAndDeductResources(
     user_id: string,
     resources: {
@@ -31,12 +30,10 @@ export class ResourceManagerService {
       throw new InternalServerErrorException('QueryRunner is required.');
     }
 
-    const usersRepository = this.usersService.getUsersRepository(qr);
-
     try {
       const userCurrency = await this.usersService.getUserMoney(user_id, qr);
 
-      // 🔹 아이템 체크
+      // 아이템 차감
       if (resources.item?.count && resources.item.count > 0) {
         const userItemData = await this.userItemService.getItem(
           user_id,
@@ -46,21 +43,7 @@ export class ResourceManagerService {
         if (!userItemData || resources.item.count > userItemData.item_count) {
           throw new BadRequestException('Not enough items.');
         }
-      }
 
-      // 🔹 고드(Gord) 차감
-      if (resources.gord) {
-        if (resources.gord <= 0) {
-          throw new BadRequestException('Invalid gord amount.');
-        }
-        if (resources.gord > userCurrency.gord) {
-          throw new BadRequestException('Not enough gord.');
-        }
-        await this.usersService.reduceGord(user_id, resources.gord, qr);
-      }
-
-      // 🔹 아이템 차감
-      if (resources.item?.count && resources.item.count > 0) {
         await this.userItemService.reduceItem(
           user_id,
           resources.item.item_id,
@@ -69,7 +52,15 @@ export class ResourceManagerService {
         );
       }
 
-      // 🔹 다이아몬드 차감 (mode: free | paid | mixed)
+      // 고드(Gord) 차감
+      if (resources.gord) {
+        if (resources.gord <= 0 || resources.gord > userCurrency.gord) {
+          throw new BadRequestException('Not enough Gord.');
+        }
+        await this.usersService.reduceGord(user_id, resources.gord, qr);
+      }
+
+      // 다이아몬드 차감
       if (resources.dia?.amount && resources.dia.amount > 0) {
         await this.usersService.deductDiamonds(
           user_id,
@@ -79,22 +70,16 @@ export class ResourceManagerService {
         );
       }
 
-      // 🔹 경험치 차감
-      if (resources.exp) {
-        if (resources.exp <= 0) {
-          throw new BadRequestException('Invalid exp amount.');
-        }
+      // 경험치 차감
+      if (resources.exp && resources.exp > 0) {
         if (resources.exp > userCurrency.exp) {
-          throw new BadRequestException('Not enough exp.');
+          throw new BadRequestException('Not enough EXP.');
         }
         await this.usersService.addExp(user_id, resources.exp, qr);
       }
 
-      // 🔹 세카메 크레딧 차감
-      if (resources.secame_credit) {
-        if (resources.secame_credit <= 0) {
-          throw new BadRequestException('Invalid secame credit amount.');
-        }
+      // 세카메 크레딧 차감
+      if (resources.secame_credit && resources.secame_credit > 0) {
         await this.usersService.secameCreditDeduct(
           user_id,
           resources.secame_credit,
@@ -102,10 +87,9 @@ export class ResourceManagerService {
         );
       }
     } catch (error) {
-      console.error('Error in validateAndDeductResources:', error);
+      console.error('❌ Error in validateAndDeductResources:', error.message);
       throw new InternalServerErrorException(
         'Failed to validate and deduct resources.',
-        error.message,
       );
     }
   }

@@ -93,45 +93,52 @@ export class RewardOfferService {
     console.log('result:', result);
     return result;
   }
-
   async rewardItem(
     user_id: string,
     item_id: number,
     qty: number,
     qr?: QueryRunner,
   ) {
-    let result = [];
-    let obj = {};
-
     const itemData = await this.itemService.getItem(item_id);
-
-    if (itemData.item_type == 'C') {
-      await this.rewardCurrency(user_id, itemData.item_name, qty, qr);
+    if (!itemData) {
+      throw new NotFoundException(`Item ${item_id} not found.`);
     }
 
-    if (['M', 'S'].includes(itemData.item_type)) {
-      await this.userItemService.rewardItem(
-        user_id,
-        itemData.item_id,
-        itemData.item_grade,
-        itemData.item_type,
-        qty,
-        qr,
-      );
-    } else if (['E'].includes(itemData.item_type)) {
-      await this.createEquipQuery(user_id, item_id, qr);
-    } else if (['C'].includes(itemData.item_type)) {
-      await this.rewardCurrency(user_id, itemData.item_type, qty, qr);
+    switch (itemData.item_type) {
+      case 'C': // 화폐 보상
+        await this.rewardCurrency(user_id, itemData.item_name, qty, qr);
+        break;
+
+      case 'M': // 재료 아이템
+      case 'S': // 소비 아이템
+        await this.userItemService.rewardItem(
+          user_id,
+          itemData.item_id,
+          itemData.item_grade,
+          itemData.item_type,
+          qty,
+          qr,
+        );
+        break;
+
+      case 'E': // 장비 보상
+        await this.createEquipQuery(user_id, item_id, qr);
+        break;
+
+      default:
+        throw new BadRequestException(
+          `Invalid item type: ${itemData.item_type}`,
+        );
     }
 
-    obj['item_id'] = itemData.item_id;
-    obj['item_type'] = itemData.item_type;
-    obj['item_name'] = itemData.item_name;
-    //obj['item_count'] = itemData.;
-
-    result.push(obj);
-
-    return result;
+    return [
+      {
+        item_id: itemData.item_id,
+        item_type: itemData.item_type,
+        item_name: itemData.item_name,
+        //quantity: qty, // 보상 개수 추가
+      },
+    ];
   }
 
   async rewardItemsArray(
