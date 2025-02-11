@@ -5,6 +5,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+import { DataSource } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
@@ -22,6 +23,7 @@ export class UserItemExchangeService {
     private readonly itemExchangeService: ItemExchangeService,
     private readonly userItemService: UserItemService,
     private readonly resourceManagerService: ResourceManagerService,
+    private readonly dataSource: DataSource,
   ) {}
 
   getUserItemExchangeRepository(qr?: QueryRunner) {
