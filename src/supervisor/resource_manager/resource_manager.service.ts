@@ -10,7 +10,6 @@ export class ResourceManagerService {
     private readonly usersService: UsersService,
     private readonly userItemService: UserItemService,
   ) {}
-
   async validateAndDeductResources(
     user_id: string,
     resources: {
@@ -21,33 +20,30 @@ export class ResourceManagerService {
       battery?: number;
       secame_credit?: number;
     },
-    qr?: QueryRunner,
+    qr: QueryRunner, // 무조건 QueryRunner를 받아야 함
   ) {
-    const usersRepository = this.usersService.getUsersRepository(qr);
-
-    // 1️⃣ 트랜잭션 시작 (외부에서 주어진 qr이 없을 경우 생성)
-    const isExternalTransaction = !!qr;
-    if (!isExternalTransaction) {
-      qr = usersRepository.manager.connection.createQueryRunner();
-      await qr.startTransaction();
+    if (!qr) {
+      throw new InternalServerErrorException('QueryRunner is required.');
     }
+
+    const usersRepository = this.usersService.getUsersRepository(qr);
 
     try {
       const userCurrency = await this.usersService.getUserMoney(user_id, qr);
 
-      // 🔹 1️⃣ 아이템 체크
+      // 🔹 아이템 체크
       if (resources.item?.count && resources.item.count > 0) {
         const userItemData = await this.userItemService.getItem(
           user_id,
           resources.item.item_id,
           qr,
         );
-        if (resources.item.count > userItemData.item_count) {
+        if (!userItemData || resources.item.count > userItemData.item_count) {
           throw new BadRequestException('Not enough items.');
         }
       }
 
-      // 🔹 2️⃣ 고드(Gord) 차감
+      // 🔹 고드(Gord) 차감
       if (resources.gord) {
         if (resources.gord <= 0) {
           throw new BadRequestException('Invalid gord amount.');
@@ -58,7 +54,7 @@ export class ResourceManagerService {
         await this.usersService.reduceGord(user_id, resources.gord, qr);
       }
 
-      // 🔹 3️⃣ 아이템 차감
+      // 🔹 아이템 차감
       if (resources.item?.count && resources.item.count > 0) {
         await this.userItemService.reduceItem(
           user_id,
@@ -68,7 +64,7 @@ export class ResourceManagerService {
         );
       }
 
-      // 🔹 4️⃣ 다이아몬드 차감 (mode: free | paid | mixed)
+      // 🔹 다이아몬드 차감 (mode: free | paid | mixed)
       if (resources.dia?.amount && resources.dia.amount > 0) {
         await this.usersService.deductDiamonds(
           user_id,
@@ -78,7 +74,7 @@ export class ResourceManagerService {
         );
       }
 
-      // 🔹 5️⃣ 경험치 차감
+      // 🔹 경험치 차감
       if (resources.exp) {
         if (resources.exp <= 0) {
           throw new BadRequestException('Invalid exp amount.');
@@ -89,7 +85,7 @@ export class ResourceManagerService {
         await this.usersService.addExp(user_id, resources.exp, qr);
       }
 
-      // 🔹 6️⃣ 세카메 크레딧 차감
+      // 🔹 세카메 크레딧 차감
       if (resources.secame_credit) {
         if (resources.secame_credit <= 0) {
           throw new BadRequestException('Invalid secame credit amount.');
@@ -100,20 +96,12 @@ export class ResourceManagerService {
           qr,
         );
       }
-
-      // 7️⃣ 트랜잭션 커밋
-      if (!isExternalTransaction) {
-        await qr.commitTransaction();
-      }
     } catch (error) {
-      if (!isExternalTransaction) {
-        await qr.rollbackTransaction();
-      }
-      throw error;
-    } finally {
-      if (!isExternalTransaction) {
-        await qr.release();
-      }
+      console.error('Error in validateAndDeductResources:', error);
+      throw new InternalServerErrorException(
+        'Failed to validate and deduct resources.',
+        error.message,
+      );
     }
   }
 

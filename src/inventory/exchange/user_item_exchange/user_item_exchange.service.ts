@@ -45,7 +45,6 @@ export class UserItemExchangeService {
     };
     return exchangeData;
   }
-
   async ItemExchange(
     user_id: string,
     id: number,
@@ -57,47 +56,10 @@ export class UserItemExchangeService {
     }
 
     const userItemExchangeRepository = this.getUserItemExchangeRepository(qr);
+    let useTransaction = false;
 
     try {
-      const itemExchangeData =
-        await this.itemExchangeService.getItemExchangeId(id);
-      if (!itemExchangeData) {
-        return {
-          message: `item_exchange ${id} data not found`,
-          errorCode: 'ITEM_EXCHANGE_NOT_FOUND',
-          status: 404,
-        };
-      }
-
-      const userItemData = await this.userItemService.getItem(
-        user_id,
-        itemExchangeData.exchange_item_id,
-      );
-
-      if (!userItemData) {
-        return {
-          message: `user_item item_id: ${itemExchangeData.exchange_item_id} data not found`,
-          errorCode: 'USER_ITEM_NOT_FOUND',
-          status: 404,
-        };
-      }
-
-      if (
-        userItemData.item_count <= 0 ||
-        userItemData.item_count < exchange_item_count
-      ) {
-        return {
-          message: `user_item item_id: ${itemExchangeData.exchange_item_id} item not enough`,
-          errorCode: 'INSUFFICIENT_ITEMS',
-          status: 400,
-        };
-      }
-
-      const rewardItemCount =
-        itemExchangeData.result_item_qty * exchange_item_count;
-
-      // 트랜잭션 사용 여부 확인
-      let useTransaction = false;
+      // QueryRunner가 없는 경우 트랜잭션 시작
       if (!qr) {
         qr = this.dataSource.createQueryRunner();
         await qr.connect();
@@ -105,61 +67,86 @@ export class UserItemExchangeService {
         useTransaction = true;
       }
 
-      try {
-        const insertItemExchange = userItemExchangeRepository.create({
-          user_id,
-          exchange_item_id: itemExchangeData.exchange_item_id,
-          exchange_item_count,
-          result_item_id: itemExchangeData.result_item_id,
-          result_item_count: itemExchangeData.result_item_qty,
-        });
-
-        await this.resourceManagerService.validateAndDeductResources(
-          user_id,
-          {
-            item: {
-              item_id: itemExchangeData.exchange_item_id,
-              count: exchange_item_count,
-            },
-          },
-          qr,
-        );
-
-        const rewardData = await this.rewardOfferService.rewardItem(
-          user_id,
-          itemExchangeData.result_item_id,
-          rewardItemCount,
-        );
-
-        const savedData =
-          await userItemExchangeRepository.save(insertItemExchange);
-
-        if (useTransaction) {
-          await qr.commitTransaction();
-        }
-
-        return {
-          reward: rewardData,
-          userItemExchangeData: savedData,
-        };
-      } catch (transactionError) {
-        if (useTransaction) {
-          await qr.rollbackTransaction();
-        }
-        console.error('Transaction failed:', transactionError);
-        throw new InternalServerErrorException(
-          'Failed to process item exchange.',
-        );
-      } finally {
-        if (useTransaction) {
-          await qr.release();
-        }
+      const itemExchangeData =
+        await this.itemExchangeService.getItemExchangeId(id);
+      if (!itemExchangeData) {
+        throw new NotFoundException(`ItemExchange ${id} data not found.`);
       }
+
+      const userItemData = await this.userItemService.getItem(
+        user_id,
+        itemExchangeData.exchange_item_id,
+        qr, // QueryRunner 전달
+      );
+
+      if (!userItemData) {
+        throw new NotFoundException(
+          `User item_id: ${itemExchangeData.exchange_item_id} data not found.`,
+        );
+      }
+
+      if (userItemData.item_count < exchange_item_count) {
+        throw new BadRequestException(
+          `User item_id: ${itemExchangeData.exchange_item_id} is not enough.`,
+        );
+      }
+
+      const rewardItemCount =
+        itemExchangeData.result_item_qty * exchange_item_count;
+
+      const insertItemExchange = userItemExchangeRepository.create({
+        user_id,
+        exchange_item_id: itemExchangeData.exchange_item_id,
+        exchange_item_count,
+        result_item_id: itemExchangeData.result_item_id,
+        result_item_count: itemExchangeData.result_item_qty,
+      });
+
+      // 리소스 검증 및 차감, 반드시 `qr`을 넘겨줌
+      await this.resourceManagerService.validateAndDeductResources(
+        user_id,
+        {
+          item: {
+            item_id: itemExchangeData.exchange_item_id,
+            count: exchange_item_count,
+          },
+        },
+        qr,
+      );
+
+      // 보상 지급
+      const rewardData = await this.rewardOfferService.rewardItem(
+        user_id,
+        itemExchangeData.result_item_id,
+        rewardItemCount,
+      );
+
+      // 교환 정보 저장
+      const savedData =
+        await userItemExchangeRepository.save(insertItemExchange);
+
+      // 트랜잭션 커밋
+      if (useTransaction) {
+        await qr.commitTransaction();
+      }
+
+      return {
+        reward: rewardData,
+        userItemExchangeData: savedData,
+      };
     } catch (error) {
+      if (useTransaction) {
+        await qr.rollbackTransaction();
+      }
       console.error('Error processing item exchange:', error);
       throw new InternalServerErrorException(
         'An error occurred during item exchange.',
+        error.message,
       );
+    } finally {
+      if (useTransaction) {
+        await qr.release();
+      }
     }
   }
 
