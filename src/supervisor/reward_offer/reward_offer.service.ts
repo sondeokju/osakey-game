@@ -99,7 +99,7 @@ export class RewardOfferService {
     qty: number,
     qr?: QueryRunner,
   ) {
-    const itemData = await this.itemService.getItem(item_id);
+    const itemData = await this.itemService.getItem(item_id, qr);
     if (!itemData) {
       throw new NotFoundException(`Item ${item_id} not found.`);
     }
@@ -265,56 +265,49 @@ export class RewardOfferService {
     user_id: string,
     item_name: string,
     qty: number,
-    qr?: QueryRunner,
+    qr: QueryRunner, // `qr`이 무조건 필요하도록 변경
   ) {
     const usersRepository = this.usersService.getUsersRepository(qr);
-    const userData = await usersRepository.findOne({
-      where: {
-        user_id,
-      },
-    });
 
-    if (!userData) {
-      throw new Error('User not found');
+    try {
+      // 사용자 정보 가져오기 (트랜잭션 내에서 실행)
+      const userData = await usersRepository.findOne({
+        where: { user_id },
+        lock: { mode: 'pessimistic_write' }, // 동시 수정 방지
+      });
+
+      if (!userData) {
+        throw new NotFoundException(`User ${user_id} not found.`);
+      }
+
+      // 보상 가능 항목과 컬럼 매핑
+      const currencyFields: { [key: string]: keyof typeof userData } = {
+        secame_credit: 'secame_credit',
+        gord: 'gord',
+        diamond_paid: 'diamond_paid',
+        diamond_free: 'diamond_free',
+        exp: 'exp',
+        battery: 'battery',
+        revive_coin: 'revive_coin',
+      };
+
+      if (!currencyFields[item_name]) {
+        throw new BadRequestException(`Invalid currency type: ${item_name}`);
+      }
+
+      // 값 업데이트
+      userData[currencyFields[item_name]] += qty;
+
+      // 업데이트된 데이터 저장 (트랜잭션 내에서 실행)
+      await usersRepository.save(userData);
+
+      return [{ item_name, quantity: qty }];
+    } catch (error) {
+      console.error('❌ Error in rewardCurrency:', error.message);
+      throw new InternalServerErrorException(
+        'Failed to process currency reward.',
+      );
     }
-
-    const updatedData = { ...userData };
-
-    console.log('item_name', item_name);
-    console.log('qty', qty);
-
-    switch (item_name) {
-      case 'secame_credit':
-        console.log('secame_credit');
-        updatedData.secame_credit = updatedData.secame_credit + qty;
-        break;
-      case 'gord':
-        console.log('gord');
-        updatedData.gord = updatedData.gord + qty;
-        break;
-      case 'diamond_paid':
-        console.log('diamond_paid');
-        updatedData.diamond_paid = updatedData.diamond_paid + qty;
-        break;
-      case 'diamond_free':
-        console.log('diamond_free');
-        updatedData.diamond_free = updatedData.diamond_free + qty;
-        break;
-      case 'exp':
-        console.log('exp');
-        updatedData.exp = updatedData.exp + qty;
-        break;
-      case 'battery':
-        console.log('battery');
-        updatedData.battery = updatedData.battery + qty;
-        break;
-      case 'revive_coin':
-        console.log('revive_coin');
-        updatedData.revive_coin = updatedData.revive_coin + qty;
-        break;
-    }
-
-    return await usersRepository.save(updatedData);
   }
 
   async rewardCurrencyAll(

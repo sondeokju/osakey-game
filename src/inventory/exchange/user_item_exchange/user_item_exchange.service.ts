@@ -120,12 +120,12 @@ export class UserItemExchangeService {
         qr,
       );
 
-      // 보상 지급
+      // 보상 지급 (QueryRunner를 넘김)
       const rewardData = await this.rewardOfferService.rewardItem(
         user_id,
         itemExchangeData.result_item_id,
         rewardItemCount,
-        qr, // QueryRunner 전달
+        qr,
       );
 
       // 교환 정보 저장
@@ -138,7 +138,7 @@ export class UserItemExchangeService {
       }
 
       return {
-        reward: rewardData, // 보상 배열 반환
+        reward: rewardData,
         userItemExchangeData: savedData,
       };
     } catch (error) {
