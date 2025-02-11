@@ -230,7 +230,7 @@ export class UserEduStatsService {
       edu_end_date: eduEndDate,
     });
 
-    await userEduStatsRepository.find({
+    const userEduData = await userEduStatsRepository.find({
       where: {
         user_id,
       },
@@ -240,7 +240,12 @@ export class UserEduStatsService {
       userItemData: [{ item_id: item.item_id, item_count: 1 }],
     };
 
-    return { reward: result };
+    return {
+      reward: {
+        result,
+      },
+      userEduData,
+    };
   }
 
   async reduceLearnTimeCurrency(
@@ -321,7 +326,7 @@ export class UserEduStatsService {
         edu_end_date: eduEndDate,
       });
 
-      const updateData = await userEduStatsRepository.find({
+      const userEduData = await userEduStatsRepository.find({
         where: {
           user_id,
         },
@@ -338,7 +343,7 @@ export class UserEduStatsService {
         await queryRunner.commitTransaction();
       }
 
-      return { reward: result };
+      return { reward: { result }, userEduData };
     } catch (error) {
       if (isTransactionStarted) {
         await queryRunner.rollbackTransaction();
