@@ -287,7 +287,7 @@ export class UserEduStatsService {
     await this.usersService.deductDiamonds(
       user_id,
       eduReduceTime.diamond_free,
-      'free',
+      'mixed',
       qr,
     );
 
