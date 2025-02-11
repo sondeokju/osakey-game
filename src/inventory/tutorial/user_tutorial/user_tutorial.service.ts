@@ -68,7 +68,7 @@ export class UserTutorialService {
         await this.tutorialRewardService.getTutorialReward(tutorial_sub_id, qr);
 
       if (!tutorialRewardData) {
-        throw new BadRequestException('No tutorial reward data found.');
+        throw new BadRequestException('No tutorial data found.');
       }
 
       console.log('tutorialRewardData', tutorialRewardData);
