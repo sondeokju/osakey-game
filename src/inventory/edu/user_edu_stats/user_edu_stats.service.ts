@@ -13,6 +13,7 @@ import { ItemService } from 'src/static-table/item/item.service';
 //import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { UsersService } from 'src/users/users.service';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class UserEduStatsService {
@@ -26,6 +27,7 @@ export class UserEduStatsService {
     //private readonly rewardOfferService: RewardOfferService,
     private readonly userItemService: UserItemService,
     private readonly usersService: UsersService,
+    private readonly dataSource: DataSource,
   ) {}
 
   getUserEduStatsRepository(qr?: QueryRunner) {
@@ -247,73 +249,106 @@ export class UserEduStatsService {
     edu_reduce_time_id: number,
     qr?: QueryRunner,
   ) {
-    const userEduStatsRepository = this.getUserEduStatsRepository(qr);
-    const userEduStats = await userEduStatsRepository.findOne({
-      where: {
+    let queryRunner: QueryRunner | undefined = qr;
+    let isTransactionStarted = false;
+
+    if (!queryRunner) {
+      queryRunner = this.dataSource.createQueryRunner();
+      await queryRunner.connect();
+      await queryRunner.startTransaction();
+      isTransactionStarted = true;
+    }
+
+    try {
+      const userEduStatsRepository =
+        this.getUserEduStatsRepository(queryRunner);
+      const userEduStats = await userEduStatsRepository.findOne({
+        where: {
+          user_id,
+          edu_list_id,
+        },
+      });
+
+      if (!userEduStats) {
+        throw new NotFoundException('user_edu_stats not found');
+      }
+
+      const eduReduceTime = await this.eduReduceTimeService.getEduReduceTime(
+        edu_reduce_time_id,
+        queryRunner,
+      );
+
+      if (!eduReduceTime) {
+        throw new NotFoundException('edu_reduce_time not found');
+      }
+
+      const item = await this.itemService.getItem(
+        eduReduceTime.reduce_item_id,
+        queryRunner,
+      );
+      if (!item) {
+        throw new NotFoundException('item not found');
+      }
+
+      const userData = await this.usersService.getMe(user_id, queryRunner);
+      if (
+        userData.gord < eduReduceTime.gord ||
+        userData.diamond_free < eduReduceTime.diamond_free
+      ) {
+        throw new NotFoundException('gord, diamond_free not enough');
+      }
+
+      await this.usersService.reduceGord(
         user_id,
-        edu_list_id,
-      },
-    });
-
-    if (!userEduStats) {
-      throw new NotFoundException('user_edu_stats not found');
-    }
-
-    const eduReduceTime = await this.eduReduceTimeService.getEduReduceTime(
-      edu_reduce_time_id,
-      qr,
-    );
-
-    if (!eduReduceTime) {
-      throw new NotFoundException('edu_reduce_time not found');
-    }
-    const item = await this.itemService.getItem(
-      eduReduceTime.reduce_item_id,
-      qr,
-    );
-    if (!item) {
-      throw new NotFoundException('item not found');
-    }
-
-    const userData = await this.usersService.getMe(user_id, qr);
-    if (
-      userData.gord < eduReduceTime.gord ||
-      userData.diamond_free < eduReduceTime.diamond_free
-    ) {
-      throw new NotFoundException('gord, diamond_free not enough');
-    }
-    await this.usersService.reduceGord(user_id, eduReduceTime.gord, qr);
-
-    await this.usersService.deductDiamonds(
-      user_id,
-      eduReduceTime.diamond_free,
-      'mixed',
-      qr,
-    );
-
-    // Update education end date
-    const eduEndDate = new Date(userEduStats.edu_end_date);
-    eduEndDate.setMinutes(eduEndDate.getMinutes() - eduReduceTime.reduce_time);
-
-    await userEduStatsRepository.save({
-      ...userEduStats,
-      edu_end_date: eduEndDate,
-    });
-
-    const updateData = await userEduStatsRepository.find({
-      where: {
+        eduReduceTime.gord,
+        queryRunner,
+      );
+      await this.usersService.deductDiamonds(
         user_id,
-      },
-    });
+        eduReduceTime.diamond_free,
+        'mixed',
+        queryRunner,
+      );
 
-    const result = {
-      userItemData: [
-        { item_id: 11100004, item_count: eduReduceTime.diamond_free },
-        { item_id: 11100002, item_count: eduReduceTime.gord },
-      ],
-    };
+      // Update education end date
+      const eduEndDate = new Date(userEduStats.edu_end_date);
+      eduEndDate.setMinutes(
+        eduEndDate.getMinutes() - eduReduceTime.reduce_time,
+      );
 
-    return { reward: result };
+      await userEduStatsRepository.save({
+        ...userEduStats,
+        edu_end_date: eduEndDate,
+      });
+
+      const updateData = await userEduStatsRepository.find({
+        where: {
+          user_id,
+        },
+      });
+
+      const result = {
+        userItemData: [
+          { item_id: 11100004, item_count: eduReduceTime.diamond_free },
+          { item_id: 11100002, item_count: eduReduceTime.gord },
+        ],
+      };
+
+      if (isTransactionStarted) {
+        await queryRunner.commitTransaction();
+      }
+
+      return { reward: result };
+    } catch (error) {
+      if (isTransactionStarted) {
+        await queryRunner.rollbackTransaction();
+      }
+      throw error;
+    } finally {
+      if (isTransactionStarted) {
+        await queryRunner.release();
+      }
+    }
   }
 
   async learnComplete(user_id: string, edu_list_id: number, qr?: QueryRunner) {
