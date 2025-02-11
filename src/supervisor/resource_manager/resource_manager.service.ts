@@ -1,4 +1,8 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { EquipLevel } from 'src/static-table/equipment/equip_level/entities/equip_level.entity';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { UsersService } from 'src/users/users.service';
@@ -10,6 +14,7 @@ export class ResourceManagerService {
     private readonly usersService: UsersService,
     private readonly userItemService: UserItemService,
   ) {}
+
   async validateAndDeductResources(
     user_id: string,
     resources: {
