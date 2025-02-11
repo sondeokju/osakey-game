@@ -62,9 +62,8 @@ export class UserItemExchangeService {
       if (!itemExchangeData) {
         return {
           message: `item_exchange ${id} data not found`,
-          //errorCode: 'ITEM_EXCHANGE_NOT_FOUND',
-          //status: 404,
-          //itemId: userItemData.item_id,
+          errorCode: 'ITEM_EXCHANGE_NOT_FOUND',
+          status: 404,
         };
       }
 
@@ -76,14 +75,10 @@ export class UserItemExchangeService {
       if (!userItemData) {
         return {
           message: `user_item item_id: ${itemExchangeData.exchange_item_id} data not found`,
-          //errorCode: 'ITEM_EXCHANGE_NOT_FOUND',
-          //status: 404,
-          //itemId: userItemData.item_id,
+          errorCode: 'USER_ITEM_NOT_FOUND',
+          status: 404,
         };
       }
-
-      const rewardItemCount =
-        itemExchangeData.result_item_qty * exchange_item_count;
 
       if (
         userItemData.item_count <= 0 ||
@@ -91,46 +86,77 @@ export class UserItemExchangeService {
       ) {
         return {
           message: `user_item item_id: ${itemExchangeData.exchange_item_id} item not enough`,
+          errorCode: 'INSUFFICIENT_ITEMS',
+          status: 400,
         };
       }
 
-      const insertItemExchange = userItemExchangeRepository.create({
-        user_id,
-        exchange_item_id: itemExchangeData.exchange_item_id,
-        exchange_item_count,
-        result_item_id: itemExchangeData.result_item_id,
-        result_item_count: itemExchangeData.result_item_qty,
-      });
+      const rewardItemCount =
+        itemExchangeData.result_item_qty * exchange_item_count;
 
-      await this.resourceManagerService.validateAndDeductResources(
-        user_id,
-        {
-          item: {
-            item_id: itemExchangeData.exchange_item_id,
-            count: exchange_item_count,
+      // 트랜잭션 사용 여부 확인
+      let useTransaction = false;
+      if (!qr) {
+        qr = this.dataSource.createQueryRunner();
+        await qr.connect();
+        await qr.startTransaction();
+        useTransaction = true;
+      }
+
+      try {
+        const insertItemExchange = userItemExchangeRepository.create({
+          user_id,
+          exchange_item_id: itemExchangeData.exchange_item_id,
+          exchange_item_count,
+          result_item_id: itemExchangeData.result_item_id,
+          result_item_count: itemExchangeData.result_item_qty,
+        });
+
+        await this.resourceManagerService.validateAndDeductResources(
+          user_id,
+          {
+            item: {
+              item_id: itemExchangeData.exchange_item_id,
+              count: exchange_item_count,
+            },
           },
-        },
-        qr,
-      );
+          qr,
+        );
 
-      const rewardData = await this.rewardOfferService.rewardItem(
-        user_id,
-        itemExchangeData.result_item_id,
-        rewardItemCount,
-      );
+        const rewardData = await this.rewardOfferService.rewardItem(
+          user_id,
+          itemExchangeData.result_item_id,
+          rewardItemCount,
+        );
 
-      const savedData =
-        await userItemExchangeRepository.save(insertItemExchange);
-      return {
-        reward: {
-          rewardData,
-        },
-        userItemExchangeData: savedData,
-      };
+        const savedData =
+          await userItemExchangeRepository.save(insertItemExchange);
+
+        if (useTransaction) {
+          await qr.commitTransaction();
+        }
+
+        return {
+          reward: rewardData,
+          userItemExchangeData: savedData,
+        };
+      } catch (transactionError) {
+        if (useTransaction) {
+          await qr.rollbackTransaction();
+        }
+        console.error('Transaction failed:', transactionError);
+        throw new InternalServerErrorException(
+          'Failed to process item exchange.',
+        );
+      } finally {
+        if (useTransaction) {
+          await qr.release();
+        }
+      }
     } catch (error) {
-      console.error('Error saving itemexchange:', error);
+      console.error('Error processing item exchange:', error);
       throw new InternalServerErrorException(
-        'Failed to save user itemexchange.',
+        'An error occurred during item exchange.',
       );
     }
   }
