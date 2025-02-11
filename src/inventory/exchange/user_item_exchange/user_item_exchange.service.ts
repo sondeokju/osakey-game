@@ -68,7 +68,7 @@ export class UserItemExchangeService {
         };
       }
 
-      const userItemData = await this.userItemService.getUserItemID(
+      const userItemData = await this.userItemService.getItem(
         user_id,
         itemExchangeData.exchange_item_id,
       );
