@@ -261,16 +261,17 @@ export class RewardOfferService {
       userEquipData: equipList, // 이중 배열 없이 반환
     };
   }
+
   async rewardCurrency(
     user_id: string,
     item_name: string,
     qty: number,
-    qr: QueryRunner, // `qr`이 반드시 필요하도록 변경
+    qr: QueryRunner,
   ) {
     const usersRepository = this.usersService.getUsersRepository(qr);
 
     try {
-      // 사용자 정보 가져오기 (트랜잭션 내에서 실행)
+      // 사용자 정보 가져오기
       const userData = await usersRepository.findOne({
         where: { user_id },
         lock: { mode: 'pessimistic_write' }, // 동시 수정 방지
@@ -295,11 +296,11 @@ export class RewardOfferService {
         throw new BadRequestException(`Invalid currency type: ${item_name}`);
       }
 
-      // 값 업데이트 (타입 명확히 지정)
-      const field = currencyFields[item_name] as keyof Users;
+      // 값 업데이트 (타입 안정적으로 변환)
+      const field = currencyFields[item_name];
       userData[field] = (userData[field] as number) + qty;
 
-      // 업데이트된 데이터 저장 (트랜잭션 내에서 실행)
+      // 업데이트된 데이터 저장
       await usersRepository.save(userData);
 
       return [{ item_name, quantity: qty }];
