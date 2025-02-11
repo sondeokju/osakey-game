@@ -31,4 +31,13 @@ export class ItemExchangeService {
     });
     return result;
   }
+  async getItemExchangeId(id: number, qr?: QueryRunner) {
+    const itemExchangeRepository = this.getItemExchangeRepository(qr);
+    const result = await itemExchangeRepository.findOne({
+      where: {
+        id,
+      },
+    });
+    return result;
+  }
 }

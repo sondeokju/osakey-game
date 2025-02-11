@@ -238,14 +238,6 @@ export class UserEduStatsService {
       userItemData: [{ item_id: item.item_id, item_count: 1 }],
     };
 
-    // const result = {
-    //   userItemData: [
-    //     {
-    //       item_id: item.item_id,
-    //       item_count: 1,
-    //     },
-    //   ],
-    // };
     return { reward: result };
   }
 

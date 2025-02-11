@@ -44,6 +44,97 @@ export class UserItemExchangeService {
     return exchangeData;
   }
 
+  async ItemExchange(
+    user_id: string,
+    id: number,
+    exchange_item_count: number,
+    qr?: QueryRunner,
+  ) {
+    if (!user_id || typeof user_id !== 'string') {
+      throw new BadRequestException('Invalid user_id provided.');
+    }
+
+    const userItemExchangeRepository = this.getUserItemExchangeRepository(qr);
+
+    try {
+      const itemExchangeData =
+        await this.itemExchangeService.getItemExchangeId(id);
+      if (!itemExchangeData) {
+        return {
+          message: `item_exchange ${id} data not found`,
+          //errorCode: 'ITEM_EXCHANGE_NOT_FOUND',
+          //status: 404,
+          //itemId: userItemData.item_id,
+        };
+      }
+
+      const userItemData = await this.userItemService.getUserItemID(
+        user_id,
+        itemExchangeData.exchange_item_id,
+      );
+
+      if (!userItemData) {
+        return {
+          message: `user_item item_id: ${itemExchangeData.exchange_item_id} data not found`,
+          //errorCode: 'ITEM_EXCHANGE_NOT_FOUND',
+          //status: 404,
+          //itemId: userItemData.item_id,
+        };
+      }
+
+      const rewardItemCount =
+        itemExchangeData.result_item_qty * exchange_item_count;
+
+      if (
+        userItemData.item_count <= 0 ||
+        userItemData.item_count < exchange_item_count
+      ) {
+        return {
+          message: `user_item item_id: ${itemExchangeData.exchange_item_id} item not enough`,
+        };
+      }
+
+      const insertItemExchange = userItemExchangeRepository.create({
+        user_id,
+        exchange_item_id: itemExchangeData.exchange_item_id,
+        exchange_item_count,
+        result_item_id: itemExchangeData.result_item_id,
+        result_item_count: itemExchangeData.result_item_qty,
+      });
+
+      await this.resourceManagerService.validateAndDeductResources(
+        user_id,
+        {
+          item: {
+            item_id: itemExchangeData.exchange_item_id,
+            count: exchange_item_count,
+          },
+        },
+        qr,
+      );
+
+      const rewardData = await this.rewardOfferService.rewardItem(
+        user_id,
+        itemExchangeData.result_item_id,
+        rewardItemCount,
+      );
+
+      const savedData =
+        await userItemExchangeRepository.save(insertItemExchange);
+      return {
+        reward: {
+          rewardData,
+        },
+        userItemExchangeData: savedData,
+      };
+    } catch (error) {
+      console.error('Error saving itemexchange:', error);
+      throw new InternalServerErrorException(
+        'Failed to save user itemexchange.',
+      );
+    }
+  }
+
   async saveItemExchange(
     user_id: string,
     exchange_user_item_id: number,

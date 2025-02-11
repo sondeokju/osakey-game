@@ -26,14 +26,13 @@ export class UserItemExchangeController {
   @UseInterceptors(TransactionInterceptor)
   async missionReward(
     @User() user: Users,
-    @Body('exchange_user_item_id') exchange_item_id: number,
+    @Body('id') id: number,
     @Body('exchange_item_count') exchange_item_count: number,
     @QueryRunner() qr: QR,
   ) {
-    console.log('saveItemExchange:', user);
-    const result = await this.userItemExchangeService.saveItemExchange(
+    const result = await this.userItemExchangeService.ItemExchange(
       user.user_id,
-      exchange_item_id,
+      id,
       exchange_item_count,
       qr,
     );
