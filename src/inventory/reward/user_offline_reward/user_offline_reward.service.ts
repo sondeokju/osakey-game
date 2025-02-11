@@ -74,19 +74,12 @@ export class UserOfflineRewardService {
         });
       }
 
-      console.log('offlineData', offlineData);
-      console.log('is_ad', is_ad);
       // 보상 및 화폐 계산
       const { rewardCount, currencyCount } = this.calculateRewards(
         userOfflineReward.last_reward_date,
         offlineData,
         is_ad,
       );
-
-      console.log('rewardCount', rewardCount);
-      console.log('currencyCount', currencyCount);
-
-      console.log('Reward Calculation:', { rewardCount, currencyCount });
 
       if (is_ad === 'false') {
         userOfflineReward.last_reward_date = new Date(); // 마지막 보상 날짜 갱신
@@ -152,10 +145,20 @@ export class UserOfflineRewardService {
 
       return {
         reward: {
-          item_id: rewardData[0].item_id,
-          item_count: rewardCount,
-          gord: totalGord,
-          exp: totalExp,
+          userItemData: [
+            {
+              item_id: rewardData[0].item_id,
+              item_count: rewardCount,
+            },
+            {
+              item_id: 11100002,
+              item_count: totalGord,
+            },
+            {
+              item_id: 11100005,
+              item_count: totalExp,
+            },
+          ],
         },
       };
     } catch (error) {
