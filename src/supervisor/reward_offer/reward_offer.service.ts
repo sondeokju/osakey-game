@@ -10,6 +10,7 @@ import { UserItemService } from 'src/user_item/user_item.service';
 import { RewardService } from 'src/static-table/reward/reward.service';
 import { ItemService } from 'src/static-table/item/item.service';
 import { DataSource } from 'typeorm';
+import { Users } from 'src/users/entity/users.entity';
 
 @Injectable()
 export class RewardOfferService {
@@ -260,12 +261,11 @@ export class RewardOfferService {
       userEquipData: equipList, // 이중 배열 없이 반환
     };
   }
-
   async rewardCurrency(
     user_id: string,
     item_name: string,
     qty: number,
-    qr: QueryRunner, // `qr`이 무조건 필요하도록 변경
+    qr: QueryRunner, // `qr`이 반드시 필요하도록 변경
   ) {
     const usersRepository = this.usersService.getUsersRepository(qr);
 
@@ -281,7 +281,7 @@ export class RewardOfferService {
       }
 
       // 보상 가능 항목과 컬럼 매핑
-      const currencyFields: { [key: string]: keyof typeof userData } = {
+      const currencyFields: Record<string, keyof Users> = {
         secame_credit: 'secame_credit',
         gord: 'gord',
         diamond_paid: 'diamond_paid',
@@ -295,8 +295,9 @@ export class RewardOfferService {
         throw new BadRequestException(`Invalid currency type: ${item_name}`);
       }
 
-      // 값 업데이트
-      userData[currencyFields[item_name]] += qty;
+      // 값 업데이트 (타입 명확히 지정)
+      const field = currencyFields[item_name] as keyof Users;
+      userData[field] = (userData[field] as number) + qty;
 
       // 업데이트된 데이터 저장 (트랜잭션 내에서 실행)
       await usersRepository.save(userData);
