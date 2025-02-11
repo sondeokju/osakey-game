@@ -10,7 +10,6 @@ import { UserItemService } from 'src/user_item/user_item.service';
 import { RewardService } from 'src/static-table/reward/reward.service';
 import { ItemService } from 'src/static-table/item/item.service';
 import { DataSource } from 'typeorm';
-import { Users } from 'src/users/entity/users.entity';
 
 @Injectable()
 export class RewardOfferService {
@@ -261,7 +260,6 @@ export class RewardOfferService {
       userEquipData: equipList, // 이중 배열 없이 반환
     };
   }
-
   async rewardCurrency(
     user_id: string,
     item_name: string,
@@ -271,7 +269,7 @@ export class RewardOfferService {
     const usersRepository = this.usersService.getUsersRepository(qr);
 
     try {
-      // 사용자 정보 가져오기
+      // 사용자 정보 가져오기 (트랜잭션 내에서 실행)
       const userData = await usersRepository.findOne({
         where: { user_id },
         lock: { mode: 'pessimistic_write' }, // 동시 수정 방지
@@ -281,24 +279,32 @@ export class RewardOfferService {
         throw new NotFoundException(`User ${user_id} not found.`);
       }
 
-      // 보상 가능 항목과 컬럼 매핑
-      const currencyFields: Record<string, keyof Users> = {
-        secame_credit: 'secame_credit',
-        gord: 'gord',
-        diamond_paid: 'diamond_paid',
-        diamond_free: 'diamond_free',
-        exp: 'exp',
-        battery: 'battery',
-        revive_coin: 'revive_coin',
-      };
-
-      if (!currencyFields[item_name]) {
-        throw new BadRequestException(`Invalid currency type: ${item_name}`);
+      // 값 업데이트 (switch 문 사용)
+      switch (item_name) {
+        case 'secame_credit':
+          userData.secame_credit += qty;
+          break;
+        case 'gord':
+          userData.gord += qty;
+          break;
+        case 'diamond_paid':
+          userData.diamond_paid += qty;
+          break;
+        case 'diamond_free':
+          userData.diamond_free += qty;
+          break;
+        case 'exp':
+          userData.exp += qty;
+          break;
+        case 'battery':
+          userData.battery += qty;
+          break;
+        case 'revive_coin':
+          userData.revive_coin += qty;
+          break;
+        default:
+          throw new BadRequestException(`Invalid currency type: ${item_name}`);
       }
-
-      // 값 업데이트 (타입 안정적으로 변환)
-      const field = currencyFields[item_name];
-      userData[field] = (userData[field] as number) + qty;
 
       // 업데이트된 데이터 저장
       await usersRepository.save(userData);
