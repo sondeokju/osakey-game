@@ -136,15 +136,21 @@ export class UserItemExchangeService {
       if (useTransaction) {
         await qr.commitTransaction();
       }
-
       return {
         reward: {
           userItemData: [
-            {
-              item_id: itemExchangeData.exchange_item_id,
-              item_count: -exchange_item_count,
-            },
-            ...rewardData,
+            [
+              {
+                item_id: itemExchangeData.exchange_item_id,
+                item_count: -exchange_item_count,
+              },
+            ],
+            [
+              {
+                item_id: itemExchangeData.result_item_id,
+                item_count: rewardItemCount,
+              },
+            ],
           ],
         },
       };

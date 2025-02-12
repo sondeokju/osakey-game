@@ -14,6 +14,7 @@ export class ResourceManagerService {
     private readonly usersService: UsersService,
     private readonly userItemService: UserItemService,
   ) {}
+
   async validateAndDeductResources(
     user_id: string,
     resources: {

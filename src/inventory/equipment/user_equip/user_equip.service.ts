@@ -465,6 +465,18 @@ export class UserEquipService {
       qr,
     );
 
+    // await this.resourceManagerService.validateAndDeductResources(
+    //   user_id,
+    //   {
+    //     gord: equipLevelMax.used_gold_total,
+    //     item: {
+    //       item_id: equipLevelMax.require_item_id,
+    //       count: equipLevelMax.require_item_count,
+    //     },
+    //   },
+    //   qr,
+    // );
+
     const updatedUserEquip = await userEquipRepository.save({
       ...userEquip,
       equip_level_id: equip_max_level_id,
