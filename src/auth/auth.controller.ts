@@ -55,6 +55,8 @@ export class AuthController {
       socialData = JSON.parse(socialData);
     }
 
+    console.log('socialData:', socialData);
+
     // 값 추출 및 처리
     const email = socialData?.email ?? null;
     const device_id = socialData?.device_id ?? null;
