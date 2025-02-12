@@ -75,7 +75,7 @@ export class UserEduStatsService {
         userItemData: [
           {
             item_id: eduCurriculum.price_item_id,
-            item_count: price_item_qty > 0 ? -price_item_qty : 0,
+            item_count: Math.max(-price_item_qty, 0),
           },
         ],
       },
