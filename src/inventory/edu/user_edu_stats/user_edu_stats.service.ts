@@ -128,6 +128,7 @@ export class UserEduStatsService {
       ),
     });
 
+    await this.processResources(user_id, eduCurriculum, qr);
     // return {
     //   reward: {
     //     userItemData: [
