@@ -44,6 +44,35 @@ export class AuthController {
   }
 
   @IsPublic()
+  @Post('social-login')
+  //@UseInterceptors(TransactionInterceptor)
+  async multiSocialLogin(
+    @Body('socialData') socialData: any,
+    //@QueryRunner() qr: QR,
+  ) {
+    // 데이터 변환 로직
+    if (typeof socialData === 'string') {
+      socialData = JSON.parse(socialData);
+    }
+
+    // 값 추출 및 처리
+    const email = socialData?.email ?? null;
+    const device_id = socialData?.device_id ?? null;
+    const member_id = socialData?.memberid ?? null;
+    const social_user_id = socialData?.userid ?? null;
+    const providor = socialData?.providor ?? null;
+
+    const result = await this.authService.multiSocialLogin(
+      email,
+      device_id,
+      member_id,
+      providor,
+    );
+
+    return result;
+  }
+
+  @IsPublic()
   @Post('line-social/login')
   //@UseInterceptors(TransactionInterceptor)
   async lineSocialLogin2(

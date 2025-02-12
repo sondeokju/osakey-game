@@ -237,7 +237,7 @@ export class UserEduStatsService {
     });
 
     const result = {
-      userItemData: [{ item_id: item.item_id, item_count: 1 }],
+      userItemData: [{ item_id: item.item_id, item_count: -1 }],
     };
 
     return {

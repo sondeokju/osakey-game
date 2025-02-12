@@ -52,7 +52,7 @@ export class UsersService {
 
   async findOrCreateUser(
     email: string,
-    deviceId: string,
+    device_id: string,
     provider: string,
     oauthSub: string,
     qr?: QueryRunner,
@@ -71,7 +71,7 @@ export class UsersService {
 
     // ✅ 2️⃣ 디바이스 ID가 같은 유저 찾기 (우선순위 2)
     user = await usersRepository.findOne({
-      where: { device_id: deviceId },
+      where: { device_id: device_id },
     });
 
     if (user) {
@@ -93,12 +93,14 @@ export class UsersService {
     console.log('🆕 새로운 유저 생성');
     user = usersRepository.create({
       email,
-      device_id: deviceId,
+      device_id: device_id,
       member_id: oauthSub,
       linked_member_ids: JSON.stringify([{ provider, member_id: oauthSub }]),
     });
 
-    return await usersRepository.save(user);
+    const savedUser = await usersRepository.save(user);
+    const result = this.createUserID(savedUser.id);
+    return result;
   }
 
   async createUser(user: Pick<Users, 'email' | 'nickname' | 'password'>) {
