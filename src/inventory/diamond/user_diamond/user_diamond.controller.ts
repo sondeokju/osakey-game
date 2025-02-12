@@ -7,7 +7,7 @@ import { Users } from 'src/users/entity/users.entity';
 import { UserDiamondService } from './user_diamond.service';
 
 @Controller('dia')
-export class UserAchievementsController {
+export class UserDiamondController {
   constructor(private readonly userDiamondService: UserDiamondService) {}
 
   @Get('')
