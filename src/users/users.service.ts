@@ -569,6 +569,65 @@ export class UsersService {
     return { user_id, diamond_free: diamondFree, diamond_paid: diamondPaid };
   }
 
+  async deductPaidDiamond(
+    user_id: string,
+    amount: number,
+    mode: 'free' | 'paid' | 'mixed',
+    qr: QueryRunner,
+  ) {
+    const user = await qr.manager.query(
+      `SELECT * FROM users WHERE user_id = ? FOR UPDATE`,
+      [user_id],
+    );
+
+    if (!user.length) {
+      throw new Error('User not found');
+    }
+
+    let diamondFree = user[0].diamond_free;
+    let diamondPaid = user[0].diamond_paid;
+
+    if (mode === 'free') {
+      if (amount > diamondFree) {
+        throw new BadRequestException('Not enough free dia');
+      }
+      diamondFree -= amount;
+    } else if (mode === 'paid') {
+      if (amount > diamondPaid) {
+        throw new BadRequestException('Not enough paid dia');
+      }
+      diamondPaid -= amount;
+    } else if (mode === 'mixed') {
+      const dia_sum = diamondFree + diamondPaid;
+      if (amount > dia_sum) {
+        throw new BadRequestException('Not enough dia');
+      }
+      if (diamondPaid >= amount) {
+        diamondPaid -= amount;
+      } else {
+        const remaining = amount - diamondPaid;
+        diamondPaid = 0;
+        diamondFree -= remaining;
+      }
+    } else {
+      throw new Error('Invalid mode');
+    }
+
+    await qr.manager.query(
+      `UPDATE users SET diamond_free = ?, diamond_paid = ?, update_at = CURRENT_TIMESTAMP
+   WHERE user_id = ? AND diamond_free = ? AND diamond_paid = ?`,
+      [
+        diamondFree,
+        diamondPaid,
+        user_id,
+        user[0].diamond_free,
+        user[0].diamond_paid,
+      ],
+    );
+
+    return { user_id, diamond_free: diamondFree, diamond_paid: diamondPaid };
+  }
+
   async deductDiamonds2(
     user_id: string,
     amount: number,
