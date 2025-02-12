@@ -53,8 +53,8 @@ export class UsersService {
   async findOrCreateUser(
     email: string,
     device_id: string,
+    member_id: string,
     provider: string,
-    oauthSub: string,
     qr?: QueryRunner,
   ): Promise<Users> {
     let user: Users | null;
@@ -94,8 +94,8 @@ export class UsersService {
     user = usersRepository.create({
       email,
       device_id: device_id,
-      member_id: oauthSub,
-      linked_member_ids: JSON.stringify([{ provider, member_id: oauthSub }]),
+      member_id: member_id,
+      linked_member_ids: JSON.stringify([{ provider, member_id: member_id }]),
     });
 
     const savedUser = await usersRepository.save(user);
