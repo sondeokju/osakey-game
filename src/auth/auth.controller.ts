@@ -59,6 +59,7 @@ export class AuthController {
     const email = socialData?.email ?? null;
     const device_id = socialData?.device_id ?? null;
     const member_id = socialData?.memberid ?? null;
+    console.log('member_id:', member_id);
     const social_user_id = socialData?.userid ?? null;
     const providor = socialData?.providor ?? null;
 
