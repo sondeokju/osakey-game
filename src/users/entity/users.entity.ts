@@ -152,6 +152,32 @@ export class Users extends BaseModel {
   member_id: string;
 
   @Column({
+    type: 'json',
+    nullable: false, // 기본값을 설정할 수 없으므로, nullable false 설정
+  })
+  linked_member_ids: string;
+
+  // Google Member ID (가상 컬럼)
+  @Column({
+    type: 'varchar', // 또는 'char' (UUID 사용 시)
+    length: 255, // UUID 사용 시 '36'
+    asExpression: `JSON_UNQUOTE(JSON_EXTRACT(linked_member_ids, '$[0].member_id'))`,
+    generatedType: 'STORED',
+  })
+  @Index()
+  google_member_id_generated: string;
+
+  // Apple Member ID (가상 컬럼)
+  @Column({
+    type: 'varchar', // 또는 'char' (UUID 사용 시)
+    length: 255,
+    asExpression: `JSON_UNQUOTE(JSON_EXTRACT(linked_member_ids, '$[1].member_id'))`,
+    generatedType: 'STORED',
+  })
+  @Index()
+  apple_member_id_generated: string;
+
+  @Column({
     length: 128,
     type: 'varchar',
     default: '',

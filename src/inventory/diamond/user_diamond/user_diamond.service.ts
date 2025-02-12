@@ -23,79 +23,91 @@ export class UserDiamondService {
       : this.userDiamondRepository;
   }
 
-  // async saveAchieve(
-  //   user_id: string,
-  //   achieve_id: number,
-  //   achieve_count: number,
-  //   progress_status: string,
-  //   qr?: QueryRunner,
-  // ) {
-  //   if (!user_id || typeof user_id !== 'string') {
-  //     throw new BadRequestException('Invalid user_id provided.');
-  //   }
-
-  //   const queryRunner = qr || this.dataSource.createQueryRunner();
-
-  //   let isTransactionOwner = false;
-  //   if (!qr) {
-  //     await queryRunner.connect();
-  //     await queryRunner.startTransaction();
-  //     isTransactionOwner = true;
-  //   }
-
-  //   try {
-  //     const userAchievementsRepository =
-  //       queryRunner.manager.getRepository(UserAchievements);
-
-  //     let userAchieve = await userAchievementsRepository.findOne({
-  //       where: { user_id, achieve_id },
-  //     });
-
-  //     if (!userAchieve) {
-  //       userAchieve = userAchievementsRepository.create({
-  //         user_id,
-  //         achieve_id,
-  //         achieve_count: 0,
-  //         progress_status: 'N', // 기본 상태
-  //       });
-  //     }
-
-  //     if (progress_status === 'Y') {
-  //       userAchieve.progress_status = progress_status;
-  //       userAchieve.achieve_count += +achieve_count;
-  //       userAchieve.complete_date = new Date();
-  //     } else {
-  //       userAchieve.achieve_count += +achieve_count;
-  //     }
-
-  //     const result = await userAchievementsRepository.save(userAchieve);
-
-  //     if (isTransactionOwner) {
-  //       await queryRunner.commitTransaction();
-  //     }
-
-  //     return result;
-  //   } catch (error) {
-  //     if (isTransactionOwner) {
-  //       await queryRunner.rollbackTransaction();
-  //     }
-  //     console.error('Transaction failed:', error);
-  //     throw new Error(`Transaction failed: ${error.message}`);
-  //   } finally {
-  //     if (isTransactionOwner) {
-  //       await queryRunner.release();
-  //     }
-  //   }
-  // }
-
-  async getUserDiamonds(user_id: string, qr?: QueryRunner) {
+  async deductDiamonds(
+    user_id: string,
+    google_member_id: string,
+    apple_member_id: string,
+    amount: number,
+  ) {
     const userDiamondRepository = this.getUserDiamondRepository(qr);
-    const userDiamond = await userDiamondRepository.find({
-      where: {
-        user_id,
-      },
+    // 1️⃣ Google & Apple 계정 다이아몬드 가져오기 (단일 쿼리)
+    const diamonds = await userDiamondRepository.find({
+      where: [
+        { user_id, member_id: google_member_id },
+        { user_id, member_id: apple_member_id },
+      ],
     });
 
-    return userDiamond;
+    if (diamonds.length < 2) {
+      throw new NotFoundException('유저 다이아몬드 정보 없음');
+    }
+
+    // Google과 Apple 다이아 정보를 분리
+    const googleDiamonds = diamonds.find(
+      (d) => d.member_id === google_member_id,
+    );
+    const appleDiamonds = diamonds.find((d) => d.member_id === apple_member_id);
+
+    if (!googleDiamonds || !appleDiamonds) {
+      throw new NotFoundException('유저 다이아몬드 정보 없음');
+    }
+
+    let remainingAmount = amount;
+
+    // 2️⃣ 다이아몬드 차감 우선순위 리스트
+    const deductionOrder = [
+      { source: googleDiamonds, type: 'diamond_paid' }, // Google 유료 다이아
+      { source: appleDiamonds, type: 'diamond_paid' }, // Apple 유료 다이아
+      { source: googleDiamonds, type: 'diamond_bonus' }, // Google 유료 보너스 다이아
+      { source: appleDiamonds, type: 'diamond_bonus' }, // Apple 유료 보너스 다이아
+      { source: googleDiamonds, type: 'diamond_free' }, // Google 무료 다이아
+      { source: appleDiamonds, type: 'diamond_free' }, // Apple 무료 다이아
+    ];
+
+    // 3️⃣ 남은 금액을 차감
+    for (const { source, type } of deductionOrder) {
+      if (remainingAmount <= 0) break;
+
+      const availableAmount = source[type];
+
+      if (availableAmount >= remainingAmount) {
+        source[type] -= remainingAmount;
+        remainingAmount = 0;
+      } else {
+        remainingAmount -= availableAmount;
+        source[type] = 0;
+      }
+    }
+
+    // 4️⃣ 최종 차감 결과 저장
+    const result = await this.userDiamondRepository.save([
+      googleDiamonds,
+      appleDiamonds,
+    ]);
+    return result;
+  }
+
+  async addDiamonds(
+    user_id: string,
+    member_id: string,
+    type: 'diamond_paid' | 'diamond_bonus' | 'diamond_free',
+    amount: number,
+  ) {
+    // 1️⃣ 해당 유저의 특정 계정(Google/Apple)의 다이아몬드 정보 가져오기
+    const diamondRecord = await this.userDiamondRepository.findOne({
+      where: { user_id, member_id },
+    });
+
+    if (!diamondRecord) {
+      throw new NotFoundException('해당 유저 다이아몬드 정보 없음');
+    }
+
+    // 2️⃣ 다이아몬드 추가
+    diamondRecord[type] += amount;
+
+    // 3️⃣ 변경된 데이터 저장
+    const result = await this.userDiamondRepository.save(diamondRecord);
+
+    return result;
   }
 }

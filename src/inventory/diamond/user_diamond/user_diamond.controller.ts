@@ -17,6 +17,24 @@ export class UserDiamondController {
     return result;
   }
 
+  // @Post('add')
+  // async addDiamonds(
+  //   @Body()
+  //   body: {
+  //     userId: string;
+  //     memberId: string;
+  //     type: string;
+  //     amount: number;
+  //   },
+  // ) {
+  //   return await this.diamondService.addDiamonds(
+  //     body.userId,
+  //     body.memberId,
+  //     body.type as 'diamond_paid' | 'diamond_bonus' | 'diamond_free',
+  //     body.amount,
+  //   );
+  // }
+
   // @Post('save')
   // @UseInterceptors(TransactionInterceptor)
   // async saveAchieve(
