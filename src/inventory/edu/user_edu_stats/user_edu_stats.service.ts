@@ -38,23 +38,23 @@ export class UserEduStatsService {
 
   async eduLearn(user_id: string, edu_list_id: number, qr?: QueryRunner) {
     const userEduStatsRepository = this.getUserEduStatsRepository(qr);
-    console.log(edu_list_id);
 
     // 교육 리스트 확인
     const eduList = await this.eduListService.getEduList(edu_list_id, qr);
     if (!eduList) {
       throw new NotFoundException('edu_list not found');
     }
-    console.log(eduList);
+
+    const eduCurriculum = await this.eduCurriculumService.getEduCurriculum(
+      eduList.edu_list_id,
+      1,
+      qr,
+    );
 
     // 사용자 교육 상태 조회
     const userEduStats = await userEduStatsRepository.findOne({
       where: { user_id, edu_list_id },
     });
-
-    console.log(user_id);
-    console.log(edu_list_id);
-    console.log(userEduStats);
 
     // 새 교육 과정 생성
     if (!userEduStats) {
@@ -66,7 +66,21 @@ export class UserEduStatsService {
       throw new NotFoundException('edu_curriculum_max over');
     }
 
-    return this.updateEduLearn(user_id, eduList, userEduStats, qr);
+    const edu = this.updateEduLearn(user_id, eduList, userEduStats, qr);
+
+    const price_item_qty = eduCurriculum.price_item_qty;
+
+    return {
+      reward: {
+        userItemData: [
+          {
+            item_id: eduCurriculum.price_item_id,
+            item_count: price_item_qty > 0 ? -price_item_qty : 0,
+          },
+        ],
+      },
+      edu,
+    };
   }
 
   private async createEduLearn(
