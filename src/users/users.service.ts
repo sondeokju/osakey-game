@@ -100,7 +100,7 @@ export class UsersService {
     });
 
     const savedUser = await usersRepository.save(user);
-    const result = this.createUserID(savedUser.id);
+    const result = this.createUserID(savedUser.id, qr);
     return result;
   }
 
