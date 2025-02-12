@@ -56,9 +56,24 @@ export class UserEduStatsService {
       where: { user_id, edu_list_id },
     });
 
+    const price_item_qty = eduCurriculum.price_item_qty;
     // 새 교육 과정 생성
     if (!userEduStats) {
-      return this.createEduLearn(user_id, eduList, qr);
+      await this.createEduLearn(user_id, eduList, qr);
+      const edu = await userEduStatsRepository.findOne({
+        where: { user_id, edu_list_id },
+      });
+      return {
+        reward: {
+          userItemData: [
+            {
+              item_id: eduCurriculum.price_item_id,
+              item_count: Math.max(-price_item_qty, 0),
+            },
+          ],
+        },
+        edu,
+      };
     }
 
     // 기존 교육 과정 업데이트
@@ -70,8 +85,6 @@ export class UserEduStatsService {
     const edu = await userEduStatsRepository.findOne({
       where: { user_id, edu_list_id },
     });
-
-    const price_item_qty = eduCurriculum.price_item_qty;
 
     return {
       reward: {
@@ -115,8 +128,18 @@ export class UserEduStatsService {
       ),
     });
 
-    await this.processResources(user_id, eduCurriculum, qr);
-    return this.getUserEduStatsRepository(qr).find({ where: { user_id } });
+    // return {
+    //   reward: {
+    //     userItemData: [
+    //       {
+    //         item_id: eduCurriculum.price_item_id,
+    //         item_count: Math.max(-price_item_qty, 0),
+    //       },
+    //     ],
+    //   },
+    //   edu,
+    // };
+    //return this.getUserEduStatsRepository(qr).find({ where: { user_id } });
   }
 
   private async updateEduLearn(
