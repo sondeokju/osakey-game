@@ -28,6 +28,7 @@ export class UserDiamondService {
     google_member_id: string,
     apple_member_id: string,
     amount: number,
+    qr?: QueryRunner,
   ) {
     const userDiamondRepository = this.getUserDiamondRepository(qr);
     // 1️⃣ Google & Apple 계정 다이아몬드 가져오기 (단일 쿼리)
