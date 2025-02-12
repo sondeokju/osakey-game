@@ -55,6 +55,7 @@ export class UsersService {
     device_id: string,
     member_id: string,
     provider: string,
+    //provider: 'google' | 'apple' | 'naver',
     qr?: QueryRunner,
   ): Promise<Users> {
     let user: Users | null;
