@@ -184,11 +184,17 @@ export class UserEduStatsService {
       if (userData.diamond_free < eduCurriculum.diamond_free) {
         throw new BadRequestException('diamond_free not enough');
       }
-      await this.usersService.reduceDiamondFree(
+      await this.usersService.deductDiamonds(
         user_id,
         eduCurriculum.diamond_free,
+        'mixed',
         qr,
       );
+      // await this.usersService.reduceDiamondFree(
+      //   user_id,
+      //   eduCurriculum.diamond_free,
+      //   qr,
+      // );
     }
   }
 
