@@ -138,8 +138,15 @@ export class UserItemExchangeService {
       }
 
       return {
-        reward: rewardData,
-        userItemExchangeData: savedData,
+        reward: {
+          userItemData: [
+            {
+              item_id: itemExchangeData.exchange_item_id,
+              item_count: -exchange_item_count,
+            },
+            ...rewardData,
+          ],
+        },
       };
     } catch (error) {
       if (useTransaction) {
