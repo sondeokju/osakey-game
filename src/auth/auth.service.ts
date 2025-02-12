@@ -121,37 +121,37 @@ export class AuthService {
     };
   }
 
-  async multiSocialLogin(
-    email: string,
-    device_id: string,
-    member_id: string,
-    provider: string,
-  ) {
-    const userData = await this.usersService.findOrCreateUser(
-      email,
-      device_id,
-      member_id,
-      provider,
-    );
+  // async multiSocialLogin(
+  //   email: string,
+  //   device_id: string,
+  //   member_id: string,
+  //   provider: string,
+  // ) {
+  //   const userData = await this.usersService.findOrCreateUser(
+  //     email,
+  //     device_id,
+  //     member_id,
+  //     provider,
+  //   );
 
-    // await this.zLoginLogService.loginLog(
-    //   userData.user_id,
-    //   member_id,
-    //   social_user_id,
-    //   name,
-    // );
+  //   // await this.zLoginLogService.loginLog(
+  //   //   userData.user_id,
+  //   //   member_id,
+  //   //   social_user_id,
+  //   //   name,
+  //   // );
 
-    const inven = await this.invenService.getUserInventoryAll(userData.user_id);
-    const user = await this.getUser(userData.user_id);
-    const login = this.loginUser(userData);
-    const loginObj = JSON.parse(login);
+  //   const inven = await this.invenService.getUserInventoryAll(userData.user_id);
+  //   const user = await this.getUser(userData.user_id);
+  //   const login = this.loginUser(userData);
+  //   const loginObj = JSON.parse(login);
 
-    return {
-      accessToken: loginObj.accessToken,
-      user,
-      inven: inven,
-    };
-  }
+  //   return {
+  //     accessToken: loginObj.accessToken,
+  //     user,
+  //     inven: inven,
+  //   };
+  // }
 
   async getUser(user_id: string) {
     const userDataArray = await this.dataSource.query(
