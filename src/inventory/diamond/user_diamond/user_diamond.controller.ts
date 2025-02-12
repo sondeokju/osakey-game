@@ -10,12 +10,12 @@ import { UserDiamondService } from './user_diamond.service';
 export class UserDiamondController {
   constructor(private readonly userDiamondService: UserDiamondService) {}
 
-  @Get('')
-  @UseInterceptors(TransactionInterceptor)
-  async achieve(@User() user: Users, @QueryRunner() qr: QR) {
-    const result = this.userDiamondService.getUserDiamonds(user.user_id, qr);
-    return result;
-  }
+  // @Get('')
+  // @UseInterceptors(TransactionInterceptor)
+  // async achieve(@User() user: Users, @QueryRunner() qr: QR) {
+  //   const result = this.userDiamondService.getUserDiamonds(user.user_id, qr);
+  //   return result;
+  // }
 
   // @Post('add')
   // async addDiamonds(
