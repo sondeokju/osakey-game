@@ -182,23 +182,29 @@ export class UserEduStatsService {
       }
       await this.usersService.reduceGord(user_id, eduCurriculum.gord, qr);
     }
+    await this.usersService.deductDiamonds(
+      user_id,
+      eduCurriculum.diamond_free,
+      'mixed',
+      qr,
+    );
 
-    if (eduCurriculum.diamond_free > 0) {
-      if (userData.diamond_free < eduCurriculum.diamond_free) {
-        throw new BadRequestException('diamond_free not enough');
-      }
-      await this.usersService.deductDiamonds(
-        user_id,
-        eduCurriculum.diamond_free,
-        'mixed',
-        qr,
-      );
-      // await this.usersService.reduceDiamondFree(
-      //   user_id,
-      //   eduCurriculum.diamond_free,
-      //   qr,
-      // );
-    }
+    // if (eduCurriculum.diamond_free > 0) {
+    //   if (userData.diamond_free < eduCurriculum.diamond_free) {
+    //     throw new BadRequestException('diamond_free not enough');
+    //   }
+    //   await this.usersService.deductDiamonds(
+    //     user_id,
+    //     eduCurriculum.diamond_free,
+    //     'mixed',
+    //     qr,
+    //   );
+    //   // await this.usersService.reduceDiamondFree(
+    //   //   user_id,
+    //   //   eduCurriculum.diamond_free,
+    //   //   qr,
+    //   // );
+    // }
   }
 
   async reduceLearnTimeItem(
