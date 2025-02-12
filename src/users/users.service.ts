@@ -50,6 +50,57 @@ export class UsersService {
     return result;
   }
 
+  async findOrCreateUser(
+    email: string,
+    deviceId: string,
+    provider: string,
+    oauthSub: string,
+    qr?: QueryRunner,
+  ): Promise<Users> {
+    let user: Users | null;
+
+    const usersRepository = this.getUsersRepository(qr);
+
+    // ✅ 1️⃣ 이메일이 같은 유저 찾기 (우선순위 1)
+    user = await usersRepository.findOne({ where: { email } });
+
+    if (user) {
+      console.log('✅ 기존 유저 발견 (이메일 기준)');
+      return user;
+    }
+
+    // ✅ 2️⃣ 디바이스 ID가 같은 유저 찾기 (우선순위 2)
+    user = await usersRepository.findOne({
+      where: { device_id: deviceId },
+    });
+
+    if (user) {
+      console.log('✅ 기존 유저 발견 (디바이스 ID 기준)');
+      return user;
+    }
+
+    // ✅ 3️⃣ OAuth `sub`이 같은 유저 찾기 (우선순위 3)
+    // user = await usersRepository.findOne({
+    //   where: { oauth_sub: oauthSub },
+    // });
+
+    // if (user) {
+    //   console.log('✅ 기존 유저 발견 (OAuth sub 기준)');
+    //   return user;
+    // }
+
+    // ✅ 4️⃣ 유저가 없으면 새로 생성
+    console.log('🆕 새로운 유저 생성');
+    user = usersRepository.create({
+      email,
+      device_id: deviceId,
+      member_id: oauthSub,
+      linked_member_ids: JSON.stringify([{ provider, member_id: oauthSub }]),
+    });
+
+    return await usersRepository.save(user);
+  }
+
   async createUser(user: Pick<Users, 'email' | 'nickname' | 'password'>) {
     // 1) nickname 중복이 없는지 확인
     // exist() -> 만약에 조건에 해당되는 값이 있으면 true 반환

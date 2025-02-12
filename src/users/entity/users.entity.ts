@@ -157,6 +157,14 @@ export class Users extends BaseModel {
   })
   linked_member_ids: string;
 
+  @Column({
+    type: 'varchar',
+    length: 50,
+    nullable: false,
+  })
+  @Index()
+  provider: string; // 'google' 또는 'apple'
+
   // Google Member ID (가상 컬럼)
   @Column({
     type: 'varchar', // 또는 'char' (UUID 사용 시)
