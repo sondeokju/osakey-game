@@ -66,7 +66,10 @@ export class UserEduStatsService {
       throw new NotFoundException('edu_curriculum_max over');
     }
 
-    const edu = this.updateEduLearn(user_id, eduList, userEduStats, qr);
+    await this.updateEduLearn(user_id, eduList, userEduStats, qr);
+    const edu = await userEduStatsRepository.findOne({
+      where: { user_id, edu_list_id },
+    });
 
     const price_item_qty = eduCurriculum.price_item_qty;
 
