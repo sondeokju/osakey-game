@@ -115,6 +115,7 @@ import { GachaDrawModule } from 'src/supervisor/gacha_draw/gacha_draw.module';
 import { UserGachaCheckModule } from 'src/supervisor/gacha_draw/user_gacha_check/user_gacha_check.module';
 import { BountyStageModule } from 'src/static-table/stage/bounty_stage/bounty_stage.module';
 import { UserHeroModule } from 'src/inventory/hero/user_hero/user_hero.module';
+import { UserDiamondModule } from 'src/inventory/diamond/user_diamond/user_diamond.module';
 
 export const entities_module = [
   UsersModule,
@@ -234,6 +235,7 @@ export const entities_module = [
   UserGachaCheckModule,
   BountyStageModule,
   UserHeroModule,
+  UserDiamondModule,
 ];
 
 //console.log('[DEBUG] entities_module.ts loaded:', entities_module);
