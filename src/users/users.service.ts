@@ -50,59 +50,59 @@ export class UsersService {
     return result;
   }
 
-  async findOrCreateUser(
-    email: string,
-    device_id: string,
-    member_id: string,
-    provider: string,
-    //provider: 'google' | 'apple' | 'naver',
-    qr?: QueryRunner,
-  ): Promise<Users> {
-    let user: Users | null;
+  // async findOrCreateUser(
+  //   email: string,
+  //   device_id: string,
+  //   member_id: string,
+  //   provider: string,
+  //   //provider: 'google' | 'apple' | 'naver',
+  //   qr?: QueryRunner,
+  // ): Promise<Users> {
+  //   let user: Users | null;
 
-    const usersRepository = this.getUsersRepository(qr);
+  //   const usersRepository = this.getUsersRepository(qr);
 
-    // ✅ 1️⃣ 이메일이 같은 유저 찾기 (우선순위 1)
-    user = await usersRepository.findOne({ where: { email } });
+  //   // ✅ 1️⃣ 이메일이 같은 유저 찾기 (우선순위 1)
+  //   user = await usersRepository.findOne({ where: { email } });
 
-    if (user) {
-      console.log('✅ 기존 유저 발견 (이메일 기준)');
-      return user;
-    }
+  //   if (user) {
+  //     console.log('✅ 기존 유저 발견 (이메일 기준)');
+  //     return user;
+  //   }
 
-    // ✅ 2️⃣ 디바이스 ID가 같은 유저 찾기 (우선순위 2)
-    user = await usersRepository.findOne({
-      where: { device_id: device_id },
-    });
+  //   // ✅ 2️⃣ 디바이스 ID가 같은 유저 찾기 (우선순위 2)
+  //   user = await usersRepository.findOne({
+  //     where: { device_id: device_id },
+  //   });
 
-    if (user) {
-      console.log('✅ 기존 유저 발견 (디바이스 ID 기준)');
-      return user;
-    }
+  //   if (user) {
+  //     console.log('✅ 기존 유저 발견 (디바이스 ID 기준)');
+  //     return user;
+  //   }
 
-    // ✅ 3️⃣ OAuth `sub`이 같은 유저 찾기 (우선순위 3)
-    // user = await usersRepository.findOne({
-    //   where: { oauth_sub: oauthSub },
-    // });
+  //   // ✅ 3️⃣ OAuth `sub`이 같은 유저 찾기 (우선순위 3)
+  //   // user = await usersRepository.findOne({
+  //   //   where: { oauth_sub: oauthSub },
+  //   // });
 
-    // if (user) {
-    //   console.log('✅ 기존 유저 발견 (OAuth sub 기준)');
-    //   return user;
-    // }
+  //   // if (user) {
+  //   //   console.log('✅ 기존 유저 발견 (OAuth sub 기준)');
+  //   //   return user;
+  //   // }
 
-    // ✅ 4️⃣ 유저가 없으면 새로 생성
-    console.log('🆕 새로운 유저 생성');
-    user = usersRepository.create({
-      email,
-      device_id: device_id,
-      member_id: member_id,
-      linked_member_ids: JSON.stringify([{ provider, member_id: member_id }]),
-    });
+  //   // ✅ 4️⃣ 유저가 없으면 새로 생성
+  //   console.log('🆕 새로운 유저 생성');
+  //   user = usersRepository.create({
+  //     email,
+  //     device_id: device_id,
+  //     member_id: member_id,
+  //     linked_member_ids: JSON.stringify([{ provider, member_id: member_id }]),
+  //   });
 
-    const savedUser = await usersRepository.save(user);
-    const result = this.createUserID(savedUser.id, qr);
-    return result;
-  }
+  //   const savedUser = await usersRepository.save(user);
+  //   const result = this.createUserID(savedUser.id, qr);
+  //   return result;
+  // }
 
   async createUser(user: Pick<Users, 'email' | 'nickname' | 'password'>) {
     // 1) nickname 중복이 없는지 확인
