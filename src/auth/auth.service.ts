@@ -125,13 +125,13 @@ export class AuthService {
     email: string,
     device_id: string,
     member_id: string,
-    providor: string,
+    provider: string,
   ) {
     const userData = await this.usersService.findOrCreateUser(
       email,
       device_id,
       member_id,
-      providor,
+      provider,
     );
 
     // await this.zLoginLogService.loginLog(

@@ -63,13 +63,13 @@ export class AuthController {
     const member_id = socialData?.memberid ?? null;
     console.log('member_id:', member_id);
     const social_user_id = socialData?.userid ?? null;
-    const providor = socialData?.providor ?? null;
+    const provider = socialData?.provider ?? null;
 
     const result = await this.authService.multiSocialLogin(
       email,
       device_id,
       member_id,
-      providor,
+      provider,
     );
 
     return result;
