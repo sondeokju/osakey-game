@@ -396,8 +396,6 @@ export class UserEquipService {
       },
     });
 
-    console.log('userEquip', userEquip);
-
     if (!userEquip) {
       throw new NotFoundException(
         `User equip with ID ${user_equip_id} not found.`,
@@ -407,8 +405,6 @@ export class UserEquipService {
     const equipLevel = this.equipLevelService.getEquipLevel(
       userEquip.equip_level_id,
     );
-
-    console.log('equipLevel', equipLevel);
 
     if (!equipLevel) {
       throw new NotFoundException(
@@ -430,13 +426,11 @@ export class UserEquipService {
     const equipLevelMaxData = await this.equipLevelService.getEquipLevel(
       userEquip.equip_level_id,
     );
-    console.log('equipLevelMaxData', equipLevelMaxData);
 
     const equip_max_level_id = this.getEquipMaxLevelId(
       userEquip.equip_level_id,
       equipLevelMaxData.level_max,
     );
-    console.log('equip_max_level_id', equip_max_level_id);
 
     // const equipMaxLevelData = await this.getEquipMaxLevelBuilder(
     //   user_id,
@@ -451,7 +445,6 @@ export class UserEquipService {
       equip_max_level_id,
       qr,
     );
-    console.log('equipLevelMax', equipLevelMax);
 
     await this.resourceManagerService.validateAndDeductResources(
       user_id,
@@ -494,19 +487,15 @@ export class UserEquipService {
       },
     });
 
-    const result = {
-      userItemData: [
-        {
-          item_id: equipLevelMax.require_item_id,
-          item_count: equipLevelMax.require_item_count,
-        },
-      ],
-      userEquipData: userEquipData,
-    };
-
     return {
       reward: {
-        result,
+        userItemData: [
+          {
+            item_id: equipLevelMax.require_item_id,
+            item_count: equipLevelMax.require_item_count,
+          },
+        ],
+        userEquipData: userEquipData,
       },
     };
   }
