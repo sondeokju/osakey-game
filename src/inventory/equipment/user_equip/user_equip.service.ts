@@ -419,6 +419,8 @@ export class UserEquipService {
     //   user_id,
     //   userEquip.equip_level_id,
     // );
+
+    console.log('userEquip.equip_level_id:', userEquip.equip_level_id);
     const equipNextLevelData = await this.maxEquipLevelUp(
       user_id,
       userEquip.equip_level_id,
@@ -592,13 +594,14 @@ export class UserEquipService {
 
   async getEquipLevelCategory(currentEquipLevelId: number) {
     const query = `      
-      SELECT equip_level_id, level, require_gold, require_item_count
+      SELECT equip_level_id, require_gold, require_item_count
       FROM equip_level
       WHERE require_gold >= 0
       AND LEFT(equip_level_id, 8) = LEFT(?, 8)
     `;
 
     const result = await this.dataSource.query(query, [currentEquipLevelId]);
+    console.log('result:', result);
 
     return result;
   }
