@@ -555,16 +555,20 @@ export class UserEquipService {
     return result.length > 0 ? result[0].equip_level_id : null;
   }
 
-  async getUserGord(user_id: string) {
+  async getUserGord(user_id: string): Promise<number | null> {
     const query = `      
-      SELECT gord
-      FROM users
-      WHERE user_id = ?
-    `;
+    SELECT gord
+    FROM users
+    WHERE user_id = ?
+  `;
 
     const result = await this.dataSource.query(query, [user_id]);
 
-    return result[0].gord;
+    if (result.length > 0) {
+      return result[0].gord; // 첫 번째 결과의 gold 값을 반환
+    } else {
+      return null; // 유저가 존재하지 않으면 null 반환
+    }
   }
 
   async getEquipLevelCategory(currentEquipLevelId: number) {
