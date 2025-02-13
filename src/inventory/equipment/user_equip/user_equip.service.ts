@@ -425,7 +425,7 @@ export class UserEquipService {
       (await equipLevel).require_item_id,
     );
 
-    //console.log('equip_max_level_id:', equip_max_level_id);
+    console.log('equipNextLevelData:', equipNextLevelData);
 
     const equipLevelMax = await this.equipLevelService.getEquipLevel(
       +userEquip.equip_level_id,
@@ -619,10 +619,6 @@ export class UserEquipService {
     let sum_item_count = 0;
 
     for (let i = 0; i < category.length; i++) {
-      // console.log(
-      //   `레벨: ${category[i].level}, 필요 골드: ${category[i].require_gold}`,
-      // );
-
       user_gord -= category[i].require_gold;
       sum_gord += category[i].require_gold;
       item_count -= category[i].require_item_count;
