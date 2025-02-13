@@ -477,7 +477,7 @@ export class UserEquipService {
 
     const updatedUserEquip = await userEquipRepository.save({
       ...userEquip,
-      equip_level_id: equip_max_level_id,
+      equip_level_id: +equip_max_level_id,
     });
 
     await this.userEquipOptionService.equipMaxLevelUpOptionUpdate(
