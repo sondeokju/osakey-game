@@ -553,9 +553,7 @@ export class UserEquipService {
     return result.length > 0 ? result[0].equip_level_id : null;
   }
 
-  async getEquipLevelCategory(
-    currentEquipLevelId: number,
-  ): Promise<number | null> {
+  async getEquipLevelCategory(currentEquipLevelId: number) {
     const query = `      
       SELECT equip_level_id, level, require_gold
       FROM equip_level
@@ -571,10 +569,10 @@ export class UserEquipService {
   async maxEquipLevelUp(user_id: string, equip_level_id: number) {
     const category = await this.getEquipLevelCategory(equip_level_id);
 
-    console.log(category[0]);
+    console.log(category.length);
     console.log(Array.isArray(category)); // true이면 배열, false이면 배열이 아님
 
-    for (let i = 0; i < category[0].length; i++) {
+    for (let i = 0; i < categorylength; i++) {
       console.log(
         `레벨: ${category[i].level}, 필요 골드: ${category[i].require_gold}`,
       );
