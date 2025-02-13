@@ -627,9 +627,8 @@ export class UserEquipService {
 
     for (let i = 0; i < category.length; i++) {
       user_gord -= category[i].require_gold;
-      sum_gord += category[i].require_gold;
       item_count -= category[i].require_item_count;
-      sum_item_count += category[i].require_item_count;
+
       console.log('user_gord:', user_gord);
       console.log('item_count:', item_count);
 
@@ -640,6 +639,11 @@ export class UserEquipService {
           sum_item_count,
         };
       }
+      sum_gord += category[i].require_gold;
+      console.log('sum_gord:', sum_gord);
+      console.log('sum_gord:', sum_gord);
+      sum_item_count += category[i].require_item_count;
+      console.log('equip_level_id:', category[i].equip_level_id);
     }
   }
 
