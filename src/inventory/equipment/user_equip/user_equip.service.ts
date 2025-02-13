@@ -419,7 +419,7 @@ export class UserEquipService {
     //   user_id,
     //   userEquip.equip_level_id,
     // );
-    const equip_next_max_level_id = await this.maxEquipLevelUp(
+    const equipNextLevelData = await this.maxEquipLevelUp(
       user_id,
       userEquip.equip_level_id,
       (await equipLevel).require_item_id,
@@ -435,10 +435,10 @@ export class UserEquipService {
     await this.resourceManagerService.validateAndDeductResources(
       user_id,
       {
-        gord: equipLevelMax.used_gold_total,
+        gord: equipNextLevelData.sum_gord,
         item: {
           item_id: equipLevelMax.require_item_id,
-          count: equipLevelMax.require_item_count,
+          count: equipNextLevelData.sum_item_count,
         },
       },
       qr,
@@ -446,7 +446,7 @@ export class UserEquipService {
 
     const updatedUserEquip = await userEquipRepository.save({
       ...userEquip,
-      equip_level_id: +equip_next_max_level_id,
+      equip_level_id: +equipNextLevelData.equip_level_id,
     });
 
     await this.userEquipOptionService.equipMaxLevelUpOptionUpdate(
@@ -466,7 +466,7 @@ export class UserEquipService {
         userItemData: [
           {
             item_id: equipLevelMax.require_item_id,
-            item_count: equipLevelMax.require_item_count,
+            item_count: equipNextLevelData.sum_item_count,
           },
         ],
         userEquipData: userEquipData,
@@ -615,18 +615,27 @@ export class UserEquipService {
     console.log('user_gord:', user_gord);
     console.log('item_count:', item_count);
 
+    let sum_gord = 0;
+    let sum_item_count = 0;
+
     for (let i = 0; i < category.length; i++) {
       // console.log(
       //   `레벨: ${category[i].level}, 필요 골드: ${category[i].require_gold}`,
       // );
 
       user_gord -= category[i].require_gold;
+      sum_gord += category[i].require_gold;
       item_count -= category[i].require_item_count;
+      sum_item_count += category[i].require_item_count;
       console.log('user_gord:', user_gord);
       console.log('item_count:', item_count);
 
       if (user_gord <= 0 && item_count <= 0) {
-        return +category[i].equip_level_id + 1;
+        return {
+          equip_level_id: +category[i].equip_level_id + 1,
+          sum_gord,
+          sum_item_count,
+        };
       }
     }
   }
