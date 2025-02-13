@@ -555,6 +555,23 @@ export class UserEquipService {
     return result.length > 0 ? result[0].equip_level_id : null;
   }
 
+  async getUserItem(user_id: string, item_id: number): Promise<number | null> {
+    const query = `      
+    SELECT item_count
+    FROM user_item
+    WHERE user_id = ? and item_id = ?
+  `;
+
+    const result = await this.dataSource.query(query, [user_id, item_id]);
+    console.log('result:', result);
+
+    if (result.length > 0) {
+      return result[0].item_count; // 첫 번째 결과의 gold 값을 반환
+    } else {
+      return null; // 유저가 존재하지 않으면 null 반환
+    }
+  }
+
   async getUserGord(user_id: string): Promise<number | null> {
     const query = `      
     SELECT gord
@@ -585,11 +602,17 @@ export class UserEquipService {
     return result;
   }
 
-  async maxEquipLevelUp(user_id: string, equip_level_id: number) {
+  async maxEquipLevelUp(
+    user_id: string,
+    equip_level_id: number,
+    item_id: number,
+  ) {
     const category = await this.getEquipLevelCategory(equip_level_id);
 
     let user_gord = await this.getUserGord(user_id);
+    let item_count = await this.getUserItem(user_id, item_id);
     console.log('user_gord:', user_gord);
+    console.log('item_count:', item_count);
 
     for (let i = 0; i < category.length; i++) {
       // console.log(
@@ -599,7 +622,7 @@ export class UserEquipService {
       user_gord -= category[i].require_gold;
       console.log('user_gord:', user_gord);
       console.log('require_gold:', category[i].require_gold);
-      if (user_gord < 0) {
+      if (user_gord <= 0) {
         return category[i].equip_level_id;
       }
     }
