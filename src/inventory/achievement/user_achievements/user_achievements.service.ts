@@ -160,7 +160,7 @@ export class UserAchievementsService {
         userItemData: rewardData,
       },
 
-      //userAchievement: updatedUserAchieve,
+      userAchievement: updatedUserAchieve,
     };
   }
 }
