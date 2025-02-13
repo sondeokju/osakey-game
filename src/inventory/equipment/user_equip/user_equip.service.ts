@@ -621,9 +621,10 @@ export class UserEquipService {
       // );
 
       user_gord -= category[i].require_gold;
+      item_count -= category[i].require_item_count;
       console.log('user_gord:', user_gord);
       console.log('require_gold:', category[i].require_gold);
-      if (user_gord <= 0) {
+      if (user_gord <= 0 && item_count <= 0) {
         return category[i].equip_level_id;
       }
     }
