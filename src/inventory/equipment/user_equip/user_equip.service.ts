@@ -634,7 +634,7 @@ export class UserEquipService {
 
       if (user_gord <= 0 && item_count <= 0) {
         return {
-          equip_level_id: +category[i].equip_level_id + 1,
+          equip_level_id: +category[i].equip_level_id,
           sum_gord,
           sum_item_count,
         };
