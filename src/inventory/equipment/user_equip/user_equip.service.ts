@@ -626,7 +626,7 @@ export class UserEquipService {
       console.log('item_count:', item_count);
 
       if (user_gord <= 0 && item_count <= 0) {
-        return category[i].equip_level_id;
+        return +category[i].equip_level_id + 1;
       }
     }
   }
