@@ -564,7 +564,7 @@ export class UserEquipService {
 
     const result = await this.dataSource.query(query, [user_id]);
 
-    return result;
+    return result[0].gord;
   }
 
   async getEquipLevelCategory(currentEquipLevelId: number) {
