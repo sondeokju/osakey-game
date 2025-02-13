@@ -437,16 +437,7 @@ export class UserEquipService {
       userEquip.equip_level_id,
     );
 
-    // const equipMaxLevelData = await this.getEquipMaxLevelBuilder(
-    //   user_id,
-    //   userEquip.equip_level_id,
-    //   equip_max_level_id,
-    // );
-    // console.log('equipMaxLevelData', equipMaxLevelData);
-    // console.log('equipMaxLevelData max_level', equipMaxLevelData.max_level);
-
     const equipLevelMax = await this.equipLevelService.getEquipLevel(
-      //equipMaxLevelData.max_level,
       +equip_max_level_id,
       qr,
     );
@@ -462,18 +453,6 @@ export class UserEquipService {
       },
       qr,
     );
-
-    // await this.resourceManagerService.validateAndDeductResources(
-    //   user_id,
-    //   {
-    //     gord: equipLevelMax.used_gold_total,
-    //     item: {
-    //       item_id: equipLevelMax.require_item_id,
-    //       count: equipLevelMax.require_item_count,
-    //     },
-    //   },
-    //   qr,
-    // );
 
     const updatedUserEquip = await userEquipRepository.save({
       ...userEquip,
@@ -536,7 +515,7 @@ export class UserEquipService {
     userId: string,
     currentEquipLevelId: number,
   ): Promise<number | null> {
-    const query = `
+    const query = `      
       WITH RECURSIVE EquipUpgrade AS (
           SELECT
               el.equip_level_id,
@@ -568,14 +547,15 @@ export class UserEquipService {
           FROM equip_level el
           JOIN EquipUpgrade eu ON el.equip_level_id = eu.equip_level_id + 1
           WHERE eu.current_gold >= el.used_gold_total
-            AND eu.current_item_count >= (eu.accumulated_items + el.require_item_count)
+            #AND eu.current_item_count >= (eu.accumulated_items + el.require_item_count)
+            AND eu.current_item_count >= el.require_item_count
             AND LEFT(el.equip_level_id, 8) = LEFT(eu.equip_level_id, 8)
       )
 
       SELECT equip_level_id
       FROM EquipUpgrade
       ORDER BY equip_level_id DESC
-      LIMIT 1 OFFSET 1;
+      LIMIT 1
     `;
 
     const result = await this.dataSource.query(query, [
