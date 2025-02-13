@@ -540,7 +540,7 @@ export class UserEquipService {
             AND LEFT(el.equip_level_id, 8) = LEFT(eu.equip_level_id, 8)
       )
 
-      SELECT equip_level_id,
+      SELECT equip_level_id
       FROM EquipUpgrade
       ORDER BY equip_level_id DESC
       LIMIT 1
