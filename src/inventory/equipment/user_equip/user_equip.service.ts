@@ -525,6 +525,7 @@ export class UserEquipService {
               el.equip_level_id,
               el.require_gold,
               el.used_gold_total,
+              el.used_item_total_count,
               el.require_item_id,
               el.require_item_count,
               eu.current_gold,
@@ -535,11 +536,11 @@ export class UserEquipService {
           JOIN EquipUpgrade eu ON el.equip_level_id = eu.equip_level_id + 1
           WHERE eu.current_gold >= el.used_gold_total
             #AND eu.current_item_count >= (eu.accumulated_items + el.require_item_count)
-            AND eu.current_item_count >= el.require_item_count
+            AND eu.current_item_count >= el.used_item_total_count
             AND LEFT(el.equip_level_id, 8) = LEFT(eu.equip_level_id, 8)
       )
 
-      SELECT equip_level_id
+      SELECT equip_level_id,
       FROM EquipUpgrade
       ORDER BY equip_level_id DESC
       LIMIT 1
