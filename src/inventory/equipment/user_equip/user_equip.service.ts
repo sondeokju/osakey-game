@@ -418,25 +418,12 @@ export class UserEquipService {
     const equip = await this.equipService.getEquip(baseEquipId, qr);
     console.log('equip', equip);
 
-    // const equip_grade = await this.equipGradeService.getEquipGrade('TRUE');
-    // if (parseInt(equipLevel.equip_grade, 10) === equip_grade.id) {
-    //   throw new BadRequestException(`It is already at the 5 maximum grade.`);
-    // }
-
-    // const equipLevelMaxData = await this.equipLevelService.getEquipLevel(
-    //   userEquip.equip_level_id,
-    // );
-
-    // const equip_max_level_id = this.getEquipMaxLevelId(
-    //   userEquip.equip_level_id,
-    //   equipLevelMaxData.level_max,
-    // );
-
     const equip_max_level_id = this.getMaxEquipLevel(
       user_id,
       userEquip.equip_level_id,
     );
 
+    console.log('equip_max_level_id:', equip_max_level_id);
     const equipLevelMax = await this.equipLevelService.getEquipLevel(
       +equip_max_level_id,
       qr,
