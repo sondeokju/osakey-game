@@ -574,11 +574,11 @@ export class UserEquipService {
     console.log(category);
     console.log(Array.isArray(category)); // true이면 배열, false이면 배열이 아님
 
-    for (let i = 0; i < category.length; i++) {
-      console.log(
-        `레벨: ${category[i].level}, 필요 골드: ${category[i].require_gold}`,
-      );
-    }
+    // for (let i = 0; i < category.length; i++) {
+    //   console.log(
+    //     `레벨: ${category[i].level}, 필요 골드: ${category[i].require_gold}`,
+    //   );
+    // }
   }
 
   levelUp(currentLevelId: number, levelMax: number): number {
