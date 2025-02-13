@@ -588,15 +588,16 @@ export class UserEquipService {
   async maxEquipLevelUp(user_id: string, equip_level_id: number) {
     const category = await this.getEquipLevelCategory(equip_level_id);
 
-    let user_gord = await this.getUserGord(user_id);
+    const user_gord = await this.getUserGord(user_id);
+    let gord = user_gord['gord'];
 
     for (let i = 0; i < category.length; i++) {
       // console.log(
       //   `레벨: ${category[i].level}, 필요 골드: ${category[i].require_gold}`,
       // );
 
-      user_gord -= category[i].require_gold;
-      console.log('user_gord:', user_gord);
+      gord -= category[i].require_gold;
+      console.log('gord:', gord);
       console.log('require_gold:', category[i].require_gold);
       if (user_gord < 0) {
         return category[i].equip_level_id;
