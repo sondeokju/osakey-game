@@ -569,9 +569,16 @@ export class UserEquipService {
   }
 
   async maxEquipLevelUp(user_id: string, equip_level_id: number) {
-    const catoegory = await this.getEquipLevelCategory(equip_level_id);
+    const category = await this.getEquipLevelCategory(equip_level_id);
 
-    console.log('catoegory:', catoegory);
+    console.log(category);
+    console.log(Array.isArray(category)); // true이면 배열, false이면 배열이 아님
+
+    for (let i = 0; i < category.length; i++) {
+      console.log(
+        `레벨: ${category[i].level}, 필요 골드: ${category[i].require_gold}`,
+      );
+    }
   }
 
   levelUp(currentLevelId: number, levelMax: number): number {
