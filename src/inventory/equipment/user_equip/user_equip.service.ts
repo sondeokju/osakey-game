@@ -419,7 +419,7 @@ export class UserEquipService {
     //   user_id,
     //   userEquip.equip_level_id,
     // );
-    const equip_max_level_id = await this.maxEquipLevelUp(
+    const equip_next_max_level_id = await this.maxEquipLevelUp(
       user_id,
       userEquip.equip_level_id,
       (await equipLevel).require_item_id,
@@ -428,7 +428,7 @@ export class UserEquipService {
     console.log('equip_max_level_id:', equip_max_level_id);
 
     const equipLevelMax = await this.equipLevelService.getEquipLevel(
-      +equip_max_level_id,
+      +userEquip.equip_level_id,
       qr,
     );
 
@@ -446,7 +446,7 @@ export class UserEquipService {
 
     const updatedUserEquip = await userEquipRepository.save({
       ...userEquip,
-      equip_level_id: +equip_max_level_id,
+      equip_level_id: +equip_next_max_level_id,
     });
 
     await this.userEquipOptionService.equipMaxLevelUpOptionUpdate(
