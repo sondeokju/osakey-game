@@ -644,6 +644,14 @@ export class UserEquipService {
       console.log('sum_gord:', sum_gord);
       sum_item_count += category[i].require_item_count;
       console.log('equip_level_id:', category[i].equip_level_id);
+
+      if (category[i].require_gold === 0) {
+        return {
+          equip_level_id: +category[i].equip_level_id,
+          sum_gord,
+          sum_item_count,
+        };
+      }
     }
   }
 
