@@ -421,7 +421,7 @@ export class UserEquipService {
     // );
 
     console.log('userEquip.equip_level_id:', userEquip.equip_level_id);
-    const equipNextLevelData = await this.maxEquipLevelUp(
+    const equipNextLevelData = await this.getNextMaxEquipLevelUp(
       user_id,
       userEquip.equip_level_id,
       (await equipLevel).require_item_id,
@@ -610,7 +610,7 @@ export class UserEquipService {
     return result;
   }
 
-  async maxEquipLevelUp(
+  async getNextMaxEquipLevelUp(
     user_id: string,
     equip_level_id: number,
     item_id: number,
