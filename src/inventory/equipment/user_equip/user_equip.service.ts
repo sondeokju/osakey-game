@@ -504,23 +504,24 @@ export class UserEquipService {
   ): Promise<number | null> {
     const query = `      
       WITH RECURSIVE EquipUpgrade AS (
+          -- 초기 장비 레벨 설정
           SELECT
               el.equip_level_id,
               el.require_gold,
               el.used_gold_total,
+              el.used_item_total_count,
               el.require_item_id,
               el.require_item_count,
               u.gord AS current_gold,
-              COALESCE(ui.item_count, 0) AS current_item_count,
-              el.require_gold AS accumulated_gold,
-              el.require_item_count AS accumulated_items
+              COALESCE(ui.item_count, 0) AS current_item_count
           FROM equip_level el
-          JOIN users u ON u.user_id = ?
+          JOIN users u ON u.user_id = '0000000220'
           LEFT JOIN user_item ui ON ui.user_id = u.user_id AND ui.item_id = el.require_item_id
-          WHERE el.equip_level_id = ?
+          WHERE el.equip_level_id = 1120000101
 
           UNION ALL
 
+          -- 업그레이드 가능할 경우 다음 레벨을 가져옴
           SELECT
               el.equip_level_id,
               el.require_gold,
@@ -529,18 +530,19 @@ export class UserEquipService {
               el.require_item_id,
               el.require_item_count,
               eu.current_gold,
-              eu.current_item_count,
+              eu.current_item_count
           FROM equip_level el
           JOIN EquipUpgrade eu ON el.equip_level_id = eu.equip_level_id + 1
-          WHERE eu.current_gold >= el.used_gold_total  
-            AND eu.current_item_count >= el.used_item_total_count
-            AND LEFT(el.equip_level_id, 8) = LEFT(eu.equip_level_id, 8)
+          WHERE eu.current_gold >= el.used_gold_total  -- 누적 골드 비교
+            AND eu.current_item_count >= el.used_item_total_count  -- 누적 아이템 비교
+            AND LEFT(el.equip_level_id, 8) = LEFT(eu.equip_level_id, 8) -- 같은 계열 내에서만 업그레이드 가능
       )
 
+      -- 최대 업그레이드 가능한 레벨 찾기
       SELECT equip_level_id
       FROM EquipUpgrade
       ORDER BY equip_level_id DESC
-      LIMIT 1
+      LIMIT 1;
     `;
 
     const result = await this.dataSource.query(query, [
