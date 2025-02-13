@@ -424,6 +424,8 @@ export class UserEquipService {
       userEquip.equip_level_id,
     );
 
+    console.log('equip_max_level_id:', equip_max_level_id);
+
     const equipLevelMax = await this.equipLevelService.getEquipLevel(
       +equip_max_level_id,
       qr,
@@ -553,6 +555,18 @@ export class UserEquipService {
     return result.length > 0 ? result[0].equip_level_id : null;
   }
 
+  async getUserGord(user_id: string) {
+    const query = `      
+      SELECT gord
+      FROM users
+      WHERE user_id = ?
+    `;
+
+    const result = await this.dataSource.query(query, [user_id]);
+
+    return result;
+  }
+
   async getEquipLevelCategory(currentEquipLevelId: number) {
     const query = `      
       SELECT equip_level_id, level, require_gold
@@ -569,13 +583,17 @@ export class UserEquipService {
   async maxEquipLevelUp(user_id: string, equip_level_id: number) {
     const category = await this.getEquipLevelCategory(equip_level_id);
 
-    console.log(category.length);
-    console.log(Array.isArray(category)); // true이면 배열, false이면 배열이 아님
+    let user_gord = await this.getUserGord(user_id);
 
     for (let i = 0; i < category.length; i++) {
       console.log(
         `레벨: ${category[i].level}, 필요 골드: ${category[i].require_gold}`,
       );
+
+      user_gord -= category[i].require_gold;
+      if (user_gord < 0) {
+        return category[i].equip_level_id;
+      }
     }
   }
 
