@@ -422,6 +422,7 @@ export class UserEquipService {
     const equip_max_level_id = await this.maxEquipLevelUp(
       user_id,
       userEquip.equip_level_id,
+      (await equipLevel).require_item_id,
     );
 
     console.log('equip_max_level_id:', equip_max_level_id);
