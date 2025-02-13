@@ -592,7 +592,7 @@ export class UserEquipService {
 
   async getEquipLevelCategory(currentEquipLevelId: number) {
     const query = `      
-      SELECT equip_level_id, level, require_gold
+      SELECT equip_level_id, level, require_gold, require_item_count
       FROM equip_level
       WHERE require_gold >= 0
       AND LEFT(equip_level_id, 8) = LEFT(?, 8)
