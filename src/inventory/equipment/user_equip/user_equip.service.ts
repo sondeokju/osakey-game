@@ -563,6 +563,7 @@ export class UserEquipService {
   `;
 
     const result = await this.dataSource.query(query, [user_id]);
+    console.log('result:', result);
 
     if (result.length > 0) {
       return result[0].gord; // 첫 번째 결과의 gold 값을 반환
