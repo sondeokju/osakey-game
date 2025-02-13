@@ -598,9 +598,13 @@ export class UserEquipService {
       FROM equip_level
       WHERE require_gold >= 0
       AND LEFT(equip_level_id, 8) = LEFT(?, 8)
+      AND equip_level_id >= ?
     `;
 
-    const result = await this.dataSource.query(query, [currentEquipLevelId]);
+    const result = await this.dataSource.query(query, [
+      currentEquipLevelId,
+      currentEquipLevelId,
+    ]);
     console.log('result:', result);
 
     return result;
