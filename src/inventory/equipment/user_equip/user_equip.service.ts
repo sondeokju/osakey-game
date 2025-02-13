@@ -589,7 +589,8 @@ export class UserEquipService {
     const category = await this.getEquipLevelCategory(equip_level_id);
 
     const user_gord = await this.getUserGord(user_id);
-    let gord = user_gord['gord'];
+    console.log('user_gord:', user_gord);
+    let gord = 0;
 
     for (let i = 0; i < category.length; i++) {
       // console.log(
