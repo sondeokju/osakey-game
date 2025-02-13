@@ -447,7 +447,7 @@ export class UserEquipService {
 
     const equipLevelMax = await this.equipLevelService.getEquipLevel(
       //equipMaxLevelData.max_level,
-      equip_max_level_id,
+      +equip_max_level_id,
       qr,
     );
 
