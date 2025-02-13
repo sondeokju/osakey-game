@@ -129,18 +129,6 @@ export class UserEduStatsService {
     });
 
     await this.processResources(user_id, eduCurriculum, qr);
-    // return {
-    //   reward: {
-    //     userItemData: [
-    //       {
-    //         item_id: eduCurriculum.price_item_id,
-    //         item_count: Math.max(-price_item_qty, 0),
-    //       },
-    //     ],
-    //   },
-    //   edu,
-    // };
-    //return this.getUserEduStatsRepository(qr).find({ where: { user_id } });
   }
 
   private async updateEduLearn(

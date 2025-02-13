@@ -423,13 +423,18 @@ export class UserEquipService {
     //   throw new BadRequestException(`It is already at the 5 maximum grade.`);
     // }
 
-    const equipLevelMaxData = await this.equipLevelService.getEquipLevel(
-      userEquip.equip_level_id,
-    );
+    // const equipLevelMaxData = await this.equipLevelService.getEquipLevel(
+    //   userEquip.equip_level_id,
+    // );
 
-    const equip_max_level_id = this.getEquipMaxLevelId(
+    // const equip_max_level_id = this.getEquipMaxLevelId(
+    //   userEquip.equip_level_id,
+    //   equipLevelMaxData.level_max,
+    // );
+
+    const equip_max_level_id = this.getMaxEquipLevel(
+      user_id,
       userEquip.equip_level_id,
-      equipLevelMaxData.level_max,
     );
 
     // const equipMaxLevelData = await this.getEquipMaxLevelBuilder(
@@ -525,6 +530,60 @@ export class UserEquipService {
 
     // 최대 레벨을 조합하여 새로운 ID 생성
     return parseInt(`${baseEquipLevel}${levelMax}`, 10);
+  }
+
+  async getMaxEquipLevel(
+    userId: string,
+    currentEquipLevelId: number,
+  ): Promise<number | null> {
+    const query = `
+      WITH RECURSIVE EquipUpgrade AS (
+          SELECT
+              el.equip_level_id,
+              el.require_gold,
+              el.used_gold_total,
+              el.require_item_id,
+              el.require_item_count,
+              u.gord AS current_gold,
+              COALESCE(ui.item_count, 0) AS current_item_count,
+              el.require_gold AS accumulated_gold,
+              el.require_item_count AS accumulated_items
+          FROM equip_level el
+          JOIN users u ON u.user_id = ?
+          LEFT JOIN user_item ui ON ui.user_id = u.user_id AND ui.item_id = el.require_item_id
+          WHERE el.equip_level_id = ?
+
+          UNION ALL
+
+          SELECT
+              el.equip_level_id,
+              el.require_gold,
+              el.used_gold_total,
+              el.require_item_id,
+              el.require_item_count,
+              eu.current_gold,
+              eu.current_item_count,
+              eu.accumulated_gold + el.require_gold AS accumulated_gold,
+              eu.accumulated_items + el.require_item_count AS accumulated_items
+          FROM equip_level el
+          JOIN EquipUpgrade eu ON el.equip_level_id = eu.equip_level_id + 1
+          WHERE eu.current_gold >= el.used_gold_total
+            AND eu.current_item_count >= (eu.accumulated_items + el.require_item_count)
+            AND LEFT(el.equip_level_id, 8) = LEFT(eu.equip_level_id, 8)
+      )
+
+      SELECT equip_level_id
+      FROM EquipUpgrade
+      ORDER BY equip_level_id DESC
+      LIMIT 1 OFFSET 1;
+    `;
+
+    const result = await this.dataSource.query(query, [
+      userId,
+      currentEquipLevelId,
+    ]);
+
+    return result.length > 0 ? result[0].equip_level_id : null;
   }
 
   levelUp(currentLevelId: number, levelMax: number): number {
