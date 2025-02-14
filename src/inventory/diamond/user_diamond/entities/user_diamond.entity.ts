@@ -36,4 +36,12 @@ export class UserDiamond extends BaseModel {
     default: 0,
   })
   diamond_free: number;
+
+  @Column({
+    length: 128,
+    type: 'varchar',
+    default: '',
+  })
+  @Index({ unique: false })
+  provider: string;
 }
