@@ -19,7 +19,7 @@ export class UserDiamond extends BaseModel {
     type: 'varchar',
     default: '',
   })
-  @Index({ unique: true })
+  @Index({ unique: false })
   member_id: string;
 
   @Column({
