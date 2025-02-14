@@ -12,22 +12,14 @@ export class RedisController {
     return { message: `Key "${key}" set with value "${value}"` };
   }
 
-  //   @Get('set')
-  //   async set(@Query('key') key: string, @Query('value') value: string) {
-  //     console.log('key:', key);
-  //     console.log('value:', value);
-  //     await this.redisService.setKey(key, value);
-  //     return { message: `Key "${key}" set with value "${value}"` };
-  //   }
-
-  @Get('get/:key')
-  async get(@Param('key') key: string) {
+  @Get('get')
+  async set(@Body('key') key: string) {
     const value = await this.redisService.getKey(key);
     return { key, value };
   }
 
-  @Get('del/:key')
-  async delete(@Param('key') key: string) {
+  @Get('del')
+  async delete(@Body('key') key: string) {
     await this.redisService.deleteKey(key);
     return { message: `Key "${key}" deleted` };
   }
