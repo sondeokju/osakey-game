@@ -18,6 +18,7 @@ export class RedisController {
 
   @Post('set')
   async setAdd(@Body('key') key: string, @Body('value') value: string) {
+    console.log('redis set');
     await this.redisService.setKey(key, value);
     return { message: `Key "${key}" set with value "${value}"` };
   }
