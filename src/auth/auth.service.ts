@@ -87,18 +87,19 @@ export class AuthService {
       device_id,
       email,
       os_type,
-      sub,
+      //  sub,
     );
   }
 
   async lineSocialLogin(
     member_id: string,
     social_user_id: string,
-    name: string,
+    provider: string,
   ) {
     const userData = await this.usersService.lineSocialLogin(
       member_id,
       social_user_id,
+      provider,
     );
 
     await this.zLoginLogService.loginLog(

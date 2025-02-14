@@ -1204,6 +1204,7 @@ export class UsersService {
   async lineSocialLogin(
     member_id: string,
     social_user_id: string,
+    provider: string,
     qr?: QueryRunner,
   ) {
     const queryRunner = qr ?? this.dataSource.createQueryRunner();
@@ -1234,6 +1235,7 @@ export class UsersService {
           result = await this.handleSocialUserIdLogic(
             social_user_id,
             member_id,
+            provider,
             queryRunner,
           );
         }
