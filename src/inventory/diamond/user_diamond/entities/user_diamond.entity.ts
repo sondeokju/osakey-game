@@ -2,9 +2,9 @@ import { Column, Entity, Index } from 'typeorm';
 import { BaseModel } from 'src/common/entity/base.entity';
 
 @Entity()
-@Index('IDX_user_diamnd_user_id_member_id', ['user_id', 'member_id'], {
-  unique: true,
-}) // 복합 인덱스 설정
+// @Index('IDX_user_diamnd_user_id_member_id', ['user_id', 'member_id'], {
+//   unique: true,
+// }) // 복합 인덱스 설정
 export class UserDiamond extends BaseModel {
   @Column({
     nullable: false,
