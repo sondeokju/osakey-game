@@ -29,7 +29,7 @@ import { AccessTokenGuard } from './auth/guard/bearer-token.guard';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
 import { entities } from './entity_group/entity';
 import { entities_module } from './entity_group/entity_module';
-//import { RedisModule } from './redis/redis.module';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
@@ -70,7 +70,7 @@ import { entities_module } from './entity_group/entity_module';
         process.env[ENV_KEEPCONNECTIONALIVE_KEY] === 'true' ? true : false,
     }),
     ...entities_module,
-    //RedisModule,
+    RedisModule,
   ],
   controllers: [AppController],
   providers: [
