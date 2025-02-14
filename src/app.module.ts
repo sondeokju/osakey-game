@@ -25,11 +25,11 @@ import { PUBLIC_FOLDER_PATH } from './common/const/path.const';
 //import { LogMiddleware } from './common/middleware/log.middleware';
 import { RolesGuard } from './users/guard/roles.guard';
 import { AccessTokenGuard } from './auth/guard/bearer-token.guard';
-import { RedisModule } from '@liaoliaots/nestjs-redis';
+//import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { RequestLoggingMiddleware } from './common/middleware/request-logging.middleware';
 import { entities } from './entity_group/entity';
 import { entities_module } from './entity_group/entity_module';
-//import { RedisModule } from './redis/redis.module';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [

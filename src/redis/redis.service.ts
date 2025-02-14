@@ -4,7 +4,7 @@ import { Redis } from 'ioredis';
 
 @Injectable()
 export class RedisService {
-  constructor(@InjectRedis() private readonly redisClient: Redis) {} // 'default' 네임스페이스 사용 가능
+  constructor(@InjectRedis('default') private readonly redisClient: Redis) {}
 
   async setKey(key: string, value: string) {
     await this.redisClient.set(key, value);
