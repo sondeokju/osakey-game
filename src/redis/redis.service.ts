@@ -9,8 +9,9 @@ export class RedisService {
   constructor(@InjectRedis('default') private readonly redisClient: Redis) {}
 
   /** 🔹 1. 길드 점수를 Redis에 저장 */
-  async addGuildScore(guildId: number, score: number) {
+  async addGuildScore(guildId: number, score: number, name: string) {
     await this.redisClient.zadd(this.RANKING_KEY, score, guildId.toString());
+    await this.redisClient.hset('guild_names', guildId.toString(), name); // 길드명 저장
   }
 
   /** 🔹 2. 특정 길드의 랭킹 조회 (내림차순 기준) */
@@ -22,10 +23,10 @@ export class RedisService {
     return rank !== null ? rank + 1 : null; // Redis는 0부터 시작하므로 +1
   }
 
-  /** 🔹 3. 상위 N개 길드 랭킹 조회 (순위 포함) */
+  /** 🔹 3. 상위 N개 길드 랭킹 조회 (길드명 포함) */
   async getTopGuilds(
     limit: number,
-  ): Promise<{ rank: number; guildId: number; score: number }[]> {
+  ): Promise<{ rank: number; guildId: number; name: string; score: number }[]> {
     const results = await this.redisClient.zrevrange(
       this.RANKING_KEY,
       0,
@@ -33,11 +34,21 @@ export class RedisService {
       'WITHSCORES',
     );
     const rankings = [];
+
     for (let i = 0, rank = 1; i < results.length; i += 2, rank++) {
+      const guildId = Number(results[i]);
+      const score = Number(results[i + 1]);
+
+      // 🔹 길드 ID로 길드명 가져오기
+      const name =
+        (await this.redisClient.hget('guild_names', guildId.toString())) ||
+        `Guild ${guildId}`;
+
       rankings.push({
-        rank, // 순위 추가 (1부터 시작)
-        guildId: Number(results[i]),
-        score: Number(results[i + 1]),
+        rank, // 순위
+        guildId, // 길드 ID
+        name, // 길드명
+        score, // 점수
       });
     }
     return rankings;

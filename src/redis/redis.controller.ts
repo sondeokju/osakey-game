@@ -5,6 +5,20 @@ import { RedisService } from './redis.service';
 export class RedisController {
   constructor(private readonly redisService: RedisService) {}
 
+  /** 🔹 특정 길드의 점수 조회 (Body 사용) */
+  @Post('guild-score')
+  async getGuildScore(@Body('guildId') guildId: number) {
+    if (!guildId) {
+      return { message: 'Guild ID is required in the request body.' };
+    }
+
+    const score = await this.redisService.getGuildScore(guildId);
+    if (score === null) {
+      return { message: `Guild ID ${guildId} not found in ranking.` };
+    }
+    return { guildId, score };
+  }
+
   /** 🔹 상위 N개 길드 랭킹 조회 (Body 사용) */
   @Post('top')
   async getTopGuilds(@Body('limit') limit: number) {
