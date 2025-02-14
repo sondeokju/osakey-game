@@ -1,12 +1,12 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Query, Param } from '@nestjs/common';
 import { RedisService } from './redis.service';
 
 @Controller('redis')
 export class RedisController {
   constructor(private readonly redisService: RedisService) {}
 
-  @Get('set/:key/:value')
-  async set(@Param('key') key: string, @Param('value') value: string) {
+  @Get('set')
+  async set(@Query('key') key: string, @Query('value') value: string) {
     console.log('key:', key);
     console.log('value:', value);
     await this.redisService.setKey(key, value);
