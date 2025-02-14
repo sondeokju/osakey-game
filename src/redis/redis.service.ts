@@ -140,10 +140,10 @@ export class RedisService {
     };
 
     // 1만 개 길드 생성 (랜덤 점수 0~10,000 + 랜덤 길드명)
-    const testGuilds = Array.from({ length: 100000 }, (_, i) => ({
+    const testGuilds = Array.from({ length: 1000000 }, (_, i) => ({
       id: i + 1, // 길드 ID (1부터 10,000까지)
       name: generateGuildName(i + 1), // 랜덤 길드명
-      score: Math.floor(Math.random() * 10001), // 0~10000 랜덤 점수
+      score: Math.floor(Math.random() * 1000001), // 0~10000 랜덤 점수
     }));
 
     // 🚀 병렬 처리로 Redis에 빠르게 데이터 추가 (길드 이름도 함께 저장)
@@ -153,7 +153,7 @@ export class RedisService {
       ),
     );
 
-    console.log('✅ 10,000개 길드 점수 추가 완료!');
+    console.log('✅ 1000000개 길드 점수 추가 완료!');
 
     // 🔹 랜덤한 5개 길드의 순위 및 이름 조회 (테스트용)
     const randomGuilds = [1, 500, 2500, 7500, 9999]; // 샘플 길드 ID
