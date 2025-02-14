@@ -140,7 +140,7 @@ export class UsersController {
     return result;
   }
 
-  @Get('me/with-dia')
+  @Get('with-dia')
   @UseInterceptors(TransactionInterceptor)
   async getUserWithDia(@User() user: Users, @QueryRunner() qr: QR) {
     const result = await this.usersService.getUserWithDia(user.user_id, qr);
