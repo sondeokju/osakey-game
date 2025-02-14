@@ -140,7 +140,7 @@ export class RedisService {
     };
 
     // 1만 개 길드 생성 (랜덤 점수 0~10,000 + 랜덤 길드명)
-    const testGuilds = Array.from({ length: 10000 }, (_, i) => ({
+    const testGuilds = Array.from({ length: 100000 }, (_, i) => ({
       id: i + 1, // 길드 ID (1부터 10,000까지)
       name: generateGuildName(i + 1), // 랜덤 길드명
       score: Math.floor(Math.random() * 10001), // 0~10000 랜덤 점수
