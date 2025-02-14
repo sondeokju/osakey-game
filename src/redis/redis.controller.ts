@@ -47,9 +47,9 @@ export class RedisController {
   @Post('testRanking')
   async resetAndTestRanking() {
     console.log('🔹 Redis 랭킹 데이터 초기화 및 테스트 실행...');
-    await this.redisService.testRedisRanking();
+    await this.redisService.testGuildNameRedisRanking();
     return { message: 'Redis 랭킹 데이터 초기화 후 테스트 완료' };
-  }
+  }s
 
   @Post('set')
   async setAdd(@Body('key') key: string, @Body('value') value: string) {

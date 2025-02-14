@@ -145,9 +145,11 @@ export class RedisService {
       score: Math.floor(Math.random() * 10001), // 0~10000 랜덤 점수
     }));
 
-    // 🚀 병렬 처리로 Redis에 빠르게 데이터 추가
+    // 🚀 병렬 처리로 Redis에 빠르게 데이터 추가 (길드 이름도 함께 저장)
     await Promise.all(
-      testGuilds.map((guild) => this.addGuildScore(guild.id, guild.score)),
+      testGuilds.map((guild) =>
+        this.addGuildScore(guild.id, guild.score, guild.name),
+      ),
     );
 
     console.log('✅ 10,000개 길드 점수 추가 완료!');
@@ -174,17 +176,5 @@ export class RedisService {
         })`,
       );
     });
-  }
-
-  async setKey(key: string, value: string) {
-    await this.redisClient.set(key, value);
-  }
-
-  async getKey(key: string): Promise<string | null> {
-    return this.redisClient.get(key);
-  }
-
-  async deleteKey(key: string) {
-    await this.redisClient.del(key);
   }
 }
