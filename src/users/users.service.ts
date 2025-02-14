@@ -1446,13 +1446,7 @@ export class UsersService {
         'ud',
         'u.user_id = :userId AND ud.provider = u.provider',
       )
-      .select([
-        // 'u.user_id',
-        // 'u.username',
-        'ud.diamond_paid',
-        'ud.diamond_bonus',
-        'ud.diamond_free',
-      ])
+      .select(['u', 'ud.diamond_paid', 'ud.diamond_bonus', 'ud.diamond_free'])
       .setParameter('userId', user_id);
 
     const userWithDia = await query.getRawOne();
