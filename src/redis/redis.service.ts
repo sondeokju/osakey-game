@@ -4,10 +4,36 @@ import { Redis } from 'ioredis';
 
 @Injectable()
 export class RedisService {
+  //  export class RedisService implements OnModuleInit {
   private readonly RANKING_KEY = 'guild_ranking'; // Redis Sorted Set 키
   private readonly GUILD_NAMES_KEY = 'guild_names'; // 길드 이름 저장 키
 
   constructor(@InjectRedis('default') private readonly redisClient: Redis) {}
+
+  // /** 🔹 서버 시작 시 MySQL → Redis 동기화 */
+  // async onModuleInit() {
+  //   console.log('🔄 서버 시작: MySQL → Redis 데이터 동기화 시작...');
+  //   await this.syncMySQLToRedis();
+  //   console.log('✅ MySQL → Redis 동기화 완료!');
+  // }
+
+  // /** 🔹 MySQL → Redis로 모든 길드 데이터 동기화 */
+  // async syncMySQLToRedis() {
+  //   const guilds = await this.guildRepository.find(); // MySQL에서 모든 길드 가져오기
+  //   for (const guild of guilds) {
+  //     await this.redisClient.zadd(
+  //       this.RANKING_KEY,
+  //       guild.score,
+  //       guild.id.toString(),
+  //     );
+  //     await this.redisClient.hset(
+  //       this.GUILD_NAMES_KEY,
+  //       guild.id.toString(),
+  //       guild.name,
+  //     );
+  //   }
+  //   console.log(`✅ ${guilds.length}개의 길드 데이터를 Redis에 동기화 완료!`);
+  // }
 
   /** 🔹 1. 길드 점수를 Redis에 저장 */
   async addGuildScore(guildId: number, score: number, name: string) {
