@@ -5,13 +5,14 @@ import { Redis } from 'ioredis';
 @Injectable()
 export class RedisService {
   private readonly RANKING_KEY = 'guild_ranking'; // Redis Sorted Set 키
+  private readonly GUILD_NAMES_KEY = 'guild_names'; // 길드 이름 저장 키
 
   constructor(@InjectRedis('default') private readonly redisClient: Redis) {}
 
   /** 🔹 1. 길드 점수를 Redis에 저장 */
   async addGuildScore(guildId: number, score: number, name: string) {
     await this.redisClient.zadd(this.RANKING_KEY, score, guildId.toString());
-    await this.redisClient.hset('guild_names', guildId.toString(), name); // 길드명 저장
+    await this.redisClient.hset(this.GUILD_NAMES_KEY, guildId.toString(), name); // 길드명 저장
   }
 
   /** 🔹 2. 특정 길드의 랭킹 조회 (내림차순 기준) */
@@ -176,5 +177,20 @@ export class RedisService {
         })`,
       );
     });
+  }
+
+  /** 🔹 6. 일반 Key-Value 저장 */
+  async setKey(key: string, value: string) {
+    await this.redisClient.set(key, value);
+  }
+
+  /** 🔹 7. 일반 Key-Value 조회 */
+  async getKey(key: string): Promise<string | null> {
+    return await this.redisClient.get(key);
+  }
+
+  /** 🔹 8. 일반 Key-Value 삭제 */
+  async deleteKey(key: string) {
+    await this.redisClient.del(key);
   }
 }
