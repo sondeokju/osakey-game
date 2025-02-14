@@ -1435,4 +1435,32 @@ export class UsersService {
       where: { user_id },
     });
   }
+
+  async getUserWithDia(user_id: string, qr?: QueryRunner) {
+    const usersRepository = this.getUsersRepository(qr);
+
+    const query = usersRepository
+      .createQueryBuilder('u')
+      .innerJoin(
+        'user_diamond',
+        'ud',
+        'u.user_id = :userId AND ud.provider = u.provider',
+      )
+      .select([
+        // 'u.user_id',
+        // 'u.username',
+        'ud.diamond_paid',
+        'ud.diamond_bonus',
+        'ud.diamond_free',
+      ])
+      .setParameter('userId', user_id);
+
+    const userWithDia = await query.getRawOne();
+
+    if (!userWithDia) {
+      throw new Error('User not found');
+    }
+
+    return userWithDia;
+  }
 }
