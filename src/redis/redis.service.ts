@@ -22,10 +22,10 @@ export class RedisService {
     return rank !== null ? rank + 1 : null; // Redis는 0부터 시작하므로 +1
   }
 
-  /** 🔹 3. 상위 N개 길드 랭킹 조회 */
+  /** 🔹 3. 상위 N개 길드 랭킹 조회 (순위 포함) */
   async getTopGuilds(
     limit: number,
-  ): Promise<{ guildId: number; score: number }[]> {
+  ): Promise<{ rank: number; guildId: number; score: number }[]> {
     const results = await this.redisClient.zrevrange(
       this.RANKING_KEY,
       0,
@@ -33,8 +33,9 @@ export class RedisService {
       'WITHSCORES',
     );
     const rankings = [];
-    for (let i = 0; i < results.length; i += 2) {
+    for (let i = 0, rank = 1; i < results.length; i += 2, rank++) {
       rankings.push({
+        rank, // 순위 추가 (1부터 시작)
         guildId: Number(results[i]),
         score: Number(results[i + 1]),
       });
