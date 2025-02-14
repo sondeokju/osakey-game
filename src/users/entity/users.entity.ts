@@ -151,6 +151,14 @@ export class Users extends BaseModel {
   @Index({ unique: false })
   member_id: string;
 
+  @Column({
+    length: 128,
+    type: 'varchar',
+    default: '',
+  })
+  @Index({ unique: false })
+  provider: string;
+
   // @Column({
   //   type: 'json',
   //   nullable: false, // 기본값을 설정할 수 없으므로, nullable false 설정
