@@ -1465,17 +1465,17 @@ export class UsersService {
         'u.secame_value AS secame_value',
         'u.seca_coin AS seca_coin',
         'u.gord AS gord',
-        'u.diamond_paid AS diamond_paid',
-        'u.diamond_free AS diamond_free',
+        // 'u.diamond_paid AS diamond_paid',
+        // 'u.diamond_free AS diamond_free',
         'u.exp AS exp',
         'u.battery AS battery',
         'u.revive_coin AS revive_coin',
         'u.level AS level',
         'u.ban AS ban',
         'u.prologue_yn AS prologue_yn',
-        'ud.diamond_paid AS diamond_paid_extra',
+        'ud.diamond_paid AS diamond_paid',
         'ud.diamond_bonus AS diamond_bonus',
-        'ud.diamond_free AS diamond_free_extra',
+        'ud.diamond_free AS diamond_free',
       ])
       .setParameter('userId', user_id);
 
