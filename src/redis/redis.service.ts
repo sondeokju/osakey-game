@@ -69,36 +69,36 @@ export class RedisService {
   }
 
   /** 🔹 6. 대량 테스트 함수: 10,000개 길드 데이터 추가 및 조회 실행 */
-  async testRedisRanking() {
-    console.log('🔹 랭킹 데이터 초기화');
-    await this.resetRanking();
+  // async testRedisRanking() {
+  //   console.log('🔹 랭킹 데이터 초기화');
+  //   await this.resetRanking();
 
-    console.log('✅ 10,000개 길드 점수 추가 시작...');
+  //   console.log('✅ 10,000개 길드 점수 추가 시작...');
 
-    // 1만 개 길드 생성 (랜덤 점수 0~10,000)
-    const testGuilds = Array.from({ length: 10000 }, (_, i) => ({
-      id: i + 1, // 길드 ID (1부터 10,000까지)
-      score: Math.floor(Math.random() * 10001), // 0~10000 랜덤 점수
-    }));
+  //   // 1만 개 길드 생성 (랜덤 점수 0~10,000)
+  //   const testGuilds = Array.from({ length: 10000 }, (_, i) => ({
+  //     id: i + 1, // 길드 ID (1부터 10,000까지)
+  //     score: Math.floor(Math.random() * 10001), // 0~10000 랜덤 점수
+  //   }));
 
-    // 🚀 병렬 처리로 Redis에 빠르게 데이터 추가
-    await Promise.all(
-      testGuilds.map((guild) => this.addGuildScore(guild.id, guild.score)),
-    );
+  //   // 🚀 병렬 처리로 Redis에 빠르게 데이터 추가
+  //   await Promise.all(
+  //     testGuilds.map((guild) => this.addGuildScore(guild.id, guild.score)),
+  //   );
 
-    console.log('✅ 10,000개 길드 점수 추가 완료!');
+  //   console.log('✅ 10,000개 길드 점수 추가 완료!');
 
-    // 🔹 랜덤한 5개 길드의 순위 조회 (테스트용)
-    const randomGuilds = [1, 500, 2500, 7500, 9999]; // 샘플 길드 ID
-    console.log('✅ 개별 길드 순위 조회');
-    for (const guildId of randomGuilds) {
-      const rank = await this.getGuildRank(guildId);
-      console.log(`🔹 길드 ${guildId} 순위: ${rank}`);
-    }
+  //   // 🔹 랜덤한 5개 길드의 순위 조회 (테스트용)
+  //   const randomGuilds = [1, 500, 2500, 7500, 9999]; // 샘플 길드 ID
+  //   console.log('✅ 개별 길드 순위 조회');
+  //   for (const guildId of randomGuilds) {
+  //     const rank = await this.getGuildRank(guildId);
+  //     console.log(`🔹 길드 ${guildId} 순위: ${rank}`);
+  //   }
 
-    console.log('✅ 길드 3의 점수:', await this.getGuildScore(3)); // 샘플 길드 점수 확인
-    console.log('✅ 상위 10개 길드 랭킹:', await this.getTopGuilds(10)); // 상위 10개 랭킹 조회
-  }
+  //   console.log('✅ 길드 3의 점수:', await this.getGuildScore(3)); // 샘플 길드 점수 확인
+  //   console.log('✅ 상위 10개 길드 랭킹:', await this.getTopGuilds(10)); // 상위 10개 랭킹 조회
+  // }
 
   /** 🔹 6. 대량 테스트 함수: 10,000개 길드 데이터 추가 및 조회 실행 */
   async testGuildNameRedisRanking() {
