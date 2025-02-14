@@ -1446,7 +1446,37 @@ export class UsersService {
         'ud',
         'u.user_id = :userId AND ud.provider = u.provider',
       )
-      .select(['u', 'ud.diamond_paid', 'ud.diamond_bonus', 'ud.diamond_free'])
+      .select([
+        'u.id AS id',
+        'u.update_at AS update_at',
+        'u.created_at AS created_at',
+        'u.user_id AS user_id',
+        'u.nickname AS nickname',
+        'u.member_id AS member_id',
+        'u.provider AS provider',
+        'u.device_id AS device_id',
+        'u.pgs_id AS pgs_id',
+        'u.os_type AS os_type',
+        'u.status AS status',
+        'u.email AS email',
+        'u.password AS password',
+        'u.role AS role',
+        'u.secame_credit AS secame_credit',
+        'u.secame_value AS secame_value',
+        'u.seca_coin AS seca_coin',
+        'u.gord AS gord',
+        'u.diamond_paid AS diamond_paid',
+        'u.diamond_free AS diamond_free',
+        'u.exp AS exp',
+        'u.battery AS battery',
+        'u.revive_coin AS revive_coin',
+        'u.level AS level',
+        'u.ban AS ban',
+        'u.prologue_yn AS prologue_yn',
+        'ud.diamond_paid AS diamond_paid_extra',
+        'ud.diamond_bonus AS diamond_bonus',
+        'ud.diamond_free AS diamond_free_extra',
+      ])
       .setParameter('userId', user_id);
 
     const userWithDia = await query.getRawOne();
