@@ -26,6 +26,22 @@ export class Users extends BaseModel {
   nickname: string;
 
   @Column({
+    length: 256,
+    type: 'varchar',
+    default: '',
+  })
+  @Index({ unique: false })
+  member_id: string;
+
+  @Column({
+    length: 128,
+    type: 'varchar',
+    default: '',
+  })
+  @Index({ unique: false })
+  provider: string;
+
+  @Column({
     length: 512,
   })
   @IsString({
@@ -142,22 +158,6 @@ export class Users extends BaseModel {
   })
   @Index({ unique: false })
   level: number;
-
-  @Column({
-    length: 256,
-    type: 'varchar',
-    default: '',
-  })
-  @Index({ unique: false })
-  member_id: string;
-
-  @Column({
-    length: 128,
-    type: 'varchar',
-    default: '',
-  })
-  @Index({ unique: false })
-  provider: string;
 
   // @Column({
   //   type: 'json',
