@@ -106,7 +106,7 @@ export class AuthService {
       userData.user_id,
       member_id,
       social_user_id,
-      name,
+      provider,
     );
 
     //const inven = await this.getUserInvens(userData.user_id);
