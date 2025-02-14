@@ -1287,6 +1287,7 @@ export class UsersService {
   async handleSocialUserIdLogic(
     social_user_id: string,
     member_id: string,
+    provider: string,
     queryRunner: QueryRunner,
   ) {
     const usersRepository = this.getUsersRepository(queryRunner);
@@ -1295,7 +1296,7 @@ export class UsersService {
     });
 
     if (member_id !== 'UnityEditor_Member' && !userData) {
-      const newUser = usersRepository.create({ member_id: member_id });
+      const newUser = usersRepository.create({ member_id, provider });
       const savedUser = await usersRepository.save(newUser);
 
       if (!savedUser.id) {
@@ -1304,6 +1305,7 @@ export class UsersService {
 
       return this.createUserID(savedUser.id, queryRunner); // 생성된 ID를 사용
     } else {
+      userData.provider = provider;
       return await usersRepository.save({
         ...userData,
         update_at: new Date(),

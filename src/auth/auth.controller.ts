@@ -33,14 +33,26 @@ export class AuthController {
 
   @IsPublic()
   @Post('social/login')
-  async socialLogin(
-    @Body('device_id') device_id: string,
-    @Body('email') email: string,
-    @Body('os_type') os_type: string,
-    @Body('sub') sub: string,
-    //@QueryRunner() qr: QR,
-  ) {
-    return this.authService.socialLogin(device_id, email, os_type, sub);
+  async socialLogin(@Body('socialData') socialData: any) {
+    // 데이터 변환 로직
+    if (typeof socialData === 'string') {
+      socialData = JSON.parse(socialData);
+    }
+
+    console.log('Final parsed socialData:', socialData);
+
+    // 값 추출 및 처리
+    const member_id = socialData?.memberid ?? null;
+    const social_user_id = socialData?.userid ?? null;
+    const provider = socialData?.provider ?? null;
+
+    const result = await this.authService.lineSocialLogin(
+      member_id,
+      social_user_id,
+      provider,
+    );
+
+    return result;
   }
 
   // @IsPublic()

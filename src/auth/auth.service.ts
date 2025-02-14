@@ -83,7 +83,7 @@ export class AuthService {
     os_type: string,
     sub: string,
   ) {
-    return await this.usersService.socialLoginSaveUser(
+    return await this.usersService.lineSocialLogin(
       device_id,
       email,
       os_type,
