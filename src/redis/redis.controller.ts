@@ -49,24 +49,24 @@ export class RedisController {
     console.log('🔹 Redis 랭킹 데이터 초기화 및 테스트 실행...');
     await this.redisService.testGuildNameRedisRanking();
     return { message: 'Redis 랭킹 데이터 초기화 후 테스트 완료' };
-  }s
-
-  @Post('set')
-  async setAdd(@Body('key') key: string, @Body('value') value: string) {
-    console.log('redis set');
-    await this.redisService.setKey(key, value);
-    return { message: `Key "${key}" set with value "${value}"` };
   }
 
-  @Get('get')
-  async set(@Body('key') key: string) {
-    const value = await this.redisService.getKey(key);
-    return { key, value };
-  }
+  // @Post('set')
+  // async setAdd(@Body('key') key: string, @Body('value') value: string) {
+  //   console.log('redis set');
+  //   await this.redisService.setKey(key, value);
+  //   return { message: `Key "${key}" set with value "${value}"` };
+  // }
 
-  @Post('del')
-  async delete(@Body('key') key: string) {
-    await this.redisService.deleteKey(key);
-    return { message: `Key "${key}" deleted` };
-  }
+  // @Get('get')
+  // async set(@Body('key') key: string) {
+  //   const value = await this.redisService.getKey(key);
+  //   return { key, value };
+  // }
+
+  // @Post('del')
+  // async delete(@Body('key') key: string) {
+  //   await this.redisService.deleteKey(key);
+  //   return { message: `Key "${key}" deleted` };
+  // }
 }
