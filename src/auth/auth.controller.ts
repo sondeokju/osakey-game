@@ -32,7 +32,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @IsPublic()
-  @Post('social/login')
+  @Post('social-login')
   async socialLogin(@Body('socialData') socialData: any) {
     // 데이터 변환 로직
     if (typeof socialData === 'string') {
