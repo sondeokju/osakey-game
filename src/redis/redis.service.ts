@@ -15,6 +15,6 @@ export class RedisService {
   }
 
   async deleteKey(key: string) {
-    await this.redisClient.srem(key);
+    await this.redisClient.del(key);
   }
 }
