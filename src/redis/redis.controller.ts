@@ -18,7 +18,7 @@ export class RedisController {
     return { key, value };
   }
 
-  @Get('del')
+  @Post('del')
   async delete(@Body('key') key: string) {
     await this.redisService.deleteKey(key);
     return { message: `Key "${key}" deleted` };
