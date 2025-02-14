@@ -1,20 +1,20 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
 import { Redis } from 'ioredis';
 
 @Injectable()
 export class RedisService {
-  constructor(@InjectRedis() private readonly redisClient: Redis) {}
+  constructor(@InjectRedis() private readonly redisClient: Redis) {} // 'default' 네임스페이스 사용 가능
 
-  async setKey(key: string, value: string, ttl = 60): Promise<void> {
-    await this.redisClient.set(key, value, 'EX', ttl); // 60초 후 만료
+  async setKey(key: string, value: string) {
+    await this.redisClient.set(key, value);
   }
 
   async getKey(key: string): Promise<string | null> {
-    return await this.redisClient.get(key);
+    return this.redisClient.get(key);
   }
 
-  async deleteKey(key: string): Promise<void> {
+  async deleteKey(key: string) {
     await this.redisClient.del(key);
   }
 }
