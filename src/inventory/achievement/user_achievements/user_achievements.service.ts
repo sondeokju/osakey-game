@@ -256,6 +256,10 @@ export class UserAchievementsService {
 
     let includeRanking = (userAchieveCompleteData.length / 100) * 95;
     console.log('includeRanking:', includeRanking);
+    console.log(
+      'userAchieveCompleteData.length:',
+      userAchieveCompleteData.length,
+    );
 
     // 24.1 이상이면 25로 계산되도록 올림 적용
     includeRanking = Math.round(includeRanking);
