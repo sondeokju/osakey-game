@@ -37,4 +37,11 @@ export class UserSuit extends BaseModel {
     default: 'N',
   })
   unlock_yn: string;
+
+  @Column({
+    type: 'char',
+    length: 1,
+    default: 'N',
+  })
+  mount_yn: string;
 }

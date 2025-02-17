@@ -185,7 +185,12 @@ export class UserAchievementsService {
     }
   }
 
-  async achieveRank(user_id: string, qr?: QueryRunner) {
+  async achieveRankPointCalcu(
+    user_id: string,
+    achieve_id: number,
+    achieve_count: number,
+    qr?: QueryRunner,
+  ) {
     const userAchievementsRepository = this.getUserAchievementsRepository(qr);
     const userAchieve = await userAchievementsRepository.findOne({
       where: {
@@ -193,6 +198,18 @@ export class UserAchievementsService {
       },
     });
 
+    const achieve = await this.achieveListService.getAchieve(achieve_id, qr);
+
+    const achieveSeasonList =
+      await this.achieveListService.getAchieveSeasonList(
+        achieveList.season,
+        qr,
+      );
+
+    const achievePointMax = achieveSeasonList.length;
+
+    if (achieve_count >= achieve.mission_goal) {
+    }
     return userAchieve;
   }
 

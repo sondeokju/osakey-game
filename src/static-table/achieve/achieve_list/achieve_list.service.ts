@@ -16,13 +16,13 @@ export class AchieveListService {
       : this.achieveListRepository;
   }
 
-  async getAttendanceAll(qr?: QueryRunner) {
+  async getAchieveAll(qr?: QueryRunner) {
     const achieveListRepository = this.getAchieveListRepository(qr);
     const result = await achieveListRepository.find({});
     return result;
   }
 
-  async getAttendance(achieve_id: number, qr?: QueryRunner) {
+  async getAchieve(achieve_id: number, qr?: QueryRunner) {
     const achieveListRepository = this.getAchieveListRepository(qr);
     const result = await achieveListRepository.findOne({
       where: {
@@ -30,6 +30,16 @@ export class AchieveListService {
       },
     });
 
+    return result;
+  }
+
+  async getAchieveSeasonList(season: number, qr?: QueryRunner) {
+    const achieveListRepository = this.getAchieveListRepository(qr);
+    const result = await achieveListRepository.find({
+      where: {
+        season,
+      },
+    });
     return result;
   }
 }

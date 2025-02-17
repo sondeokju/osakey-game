@@ -36,6 +36,7 @@ export class UserSuitService {
     }
 
     userSuit.unlock_yn = 'Y';
+    userSuit.mount_yn = 'Y';
     const result = await userSuitRepository.save(userSuit);
     return {
       userSuitData: result,
