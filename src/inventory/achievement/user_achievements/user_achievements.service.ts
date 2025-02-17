@@ -29,39 +29,19 @@ export class UserAchievementsService {
       : this.userAchievementsRepository;
   }
 
-  async ranking(season: number, qr?: QueryRunner) {
-    const queryBuilder = (qr ? qr.manager : this.dataSource)
-      .createQueryBuilder()
-      .select([
-        'uar.user_id AS user_id',
-        'u.nickname AS nickname', // ✅ nickname 추가
-        'uar.season AS season',
-        'uar.achieve_point AS achieve_point',
-        'uar.update_at AS update_at',
-        'ROW_NUMBER() OVER (ORDER BY uar.achieve_point DESC, uar.update_at ASC) AS rank_position',
-      ])
-      .from('user_achieve_ranking', 'uar')
-      .leftJoin('users', 'u', 'uar.user_id = u.user_id') // ✅ users 테이블과 조인
-      .where('uar.season = :season', { season })
-      .limit(100);
-
-    const rankQuery = await queryBuilder.getRawMany();
-    //console.log('🏆 랭킹 조회 결과:', rankQuery);
-
-    return rankQuery;
-  }
-
   // async ranking(season: number, qr?: QueryRunner) {
   //   const queryBuilder = (qr ? qr.manager : this.dataSource)
   //     .createQueryBuilder()
   //     .select([
   //       'uar.user_id AS user_id',
+  //       'u.nickname AS nickname', // ✅ nickname 추가
   //       'uar.season AS season',
   //       'uar.achieve_point AS achieve_point',
   //       'uar.update_at AS update_at',
   //       'ROW_NUMBER() OVER (ORDER BY uar.achieve_point DESC, uar.update_at ASC) AS rank_position',
   //     ])
   //     .from('user_achieve_ranking', 'uar')
+  //     .leftJoin('users', 'u', 'uar.user_id = u.user_id') // ✅ users 테이블과 조인
   //     .where('uar.season = :season', { season })
   //     .limit(100);
 
@@ -70,6 +50,26 @@ export class UserAchievementsService {
 
   //   return rankQuery;
   // }
+
+  async ranking(season: number, qr?: QueryRunner) {
+    const queryBuilder = (qr ? qr.manager : this.dataSource)
+      .createQueryBuilder()
+      .select([
+        'uar.user_id AS user_id',
+        'uar.season AS season',
+        'uar.achieve_point AS achieve_point',
+        'uar.update_at AS update_at',
+        'ROW_NUMBER() OVER (ORDER BY uar.achieve_point DESC, uar.update_at ASC) AS rank_position',
+      ])
+      .from('user_achieve_ranking', 'uar')
+      .where('uar.season = :season', { season })
+      .limit(100);
+
+    const rankQuery = await queryBuilder.getRawMany();
+    //console.log('🏆 랭킹 조회 결과:', rankQuery);
+
+    return rankQuery;
+  }
 
   //특정 (id = 5)의 순위만 가져오기
   async rankingMe(guildId: string, qr?: QueryRunner) {
