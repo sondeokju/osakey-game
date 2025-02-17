@@ -219,4 +219,37 @@ export class RedisService {
   async deleteKey(key: string) {
     await this.redisClient.del(key);
   }
+
+  // async addGuildScore(guildId: number, score: number, name: string) {
+  //   const queryRunner = this.dataSource.createQueryRunner();
+  //   await queryRunner.connect();
+  //   await queryRunner.startTransaction(); // 🚀 트랜잭션 시작
+
+  //   try {
+  //     // 🚀 1. MySQL에 먼저 점수 저장
+  //     await queryRunner.manager
+  //       .createQueryBuilder()
+  //       .insert()
+  //       .into(Guild)
+  //       .values({ id: guildId, name, score })
+  //       .orUpdate(['score'], ['id'])
+  //       .execute();
+
+  //     // 🚀 2. MySQL 저장 성공 후 Redis에 저장
+  //     await this.redisClient
+  //       .multi()
+  //       .zadd(this.RANKING_KEY, score, guildId.toString()) // 점수 저장
+  //       .hset(this.GUILD_NAMES_KEY, guildId.toString(), name) // 이름 저장
+  //       .exec();
+
+  //     await queryRunner.commitTransaction(); // 🚀 트랜잭션 커밋
+  //     console.log(`✅ 길드 ${guildId} 점수 업데이트 완료 (MySQL → Redis)`);
+  //   } catch (error) {
+  //     await queryRunner.rollbackTransaction(); // ❌ 트랜잭션 롤백
+  //     console.error('❌ MySQL 저장 실패 → Redis 저장 취소', error);
+  //     throw error;
+  //   } finally {
+  //     await queryRunner.release(); // 트랜잭션 종료
+  //   }
+  // }
 }
