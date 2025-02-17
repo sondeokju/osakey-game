@@ -52,7 +52,7 @@ export class UserAchievementsService {
   }
 
   //특정 (id = 5)의 순위만 가져오기
-  async rankingMe(guildId: string, qr?: QueryRunner) {
+  async rankingMe(guildId: string) {
     const guildRank = await this.dataSource
       .createQueryBuilder()
       .select([
@@ -74,17 +74,9 @@ export class UserAchievementsService {
       .where('id = :guildId', { guildId })
       .getRawOne();
 
-    console.log(guildRank);
+    console.log(guildRank); // ✅ 정상 출력됨
 
-    if (qr) {
-      guildRank.setQueryRunner(qr);
-    }
-
-    const rankQuery = await guildRank.getRawMany();
-
-    console.log(rankQuery);
-
-    return rankQuery;
+    return guildRank;
   }
 
   //DENSE_RANK()는 순위를 건너뛰지 않음 (예: 1, 2, 2, 3)
