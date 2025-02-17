@@ -210,6 +210,9 @@ export class UserAchievementsService {
       },
     });
 
+    const userAchieveRankingData =
+      await this.userAchieveRankingService.getUserAchieveRanking(user_id, qr);
+
     const achieve = await this.achieveListService.getAchieve(achieve_id, qr);
 
     const achieveSeasonList =
@@ -222,7 +225,8 @@ export class UserAchievementsService {
     console.log('mission_goal:', achieve.mission_goal);
     if (
       userAchieve.point_calcu_yn === 'N' &&
-      achieve_count >= achieve.mission_goal
+      achieve_count >= achieve.mission_goal &&
+      userAchieveRankingData.achieve_point < achievePointMax
     ) {
       await this.userAchieveRankingService.achievePointPlus(
         user_id,
