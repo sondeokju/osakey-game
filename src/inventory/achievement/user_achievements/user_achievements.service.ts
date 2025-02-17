@@ -255,9 +255,12 @@ export class UserAchievementsService {
       );
 
     let includeRanking = (userAchieveCompleteData.length / 100) * 95;
+    console.log('includeRanking:', includeRanking);
 
     // 24.1 이상이면 25로 계산되도록 올림 적용
     includeRanking = Math.round(includeRanking);
+    console.log('includeRanking Math.round:', includeRanking);
+    console.log('achievePointMax:', achievePointMax * 0.95);
 
     if (
       includeRanking >= achievePointMax * 0.95 &&
