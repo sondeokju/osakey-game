@@ -27,7 +27,7 @@ export class UserAchievementsController {
   @UseInterceptors(TransactionInterceptor)
   async ranking(
     @User() user: Users,
-    @Body('season') season: string,
+    @Body('season') season: number,
     @QueryRunner() qr: QR,
   ) {
     const result = this.userAchievementsService.ranking(season, qr);
