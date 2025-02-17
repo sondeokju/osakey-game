@@ -230,7 +230,7 @@ export class UserAchievementsService {
         qr,
       );
 
-      if (achieve_count >= achievePointMax) {
+      if (achieve_count >= achieve.mission_goal) {
         userAchieve.point_calcu_yn = 'Y';
       }
     }
