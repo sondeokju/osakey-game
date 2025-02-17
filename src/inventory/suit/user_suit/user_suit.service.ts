@@ -24,6 +24,21 @@ export class UserSuitService {
       : this.userSuitRepository;
   }
 
+  //슈트 장착
+  async suitMount(user_id: string, suit_id: number, qr?: QueryRunner) {
+    const userSuitRepository = this.getUserSuitRepository(qr);
+    let userSuit = await userSuitRepository.findOne({
+      where: { user_id, suit_id },
+    });
+
+    if (!userSuit) {
+      userSuit = userSuitRepository.create({ user_id, suit_id });
+    }
+
+    const result = await userSuitRepository.save(userSuit);
+    return result;
+  }
+
   //슈트 레벨업
   async suitLevelUp(user_id: string, user_suit_id: number, qr?: QueryRunner) {
     const userSuitRepository = this.getUserSuitRepository(qr);

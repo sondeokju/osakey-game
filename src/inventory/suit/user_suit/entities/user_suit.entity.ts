@@ -20,13 +20,13 @@ export class UserSuit extends BaseModel {
   suit_id: number;
 
   @Column({
-    default: '0',
+    default: '1',
   })
   @Index({ unique: false })
   suit_level: number;
 
   @Column({
-    default: '0',
+    default: '1',
   })
   @Index({ unique: false })
   suit_special_level: number;

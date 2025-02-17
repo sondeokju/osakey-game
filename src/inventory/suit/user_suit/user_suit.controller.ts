@@ -25,6 +25,22 @@ export class UserSuitController {
     return result;
   }
 
+  @Post('mount')
+  @UseInterceptors(TransactionInterceptor)
+  async suitMount(
+    @User() user: Users,
+    @Body('suit_id') suit_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userSuitService.suitMount(
+      user.user_id,
+      suit_id,
+      qr,
+    );
+
+    return JSON.stringify(result);
+  }
+
   @Post('levelUp')
   @UseInterceptors(TransactionInterceptor)
   async suitLevelUp(
