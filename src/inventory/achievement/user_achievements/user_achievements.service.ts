@@ -37,7 +37,8 @@ export class UserAchievementsService {
         'uar.user_id AS user_id',
         'uar.season AS season',
         'uar.achieve_point AS achieve_point',
-        'RANK() OVER (ORDER BY uar.achieve_point DESC) AS rank_position',
+        //'RANK() OVER (ORDER BY uar.achieve_point DESC) AS rank_position',
+        'RANK() OVER (ORDER BY uar.achieve_point DESC, uar.update_at ASC) AS rank_position',
       ])
       .from('user_achieve_ranking', 'uar')
       .limit(100);
