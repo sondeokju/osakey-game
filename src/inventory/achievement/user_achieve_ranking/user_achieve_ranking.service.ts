@@ -37,6 +37,20 @@ export class UserAchieveRankingService {
     return userAchieveRanking;
   }
 
+  async getUserAchieveRankingList(
+    user_id: string,
+    season: number,
+    qr?: QueryRunner,
+  ) {
+    const userAchieveRankingRepository =
+      this.getUserAchieveRankingRepository(qr);
+    const userAchieveRanking = await userAchieveRankingRepository.find({
+      where: { user_id, season },
+    });
+
+    return userAchieveRanking;
+  }
+
   async achievePointPlus(user_id: string, season: number, qr?: QueryRunner) {
     const userAchieveRankingRepository =
       this.getUserAchieveRankingRepository(qr);
