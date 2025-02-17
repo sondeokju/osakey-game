@@ -36,6 +36,7 @@ export class UserAchievementsService {
         'uar.user_id AS user_id',
         'uar.season AS season',
         'uar.achieve_point AS achieve_point',
+        'uar.update_at AS update_at',
         //'RANK() OVER (ORDER BY uar.achieve_point DESC) AS rank_position',
         'ROW_NUMBER() OVER (ORDER BY uar.achieve_point DESC, uar.update_at ASC) AS rank_position',
       ])
