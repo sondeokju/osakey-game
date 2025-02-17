@@ -159,15 +159,16 @@ export class UserAchievementsService {
         });
       }
 
+      const totalAchieveCount = userAchieve.achieve_count + +achieve_count;
+
       if (progress_status === 'Y') {
         userAchieve.progress_status = progress_status;
-        userAchieve.achieve_count += +achieve_count;
+        userAchieve.achieve_count = +totalAchieveCount;
         userAchieve.complete_date = new Date();
       } else {
         userAchieve.achieve_count += +achieve_count;
       }
 
-      const totalAchieveCount = userAchieve.achieve_count + +achieve_count;
       const result = await userAchievementsRepository.save(userAchieve);
 
       await this.achieveRankPointCalcu(
