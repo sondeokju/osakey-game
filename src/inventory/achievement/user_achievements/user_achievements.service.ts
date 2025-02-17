@@ -10,6 +10,7 @@ import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { UserAchievements } from './entities/user_achievements.entity';
 import { AchieveListService } from 'src/static-table/achieve/achieve_list/achieve_list.service';
+import { UserAchieveRankingService } from '../user_achieve_ranking/user_achieve_ranking.service';
 
 @Injectable()
 export class UserAchievementsService {
@@ -18,6 +19,7 @@ export class UserAchievementsService {
     private readonly userAchievementsRepository: Repository<UserAchievements>,
     private readonly rewardOfferService: RewardOfferService,
     private readonly achieveListService: AchieveListService,
+    private readonly userAchieveRankingService: UserAchieveRankingService,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -205,9 +207,26 @@ export class UserAchievementsService {
 
     const achievePointMax = achieveSeasonList.length;
 
-    if (achieve_count >= achieve.mission_goal) {
+    if (
+      userAchieve.point_calcu_yn === 'N' &&
+      achieve_count >= achieve.mission_goal
+    ) {
+      await this.userAchieveRankingService.achievePointPlus(
+        user_id,
+        achieve.season,
+        qr,
+      );
+
+      if (achieve_count >= achievePointMax) {
+        userAchieve.point_calcu_yn = 'Y';
+      }
     }
-    return userAchieve;
+
+    const result = await userAchievementsRepository.save(userAchieve);
+
+    return {
+      userAchievements: result,
+    };
   }
 
   async achieve(user_id: string, qr?: QueryRunner) {

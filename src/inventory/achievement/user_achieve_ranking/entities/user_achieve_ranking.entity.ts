@@ -15,15 +15,20 @@ export class UserAchieveRanking extends BaseModel {
   @Column({
     default: 0,
   })
-  achieve_point: number;
+  season: number;
 
   @Column({
-    type: 'datetime',
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: string) => new Date(value),
-    },
-    default: () => 'CURRENT_TIMESTAMP',
+    default: 0,
   })
-  first_come_date: Date;
+  achieve_point: number;
+
+  //   @Column({
+  //     type: 'datetime',
+  //     transformer: {
+  //       to: (value: Date) => value,
+  //       from: (value: string) => new Date(value),
+  //     },
+  //     default: () => 'CURRENT_TIMESTAMP',
+  //   })
+  //   first_come_date: Date;
 }
