@@ -52,6 +52,13 @@ export class UserAchievementsService {
   // }
 
   async ranking(season: number, qr?: QueryRunner) {
+    const achieve = await this.achieveListService.getAchieveSeasonList(
+      season,
+      qr,
+    );
+
+    const achievePointThreshold = Math.ceil((achieve.length / 100) * 95); // 95% 기준점 계산 (올림 적용)
+
     const queryBuilder = (qr ? qr.manager : this.dataSource)
       .createQueryBuilder()
       .select([
@@ -63,6 +70,9 @@ export class UserAchievementsService {
       ])
       .from('user_achieve_ranking', 'uar')
       .where('uar.season = :season', { season })
+      .andWhere('uar.achieve_point >= :threshold', {
+        threshold: achievePointThreshold,
+      }) // 95% 이상 필터링
       .limit(100);
 
     const rankQuery = await queryBuilder.getRawMany();
@@ -70,6 +80,33 @@ export class UserAchievementsService {
 
     return rankQuery;
   }
+
+  // async ranking(season: number, qr?: QueryRunner) {
+  //   const achieve = await this.achieveListService.getAchieveSeasonList(
+  //     season,
+  //     qr,
+  //   );
+
+  //   achieve.length;
+
+  //   const queryBuilder = (qr ? qr.manager : this.dataSource)
+  //     .createQueryBuilder()
+  //     .select([
+  //       'uar.user_id AS user_id',
+  //       'uar.season AS season',
+  //       'uar.achieve_point AS achieve_point',
+  //       'uar.update_at AS update_at',
+  //       'ROW_NUMBER() OVER (ORDER BY uar.achieve_point DESC, uar.update_at ASC) AS rank_position',
+  //     ])
+  //     .from('user_achieve_ranking', 'uar')
+  //     .where('uar.season = :season', { season })
+  //     .limit(100);
+
+  //   const rankQuery = await queryBuilder.getRawMany();
+  //   //console.log('🏆 랭킹 조회 결과:', rankQuery);
+
+  //   return rankQuery;
+  // }
 
   //특정 (id = 5)의 순위만 가져오기
   async rankingMe(guildId: string, qr?: QueryRunner) {
