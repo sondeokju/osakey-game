@@ -23,12 +23,12 @@ export class UserAchievementsController {
     return result;
   }
 
-  // @Get('ranking')
-  // @UseInterceptors(TransactionInterceptor)
-  // async ranking(@User() user: Users, @QueryRunner() qr: QR) {
-  //   const result = this.userAchievementsService.ranking(user.user_id, qr);
-  //   return result;
-  // }s
+  @Get('ranking')
+  @UseInterceptors(TransactionInterceptor)
+  async ranking(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = this.userAchievementsService.ranking(qr);
+    return result;
+  }
 
   @Post('save')
   @UseInterceptors(TransactionInterceptor)
