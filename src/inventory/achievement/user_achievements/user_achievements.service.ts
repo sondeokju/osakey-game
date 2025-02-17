@@ -169,6 +169,8 @@ export class UserAchievementsService {
 
       const result = await userAchievementsRepository.save(userAchieve);
 
+      await this.achieveRankPointCalcu(user_id, achieve_id, achieve_count, qr);
+
       if (isTransactionOwner) {
         await queryRunner.commitTransaction();
       }
