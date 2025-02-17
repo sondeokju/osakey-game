@@ -34,16 +34,16 @@ export class UserAchievementsService {
     const queryBuilder = (qr ? qr.manager : this.dataSource)
       .createQueryBuilder()
       .select([
-        'g.id AS id',
-        'g.name AS name',
-        'g.score AS score',
-        'RANK() OVER (ORDER BY g.score DESC) AS rank_position',
+        'uar.user_id AS user_id',
+        'uar.season AS season',
+        'uar.achieve_point AS achieve_point',
+        'RANK() OVER (ORDER BY uar.achieve_point DESC) AS rank_position',
       ])
-      .from('guilds', 'g')
+      .from('user_achieve_ranking', 'uar')
       .limit(100);
 
     const rankQuery = await queryBuilder.getRawMany();
-    console.log('🏆 랭킹 조회 결과:', rankQuery);
+    //console.log('🏆 랭킹 조회 결과:', rankQuery);
 
     return rankQuery;
   }
