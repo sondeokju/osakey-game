@@ -33,6 +33,7 @@ export class UserAchieveRankingService {
       userAchieveRanking = userAchieveRankingRepository.create({
         user_id,
         season,
+        achieve_point: 0,
       });
     }
     userAchieveRanking.achieve_point += 1;
