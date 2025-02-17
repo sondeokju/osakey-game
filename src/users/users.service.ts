@@ -156,8 +156,8 @@ export class UsersService {
     //suit 세팅 11500000
     const suit_id = 11500000;
     await this.dataSource.query(
-      `INSERT INTO user_suit (user_id, suit_id, unlock_yn) VALUES (?, ?, ?)`,
-      [user_id, suit_id, 'Y'],
+      `INSERT INTO user_suit (user_id, suit_id, unlock_yn, mount_yn) VALUES (?, ?, ?, ?)`,
+      [user_id, suit_id, 'Y', 'Y'],
     );
 
     //세카메 다이어리 세팅 12600001
