@@ -207,6 +207,9 @@ export class UserAchievementsService {
 
     const achievePointMax = achieveSeasonList.length;
 
+    console.log('userAchieve.point_calcu_yn:', userAchieve.point_calcu_yn);
+    console.log('achieve_count:', achieve_count);
+    console.log('mission_goal:', achieve.mission_goal);
     if (
       userAchieve.point_calcu_yn === 'N' &&
       achieve_count >= achieve.mission_goal
