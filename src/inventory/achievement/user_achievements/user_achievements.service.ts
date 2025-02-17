@@ -52,9 +52,7 @@ export class UserAchievementsService {
   }
 
   //특정 (id = 5)의 순위만 가져오기
-  async ranking3(qr?: QueryRunner) {
-    const guildId = 5; // 특정 길드 ID
-
+  async rankingMe(guildId: string, qr?: QueryRunner) {
     const guildRank = await this.dataSource
       .createQueryBuilder()
       .select([
