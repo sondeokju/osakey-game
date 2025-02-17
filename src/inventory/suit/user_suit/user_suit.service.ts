@@ -33,10 +33,13 @@ export class UserSuitService {
 
     if (!userSuit) {
       userSuit = userSuitRepository.create({ user_id, suit_id });
+      userSuit.unlock_yn = 'Y';
     }
 
     const result = await userSuitRepository.save(userSuit);
-    return result;
+    return {
+      userSuitData: result,
+    };
   }
 
   //슈트 레벨업
