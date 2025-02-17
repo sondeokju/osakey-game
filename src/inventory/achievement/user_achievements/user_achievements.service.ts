@@ -29,7 +29,7 @@ export class UserAchievementsService {
 
   //(순위 건너뛰기) RANK()는 같은 점수의 길드가 있을 경우 순위를 건너뜀 (예: 1, 2, 2, 4)
   async ranking(qr?: QueryRunner) {
-    const queryBuilder = this.dataSource
+    const queryBuilder = (qr ? qr.manager : this.dataSource)
       .createQueryBuilder()
       .select([
         'g.id AS id',
@@ -40,43 +40,60 @@ export class UserAchievementsService {
       .from('guilds', 'g')
       .limit(100);
 
-    if (qr) {
-      queryBuilder.setQueryRunner(qr);
-    }
-
     const rankQuery = await queryBuilder.getRawMany();
-
-    console.log(rankQuery);
+    console.log('🏆 랭킹 조회 결과:', rankQuery);
 
     return rankQuery;
   }
 
   //특정 (id = 5)의 순위만 가져오기
   async rankingMe(guildId: string, qr?: QueryRunner) {
-    const guildRank = await this.dataSource
-      .createQueryBuilder()
-      .select([
-        'id',
-        'name',
-        'score',
-        'RANK() OVER (ORDER BY score DESC) AS rank_position',
-      ])
-      .from((qb) => {
-        return qb
-          .select([
-            'id',
-            'name',
-            'score',
-            'RANK() OVER (ORDER BY score DESC) AS rank_position',
-          ])
-          .from('guilds', 'g');
-      }, 'ranked_guilds')
-      .where('id = :guildId', { guildId })
-      .getRawOne();
+    const queryRunner = qr || this.dataSource.createQueryRunner(); // QueryRunner 생성 또는 기존 사용
 
-    console.log(guildRank); // ✅ 정상 출력됨
+    if (!qr) {
+      await queryRunner.connect(); // 새로운 QueryRunner라면 연결
+      await queryRunner.startTransaction(); // 트랜잭션 시작
+    }
 
-    return guildRank;
+    try {
+      const guildRank = await queryRunner.manager
+        .createQueryBuilder()
+        .select([
+          'id',
+          'name',
+          'score',
+          'RANK() OVER (ORDER BY score DESC) AS rank_position',
+        ])
+        .from((qb) => {
+          return qb
+            .select([
+              'id',
+              'name',
+              'score',
+              'RANK() OVER (ORDER BY score DESC) AS rank_position',
+            ])
+            .from('guilds', 'g');
+        }, 'ranked_guilds')
+        .where('ranked_guilds.id = :guildId', { guildId })
+        .getRawOne();
+
+      if (!qr) {
+        await queryRunner.commitTransaction(); // 트랜잭션 성공 시 커밋
+      }
+
+      console.log(guildRank); // ✅ 특정 ID의 순위 출력됨
+      return guildRank;
+    } catch (error) {
+      if (!qr) {
+        await queryRunner.rollbackTransaction(); // 오류 발생 시 롤백
+      }
+      console.error('❌ 랭킹 조회 실패:', error);
+      throw error;
+    } finally {
+      if (!qr) {
+        await queryRunner.release(); // QueryRunner 해제
+      }
+    }
   }
 
   //DENSE_RANK()는 순위를 건너뛰지 않음 (예: 1, 2, 2, 3)
@@ -166,6 +183,17 @@ export class UserAchievementsService {
         await queryRunner.release();
       }
     }
+  }
+
+  async achieveRank(user_id: string, qr?: QueryRunner) {
+    const userAchievementsRepository = this.getUserAchievementsRepository(qr);
+    const userAchieve = await userAchievementsRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    return userAchieve;
   }
 
   async achieve(user_id: string, qr?: QueryRunner) {

@@ -45,4 +45,11 @@ export class UserAchievements extends BaseModel {
     default: 'N',
   })
   reward_yn: string;
+
+  @Column({
+    type: 'char',
+    length: 1,
+    default: 'N',
+  })
+  point_calcu_yn: string;
 }
