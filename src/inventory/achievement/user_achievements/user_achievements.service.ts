@@ -29,7 +29,6 @@ export class UserAchievementsService {
       : this.userAchievementsRepository;
   }
 
-  //(순위 건너뛰기) RANK()는 같은 점수의 길드가 있을 경우 순위를 건너뜀 (예: 1, 2, 2, 4)
   async ranking(qr?: QueryRunner) {
     const queryBuilder = (qr ? qr.manager : this.dataSource)
       .createQueryBuilder()
