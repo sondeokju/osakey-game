@@ -210,19 +210,20 @@ export class UserAchievementsService {
       },
     });
 
-    const userAchieveRankingData =
-      await this.userAchieveRankingService.getUserAchieveRanking(user_id, qr);
-
     const achieve = await this.achieveListService.getAchieve(achieve_id, qr);
+
+    const userAchieveRankingData =
+      await this.userAchieveRankingService.getUserAchieveRanking(
+        user_id,
+        achieve.season,
+        qr,
+      );
 
     const achieveSeasonList =
       await this.achieveListService.getAchieveSeasonList(achieve.season, qr);
 
     const achievePointMax = achieveSeasonList.length;
 
-    console.log('userAchieve.point_calcu_yn:', userAchieve.point_calcu_yn);
-    console.log('achieve_count:', achieve_count);
-    console.log('mission_goal:', achieve.mission_goal);
     if (
       userAchieve.point_calcu_yn === 'N' &&
       achieve_count >= achieve.mission_goal &&

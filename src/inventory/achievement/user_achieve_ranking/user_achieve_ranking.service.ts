@@ -23,11 +23,15 @@ export class UserAchieveRankingService {
       : this.userAchieveRankingRepository;
   }
 
-  async getUserAchieveRanking(user_id: string, qr?: QueryRunner) {
+  async getUserAchieveRanking(
+    user_id: string,
+    season: number,
+    qr?: QueryRunner,
+  ) {
     const userAchieveRankingRepository =
       this.getUserAchieveRankingRepository(qr);
     const userAchieveRanking = await userAchieveRankingRepository.findOne({
-      where: { user_id },
+      where: { user_id, season },
     });
 
     return userAchieveRanking;
