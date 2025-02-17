@@ -201,10 +201,7 @@ export class UserAchievementsService {
     const achieve = await this.achieveListService.getAchieve(achieve_id, qr);
 
     const achieveSeasonList =
-      await this.achieveListService.getAchieveSeasonList(
-        achieveList.season,
-        qr,
-      );
+      await this.achieveListService.getAchieveSeasonList(achieve.season, qr);
 
     const achievePointMax = achieveSeasonList.length;
 
@@ -252,7 +249,7 @@ export class UserAchievementsService {
       throw new NotFoundException('userAchieve not found.');
     }
 
-    const achieveData = await this.achieveListService.getAttendance(
+    const achieveData = await this.achieveListService.getAchieve(
       userAchieve.achieve_id,
       qr,
     );

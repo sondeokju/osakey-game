@@ -132,7 +132,7 @@ export class ControlTableService {
       collection: await this.getCollectionAll(qr),
       attendance: await this.attendanceService.getAttendanceAll(qr),
       system_notice: await this.systemNoticeService.getSystemNoticeAll(qr),
-      acheve_list: await this.achieveListService.getAttendanceAll(qr),
+      acheve_list: await this.achieveListService.getAchieveAll(qr),
       stage: await this.getStageAll(qr),
       suit: await this.getSuitAll(qr),
       secame: await this.getSecameAll(qr),
