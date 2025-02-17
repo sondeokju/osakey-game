@@ -254,7 +254,7 @@ export class UserAchievementsService {
         qr,
       );
 
-    let includeRanking = (userAchieveCompleteData.length / 100) * 95;
+    let includeRanking = (achievePointMax / 100) * 95;
     console.log('includeRanking:', includeRanking);
     console.log(
       'userAchieveCompleteData.length:',
