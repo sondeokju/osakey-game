@@ -119,6 +119,7 @@ import { UserDiamondModule } from 'src/inventory/diamond/user_diamond/user_diamo
 import { UserAchieveRankingModule } from 'src/inventory/achievement/user_achieve_ranking/user_achieve_ranking.module';
 import { ShopPackageModule } from 'src/static-table/shop/shop_package/shop_package.module';
 import { ShopModule } from 'src/static-table/shop/shop/shop.module';
+import { UserShopLimitModule } from 'src/inventory/shop/user_shop_limit/user_shop_limit.module';
 
 export const entities_module = [
   UsersModule,
@@ -242,6 +243,7 @@ export const entities_module = [
   UserAchieveRankingModule,
   ShopPackageModule,
   ShopModule,
+  UserShopLimitModule,
 ];
 
 //console.log('[DEBUG] entities_module.ts loaded:', entities_module);

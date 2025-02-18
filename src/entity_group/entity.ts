@@ -111,6 +111,7 @@ import { UserDiamond } from 'src/inventory/diamond/user_diamond/entities/user_di
 import { UserAchieveRanking } from 'src/inventory/achievement/user_achieve_ranking/entities/user_achieve_ranking.entity';
 import { ShopPackage } from 'src/static-table/shop/shop_package/entities/shop_package.entity';
 import { Shop } from 'src/static-table/shop/shop/entities/shop.entity';
+import { UserShopLimit } from 'src/inventory/shop/user_shop_limit/entities/user_shop_limit.entity';
 
 export const entities = [
   Users,
@@ -226,4 +227,5 @@ export const entities = [
   UserAchieveRanking,
   ShopPackage,
   Shop,
+  UserShopLimit,
 ];
