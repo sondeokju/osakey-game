@@ -110,6 +110,7 @@ import { BountyStage } from 'src/static-table/stage/bounty_stage/entities/bounty
 import { UserDiamond } from 'src/inventory/diamond/user_diamond/entities/user_diamond.entity';
 import { UserAchieveRanking } from 'src/inventory/achievement/user_achieve_ranking/entities/user_achieve_ranking.entity';
 import { ShopPackage } from 'src/static-table/shop/shop_package/entities/shop_package.entity';
+import { Shop } from 'src/static-table/shop/shop/entities/shop.entity';
 
 export const entities = [
   Users,
@@ -224,4 +225,5 @@ export const entities = [
   UserDiamond,
   UserAchieveRanking,
   ShopPackage,
+  Shop,
 ];
