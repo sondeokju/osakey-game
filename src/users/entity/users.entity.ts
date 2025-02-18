@@ -211,7 +211,7 @@ export class Users extends BaseModel {
   @Column({
     length: 64,
     type: 'varchar',
-    default: 'active',
+    default: 'new',
   })
   account_type: string;
 
