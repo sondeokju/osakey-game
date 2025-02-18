@@ -117,6 +117,7 @@ import { BountyStageModule } from 'src/static-table/stage/bounty_stage/bounty_st
 import { UserHeroModule } from 'src/inventory/hero/user_hero/user_hero.module';
 import { UserDiamondModule } from 'src/inventory/diamond/user_diamond/user_diamond.module';
 import { UserAchieveRankingModule } from 'src/inventory/achievement/user_achieve_ranking/user_achieve_ranking.module';
+import { ShopPackageModule } from 'src/static-table/shop/shop_package/shop_package.module';
 
 export const entities_module = [
   UsersModule,
@@ -238,6 +239,7 @@ export const entities_module = [
   UserHeroModule,
   UserDiamondModule,
   UserAchieveRankingModule,
+  ShopPackageModule,
 ];
 
 //console.log('[DEBUG] entities_module.ts loaded:', entities_module);

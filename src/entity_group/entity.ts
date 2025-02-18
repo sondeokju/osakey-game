@@ -109,6 +109,7 @@ import { UserGachaCheck } from 'src/supervisor/gacha_draw/user_gacha_check/entit
 import { BountyStage } from 'src/static-table/stage/bounty_stage/entities/bounty_stage.entity';
 import { UserDiamond } from 'src/inventory/diamond/user_diamond/entities/user_diamond.entity';
 import { UserAchieveRanking } from 'src/inventory/achievement/user_achieve_ranking/entities/user_achieve_ranking.entity';
+import { ShopPackage } from 'src/static-table/shop/shop_package/entities/shop_package.entity';
 
 export const entities = [
   Users,
@@ -222,4 +223,5 @@ export const entities = [
   BountyStage,
   UserDiamond,
   UserAchieveRanking,
+  ShopPackage,
 ];

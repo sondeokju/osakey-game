@@ -11,16 +11,6 @@ import { BaseModel } from 'src/common/entity/base.entity';
 //@Exclude()
 export class Users extends BaseModel {
   @Column({
-    type: 'datetime',
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: string) => new Date(value),
-    },
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  last_login_date: Date;
-
-  @Column({
     length: 10,
     type: 'char',
   })
@@ -217,7 +207,7 @@ export class Users extends BaseModel {
   })
   prologue_yn: string;
 
-  //"new" (신규 유저) "returning" (복귀 유저) "active" (일반 유저)
+  //"new" (신규 유저) "returning" (복귀 유저) "active" (일반 유저) "inactive" (휴먼 유저)
   @Column({
     length: 64,
     type: 'varchar',

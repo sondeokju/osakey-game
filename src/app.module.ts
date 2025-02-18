@@ -29,6 +29,7 @@ import { RequestLoggingMiddleware } from './common/middleware/request-logging.mi
 import { entities } from './entity_group/entity';
 import { entities_module } from './entity_group/entity_module';
 import { RedisModule } from './redis/redis.module';
+import { ShopModule } from './shop/shop.module';
 
 @Module({
   imports: [
@@ -70,6 +71,7 @@ import { RedisModule } from './redis/redis.module';
     }),
     ...entities_module,
     RedisModule,
+    ShopModule,
   ],
   controllers: [AppController],
   providers: [
