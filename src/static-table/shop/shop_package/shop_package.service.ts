@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
-import { CreateShopPackageDto } from './dto/create-shop_package.dto';
-import { UpdateShopPackageDto } from './dto/update-shop_package.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { ShopPackage } from './entities/shop_package.entity';
 
 @Injectable()
 export class ShopPackageService {
-  create(createShopPackageDto: CreateShopPackageDto) {
-    return 'This action adds a new shopPackage';
+  constructor(
+    @InjectRepository(ShopPackage)
+    private readonly shopPackageRepository: Repository<ShopPackage>,
+  ) {}
+
+  getShopPackageRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<ShopPackage>(ShopPackage)
+      : this.shopPackageRepository;
   }
 
-  findAll() {
-    return `This action returns all shopPackage`;
+  async getShopPackageAll(qr?: QueryRunner) {
+    const shopPackageRepository = this.getShopPackageRepository(qr);
+    const result = await shopPackageRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} shopPackage`;
-  }
+  async getShopPackageList(shop_package_id: number, qr?: QueryRunner) {
+    const shopPackageRepository = this.getShopPackageRepository(qr);
+    const result = await shopPackageRepository.find({
+      where: {
+        shop_package_id,
+      },
+    });
 
-  update(id: number, updateShopPackageDto: UpdateShopPackageDto) {
-    return `This action updates a #${id} shopPackage`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} shopPackage`;
+    return result;
   }
 }
