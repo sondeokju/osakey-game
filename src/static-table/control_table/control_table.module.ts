@@ -112,6 +112,10 @@ import { GachaService } from '../draw/gacha/gacha.service';
 import { GachaOutputService } from '../draw/gacha_output/gacha_output.service';
 import { BountyStage } from '../stage/bounty_stage/entities/bounty_stage.entity';
 import { BountyStageService } from '../stage/bounty_stage/bounty_stage.service';
+import { ShopPackage } from '../shop/shop_package/entities/shop_package.entity';
+import { Shop } from '../shop/shop/entities/shop.entity';
+import { ShopPackageService } from '../shop/shop_package/shop_package.service';
+import { ShopService } from '../shop/shop/shop.service';
 
 @Module({
   imports: [
@@ -172,6 +176,8 @@ import { BountyStageService } from '../stage/bounty_stage/bounty_stage.service';
       Gacha,
       GachaOutput,
       BountyStage,
+      ShopPackage,
+      Shop,
     ]),
   ],
   exports: [ControlTableService],
@@ -233,6 +239,8 @@ import { BountyStageService } from '../stage/bounty_stage/bounty_stage.service';
     GachaService,
     GachaOutputService,
     BountyStageService,
+    ShopPackageService,
+    ShopService,
   ],
 })
 export class ControlTableModule {}
