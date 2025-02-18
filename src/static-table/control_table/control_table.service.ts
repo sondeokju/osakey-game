@@ -143,6 +143,7 @@ export class ControlTableService {
       equipment_skill: await this.getSkillAll(qr),
       tutorial: await this.getTutorialAll(qr),
       gacha: await this.getGachaAll(qr),
+      shop: await this.getShopAll(qr),
     };
 
     return static_table;
