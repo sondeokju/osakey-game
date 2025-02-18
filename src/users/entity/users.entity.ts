@@ -11,6 +11,16 @@ import { BaseModel } from 'src/common/entity/base.entity';
 //@Exclude()
 export class Users extends BaseModel {
   @Column({
+    type: 'datetime',
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: string) => new Date(value),
+    },
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  last_login_date: Date;
+
+  @Column({
     length: 10,
     type: 'char',
   })
