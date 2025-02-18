@@ -10,7 +10,7 @@ import { UserShopLimitService } from './user_shop_limit.service';
 export class UserShopLimitController {
   constructor(private readonly userShopLimitService: UserShopLimitService) {}
 
-  @Get('limit')
+  @Get('purchase/status')
   @UseInterceptors(TransactionInterceptor)
   async getUserShopLimitAll(@User() user: Users, @QueryRunner() qr: QR) {
     const result = this.userShopLimitService.getUserShopLimitAll(
@@ -20,19 +20,19 @@ export class UserShopLimitController {
     return result;
   }
 
-  // @Post('mail/send')
-  // @UseInterceptors(TransactionInterceptor)
-  // async npcSendMailToPlayer(
-  //   @User() user: Users,
-  //   @Body('mail_id') mail_id: number,
-  //   @QueryRunner() qr: QR,
-  // ) {
-  //   const result = await this.userSecameMailService.npcSendMailToPlayer(
-  //     user.user_id,
-  //     mail_id,
-  //     qr,
-  //   );
+  @Post('purchase')
+  @UseInterceptors(TransactionInterceptor)
+  async npcSendMailToPlayer(
+    @User() user: Users,
+    @Body('shop_id') shop_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userShopLimitService.getUserShopLimitAll(
+      user.user_id,
+      //shop_id,
+      qr,
+    );
 
-  //   return JSON.stringify(result);
-  // }
+    return result;
+  }
 }
