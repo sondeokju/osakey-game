@@ -18,6 +18,13 @@ export class UserShopLimit extends BaseModel {
   shop_id: number;
 
   @Column({
+    type: 'char',
+    length: 1,
+    default: 'N',
+  })
+  free_limit_yn: string;
+
+  @Column({
     type: 'varchar',
     length: 128,
     default: '',
