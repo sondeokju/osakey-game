@@ -207,6 +207,14 @@ export class Users extends BaseModel {
   })
   prologue_yn: string;
 
+  //"new" (신규 유저) "returning" (복귀 유저) "active" (일반 유저)
+  @Column({
+    length: 64,
+    type: 'varchar',
+    default: 'active',
+  })
+  account_type: string;
+
   // @Column({
   //   length: 128,
   //   default: '',
