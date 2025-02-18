@@ -34,6 +34,7 @@ export class UserShopLimitService {
   async shopLimitAdd(
     user_id: string,
     shop_id: number,
+    free_limit_yn: string,
     buy_limit_type: string,
     buy_limit_count: number,
     sell_start: Date,
@@ -50,12 +51,14 @@ export class UserShopLimitService {
       userShopLimit = userShopLimitRepository.create({
         user_id,
         shop_id,
+        free_limit_yn,
         buy_limit_type,
         buy_limit_count,
         sell_start,
         sell_end,
       });
     } else {
+      userShopLimit.buy_limit_type = free_limit_yn;
       userShopLimit.buy_limit_type = buy_limit_type;
       userShopLimit.buy_limit_count += buy_limit_count;
       userShopLimit.sell_start = sell_start;

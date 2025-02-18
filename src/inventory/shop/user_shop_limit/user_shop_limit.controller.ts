@@ -6,19 +6,19 @@ import { QueryRunner as QR } from 'typeorm';
 import { Users } from 'src/users/entity/users.entity';
 import { UserShopLimitService } from './user_shop_limit.service';
 
-@Controller('secame')
+@Controller('shop')
 export class UserShopLimitController {
   constructor(private readonly userShopLimitService: UserShopLimitService) {}
 
-  // @Get('mail')
-  // @UseInterceptors(TransactionInterceptor)
-  // async getUserSecameMail(@User() user: Users, @QueryRunner() qr: QR) {
-  //   const result = this.userShopLimitService.getUserSecameMail(
-  //     user.user_id,
-  //     qr,
-  //   );
-  //   return result;
-  // }
+  @Get('limit')
+  @UseInterceptors(TransactionInterceptor)
+  async getUserShopLimitAll(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = this.userShopLimitService.getUserShopLimitAll(
+      user.user_id,
+      qr,
+    );
+    return result;
+  }
 
   // @Post('mail/send')
   // @UseInterceptors(TransactionInterceptor)
