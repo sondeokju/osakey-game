@@ -31,7 +31,8 @@ export class UserShopLimitService {
   }
 
   async shopPurchase(user_id: string, shop_id: number, qr?: QueryRunner) {
-    qr = qr ?? this.dataSource.createQueryRunner();
+    //qr = qr ?? this.dataSource.createQueryRunner();
+    qr = this.dataSource.createQueryRunner();
     await qr.connect();
     await qr.startTransaction();
 
