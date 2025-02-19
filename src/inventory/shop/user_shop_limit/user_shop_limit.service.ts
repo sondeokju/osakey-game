@@ -31,65 +31,74 @@ export class UserShopLimitService {
   }
 
   async shopPurchase(user_id: string, shop_id: number, qr?: QueryRunner) {
-    //qr = qr ?? this.dataSource.createQueryRunner();
-    qr = this.dataSource.createQueryRunner();
-    await qr.connect();
-    await qr.startTransaction();
+    const qrInstance = qr ?? this.dataSource.createQueryRunner();
+    const shouldRelease = !qr;
+
+    if (shouldRelease) {
+      await qrInstance.connect();
+      await qrInstance.startTransaction();
+    }
 
     try {
-      const userShopLimitRepository = this.getUserShopLimitRepository(qr);
-      const userShopLimit = await userShopLimitRepository.findOne({
+      const userShopLimitRepository =
+        this.getUserShopLimitRepository(qrInstance);
+      let userShopLimit = await userShopLimitRepository.findOne({
         where: { user_id, shop_id },
       });
 
-      const shopData = await this.shopService.getShop(shop_id, qr);
+      if (!userShopLimit) {
+        userShopLimit = userShopLimitRepository.create({ user_id, shop_id });
+      }
+
+      const shopData = await this.shopService.getShop(shop_id, qrInstance);
       const shopPackageList =
         (await this.shopPackageService.getShopPackageList(
           shopData.item_package_id,
-          qr,
+          qrInstance,
         )) || [];
 
-      const items = Array.isArray(shopPackageList)
-        ? shopPackageList.map(({ item_id, item_count }) => ({
-            item_id,
-            item_count,
-          }))
-        : [];
-
+      const items = shopPackageList.map(({ item_id, item_count }) => ({
+        item_id,
+        item_count,
+      }));
       const shopRewardItems = await this.rewardOfferService.rewardItemsArray(
         user_id,
         items,
-        qr,
+        qrInstance,
       );
       console.log('shopRewardItems:', shopRewardItems);
 
       const shopPackageBonusList =
         (await this.shopPackageService.getShopPackageList(
           shopData.bonus_item_package_id,
-          qr,
+          qrInstance,
         )) || [];
-
-      const bonusItems = Array.isArray(shopPackageBonusList)
-        ? shopPackageBonusList.map(({ item_id, item_count }) => ({
-            item_id,
-            item_count,
-          }))
-        : [];
-
+      const bonusItems = shopPackageBonusList.map(
+        ({ item_id, item_count }) => ({ item_id, item_count }),
+      );
       const shopRewardBonusItems =
-        await this.rewardOfferService.rewardItemsArray(user_id, bonusItems, qr);
+        await this.rewardOfferService.rewardItemsArray(
+          user_id,
+          bonusItems,
+          qrInstance,
+        );
       console.log('shopRewardBonusItems:', shopRewardBonusItems);
 
-      userShopLimit.shop_id = shop_id;
       const result = await userShopLimitRepository.save(userShopLimit);
 
-      await qr.commitTransaction();
+      if (shouldRelease) {
+        await qrInstance.commitTransaction();
+      }
       return result;
     } catch (error) {
-      await qr.rollbackTransaction();
+      if (shouldRelease) {
+        await qrInstance.rollbackTransaction();
+      }
       throw error;
     } finally {
-      await qr.release();
+      if (shouldRelease) {
+        await qrInstance.release();
+      }
     }
   }
 
