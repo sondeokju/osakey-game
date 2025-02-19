@@ -167,12 +167,12 @@ export class UserEquipSlotService {
     }
 
     // userEquipSlot 업데이트
-    userEquipSlot.acc = acc === 0 ? 0 : acc;
-    userEquipSlot.engine = engine === 0 ? 0 : engine;
-    userEquipSlot.armor = armor === 0 ? 0 : armor;
-    userEquipSlot.boost = boost === 0 ? 0 : boost;
-    userEquipSlot.shoes = shoes === 0 ? 0 : shoes;
-    userEquipSlot.weapon = weapon === 0 ? 0 : weapon;
+    if (acc === 0) userEquipSlot.acc = 0;
+    if (engine === 0) userEquipSlot.engine = 0;
+    if (armor === 0) userEquipSlot.armor = 0;
+    if (boost === 0) userEquipSlot.boost = 0;
+    if (shoes === 0) userEquipSlot.shoes = 0;
+    if (weapon === 0) userEquipSlot.weapon = 0;
 
     await this.resetUserEquipMount(user_id, equipIdsToRelease, qr);
     return await userEquipSlotRepository.save(userEquipSlot);
