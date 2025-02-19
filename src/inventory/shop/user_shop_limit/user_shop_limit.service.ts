@@ -57,6 +57,10 @@ export class UserShopLimitService {
       );
       console.log('shopRewardData:', shopRewardData);
 
+      const shopData = await this.shopService.getShop(shop_id, qr);
+      userShopLimit.buy_limit_type = shopData.buy_limit_type;
+      userShopLimit.buy_limit_count = shopData.buy_limit_count;
+
       const result = await userShopLimitRepository.save(userShopLimit);
 
       if (shouldRelease) {
