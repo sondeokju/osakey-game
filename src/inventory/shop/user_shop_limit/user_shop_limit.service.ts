@@ -48,7 +48,7 @@ export class UserShopLimitService {
 
       if (!limitCheck.success) {
         return {
-          status: 400,
+          status: 403,
           success: false,
           errorCode: 'PURCHASE_LIMIT_EXCEEDED',
           message: 'Purchase limit exceeded',
