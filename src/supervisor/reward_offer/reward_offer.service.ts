@@ -183,8 +183,8 @@ export class RewardOfferService {
 
       result.push({
         item_id: itemData.item_id,
-        item_type: itemData.item_type,
-        item_name: itemData.item_name,
+        //item_type: itemData.item_type,
+        //item_name: itemData.item_name,
         item_count,
       });
     }
