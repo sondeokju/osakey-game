@@ -41,10 +41,6 @@ export class UserShopLimitService {
         qr,
       )) || [];
 
-    console.log('shopPackageList:', shopPackageList);
-    console.log('Type of shopPackageList:', typeof shopPackageList);
-    console.log('Is Array:', Array.isArray(shopPackageList));
-
     const items = Array.isArray(shopPackageList)
       ? shopPackageList.map(({ item_id, item_count }) => ({
           item_id,
@@ -52,19 +48,17 @@ export class UserShopLimitService {
         }))
       : [];
 
-    console.log('items:', items);
+    const shopRewardItems = await this.rewardOfferService.rewardItemsArray(
+      user_id,
+      items,
+    );
+    console.log('shopRewardItems:', shopRewardItems);
 
     const shopPackageBonusList =
       (await this.shopPackageService.getShopPackageList(
         shopData.bonus_item_package_id,
         qr,
       )) || [];
-
-    // const shopRewardItems = await this.rewardOfferService.rewardItemsArray(
-    //   user_id,
-    //   items,
-    // );
-    //console.log('shopRewardItems:', shopRewardItems);
 
     const bonusItems = Array.isArray(shopPackageBonusList)
       ? shopPackageBonusList.map(({ item_id, item_count }) => ({

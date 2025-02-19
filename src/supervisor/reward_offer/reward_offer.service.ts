@@ -143,12 +143,12 @@ export class RewardOfferService {
 
   async rewardItemsArray(
     user_id: string,
-    items: { item_id: number; qty: number }[],
+    items: { item_id: number; item_count: number }[],
     qr?: QueryRunner,
   ) {
     let result = [];
 
-    for (const { item_id, qty } of items) {
+    for (const { item_id, item_count } of items) {
       const itemData = await this.itemService.getItem(item_id);
 
       switch (itemData.item_type) {
@@ -159,12 +159,17 @@ export class RewardOfferService {
             itemData.item_id,
             itemData.item_grade,
             itemData.item_type,
-            qty,
+            item_count,
             qr,
           );
           break;
         case 'C':
-          await this.rewardCurrency(user_id, itemData.item_name, qty, qr);
+          await this.rewardCurrency(
+            user_id,
+            itemData.item_name,
+            item_count,
+            qr,
+          );
           break;
         case 'E':
           await this.createEquipQuery(user_id, item_id, qr);
@@ -180,7 +185,7 @@ export class RewardOfferService {
         item_id: itemData.item_id,
         item_type: itemData.item_type,
         item_name: itemData.item_name,
-        qty,
+        item_count,
       });
     }
 
