@@ -41,6 +41,10 @@ export class UserShopLimitService {
         qr,
       ) || [];
 
+    console.log('shopPackageList:', shopPackageList);
+    console.log('Type of shopPackageList:', typeof shopPackageList);
+    console.log('Is Array:', Array.isArray(shopPackageList));
+
     const items = Array.isArray(shopPackageList)
       ? shopPackageList.map(({ item_id, qty }) => ({ item_id, qty }))
       : [];
@@ -55,7 +59,6 @@ export class UserShopLimitService {
       user_id,
       items,
     );
-
     console.log('shopRewardItems:', shopRewardItems);
 
     const bonusItems = Array.isArray(shopPackageBonusList)
