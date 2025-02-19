@@ -57,11 +57,7 @@ export class UserShopLimitService {
       );
       console.log('shopRewardData:', shopRewardData);
 
-      const userShopLimitData = await this.shopPurchaseLimit(
-        user_id,
-        shop_id,
-        qr,
-      );
+      const userShopLimit = await this.shopPurchaseLimit(user_id, shop_id, qr);
 
       if (shouldRelease) {
         await qrInstance.commitTransaction();
@@ -70,7 +66,7 @@ export class UserShopLimitService {
         reward: {
           userItemData: shopRewardData,
         },
-        userShopLimitData,
+        userShopLimit,
       };
     } catch (error) {
       if (shouldRelease) {
