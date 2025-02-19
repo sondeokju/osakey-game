@@ -138,37 +138,98 @@ export class UserEquipSlotService {
   ) {
     const userEquipSlotRepository = this.getUserEquipSlotRepository(qr);
     let userEquipSlot = await userEquipSlotRepository.findOne({
-      where: {
-        user_id,
-      },
+      where: { user_id },
     });
 
     if (!userEquipSlot) {
       throw new Error(`EquipSlot not found for user_id: ${user_id}`);
     }
 
-    // UserEquipSlot에서 equipIds 생성
-    const equipIds = [
-      userEquipSlot.acc,
-      userEquipSlot.engine,
-      userEquipSlot.armor,
-      userEquipSlot.boost,
-      userEquipSlot.shoes,
-      userEquipSlot.weapon,
-    ];
+    // 0인 값에 대한 해당 장비 ID 목록 추출
+    const equipIdsToRelease = [];
+    if (acc === 0) equipIdsToRelease.push(userEquipSlot.acc);
+    if (engine === 0) equipIdsToRelease.push(userEquipSlot.engine);
+    if (armor === 0) equipIdsToRelease.push(userEquipSlot.armor);
+    if (boost === 0) equipIdsToRelease.push(userEquipSlot.boost);
+    if (shoes === 0) equipIdsToRelease.push(userEquipSlot.shoes);
+    if (weapon === 0) equipIdsToRelease.push(userEquipSlot.weapon);
 
-    userEquipSlot.acc = acc === 0 ? 0 : userEquipSlot.acc;
-    userEquipSlot.engine = engine === 0 ? 0 : userEquipSlot.engine;
-    userEquipSlot.armor = armor === 0 ? 0 : userEquipSlot.armor;
-    userEquipSlot.boost = boost === 0 ? 0 : userEquipSlot.boost;
-    userEquipSlot.shoes = shoes === 0 ? 0 : userEquipSlot.shoes;
-    userEquipSlot.weapon = weapon === 0 ? 0 : userEquipSlot.weapon;
+    if (equipIdsToRelease.length > 0) {
+      // user_equip 테이블의 mount_yn 값을 'N'으로 변경
+      const sql = `
+        UPDATE user_equip
+        SET mount_yn = 'N'
+        WHERE user_id = ?
+          AND id IN (${equipIdsToRelease.map(() => '?').join(', ')})
+      `;
+      const params = [user_id, ...equipIdsToRelease];
+      await (qr ? qr.query(sql, params) : this.dataSource.query(sql, params));
+    }
 
-    await this.resetUserEquipMount(user_id, equipIds, qr);
+    // userEquipSlot 업데이트
+    userEquipSlot.acc = acc === 0 ? 0 : acc;
+    userEquipSlot.engine = engine === 0 ? 0 : engine;
+    userEquipSlot.armor = armor === 0 ? 0 : armor;
+    userEquipSlot.boost = boost === 0 ? 0 : boost;
+    userEquipSlot.shoes = shoes === 0 ? 0 : shoes;
+    userEquipSlot.weapon = weapon === 0 ? 0 : weapon;
 
-    const result = await userEquipSlotRepository.save(userEquipSlot);
-    return result;
+    await this.resetUserEquipMount(user_id, equipIdsToRelease, qr);
+    return await userEquipSlotRepository.save(userEquipSlot);
   }
+
+  // async equipSlotRelease(
+  //   user_id: string,
+  //   acc: number,
+  //   engine: number,
+  //   armor: number,
+  //   boost: number,
+  //   shoes: number,
+  //   weapon: number,
+  //   qr?: QueryRunner,
+  // ) {
+  //   const userEquipSlotRepository = this.getUserEquipSlotRepository(qr);
+  //   let userEquipSlot = await userEquipSlotRepository.findOne({
+  //     where: {
+  //       user_id,
+  //     },
+  //   });
+
+  //   if (!userEquipSlot) {
+  //     throw new Error(`EquipSlot not found for user_id: ${user_id}`);
+  //   }
+
+  //   const equipIds = [acc, engine, armor, boost, shoes, weapon];
+
+  //   // UserEquipSlot에서 equipIds 생성
+  //   const equipIds = [
+  //     userEquipSlot.acc,
+  //     userEquipSlot.engine,
+  //     userEquipSlot.armor,
+  //     userEquipSlot.boost,
+  //     userEquipSlot.shoes,
+  //     userEquipSlot.weapon,
+  //   ];
+
+  //   // userEquipSlot.acc = acc === 0 ? 0 : userEquipSlot.acc;
+  //   // userEquipSlot.engine = engine === 0 ? 0 : userEquipSlot.engine;
+  //   // userEquipSlot.armor = armor === 0 ? 0 : userEquipSlot.armor;
+  //   // userEquipSlot.boost = boost === 0 ? 0 : userEquipSlot.boost;
+  //   // userEquipSlot.shoes = shoes === 0 ? 0 : userEquipSlot.shoes;
+  //   // userEquipSlot.weapon = weapon === 0 ? 0 : userEquipSlot.weapon;
+
+  //   userEquipSlot.acc = acc === 0 ? 0 : acc;
+  //   userEquipSlot.engine = engine === 0 ? 0 : engine;
+  //   userEquipSlot.armor = armor === 0 ? 0 : armor;
+  //   userEquipSlot.boost = boost === 0 ? 0 : boost;
+  //   userEquipSlot.shoes = shoes === 0 ? 0 : shoes;
+  //   userEquipSlot.weapon = weapon === 0 ? 0 : weapon;
+
+  //   await this.resetUserEquipMount(user_id, equipIds, qr);
+
+  //   const result = await userEquipSlotRepository.save(userEquipSlot);
+  //   return result;
+  // }
 
   async equipSlotReset(user_id: string, qr?: QueryRunner) {
     const userEquipSlotRepository = this.getUserEquipSlotRepository(qr);
