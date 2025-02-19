@@ -40,14 +40,14 @@ export class UserShopLimitService {
     }
 
     try {
-      const userShopLimitRepository =
-        this.getUserShopLimitRepository(qrInstance);
-      let userShopLimit = await userShopLimitRepository.findOne({
-        where: { user_id, shop_id },
-      });
+      const limitCheck = await this.shopPurchaseLimitCheck(
+        user_id,
+        shop_id,
+        qr,
+      );
 
-      if (!userShopLimit) {
-        userShopLimit = userShopLimitRepository.create({ user_id, shop_id });
+      if (!limitCheck.success) {
+        return { success: false, message: limitCheck.message };
       }
 
       const shopRewardData = await this.shopPurchaseReward(
@@ -57,18 +57,21 @@ export class UserShopLimitService {
       );
       console.log('shopRewardData:', shopRewardData);
 
-      const shopData = await this.shopService.getShop(shop_id, qr);
-      userShopLimit.buy_limit_type = shopData.buy_limit_type;
-      userShopLimit.buy_limit_count = shopData.buy_limit_count;
-      userShopLimit.sell_start = shopData.sell_start;
-      userShopLimit.sell_end = shopData.sell_end;
-
-      const result = await userShopLimitRepository.save(userShopLimit);
+      const userShopLimitData = await this.shopPurchaseLimit(
+        user_id,
+        shop_id,
+        qr,
+      );
 
       if (shouldRelease) {
         await qrInstance.commitTransaction();
       }
-      return result;
+      return {
+        reward: {
+          userItemData: shopRewardData,
+        },
+        userShopLimitData,
+      };
     } catch (error) {
       if (shouldRelease) {
         await qrInstance.rollbackTransaction();
@@ -79,6 +82,48 @@ export class UserShopLimitService {
         await qrInstance.release();
       }
     }
+  }
+
+  async shopPurchaseLimitCheck(
+    user_id: string,
+    shop_id: number,
+    qr?: QueryRunner,
+  ) {
+    const userShopLimitRepository = this.getUserShopLimitRepository(qr);
+    const userShopLimit = await userShopLimitRepository.findOne({
+      where: { user_id, shop_id },
+    });
+
+    if (!userShopLimit) {
+      return { success: false, message: 'No purchase record found' };
+    }
+
+    if (userShopLimit.buy_limit_count <= 0) {
+      return { success: false, message: 'Purchase limit exceeded' };
+    }
+
+    return { success: true, message: 'Purchase allowed' };
+  }
+
+  async shopPurchaseLimit(user_id: string, shop_id: number, qr?: QueryRunner) {
+    const userShopLimitRepository = this.getUserShopLimitRepository(qr);
+    let userShopLimit = await userShopLimitRepository.findOne({
+      where: { user_id, shop_id },
+    });
+    const shopData = await this.shopService.getShop(shop_id, qr);
+
+    if (!userShopLimit) {
+      userShopLimit = userShopLimitRepository.create({ user_id, shop_id });
+      userShopLimit.buy_limit_type = shopData.buy_limit_type;
+      userShopLimit.buy_limit_count = shopData.buy_limit_count;
+      userShopLimit.sell_start = shopData.sell_start;
+      userShopLimit.sell_end = shopData.sell_end;
+    }
+    userShopLimit.buy_limit_count -= 1;
+
+    const result = await userShopLimitRepository.save(userShopLimit);
+
+    return result;
   }
 
   async shopPurchaseReward(user_id: string, shop_id: number, qr?: QueryRunner) {
