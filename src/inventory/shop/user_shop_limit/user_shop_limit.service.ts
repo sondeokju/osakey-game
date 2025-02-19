@@ -47,7 +47,14 @@ export class UserShopLimitService {
       );
 
       if (!limitCheck.success) {
-        return { status: 400, success: false, message: limitCheck.message };
+        return {
+          status: 400,
+          success: false,
+          errorCode: 'PURCHASE_LIMIT_EXCEEDED',
+          message: 'Purchase limit exceeded',
+          shop_id: shop_id,
+          timestamp: new Date().toISOString(),
+        };
       }
 
       const shopRewardData = await this.shopPurchaseReward(
