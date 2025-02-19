@@ -292,8 +292,8 @@ export class UserAchievementsService {
     if (
       //userAchieveRankingData.achieve_point >= includeRanking &&
       userAchieve.point_calcu_yn === 'N' &&
-      achieve_count >= achieve.mission_goal &&
-      userAchieveRankingData.achieve_point < achievePointMax
+      achieve_count >= achieve.mission_goal //&&
+      //userAchieveRankingData.achieve_point < achievePointMax
     ) {
       await this.userAchieveRankingService.achievePointPlus(
         user_id,
