@@ -30,8 +30,8 @@ export class UserShopLimitService {
       : this.userShopLimitRepository;
   }
 
-  async shopPurchase(user_id: string, shop_id: number) {
-    const qr = this.dataSource.createQueryRunner();
+  async shopPurchase(user_id: string, shop_id: number, qr?: QueryRunner) {
+    qr = qr ?? this.dataSource.createQueryRunner();
     await qr.connect();
     await qr.startTransaction();
 
