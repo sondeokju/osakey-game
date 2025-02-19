@@ -131,11 +131,17 @@ export class UserShopLimitService {
 
   async shopPurchaseReward(user_id: string, shop_id: number, qr?: QueryRunner) {
     const shopData = await this.shopService.getShop(shop_id, qr);
-    const shopPackageList =
-      (await this.shopPackageService.getShopPackageList(
-        shopData.item_package_id,
-        qr,
-      )) || [];
+
+    // item_package_count 개수만큼 반복하여 아이템 추가
+    let shopPackageList = [];
+    for (let i = 0; i < shopData.item_package_count; i++) {
+      const packageItems =
+        (await this.shopPackageService.getShopPackageList(
+          shopData.item_package_id,
+          qr,
+        )) || [];
+      shopPackageList = shopPackageList.concat(packageItems);
+    }
 
     const items = shopPackageList.map(({ item_id, item_count }) => ({
       item_id,
@@ -148,11 +154,17 @@ export class UserShopLimitService {
     );
     console.log('shopRewardItems:', shopRewardItems);
 
-    const shopPackageBonusList =
-      (await this.shopPackageService.getShopPackageList(
-        shopData.bonus_item_package_id,
-        qr,
-      )) || [];
+    // bonus_item_package_count 개수만큼 반복하여 보너스 아이템 추가
+    let shopPackageBonusList = [];
+    for (let i = 0; i < shopData.bonus_item_package_count; i++) {
+      const bonusPackageItems =
+        (await this.shopPackageService.getShopPackageList(
+          shopData.bonus_item_package_id,
+          qr,
+        )) || [];
+      shopPackageBonusList = shopPackageBonusList.concat(bonusPackageItems);
+    }
+
     const bonusItems = shopPackageBonusList.map(({ item_id, item_count }) => ({
       item_id,
       item_count,

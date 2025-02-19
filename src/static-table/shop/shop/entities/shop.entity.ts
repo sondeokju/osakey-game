@@ -26,9 +26,11 @@ export class Shop {
   bonus_item_package_count: number;
 
   @Column({
-    default: 0,
+    type: 'varchar',
+    length: 128,
+    default: '',
   })
-  price_kind: number;
+  price_kind: string;
 
   @Column({
     default: 0,
