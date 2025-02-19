@@ -131,6 +131,7 @@ export class UserShopLimitService {
 
   async shopPurchaseReward(user_id: string, shop_id: number, qr?: QueryRunner) {
     const shopData = await this.shopService.getShop(shop_id, qr);
+    console.log('shopData:', shopData);
 
     console.log('shopData.item_package_count:', shopData.item_package_count);
     // item_package_count 개수만큼 반복하여 아이템 추가
