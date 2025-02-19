@@ -132,6 +132,7 @@ export class UserShopLimitService {
   async shopPurchaseReward(user_id: string, shop_id: number, qr?: QueryRunner) {
     const shopData = await this.shopService.getShop(shop_id, qr);
 
+    console.log('shopData.item_package_count:', shopData.item_package_count);
     // item_package_count 개수만큼 반복하여 아이템 추가
     let shopPackageList = [];
     for (let i = 0; i < shopData.item_package_count; i++) {
@@ -143,6 +144,19 @@ export class UserShopLimitService {
       shopPackageList = shopPackageList.concat(packageItems);
     }
     console.log('shopPackageList:', shopPackageList);
+
+    // 중복된 item_id의 item_count 합산
+    // shopPackageList = shopPackageList.reduce((acc, item) => {
+    //   const existingItem = acc.find(({ item_id }) => item_id === item.item_id);
+    //   if (existingItem) {
+    //     existingItem.item_count += item.item_count; // 기존 아이템에 수량 추가
+    //   } else {
+    //     acc.push({ ...item }); // 새로운 아이템 추가
+    //   }
+    //   return acc;
+    // }, []);
+
+    // console.log(shopPackageList);
 
     const items = shopPackageList.map(({ item_id, item_count }) => ({
       item_id,
