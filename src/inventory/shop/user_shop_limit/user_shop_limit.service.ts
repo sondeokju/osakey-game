@@ -11,6 +11,7 @@ import { UserShopLimit } from './entities/user_shop_limit.entity';
 import { ShopService } from 'src/static-table/shop/shop/shop.service';
 import { ShopPackageService } from 'src/static-table/shop/shop_package/shop_package.service';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class UserShopLimitService {
@@ -20,6 +21,7 @@ export class UserShopLimitService {
     private readonly shopService: ShopService,
     private readonly shopPackageService: ShopPackageService,
     private readonly rewardOfferService: RewardOfferService,
+    private readonly dataSource: DataSource,
   ) {}
 
   getUserShopLimitRepository(qr?: QueryRunner) {
@@ -28,59 +30,121 @@ export class UserShopLimitService {
       : this.userShopLimitRepository;
   }
 
-  async shopPurchase(user_id: string, shop_id: number, qr?: QueryRunner) {
-    const userShopLimitRepository = this.getUserShopLimitRepository(qr);
-    const userShopLimit = await userShopLimitRepository.findOne({
-      where: { user_id, shop_id },
-    });
+  async shopPurchase(user_id: string, shop_id: number) {
+    const qr = this.dataSource.createQueryRunner();
+    await qr.connect();
+    await qr.startTransaction();
 
-    const shopData = await this.shopService.getShop(shop_id, qr);
-    const shopPackageList =
-      (await this.shopPackageService.getShopPackageList(
-        shopData.item_package_id,
+    try {
+      const userShopLimitRepository = this.getUserShopLimitRepository(qr);
+      const userShopLimit = await userShopLimitRepository.findOne({
+        where: { user_id, shop_id },
+      });
+
+      const shopData = await this.shopService.getShop(shop_id, qr);
+      const shopPackageList =
+        (await this.shopPackageService.getShopPackageList(
+          shopData.item_package_id,
+          qr,
+        )) || [];
+
+      const items = Array.isArray(shopPackageList)
+        ? shopPackageList.map(({ item_id, item_count }) => ({
+            item_id,
+            item_count,
+          }))
+        : [];
+
+      const shopRewardItems = await this.rewardOfferService.rewardItemsArray(
+        user_id,
+        items,
         qr,
-      )) || [];
+      );
+      console.log('shopRewardItems:', shopRewardItems);
 
-    const items = Array.isArray(shopPackageList)
-      ? shopPackageList.map(({ item_id, item_count }) => ({
-          item_id,
-          item_count,
-        }))
-      : [];
+      const shopPackageBonusList =
+        (await this.shopPackageService.getShopPackageList(
+          shopData.bonus_item_package_id,
+          qr,
+        )) || [];
 
-    const shopRewardItems = await this.rewardOfferService.rewardItemsArray(
-      user_id,
-      items,
-      qr,
-    );
-    console.log('shopRewardItems:', shopRewardItems);
+      const bonusItems = Array.isArray(shopPackageBonusList)
+        ? shopPackageBonusList.map(({ item_id, item_count }) => ({
+            item_id,
+            item_count,
+          }))
+        : [];
 
-    const shopPackageBonusList =
-      (await this.shopPackageService.getShopPackageList(
-        shopData.bonus_item_package_id,
-        qr,
-      )) || [];
+      const shopRewardBonusItems =
+        await this.rewardOfferService.rewardItemsArray(user_id, bonusItems, qr);
+      console.log('shopRewardBonusItems:', shopRewardBonusItems);
 
-    const bonusItems = Array.isArray(shopPackageBonusList)
-      ? shopPackageBonusList.map(({ item_id, item_count }) => ({
-          item_id,
-          item_count,
-        }))
-      : [];
+      userShopLimit.shop_id = shop_id;
+      const result = await userShopLimitRepository.save(userShopLimit);
 
-    const shopRewardBonusItems = await this.rewardOfferService.rewardItemsArray(
-      user_id,
-      bonusItems,
-    );
-
-    console.log('shopRewardBonusItems:', shopRewardBonusItems);
-
-    userShopLimit.shop_id = shop_id;
-
-    const result = await userShopLimitRepository.save(userShopLimit);
-
-    return result;
+      await qr.commitTransaction();
+      return result;
+    } catch (error) {
+      await qr.rollbackTransaction();
+      throw error;
+    } finally {
+      await qr.release();
+    }
   }
+
+  // async shopPurchase(user_id: string, shop_id: number, qr?: QueryRunner) {
+  //   const userShopLimitRepository = this.getUserShopLimitRepository(qr);
+  //   const userShopLimit = await userShopLimitRepository.findOne({
+  //     where: { user_id, shop_id },
+  //   });
+
+  //   const shopData = await this.shopService.getShop(shop_id, qr);
+  //   const shopPackageList =
+  //     (await this.shopPackageService.getShopPackageList(
+  //       shopData.item_package_id,
+  //       qr,
+  //     )) || [];
+
+  //   const items = Array.isArray(shopPackageList)
+  //     ? shopPackageList.map(({ item_id, item_count }) => ({
+  //         item_id,
+  //         item_count,
+  //       }))
+  //     : [];
+
+  //   const shopRewardItems = await this.rewardOfferService.rewardItemsArray(
+  //     user_id,
+  //     items,
+  //     qr,
+  //   );
+  //   console.log('shopRewardItems:', shopRewardItems);
+
+  //   const shopPackageBonusList =
+  //     (await this.shopPackageService.getShopPackageList(
+  //       shopData.bonus_item_package_id,
+  //       qr,
+  //     )) || [];
+
+  //   const bonusItems = Array.isArray(shopPackageBonusList)
+  //     ? shopPackageBonusList.map(({ item_id, item_count }) => ({
+  //         item_id,
+  //         item_count,
+  //       }))
+  //     : [];
+
+  //   const shopRewardBonusItems = await this.rewardOfferService.rewardItemsArray(
+  //     user_id,
+  //     bonusItems,
+  //   );
+
+  //   console.log('shopRewardBonusItems:', shopRewardBonusItems);
+
+  //   userShopLimit.shop_id = shop_id;
+
+  //   const result = await userShopLimitRepository.save(userShopLimit);
+
+  //   return result;
+  // }
 
   async getUserShopLimitAll(user_id: string, qr?: QueryRunner) {
     const userShopLimitRepository = this.getUserShopLimitRepository(qr);
