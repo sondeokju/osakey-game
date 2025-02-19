@@ -67,12 +67,12 @@ export class UserShopLimitService {
         }))
       : [];
 
-    // const shopRewardBonusItems = await this.rewardOfferService.rewardItemsArray(
-    //   user_id,
-    //   bonusItems,
-    // );
+    const shopRewardBonusItems = await this.rewardOfferService.rewardItemsArray(
+      user_id,
+      bonusItems,
+    );
 
-    //console.log('shopRewardBonusItems:', shopRewardBonusItems);
+    console.log('shopRewardBonusItems:', shopRewardBonusItems);
 
     userShopLimit.shop_id = shop_id;
 
