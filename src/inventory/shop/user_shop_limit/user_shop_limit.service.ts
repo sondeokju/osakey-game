@@ -69,6 +69,8 @@ export class UserShopLimitService {
 
     console.log('shopRewardBonusItems:', shopRewardBonusItems);
 
+    userShopLimit.shop_id = shop_id;
+
     const result = await userShopLimitRepository.save(userShopLimit);
 
     return result;
