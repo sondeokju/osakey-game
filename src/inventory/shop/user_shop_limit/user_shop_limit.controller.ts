@@ -27,9 +27,9 @@ export class UserShopLimitController {
     @Body('shop_id') shop_id: number,
     @QueryRunner() qr: QR,
   ) {
-    const result = await this.userShopLimitService.getUserShopLimitAll(
+    const result = await this.userShopLimitService.shopPurchase(
       user.user_id,
-      //shop_id,
+      shop_id,
       qr,
     );
 

@@ -178,59 +178,6 @@ export class UserEquipSlotService {
     return await userEquipSlotRepository.save(userEquipSlot);
   }
 
-  // async equipSlotRelease(
-  //   user_id: string,
-  //   acc: number,
-  //   engine: number,
-  //   armor: number,
-  //   boost: number,
-  //   shoes: number,
-  //   weapon: number,
-  //   qr?: QueryRunner,
-  // ) {
-  //   const userEquipSlotRepository = this.getUserEquipSlotRepository(qr);
-  //   let userEquipSlot = await userEquipSlotRepository.findOne({
-  //     where: {
-  //       user_id,
-  //     },
-  //   });
-
-  //   if (!userEquipSlot) {
-  //     throw new Error(`EquipSlot not found for user_id: ${user_id}`);
-  //   }
-
-  //   const equipIds = [acc, engine, armor, boost, shoes, weapon];
-
-  //   // UserEquipSlot에서 equipIds 생성
-  //   const equipIds = [
-  //     userEquipSlot.acc,
-  //     userEquipSlot.engine,
-  //     userEquipSlot.armor,
-  //     userEquipSlot.boost,
-  //     userEquipSlot.shoes,
-  //     userEquipSlot.weapon,
-  //   ];
-
-  //   // userEquipSlot.acc = acc === 0 ? 0 : userEquipSlot.acc;
-  //   // userEquipSlot.engine = engine === 0 ? 0 : userEquipSlot.engine;
-  //   // userEquipSlot.armor = armor === 0 ? 0 : userEquipSlot.armor;
-  //   // userEquipSlot.boost = boost === 0 ? 0 : userEquipSlot.boost;
-  //   // userEquipSlot.shoes = shoes === 0 ? 0 : userEquipSlot.shoes;
-  //   // userEquipSlot.weapon = weapon === 0 ? 0 : userEquipSlot.weapon;
-
-  //   userEquipSlot.acc = acc === 0 ? 0 : acc;
-  //   userEquipSlot.engine = engine === 0 ? 0 : engine;
-  //   userEquipSlot.armor = armor === 0 ? 0 : armor;
-  //   userEquipSlot.boost = boost === 0 ? 0 : boost;
-  //   userEquipSlot.shoes = shoes === 0 ? 0 : shoes;
-  //   userEquipSlot.weapon = weapon === 0 ? 0 : weapon;
-
-  //   await this.resetUserEquipMount(user_id, equipIds, qr);
-
-  //   const result = await userEquipSlotRepository.save(userEquipSlot);
-  //   return result;
-  // }
-
   async equipSlotReset(user_id: string, qr?: QueryRunner) {
     const userEquipSlotRepository = this.getUserEquipSlotRepository(qr);
     const userEquipSlot = await userEquipSlotRepository.findOne({

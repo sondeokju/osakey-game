@@ -8,18 +8,70 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { UserShopLimit } from './entities/user_shop_limit.entity';
+import { ShopService } from 'src/static-table/shop/shop/shop.service';
+import { ShopPackageService } from 'src/static-table/shop/shop_package/shop_package.service';
+import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 
 @Injectable()
 export class UserShopLimitService {
   constructor(
     @InjectRepository(UserShopLimit)
     private readonly userShopLimitRepository: Repository<UserShopLimit>,
+    private readonly shopService: ShopService,
+    private readonly shopPackageService: ShopPackageService,
+    private readonly rewardOfferService: RewardOfferService,
   ) {}
 
   getUserShopLimitRepository(qr?: QueryRunner) {
     return qr
       ? qr.manager.getRepository<UserShopLimit>(UserShopLimit)
       : this.userShopLimitRepository;
+  }
+
+  async shopPurchase(user_id: string, shop_id: number, qr?: QueryRunner) {
+    const userShopLimitRepository = this.getUserShopLimitRepository(qr);
+    const userShopLimit = await userShopLimitRepository.findOne({
+      where: { user_id, shop_id },
+    });
+
+    const shopData = this.shopService.getShop(shop_id, qr);
+    const shopPackageList =
+      this.shopPackageService.getShopPackageList(
+        (await shopData).item_package_id,
+        qr,
+      ) || [];
+
+    const items = Array.isArray(shopPackageList)
+      ? shopPackageList.map(({ item_id, qty }) => ({ item_id, qty }))
+      : [];
+
+    const shopPackageBonusList =
+      this.shopPackageService.getShopPackageList(
+        (await shopData).bonus_item_package_id,
+        qr,
+      ) || [];
+
+    const shopRewardItems = await this.rewardOfferService.rewardItemsArray(
+      user_id,
+      items,
+    );
+
+    console.log('shopRewardItems:', shopRewardItems);
+
+    const bonusItems = Array.isArray(shopPackageBonusList)
+      ? shopPackageBonusList.map(({ item_id, qty }) => ({ item_id, qty }))
+      : [];
+
+    const shopRewardBonusItems = await this.rewardOfferService.rewardItemsArray(
+      user_id,
+      bonusItems,
+    );
+
+    console.log('shopRewardBonusItems:', shopRewardBonusItems);
+
+    const result = await userShopLimitRepository.save(userShopLimit);
+
+    return result;
   }
 
   async getUserShopLimitAll(user_id: string, qr?: QueryRunner) {

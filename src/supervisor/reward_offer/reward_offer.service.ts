@@ -109,8 +109,8 @@ export class RewardOfferService {
         await this.rewardCurrency(user_id, itemData.item_name, qty, qr);
         break;
 
-      case 'M': // 재료 아이템
-      case 'S': // 소비 아이템
+      case 'M':
+      case 'S':
         await this.userItemService.rewardItem(
           user_id,
           itemData.item_id,
@@ -142,8 +142,8 @@ export class RewardOfferService {
   }
 
   async rewardItemsArray(
-    items: { item_id: number; qty: number }[],
     user_id: string,
+    items: { item_id: number; qty: number }[],
     qr?: QueryRunner,
   ) {
     let result = [];
@@ -151,17 +151,29 @@ export class RewardOfferService {
     for (const { item_id, qty } of items) {
       const itemData = await this.itemService.getItem(item_id);
 
-      if (['M', 'S'].includes(itemData.item_type)) {
-        await this.userItemService.rewardItem(
-          user_id,
-          itemData.item_id,
-          itemData.item_grade,
-          itemData.item_type,
-          qty,
-          qr,
-        );
-      } else if (itemData.item_type === 'C') {
-        await this.rewardCurrency(user_id, itemData.item_name, qty, qr);
+      switch (itemData.item_type) {
+        case 'M':
+        case 'S':
+          await this.userItemService.rewardItem(
+            user_id,
+            itemData.item_id,
+            itemData.item_grade,
+            itemData.item_type,
+            qty,
+            qr,
+          );
+          break;
+        case 'C':
+          await this.rewardCurrency(user_id, itemData.item_name, qty, qr);
+          break;
+        case 'E':
+          await this.createEquipQuery(user_id, item_id, qr);
+          break;
+
+        default:
+          throw new BadRequestException(
+            `Invalid item type: ${itemData.item_type}`,
+          );
       }
 
       result.push({
