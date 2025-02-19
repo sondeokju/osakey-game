@@ -64,7 +64,7 @@ export class UserShopLimitService {
     //   user_id,
     //   items,
     // );
-    console.log('shopRewardItems:', shopRewardItems);
+    //console.log('shopRewardItems:', shopRewardItems);
 
     const bonusItems = Array.isArray(shopPackageBonusList)
       ? shopPackageBonusList.map(({ item_id, item_count }) => ({
@@ -78,7 +78,7 @@ export class UserShopLimitService {
     //   bonusItems,
     // );
 
-    console.log('shopRewardBonusItems:', shopRewardBonusItems);
+    //console.log('shopRewardBonusItems:', shopRewardBonusItems);
 
     userShopLimit.shop_id = shop_id;
 
