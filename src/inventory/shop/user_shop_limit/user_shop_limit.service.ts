@@ -147,17 +147,17 @@ export class UserShopLimitService {
     console.log('shopPackageList:', shopPackageList);
 
     // 중복된 item_id의 item_count 합산
-    // shopPackageList = shopPackageList.reduce((acc, item) => {
-    //   const existingItem = acc.find(({ item_id }) => item_id === item.item_id);
-    //   if (existingItem) {
-    //     existingItem.item_count += item.item_count; // 기존 아이템에 수량 추가
-    //   } else {
-    //     acc.push({ ...item }); // 새로운 아이템 추가
-    //   }
-    //   return acc;
-    // }, []);
+    shopPackageList = shopPackageList.reduce((acc, item) => {
+      const existingItem = acc.find(({ item_id }) => item_id === item.item_id);
+      if (existingItem) {
+        existingItem.item_count += item.item_count; // 기존 아이템에 수량 추가
+      } else {
+        acc.push({ ...item }); // 새로운 아이템 추가
+      }
+      return acc;
+    }, []);
 
-    // console.log(shopPackageList);
+    console.log('중복된 item_id의 item_count 합산:', shopPackageList);
 
     const items = shopPackageList.map(({ item_id, item_count }) => ({
       item_id,
