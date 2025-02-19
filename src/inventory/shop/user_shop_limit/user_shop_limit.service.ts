@@ -34,12 +34,12 @@ export class UserShopLimitService {
       where: { user_id, shop_id },
     });
 
-    const shopData = this.shopService.getShop(shop_id, qr);
+    const shopData = await this.shopService.getShop(shop_id, qr);
     const shopPackageList =
-      this.shopPackageService.getShopPackageList(
-        (await shopData).item_package_id,
+      (await this.shopPackageService.getShopPackageList(
+        shopData.item_package_id,
         qr,
-      ) || [];
+      )) || [];
 
     console.log('shopPackageList:', shopPackageList);
     console.log('Type of shopPackageList:', typeof shopPackageList);
@@ -50,10 +50,10 @@ export class UserShopLimitService {
       : [];
 
     const shopPackageBonusList =
-      this.shopPackageService.getShopPackageList(
-        (await shopData).bonus_item_package_id,
+      (await this.shopPackageService.getShopPackageList(
+        shopData.bonus_item_package_id,
         qr,
-      ) || [];
+      )) || [];
 
     const shopRewardItems = await this.rewardOfferService.rewardItemsArray(
       user_id,
