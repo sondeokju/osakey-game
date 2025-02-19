@@ -51,6 +51,7 @@ export class UserShopLimitService {
     const shopRewardItems = await this.rewardOfferService.rewardItemsArray(
       user_id,
       items,
+      qr,
     );
     console.log('shopRewardItems:', shopRewardItems);
 
