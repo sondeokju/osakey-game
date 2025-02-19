@@ -46,8 +46,13 @@ export class UserShopLimitService {
     console.log('Is Array:', Array.isArray(shopPackageList));
 
     const items = Array.isArray(shopPackageList)
-      ? shopPackageList.map(({ item_id, qty }) => ({ item_id, qty }))
+      ? shopPackageList.map(({ item_id, item_count }) => ({
+          item_id,
+          item_count,
+        }))
       : [];
+
+    console.log('items:', items);
 
     const shopPackageBonusList =
       (await this.shopPackageService.getShopPackageList(
@@ -55,20 +60,23 @@ export class UserShopLimitService {
         qr,
       )) || [];
 
-    const shopRewardItems = await this.rewardOfferService.rewardItemsArray(
-      user_id,
-      items,
-    );
+    // const shopRewardItems = await this.rewardOfferService.rewardItemsArray(
+    //   user_id,
+    //   items,
+    // );
     console.log('shopRewardItems:', shopRewardItems);
 
     const bonusItems = Array.isArray(shopPackageBonusList)
-      ? shopPackageBonusList.map(({ item_id, qty }) => ({ item_id, qty }))
+      ? shopPackageBonusList.map(({ item_id, item_count }) => ({
+          item_id,
+          item_count,
+        }))
       : [];
 
-    const shopRewardBonusItems = await this.rewardOfferService.rewardItemsArray(
-      user_id,
-      bonusItems,
-    );
+    // const shopRewardBonusItems = await this.rewardOfferService.rewardItemsArray(
+    //   user_id,
+    //   bonusItems,
+    // );
 
     console.log('shopRewardBonusItems:', shopRewardBonusItems);
 
