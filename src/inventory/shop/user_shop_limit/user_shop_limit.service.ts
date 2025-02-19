@@ -76,7 +76,7 @@ export class UserShopLimitService {
   }
 
   async shopPurchaseReward(user_id: string, shop_id: number, qr?: QueryRunner) {
-    const shopData = await this.shopService.getShop(shop_id, qrInstance);
+    const shopData = await this.shopService.getShop(shop_id, qr);
     const shopPackageList =
       (await this.shopPackageService.getShopPackageList(
         shopData.item_package_id,
