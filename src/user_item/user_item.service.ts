@@ -214,70 +214,109 @@ export class UserItemService {
     item_count: number,
     qr?: QueryRunner,
   ) {
-    // QueryRunner 사용 설정 (없으면 새로 생성)
-    const queryRunner = qr ?? this.dataSource.createQueryRunner();
-    let isNewQueryRunner = false;
+    const userItemRepository = this.getUserItemRepository(qr);
 
-    if (!qr) {
-      await queryRunner.connect();
-      await queryRunner.startTransaction();
-      isNewQueryRunner = true;
+    const userItemData = await userItemRepository.findOne({
+      where: {
+        user_id,
+        item_id,
+        item_level,
+      },
+    });
+
+    if (!userItemData) {
+      const newUserItem = {
+        user_id,
+        item_id,
+        item_level,
+        item_type,
+        item_count,
+      };
+      await userItemRepository.insert(newUserItem);
+    } else {
+      await userItemRepository.update(
+        { user_id, item_id, item_level },
+        { item_count: userItemData.item_count + item_count },
+      );
     }
 
-    try {
-      const userItemRepository = this.getUserItemRepository(queryRunner);
-
-      const userItemData = await userItemRepository.findOne({
-        where: {
-          user_id,
-          item_id,
-          item_level,
-        },
-      });
-
-      if (!userItemData) {
-        const newUserItem = {
-          user_id,
-          item_id,
-          item_level,
-          item_type,
-          item_count,
-        };
-
-        await userItemRepository.insert(newUserItem);
-      } else {
-        await userItemRepository.update(
-          { user_id, item_id, item_level },
-          { item_count: userItemData.item_count + item_count },
-        );
-      }
-
-      // 🔹 user_id와 item_id로 안전하게 조회
-      const newItem = await queryRunner.query(
-        `SELECT * FROM user_item WHERE user_id = ? AND item_id = ?`,
-        [user_id, item_id],
-      );
-
-      if (isNewQueryRunner) {
-        await queryRunner.commitTransaction();
-      }
-
-      return newItem;
-    } catch (error) {
-      console.error('🔥 Error in rewardItem:', error);
-
-      if (isNewQueryRunner) {
-        await queryRunner.rollbackTransaction();
-      }
-
-      throw new InternalServerErrorException(
-        'Failed to process item reward.',
-        error,
-      );
-    } finally {
-      if (isNewQueryRunner) {
-        await queryRunner.release();
-      }
-    }
+    return await userItemRepository.findOne({
+      where: { user_id, item_id, item_level },
+    });
   }
+
+  // async rewardItem(
+  //   user_id: string,
+  //   item_id: number,
+  //   item_level: number,
+  //   item_type: string,
+  //   item_count: number,
+  //   qr?: QueryRunner,
+  // ) {
+  //   // QueryRunner 사용 설정 (없으면 새로 생성)
+  //   const queryRunner = qr ?? this.dataSource.createQueryRunner();
+  //   let isNewQueryRunner = false;
+
+  //   if (!qr) {
+  //     await queryRunner.connect();
+  //     await queryRunner.startTransaction();
+  //     isNewQueryRunner = true;
+  //   }
+
+  //   try {
+  //     const userItemRepository = this.getUserItemRepository(queryRunner);
+
+  //     const userItemData = await userItemRepository.findOne({
+  //       where: {
+  //         user_id,
+  //         item_id,
+  //         item_level,
+  //       },
+  //     });
+
+  //     if (!userItemData) {
+  //       const newUserItem = {
+  //         user_id,
+  //         item_id,
+  //         item_level,
+  //         item_type,
+  //         item_count,
+  //       };
+
+  //       await userItemRepository.insert(newUserItem);
+  //     } else {
+  //       await userItemRepository.update(
+  //         { user_id, item_id, item_level },
+  //         { item_count: userItemData.item_count + item_count },
+  //       );
+  //     }
+
+  //     // 🔹 user_id와 item_id로 안전하게 조회
+  //     const newItem = await queryRunner.query(
+  //       `SELECT * FROM user_item WHERE user_id = ? AND item_id = ?`,
+  //       [user_id, item_id],
+  //     );
+
+  //     if (isNewQueryRunner) {
+  //       await queryRunner.commitTransaction();
+  //     }
+
+  //     return newItem;
+  //   } catch (error) {
+  //     console.error('🔥 Error in rewardItem:', error);
+
+  //     if (isNewQueryRunner) {
+  //       await queryRunner.rollbackTransaction();
+  //     }
+
+  //     throw new InternalServerErrorException(
+  //       'Failed to process item reward.',
+  //       error,
+  //     );
+  //   } finally {
+  //     if (isNewQueryRunner) {
+  //       await queryRunner.release();
+  //     }
+  //   }
+  // }
 }
