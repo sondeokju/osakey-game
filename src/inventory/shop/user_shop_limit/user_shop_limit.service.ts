@@ -142,6 +142,7 @@ export class UserShopLimitService {
         )) || [];
       shopPackageList = shopPackageList.concat(packageItems);
     }
+    console.log('shopPackageList:', shopPackageList);
 
     const items = shopPackageList.map(({ item_id, item_count }) => ({
       item_id,
