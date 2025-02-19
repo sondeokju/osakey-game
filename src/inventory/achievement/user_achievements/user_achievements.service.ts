@@ -272,28 +272,9 @@ export class UserAchievementsService {
 
     const achieve = await this.achieveListService.getAchieve(achieve_id, qr);
 
-    const userAchieveRankingData =
-      await this.userAchieveRankingService.getUserAchieveRanking(
-        user_id,
-        achieve.season,
-        qr,
-      );
-
-    const achieveSeasonList =
-      await this.achieveListService.getAchieveSeasonList(achieve.season, qr);
-
-    const achievePointMax = achieveSeasonList.length;
-
-    //업적 95프로 이상 완료 유저만 랭킹 산정
-    //let includeRanking = achievePointMax * 0.95;
-    // 24.1 이상이면 25로 계산되도록 올림 적용
-    //includeRanking = Math.round(includeRanking);
-
     if (
-      //userAchieveRankingData.achieve_point >= includeRanking &&
       userAchieve.point_calcu_yn === 'N' &&
-      achieve_count >= achieve.mission_goal //&&
-      //userAchieveRankingData.achieve_point < achievePointMax
+      achieve_count >= achieve.mission_goal
     ) {
       await this.userAchieveRankingService.achievePointPlus(
         user_id,
