@@ -47,7 +47,7 @@ export class UserShopLimitService {
       );
 
       if (!limitCheck.success) {
-        return { success: false, message: limitCheck.message };
+        return { status: 400, success: false, message: limitCheck.message };
       }
 
       const shopRewardData = await this.shopPurchaseReward(
