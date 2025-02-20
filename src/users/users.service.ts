@@ -1249,6 +1249,7 @@ export class UsersService {
     member_id: string,
     social_user_id: string,
     provider: string,
+    language: string,
     qr?: QueryRunner,
   ) {
     const queryRunner = qr ?? this.dataSource.createQueryRunner();
@@ -1268,18 +1269,24 @@ export class UsersService {
         result = await this.handleEditorLogic(
           social_user_id,
           member_id,
+          language,
           queryRunner,
         );
       } else if (member_id && member_id !== 'UnityEditor_Member') {
         if (!social_user_id) {
           console.log('111111111111111');
-          result = await this.handleMemberIdLogic(member_id, queryRunner);
+          result = await this.handleMemberIdLogic(
+            member_id,
+            language,
+            queryRunner,
+          );
         } else {
           console.log('222222222222222');
           result = await this.handleSocialUserIdLogic(
             social_user_id,
             member_id,
             provider,
+            language,
             queryRunner,
           );
         }
@@ -1302,7 +1309,11 @@ export class UsersService {
     }
   }
 
-  async handleMemberIdLogic(member_id: string, queryRunner: QueryRunner) {
+  async handleMemberIdLogic(
+    member_id: string,
+    language: string,
+    queryRunner: QueryRunner,
+  ) {
     const usersRepository = this.getUsersRepository(queryRunner);
     const userData = await usersRepository.findOne({ where: { member_id } });
 
@@ -1312,7 +1323,7 @@ export class UsersService {
       });
 
       if (!user) {
-        const newUser = usersRepository.create({ member_id });
+        const newUser = usersRepository.create({ member_id, language });
         const savedUser = await usersRepository.save(newUser);
 
         if (!savedUser.id) {
@@ -1324,6 +1335,7 @@ export class UsersService {
         return await usersRepository.save({
           ...user,
           update_at: new Date(),
+          language,
         });
       }
     }
@@ -1334,6 +1346,7 @@ export class UsersService {
     social_user_id: string,
     member_id: string,
     provider: string,
+    language: string,
     queryRunner: QueryRunner,
   ) {
     const usersRepository = this.getUsersRepository(queryRunner);
@@ -1341,10 +1354,8 @@ export class UsersService {
       where: { member_id: member_id },
     });
 
-    console.log('handleSocialUserIdLogic 1');
     if (member_id !== 'UnityEditor_Member' && !userData) {
-      console.log('handleSocialUserIdLogic 2');
-      const newUser = usersRepository.create({ member_id, provider });
+      const newUser = usersRepository.create({ member_id, provider, language });
       const savedUser = await usersRepository.save(newUser);
 
       if (!savedUser.id) {
@@ -1353,8 +1364,8 @@ export class UsersService {
 
       return this.createUserID(savedUser.id, queryRunner); // 생성된 ID를 사용
     } else {
-      console.log('handleSocialUserIdLogic 3');
       userData.provider = provider;
+      userData.language = language;
       return await usersRepository.save({
         ...userData,
         update_at: new Date(),
@@ -1364,6 +1375,7 @@ export class UsersService {
   async handleEditorLogic(
     social_user_id: string,
     member_id: string,
+    language: string,
     qr?: QueryRunner,
   ) {
     const usersRepository = this.getUsersRepository(qr);
@@ -1374,6 +1386,7 @@ export class UsersService {
     if (!userData) {
       const insertResult = await usersRepository.insert({
         member_id: social_user_id,
+        language,
       });
 
       if (!insertResult.identifiers.length) {
@@ -1387,6 +1400,7 @@ export class UsersService {
       return result;
     } else {
       userData.update_at = new Date();
+      userData.language = new Date();
       const result = await usersRepository.save(userData);
       return result;
     }

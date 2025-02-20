@@ -215,6 +215,13 @@ export class Users extends BaseModel {
   })
   account_type: string;
 
+  @Column({
+    length: 64,
+    type: 'varchar',
+    default: '',
+  })
+  language: string;
+
   // @Column({
   //   length: 128,
   //   default: '',
