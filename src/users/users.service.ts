@@ -1162,6 +1162,48 @@ export class UsersService {
     return updatedUserData;
   }
 
+  async userAccountTypeModify(user_id: string, qr?: QueryRunner) {
+    const usersRepository = this.getUsersRepository(qr);
+    const userData = await usersRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    if (!userData) {
+      //throw new Error(`User with ID ${user_id} not found.`);
+    }
+
+    const now = new Date();
+    const sixMonthsAgo = new Date(now);
+    sixMonthsAgo.setMonth(now.getMonth() - 6); // 6개월 전
+
+    const thirtyDaysAgo = new Date(now);
+    thirtyDaysAgo.setDate(now.getDate() - 30); // 30일 전
+
+    let newAccountType = 'active'; // 기본값
+
+    // ✅ `created_at` 기준으로 30일 이내면 `new`
+    if (userData.created_at >= thirtyDaysAgo) {
+      newAccountType = 'new';
+    }
+    // ✅ `update_at`이 6개월 이상이면 `returning`
+    else if (userData.update_at < sixMonthsAgo) {
+      newAccountType = 'returning';
+    }
+
+    // ✅ 변경된 값 적용
+    if (userData.account_type !== newAccountType) {
+      console.log(
+        `🔹 Account type changing: ${userData.account_type} → ${newAccountType}`,
+      );
+      userData.account_type = newAccountType;
+      await usersRepository.save(userData);
+    }
+
+    return userData;
+  }
+
   async socialLoginSaveUser(
     device_id: string,
     email: string,

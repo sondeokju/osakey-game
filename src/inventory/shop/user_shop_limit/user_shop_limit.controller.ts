@@ -36,7 +36,7 @@ export class UserShopLimitController {
     return result;
   }
 
-  @Post('buylimittime/modify')
+  @Post('buy-limit-time/modify')
   @UseInterceptors(TransactionInterceptor)
   async buyLimitTimeUpdate(
     @User() user: Users,
