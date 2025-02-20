@@ -12,6 +12,7 @@ import { ShopService } from 'src/static-table/shop/shop/shop.service';
 import { ShopPackageService } from 'src/static-table/shop/shop_package/shop_package.service';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { DataSource } from 'typeorm';
+import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager.service';
 
 @Injectable()
 export class UserShopLimitService {
@@ -21,6 +22,7 @@ export class UserShopLimitService {
     private readonly shopService: ShopService,
     private readonly shopPackageService: ShopPackageService,
     private readonly rewardOfferService: RewardOfferService,
+    private readonly resourceManagerService: ResourceManagerService,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -57,6 +59,8 @@ export class UserShopLimitService {
         };
       }
 
+      await this.resourceCheckAndDeductError(user_id, shop_id, qr);
+
       const shopRewardData = await this.shopPurchaseReward(
         user_id,
         shop_id,
@@ -64,7 +68,11 @@ export class UserShopLimitService {
       );
       console.log('shopRewardData:', shopRewardData);
 
-      const userShopLimit = await this.shopPurchaseLimit(user_id, shop_id, qr);
+      const userShopLimit = await this.shopPurchaseLimitCalcu(
+        user_id,
+        shop_id,
+        qr,
+      );
 
       if (shouldRelease) {
         await qrInstance.commitTransaction();
@@ -87,6 +95,103 @@ export class UserShopLimitService {
     }
   }
 
+  async currencyCheckAndDeduct(
+    user_id: string,
+    shop_id: number,
+    qr?: QueryRunner,
+  ) {
+    const shopData = await this.shopService.getShop(shop_id, qr);
+
+    // 차감할 리소스 초기화
+    const resourceDeduction: {
+      gord?: number;
+      item?: { item_id: number; count: number };
+      dia?: { amount: number; mode: 'free' | 'paid' | 'mixed' };
+      exp?: number;
+      battery?: number;
+      secame_credit?: number;
+    } = {};
+
+    switch (shopData.price_kind) {
+      case 'free':
+        // 무료 상품이므로 차감 없음
+        return { success: true, message: 'Free item, no deduction required' };
+
+      case 'gord':
+        resourceDeduction.gord = shopData.price_count;
+        break;
+
+      case 'diamon_mix':
+        resourceDeduction.dia.amount = shopData.price_count;
+        resourceDeduction.dia.mode = 'mixed';
+        break;
+
+      case 'diamon_paid':
+        resourceDeduction.dia.amount = shopData.price_count;
+        resourceDeduction.dia.mode = 'paid';
+        break;
+
+      default:
+        return { success: false, message: 'Invalid currency type' };
+    }
+
+    // 리소스 차감 수행
+    const result = await this.resourceManagerService.validateAndDeductResources(
+      user_id,
+      resourceDeduction,
+      qr,
+    );
+
+    return result;
+  }
+
+  async resourceCheckAndDeductError(
+    user_id: string,
+    shop_id: number,
+    qr?: QueryRunner,
+  ) {
+    const currencyCheck = await this.currencyCheckAndDeduct(
+      user_id,
+      shop_id,
+      qr,
+    );
+    if (!currencyCheck) {
+      let errorCode = 'PURCHASE_FAILED';
+      let message = 'Purchase could not be completed';
+
+      // switch (currencyCheck.message) {
+      //   case 'Free item, no deduction required':
+      //     errorCode = 'FREE_ITEM';
+      //     message = 'This item is free and does not require a purchase';
+      //     break;
+
+      //   case 'Invalid currency type':
+      //     errorCode = 'INVALID_CURRENCY';
+      //     message = 'The currency type is invalid';
+      //     break;
+
+      //   case 'Insufficient funds':
+      //     errorCode = 'INSUFFICIENT_FUNDS';
+      //     message = 'You do not have enough currency to complete the purchase';
+      //     break;
+
+      //   default:
+      //     errorCode = 'UNKNOWN_ERROR';
+      //     message = 'An unknown error occurred';
+      //     break;
+      // }
+
+      return {
+        status: 403,
+        success: false,
+        errorCode,
+        message,
+        shop_id,
+        timestamp: new Date().toISOString(),
+      };
+    }
+  }
+
   async shopPurchaseLimitCheck(
     user_id: string,
     shop_id: number,
@@ -105,10 +210,21 @@ export class UserShopLimitService {
       return { success: false, message: 'Purchase limit exceeded' };
     }
 
+    const now = new Date();
+
+    // 판매 기간 체크 (now가 sell_start보다 크거나 같고, sell_end보다 작거나 같아야 구매 가능)
+    if (!(now >= userShopLimit.sell_start && now <= userShopLimit.sell_end)) {
+      return { success: false, message: 'Out of sale period' };
+    }
+
     return { success: true, message: 'Purchase allowed' };
   }
 
-  async shopPurchaseLimit(user_id: string, shop_id: number, qr?: QueryRunner) {
+  async shopPurchaseLimitCalcu(
+    user_id: string,
+    shop_id: number,
+    qr?: QueryRunner,
+  ) {
     const userShopLimitRepository = this.getUserShopLimitRepository(qr);
     let userShopLimit = await userShopLimitRepository.findOne({
       where: { user_id, shop_id },

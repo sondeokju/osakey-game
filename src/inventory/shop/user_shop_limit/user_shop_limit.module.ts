@@ -6,6 +6,7 @@ import { UserShopLimit } from './entities/user_shop_limit.entity';
 import { RewardOfferModule } from 'src/supervisor/reward_offer/reward_offer.module';
 import { ShopModule } from 'src/static-table/shop/shop/shop.module';
 import { ShopPackageModule } from 'src/static-table/shop/shop_package/shop_package.module';
+import { ResourceManagerModule } from 'src/supervisor/resource_manager/resource_manager.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ShopPackageModule } from 'src/static-table/shop/shop_package/shop_packa
     ShopModule,
     ShopPackageModule,
     RewardOfferModule,
+    ResourceManagerModule,
   ],
   exports: [UserShopLimitService],
   controllers: [UserShopLimitController],
