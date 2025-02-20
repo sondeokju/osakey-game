@@ -1400,7 +1400,7 @@ export class UsersService {
       return result;
     } else {
       userData.update_at = new Date();
-      userData.language = new Date();
+      userData.language = language;s
       const result = await usersRepository.save(userData);
       return result;
     }

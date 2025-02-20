@@ -81,13 +81,15 @@ export class AuthService {
     device_id: string,
     email: string,
     os_type: string,
-    sub: string,
+    //sub: string,
+    language: string,
   ) {
     return await this.usersService.lineSocialLogin(
       device_id,
       email,
       os_type,
       //  sub,
+      language,
     );
   }
 
