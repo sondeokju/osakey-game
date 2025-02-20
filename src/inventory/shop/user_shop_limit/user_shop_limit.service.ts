@@ -94,11 +94,10 @@ export class UserShopLimitService {
       }
     }
   }
-
   async currencyCheckAndDeduct(
     user_id: string,
     shop_id: number,
-    qr?: QueryRunner,
+    qr: QueryRunner,
   ) {
     const shopData = await this.shopService.getShop(shop_id, qr);
 
@@ -114,7 +113,6 @@ export class UserShopLimitService {
 
     switch (shopData.price_kind) {
       case 'free':
-        // 무료 상품이므로 차감 없음
         return { success: true, message: 'Free item, no deduction required' };
 
       case 'gord':
@@ -122,27 +120,34 @@ export class UserShopLimitService {
         break;
 
       case 'diamon_mix':
-        resourceDeduction.dia.amount = shopData.price_count;
-        resourceDeduction.dia.mode = 'mixed';
+        resourceDeduction.dia = {
+          amount: shopData.price_count,
+          mode: 'mixed',
+        };
         break;
 
       case 'diamon_paid':
-        resourceDeduction.dia.amount = shopData.price_count;
-        resourceDeduction.dia.mode = 'paid';
+        resourceDeduction.dia = {
+          amount: shopData.price_count,
+          mode: 'paid',
+        };
         break;
 
       default:
         return { success: false, message: 'Invalid currency type' };
     }
 
-    // 리소스 차감 수행
-    const result = await this.resourceManagerService.validateAndDeductResources(
-      user_id,
-      resourceDeduction,
-      qr,
-    );
-
-    return result;
+    try {
+      // 리소스 차감 수행
+      await this.resourceManagerService.validateAndDeductResources(
+        user_id,
+        resourceDeduction,
+        qr,
+      );
+      return { success: true };
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
   }
 
   async resourceCheckAndDeductError(
@@ -155,31 +160,47 @@ export class UserShopLimitService {
       shop_id,
       qr,
     );
-    if (!currencyCheck) {
+
+    if (!currencyCheck.success) {
       let errorCode = 'PURCHASE_FAILED';
       let message = 'Purchase could not be completed';
 
-      // switch (currencyCheck.message) {
-      //   case 'Free item, no deduction required':
-      //     errorCode = 'FREE_ITEM';
-      //     message = 'This item is free and does not require a purchase';
-      //     break;
+      switch (currencyCheck.message) {
+        case 'Free item, no deduction required':
+          errorCode = 'FREE_ITEM';
+          message = 'This item is free and does not require a purchase';
+          break;
 
-      //   case 'Invalid currency type':
-      //     errorCode = 'INVALID_CURRENCY';
-      //     message = 'The currency type is invalid';
-      //     break;
+        case 'Invalid currency type':
+          errorCode = 'INVALID_CURRENCY';
+          message = 'The currency type is invalid';
+          break;
 
-      //   case 'Insufficient funds':
-      //     errorCode = 'INSUFFICIENT_FUNDS';
-      //     message = 'You do not have enough currency to complete the purchase';
-      //     break;
+        case 'Not enough Gord.':
+          errorCode = 'INSUFFICIENT_GORD';
+          message = 'You do not have enough Gord.';
+          break;
 
-      //   default:
-      //     errorCode = 'UNKNOWN_ERROR';
-      //     message = 'An unknown error occurred';
-      //     break;
-      // }
+        case 'Not enough items.':
+          errorCode = 'INSUFFICIENT_ITEM';
+          message = 'You do not have enough items.';
+          break;
+
+        case 'Not enough EXP.':
+          errorCode = 'INSUFFICIENT_EXP';
+          message = 'You do not have enough experience points.';
+          break;
+
+        case 'Failed to validate and deduct resources.':
+          errorCode = 'RESOURCE_DEDUCTION_FAILED';
+          message = 'Resource deduction failed due to an internal error.';
+          break;
+
+        default:
+          errorCode = 'UNKNOWN_ERROR';
+          message = currencyCheck.message || 'An unknown error occurred';
+          break;
+      }
 
       return {
         status: 403,

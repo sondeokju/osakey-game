@@ -34,7 +34,11 @@ export class ResourceManagerService {
     try {
       const userCurrency = await this.usersService.getUserMoney(user_id, qr);
 
-      // 아이템 차감
+      // ✅ 차감 실패 시 반환할 에러 메시지 및 코드 변수
+      let errorMessage = '';
+      let errorCode = '';
+
+      // 🔹 아이템 차감
       if (resources.item?.count && resources.item.count > 0) {
         const userItemData = await this.userItemService.getItem(
           user_id,
@@ -42,56 +46,97 @@ export class ResourceManagerService {
           qr,
         );
         if (!userItemData || resources.item.count > userItemData.item_count) {
-          throw new BadRequestException('Not enough items.');
+          errorCode = 'INSUFFICIENT_ITEM';
+          errorMessage = 'Not enough items.';
+        } else {
+          await this.userItemService.reduceItem(
+            user_id,
+            resources.item.item_id,
+            resources.item.count,
+            qr,
+          );
         }
-
-        await this.userItemService.reduceItem(
-          user_id,
-          resources.item.item_id,
-          resources.item.count,
-          qr,
-        );
       }
 
-      // 고드(Gord) 차감
+      // 🔹 고드(Gord) 차감
       if (resources.gord) {
         if (resources.gord <= 0 || resources.gord > userCurrency.gord) {
-          throw new BadRequestException('Not enough Gord.');
+          errorCode = 'INSUFFICIENT_GORD';
+          errorMessage = 'Not enough Gord.';
+        } else {
+          await this.usersService.reduceGord(user_id, resources.gord, qr);
         }
-        await this.usersService.reduceGord(user_id, resources.gord, qr);
       }
 
-      // 다이아몬드 차감
+      // 🔹 다이아몬드 차감
       if (resources.dia?.amount && resources.dia.amount > 0) {
-        await this.usersService.deductDiamonds(
+        const userDiaBalance = await this.usersService.getUserDiamondBalance(
           user_id,
-          resources.dia.amount,
-          resources.dia.mode,
           qr,
         );
+        if (
+          resources.dia.mode === 'paid' &&
+          resources.dia.amount > userDiaBalance.paid
+        ) {
+          errorCode = 'INSUFFICIENT_DIA_PAID';
+          errorMessage = 'Not enough paid diamonds.';
+        } else if (
+          resources.dia.mode === 'mixed' &&
+          resources.dia.amount > userDiaBalance.paid + userDiaBalance.free
+        ) {
+          errorCode = 'INSUFFICIENT_DIA_MIXED';
+          errorMessage = 'Not enough mixed diamonds.';
+        } else {
+          await this.usersService.deductDiamonds(
+            user_id,
+            resources.dia.amount,
+            resources.dia.mode,
+            qr,
+          );
+        }
       }
 
-      // 경험치 차감
+      // 🔹 경험치 차감
       if (resources.exp && resources.exp > 0) {
         if (resources.exp > userCurrency.exp) {
-          throw new BadRequestException('Not enough EXP.');
+          errorCode = 'INSUFFICIENT_EXP';
+          errorMessage = 'Not enough EXP.';
+        } else {
+          await this.usersService.addExp(user_id, resources.exp, qr);
         }
-        await this.usersService.addExp(user_id, resources.exp, qr);
       }
 
-      // 세카메 크레딧 차감
+      // 🔹 세카메 크레딧 차감
       if (resources.secame_credit && resources.secame_credit > 0) {
-        await this.usersService.secameCreditDeduct(
-          user_id,
-          resources.secame_credit,
-          qr,
-        );
+        if (resources.secame_credit > userCurrency.secame_credit) {
+          errorCode = 'INSUFFICIENT_SECAME_CREDIT';
+          errorMessage = 'Not enough Secame Credit.';
+        } else {
+          await this.usersService.secameCreditDeduct(
+            user_id,
+            resources.secame_credit,
+            qr,
+          );
+        }
       }
+
+      // ✅ 차감할 자원이 부족하면 오류 반환
+      if (errorMessage) {
+        return {
+          success: false,
+          errorCode,
+          message: errorMessage,
+        };
+      }
+
+      return { success: true };
     } catch (error) {
       console.error('❌ Error in validateAndDeductResources:', error.message);
-      throw new InternalServerErrorException(
-        'Failed to validate and deduct resources.',
-      );
+      return {
+        success: false,
+        errorCode: 'RESOURCE_DEDUCTION_FAILED',
+        message: 'Failed to validate and deduct resources.',
+      };
     }
   }
 
