@@ -46,7 +46,6 @@ export class UserShopLimitController {
     const result = await this.userShopLimitService.buyLimitTimeUpdate(
       user.user_id,
       shop_id,
-      buy_limit_time,
       qr,
     );
 
