@@ -38,7 +38,7 @@ export class UserTunaTvOnlineService {
       }
     }
 
-    let result = [];
+    let result = {};
     try {
       result = await userTunaTvOnlineRepository
         .createQueryBuilder('tuna_tv_online')
@@ -59,7 +59,8 @@ export class UserTunaTvOnlineService {
       console.error('Error fetching tuna_tv_online:', error);
     }
 
-    return result; // 항상 배열 반환
+    //return result.length > 0 ? result[0] : {};
+    return result;
   }
 
   // async tunaTvOnlineList(qr?: QueryRunner) {
