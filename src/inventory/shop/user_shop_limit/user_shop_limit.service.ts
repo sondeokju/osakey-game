@@ -59,7 +59,12 @@ export class UserShopLimitService {
         };
       }
 
-      await this.resourceCheckAndDeductError(user_id, shop_id, qr);
+      const resourceCheck = await this.resourceCheckAndDeductError(
+        user_id,
+        shop_id,
+        qr,
+      );
+      console.log('resourceCheck:', resourceCheck);
 
       const shopRewardData = await this.shopPurchaseReward(
         user_id,
