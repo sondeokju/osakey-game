@@ -124,6 +124,7 @@ export class ResourceManagerService {
       console.log('errorMessage:', errorMessage);
       // ✅ 차감할 자원이 부족하면 오류 반환
       if (errorMessage) {
+        console.log('차감할 자원이 부족하면 오류 반환');
         return {
           success: false,
           errorCode,
