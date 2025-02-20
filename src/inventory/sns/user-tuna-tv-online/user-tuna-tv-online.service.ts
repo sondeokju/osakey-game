@@ -38,7 +38,7 @@ export class UserTunaTvOnlineService {
       }
     }
 
-    let result = {};
+    let result = [];
     try {
       result = await userTunaTvOnlineRepository
         .createQueryBuilder('tuna_tv_online')
@@ -59,7 +59,16 @@ export class UserTunaTvOnlineService {
       console.error('Error fetching tuna_tv_online:', error);
     }
 
-    return result;
+    function arrayToObjectByTunaTvId(arrayData: any[]): Record<number, any> {
+      return arrayData.reduce((acc, item) => {
+        acc[item.tuna_tv_id] = item;
+        return acc;
+      }, {});
+    }
+
+    const transformedData = arrayToObjectByTunaTvId(result);
+
+    return transformedData;
   }
 
   // async tunaTvOnlineList(qr?: QueryRunner) {
