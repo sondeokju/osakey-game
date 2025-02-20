@@ -70,19 +70,17 @@ export class ResourceManagerService {
 
       // 🔹 다이아몬드 차감
       if (resources.dia?.amount && resources.dia.amount > 0) {
-        const userDiaBalance = await this.usersService.getUserDiamondBalance(
-          user_id,
-          qr,
-        );
+        const userDiaBalance = await this.usersService.getMe(user_id, qr);
         if (
           resources.dia.mode === 'paid' &&
-          resources.dia.amount > userDiaBalance.paid
+          resources.dia.amount > userDiaBalance.diamond_paid
         ) {
           errorCode = 'INSUFFICIENT_DIA_PAID';
           errorMessage = 'Not enough paid diamonds.';
         } else if (
           resources.dia.mode === 'mixed' &&
-          resources.dia.amount > userDiaBalance.paid + userDiaBalance.free
+          resources.dia.amount >
+            userDiaBalance.diamond_paid + userDiaBalance.diamond_free
         ) {
           errorCode = 'INSUFFICIENT_DIA_MIXED';
           errorMessage = 'Not enough mixed diamonds.';
