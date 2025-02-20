@@ -52,11 +52,13 @@ export class UserShopLimitService {
         return limitCheck;
       }
 
-      const resourceCheck = await this.resourceCheckAndDeductError(
+      const resourceCheck = await this.resourceCheckAndDeduct(
         user_id,
         shop_id,
         qr,
       );
+
+      console.log('resourceCheck:', resourceCheck);
 
       if (!resourceCheck.success) {
         return resourceCheck;
@@ -94,7 +96,7 @@ export class UserShopLimitService {
       }
     }
   }
-  async currencyCheckAndDeduct(
+  async resourceCheckAndDeduct(
     user_id: string,
     shop_id: number,
     qr: QueryRunner,
@@ -158,7 +160,7 @@ export class UserShopLimitService {
     shop_id: number,
     qr?: QueryRunner,
   ) {
-    const currencyCheck = await this.currencyCheckAndDeduct(
+    const currencyCheck = await this.resourceCheckAndDeduct(
       user_id,
       shop_id,
       qr,
