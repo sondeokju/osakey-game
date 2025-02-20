@@ -1192,14 +1192,9 @@ export class UsersService {
       newAccountType = 'returning';
     }
 
-    // ✅ 변경된 값 적용
-    if (userData.account_type !== newAccountType) {
-      console.log(
-        `🔹 Account type changing: ${userData.account_type} → ${newAccountType}`,
-      );
-      userData.account_type = newAccountType;
-      await usersRepository.save(userData);
-    }
+    console.log('newAccountType:', newAccountType);
+    userData.account_type = newAccountType;
+    await usersRepository.save(userData);
 
     return userData;
   }
