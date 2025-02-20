@@ -59,9 +59,10 @@ export class ResourceManagerService {
       }
 
       console.log('resources.gord:', resources.gord);
+      console.log('userCurrency.gord:', userCurrency.gord);
       // 🔹 고드(Gord) 차감
       if (resources.gord) {
-        if (resources.gord <= 0 || resources.gord > userCurrency.gord) {
+        if (resources.gord < 0 || resources.gord > userCurrency.gord) {
           errorCode = 'INSUFFICIENT_GORD';
           errorMessage = 'Not enough Gord.';
         } else {
