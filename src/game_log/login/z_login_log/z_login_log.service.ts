@@ -22,7 +22,7 @@ export class ZLoginLogService {
       : this.zLoginLogRepository;
   }
 
-  async getLoginLog(user_id: string) {
+  async getLoginLog(user_id: string, qr?: QueryRunner) {
     const loginLogRepository = this.getZloginLogRepository(qr);
 
     const latestLog = await loginLogRepository.findOne({
