@@ -37,7 +37,7 @@ export class ZLoginLogService {
     user_id: string,
     member_id: string,
     social_user_id: string,
-    social_type: string,
+    social_type?: string,
     qr?: QueryRunner,
   ) {
     const userAchievementsRepository = this.getZloginLogRepository(qr);
@@ -46,7 +46,7 @@ export class ZLoginLogService {
       user_id,
       member_id,
       social_user_id,
-      social_type,
+      social_type: '',
     });
 
     const savedLog = await userAchievementsRepository.save(logData);
