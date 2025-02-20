@@ -1344,6 +1344,7 @@ export class UsersService {
 
       return this.createUserID(savedUser.id, queryRunner); // 생성된 ID를 사용
     } else {
+      await this.userAccountTypeModify(userData.user_id);
       userData.provider = provider;
       return await usersRepository.save({
         ...userData,
