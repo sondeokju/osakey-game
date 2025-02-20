@@ -391,10 +391,6 @@ export class UserShopLimitService {
 
     const shopData = await this.shopService.getShop(shop_id, qr);
 
-    console.log('buy_limit_time:', shopData.buy_limit_time);
-    // ✅ 시간을 밀리초 단위로 변환 (시간 * 60분 * 60초 * 1000밀리초)
-    const buyLimitTimeMillis = shopData.buy_limit_time * 60 * 60 * 1000;
-
     if (!userShopLimit) {
       userShopLimit = userShopLimitRepository.create({
         user_id,
@@ -404,7 +400,9 @@ export class UserShopLimitService {
         sell_start: shopData.sell_start,
         sell_end: shopData.sell_end,
         buy_limit_start_time: now,
-        buy_limit_end_time: new Date(now.getTime() + buyLimitTimeMillis), // 시간 기반으로 계산
+        buy_limit_end_time: new Date(
+          now.getTime() + shopData.buy_limit_time * 60 * 60 * 1000,
+        ),
       });
     } else {
       userShopLimit.buy_limit_start_time = now;
