@@ -399,5 +399,21 @@ export class UsersController {
     return JSON.stringify(result);
   }
 
+  @Post('language/modify')
+  @UseInterceptors(TransactionInterceptor)
+  async languageUpdate(
+    @User() user: Users,
+    @Body('language') language: string,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.usersService.languageUpdate(
+      user.user_id,
+      language,
+      qr,
+    );
+
+    return JSON.stringify(result);
+  }
+
   //testtest
 }

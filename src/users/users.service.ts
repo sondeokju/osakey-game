@@ -1451,6 +1451,19 @@ export class UsersService {
     return await usersRepository.findOne({ where: { user_id } });
   }
 
+  async languageUpdate(user_id: string, language: string, qr?: QueryRunner) {
+    const usersRepository = this.getUsersRepository(qr);
+    const user = await usersRepository.findOne({ where: { user_id } });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    await usersRepository.update(user_id, { language });
+
+    return await usersRepository.findOne({ where: { user_id } });
+  }
+
   async secamCreditReward(
     user_id: string,
     secame_credit: number,
