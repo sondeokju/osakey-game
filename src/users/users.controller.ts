@@ -399,7 +399,7 @@ export class UsersController {
     return JSON.stringify(result);
   }
 
-  @Post('language/modify')
+  @Post('language')
   @UseInterceptors(TransactionInterceptor)
   async languageUpdate(
     @User() user: Users,
