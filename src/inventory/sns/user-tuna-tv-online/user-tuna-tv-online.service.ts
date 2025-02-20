@@ -59,7 +59,30 @@ export class UserTunaTvOnlineService {
       console.error('Error fetching tuna_tv_online:', error);
     }
 
-    return result;
+    return result; // 항상 배열 반환
+
+    // let result = [];
+    // try {
+    //   result = await userTunaTvOnlineRepository
+    //     .createQueryBuilder('tuna_tv_online')
+    //     .select('tuna_tv_online.tuna_tv_id', 'tuna_tv_id')
+    //     .addSelect('tuna_tv_online.online_type', 'online_type')
+    //     .addSelect('tuna_tv')
+    //     .addSelect('user.nickname', 'nickname')
+    //     .addSelect('user.level', 'level')
+    //     .addSelect('user.id', 'id')
+    //     .innerJoin(
+    //       'user_tuna_tv',
+    //       'tuna_tv',
+    //       'tuna_tv_online.tuna_tv_id = tuna_tv.id',
+    //     )
+    //     .innerJoin('users', 'user', 'tuna_tv.user_id = user.user_id')
+    //     .getRawMany();
+    // } catch (error) {
+    //   console.error('Error fetching tuna_tv_online:', error);
+    // }
+
+    // return result;
   }
 
   // async tunaTvOnlineList(qr?: QueryRunner) {
