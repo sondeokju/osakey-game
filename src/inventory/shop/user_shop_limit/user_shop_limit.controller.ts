@@ -35,4 +35,22 @@ export class UserShopLimitController {
 
     return result;
   }
+
+  @Post('buylimittime/modify')
+  @UseInterceptors(TransactionInterceptor)
+  async buyLimitTimeUpdate(
+    @User() user: Users,
+    @Body('shop_id') shop_id: number,
+    @Body('buy_limit_time') buy_limit_time: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userShopLimitService.buyLimitTimeUpdate(
+      user.user_id,
+      shop_id,
+      buy_limit_time,
+      qr,
+    );
+
+    return result;
+  }
 }

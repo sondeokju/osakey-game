@@ -379,4 +379,49 @@ export class UserShopLimitService {
 
     return result;
   }
+
+  async buyLimitTimeUpdate(
+    user_id: string,
+    shop_id: number,
+    buy_limit_time: number,
+    qr?: QueryRunner,
+  ) {
+    const userShopLimitRepository = this.getUserShopLimitRepository(qr);
+
+    let userShopLimit = await userShopLimitRepository.findOne({
+      where: { user_id, shop_id },
+    });
+
+    const now = new Date();
+
+    const shopData = await this.shopService.getShop(shop_id, qr);
+
+    // ✅ 시간을 밀리초 단위로 변환 (시간 * 60분 * 60초 * 1000밀리초)
+    const buyLimitTimeMillis = buy_limit_time_hours * 60 * 60 * 1000;
+
+    if (!userShopLimit) {
+      userShopLimit = userShopLimitRepository.create({
+        user_id,
+        shop_id,
+        free_limit_yn: shopData.free_limit_yn,
+        buy_limit_type: shopData.buy_limit_type,
+        buy_limit_count: shopData.buy_limit_count,
+        sell_start: shopData.sell_start,
+        sell_end: shopData.sell_end,
+        buy_limit_start_time: now,
+        buy_limit_end_time: new Date(now.getTime() + buyLimitTimeMillis), // 시간 기반으로 계산
+      });
+    } else {
+      userShopLimit.buy_limit_start_time = now;
+      userShopLimit.buy_limit_end_time = new Date(
+        now.getTime() + buyLimitTimeMillis,
+      ); // 시간 기반으로 계산
+    }
+
+    const result = await userShopLimitRepository.save(userShopLimit);
+
+    return {
+      userShopLimit: result,
+    };
+  }
 }
