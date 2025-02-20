@@ -126,9 +126,11 @@ export class ResourceManagerService {
       if (errorMessage) {
         console.log('차감할 자원이 부족하면 오류 반환');
         return {
+          status: 403,
           success: false,
           errorCode,
           message: errorMessage,
+          timestamp: new Date().toISOString(),
         };
       }
 
@@ -136,9 +138,11 @@ export class ResourceManagerService {
     } catch (error) {
       console.error('❌ Error in validateAndDeductResources:', error.message);
       return {
+        status: 403,
         success: false,
         errorCode: 'RESOURCE_DEDUCTION_FAILED',
         message: 'Failed to validate and deduct resources.',
+        timestamp: new Date().toISOString(),
       };
     }
   }

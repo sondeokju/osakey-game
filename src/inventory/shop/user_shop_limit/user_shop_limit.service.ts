@@ -96,6 +96,7 @@ export class UserShopLimitService {
       }
     }
   }
+
   async resourceCheckAndDeduct(
     user_id: string,
     shop_id: number,
@@ -155,71 +156,6 @@ export class UserShopLimitService {
     }
   }
 
-  async resourceCheckAndDeductError(
-    user_id: string,
-    shop_id: number,
-    qr?: QueryRunner,
-  ) {
-    const currencyCheck = await this.resourceCheckAndDeduct(
-      user_id,
-      shop_id,
-      qr,
-    );
-
-    console.log('currencyCheck:', currencyCheck);
-
-    if (!currencyCheck.success) {
-      let errorCode = 'PURCHASE_FAILED';
-      let message = 'Purchase could not be completed';
-
-      switch (currencyCheck.message) {
-        case 'Free item, no deduction required':
-          errorCode = 'FREE_ITEM';
-          message = 'This item is free and does not require a purchase';
-          break;
-
-        case 'Invalid currency type':
-          errorCode = 'INVALID_CURRENCY';
-          message = 'The currency type is invalid';
-          break;
-
-        case 'Not enough Gord.':
-          errorCode = 'INSUFFICIENT_GORD';
-          message = 'You do not have enough Gord.';
-          break;
-
-        case 'Not enough items.':
-          errorCode = 'INSUFFICIENT_ITEM';
-          message = 'You do not have enough items.';
-          break;
-
-        case 'Not enough EXP.':
-          errorCode = 'INSUFFICIENT_EXP';
-          message = 'You do not have enough experience points.';
-          break;
-
-        case 'Failed to validate and deduct resources.':
-          errorCode = 'RESOURCE_DEDUCTION_FAILED';
-          message = 'Resource deduction failed due to an internal error.';
-          break;
-
-        default:
-          errorCode = 'UNKNOWN_ERROR';
-          message = currencyCheck.message || 'An unknown error occurred';
-          break;
-      }
-
-      return {
-        status: 403,
-        success: false,
-        errorCode,
-        message,
-        shop_id,
-        timestamp: new Date().toISOString(),
-      };
-    }
-  }
-
   async shopPurchaseLimitCheck(
     user_id: string,
     shop_id: number,
@@ -273,8 +209,26 @@ export class UserShopLimitService {
       return {
         status: 403,
         success: false,
-        errorCode: 'PURCHASE_LIMIT_EXCEEDED',
-        message: 'Out of sale period',
+        errorCode: 'PURCHASE_LIMIT_TIME_EXCEEDED',
+        message: 'Purchase time limit exceeded',
+        shop_id: shop_id,
+        timestamp: new Date().toISOString(),
+      };
+    }
+
+    // ✅ 구매 제한 시간 체크 (buy_limit_start_time <= now && (now <= buy_limit_end_time || now <= sell_end))
+    if (
+      !(
+        now >= userShopLimit.buy_limit_start_time &&
+        (now <= userShopLimit.buy_limit_end_time ||
+          now <= userShopLimit.sell_end)
+      )
+    ) {
+      return {
+        status: 403,
+        success: false,
+        errorCode: 'PURCHASE_LIMIT_TIME_EXCEEDED',
+        message: 'Purchase time limit exceeded',
         shop_id: shop_id,
         timestamp: new Date().toISOString(),
       };
