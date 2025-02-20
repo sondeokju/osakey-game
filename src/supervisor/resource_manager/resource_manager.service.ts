@@ -58,6 +58,7 @@ export class ResourceManagerService {
         }
       }
 
+      console.log('resources.gord:', resources.gord);
       // 🔹 고드(Gord) 차감
       if (resources.gord) {
         if (resources.gord <= 0 || resources.gord > userCurrency.gord) {
