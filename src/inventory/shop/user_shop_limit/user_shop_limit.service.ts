@@ -178,28 +178,28 @@ export class UserShopLimitService {
       };
     }
 
-    if (userShopLimit.buy_limit_count <= 0) {
-      //return { success: false, message: 'Purchase limit exceeded' };
-      return {
-        status: 403,
-        success: false,
-        errorCode: 'PURCHASE_LIMIT_EXCEEDED',
-        message: 'Purchase limit exceeded',
-        shop_id: shop_id,
-        timestamp: new Date().toISOString(),
-      };
-    }
+    // if (userShopLimit.buy_limit_count <= 0) {
+    //   //return { success: false, message: 'Purchase limit exceeded' };
+    //   return {
+    //     status: 403,
+    //     success: false,
+    //     errorCode: 'PURCHASE_LIMIT_EXCEEDED',
+    //     message: 'Purchase limit exceeded',
+    //     shop_id: shop_id,
+    //     timestamp: new Date().toISOString(),
+    //   };
+    // }
 
-    if (userShopLimit.free_limit_yn === 'Y') {
-      return {
-        status: 403,
-        success: false,
-        errorCode: 'PURCHASE_LIMIT_EXCEEDED',
-        message: 'Purchase free limit exceeded',
-        shop_id: shop_id,
-        timestamp: new Date().toISOString(),
-      };
-    }
+    // if (userShopLimit.free_limit_yn === 'Y') {
+    //   return {
+    //     status: 403,
+    //     success: false,
+    //     errorCode: 'PURCHASE_LIMIT_EXCEEDED',
+    //     message: 'Purchase free limit exceeded',
+    //     shop_id: shop_id,
+    //     timestamp: new Date().toISOString(),
+    //   };
+    // }
 
     const now = new Date();
 
