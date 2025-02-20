@@ -203,25 +203,29 @@ export class UserShopLimitService {
 
     const now = new Date();
 
-    // 판매 기간 체크 (now가 sell_start보다 크거나 같고, sell_end보다 작거나 같아야 구매 가능)
-    if (!(now >= userShopLimit.sell_start && now <= userShopLimit.sell_end)) {
-      //return { success: false, message: 'Out of sale period' };
+    // ✅ 구매 제한 시간 체크 (sell_start <= now && (now <= sell_end || now <= buy_limit_end_time))
+    if (
+      !(
+        now >= userShopLimit.sell_start &&
+        (now <= userShopLimit.sell_end ||
+          now <= userShopLimit.buy_limit_end_time)
+      )
+    ) {
       return {
         status: 403,
         success: false,
         errorCode: 'PURCHASE_LIMIT_TIME_EXCEEDED',
-        message: 'Purchase sell time limit exceeded',
+        message: 'Purchase sell limit exceeded',
         shop_id: shop_id,
         timestamp: new Date().toISOString(),
       };
     }
 
-    // ✅ 구매 제한 시간 체크 (buy_limit_start_time <= now && (now <= buy_limit_end_time || now <= sell_end))
+    // ✅ 구매 가능 시간 체크 (buy_limit_start_time <= now <= buy_limit_end_time)
     if (
       !(
         now >= userShopLimit.buy_limit_start_time &&
-        (now <= userShopLimit.buy_limit_end_time ||
-          now <= userShopLimit.sell_end)
+        now <= userShopLimit.buy_limit_end_time
       )
     ) {
       return {
