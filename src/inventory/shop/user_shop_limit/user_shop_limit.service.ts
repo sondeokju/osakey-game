@@ -141,12 +141,13 @@ export class UserShopLimitService {
 
     try {
       // 리소스 차감 수행
-      await this.resourceManagerService.validateAndDeductResources(
-        user_id,
-        resourceDeduction,
-        qr,
-      );
-      return { success: true };
+      const result =
+        await this.resourceManagerService.validateAndDeductResources(
+          user_id,
+          resourceDeduction,
+          qr,
+        );
+      return result;
     } catch (error) {
       return { success: false, message: error.message };
     }
