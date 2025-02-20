@@ -409,7 +409,8 @@ export class UserShopLimitService {
     } else {
       userShopLimit.buy_limit_start_time = now;
       userShopLimit.buy_limit_end_time = new Date(
-        now.getTime() + buyLimitTimeMillis,
+        userShopLimit.buy_limit_end_time.getTime() +
+          shopData.buy_limit_time * 60 * 60 * 1000,
       );
     }
 
