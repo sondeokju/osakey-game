@@ -380,12 +380,7 @@ export class UserShopLimitService {
     return result;
   }
 
-  async buyLimitTimeUpdate(
-    user_id: string,
-    shop_id: number,
-    buy_limit_time: number,
-    qr?: QueryRunner,
-  ) {
+  async buyLimitTimeUpdate(user_id: string, shop_id: number, qr?: QueryRunner) {
     const userShopLimitRepository = this.getUserShopLimitRepository(qr);
 
     let userShopLimit = await userShopLimitRepository.findOne({
@@ -397,7 +392,7 @@ export class UserShopLimitService {
     const shopData = await this.shopService.getShop(shop_id, qr);
 
     // ✅ 시간을 밀리초 단위로 변환 (시간 * 60분 * 60초 * 1000밀리초)
-    const buyLimitTimeMillis = buy_limit_time * 60 * 60 * 1000;
+    const buyLimitTimeMillis = shopData.buy_limit_time * 60 * 60 * 1000;
 
     if (!userShopLimit) {
       userShopLimit = userShopLimitRepository.create({
