@@ -232,7 +232,7 @@ export class UserShopLimitService {
         status: 403,
         success: false,
         errorCode: 'PURCHASE_LIMIT_TIME_EXCEEDED',
-        message: 'Purchase time limit exceeded',
+        message: 'Purchase etc time limit exceeded',
         shop_id: shop_id,
         timestamp: new Date().toISOString(),
       };
