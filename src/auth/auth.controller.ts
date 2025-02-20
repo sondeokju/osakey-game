@@ -33,7 +33,10 @@ export class AuthController {
 
   @IsPublic()
   @Post('social-login')
-  async socialLogin(@Body('socialData') socialData: any) {
+  async socialLogin(
+    @Body('socialData') socialData: any,
+    @Body('language') language: string,
+  ) {
     // 데이터 변환 로직
     if (typeof socialData === 'string') {
       socialData = JSON.parse(socialData);
@@ -45,7 +48,7 @@ export class AuthController {
     const member_id = socialData?.memberid ?? null;
     const social_user_id = socialData?.userid ?? null;
     const provider = socialData?.provider ?? null;
-    const language = socialData?.language ?? null;
+    //const language = socialData?.language ?? null;
 
     const result = await this.authService.lineSocialLogin(
       member_id,
@@ -62,6 +65,7 @@ export class AuthController {
   //@UseInterceptors(TransactionInterceptor)
   async lineSocialLogin2(
     @Body('socialData') socialData: any,
+    @Body('language') language: string,
     //@Request() req: any, // <-- req 객체 추가
     //@QueryRunner() qr: QR,
   ) {
@@ -73,10 +77,10 @@ export class AuthController {
     console.log('Final parsed socialData:', socialData);
 
     // 값 추출 및 처리
-    const member_id = socialData?.memberid ?? null;
-    const social_user_id = socialData?.userid ?? null;
-    const name = socialData?.name ?? null;
-    const language = socialData?.language ?? '';
+    const member_id = socialData?.memberid ?? '';
+    const social_user_id = socialData?.userid ?? '';
+    const name = socialData?.name ?? '';
+    //const language = socialData?.language ?? '';
 
     const result = await this.authService.lineSocialLogin(
       member_id,
