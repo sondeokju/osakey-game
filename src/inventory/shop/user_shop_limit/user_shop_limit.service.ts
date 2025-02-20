@@ -391,8 +391,9 @@ export class UserShopLimitService {
 
     const shopData = await this.shopService.getShop(shop_id, qr);
 
+    console.log('buy_limit_time:', buy_limit_time);
     // ✅ 시간을 밀리초 단위로 변환 (시간 * 60분 * 60초 * 1000밀리초)
-    const buyLimitTimeMillis = shopData.buy_limit_time * 60 * 60 * 1000;
+    const buyLimitTimeMillis = +shopData.buy_limit_time * 60 * 60 * 1000;
 
     if (!userShopLimit) {
       userShopLimit = userShopLimitRepository.create({
