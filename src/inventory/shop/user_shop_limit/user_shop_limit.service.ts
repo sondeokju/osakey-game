@@ -65,7 +65,9 @@ export class UserShopLimitService {
         qr,
       );
       console.log('resourceCheck:', resourceCheck);
-
+      if (!resourceCheck.success) {
+        return resourceCheck;
+      }
       const shopRewardData = await this.shopPurchaseReward(
         user_id,
         shop_id,
