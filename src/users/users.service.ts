@@ -1197,6 +1197,9 @@ export class UsersService {
       newAccountType = 'returning';
     }
 
+    console.log('update_at`이 6개월 이상이면 `returning:', userData.update_at);
+    console.log('update_at`이 6개월 이상이면 `sixMonthsAgo:', sixMonthsAgo);
+
     console.log('newAccountType:', newAccountType);
     userData.account_type = newAccountType;
     await usersRepository.save(userData);
