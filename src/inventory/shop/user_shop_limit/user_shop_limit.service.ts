@@ -111,6 +111,8 @@ export class UserShopLimitService {
       secame_credit?: number;
     } = {};
 
+    console.log('price_kind:', shopData.price_kind);
+    console.log('gord:', shopData.price_count);
     switch (shopData.price_kind) {
       case 'free':
         return { success: true, message: 'Free item, no deduction required' };
