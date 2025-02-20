@@ -22,6 +22,17 @@ export class ZLoginLogService {
       : this.zLoginLogRepository;
   }
 
+  async getLoginLog(user_id: string) {
+    const loginLogRepository = this.getZloginLogRepository(qr);
+
+    const latestLog = await loginLogRepository.findOne({
+      where: { user_id },
+      order: { update_at: 'DESC' },
+    });
+
+    return latestLog;
+  }
+
   async loginLog(
     user_id: string,
     member_id: string,
@@ -29,10 +40,8 @@ export class ZLoginLogService {
     social_type: string,
     qr?: QueryRunner,
   ) {
-    // 트랜잭션 레포지토리 가져오기
     const userAchievementsRepository = this.getZloginLogRepository(qr);
 
-    // 삽입할 데이터 생성
     const logData = userAchievementsRepository.create({
       user_id,
       member_id,
@@ -40,7 +49,6 @@ export class ZLoginLogService {
       social_type,
     });
 
-    // 데이터 저장 (save 사용)
     const savedLog = await userAchievementsRepository.save(logData);
 
     return savedLog;

@@ -1162,7 +1162,11 @@ export class UsersService {
     return updatedUserData;
   }
 
-  async userAccountTypeModify(user_id: string, qr?: QueryRunner) {
+  async userAccountTypeModify(
+    user_id: string,
+    lastLoginDate: Date,
+    qr?: QueryRunner,
+  ) {
     const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({
       where: {
@@ -1188,11 +1192,11 @@ export class UsersService {
       newAccountType = 'new';
     }
     // ✅ `update_at`이 6개월 이상이면 `returning`
-    else if (userData.update_at < sixMonthsAgo) {
+    else if (lastLoginDate < sixMonthsAgo) {
       newAccountType = 'returning';
     }
 
-    console.log('update_at`이 6개월 이상이면 `returning:', userData.update_at);
+    console.log('update_at`이 6개월 이상이면 `lastLoginDate:', lastLoginDate);
     console.log('update_at`이 6개월 이상이면 `sixMonthsAgo:', sixMonthsAgo);
 
     console.log('newAccountType:', newAccountType);
@@ -1350,7 +1354,6 @@ export class UsersService {
       return this.createUserID(savedUser.id, queryRunner); // 생성된 ID를 사용
     } else {
       console.log('handleSocialUserIdLogic 3');
-      await this.userAccountTypeModify(userData.user_id);
       userData.provider = provider;
       return await usersRepository.save({
         ...userData,

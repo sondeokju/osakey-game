@@ -102,11 +102,19 @@ export class AuthService {
       provider,
     );
 
+    const lastLoginlog = await this.zLoginLogService.getLoginLog(
+      userData.user_id,
+    );
     await this.zLoginLogService.loginLog(
       userData.user_id,
       member_id,
       social_user_id,
       provider,
+    );
+
+    await this.usersService.userAccountTypeModify(
+      userData.user_id,
+      lastLoginlog.update_at,
     );
 
     //const inven = await this.getUserInvens(userData.user_id);
