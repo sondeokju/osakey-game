@@ -54,14 +54,11 @@ export class UserTunaTvOnlineService {
           'tuna_tv_online.tuna_tv_id = tuna_tv.id',
         )
         .innerJoin('users', 'user', 'tuna_tv.user_id = user.user_id')
-        .getRawOne();
-      //.getRawMany();
+        .getRawMany();
     } catch (error) {
       console.error('Error fetching tuna_tv_online:', error);
     }
 
-    //return result.length > 0 ? result[0] : {};
-    //const obj = convertArrayToObject(result);
     return result;
   }
 
