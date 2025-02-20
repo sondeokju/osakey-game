@@ -1189,11 +1189,6 @@ export class UsersService {
     }
     // ✅ `update_at`이 6개월 이상이면 `returning`
     else if (userData.update_at < sixMonthsAgo) {
-      console.log(
-        'update_at`이 6개월 이상이면 `returning:',
-        userData.update_at,
-      );
-      console.log('update_at`이 6개월 이상이면 `sixMonthsAgo:', sixMonthsAgo);
       newAccountType = 'returning';
     }
 
@@ -1342,7 +1337,9 @@ export class UsersService {
       where: { member_id: member_id },
     });
 
+    console.log('handleSocialUserIdLogic 1');
     if (member_id !== 'UnityEditor_Member' && !userData) {
+      console.log('handleSocialUserIdLogic 2');
       const newUser = usersRepository.create({ member_id, provider });
       const savedUser = await usersRepository.save(newUser);
 
@@ -1352,6 +1349,7 @@ export class UsersService {
 
       return this.createUserID(savedUser.id, queryRunner); // 생성된 ID를 사용
     } else {
+      console.log('handleSocialUserIdLogic 3');
       await this.userAccountTypeModify(userData.user_id);
       userData.provider = provider;
       return await usersRepository.save({
