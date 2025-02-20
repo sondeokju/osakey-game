@@ -45,11 +45,13 @@ export class AuthController {
     const member_id = socialData?.memberid ?? null;
     const social_user_id = socialData?.userid ?? null;
     const provider = socialData?.provider ?? null;
+    const language = socialData?.language ?? null;
 
     const result = await this.authService.lineSocialLogin(
       member_id,
       social_user_id,
       provider,
+      language,
     );
 
     return result;
