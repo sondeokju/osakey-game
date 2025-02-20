@@ -163,6 +163,8 @@ export class UserShopLimitService {
       qr,
     );
 
+    console.log('currencyCheck:', currencyCheck);
+
     if (!currencyCheck.success) {
       let errorCode = 'PURCHASE_FAILED';
       let message = 'Purchase could not be completed';
