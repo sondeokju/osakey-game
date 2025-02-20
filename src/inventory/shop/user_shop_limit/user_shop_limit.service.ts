@@ -49,14 +49,7 @@ export class UserShopLimitService {
       );
 
       if (!limitCheck.success) {
-        return {
-          status: 403,
-          success: false,
-          errorCode: 'PURCHASE_LIMIT_EXCEEDED',
-          message: 'Purchase limit exceeded',
-          shop_id: shop_id,
-          timestamp: new Date().toISOString(),
-        };
+        return limitCheck;
       }
 
       const resourceCheck = await this.resourceCheckAndDeductError(
@@ -64,7 +57,7 @@ export class UserShopLimitService {
         shop_id,
         qr,
       );
-      console.log('resourceCheck:', resourceCheck);
+
       if (!resourceCheck.success) {
         return resourceCheck;
       }
@@ -236,18 +229,53 @@ export class UserShopLimitService {
     });
 
     if (!userShopLimit) {
-      return { success: false, message: 'No purchase record found' };
+      //return { success: false, message: 'No purchase record found' };
+      return {
+        status: 403,
+        success: false,
+        errorCode: 'PURCHASE_LIMIT_EXCEEDED',
+        message: 'No purchase record found',
+        shop_id: shop_id,
+        timestamp: new Date().toISOString(),
+      };
     }
 
     if (userShopLimit.buy_limit_count <= 0) {
-      return { success: false, message: 'Purchase limit exceeded' };
+      //return { success: false, message: 'Purchase limit exceeded' };
+      return {
+        status: 403,
+        success: false,
+        errorCode: 'PURCHASE_LIMIT_EXCEEDED',
+        message: 'Purchase limit exceeded',
+        shop_id: shop_id,
+        timestamp: new Date().toISOString(),
+      };
+    }
+
+    if (userShopLimit.free_limit_yn === 'Y') {
+      return {
+        status: 403,
+        success: false,
+        errorCode: 'PURCHASE_LIMIT_EXCEEDED',
+        message: 'Purchase free limit exceeded',
+        shop_id: shop_id,
+        timestamp: new Date().toISOString(),
+      };
     }
 
     const now = new Date();
 
     // 판매 기간 체크 (now가 sell_start보다 크거나 같고, sell_end보다 작거나 같아야 구매 가능)
     if (!(now >= userShopLimit.sell_start && now <= userShopLimit.sell_end)) {
-      return { success: false, message: 'Out of sale period' };
+      //return { success: false, message: 'Out of sale period' };
+      return {
+        status: 403,
+        success: false,
+        errorCode: 'PURCHASE_LIMIT_EXCEEDED',
+        message: 'Out of sale period',
+        shop_id: shop_id,
+        timestamp: new Date().toISOString(),
+      };
     }
 
     return { success: true, message: 'Purchase allowed' };
