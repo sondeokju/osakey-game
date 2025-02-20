@@ -1189,6 +1189,11 @@ export class UsersService {
     }
     // ✅ `update_at`이 6개월 이상이면 `returning`
     else if (userData.update_at < sixMonthsAgo) {
+      console.log(
+        'update_at`이 6개월 이상이면 `returning:',
+        userData.update_at,
+      );
+      console.log('update_at`이 6개월 이상이면 `sixMonthsAgo:', sixMonthsAgo);
       newAccountType = 'returning';
     }
 
