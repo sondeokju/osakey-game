@@ -34,9 +34,9 @@ export class UserSnsLikesService {
     qr?: QueryRunner,
   ): Promise<void> {
     const snsLikesRepository = this.getSnslikesRepository(qr);
-    await snsLikesRepository.save({
-      user_id,
+    await snsLikesRepository.insert({
       tuna_tv_id,
+      user_id,
     });
   }
 

@@ -192,6 +192,7 @@ export class UserTunaTvService {
     const userTunaTvData = await userTunaTvRepository.findOne({
       where: {
         id: tuna_tv_id,
+        user_id,
       },
     });
 
@@ -199,16 +200,22 @@ export class UserTunaTvService {
       throw new NotFoundException('Tuna TV not found');
     }
 
-    const islike = await this.userSnsLikesService.isLiked(user_id, tuna_tv_id);
+    const islike = await this.userSnsLikesService.isLiked(
+      user_id,
+      tuna_tv_id,
+      qr,
+    );
 
     console.log('islike:', islike);
     if (!islike) {
-      await this.userSnsLikesService.addLike(user_id, tuna_tv_id);
-      await userTunaTvRepository.increment(
-        { id: tuna_tv_id, user_id },
-        'like_cnt',
-        1,
-      );
+      await this.userSnsLikesService.addLike(user_id, tuna_tv_id, qr);
+      if (userTunaTvData?.like_cnt === null) {
+        // ✅ like_cnt가 NULL이면 1로 설정
+        await userTunaTvRepository.update({ id: tuna_tv_id }, { like_cnt: 1 });
+      } else {
+        // ✅ 0 이상이면 정상적으로 증가
+        await userTunaTvRepository.increment({ id: tuna_tv_id }, 'like_cnt', 1);
+      }
     } else {
       throw new NotFoundException('like exist');
     }
