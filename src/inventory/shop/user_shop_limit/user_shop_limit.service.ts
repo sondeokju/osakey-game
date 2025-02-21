@@ -245,13 +245,19 @@ export class UserShopLimitService {
     const shopData = await this.shopService.getShop(shop_id, qr);
 
     if (!userShopLimit) {
-      userShopLimit = userShopLimitRepository.create({ user_id, shop_id });
-      userShopLimit.buy_limit_type = shopData.buy_limit_type;
-      userShopLimit.buy_limit_count = shopData.buy_limit_count;
-      userShopLimit.sell_start = shopData.sell_start;
-      userShopLimit.sell_end = shopData.sell_end;
+      userShopLimit = userShopLimitRepository.create({
+        user_id,
+        shop_id,
+        buy_limit_type: shopData.buy_limit_type,
+        buy_limit_count: shopData.buy_limit_count,
+        sell_start: shopData.sell_start ?? new Date(), // 기본값 적용
+        sell_end: shopData.sell_end ?? new Date(), // 기본값 적용
+      });
     }
-    userShopLimit.buy_limit_count -= 1;
+
+    if (userShopLimit.buy_limit_count > 0) {
+      userShopLimit.buy_limit_count -= 1;
+    }
 
     const result = await userShopLimitRepository.save(userShopLimit);
 
