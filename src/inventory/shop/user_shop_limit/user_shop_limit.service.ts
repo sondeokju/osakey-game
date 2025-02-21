@@ -374,14 +374,26 @@ export class UserShopLimitService {
       where: { user_id, shop_id },
     });
 
+    // 날짜가 유효한지 확인하는 함수
+    const isValidDate = (date: any) => {
+      return date instanceof Date && !isNaN(date.getTime());
+    };
+    // sell_start와 sell_end가 유효하지 않으면 기본값을 설정
+    const startDate = isValidDate(new Date(sell_start))
+      ? new Date(sell_start)
+      : new Date();
+    const endDate = isValidDate(new Date(sell_end))
+      ? new Date(sell_end)
+      : new Date();
+
     if (!userShopLimit) {
       userShopLimit = userShopLimitRepository.create({
         user_id,
         shop_id,
         buy_limit_type,
         buy_limit_count,
-        sell_start: sell_start ?? new Date(), // 기본값 적용
-        sell_end: sell_end ?? new Date(), // 기본값 적용
+        sell_start: startDate, // 기본값 적용
+        sell_end: endDate, // 기본값 적용
       });
     } else {
       //userShopLimit.buy_limit_type = free_limit_yn;
