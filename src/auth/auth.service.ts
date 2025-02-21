@@ -110,8 +110,9 @@ export class AuthService {
       userData.user_id,
     );
 
+    let update_at;
     if (!lastLoginlog) {
-      lastLoginlog.update_at = new Date();
+      update_at = new Date();
     }
     await this.zLoginLogService.loginLog(
       userData.user_id,
@@ -120,10 +121,7 @@ export class AuthService {
       provider,
     );
 
-    await this.usersService.userAccountTypeModify(
-      userData.user_id,
-      lastLoginlog.update_at,
-    );
+    await this.usersService.userAccountTypeModify(userData.user_id, update_at);
 
     //const inven = await this.getUserInvens(userData.user_id);
     const inven = await this.invenService.getUserInventoryAll(userData.user_id);
