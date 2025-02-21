@@ -1196,10 +1196,6 @@ export class UsersService {
       newAccountType = 'returning';
     }
 
-    console.log('lastLoginDate:', lastLoginDate);
-    console.log('sixMonthsAgo:', sixMonthsAgo);
-
-    console.log('newAccountType:', newAccountType);
     userData.account_type = newAccountType;
     await usersRepository.save(userData);
 
