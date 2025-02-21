@@ -52,6 +52,7 @@ export class UserShopLimitService {
         return limitCheck;
       }
 
+      console.log('-------------------1-------------------');
       const resourceCheck = await this.resourceCheckAndDeduct(
         user_id,
         shop_id,
@@ -69,12 +70,15 @@ export class UserShopLimitService {
         qr,
       );
       console.log('shopRewardData:', shopRewardData);
+      console.log('-------------------2-------------------');
 
       const userShopLimit = await this.shopPurchaseLimitCalcu(
         user_id,
         shop_id,
         qr,
       );
+
+      console.log('-------------------3-------------------');
 
       if (shouldRelease) {
         await qrInstance.commitTransaction();
