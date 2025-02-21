@@ -359,18 +359,17 @@ export class UserShopLimitService {
       userShopLimit = userShopLimitRepository.create({
         user_id,
         shop_id,
-        free_limit_yn,
         buy_limit_type,
         buy_limit_count,
-        sell_start,
-        sell_end,
+        sell_start: sell_start ?? new Date(), // 기본값 적용
+        sell_end: sell_end ?? new Date(), // 기본값 적용
       });
     } else {
-      userShopLimit.buy_limit_type = free_limit_yn;
-      userShopLimit.buy_limit_type = buy_limit_type;
+      //userShopLimit.buy_limit_type = free_limit_yn;
+      //userShopLimit.buy_limit_type = buy_limit_type;
       userShopLimit.buy_limit_count += buy_limit_count;
-      userShopLimit.sell_start = sell_start;
-      userShopLimit.sell_end = sell_end;
+      //userShopLimit.sell_start = sell_start;
+      //userShopLimit.sell_end = sell_end;
     }
 
     const result = await userShopLimitRepository.save(userShopLimit);
