@@ -236,7 +236,6 @@ export class UserShopLimitService {
 
     return { success: true, message: 'Purchase allowed' };
   }
-
   async shopPurchaseLimitCalcu(
     user_id: string,
     shop_id: number,
@@ -246,8 +245,23 @@ export class UserShopLimitService {
     let userShopLimit = await userShopLimitRepository.findOne({
       where: { user_id, shop_id },
     });
+
     const shopData = await this.shopService.getShop(shop_id, qr);
-    console.log('shopData:', shopData); // 확인용 로그
+
+    console.log('shopData:', shopData); // 문제 확인용 로그
+
+    // 날짜가 유효한지 확인하는 함수
+    const isValidDate = (date: any) => {
+      return date instanceof Date && !isNaN(date.getTime());
+    };
+
+    // sell_start와 sell_end가 유효하지 않으면 기본값을 설정
+    const sellStart = isValidDate(new Date(shopData.sell_start))
+      ? new Date(shopData.sell_start)
+      : new Date();
+    const sellEnd = isValidDate(new Date(shopData.sell_end))
+      ? new Date(shopData.sell_end)
+      : new Date();
 
     if (!userShopLimit) {
       userShopLimit = userShopLimitRepository.create({
@@ -255,10 +269,8 @@ export class UserShopLimitService {
         shop_id,
         buy_limit_type: shopData.buy_limit_type,
         buy_limit_count: shopData.buy_limit_count,
-        sell_start: shopData.sell_start
-          ? new Date(shopData.sell_start)
-          : new Date(), // 확실한 기본값 적용
-        sell_end: shopData.sell_end ? new Date(shopData.sell_end) : new Date(), // 확실한 기본값 적용
+        sell_start: sellStart,
+        sell_end: sellEnd,
       });
     }
 
