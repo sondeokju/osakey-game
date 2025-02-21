@@ -126,23 +126,22 @@ export class ResourceManagerService {
       if (errorMessage) {
         console.log('차감할 자원이 부족하면 오류 반환');
         return {
-          status: 403,
-          success: false,
-          errorCode,
+          code: 0,
           message: errorMessage,
-          timestamp: new Date().toISOString(),
+          utcTimeString: new Date().toISOString(),
+          hasError: false,
         };
       }
 
-      return { success: true };
+      return { hasError: true };
     } catch (error) {
       console.error('❌ Error in validateAndDeductResources:', error.message);
+
       return {
-        status: 403,
-        success: false,
-        errorCode: 'RESOURCE_DEDUCTION_FAILED',
-        message: 'Failed to validate and deduct resources.',
-        timestamp: new Date().toISOString(),
+        code: 0,
+        message: `Failed to validate and deduct resources.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
       };
     }
   }

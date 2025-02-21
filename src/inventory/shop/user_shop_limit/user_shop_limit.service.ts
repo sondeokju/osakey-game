@@ -48,7 +48,7 @@ export class UserShopLimitService {
         qr,
       );
 
-      if (!limitCheck.success) {
+      if (!limitCheck.hasError) {
         return limitCheck;
       }
 
@@ -61,7 +61,7 @@ export class UserShopLimitService {
 
       console.log('resourceCheck:', resourceCheck);
 
-      if (!resourceCheck.success) {
+      if (!resourceCheck.hasError) {
         return resourceCheck;
       }
       const shopRewardData = await this.shopPurchaseReward(
@@ -122,7 +122,7 @@ export class UserShopLimitService {
     console.log('gord:', shopData.price_count);
     switch (shopData.price_kind) {
       case 'free':
-        return { success: true, message: 'Free item, no deduction required' };
+        return { hasError: true, message: 'Free item, no deduction required' };
 
       case 'gord':
         resourceDeduction.gord = shopData.price_count;
@@ -143,7 +143,7 @@ export class UserShopLimitService {
         break;
 
       default:
-        return { success: false, message: 'Invalid currency type' };
+        return { hasError: false, message: 'Invalid currency type' };
     }
 
     try {
@@ -156,7 +156,7 @@ export class UserShopLimitService {
         );
       return result;
     } catch (error) {
-      return { success: false, message: error.message };
+      return { hasError: false, message: error.message };
     }
   }
 
@@ -171,29 +171,25 @@ export class UserShopLimitService {
     });
 
     if (!userShopLimit) {
-      return { success: true, message: 'Purchase allowed' };
+      return { hasError: true, message: 'Purchase allowed' };
     }
 
     if (userShopLimit.buy_limit_count <= 0) {
       //return { success: false, message: 'Purchase limit exceeded' };
       return {
-        status: 403,
-        success: false,
-        errorCode: 'PURCHASE_LIMIT_EXCEEDED',
-        message: 'Purchase limit exceeded',
-        shop_id: shop_id,
-        timestamp: new Date().toISOString(),
+        code: 0,
+        message: `${shop_id} PARAMETER ERROR`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
       };
     }
 
     if (userShopLimit.free_limit_yn === 'Y') {
       return {
-        status: 403,
-        success: false,
-        errorCode: 'PURCHASE_LIMIT_EXCEEDED',
-        message: 'Purchase free limit exceeded',
-        shop_id: shop_id,
-        timestamp: new Date().toISOString(),
+        code: 0,
+        message: `${shop_id} PARAMETER ERROR`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
       };
     }
 
@@ -208,12 +204,10 @@ export class UserShopLimitService {
       )
     ) {
       return {
-        status: 403,
-        success: false,
-        errorCode: 'PURCHASE_LIMIT_TIME_EXCEEDED',
-        message: 'Purchase sell limit exceeded',
-        shop_id: shop_id,
-        timestamp: new Date().toISOString(),
+        code: 0,
+        message: `${shop_id} PARAMETER ERROR`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
       };
     }
 
@@ -225,16 +219,14 @@ export class UserShopLimitService {
       )
     ) {
       return {
-        status: 403,
-        success: false,
-        errorCode: 'PURCHASE_LIMIT_TIME_EXCEEDED',
-        message: 'Purchase etc time limit exceeded',
-        shop_id: shop_id,
-        timestamp: new Date().toISOString(),
+        code: 0,
+        message: `${shop_id} PARAMETER ERROR`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
       };
     }
 
-    return { success: true, message: 'Purchase allowed' };
+    return { hasError: true, message: 'Purchase allowed' };
   }
   async shopPurchaseLimitCalcu(
     user_id: string,
