@@ -178,7 +178,7 @@ export class UserShopLimitService {
       //return { success: false, message: 'Purchase limit exceeded' };
       return {
         code: 0,
-        message: `${shop_id} PARAMETER ERROR`,
+        message: `${shop_id} You have exceeded the shop purchase limit.`,
         utcTimeString: new Date().toISOString(),
         hasError: false,
       };
@@ -187,7 +187,7 @@ export class UserShopLimitService {
     if (userShopLimit.free_limit_yn === 'Y') {
       return {
         code: 0,
-        message: `${shop_id} PARAMETER ERROR`,
+        message: `${shop_id} You have already used up your free diamond purchase.`,
         utcTimeString: new Date().toISOString(),
         hasError: false,
       };
@@ -205,7 +205,7 @@ export class UserShopLimitService {
     ) {
       return {
         code: 0,
-        message: `${shop_id} PARAMETER ERROR`,
+        message: `${shop_id} You have exceeded the purchase time limit.`,
         utcTimeString: new Date().toISOString(),
         hasError: false,
       };
@@ -220,7 +220,7 @@ export class UserShopLimitService {
     ) {
       return {
         code: 0,
-        message: `${shop_id} PARAMETER ERROR`,
+        message: `${shop_id} You have exceeded the individual shop purchase time limit.`,
         utcTimeString: new Date().toISOString(),
         hasError: false,
       };
