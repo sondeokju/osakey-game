@@ -1196,8 +1196,8 @@ export class UsersService {
       newAccountType = 'returning';
     }
 
-    console.log('update_at`이 6개월 이상이면 `lastLoginDate:', lastLoginDate);
-    console.log('update_at`이 6개월 이상이면 `sixMonthsAgo:', sixMonthsAgo);
+    console.log('lastLoginDate:', lastLoginDate);
+    console.log('sixMonthsAgo:', sixMonthsAgo);
 
     console.log('newAccountType:', newAccountType);
     userData.account_type = newAccountType;
