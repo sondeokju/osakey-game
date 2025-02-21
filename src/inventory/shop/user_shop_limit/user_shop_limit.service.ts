@@ -166,16 +166,9 @@ export class UserShopLimitService {
       where: { user_id, shop_id },
     });
 
-    // if (!userShopLimit) {
-    //   return {
-    //     status: 403,
-    //     success: false,
-    //     errorCode: 'PURCHASE_LIMIT_EXCEEDED',
-    //     message: 'No purchase record found',
-    //     shop_id: shop_id,
-    //     timestamp: new Date().toISOString(),
-    //   };
-    // }s
+    if (!userShopLimit) {
+      return { success: true, message: 'Purchase allowed' };
+    }
 
     if (userShopLimit.buy_limit_count <= 0) {
       //return { success: false, message: 'Purchase limit exceeded' };
