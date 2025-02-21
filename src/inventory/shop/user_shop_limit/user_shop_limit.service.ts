@@ -394,8 +394,8 @@ export class UserShopLimitService {
         shop_id,
         buy_limit_type: shopData.buy_limit_type,
         buy_limit_count: shopData.buy_limit_count,
-        sell_start: shopData.sell_start,
-        sell_end: shopData.sell_end,
+        sell_start: shopData.sell_start ?? new Date(),
+        sell_end: shopData.sell_end ?? new Date(),
         buy_limit_start_time: now,
         buy_limit_end_time: new Date(
           now.getTime() + shopData.buy_limit_time * 60 * 60 * 1000,
