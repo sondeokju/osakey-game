@@ -247,6 +247,7 @@ export class UserShopLimitService {
       where: { user_id, shop_id },
     });
     const shopData = await this.shopService.getShop(shop_id, qr);
+    console.log('shopData:', shopData); // 확인용 로그
 
     if (!userShopLimit) {
       userShopLimit = userShopLimitRepository.create({
@@ -254,8 +255,10 @@ export class UserShopLimitService {
         shop_id,
         buy_limit_type: shopData.buy_limit_type,
         buy_limit_count: shopData.buy_limit_count,
-        sell_start: shopData.sell_start ?? new Date(), // 기본값 적용
-        sell_end: shopData.sell_end ?? new Date(), // 기본값 적용
+        sell_start: shopData.sell_start
+          ? new Date(shopData.sell_start)
+          : new Date(), // 확실한 기본값 적용
+        sell_end: shopData.sell_end ? new Date(shopData.sell_end) : new Date(), // 확실한 기본값 적용
       });
     }
 
