@@ -56,4 +56,11 @@ export class UserDispatch extends BaseModel {
     default: '',
   })
   dispatch_status: string;
+
+  @Column({
+    type: 'char',
+    length: 1,
+    default: 'N',
+  })
+  dispatch_unlock: string;
 }
