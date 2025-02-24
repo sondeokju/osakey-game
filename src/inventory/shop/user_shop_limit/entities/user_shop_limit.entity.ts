@@ -44,26 +44,6 @@ export class UserShopLimit extends BaseModel {
     },
     default: () => 'CURRENT_TIMESTAMP',
   })
-  buy_limit_start_time: Date;
-
-  @Column({
-    type: 'datetime',
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: string) => new Date(value),
-    },
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  buy_limit_end_time: Date;
-
-  @Column({
-    type: 'datetime',
-    transformer: {
-      to: (value: Date) => value,
-      from: (value: string) => new Date(value),
-    },
-    default: () => 'CURRENT_TIMESTAMP',
-  })
   sell_start: Date;
 
   @Column({
@@ -75,4 +55,24 @@ export class UserShopLimit extends BaseModel {
     default: () => 'CURRENT_TIMESTAMP',
   })
   sell_end: Date;
+
+  @Column({
+    type: 'datetime',
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: string) => new Date(value),
+    },
+    default: () => 'null',
+  })
+  buy_limit_start_time: Date;
+
+  @Column({
+    type: 'datetime',
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: string) => new Date(value),
+    },
+    default: () => 'null',
+  })
+  buy_limit_end_time: Date;
 }
