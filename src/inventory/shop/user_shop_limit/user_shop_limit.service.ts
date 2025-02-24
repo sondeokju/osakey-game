@@ -208,7 +208,7 @@ export class UserShopLimitService {
         };
         break;
 
-      case 'diamon_paid':
+      case 'diamond_paid':
         resourceDeduction.dia = {
           amount: shopData.price_count,
           mode: 'paid',
