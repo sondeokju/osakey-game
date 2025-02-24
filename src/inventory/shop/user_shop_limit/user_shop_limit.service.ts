@@ -42,6 +42,13 @@ export class UserShopLimitService {
     }
 
     try {
+      const shopData = await this.shopService.getShop(shop_id, qr);
+
+      const deductedCurrency = {
+        price_kind: shopData.price_kind,
+        price_count: shopData.price_count,
+      };
+
       const limitCheck = await this.shopPurchaseLimitCheck(
         user_id,
         shop_id,
@@ -84,6 +91,7 @@ export class UserShopLimitService {
           userItemData: shopRewardData,
         },
         userShopLimit,
+        deductedCurrency,
       };
     } catch (error) {
       if (shouldRelease) {
