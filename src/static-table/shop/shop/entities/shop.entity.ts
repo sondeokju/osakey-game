@@ -73,4 +73,40 @@ export class Shop {
     default: () => 'CURRENT_TIMESTAMP',
   })
   sell_end: Date;
+
+  @Column({
+    type: 'varchar',
+    length: 128,
+    default: '',
+  })
+  shop_type: string;
+
+  @Column({
+    default: 0,
+  })
+  main_tab: number;
+
+  @Column({
+    default: 0,
+  })
+  sub_tab: number;
+
+  @Column({
+    default: 0,
+  })
+  sort_number: number;
+
+  @Column({
+    type: 'varchar',
+    length: 128,
+    default: '',
+  })
+  sign_icon_1_name: string;
+
+  @Column({
+    type: 'varchar',
+    length: 128,
+    default: '',
+  })
+  sign_icon_2_name: string;
 }
