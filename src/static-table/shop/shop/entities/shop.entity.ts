@@ -101,6 +101,13 @@ export class Shop {
     length: 128,
     default: '',
   })
+  item_icon_name: string;
+
+  @Column({
+    type: 'varchar',
+    length: 128,
+    default: '',
+  })
   sign_icon_1_name: string;
 
   @Column({
