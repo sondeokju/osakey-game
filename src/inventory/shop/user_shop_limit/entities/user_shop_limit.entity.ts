@@ -62,7 +62,8 @@ export class UserShopLimit extends BaseModel {
       to: (value: Date) => value,
       from: (value: string) => new Date(value),
     },
-    default: () => 'null',
+    nullable: true, // 컬럼이 null 값을 허용하도록 설정
+    default: null,
   })
   buy_limit_start_time: Date;
 
@@ -72,7 +73,8 @@ export class UserShopLimit extends BaseModel {
       to: (value: Date) => value,
       from: (value: string) => new Date(value),
     },
-    default: () => 'null',
+    nullable: true, // 컬럼이 null 값을 허용하도록 설정
+    default: null,
   })
   buy_limit_end_time: Date;
 }
