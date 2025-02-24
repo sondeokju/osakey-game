@@ -19,6 +19,13 @@ export class MissionSub {
   mission_kind: string;
 
   @Column({
+    default: '',
+    type: 'varchar',
+    length: 32,
+  })
+  mission_rank: string;
+
+  @Column({
     default: 0,
   })
   npc: number;
@@ -74,4 +81,9 @@ export class MissionSub {
     default: 0,
   })
   reward_id: number;
+
+  @Column({
+    default: 0,
+  })
+  reward_npc_friendship: number;
 }

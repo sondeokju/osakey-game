@@ -55,8 +55,8 @@ export class UserHeroService {
       throw new BadRequestException('Failed to process reward.');
     }
 
-    //영웅 등급 파견 해금
-    await this.dispatchUnlock(user_id, qr);
+    // //영웅 등급 파견 해금
+    // await this.dispatchUnlock(user_id, qr);
 
     return {
       reward: {

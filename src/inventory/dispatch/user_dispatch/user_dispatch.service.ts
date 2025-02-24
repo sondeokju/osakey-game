@@ -35,6 +35,30 @@ export class UserDispatchService {
     return result;
   }
 
+  //파견 상태 (IN_PROGRESS, COMPLETED, FAILED, GREAT COMPLETED)
+  async dispatchRentama(user_id: string, mission_id: number, qr?: QueryRunner) {
+    const userDispatchRepository = this.getUserDispatchRepository(qr);
+    let userDispatch = await userDispatchRepository.findOne({
+      where: { user_id, mission_id },
+    });
+
+    if (!userDispatch) {
+      userDispatch = userDispatchRepository.create({
+        user_id,
+        mission_id,
+        dispatch_start_date: new Date(),
+        dispatch_status: 'IN_PROGRESS',
+      });
+    } else {
+      userDispatch.mission_id = mission_id;
+    }
+
+    // 생성 혹은 업데이트된 객체를 저장합니다.
+    const result = await userDispatchRepository.save(userDispatch);
+
+    return result;
+  }
+
   async dispatchUnlock(user_id: string, qr?: QueryRunner) {
     await this.dataSource.query(
       `UPDATE user_dispatch
@@ -43,18 +67,4 @@ export class UserDispatchService {
       [user_id],
     );
   }
-
-  // async dispatchUnlock(user_id: string, qr?: QueryRunner) {
-  //   const userDispatchRepository = this.getUserDispatchRepository(qr);
-  //   const userDispatch = await userDispatchRepository.find({
-  //     where: {
-  //       user_id,
-  //     },
-  //   });
-
-  //   userDispatch. = 'Y';
-  //   const result = await userDispatchRepository.save(userDispatch);
-
-  //   return result;
-  // }
 }

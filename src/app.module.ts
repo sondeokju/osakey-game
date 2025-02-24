@@ -29,6 +29,8 @@ import { RequestLoggingMiddleware } from './common/middleware/request-logging.mi
 import { entities } from './entity_group/entity';
 import { entities_module } from './entity_group/entity_module';
 import { RedisModule } from './redis/redis.module';
+import { UserRentamaEquipSlotModule } from './user_rentama_equip_slot/user_rentama_equip_slot.module';
+import { DispatchRewardModule } from './dispatch_reward/dispatch_reward.module';
 
 @Module({
   imports: [
@@ -70,6 +72,8 @@ import { RedisModule } from './redis/redis.module';
     }),
     ...entities_module,
     RedisModule,
+    UserRentamaEquipSlotModule,
+    DispatchRewardModule,
   ],
   controllers: [AppController],
   providers: [
