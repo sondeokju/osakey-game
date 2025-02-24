@@ -170,7 +170,7 @@ export class UserShopLimitService {
       where: { user_id, shop_id },
     });
 
-    if (!userShopLimit) {
+    if (!userShopLimit || userShopLimit.buy_limit_type === 'NONE') {
       return { hasError: true, message: 'Purchase allowed' };
     }
 
