@@ -83,9 +83,9 @@ export class UserShopLimitService {
         },
       ];
     } else if (shopData.price_kind === 'free') {
-      deductedCurrency = [{}];
+      //deductedCurrency = [{}];
     } else if (shopData.price_kind === 'cash') {
-      deductedCurrency = [{}];
+      //deductedCurrency = [{}];
     }
 
     return deductedCurrency;
