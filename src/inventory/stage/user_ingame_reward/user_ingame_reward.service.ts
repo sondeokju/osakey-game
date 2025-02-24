@@ -126,7 +126,9 @@ export class UserIngameRewardService {
       qr,
     );
 
-    await this.incrementMissionClearCount(user_id, mission_id);
+    if (stage_clear_yn === 'Y') {
+      await this.incrementMissionClearCount(user_id, mission_id);
+    }
 
     const newReward = userIngameRewardRepository.create({
       user_id,
