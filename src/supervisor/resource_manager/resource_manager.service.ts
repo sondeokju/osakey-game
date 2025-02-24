@@ -50,7 +50,7 @@ export class ResourceManagerService {
           errorCode = 'INSUFFICIENT_ITEM';
           errorMessage = 'Not enough items.';
         } else {
-          await this.userItemService.reduceItem(
+          reduceItem = await this.userItemService.reduceItem(
             user_id,
             resources.item.item_id,
             resources.item.count,
@@ -68,7 +68,11 @@ export class ResourceManagerService {
           errorCode = 'INSUFFICIENT_GORD';
           errorMessage = 'Not enough Gord.';
         } else {
-          await this.usersService.reduceGord(user_id, resources.gord, qr);
+          reduceItem = await this.usersService.reduceGord(
+            user_id,
+            resources.gord,
+            qr,
+          );
         }
       }
 
@@ -104,7 +108,11 @@ export class ResourceManagerService {
           errorCode = 'INSUFFICIENT_EXP';
           errorMessage = 'Not enough EXP.';
         } else {
-          await this.usersService.addExp(user_id, resources.exp, qr);
+          reduceItem = await this.usersService.addExp(
+            user_id,
+            resources.exp,
+            qr,
+          );
         }
       }
 
