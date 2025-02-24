@@ -128,7 +128,7 @@ export class UserShopLimitService {
         resourceDeduction.gord = shopData.price_count;
         break;
 
-      case 'diamon_mix':
+      case 'diamond_mix':
         console.log('--------------diamon_mix--------------');
         resourceDeduction.dia = {
           amount: shopData.price_count,
