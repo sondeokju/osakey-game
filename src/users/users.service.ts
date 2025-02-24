@@ -623,6 +623,8 @@ export class UsersService {
       [diamondFree, diamondPaid, user_id],
     );
 
+    console.log('---------------mix------------------');
+
     return { user_id, diamond_free: diamondFree, diamond_paid: diamondPaid };
   }
 
