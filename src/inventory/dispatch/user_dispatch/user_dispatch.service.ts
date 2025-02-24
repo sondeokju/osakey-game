@@ -9,12 +9,22 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { UserDispatch } from './entities/user_dispatch.entity';
 import { DataSource } from 'typeorm';
+import { MissionSubService } from 'src/static-table/mission_sub/mission_sub.service';
+import { DispatchService } from 'src/static-table/dispatch/dispatch/dispatch.service';
+import { DispatchConfigService } from 'src/static-table/dispatch/dispatch_config/dispatch_config.service';
+import { DispatchEquipGradeService } from 'src/static-table/dispatch/dispatch_equip_grade/dispatch_equip_grade.service';
+import { DispatchEquipLevelService } from 'src/static-table/dispatch/dispatch_equip_level/dispatch_equip_level.service';
 
 @Injectable()
 export class UserDispatchService {
   constructor(
     @InjectRepository(UserDispatch)
     private readonly userDispatchRepository: Repository<UserDispatch>,
+    private readonly missionSubService: MissionSubService,
+    private readonly dispatchService: DispatchService,
+    private readonly dispatchConfigService: DispatchConfigService,
+    private readonly dispatchEquipGradeService: DispatchEquipGradeService,
+    private readonly dispatchEquipLevelService: DispatchEquipLevelService,
     private readonly dataSource: DataSource,
   ) {}
 

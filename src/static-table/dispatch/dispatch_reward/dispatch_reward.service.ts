@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDispatchRewardDto } from './dto/create-dispatch_reward.dto';
-import { UpdateDispatchRewardDto } from './dto/update-dispatch_reward.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { DispatchReward } from './entities/dispatch_reward.entity';
 
 @Injectable()
 export class DispatchRewardService {
-  create(createDispatchRewardDto: CreateDispatchRewardDto) {
-    return 'This action adds a new dispatchReward';
+  constructor(
+    @InjectRepository(DispatchReward)
+    private readonly dispatchConfigRepository: Repository<DispatchReward>,
+  ) {}
+
+  getDispatchRewardRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<DispatchReward>(DispatchReward)
+      : this.dispatchConfigRepository;
   }
 
-  findAll() {
-    return `This action returns all dispatchReward`;
+  async getDispatchConfigAll(qr?: QueryRunner) {
+    const dispatchRewardRepository = this.getDispatchRewardRepository(qr);
+    const result = await dispatchRewardRepository.find({});
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} dispatchReward`;
-  }
+  async getDispatchReward(mission_rank: string, qr?: QueryRunner) {
+    const dispatchRewardRepository = this.getDispatchRewardRepository(qr);
+    const result = await dispatchRewardRepository.find({
+      where: {
+        mission_rank,
+      },
+    });
 
-  update(id: number, updateDispatchRewardDto: UpdateDispatchRewardDto) {
-    return `This action updates a #${id} dispatchReward`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} dispatchReward`;
+    return result;
   }
 }
