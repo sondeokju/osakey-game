@@ -101,6 +101,16 @@ export class UserShopLimitService {
     }
 
     try {
+      const shopData = await this.shopService.getShop(shop_id, qr);
+      if (shopData.price_kind === 'cash') {
+        return {
+          reward: {
+            userItemData: {},
+          },
+          userShopLimit: {},
+          deductedCurrency: [],
+        };
+      }
       const limitCheck = await this.shopPurchaseLimitCheck(
         user_id,
         shop_id,
