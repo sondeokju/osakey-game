@@ -13,6 +13,7 @@ import { ShopPackageService } from 'src/static-table/shop/shop_package/shop_pack
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { DataSource } from 'typeorm';
 import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager.service';
+import { ItemService } from 'src/static-table/item/item.service';
 
 @Injectable()
 export class UserShopLimitService {
@@ -23,6 +24,7 @@ export class UserShopLimitService {
     private readonly shopPackageService: ShopPackageService,
     private readonly rewardOfferService: RewardOfferService,
     private readonly resourceManagerService: ResourceManagerService,
+    private readonly itemService: ItemService,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -44,10 +46,13 @@ export class UserShopLimitService {
     try {
       const shopData = await this.shopService.getShop(shop_id, qr);
 
-      const deductedCurrency = {
-        price_kind: shopData.price_kind,
-        price_count: shopData.price_count,
-      };
+      const item = await this.itemService.getItemName(shopData.price_kind, qr);
+      const deductedCurrency = [
+        {
+          item_id: item.item_id,
+          item_count: shopData.price_count,
+        },
+      ];
 
       const limitCheck = await this.shopPurchaseLimitCheck(
         user_id,

@@ -32,6 +32,16 @@ export class ItemService {
     return result;
   }
 
+  async getItemName(item_name: string, qr?: QueryRunner) {
+    const itemRepository = this.getItemRepository(qr);
+    const result = await itemRepository.findOne({
+      where: {
+        item_name,
+      },
+    });
+    return result;
+  }
+
   async getItemOne(item_id: number) {
     const result = this.itemRepository.findOne({
       where: {
