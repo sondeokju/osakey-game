@@ -40,26 +40,20 @@ export class UserShopLimitService {
 
     if (shopData.price_kind === 'diamond_mix') {
       // diamond_mix일 경우 두 개의 아이템 (diamond_free, diamond_paid) 모두 사용
-      const dia_free = await this.itemService.getItemName(
-        resourceCheck['reduceItem'].diamond_free,
-        qr,
-      );
+      const dia_free = await this.itemService.getItemName('diamond_free', qr);
 
       console.log('dia_free:', dia_free);
-      const dia_paid = await this.itemService.getItemName(
-        resourceCheck['reduceItem'].diamond_paid,
-        qr,
-      );
+      const dia_paid = await this.itemService.getItemName('diamond_paid', qr);
       console.log('dia_paid:', dia_paid);
 
       deductedCurrency = [
         {
           item_id: dia_free.item_id,
-          item_count: shopData.price_count,
+          item_count: resourceCheck['reduceItem'].diamond_free,
         },
         {
           item_id: dia_paid.item_id,
-          item_count: shopData.price_count,
+          item_count: resourceCheck['reduceItem'].diamond_paid,
         },
       ];
       // } else {
