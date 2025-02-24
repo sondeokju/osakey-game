@@ -614,6 +614,9 @@ export class UsersService {
       throw new Error('Invalid mode');
     }
 
+    console.log('diamondFree:', diamondFree);
+    console.log('diamondPaid:', diamondPaid);
+
     await qr.manager.query(
       `UPDATE users SET diamond_free = ?, diamond_paid = ?, update_at = CURRENT_TIMESTAMP
      WHERE user_id = ?`,
