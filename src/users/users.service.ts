@@ -563,7 +563,7 @@ export class UsersService {
 
     return result;
   }
-  
+
   async deductDiamonds(
     user_id: string,
     amount: number,
@@ -581,6 +581,8 @@ export class UsersService {
 
     let diamondFree = user[0].diamond_free;
     let diamondPaid = user[0].diamond_paid;
+    let dia_free;
+    let dia_paid;
 
     if (mode === 'free') {
       if (amount > diamondFree) {
@@ -594,21 +596,19 @@ export class UsersService {
       diamondPaid -= amount;
     } else if (mode === 'mixed') {
       const dia_sum = diamondFree + diamondPaid;
-      console.log('dia_sum:', dia_sum);
       if (amount > dia_sum) {
         throw new BadRequestException('Not enough dia');
       }
       if (diamondFree >= amount) {
-        console.log('diamondFree:', diamondFree);
+        dia_free = amount;
+        dia_paid = 0;
         diamondFree -= amount;
       } else {
         const remaining = amount - diamondFree;
-        console.log('amount:', amount);
-        console.log('diamondFree:', diamondFree);
-        console.log('remaining:', remaining);
+        dia_free = diamondFree;
+        dia_paid = remaining;
         diamondFree = 0;
         diamondPaid -= remaining;
-        console.log('diamondPaid:', diamondPaid);
       }
     } else {
       throw new Error('Invalid mode');
@@ -625,7 +625,7 @@ export class UsersService {
 
     console.log('---------------mix------------------');
 
-    return { user_id, diamond_free: diamondFree, diamond_paid: diamondPaid };
+    return { user_id, diamond_free: dia_free, diamond_paid: dia_paid };
   }
 
   async deductPaidDiamond(
