@@ -52,7 +52,6 @@ export class UserShopLimitService {
         return limitCheck;
       }
 
-      console.log('-------------------1-------------------');
       const resourceCheck = await this.resourceCheckAndDeduct(
         user_id,
         shop_id,
@@ -70,15 +69,12 @@ export class UserShopLimitService {
         qr,
       );
       console.log('shopRewardData:', shopRewardData);
-      console.log('-------------------2-------------------');
 
       const userShopLimit = await this.shopPurchaseLimitCalcu(
         user_id,
         shop_id,
         qr,
       );
-
-      console.log('-------------------3-------------------');
 
       if (shouldRelease) {
         await qrInstance.commitTransaction();
@@ -213,19 +209,19 @@ export class UserShopLimitService {
     }
 
     // ✅ 구매 가능 시간 체크 (buy_limit_start_time <= now <= buy_limit_end_time)
-    if (
-      !(
-        now >= userShopLimit.buy_limit_start_time &&
-        now <= userShopLimit.buy_limit_end_time
-      )
-    ) {
-      return {
-        code: 0,
-        message: `${shop_id} You have exceeded the individual shop purchase time limit.`,
-        utcTimeString: new Date().toISOString(),
-        hasError: false,
-      };
-    }
+    // if (
+    //   !(
+    //     now >= userShopLimit.buy_limit_start_time &&
+    //     now <= userShopLimit.buy_limit_end_time
+    //   )
+    // ) {
+    //   return {
+    //     code: 0,
+    //     message: `${shop_id} You have exceeded the individual shop purchase time limit.`,
+    //     utcTimeString: new Date().toISOString(),
+    //     hasError: false,
+    //   };
+    // }
 
     return { hasError: true, message: 'Purchase allowed' };
   }
