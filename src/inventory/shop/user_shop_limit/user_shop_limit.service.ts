@@ -119,7 +119,7 @@ export class UserShopLimitService {
     } = {};
 
     console.log('price_kind:', shopData.price_kind);
-    console.log('gord:', shopData.price_count);
+    console.log('price_count:', shopData.price_count);
     switch (shopData.price_kind) {
       case 'free':
         return { hasError: true, message: 'Free item, no deduction required' };
@@ -129,6 +129,7 @@ export class UserShopLimitService {
         break;
 
       case 'diamon_mix':
+        console.log('--------------diamon_mix--------------');
         resourceDeduction.dia = {
           amount: shopData.price_count,
           mode: 'mixed',
