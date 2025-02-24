@@ -284,7 +284,15 @@ export class UserShopLimitService {
       };
     }
 
-    // ✅ 구매 가능 시간 체크 (buy_limit_start_time <= now <= buy_limit_end_time)
+    // buy_limit_start_time 또는 buy_limit_end_time이 null이면, 시간 제한이 없으므로 바로 구매 가능 처리
+    // if (
+    //   !userShopLimit.buy_limit_start_time ||
+    //   !userShopLimit.buy_limit_end_time
+    // ) {
+    //   return { hasError: true, message: 'Purchase allowed' };
+    // }
+
+    // 구매 가능 시간 체크 (buy_limit_start_time <= now <= buy_limit_end_time)
     // if (
     //   !(
     //     now >= userShopLimit.buy_limit_start_time &&
@@ -301,6 +309,7 @@ export class UserShopLimitService {
 
     return { hasError: true, message: 'Purchase allowed' };
   }
+
   async shopPurchaseLimitCalcu(
     user_id: string,
     shop_id: number,
