@@ -46,13 +46,13 @@ export class UserShopLimitService {
     try {
       const shopData = await this.shopService.getShop(shop_id, qr);
 
-      const item = await this.itemService.getItemName(shopData.price_kind, qr);
-      const deductedCurrency = [
-        {
-          item_id: item.item_id,
-          item_count: shopData.price_count,
-        },
-      ];
+      //const item = await this.itemService.getItemName(shopData.price_kind, qr);
+      // const deductedCurrency = [
+      //   {
+      //     item_id: item.item_id,
+      //     item_count: shopData.price_count,
+      //   },
+      // ];
 
       const limitCheck = await this.shopPurchaseLimitCheck(
         user_id,
@@ -96,7 +96,7 @@ export class UserShopLimitService {
           userItemData: shopRewardData,
         },
         userShopLimit,
-        deductedCurrency,
+        //deductedCurrency,
       };
     } catch (error) {
       if (shouldRelease) {
