@@ -120,6 +120,8 @@ import { UserAchieveRankingModule } from 'src/inventory/achievement/user_achieve
 import { ShopPackageModule } from 'src/static-table/shop/shop_package/shop_package.module';
 import { ShopModule } from 'src/static-table/shop/shop/shop.module';
 import { UserShopLimitModule } from 'src/inventory/shop/user_shop_limit/user_shop_limit.module';
+import { UserRentamaEquipSlotModule } from 'src/inventory/dispatch/user_rentama_equip_slot/user_rentama_equip_slot.module';
+import { DispatchRewardModule } from 'src/static-table/dispatch/dispatch_reward/dispatch_reward.module';
 
 export const entities_module = [
   UsersModule,
@@ -244,6 +246,8 @@ export const entities_module = [
   ShopPackageModule,
   ShopModule,
   UserShopLimitModule,
+  UserRentamaEquipSlotModule,
+  DispatchRewardModule,
 ];
 
 //console.log('[DEBUG] entities_module.ts loaded:', entities_module);

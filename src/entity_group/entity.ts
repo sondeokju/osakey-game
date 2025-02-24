@@ -112,6 +112,7 @@ import { UserAchieveRanking } from 'src/inventory/achievement/user_achieve_ranki
 import { ShopPackage } from 'src/static-table/shop/shop_package/entities/shop_package.entity';
 import { Shop } from 'src/static-table/shop/shop/entities/shop.entity';
 import { UserShopLimit } from 'src/inventory/shop/user_shop_limit/entities/user_shop_limit.entity';
+import { DispatchReward } from 'src/static-table/dispatch/dispatch_reward/entities/dispatch_reward.entity';
 
 export const entities = [
   Users,
@@ -228,4 +229,6 @@ export const entities = [
   ShopPackage,
   Shop,
   UserShopLimit,
+  //UserRentamaEquipSlot,
+  DispatchReward,
 ];
