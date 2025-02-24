@@ -594,15 +594,21 @@ export class UsersService {
       diamondPaid -= amount;
     } else if (mode === 'mixed') {
       const dia_sum = diamondFree + diamondPaid;
+      console.log('dia_sum:', dia_sum);
       if (amount > dia_sum) {
         throw new BadRequestException('Not enough dia');
       }
       if (diamondFree >= amount) {
+        console.log('diamondFree:', diamondFree);
         diamondFree -= amount;
       } else {
         const remaining = amount - diamondFree;
+        console.log('amount:', amount);
+        console.log('diamondFree:', diamondFree);
+        console.log('remaining:', remaining);
         diamondFree = 0;
         diamondPaid -= remaining;
+        console.log('diamondPaid:', diamondPaid);
       }
     } else {
       throw new Error('Invalid mode');
@@ -610,14 +616,8 @@ export class UsersService {
 
     await qr.manager.query(
       `UPDATE users SET diamond_free = ?, diamond_paid = ?, update_at = CURRENT_TIMESTAMP
-     WHERE user_id = ? AND diamond_free = ? AND diamond_paid = ?`,
-      [
-        diamondFree,
-        diamondPaid,
-        user_id,
-        user[0].diamond_free,
-        user[0].diamond_paid,
-      ],
+     WHERE user_id = ?`,
+      [diamondFree, diamondPaid, user_id],
     );
 
     return { user_id, diamond_free: diamondFree, diamond_paid: diamondPaid };
