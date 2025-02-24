@@ -563,7 +563,7 @@ export class UsersService {
 
     return result;
   }
-
+  
   async deductDiamonds(
     user_id: string,
     amount: number,

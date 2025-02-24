@@ -37,6 +37,7 @@ export class ResourceManagerService {
       // ✅ 차감 실패 시 반환할 에러 메시지 및 코드 변수
       let errorMessage = '';
       let errorCode = '';
+      let reduceItem;
 
       // 🔹 아이템 차감
       if (resources.item?.count && resources.item.count > 0) {
@@ -88,7 +89,7 @@ export class ResourceManagerService {
           errorCode = 'INSUFFICIENT_DIA_MIXED';
           errorMessage = 'Not enough mixed diamonds.';
         } else {
-          await this.usersService.deductDiamonds(
+          reduceItem = await this.usersService.deductDiamonds(
             user_id,
             resources.dia.amount,
             resources.dia.mode,
@@ -133,7 +134,7 @@ export class ResourceManagerService {
         };
       }
 
-      return { hasError: true };
+      return { hasError: true, reduceItem };
     } catch (error) {
       console.error('❌ Error in validateAndDeductResources:', error.message);
 
