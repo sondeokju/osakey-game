@@ -44,10 +44,13 @@ export class UserShopLimitService {
         resourceCheck['reduceItem'].diamond_free,
         qr,
       );
+
+      console.log('dia_free:', dia_free);
       const dia_paid = await this.itemService.getItemName(
         resourceCheck['reduceItem'].diamond_paid,
         qr,
       );
+      console.log('dia_paid:', dia_paid);
 
       deductedCurrency = [
         {
@@ -59,19 +62,19 @@ export class UserShopLimitService {
           item_count: shopData.price_count,
         },
       ];
-    } else {
-      // 그 외의 경우에는 diamond_paid만 사용
-      const dia_paid = await this.itemService.getItemName(
-        resourceCheck['reduceItem'].diamond_paid,
-        qr,
-      );
+      // } else {
+      //   // 그 외의 경우에는 diamond_paid만 사용
+      //   const dia_paid = await this.itemService.getItemName(
+      //     resourceCheck['reduceItem'].diamond_paid,
+      //     qr,
+      //   );
 
-      deductedCurrency = [
-        {
-          item_id: dia_paid.item_id,
-          item_count: shopData.price_count,
-        },
-      ];
+      //   deductedCurrency = [
+      //     {
+      //       item_id: dia_paid.item_id,
+      //       item_count: shopData.price_count,
+      //     },
+      //   ];
     }
 
     return deductedCurrency;
