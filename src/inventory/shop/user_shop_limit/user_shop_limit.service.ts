@@ -39,7 +39,6 @@ export class UserShopLimitService {
     let deductedCurrency = [];
 
     if (shopData.price_kind === 'diamond_mix') {
-      // diamond_mix일 경우 두 개의 아이템 (diamond_free, diamond_paid) 모두 사용
       const dia_free = await this.itemService.getItemName('diamond_free', qr);
 
       console.log('dia_free:', dia_free);
@@ -56,19 +55,33 @@ export class UserShopLimitService {
           item_count: resourceCheck['reduceItem'].diamond_paid,
         },
       ];
-      // } else {
-      //   // 그 외의 경우에는 diamond_paid만 사용
-      //   const dia_paid = await this.itemService.getItemName(
-      //     resourceCheck['reduceItem'].diamond_paid,
-      //     qr,
-      //   );
+    } else if (shopData.price_kind === 'diamond_free') {
+      const item = await this.itemService.getItemName('diamond_free', qr);
 
-      //   deductedCurrency = [
-      //     {
-      //       item_id: dia_paid.item_id,
-      //       item_count: shopData.price_count,
-      //     },
-      //   ];
+      deductedCurrency = [
+        {
+          item_id: item.item_id,
+          item_count: shopData.price_count,
+        },
+      ];
+    } else if (shopData.price_kind === 'diamond_paid') {
+      const item = await this.itemService.getItemName('diamond_paid', qr);
+
+      deductedCurrency = [
+        {
+          item_id: item.item_id,
+          item_count: shopData.price_count,
+        },
+      ];
+    } else if (shopData.price_kind === 'gord') {
+      const item = await this.itemService.getItemName('gord', qr);
+
+      deductedCurrency = [
+        {
+          item_id: item.item_id,
+          item_count: shopData.price_count,
+        },
+      ];
     }
 
     return deductedCurrency;

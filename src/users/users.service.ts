@@ -785,7 +785,7 @@ export class UsersService {
     // `gord` 차감 후 업데이트
     await usersRepository.update(user_id, { gord: user.gord - gord });
 
-    return true;
+    return { success: true, gord: gord };
   }
 
   async reduceExp(user_id: string, exp: number, qr?: QueryRunner) {
