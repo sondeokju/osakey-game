@@ -111,7 +111,10 @@ export class UserItemService {
       item_count: userItemData.item_count - qty,
     });
 
-    return true;
+    return {
+      item_id: item_id,
+      item_count: qty,
+    };
   }
 
   async addItem(

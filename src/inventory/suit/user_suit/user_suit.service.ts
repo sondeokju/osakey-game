@@ -8,6 +8,7 @@ import { QueryRunner, Repository } from 'typeorm';
 import { UserSuit } from './entities/user_suit.entity';
 import { SuitService } from 'src/static-table/suit/suit/suit.service';
 import { UserItemService } from 'src/user_item/user_item.service';
+import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager.service';
 
 @Injectable()
 export class UserSuitService {
@@ -16,6 +17,7 @@ export class UserSuitService {
     private readonly userSuitRepository: Repository<UserSuit>,
     private readonly suitService: SuitService,
     private readonly userItemService: UserItemService,
+    private readonly resourceManagerService: ResourceManagerService,
   ) {}
 
   getUserSuitRepository(qr?: QueryRunner) {
@@ -110,19 +112,19 @@ export class UserSuitService {
     qr?: QueryRunner,
   ) {
     const userSuitRepository = this.getUserSuitRepository(qr);
-    let userSuit = await userSuitRepository.findOne({
+    let userSuitData = await userSuitRepository.findOne({
       where: { user_id, suit_id },
     });
 
-    if (userSuit && userSuit.unlock_yn === 'Y') {
+    if (userSuitData && userSuitData.unlock_yn === 'Y') {
       return {
         message: 'already unlocked it.',
       };
     }
 
     // userSuit가 없으면 생성합니다.
-    if (!userSuit) {
-      userSuit = userSuitRepository.create({
+    if (!userSuitData) {
+      userSuitData = userSuitRepository.create({
         user_id,
         suit_id,
         suit_level: 1, // 기본 값
@@ -133,23 +135,42 @@ export class UserSuitService {
       await userSuitRepository.save(userSuit);
     }
 
-    // const suitUnlockData = await this.suitService.getSuit(suit_id);
-    // const suitUnlockSuitPieceId = suitUnlockData.suit_piece_id;
-    // const suitUnlockPieceCount = suitUnlockData.unlock_piece_count;
+    const suitUnlockData = await this.suitService.getSuit(suit_id);
+    const suitUnlockSuitPieceId = suitUnlockData.suit_piece_id;
+    const suitUnlockPieceCount = suitUnlockData.unlock_piece_count;
 
-    // if (suitUnlockPieceCount >= 0) {
-    //   const reduceItemresult = await this.userItemService.reduceItem(
-    //     user_id,
-    //     suitUnlockSuitPieceId,
-    //     suitUnlockPieceCount,
-    //     qr,
-    //   );
-    // }
+    if (suitUnlockPieceCount >= 0) {
+      await this.userItemService.reduceItem(
+        user_id,
+        suitUnlockSuitPieceId,
+        suitUnlockPieceCount,
+        qr,
+      );
+    }
 
-    const result = await userSuitRepository.save(userSuit);
+    const userSuit = await userSuitRepository.save(userSuitData);
 
-    return result;
+    return {
+      // reward: {
+      //   userItemData: shopRewardData,
+      // },
+      userSuit,
+      deductedCurrency: [
+        {
+          item_id: suitUnlockSuitPieceId,
+          item_count: suitUnlockPieceCount,
+        },
+      ],
+    };
   }
+
+  //   return {
+  //   reward: {
+  //     userItemData: shopRewardData,
+  //   },
+  //   userShopLimit,
+  //   deductedCurrency,
+  // };
 
   async getUserSuit(user_id: string, qr?: QueryRunner) {
     const userSuitRepository = this.getUserSuitRepository(qr);
