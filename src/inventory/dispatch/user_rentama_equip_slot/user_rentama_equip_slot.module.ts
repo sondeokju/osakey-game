@@ -5,14 +5,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserRentamaEquipSlot } from './entities/user_rentama_equip_slot.entity';
 import { UserEquipModule } from 'src/inventory/equipment/user_equip/user_equip.module';
 import { EquipModule } from 'src/static-table/equipment/equip/equip.module';
-import { EquipLevelModule } from 'src/static-table/equipment/equip_level/equip_level.module';
+//import { EquipLevelModule } from 'src/static-table/equipment/equip_level/equip_level.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([UserRentamaEquipSlot]),
     UserEquipModule,
     EquipModule,
-    EquipLevelModule,
+    //EquipLevelModule,
   ],
   exports: [UserRentamaEquipSlotService],
   controllers: [UserRentamaEquipSlotController],
