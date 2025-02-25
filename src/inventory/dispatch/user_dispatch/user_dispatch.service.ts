@@ -414,27 +414,27 @@ export class UserDispatchService {
     return reward;
   }
 
-  async getDispatchEquipGradeRate(
-    equip_grade: string,
-    equip_level: number,
-    qr?: QueryRunner,
-  ) {
-    const gradeRate =
-      await this.dispatchEquipGradeService.getDispatchEquipGrade(
-        equip_grade,
-        qr,
-      );
-    const levelRate =
-      await this.dispatchEquipLevelService.getDispatchEquipLevel(
-        equip_level,
-        qr,
-      );
+  // async getDispatchEquipGradeRate(
+  //   equip_grade: number,
+  //   equip_level: number,
+  //   qr?: QueryRunner,
+  // ) {
+  //   const gradeRate =
+  //     await this.dispatchEquipGradeService.getDispatchEquipGrade(
+  //       equip_grade,
+  //       qr,
+  //     );
+  //   const levelRate =
+  //     await this.dispatchEquipLevelService.getDispatchEquipLevel(
+  //       equip_level,
+  //       qr,
+  //     );
 
-    return {
-      equip_grade_rate: gradeRate,
-      equip_level_rate: levelRate,
-    };
-  }
+  //   return {
+  //     equip_grade_rate: gradeRate,
+  //     equip_level_rate: levelRate,
+  //   };
+  // }
 
   async dispatchUnlock(user_id: string, qr?: QueryRunner) {
     await this.dataSource.query(
