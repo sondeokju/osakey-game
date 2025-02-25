@@ -12,7 +12,7 @@ import { DispatchRewardModule } from 'src/static-table/dispatch/dispatch_reward/
 import { RewardOfferModule } from 'src/supervisor/reward_offer/reward_offer.module';
 import { HeroModule } from 'src/static-table/hero/hero.module';
 import { UserDispatchRentamaModule } from '../user_dispatch_rentama/user_dispatch_rentama.module';
-import { UserRentamaEquipSlotService } from '../user_rentama_equip_slot/user_rentama_equip_slot.service';
+import { UserRentamaEquipSlotModule } from '../user_rentama_equip_slot/user_rentama_equip_slot.module';
 
 @Module({
   imports: [
@@ -26,7 +26,7 @@ import { UserRentamaEquipSlotService } from '../user_rentama_equip_slot/user_ren
     RewardOfferModule,
     HeroModule,
     UserDispatchRentamaModule,
-    UserRentamaEquipSlotService,
+    UserRentamaEquipSlotModule,
   ],
   exports: [UserDispatchService],
   controllers: [UserDispatchController],
