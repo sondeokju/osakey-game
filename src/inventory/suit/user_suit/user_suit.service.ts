@@ -136,10 +136,11 @@ export class UserSuitService {
     }
 
     const suitUnlockData = await this.suitService.getSuit(suit_id);
+    console.log('suitUnlockData:', suitUnlockData);
     const suitUnlockSuitPieceId = suitUnlockData.suit_piece_id;
     const suitUnlockPieceCount = suitUnlockData.unlock_piece_count;
 
-    if (suitUnlockPieceCount >= 0) {
+    if (suitUnlockPieceCount > 0) {
       await this.userItemService.reduceItem(
         user_id,
         suitUnlockSuitPieceId,
