@@ -92,12 +92,21 @@ export class UserSuitService {
     qr?: QueryRunner,
   ) {
     const userSuitRepository = this.getUserSuitRepository(qr);
-    const userSuit = await userSuitRepository.findOne({
+    let userSuit = await userSuitRepository.findOne({
       where: { user_id, suit_id },
     });
 
+    // userSuit가 없으면 생성합니다.
     if (!userSuit) {
-      throw new NotFoundException('User suit not found');
+      userSuit = userSuitRepository.create({
+        user_id,
+        suit_id,
+        suit_level: 1, // 기본 값
+        suit_special_level: 1, // 기본 값
+        unlock_yn: 'N',
+        mount_yn: 'N',
+      });
+      await userSuitRepository.save(userSuit);
     }
 
     if (userSuit.unlock_yn === 'Y') {
