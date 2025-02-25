@@ -70,20 +70,86 @@ export class UserDispatchService {
   }
 
   //E->D->C->B->A-R
-
   async defaultDispatchTime(dispatch_grade: string, mission_grade: string) {
     // 등급 순서를 낮은 등급부터 높은 등급으로 배열에 정의합니다.
     const grades = ['E', 'D', 'C', 'B', 'A', 'R'];
+
+    const DISPATCH_DEFAULT_SUCCESS_TIME =
+      await this.dispatchConfigService.getDispatchConfig(
+        'DISPATCH_DEFAULT_SUCCESS_TIME',
+      );
+
+    const DISPATCH_LOWER_SUCCESS_TIME =
+      await this.dispatchConfigService.getDispatchConfig(
+        'DISPATCH_LOWER_SUCCESS_TIME',
+      );
+
+    const DISPATCH_HIGHER_SUCCESS_TIME =
+      await this.dispatchConfigService.getDispatchConfig(
+        'DISPATCH_HIGHER_SUCCESS_TIME',
+      );
 
     // 각 등급의 인덱스를 가져옵니다.
     const dispatchIndex = grades.indexOf(dispatch_grade);
     const missionIndex = grades.indexOf(mission_grade);
 
-    // 두 등급 간 차이를 계산합니다. (예: dispatch가 mission보다 1등급 높다면 +1, 낮다면 -1)
-    const gradeDiff = dispatchIndex - missionIndex;
+    // 기본 파견 시간 60시간
+    let option = +DISPATCH_DEFAULT_SUCCESS_TIME.option;
 
-    // 기본값 60에 한 등급 차이마다 30씩 반영합니다.
-    const option = 60 + gradeDiff * 30;
+    // 파견 등급이 미션카드 난이도보다 낮은 경우 (예: dispatch가 D, mission이 B)
+    // 미션카드 난이도와의 차이만큼 30초씩 파견 시간이 늘어납니다.
+    if (dispatchIndex < missionIndex) {
+      option +=
+        (missionIndex - dispatchIndex) * +DISPATCH_LOWER_SUCCESS_TIME.option;
+    }
+    // 파견 등급이 미션카드 난이도보다 높은 경우 (예: dispatch가 A, mission이 C)
+    // 차이만큼 30초씩 파견 시간이 줄어듭니다.
+    else if (dispatchIndex > missionIndex) {
+      option -=
+        (dispatchIndex - missionIndex) * +DISPATCH_HIGHER_SUCCESS_TIME.option;
+    }
+
+    return option;
+  }
+
+  async defaultDispatchRate(dispatch_grade: string, mission_grade: string) {
+    // 등급 순서를 낮은 등급부터 높은 등급으로 배열에 정의합니다.
+    const grades = ['E', 'D', 'C', 'B', 'A', 'R'];
+
+    const DISPATCH_DEFAULT_SUCCESS_PER =
+      await this.dispatchConfigService.getDispatchConfig(
+        'DISPATCH_DEFAULT_SUCCESS_PER',
+      );
+
+    const DISPATCH_LOWER_SUCCESS_PER =
+      await this.dispatchConfigService.getDispatchConfig(
+        'DISPATCH_LOWER_SUCCESS_PER',
+      );
+
+    const DISPATCH_HIGHER_SUCCESS_PER =
+      await this.dispatchConfigService.getDispatchConfig(
+        'DISPATCH_HIGHER_SUCCESS_PER',
+      );
+
+    // 각 등급의 인덱스를 가져옵니다.
+    const dispatchIndex = grades.indexOf(dispatch_grade);
+    const missionIndex = grades.indexOf(mission_grade);
+
+    // 기본 성공 확률
+    let option = +DISPATCH_DEFAULT_SUCCESS_PER.option;
+
+    // 파견 등급이 미션카드 난이도보다 낮은 경우,
+    // 1단계 차이마다 성공 확률을 감소시킵니다.
+    if (dispatchIndex < missionIndex) {
+      option -=
+        (missionIndex - dispatchIndex) * +DISPATCH_LOWER_SUCCESS_PER.option;
+    }
+    // 파견 등급이 미션카드 난이도보다 높은 경우,
+    // 1단계 차이마다 성공 확률을 상승시킵니다.
+    else if (dispatchIndex > missionIndex) {
+      option +=
+        (dispatchIndex - missionIndex) * +DISPATCH_HIGHER_SUCCESS_PER.option;
+    }
 
     return option;
   }

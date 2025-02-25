@@ -88,12 +88,12 @@ export class UserSuitService {
   // 슈트 조각으로 슈트 해금
   async unlockSuitWithSuitPieces(
     user_id: string,
-    user_suit_id: number,
+    suit_id: number,
     qr?: QueryRunner,
   ) {
     const userSuitRepository = this.getUserSuitRepository(qr);
     const userSuit = await userSuitRepository.findOne({
-      where: { id: user_suit_id, user_id },
+      where: { user_id, suit_id },
     });
 
     if (!userSuit) {
@@ -106,7 +106,7 @@ export class UserSuitService {
       };
     }
 
-    const suitUnlockData = await this.suitService.getSuit(userSuit.suit_id);
+    const suitUnlockData = await this.suitService.getSuit(suit_id);
     const suitUnlockSuitPieceId = suitUnlockData.suit_piece_id;
     const suitUnlockPieceCount = suitUnlockData.unlock_piece_count;
 
