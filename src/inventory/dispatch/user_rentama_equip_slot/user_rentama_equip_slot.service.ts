@@ -63,7 +63,7 @@ export class UserRentamaEquipSlotService {
 
     // 각 슬롯에 해당하는 필드명을 배열로 정의
     const equipTypes = ['acc', 'engine', 'armor', 'boost', 'shoes', 'weapon'];
-    const equipGrades: number[] = [];
+    const equipLevels: number[] = [];
 
     // 각 슬롯 id에 대해 userEquip과 equip을 조회하여 equip_grade 값을 추출
     for (const equipType of equipTypes) {
@@ -76,9 +76,9 @@ export class UserRentamaEquipSlotService {
       const equipLevel = await this.equipLevelService.getEquipLevel(
         userEquip.equip_level_id,
       );
-      equipGrades.push(equipLevel.level);
+      equipLevels.push(equipLevel.level);
     }
 
-    return equipGrades;
+    return equipLevels;
   }
 }
