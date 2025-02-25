@@ -1,34 +1,60 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
+import { TransactionInterceptor } from 'src/common/interceptor/transaction.interceptor';
+import { User } from 'src/users/decorator/user.decorator';
+import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
+import { QueryRunner as QR } from 'typeorm';
+import { Users } from 'src/users/entity/users.entity';
 import { UserRentamaEquipSlotService } from './user_rentama_equip_slot.service';
-import { CreateUserRentamaEquipSlotDto } from './dto/create-user_rentama_equip_slot.dto';
-import { UpdateUserRentamaEquipSlotDto } from './dto/update-user_rentama_equip_slot.dto';
 
-@Controller('user-rentama-equip-slot')
-export class UserRentamaEquipSlotController {
-  constructor(private readonly userRentamaEquipSlotService: UserRentamaEquipSlotService) {}
+@Controller('dispatch')
+export class UserDispatchRentamaController {
+  constructor(
+    private readonly userRentamaEquipSlotService: UserRentamaEquipSlotService,
+  ) {}
 
-  @Post()
-  create(@Body() createUserRentamaEquipSlotDto: CreateUserRentamaEquipSlotDto) {
-    return this.userRentamaEquipSlotService.create(createUserRentamaEquipSlotDto);
-  }
+  // @Get()
+  // @UseInterceptors(TransactionInterceptor)
+  // async getUserDispatchRentama(@User() user: Users, @QueryRunner() qr: QR) {
+  //   const result = this.userDispatchRentamaService.getUserDispatchRentama(
+  //     user.user_id,
+  //     qr,
+  //   );
+  //   return result;
+  // }
 
-  @Get()
-  findAll() {
-    return this.userRentamaEquipSlotService.findAll();
-  }
+  // @Post('save')
+  // @UseInterceptors(TransactionInterceptor)
+  // async saveAchieve(
+  //   @User() user: Users,
+  //   @Body('achieve_id') achieve_id: number,
+  //   @Body('achieve_count') achieve_count: number,
+  //   @Body('process_status') process_status: string,
+  //   @QueryRunner() qr: QR,
+  // ) {
+  //   const result = await this.userAchievementsService.saveAchieve(
+  //     user.user_id,
+  //     achieve_id,
+  //     achieve_count,
+  //     process_status,
+  //     qr,
+  //   );
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userRentamaEquipSlotService.findOne(+id);
-  }
+  //   return JSON.stringify(result);
+  // }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserRentamaEquipSlotDto: UpdateUserRentamaEquipSlotDto) {
-    return this.userRentamaEquipSlotService.update(+id, updateUserRentamaEquipSlotDto);
-  }
+  // @Post('reward')
+  // @UseInterceptors(TransactionInterceptor)
+  // async achieveReward(
+  //   @User() user: Users,
+  //   @Body('user_achievements_id') user_achievements_id: number,
+  //   @QueryRunner() qr: QR,
+  // ) {
+  //   const result = await this.userAchievementsService.achieveReward(
+  //     user.user_id,
+  //     user_achievements_id,
+  //     qr,
+  //   );
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userRentamaEquipSlotService.remove(+id);
-  }
+  //   return JSON.stringify(result);
+  // }
 }

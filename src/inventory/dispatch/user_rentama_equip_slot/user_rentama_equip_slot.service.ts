@@ -1,26 +1,36 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserRentamaEquipSlotDto } from './dto/create-user_rentama_equip_slot.dto';
-import { UpdateUserRentamaEquipSlotDto } from './dto/update-user_rentama_equip_slot.dto';
+import {
+  BadRequestException,
+  ConsoleLogger,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { UserRentamaEquipSlot } from './entities/user_rentama_equip_slot.entity';
 
 @Injectable()
 export class UserRentamaEquipSlotService {
-  create(createUserRentamaEquipSlotDto: CreateUserRentamaEquipSlotDto) {
-    return 'This action adds a new userRentamaEquipSlot';
+  constructor(
+    @InjectRepository(UserRentamaEquipSlot)
+    private readonly userRentamaEquipSlotRepository: Repository<UserRentamaEquipSlot>,
+  ) {}
+
+  getUserRentamaEquipSlotRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<UserRentamaEquipSlot>(UserRentamaEquipSlot)
+      : this.userRentamaEquipSlotRepository;
   }
 
-  findAll() {
-    return `This action returns all userRentamaEquipSlot`;
-  }
+  async getUserRentamaEquipSlot(user_id: string, qr?: QueryRunner) {
+    const userRentamaEquipSlotRepository =
+      this.getUserRentamaEquipSlotRepository(qr);
+    const result = await userRentamaEquipSlotRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
 
-  findOne(id: number) {
-    return `This action returns a #${id} userRentamaEquipSlot`;
-  }
-
-  update(id: number, updateUserRentamaEquipSlotDto: UpdateUserRentamaEquipSlotDto) {
-    return `This action updates a #${id} userRentamaEquipSlot`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} userRentamaEquipSlot`;
+    return result;
   }
 }

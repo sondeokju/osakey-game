@@ -113,6 +113,7 @@ import { ShopPackage } from 'src/static-table/shop/shop_package/entities/shop_pa
 import { Shop } from 'src/static-table/shop/shop/entities/shop.entity';
 import { UserShopLimit } from 'src/inventory/shop/user_shop_limit/entities/user_shop_limit.entity';
 import { DispatchReward } from 'src/static-table/dispatch/dispatch_reward/entities/dispatch_reward.entity';
+import { UserRentamaEquipSlot } from 'src/inventory/dispatch/user_rentama_equip_slot/entities/user_rentama_equip_slot.entity';
 
 export const entities = [
   Users,
@@ -229,6 +230,6 @@ export const entities = [
   ShopPackage,
   Shop,
   UserShopLimit,
-  //UserRentamaEquipSlot,
+  UserRentamaEquipSlot,
   DispatchReward,
 ];
