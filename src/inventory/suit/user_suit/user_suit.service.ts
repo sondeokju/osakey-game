@@ -110,15 +110,16 @@ export class UserSuitService {
     const suitUnlockSuitPieceId = suitUnlockData.suit_piece_id;
     const suitUnlockPieceCount = suitUnlockData.unlock_piece_count;
 
-    const reduceItemresult = await this.userItemService.reduceItem(
-      user_id,
-      suitUnlockSuitPieceId,
-      suitUnlockPieceCount,
-      qr,
-    );
-    if (reduceItemresult) {
-      userSuit.unlock_yn = 'Y';
+    if (suitUnlockPieceCount >= 0) {
+      const reduceItemresult = await this.userItemService.reduceItem(
+        user_id,
+        suitUnlockSuitPieceId,
+        suitUnlockPieceCount,
+        qr,
+      );
     }
+
+    userSuit.unlock_yn = 'Y';
 
     const result = await userSuitRepository.save(userSuit);
 
