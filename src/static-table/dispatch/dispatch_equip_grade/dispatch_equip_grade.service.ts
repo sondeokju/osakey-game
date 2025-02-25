@@ -23,12 +23,12 @@ export class DispatchEquipGradeService {
     return result;
   }
 
-  async getDispatchEquipGrade(equip_grade: string, qr?: QueryRunner) {
+  async getDispatchEquipGrade(id: number, qr?: QueryRunner) {
     const dispatchEquipGradeRepository =
       this.getDispatchEquipGradeRepository(qr);
     const result = await dispatchEquipGradeRepository.findOne({
       where: {
-        equip_grade,
+        id,
       },
     });
 

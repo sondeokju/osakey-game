@@ -18,6 +18,7 @@ import { DispatchRewardService } from 'src/static-table/dispatch/dispatch_reward
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { HeroService } from 'src/static-table/hero/hero.service';
 import { UserDispatchRentamaService } from '../user_dispatch_rentama/user_dispatch_rentama.service';
+import { UserRentamaEquipSlotService } from '../user_rentama_equip_slot/user_rentama_equip_slot.service';
 
 @Injectable()
 export class UserDispatchService {
@@ -33,6 +34,7 @@ export class UserDispatchService {
     private readonly rewardOfferService: RewardOfferService,
     private readonly heroService: HeroService,
     private readonly userDispatchRentamaService: UserDispatchRentamaService,
+    private readonly userRentamaEquipSlotService: UserRentamaEquipSlotService,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -144,19 +146,25 @@ export class UserDispatchService {
       Date.now() + dispatchTimeHour * 60 * 60 * 1000,
     );
 
+    const rentama_equip_grade =
+      await this.userRentamaEquipSlotService.rentamaEquipGrade(user_id, qr);
+
+    const rentama_equip_level =
+      await this.userRentamaEquipSlotService.rentamaEquipLevel(user_id, qr);
+
     const successRate = await this.calcuSuccessRate(
       rentamaRank.rank, //dispatch_rank,
       missionSub.mission_rank, //mission_rank,
-      [], //equip_grade,
-      [], //equip_level,
+      rentama_equip_grade, //equip_grade,
+      rentama_equip_level, //equip_level,
       qr,
     );
 
     const greateSuccessRate = await this.calcuGreateSuccessRate(
       rentamaRank.rank, //dispatch_rank,
       //missionSub.mission_rank, //mission_rank,
-      [], //equip_grade,
-      [], //equip_level,
+      rentama_equip_grade, //equip_grade,
+      rentama_equip_level, //equip_level,
     );
 
     if (!userDispatch) {
@@ -181,7 +189,7 @@ export class UserDispatchService {
   async calcuSuccessRate(
     dispatch_rank: string,
     mission_rank: string,
-    equip_grade: string[],
+    equip_grade: number[],
     equip_level: number[],
     qr?: QueryRunner,
   ) {
@@ -211,7 +219,7 @@ export class UserDispatchService {
   async calcuGreateSuccessRate(
     dispatch_rank: string,
     //mission_rank: string,
-    equip_grade: string[],
+    equip_grade: number[],
     equip_level: number[],
     qr?: QueryRunner,
   ) {
@@ -243,7 +251,7 @@ export class UserDispatchService {
     return finalRate < 0 ? 0 : finalRate;
   }
 
-  async calcuEquipGradeSuccessRate(equip_grade: string[], qr?: QueryRunner) {
+  async calcuEquipGradeSuccessRate(equip_grade: number[], qr?: QueryRunner) {
     // 각 등급에서 add_success_rate 값을 누적합니다.
     let totalAddSuccessRate = 0;
     for (const grade of equip_grade) {

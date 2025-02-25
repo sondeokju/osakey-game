@@ -49,6 +49,18 @@ export class UserEquipService {
       : this.userEquipRepository;
   }
 
+  async getUserEquip(id: number, user_id: string, qr?: QueryRunner) {
+    const userEquipRepository = this.getUserEquipRepository(qr);
+    const userEquip = await userEquipRepository.findOne({
+      where: {
+        id,
+        user_id,
+      },
+    });
+
+    return userEquip;
+  }
+
   async simulateEquipSkillRandom(
     skill_equip_category: string,
     iterations: number,
