@@ -132,7 +132,7 @@ export class UserSuitService {
         unlock_yn: 'Y',
         mount_yn: 'N',
       });
-      await userSuitRepository.save(userSuit);
+      await userSuitRepository.save(userSuitData);
     }
 
     const suitUnlockData = await this.suitService.getSuit(suit_id);
@@ -148,13 +148,13 @@ export class UserSuitService {
       );
     }
 
-    const userSuit = await userSuitRepository.save(userSuitData);
+    const result = await userSuitRepository.save(userSuitData);
 
     return {
       // reward: {
       //   userItemData: shopRewardData,
       // },
-      userSuit,
+      userSuit: result,
       deductedCurrency: [
         {
           item_id: suitUnlockSuitPieceId,
