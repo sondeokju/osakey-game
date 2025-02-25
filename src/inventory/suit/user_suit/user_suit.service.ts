@@ -96,7 +96,7 @@ export class UserSuitService {
       where: { user_id, suit_id },
     });
 
-    if (userSuit.unlock_yn === 'Y') {
+    if (userSuit && userSuit.unlock_yn === 'Y') {
       return {
         message: 'already unlocked it.',
       };
