@@ -7,7 +7,7 @@ import { Users } from 'src/users/entity/users.entity';
 import { UserRentamaEquipSlotService } from './user_rentama_equip_slot.service';
 
 @Controller('dispatch')
-export class UserDispatchRentamaController {
+export class UserRentamaEquipSlotController {
   constructor(
     private readonly userRentamaEquipSlotService: UserRentamaEquipSlotService,
   ) {}
