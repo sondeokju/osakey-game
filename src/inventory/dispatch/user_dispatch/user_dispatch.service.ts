@@ -53,6 +53,68 @@ export class UserDispatchService {
     return result;
   }
 
+  async determineDispatchOutcome(
+    user_id: string,
+    mission_id: number,
+    qr?: QueryRunner,
+  ) {
+    const userDispatchRepository = this.getUserDispatchRepository(qr);
+    const userDispatch = await userDispatchRepository.findOne({
+      where: {
+        user_id,
+        mission_id,
+      },
+    });
+
+    let success;
+    let greateSuccess;
+
+    if (Math.random() <= userDispatch.dispatch_success_rate) {
+      success = 'COMPLETED';
+    } else {
+      success = 'FAILED';
+    }
+
+    if (Math.random() <= userDispatch.dispatch_greate_success_rate) {
+      greateSuccess = 'GREATCOMPLETED';
+    } else {
+      greateSuccess = 'FAILED';
+    }
+
+    if (success === 'COMPLETED' && greateSuccess === 'GREATCOMPLETED') {
+      userDispatch.dispatch_status = greateSuccess;
+    } else {
+      userDispatch.dispatch_status = success;
+    }
+
+    const result = await userDispatchRepository.save(userDispatch);
+
+    const missionSub = await this.missionSubService.getMissionSub(
+      mission_id,
+      qr,
+    );
+
+    // 성공 보상
+    if (success === 'COMPLETED') {
+      await this.rewardOfferService.reward(user_id, missionSub.reward_id, qr);
+    }
+    // 대성공 보상
+    if (greateSuccess === 'GREATCOMPLETED') {
+      const greateReward = await this.greateReward(
+        user_id,
+        missionSub.mission_rank,
+      );
+    }
+
+    return {
+      reward: {
+        userItemData: {},
+      },
+      //userShopLimit,
+      //deductedCurrency,
+    };
+  }
+
   //파견 상태 (IN_PROGRESS, COMPLETED, FAILED, GREAT COMPLETED)
   async dispatchRentama(user_id: string, mission_id: number, qr?: QueryRunner) {
     const userDispatchRepository = this.getUserDispatchRepository(qr);
@@ -341,7 +403,7 @@ export class UserDispatchService {
       reward.item_count,
     );
 
-    return result;
+    return reward;
   }
 
   async getDispatchEquipGradeRate(
