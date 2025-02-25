@@ -103,7 +103,7 @@ export class UserSuitService {
         suit_id,
         suit_level: 1, // 기본 값
         suit_special_level: 1, // 기본 값
-        unlock_yn: 'N',
+        unlock_yn: 'Y',
         mount_yn: 'N',
       });
       await userSuitRepository.save(userSuit);
@@ -127,8 +127,6 @@ export class UserSuitService {
         qr,
       );
     }
-
-    userSuit.unlock_yn = 'Y';
 
     const result = await userSuitRepository.save(userSuit);
 
