@@ -22,6 +22,17 @@ export class DispatchService {
     return result;
   }
 
+  async getDispatchGreateRate(dispatch_rank: string, qr?: QueryRunner) {
+    const dispatchRepository = this.getDispatchRepository(qr);
+    const result = await dispatchRepository.findOne({
+      where: {
+        dispatch_rank,
+      },
+    });
+
+    return result;
+  }
+
   async getDispatch(dispatch_exp_total: number, qr?: QueryRunner) {
     const dispatchRepository = this.getDispatchRepository(qr);
     const result = await dispatchRepository.findOne({

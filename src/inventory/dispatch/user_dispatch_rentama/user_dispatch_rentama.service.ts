@@ -25,6 +25,18 @@ export class UserDispatchRentamaService {
   async getUserDispatchRentama(user_id: string, qr?: QueryRunner) {
     const userDispatchRentamaRepository =
       this.getUserDispatchRentamaRepository(qr);
+    const result = await userDispatchRentamaRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    return result;
+  }
+
+  async getUserDispatchRentamaList(user_id: string, qr?: QueryRunner) {
+    const userDispatchRentamaRepository =
+      this.getUserDispatchRentamaRepository(qr);
     const result = await userDispatchRentamaRepository.find({
       where: {
         user_id,

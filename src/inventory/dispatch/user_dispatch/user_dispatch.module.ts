@@ -8,6 +8,10 @@ import { DispatchModule } from 'src/static-table/dispatch/dispatch/dispatch.modu
 import { DispatchConfigModule } from 'src/static-table/dispatch/dispatch_config/dispatch_config.module';
 import { DispatchEquipGradeModule } from 'src/static-table/dispatch/dispatch_equip_grade/dispatch_equip_grade.module';
 import { DispatchEquipLevelModule } from 'src/static-table/dispatch/dispatch_equip_level/dispatch_equip_level.module';
+import { DispatchRewardModule } from 'src/static-table/dispatch/dispatch_reward/dispatch_reward.module';
+import { RewardOfferModule } from 'src/supervisor/reward_offer/reward_offer.module';
+import { HeroModule } from 'src/static-table/hero/hero.module';
+import { UserDispatchRentamaModule } from '../user_dispatch_rentama/user_dispatch_rentama.module';
 
 @Module({
   imports: [
@@ -17,6 +21,10 @@ import { DispatchEquipLevelModule } from 'src/static-table/dispatch/dispatch_equ
     DispatchConfigModule,
     DispatchEquipGradeModule,
     DispatchEquipLevelModule,
+    DispatchRewardModule,
+    RewardOfferModule,
+    HeroModule,
+    UserDispatchRentamaModule,
   ],
   exports: [UserDispatchService],
   controllers: [UserDispatchController],

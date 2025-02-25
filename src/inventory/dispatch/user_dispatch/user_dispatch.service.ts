@@ -14,6 +14,10 @@ import { DispatchService } from 'src/static-table/dispatch/dispatch/dispatch.ser
 import { DispatchConfigService } from 'src/static-table/dispatch/dispatch_config/dispatch_config.service';
 import { DispatchEquipGradeService } from 'src/static-table/dispatch/dispatch_equip_grade/dispatch_equip_grade.service';
 import { DispatchEquipLevelService } from 'src/static-table/dispatch/dispatch_equip_level/dispatch_equip_level.service';
+import { DispatchRewardService } from 'src/static-table/dispatch/dispatch_reward/dispatch_reward.service';
+import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
+import { HeroService } from 'src/static-table/hero/hero.service';
+import { UserDispatchRentamaService } from '../user_dispatch_rentama/user_dispatch_rentama.service';
 
 @Injectable()
 export class UserDispatchService {
@@ -25,6 +29,10 @@ export class UserDispatchService {
     private readonly dispatchConfigService: DispatchConfigService,
     private readonly dispatchEquipGradeService: DispatchEquipGradeService,
     private readonly dispatchEquipLevelService: DispatchEquipLevelService,
+    private readonly dispatchRewardService: DispatchRewardService,
+    private readonly rewardOfferService: RewardOfferService,
+    private readonly heroService: HeroService,
+    private readonly userDispatchRentamaService: UserDispatchRentamaService,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -52,21 +60,157 @@ export class UserDispatchService {
       where: { user_id, mission_id },
     });
 
+    const missionSub = await this.missionSubService.getMissionSub(
+      mission_id,
+      qr,
+    );
+
+    const userDispatchRentama =
+      await this.userDispatchRentamaService.getUserDispatchRentama(user_id, qr);
+
+    const rentamaRank = await this.heroService.getHeroLevel(
+      userDispatchRentama.rentama_level,
+      qr,
+    );
+
+    const dispatchTimeHour = await this.defaultDispatchTime(
+      rentamaRank.rank, //dispatch_rank,
+      missionSub.mission_rank, //mission_rank,
+    );
+
+    const dispatchEndDate = new Date(
+      Date.now() + dispatchTimeHour * 60 * 60 * 1000,
+    );
+
+    const successRate = await this.calcuSuccessRate(
+      rentamaRank.rank, //dispatch_rank,
+      missionSub.mission_rank, //mission_rank,
+      [], //equip_grade,
+      [], //equip_level,
+      qr,
+    );
+
+    const greateSuccessRate = await this.calcuGreateSuccessRate(
+      rentamaRank.rank, //dispatch_rank,
+      //missionSub.mission_rank, //mission_rank,
+      [], //equip_grade,
+      [], //equip_level,
+    );
+
     if (!userDispatch) {
       userDispatch = userDispatchRepository.create({
         user_id,
         mission_id,
         dispatch_start_date: new Date(),
+        dispatch_end_date: dispatchEndDate,
+        dispatch_success_rate: successRate,
+        dispatch_greate_success_rate: greateSuccessRate,
         dispatch_status: 'IN_PROGRESS',
+        dispatch_unlock: 'Y',
       });
-    } else {
-      userDispatch.mission_id = mission_id;
     }
 
     // 생성 혹은 업데이트된 객체를 저장합니다.
     const result = await userDispatchRepository.save(userDispatch);
 
     return result;
+  }
+
+  async calcuSuccessRate(
+    dispatch_rank: string,
+    mission_rank: string,
+    equip_grade: string[],
+    equip_level: number[],
+    qr?: QueryRunner,
+  ) {
+    let finalRate = 0;
+
+    const baseRate = await this.defaultDispatchRate(
+      dispatch_rank,
+      mission_rank,
+    );
+
+    const equipGradeRate = await this.calcuEquipGradeSuccessRate(
+      equip_grade,
+      qr,
+    );
+
+    const equipLevelRate = await this.calcuEquipLevelSuccessRate(
+      equip_level,
+      qr,
+    );
+
+    finalRate = baseRate + equipGradeRate + equipLevelRate;
+
+    // 최종 성공률이 음수이면 0을 반환합니다.
+    return finalRate < 0 ? 0 : finalRate;
+  }
+
+  async calcuGreateSuccessRate(
+    dispatch_rank: string,
+    //mission_rank: string,
+    equip_grade: string[],
+    equip_level: number[],
+    qr?: QueryRunner,
+  ) {
+    let finalRate = 0;
+
+    // const baseRate = await this.defaultDispatchRate(
+    //   dispatch_rank,
+    //   mission_rank,
+    // );
+
+    const dispatchGreateRate = await this.dispatchService.getDispatchGreateRate(
+      dispatch_rank,
+      qr,
+    );
+    const equipGradeRate = await this.calcuEquipGradeSuccessRate(
+      equip_grade,
+      qr,
+    );
+
+    const equipLevelRate = await this.calcuEquipLevelSuccessRate(
+      equip_level,
+      qr,
+    );
+
+    finalRate =
+      dispatchGreateRate.great_success_rate + equipGradeRate + equipLevelRate;
+
+    // 최종 성공률이 음수이면 0을 반환합니다.
+    return finalRate < 0 ? 0 : finalRate;
+  }
+
+  async calcuEquipGradeSuccessRate(equip_grade: string[], qr?: QueryRunner) {
+    // 각 등급에서 add_success_rate 값을 누적합니다.
+    let totalAddSuccessRate = 0;
+    for (const grade of equip_grade) {
+      const equipGrade =
+        await this.dispatchEquipGradeService.getDispatchEquipGrade(grade, qr);
+      totalAddSuccessRate += equipGrade.add_success_rate;
+    }
+
+    // 기본 성공률에 추가 성공률을 더해 최종 성공률을 계산합니다.
+    const finalRate = totalAddSuccessRate;
+
+    // 최종 성공률이 음수이면 0을 반환합니다.
+    return finalRate < 0 ? 0 : finalRate;
+  }
+
+  async calcuEquipLevelSuccessRate(equip_level: number[], qr?: QueryRunner) {
+    // 각 등급에서 add_success_rate 값을 누적합니다.
+    let totalAddSuccessRate = 0;
+    for (const level of equip_level) {
+      const equipLevel =
+        await this.dispatchEquipLevelService.getDispatchEquipLevel(level, qr);
+      totalAddSuccessRate += equipLevel.add_success_rate;
+    }
+
+    // 기본 성공률에 추가 성공률을 더해 최종 성공률을 계산합니다.
+    const finalRate = totalAddSuccessRate;
+
+    // 최종 성공률이 음수이면 0을 반환합니다.
+    return finalRate < 0 ? 0 : finalRate;
   }
 
   //E->D->C->B->A-R
@@ -109,7 +253,7 @@ export class UserDispatchService {
         (dispatchIndex - missionIndex) * +DISPATCH_HIGHER_SUCCESS_TIME.option;
     }
 
-    return option;
+    return option < 0 ? 0 : option;
   }
 
   async defaultDispatchRate(dispatch_grade: string, mission_grade: string) {
@@ -151,7 +295,53 @@ export class UserDispatchService {
         (dispatchIndex - missionIndex) * +DISPATCH_HIGHER_SUCCESS_PER.option;
     }
 
-    return option;
+    return option < 0 ? 0 : option;
+  }
+
+  async selectItemIdByMissionRank(mission_rank: string, qr?: QueryRunner) {
+    const rewards = await this.dispatchRewardService.getDispatchReward(
+      mission_rank,
+      qr,
+    );
+
+    if (!rewards.length) {
+      throw new Error(
+        `mission_rank ${mission_rank} 에 해당하는 보상이 존재하지 않습니다.`,
+      );
+    }
+
+    // reward_rate의 총합을 계산합니다.
+    const totalWeight = rewards.reduce(
+      (sum, reward) => sum + reward.reward_rate,
+      0,
+    );
+
+    // 0과 totalWeight 사이의 난수를 생성합니다.
+    const random = Math.random() * totalWeight;
+
+    // 각 보상의 누적 가중치를 계산하며 random 값과 비교합니다.
+    let cumulativeWeight = 0;
+    for (const reward of rewards) {
+      cumulativeWeight += reward.reward_rate;
+      if (random < cumulativeWeight) {
+        return { item_id: reward.item_id, item_count: reward.item_count };
+      }
+    }
+
+    // 예외 상황에 대비하여 마지막 항목의 값을 반환합니다.
+    const lastReward = rewards[rewards.length - 1];
+    return { item_id: lastReward.item_id, item_count: lastReward.item_count };
+  }
+
+  async greateReward(user_id: string, mission_rank: string, qr?: QueryRunner) {
+    const reward = await this.selectItemIdByMissionRank(mission_rank, qr);
+    const result = await this.rewardOfferService.rewardItem(
+      user_id,
+      reward.item_id,
+      reward.item_count,
+    );
+
+    return result;
   }
 
   async getDispatchEquipGradeRate(

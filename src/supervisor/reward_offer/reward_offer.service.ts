@@ -136,7 +136,7 @@ export class RewardOfferService {
         item_id: itemData.item_id,
         item_type: itemData.item_type,
         item_name: itemData.item_name,
-        //quantity: qty, // 보상 개수 추가
+        //item_count: qty, // 보상 개수 추가
       },
     ];
   }
