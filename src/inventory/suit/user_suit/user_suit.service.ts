@@ -115,18 +115,18 @@ export class UserSuitService {
       await userSuitRepository.save(userSuit);
     }
 
-    const suitUnlockData = await this.suitService.getSuit(suit_id);
-    const suitUnlockSuitPieceId = suitUnlockData.suit_piece_id;
-    const suitUnlockPieceCount = suitUnlockData.unlock_piece_count;
+    // const suitUnlockData = await this.suitService.getSuit(suit_id);
+    // const suitUnlockSuitPieceId = suitUnlockData.suit_piece_id;
+    // const suitUnlockPieceCount = suitUnlockData.unlock_piece_count;
 
-    if (suitUnlockPieceCount >= 0) {
-      const reduceItemresult = await this.userItemService.reduceItem(
-        user_id,
-        suitUnlockSuitPieceId,
-        suitUnlockPieceCount,
-        qr,
-      );
-    }
+    // if (suitUnlockPieceCount >= 0) {
+    //   const reduceItemresult = await this.userItemService.reduceItem(
+    //     user_id,
+    //     suitUnlockSuitPieceId,
+    //     suitUnlockPieceCount,
+    //     qr,
+    //   );
+    // }
 
     const result = await userSuitRepository.save(userSuit);
 
