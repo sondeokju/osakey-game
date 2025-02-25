@@ -27,16 +27,34 @@ export class UserSuitService {
   //슈트 장착
   async suitMount(user_id: string, suit_id: number, qr?: QueryRunner) {
     const userSuitRepository = this.getUserSuitRepository(qr);
+
+    // 해당 유저의 다른 모든 suit의 mount_yn 값을 'N'으로 업데이트합니다.
+    await userSuitRepository
+      .createQueryBuilder()
+      .update()
+      .set({ mount_yn: 'N' })
+      .where('user_id = :user_id', { user_id })
+      .andWhere('suit_id <> :suit_id', { suit_id })
+      .execute();
+
     let userSuit = await userSuitRepository.findOne({
       where: { user_id, suit_id },
     });
 
+    // userSuit 레코드가 없으면 새로 생성합니다.
     if (!userSuit) {
-      userSuit = userSuitRepository.create({ user_id, suit_id });
+      userSuit = userSuitRepository.create({
+        user_id,
+        suit_id,
+        suit_level: 1, // 기본 값
+        suit_special_level: 1, // 기본 값
+        mount_yn: 'Y', // 해당 suit만 'Y'로 설정
+      });
+    } else {
+      // 이미 존재하는 레코드인 경우, mount_yn 값을 'Y'로 변경합니다.
+      userSuit.mount_yn = 'Y';
     }
 
-    userSuit.unlock_yn = 'Y';
-    userSuit.mount_yn = 'Y';
     const result = await userSuitRepository.save(userSuit);
     return {
       userSuitData: result,
