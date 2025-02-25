@@ -96,6 +96,12 @@ export class UserSuitService {
       where: { user_id, suit_id },
     });
 
+    if (userSuit.unlock_yn === 'Y') {
+      return {
+        message: 'already unlocked it.',
+      };
+    }
+
     // userSuit가 없으면 생성합니다.
     if (!userSuit) {
       userSuit = userSuitRepository.create({
@@ -107,12 +113,6 @@ export class UserSuitService {
         mount_yn: 'N',
       });
       await userSuitRepository.save(userSuit);
-    }
-
-    if (userSuit.unlock_yn === 'Y') {
-      return {
-        message: 'already unlocked it.',
-      };
     }
 
     const suitUnlockData = await this.suitService.getSuit(suit_id);
