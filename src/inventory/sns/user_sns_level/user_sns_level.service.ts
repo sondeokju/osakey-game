@@ -55,7 +55,7 @@ export class UserSnsLevelService {
     const snsLevel = await this.snsLevelService.getSnsExp(levelUpExp, qr);
     const updateSnsLevel = snsLevel?.sns_level || 1;
     const updateRewardId = snsLevel?.reward_id || 0;
-
+    //11600001
     console.log('levelUpExp:', levelUpExp);
     console.log('snsLevel:', snsLevel);
     console.log('updateSnsLevel:', updateSnsLevel);
@@ -87,25 +87,50 @@ export class UserSnsLevelService {
       console.log('levelRewardData:', levelRewardData);
     }
 
-    const returnUserSnsLevelData = await userSnsLevelRepository.findOne({
-      where: { user_id },
-    });
+    const mergedRewards = this.mergeRewards(likeRewardData, levelRewardData);
 
-    const reward = {
-      userItemData: [
-        ...likeRewardData,
-        ...(Object.keys(levelRewardData).length > 0 ? [levelRewardData] : []),
-      ].filter((item) => Object.keys(item).length > 0), // 빈 객체 제거
-    };
+    // const returnUserSnsLevelData = await userSnsLevelRepository.findOne({
+    //   where: { user_id },
+    // });
+
+    // const reward = {
+    //   userItemData: [...likeRewardData, ...levelRewardData],
+    // };
+
+    // const reward = {
+    //   userItemData: [
+    //     ...likeRewardData,
+    //     ...(Object.keys(levelRewardData).length > 0 ? [levelRewardData] : []),
+    //   ].filter((item) => Object.keys(item).length > 0), // 빈 객체 제거
+    // };
 
     const result = {
-      reward,
+      mergedRewards,
       //level_reward: levelRewardData,
       //user_sns_level: returnUserSnsLevelData,
     };
 
     return result;
   }
+
+  mergeRewards = (likeRewardData, levelRewardData) => {
+    const rewardMap = new Map();
+
+    [...likeRewardData, ...levelRewardData].forEach(
+      ({ item_id, item_count }) => {
+        if (rewardMap.has(item_id)) {
+          rewardMap.set(item_id, rewardMap.get(item_id) + item_count);
+        } else {
+          rewardMap.set(item_id, item_count);
+        }
+      },
+    );
+
+    return Array.from(rewardMap, ([item_id, item_count]) => ({
+      item_id,
+      item_count,
+    }));
+  };
 
   async getSnsLevel(user_id: string, qr?: QueryRunner) {
     const userSnsLevelRepository = this.getUserSnsLevelRepository(qr);
