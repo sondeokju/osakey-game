@@ -301,6 +301,29 @@ export class UserEquipService {
     return result;
   }
 
+  async unEquipYN(user_id: string, user_equip_id: number, qr?: QueryRunner) {
+    const userEquipRepository = this.getUserEquipRepository(qr);
+    const userEquip = await userEquipRepository.findOne({
+      where: {
+        user_id,
+        id: user_equip_id,
+      },
+    });
+
+    const queryRunner = qr || this.dataSource.createQueryRunner();
+    if (!qr) {
+      await queryRunner.connect();
+      await queryRunner.startTransaction();
+    }
+
+    const result = await queryRunner.query(
+      `UPDATE user_equip SET mount_yn = 'N' WHERE id = ? AND user_id = ?`,
+      [user_equip_id, user_id], // 파라미터 바인딩
+    );
+
+    return result;
+  }
+
   async equipLevelUp(user_id: string, user_equip_id: number, qr?: QueryRunner) {
     const userEquipRepository = this.getUserEquipRepository(qr);
     const userEquip = await userEquipRepository.findOne({
@@ -726,7 +749,8 @@ export class UserEquipService {
               'el',
               'ue.equip_level_id = el.equip_level_id',
             )
-            .where('ue.user_id = :user_id', { user_id });
+            .where('ue.user_id = :user_id', { user_id })
+            .andWhere('ue.mount_yn = :mount_yn', { mount_yn: 'N' });
         }, 'ranked')
         .where('ranked.rankNumber = 1')
         .getRawMany();
