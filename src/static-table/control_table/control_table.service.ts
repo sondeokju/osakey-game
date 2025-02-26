@@ -222,29 +222,77 @@ export class ControlTableService {
     }
 
     // 캐시에 데이터가 없으면 DB에서 조회
+    const [
+      mission_all,
+      item,
+      hero,
+      npc,
+      npc_location,
+      reward,
+      sns,
+      dispatch,
+      edu,
+      equipment,
+      server_config,
+      collection,
+      attendance,
+      system_notice,
+      acheve_list,
+      stage,
+      suit,
+      secame,
+      equipment_skill,
+      tutorial,
+      gacha,
+      shop,
+    ] = await Promise.all([
+      this.getMissionAll(qr),
+      this.getItemAll(qr),
+      this.getHeroAll(qr),
+      this.getNpcAll(qr),
+      this.getNpcLocationAll(qr),
+      this.getRewardAll(qr),
+      this.getSnsAll(qr),
+      this.getDispatchAll(qr),
+      this.getEduAll(qr),
+      this.getEquipmentAll(qr),
+      this.serverConfigService.getServerConfigAll(qr),
+      this.getCollectionAll(qr),
+      this.attendanceService.getAttendanceAll(qr),
+      this.systemNoticeService.getSystemNoticeAll(qr),
+      this.achieveListService.getAchieveAll(qr),
+      this.getStageAll(qr),
+      this.getSuitAll(qr),
+      this.getSecameAll(qr),
+      this.getSkillAll(qr),
+      this.getTutorialAll(qr),
+      this.getGachaAll(qr),
+      this.getShopAll(qr),
+    ]);
+
     const static_table = {
-      mission_all: await this.getMissionAll(qr),
-      item: await this.getItemAll(qr),
-      hero: await this.getHeroAll(qr),
-      npc: await this.getNpcAll(qr),
-      npc_location: await this.getNpcLocationAll(qr),
-      reward: await this.getRewardAll(qr),
-      sns: await this.getSnsAll(qr),
-      dispatch: await this.getDispatchAll(qr),
-      edu: await this.getEduAll(qr),
-      equipment: await this.getEquipmentAll(qr),
-      server_config: await this.serverConfigService.getServerConfigAll(qr),
-      collection: await this.getCollectionAll(qr),
-      attendance: await this.attendanceService.getAttendanceAll(qr),
-      system_notice: await this.systemNoticeService.getSystemNoticeAll(qr),
-      acheve_list: await this.achieveListService.getAchieveAll(qr),
-      stage: await this.getStageAll(qr),
-      suit: await this.getSuitAll(qr),
-      secame: await this.getSecameAll(qr),
-      equipment_skill: await this.getSkillAll(qr),
-      tutorial: await this.getTutorialAll(qr),
-      gacha: await this.getGachaAll(qr),
-      shop: await this.getShopAll(qr),
+      mission_all,
+      item,
+      hero,
+      npc,
+      npc_location,
+      reward,
+      sns,
+      dispatch,
+      edu,
+      equipment,
+      server_config,
+      collection,
+      attendance,
+      system_notice,
+      acheve_list,
+      stage,
+      suit,
+      secame,
+      equipment_skill,
+      tutorial,
+      gacha,
+      shop,
     };
 
     // 조회한 데이터를 캐시에 저장 (TTL: 600초)
@@ -253,6 +301,50 @@ export class ControlTableService {
 
     return static_table;
   }
+
+  // async getControlTableWithCacheAll(qr?: QueryRunner) {
+  //   const cacheKey = 'controlTableAll';
+
+  //   // 캐시에서 데이터 조회
+  //   //const cachedData = await this.cacheManager.get(cacheKey);
+  //   const cachedData = await this.redisService.getKey(cacheKey);
+  //   if (cachedData) {
+  //     //return cachedData;
+  //     return JSON.parse(cachedData);
+  //   }
+
+  //   // 캐시에 데이터가 없으면 DB에서 조회
+  //   const static_table = {
+  //     mission_all: await this.getMissionAll(qr),
+  //     item: await this.getItemAll(qr),
+  //     hero: await this.getHeroAll(qr),
+  //     npc: await this.getNpcAll(qr),
+  //     npc_location: await this.getNpcLocationAll(qr),
+  //     reward: await this.getRewardAll(qr),
+  //     sns: await this.getSnsAll(qr),
+  //     dispatch: await this.getDispatchAll(qr),
+  //     edu: await this.getEduAll(qr),
+  //     equipment: await this.getEquipmentAll(qr),
+  //     server_config: await this.serverConfigService.getServerConfigAll(qr),
+  //     collection: await this.getCollectionAll(qr),
+  //     attendance: await this.attendanceService.getAttendanceAll(qr),
+  //     system_notice: await this.systemNoticeService.getSystemNoticeAll(qr),
+  //     acheve_list: await this.achieveListService.getAchieveAll(qr),
+  //     stage: await this.getStageAll(qr),
+  //     suit: await this.getSuitAll(qr),
+  //     secame: await this.getSecameAll(qr),
+  //     equipment_skill: await this.getSkillAll(qr),
+  //     tutorial: await this.getTutorialAll(qr),
+  //     gacha: await this.getGachaAll(qr),
+  //     shop: await this.getShopAll(qr),
+  //   };
+
+  //   // 조회한 데이터를 캐시에 저장 (TTL: 600초)
+  //   //await this.cacheManager.set(cacheKey, static_table, { ttl: 600 });
+  //   await this.redisService.setKey(cacheKey, static_table);
+
+  //   return static_table;
+  // }
 
   async getControlTableAll(qr?: QueryRunner) {
     const static_table = {
