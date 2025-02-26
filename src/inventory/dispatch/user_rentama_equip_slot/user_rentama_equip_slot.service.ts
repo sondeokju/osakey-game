@@ -12,6 +12,7 @@ import { UserEquipService } from 'src/inventory/equipment/user_equip/user_equip.
 import { EquipService } from 'src/static-table/equipment/equip/equip.service';
 import { EquipLevelService } from 'src/static-table/equipment/equip_level/equip_level.service';
 import { DataSource } from 'typeorm';
+import { createError } from 'src/common/returnFormat/error';
 
 @Injectable()
 export class UserRentamaEquipSlotService {
@@ -143,7 +144,11 @@ export class UserRentamaEquipSlotService {
     const equip_id = userEquip?.equip_id ?? 0;
 
     if (userEquip.mount_yn === 'Y') {
-      //return
+      return createError(
+        0,
+        equip_id,
+        'The equipment has already been installed.',
+      );
     }
 
     if (!userRentamaEquipSlot) {

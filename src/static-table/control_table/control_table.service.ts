@@ -60,11 +60,13 @@ import { BountyStageService } from '../stage/bounty_stage/bounty_stage.service';
 import { ShopPackageService } from '../shop/shop_package/shop_package.service';
 import { ShopService } from '../shop/shop/shop.service';
 import { GachaSellService } from '../shop/gacha_sell/gacha_sell.service';
+import { RedisService } from 'src/redis/redis.service';
 
 @Injectable()
 export class ControlTableService {
   constructor(
     //@Inject(CACHE_MANAGER) private cacheManager: Cache,
+    private readonly redisService: RedisService,
     private readonly missionService: MissionService,
     private readonly missionKindService: MissionKindService,
     private readonly missionMainService: MissionMainService,
@@ -208,46 +210,48 @@ export class ControlTableService {
   //   await this.cacheManager.del('controlTableAll');
   // }
 
-  // async getControlTableWithCacheAll(qr?: QueryRunner) {
-  //   const cacheKey = 'controlTableAll';
+  async getControlTableWithCacheAll(qr?: QueryRunner) {
+    const cacheKey = 'controlTableAll';
 
-  //   // 캐시에서 데이터 조회
-  //   const cachedData = await this.cacheManager.get(cacheKey);
-  //   if (cachedData) {
-  //     return cachedData;
-  //   }
+    // 캐시에서 데이터 조회
+    //const cachedData = await this.cacheManager.get(cacheKey);
+    const cachedData = await this.redisService.getKey(cacheKey);
+    if (cachedData) {
+      return cachedData;
+    }
 
-  //   // 캐시에 데이터가 없으면 DB에서 조회
-  //   const static_table = {
-  //     mission_all: await this.getMissionAll(qr),
-  //     item: await this.getItemAll(qr),
-  //     hero: await this.getHeroAll(qr),
-  //     npc: await this.getNpcAll(qr),
-  //     npc_location: await this.getNpcLocationAll(qr),
-  //     reward: await this.getRewardAll(qr),
-  //     sns: await this.getSnsAll(qr),
-  //     dispatch: await this.getDispatchAll(qr),
-  //     edu: await this.getEduAll(qr),
-  //     equipment: await this.getEquipmentAll(qr),
-  //     server_config: await this.serverConfigService.getServerConfigAll(qr),
-  //     collection: await this.getCollectionAll(qr),
-  //     attendance: await this.attendanceService.getAttendanceAll(qr),
-  //     system_notice: await this.systemNoticeService.getSystemNoticeAll(qr),
-  //     acheve_list: await this.achieveListService.getAchieveAll(qr),
-  //     stage: await this.getStageAll(qr),
-  //     suit: await this.getSuitAll(qr),
-  //     secame: await this.getSecameAll(qr),
-  //     equipment_skill: await this.getSkillAll(qr),
-  //     tutorial: await this.getTutorialAll(qr),
-  //     gacha: await this.getGachaAll(qr),
-  //     shop: await this.getShopAll(qr),
-  //   };
+    // 캐시에 데이터가 없으면 DB에서 조회
+    const static_table = {
+      mission_all: await this.getMissionAll(qr),
+      item: await this.getItemAll(qr),
+      hero: await this.getHeroAll(qr),
+      npc: await this.getNpcAll(qr),
+      npc_location: await this.getNpcLocationAll(qr),
+      reward: await this.getRewardAll(qr),
+      sns: await this.getSnsAll(qr),
+      dispatch: await this.getDispatchAll(qr),
+      edu: await this.getEduAll(qr),
+      equipment: await this.getEquipmentAll(qr),
+      server_config: await this.serverConfigService.getServerConfigAll(qr),
+      collection: await this.getCollectionAll(qr),
+      attendance: await this.attendanceService.getAttendanceAll(qr),
+      system_notice: await this.systemNoticeService.getSystemNoticeAll(qr),
+      acheve_list: await this.achieveListService.getAchieveAll(qr),
+      stage: await this.getStageAll(qr),
+      suit: await this.getSuitAll(qr),
+      secame: await this.getSecameAll(qr),
+      equipment_skill: await this.getSkillAll(qr),
+      tutorial: await this.getTutorialAll(qr),
+      gacha: await this.getGachaAll(qr),
+      shop: await this.getShopAll(qr),
+    };
 
-  //   // 조회한 데이터를 캐시에 저장 (TTL: 600초)
-  //   await this.cacheManager.set(cacheKey, static_table, { ttl: 600 });
+    // 조회한 데이터를 캐시에 저장 (TTL: 600초)
+    //await this.cacheManager.set(cacheKey, static_table, { ttl: 600 });
+    await this.redisService.setKey(cacheKey, static_table);
 
-  //   return static_table;
-  // }
+    return static_table;
+  }
 
   async getControlTableAll(qr?: QueryRunner) {
     const static_table = {

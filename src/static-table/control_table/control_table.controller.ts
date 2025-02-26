@@ -18,7 +18,8 @@ export class ControlTableController {
   @Post('/01')
   @UseInterceptors(TransactionInterceptor)
   async getAll01(@QueryRunner() qr: QR) {
-    const result = await this.controlTableService.getControlTableAllPromise(qr);
+    const result =
+      await this.controlTableService.getControlTableWithCacheAll(qr);
     return JSON.stringify(result);
   }
 

@@ -10,6 +10,11 @@ export class RedisService {
 
   constructor(@InjectRedis('default') private readonly redisClient: Redis) {}
 
+  // async getTable(guildId: number, score: number, name: string) {
+  //   await this.redisClient.zadd(this.RANKING_KEY, score, guildId.toString());
+  //   await this.redisClient.hset(this.GUILD_NAMES_KEY, guildId.toString(), name); // 길드명 저장
+  // }
+
   // /** 🔹 서버 시작 시 MySQL → Redis 동기화 */
   // async onModuleInit() {
   //   console.log('🔄 서버 시작: MySQL → Redis 데이터 동기화 시작...');
@@ -206,8 +211,12 @@ export class RedisService {
   }
 
   /** 🔹 6. 일반 Key-Value 저장 */
-  async setKey(key: string, value: string) {
-    await this.redisClient.set(key, value);
+  // async setKey(key: string, value: string) {
+  //   await this.redisClient.set(key, value);
+  // }
+
+  async setKey(key: string, value: any) {
+    await this.redisClient.set(key, JSON.stringify(value), 'EX', 600);
   }
 
   /** 🔹 7. 일반 Key-Value 조회 */

@@ -118,6 +118,7 @@ import { ShopPackageService } from '../shop/shop_package/shop_package.service';
 import { ShopService } from '../shop/shop/shop.service';
 import { GachaSell } from '../shop/gacha_sell/entities/gacha_sell.entity';
 import { GachaSellService } from '../shop/gacha_sell/gacha_sell.service';
+import { RedisModule } from 'src/redis/redis.module';
 
 @Module({
   imports: [
@@ -182,6 +183,7 @@ import { GachaSellService } from '../shop/gacha_sell/gacha_sell.service';
       Shop,
       GachaSell,
     ]),
+    RedisModule,
   ],
   exports: [ControlTableService],
   controllers: [ControlTableController],
