@@ -61,6 +61,7 @@ import { ShopPackageService } from '../shop/shop_package/shop_package.service';
 import { ShopService } from '../shop/shop/shop.service';
 import { GachaSellService } from '../shop/gacha_sell/gacha_sell.service';
 import { RedisService } from 'src/redis/redis.service';
+import { encode, decode } from '@msgpack/msgpack';
 
 @Injectable()
 export class ControlTableService {
@@ -214,11 +215,10 @@ export class ControlTableService {
     const cacheKey = 'controlTableAll';
 
     // 캐시에서 데이터 조회
-    //const cachedData = await this.cacheManager.get(cacheKey);
     const cachedData = await this.redisService.getKey(cacheKey);
     if (cachedData) {
-      //return cachedData;
-      return JSON.parse(cachedData);
+      return decode(cachedData);
+      //return JSON.parse(cachedData);
     }
 
     // 캐시에 데이터가 없으면 DB에서 조회
@@ -295,9 +295,10 @@ export class ControlTableService {
       shop,
     };
 
+    //const buffer = encode(static_table);
+
     // 조회한 데이터를 캐시에 저장 (TTL: 600초)
-    //await this.cacheManager.set(cacheKey, static_table, { ttl: 600 });
-    await this.redisService.setKey(cacheKey, static_table);
+    await this.redisService.setKey(cacheKey, encode(static_table));
 
     return static_table;
   }

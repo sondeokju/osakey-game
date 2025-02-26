@@ -220,14 +220,18 @@ export class RedisService {
   }
 
   /** 🔹 7. 일반 Key-Value 조회 */
-  async getKey(key: string): Promise<string | null> {
+  async getKey(key: string): Promise<Buffer | null> {
     return await this.redisClient.get(key);
   }
 
   /** 🔹 8. 일반 Key-Value 삭제 */
-  async deleteKey(key: string) {
-    await this.redisClient.del(key);
+  async deletecontrolTableAllKey() {
+    await this.redisClient.del('controlTableAll');
   }
+  //   async deleteKey(key: string) {
+  //   await this.redisClient.del(key);
+  //   await this.cacheManager.del('controlTableAll');
+  // }
 
   // async addGuildScore(guildId: number, score: number, name: string) {
   //   const queryRunner = this.dataSource.createQueryRunner();

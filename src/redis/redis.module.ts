@@ -13,6 +13,7 @@ import { RedisController } from './redis.controller';
           namespace: 'default', // 기본 네임스페이스
           host: 'localhost',
           port: 6379,
+          returnBuffers: true,
         },
       }),
     }),
