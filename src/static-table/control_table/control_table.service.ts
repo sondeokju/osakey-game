@@ -217,7 +217,8 @@ export class ControlTableService {
     //const cachedData = await this.cacheManager.get(cacheKey);
     const cachedData = await this.redisService.getKey(cacheKey);
     if (cachedData) {
-      return cachedData;
+      //return cachedData;
+      return JSON.parse(cachedData);
     }
 
     // 캐시에 데이터가 없으면 DB에서 조회
