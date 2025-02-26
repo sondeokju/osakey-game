@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { QueryRunner, Repository } from 'typeorm';
+import { MoreThanOrEqual, QueryRunner, Repository } from 'typeorm';
 import { Dispatch } from './entities/dispatch.entity';
 
 @Injectable()
@@ -42,5 +42,20 @@ export class DispatchService {
     });
 
     return result;
+  }
+
+  async getDispatchLevel(dispatch_exp_total: number, qr?: QueryRunner) {
+    const dispatchRepository = this.getDispatchRepository(qr);
+    const result = await dispatchRepository.find({
+      where: {
+        dispatch_exp_total: MoreThanOrEqual(dispatch_exp_total),
+      },
+      order: {
+        dispatch_exp_total: 'ASC',
+      },
+      take: 1,
+    });
+
+    return result.length > 0 ? result[0] : null;
   }
 }

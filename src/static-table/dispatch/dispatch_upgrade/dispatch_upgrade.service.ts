@@ -32,4 +32,15 @@ export class DispatchUpgradeService {
 
     return result;
   }
+
+  async getDispatchUpgradeId(id: number, qr?: QueryRunner) {
+    const dispatchUpgradeRepository = this.getDispatchUpgradeRepository(qr);
+    const result = await dispatchUpgradeRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    return result;
+  }
 }
