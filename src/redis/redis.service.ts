@@ -220,14 +220,14 @@ export class RedisService {
   }
 
   /** 🔹 7. 일반 Key-Value 조회 */
-  // async getKey(key: string): Promise<Buffer | null> {
-  //   return await this.redisClient.get(key);
-  // }
-
-  async getKey(key: string): Promise<Buffer | null> {
-    const data = await this.redisClient.get(key);
-    return data ? Buffer.from(data, 'binary') : null;
+  async getKey(key: string): Promise<string | null> {
+    return await this.redisClient.get(key);
   }
+
+  // async getKey(key: string): Promise<Buffer | null> {
+  //   const data = await this.redisClient.get(key);
+  //   return data ? Buffer.from(data, 'binary') : null;
+  // }
 
   /** 🔹 8. 일반 Key-Value 삭제 */
   async deletecontrolTableAllKey() {
