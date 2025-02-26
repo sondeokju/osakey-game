@@ -88,10 +88,10 @@ export class UserSecameDiaryService {
       const nextSecameDiaryData =
         await this.secameDiaryService.getSecameDiary(nextSecameDiaryId);
 
-      // const heroData = await this.heroService.getHeroRankByExp(
-      //   userData.exp,
-      //   qr,
-      // );
+      const heroData = await this.heroService.getHeroRankByExp(
+        userData.exp,
+        qr,
+      );
 
       // 🔹 4️⃣ 다음 다이어리 등록 로직
       let shouldInsertNextDiary = false;
@@ -100,11 +100,11 @@ export class UserSecameDiaryService {
       if (
         nextSecameDiaryData &&
         ((currentSecameDiaryData.is_repeat === 'TRUE' &&
-          //nextSecameDiaryData.hero_rank.trim() === heroData.rank.trim() &&
+          nextSecameDiaryData.hero_rank.trim() === heroData.rank.trim() &&
           userData.secame_credit >= nextSecameDiaryData.credit_goal_qty) ||
           (typeof currentSecameDiaryData.credit_goal_qty === 'number' &&
             !isNaN(userData.secame_credit) &&
-            //nextSecameDiaryData.hero_rank.trim() === heroData.rank.trim() &&
+            nextSecameDiaryData.hero_rank.trim() === heroData.rank.trim() &&
             userData.secame_credit >= currentSecameDiaryData.credit_goal_qty))
       ) {
         if (userSecameDiary.reward_yn === 'Y') {
