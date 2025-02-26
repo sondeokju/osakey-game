@@ -22,39 +22,21 @@ export class UserDispatchRentamaController {
     return result;
   }
 
-  // @Post('save')
-  // @UseInterceptors(TransactionInterceptor)
-  // async saveAchieve(
-  //   @User() user: Users,
-  //   @Body('achieve_id') achieve_id: number,
-  //   @Body('achieve_count') achieve_count: number,
-  //   @Body('process_status') process_status: string,
-  //   @QueryRunner() qr: QR,
-  // ) {
-  //   const result = await this.userAchievementsService.saveAchieve(
-  //     user.user_id,
-  //     achieve_id,
-  //     achieve_count,
-  //     process_status,
-  //     qr,
-  //   );
+  @Post('upgrade')
+  @UseInterceptors(TransactionInterceptor)
+  async saveAchieve(
+    @User() user: Users,
+    @Body('item_id') item_id: number,
+    @Body('suit_piece_count') suit_piece_count: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userDispatchRentamaService.dispatchUpgrade(
+      user.user_id,
+      item_id,
+      suit_piece_count,
+      qr,
+    );
 
-  //   return JSON.stringify(result);
-  // }
-
-  // @Post('reward')
-  // @UseInterceptors(TransactionInterceptor)
-  // async achieveReward(
-  //   @User() user: Users,
-  //   @Body('user_achievements_id') user_achievements_id: number,
-  //   @QueryRunner() qr: QR,
-  // ) {
-  //   const result = await this.userAchievementsService.achieveReward(
-  //     user.user_id,
-  //     user_achievements_id,
-  //     qr,
-  //   );
-
-  //   return JSON.stringify(result);
-  // }
+    return result;
+  }
 }

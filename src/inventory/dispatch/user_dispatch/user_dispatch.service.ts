@@ -55,11 +55,7 @@ export class UserDispatchService {
     return result;
   }
 
-  async determineDispatchOutcome(
-    user_id: string,
-    mission_id: number,
-    qr?: QueryRunner,
-  ) {
+  async dispatchOutcome(user_id: string, mission_id: number, qr?: QueryRunner) {
     const userDispatchRepository = this.getUserDispatchRepository(qr);
     const userDispatch = await userDispatchRepository.findOne({
       where: {
@@ -118,7 +114,7 @@ export class UserDispatchService {
   }
 
   //파견 상태 (IN_PROGRESS, COMPLETED, FAILED, GREAT COMPLETED)
-  async dispatchRentama(user_id: string, mission_id: number, qr?: QueryRunner) {
+  async dispatchStart(user_id: string, mission_id: number, qr?: QueryRunner) {
     const userDispatchRepository = this.getUserDispatchRepository(qr);
     let userDispatch = await userDispatchRepository.findOne({
       where: { user_id, mission_id },

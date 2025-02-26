@@ -17,39 +17,35 @@ export class UserDispatchController {
     return result;
   }
 
-  // @Post('save')
-  // @UseInterceptors(TransactionInterceptor)
-  // async saveAchieve(
-  //   @User() user: Users,
-  //   @Body('achieve_id') achieve_id: number,
-  //   @Body('achieve_count') achieve_count: number,
-  //   @Body('process_status') process_status: string,
-  //   @QueryRunner() qr: QR,
-  // ) {
-  //   const result = await this.userAchievementsService.saveAchieve(
-  //     user.user_id,
-  //     achieve_id,
-  //     achieve_count,
-  //     process_status,
-  //     qr,
-  //   );
+  @Post('start')
+  @UseInterceptors(TransactionInterceptor)
+  async dispatchStart(
+    @User() user: Users,
+    @Body('mission_id') mission_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userDispatchService.dispatchStart(
+      user.user_id,
+      mission_id,
+      qr,
+    );
 
-  //   return JSON.stringify(result);
-  // }
+    return result;
+  }
 
-  // @Post('reward')
-  // @UseInterceptors(TransactionInterceptor)
-  // async achieveReward(
-  //   @User() user: Users,
-  //   @Body('user_achievements_id') user_achievements_id: number,
-  //   @QueryRunner() qr: QR,
-  // ) {
-  //   const result = await this.userAchievementsService.achieveReward(
-  //     user.user_id,
-  //     user_achievements_id,
-  //     qr,
-  //   );
+  @Post('outcome')
+  @UseInterceptors(TransactionInterceptor)
+  async dispatchOutcome(
+    @User() user: Users,
+    @Body('mission_id') mission_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userDispatchService.dispatchOutcome(
+      user.user_id,
+      mission_id,
+      qr,
+    );
 
-  //   return JSON.stringify(result);
-  // }
+    return result;
+  }
 }

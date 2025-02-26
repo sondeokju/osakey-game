@@ -31,7 +31,10 @@ export class UserRentamaEquipSlotService {
       : this.userRentamaEquipSlotRepository;
   }
 
-  async autoEquipGear(user_id: string, qr?: QueryRunner) {
+  // 장비 강화
+
+  // 장비 자동 착용
+  async autoEquip(user_id: string, qr?: QueryRunner) {
     // 외부에서 qr이 주어지지 않았다면 새로 생성
     const queryRunner = qr ?? this.dataSource.createQueryRunner();
     let shouldRelease = false;
