@@ -116,6 +116,8 @@ import { ShopPackage } from '../shop/shop_package/entities/shop_package.entity';
 import { Shop } from '../shop/shop/entities/shop.entity';
 import { ShopPackageService } from '../shop/shop_package/shop_package.service';
 import { ShopService } from '../shop/shop/shop.service';
+import { GachaSell } from '../shop/gacha_sell/entities/gacha_sell.entity';
+import { GachaSellService } from '../shop/gacha_sell/gacha_sell.service';
 
 @Module({
   imports: [
@@ -178,6 +180,7 @@ import { ShopService } from '../shop/shop/shop.service';
       BountyStage,
       ShopPackage,
       Shop,
+      GachaSell,
     ]),
   ],
   exports: [ControlTableService],
@@ -241,6 +244,7 @@ import { ShopService } from '../shop/shop/shop.service';
     BountyStageService,
     ShopPackageService,
     ShopService,
+    GachaSellService,
   ],
 })
 export class ControlTableModule {}

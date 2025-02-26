@@ -57,6 +57,7 @@ import { GachaOutputService } from '../draw/gacha_output/gacha_output.service';
 import { BountyStageService } from '../stage/bounty_stage/bounty_stage.service';
 import { ShopPackageService } from '../shop/shop_package/shop_package.service';
 import { ShopService } from '../shop/shop/shop.service';
+import { GachaSellService } from '../shop/gacha_sell/gacha_sell.service';
 
 @Injectable()
 export class ControlTableService {
@@ -118,6 +119,7 @@ export class ControlTableService {
     private readonly bountyStageService: BountyStageService,
     private readonly shopPackageService: ShopPackageService,
     private readonly shopService: ShopService,
+    private readonly gachaSellService: GachaSellService,
   ) {}
 
   async getControlTableAllPromise(qr?: QueryRunner) {
@@ -398,6 +400,7 @@ export class ControlTableService {
     const obj = {
       shop: await this.shopService.getShopAll(qr),
       shop_package: await this.shopPackageService.getShopPackageAll(qr),
+      gacha_sell: await this.gachaSellService.getGachaSellAll(qr),
     };
 
     return obj;
