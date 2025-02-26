@@ -89,15 +89,16 @@ export class UserSnsLevelService {
 
     const mergedRewards = this.mergeRewards(likeRewardData, levelRewardData);
 
-    // const returnUserSnsLevelData = await userSnsLevelRepository.findOne({
-    //   where: { user_id },
-    // });
+    const userSnsLevel = await userSnsLevelRepository.findOne({
+      where: { user_id },
+    });
 
-    const result = {
-      reward: mergedRewards,
+    return {
+      reward: {
+        userItemData: mergedRewards,
+      },
+      userSnsLevel,
     };
-
-    return result;
   }
 
   mergeRewards = (likeRewardData, levelRewardData) => {
