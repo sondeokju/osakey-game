@@ -153,6 +153,14 @@ export class UsersService {
       [user_id, mission_id, mission_kind, mission_goal],
     );
 
+    await this.dataSource.query(
+      `INSERT INTO user_mission (user_id, mission_id, mission_kind, mission_goal)
+        SELECT ?, mission_sub_id, ?, open_mission_goal
+        FROM mission_sub
+        WHERE mission_level = 0;`,
+      [user_id, 'MS'],
+    );
+
     //suit 세팅 11500000
     const suit_id = 11500000;
     await this.dataSource.query(
