@@ -76,7 +76,7 @@ export class UserSnsLevelService {
     );
     console.log('likeRewardData:', likeRewardData);
 
-    let levelRewardData = {};
+    let levelRewardData = [];
 
     if (updateSnsLevel > updateUserSnsLevelData.sns_level) {
       levelRewardData = await this.rewardOfferService.reward(
@@ -93,21 +93,8 @@ export class UserSnsLevelService {
     //   where: { user_id },
     // });
 
-    // const reward = {
-    //   userItemData: [...likeRewardData, ...levelRewardData],
-    // };
-
-    // const reward = {
-    //   userItemData: [
-    //     ...likeRewardData,
-    //     ...(Object.keys(levelRewardData).length > 0 ? [levelRewardData] : []),
-    //   ].filter((item) => Object.keys(item).length > 0), // 빈 객체 제거
-    // };
-
     const result = {
-      mergedRewards,
-      //level_reward: levelRewardData,
-      //user_sns_level: returnUserSnsLevelData,
+      reward: mergedRewards,
     };
 
     return result;
