@@ -69,6 +69,7 @@ export class UserSnsLevelService {
       snsReward.reward_id,
       qr,
     );
+    console.log('likeRewardData:', likeRewardData);
 
     let levelRewardData = {};
 
@@ -78,6 +79,7 @@ export class UserSnsLevelService {
         updateRewardId,
         qr,
       );
+      console.log('levelRewardData:', levelRewardData);
     }
 
     const returnUserSnsLevelData = await userSnsLevelRepository.findOne({
