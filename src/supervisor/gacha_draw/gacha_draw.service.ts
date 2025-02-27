@@ -263,6 +263,13 @@ export class GachaDrawService {
     const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
 
     await this.userGachaCheckService.gachaDrawCountPlus(user_id, qr);
+    await this.userGachaCheckService.defaultGachaCountSetting(
+      user_id,
+      gacha_id,
+      gachaCostData.fixed_item_grade_1_count,
+      gachaCostData.fixed_item_grade_2_count,
+      qr,
+    );
 
     console.log('calcuGachaItem:', calcuGachaItem);
     console.log('gachaItem:', gachaItem);

@@ -145,10 +145,10 @@ export class UsersService {
     }
 
     // 가챠 체크
-    await this.dataSource.query(
-      `INSERT INTO user_gacha_check (user_id) VALUES (?)`,
-      [user_id],
-    );
+    // await this.dataSource.query(
+    //   `INSERT INTO user_gacha_check (user_id) VALUES (?)`,
+    //   [user_id],
+    // );
 
     // 미션 세팅
     const mission_id = 12200001;
