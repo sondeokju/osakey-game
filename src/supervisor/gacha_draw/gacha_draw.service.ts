@@ -184,10 +184,23 @@ export class GachaDrawService {
         item_grade = itemData.item_grade;
         console.log('M item_grade:', item_grade);
       }
+
+      console.log('fixedGacha :item_grade', item_grade);
+
+      console.log(
+        'gachaCostData.fixed_item_grade_1',
+        gachaCostData.fixed_item_grade_1,
+      );
+
+      console.log(
+        'gachaCostData.fixed_item_grade_2',
+        gachaCostData.fixed_item_grade_2,
+      );
+
       if (item_grade === gachaCostData.fixed_item_grade_1) {
         console.log(
-          'gachaCostData.item_grade_1_count:',
-          gachaCostData.item_grade_1_count,
+          'gachaCostData.fixed_item_grade_1_count:',
+          gachaCostData.fixed_item_grade_1_count,
         );
         await this.userGachaCheckService.gachaDrawReset(
           user_id,
@@ -197,10 +210,14 @@ export class GachaDrawService {
           qr,
         );
       } else if (item_grade === gachaCostData.fixed_item_grade_2) {
+        console.log(
+          'gachaCostData.fixed_item_grade_2_count:',
+          gachaCostData.fixed_item_grade_2_count,
+        );
         await this.userGachaCheckService.gachaDrawReset(
           user_id,
           gacha_id,
-          gachaCostData.fixed_item_grade_,
+          gachaCostData.fixed_item_grade_2,
           gachaCostData.fixed_item_grade_2_count,
           qr,
         );
@@ -327,7 +344,6 @@ export class GachaDrawService {
         userItemData: gachaItemData,
       },
     };
-    //return {};
   }
 
   async equipGachaDraw10Random(
