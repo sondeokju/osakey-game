@@ -75,6 +75,9 @@ export class UserGachaCheckService {
       },
     });
 
+    console.log('gacha_id:', gacha_id);
+    console.log('item_grade_type:', item_grade_type);
+    console.log('reset_count:', reset_count);
     if (item_grade_type === 4) {
       userGachaCheck.fixed_item_grade_1_count = reset_count;
       userGachaCheck.fixed_1_draw_count = 0;
