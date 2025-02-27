@@ -111,14 +111,18 @@ export class UserGachaCheckService {
   ) {
     const userGachaCheckRepository = this.getUserGachaCheckRepository(qr);
     let userGachaCheck = await userGachaCheckRepository.findOne({
-      where: { user_id },
+      where: { user_id, gacha_id },
     });
 
     if (!userGachaCheck) {
       userGachaCheck = userGachaCheckRepository.create({
         user_id,
         gacha_id,
+        fixed_1_draw_count: 0,
+        fixed_item_grade_1: 0,
         fixed_item_grade_1_count: fixed_1_count,
+        fixed_2_draw_count: 0,
+        fixed_item_grade_2: 0,
         fixed_item_grade_2_count: fixed_2_count,
       });
     }
