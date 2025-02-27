@@ -292,20 +292,21 @@ export class GachaDrawService {
     console.log('itemKind:', itemKind);
     console.log('gachaCostData:', gachaCostData);
 
-    // await this.resourceManagerService.validateAndDeductResources(
-    //   user_id,
-    //   {
-    //     dia: {
-    //       amount: gachaCostData.dia_1,
-    //       mode: 'mixed',
-    //     },
-    //     item: {
-    //       item_id: gachaCostData.item_id_1,
-    //       count: gachaCostData.item_id_1_count,
-    //     },
-    //   },
-    //   qr,
-    // );
+    const deductedCurrency =
+      await this.resourceManagerService.validateAndDeductResources(
+        user_id,
+        {
+          dia: {
+            amount: gachaCostData.dia_1,
+            mode: 'mixed',
+          },
+          // item: {
+          //   item_id: gachaCostData.item_id_1,
+          //   count: gachaCostData.item_id_1_count,
+          // },
+        },
+        qr,
+      );
 
     gachaItem = await this.fixedGacha(
       user_id,
@@ -351,6 +352,13 @@ export class GachaDrawService {
         item_count: Number(item_count),
       });
     }
+
+    return {
+      reward: {
+        userItemData: gachaItemData,
+      },
+      deductedCurrency,
+    };
 
     return {
       reward: {
