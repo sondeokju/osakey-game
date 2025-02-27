@@ -12,6 +12,7 @@ import { DataSource } from 'typeorm';
 import { UserChallenge } from './entities/user_challenge.entity';
 import { MissionRoutineBonusService } from 'src/static-table/mission_routine_bonus/mission_routine_bonus.service';
 import { MissionRoutineService } from 'src/static-table/mission_routine/mission_routine.service';
+import { MissionRoutine } from 'src/static-table/mission_routine/entities/mission_routine.entity';
 
 @Injectable()
 export class UserChallengeService {
@@ -111,7 +112,6 @@ export class UserChallengeService {
   async challengeQuestextraReward(
     user_id: string,
     mission_kind: string,
-    complete_count: number,
     qr?: QueryRunner,
   ) {
     const userChallengeRepository = this.getUserChallengeRepository(qr);
@@ -119,15 +119,17 @@ export class UserChallengeService {
       where: { user_id, mission_kind },
     });
 
-    // const missionRoutine = await this.missionRoutineService.getMissionRoutine(
-    //   mission_routine_id,
-    //   qr,
-    // );
+    const completeCount = await this.getCompletedMissionCountPerRoutine(
+      user_id,
+      qr,
+    );
+
+    console.log('completeCount:', completeCount);
 
     const missionRoutineBonus =
       await this.missionRoutineBonusService.getMissionRoutineBonus(
         mission_kind,
-        complete_count,
+        completeCount,
       );
 
     const rewardData = await this.rewardOfferService.reward(
@@ -143,4 +145,54 @@ export class UserChallengeService {
       userChallenge: userChallenge,
     };
   }
+
+  async getCompletedMissionCountPerRoutine(user_id: string, qr?: QueryRunner) {
+    const userChallengeRepository = this.getUserChallengeRepository(qr);
+
+    const userChallenges = await userChallengeRepository.find({
+      where: { user_id },
+      select: ['mission_routine_id', 'mission_goal', 'mission_kind'],
+    });
+
+    let completedCounts = 0;
+
+    // 각 userChallenge의 mission_routine_id 기준으로 반복
+    for (const challenge of userChallenges) {
+      const { mission_routine_id, mission_goal, mission_kind } = challenge;
+
+      // mission_routine_id에 해당하는 mission_goal 값 가져오기
+      const missionRoutine = await this.missionRoutineService.getMissionRoutine(
+        mission_routine_id,
+        qr,
+      );
+
+      if (!missionRoutine) continue; // 해당 mission_routine이 없으면 넘어감
+
+      // 유저의 mission_goal이 missionRoutine의 mission_goal보다 크면 카운트 증가
+      if (mission_goal > missionRoutine.mission_goal) {
+        completedCounts += 1;
+      }
+    }
+
+    return completedCounts;
+  }
+
+  // async getCompletedMissionRoutineCount(
+  //   user_id: string,
+  //   qr?: QueryRunner,
+  // ): Promise<number> {
+  //   const userChallengeRepository = this.getUserChallengeRepository(qr);
+
+  //   const completedMissionCount = await userChallengeRepository
+  //     .createQueryBuilder('uc')
+  //     .innerJoin(
+  //       'mission_routine',
+  //       'mr',
+  //       'uc.mission_kind = mr.mission_kind AND uc.mission_goal > mr.mission_goal',
+  //     )
+  //     .where('uc.user_id = :user_id', { user_id })
+  //     .getCount();
+
+  //   return completedMissionCount;
+  // }
 }
