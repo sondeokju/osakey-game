@@ -121,9 +121,9 @@ export class UserGachaCheckService {
         user_id,
         gacha_id,
         fixed_1_draw_count: 1,
-        fixed_item_grade_1_count,
+        fixed_item_grade_1_count: fixed_item_grade_1_count - 1,
         fixed_2_draw_count: 1,
-        fixed_item_grade_2_count,
+        fixed_item_grade_2_count: fixed_item_grade_2_count - 1,
       });
 
       // 삽입된 데이터 다시 조회
@@ -137,9 +137,21 @@ export class UserGachaCheckService {
         1,
       );
 
+      await userGachaCheckRepository.decrement(
+        { user_id, gacha_id },
+        'fixed_item_grade_1_count',
+        1,
+      );
+
       await userGachaCheckRepository.increment(
         { user_id, gacha_id },
         'fixed_2_draw_count',
+        1,
+      );
+
+      await userGachaCheckRepository.decrement(
+        { user_id, gacha_id },
+        'fixed_item_grade_2_count',
         1,
       );
 

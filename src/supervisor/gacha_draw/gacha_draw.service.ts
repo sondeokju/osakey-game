@@ -224,24 +224,24 @@ export class GachaDrawService {
         gachaItem[replaceIndex] = gradeRandomData.item_id;
       }
     }
-    if (
-      gachaCheckData.fixed_1_draw_count >=
-      gachaCostData.fixed_item_grade_1_count
-    ) {
-      await this.userGachaCheckService.gachaDrawItemGradeReset(
-        user_id,
-        gachaCostData.fixed_item_grade_1,
-      );
-    }
-    if (
-      gachaCheckData.fixed_2_draw_count >=
-      gachaCostData.fixed_item_grade_2_count
-    ) {
-      await this.userGachaCheckService.gachaDrawItemGradeReset(
-        user_id,
-        gachaCostData.fixed_item_grade_2,
-      );
-    }
+    // if (
+    //   gachaCheckData.fixed_1_draw_count >=
+    //   gachaCostData.fixed_item_grade_1_count
+    // ) {
+    //   await this.userGachaCheckService.gachaDrawItemGradeReset(
+    //     user_id,
+    //     gachaCostData.fixed_item_grade_1,
+    //   );
+    // }
+    // if (
+    //   gachaCheckData.fixed_2_draw_count >=
+    //   gachaCostData.fixed_item_grade_2_count
+    // ) {
+    //   await this.userGachaCheckService.gachaDrawItemGradeReset(
+    //     user_id,
+    //     gachaCostData.fixed_item_grade_2,
+    //   );
+    // }
 
     return gachaItem;
   }
@@ -269,7 +269,6 @@ export class GachaDrawService {
       gachaCostData.fixed_item_grade_2_count,
       qr,
     );
-    //await this.userGachaCheckService.gachaDrawCountPlus(user_id, qr);
 
     console.log('calcuGachaItem:', calcuGachaItem);
     console.log('gachaItem:', gachaItem);
@@ -291,14 +290,14 @@ export class GachaDrawService {
     //   qr,
     // );
 
-    // await this.fixedGacha(
-    //   user_id,
-    //   gacha_id,
-    //   gachaItem,
-    //   gachaCostData,
-    //   calcuGachaItem.item_kind,
-    //   qr,
-    // );
+    await this.fixedGacha(
+      user_id,
+      gacha_id,
+      gachaItem,
+      gachaCostData,
+      calcuGachaItem.item_kind,
+      qr,
+    );
 
     // // 중복된 item_id를 합쳐서 { item_id, item_count } 형태로 변환
     // const gachaItemData: { item_id: number; item_count: number }[] = [];
