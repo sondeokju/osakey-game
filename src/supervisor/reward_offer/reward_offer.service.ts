@@ -49,6 +49,8 @@ export class RewardOfferService {
     const rewardData = await this.rewardService.getReward(reward_id);
     console.log('rewardData', rewardData);
 
+    console.log('----------reward--------------');
+
     let result = [];
 
     for (const reward of rewardData) {
@@ -66,7 +68,7 @@ export class RewardOfferService {
       if (['C'].includes(itemData.item_type)) {
         await this.rewardCurrency(
           user_id,
-          itemData.item_name,
+          itemData.item_name.trim(),
           reward.item_count,
           qr,
         );
@@ -75,7 +77,7 @@ export class RewardOfferService {
           user_id,
           itemData.item_id,
           itemData.item_grade,
-          itemData.item_type,
+          itemData.item_type.trim(),
           reward.item_count,
           qr,
         );
@@ -94,6 +96,7 @@ export class RewardOfferService {
     console.log('result:', result);
     return result;
   }
+
   async rewardItem(
     user_id: string,
     item_id: number,
