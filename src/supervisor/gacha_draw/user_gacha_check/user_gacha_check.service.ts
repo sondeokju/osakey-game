@@ -75,12 +75,27 @@ export class UserGachaCheckService {
 
     if (item_grade_type === 4) {
       userGachaCheck.fixed_item_grade_1_count += item_grade_count;
+      userGachaCheck.fixed_1_draw_count += 1;
     } else if (item_grade_type === 5) {
       userGachaCheck.fixed_item_grade_2_count += item_grade_count;
+      userGachaCheck.fixed_2_draw_count += 1;
     }
 
+    const updatedUserGachaCheck =
+      await userGachaCheckRepository.save(userGachaCheck);
+
+    return updatedUserGachaCheck;
+  }
+
+  async gachaDrawCountPlus(user_id: string, qr?: QueryRunner) {
+    const userGachaCheckRepository = this.getUserGachaCheckRepository(qr);
+    const userGachaCheck = await userGachaCheckRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+
     userGachaCheck.fixed_1_draw_count += 1;
-    userGachaCheck.fixed_2_draw_count += 1;
 
     const updatedUserGachaCheck =
       await userGachaCheckRepository.save(userGachaCheck);
