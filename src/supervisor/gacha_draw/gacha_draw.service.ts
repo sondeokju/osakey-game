@@ -309,6 +309,8 @@ export class GachaDrawService {
       qr,
     );
 
+    console.log('-------------gachaItem:', gachaItem);
+
     // 중복된 item_id를 합쳐서 { item_id, item_count } 형태로 변환
     const gachaItemData: { item_id: number; item_count: number }[] = [];
 
