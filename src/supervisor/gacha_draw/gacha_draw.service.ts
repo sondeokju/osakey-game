@@ -193,7 +193,7 @@ export class GachaDrawService {
           user_id,
           gacha_id,
           gachaCostData.fixed_item_grade_1,
-          gachaCostData.item_grade_1_count,
+          gachaCostData.fixed_item_grade_1_count,
           qr,
         );
       } else if (item_grade === gachaCostData.fixed_item_grade_2) {
@@ -201,7 +201,7 @@ export class GachaDrawService {
           user_id,
           gacha_id,
           gachaCostData.fixed_item_grade_,
-          gachaCostData.item_grade_2_count,
+          gachaCostData.fixed_item_grade_2_count,
           qr,
         );
       }
