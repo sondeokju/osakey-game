@@ -48,7 +48,6 @@ export class UserChallengeController {
     const result = await this.userChallengeService.challengeQuestReward(
       user.user_id,
       mission_routine_id,
-      count,
       qr,
     );
 
