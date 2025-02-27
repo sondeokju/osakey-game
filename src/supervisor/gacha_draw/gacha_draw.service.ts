@@ -224,30 +224,34 @@ export class GachaDrawService {
       }
     }
 
-    // if (!grade4) {
-    //   const gradeRandomData = await this.itemGradeRandom(
-    //     gacha_id,
-    //     gachaCostData.fixed_item_grade_1,
-    //     qr,
-    //   );
-    //   if (gradeRandomData) {
-    //     // 기존 아이템 중 무작위로 하나 선택하여 교체
-    //     const replaceIndex = Math.floor(Math.random() * gachaItem.length);
-    //     gachaItem[replaceIndex] = gradeRandomData.item_id;
-    //   }
-    // }
-    // if (!grade5) {
-    //   const gradeRandomData = await this.itemGradeRandom(
-    //     gacha_id,
-    //     gachaCostData.fixed_item_grade_2,
-    //     qr,
-    //   );
-    //   if (gradeRandomData) {
-    //     // 기존 아이템 중 무작위로 하나 선택하여 교체
-    //     const replaceIndex = Math.floor(Math.random() * gachaItem.length);
-    //     gachaItem[replaceIndex] = gradeRandomData.item_id;
-    //   }
-    // }
+    console.log('grade4:', grade4);
+    if (!grade4) {
+      const gradeRandomData = await this.itemGradeRandom(
+        gacha_id,
+        gachaCostData.fixed_item_grade_1,
+        qr,
+      );
+      if (gradeRandomData) {
+        // 기존 아이템 중 무작위로 하나 선택하여 교체
+        const replaceIndex = Math.floor(Math.random() * gachaItem.length);
+        gachaItem[replaceIndex] = gradeRandomData.item_id;
+      }
+    }
+
+    console.log('grade5:', grade5);
+
+    if (!grade5) {
+      const gradeRandomData = await this.itemGradeRandom(
+        gacha_id,
+        gachaCostData.fixed_item_grade_2,
+        qr,
+      );
+      if (gradeRandomData) {
+        // 기존 아이템 중 무작위로 하나 선택하여 교체
+        const replaceIndex = Math.floor(Math.random() * gachaItem.length);
+        gachaItem[replaceIndex] = gradeRandomData.item_id;
+      }
+    }
 
     return gachaItem;
   }
