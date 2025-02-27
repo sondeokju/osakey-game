@@ -34,6 +34,7 @@ import { UserIngameRewardService } from 'src/inventory/stage/user_ingame_reward/
 import { UserSuitService } from 'src/inventory/suit/user_suit/user_suit.service';
 import { UserTutorialService } from 'src/inventory/tutorial/user_tutorial/user_tutorial.service';
 import { QueryRunner, Repository } from 'typeorm';
+import { UserGachaCheckService } from '../gacha_draw/user_gacha_check/user_gacha_check.service';
 
 @Injectable()
 export class InvenService {
@@ -67,6 +68,7 @@ export class InvenService {
     private readonly userEquipOptionService: UserEquipOptionService,
     private readonly userTutorialService: UserTutorialService,
     private readonly userShopLimitService: UserShopLimitService,
+    private readonly userGachaCheckService: UserGachaCheckService,
   ) {}
 
   async getUserInventoryAll(user_id: string, qr?: QueryRunner) {
@@ -97,6 +99,7 @@ export class InvenService {
         equipOption,
         tutorial,
         shopLimit,
+        gachaCheck,
       ] = await Promise.all([
         this.userSuitService.getUserSuit(user_id, qr),
         this.userItemExchangeService.getItemExchange(user_id, qr),
@@ -123,6 +126,7 @@ export class InvenService {
         this.userEquipOptionService.equipOptionList(user_id, qr),
         this.userTutorialService.getUserTutorialAll(user_id, qr),
         this.userShopLimitService.getUserShopLimitAll(user_id, qr),
+        this.userGachaCheckService.getUserGachaCheckAll(user_id, qr),
       ]);
 
       return {
@@ -151,6 +155,7 @@ export class InvenService {
         equipOption,
         tutorial,
         shopLimit,
+        gachaCheck,
       };
     } catch (error) {
       // throw new BadRequestException(

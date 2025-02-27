@@ -34,6 +34,17 @@ export class UserGachaCheckService {
     return userGachaCheck;
   }
 
+  async getUserGachaCheckAll(user_id: string, qr?: QueryRunner) {
+    const userGachaCheckRepository = this.getUserGachaCheckRepository(qr);
+    const userGachaCheck = await userGachaCheckRepository.find({
+      where: {
+        user_id,
+      },
+    });
+
+    return userGachaCheck;
+  }
+
   async gachaDrawItemGradeReset(
     user_id: string,
     item_grade_type: number,
