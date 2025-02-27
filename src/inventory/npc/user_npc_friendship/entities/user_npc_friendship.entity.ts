@@ -22,4 +22,11 @@ export class UserNpcFriendship extends BaseModel {
     default: 0,
   })
   npc_likeability: number;
+
+  @Column({
+    type: 'varchar',
+    length: 1,
+    default: 0,
+  })
+  reward_yn: string;
 }

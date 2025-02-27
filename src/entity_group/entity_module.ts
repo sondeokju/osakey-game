@@ -123,6 +123,7 @@ import { UserShopLimitModule } from 'src/inventory/shop/user_shop_limit/user_sho
 import { UserRentamaEquipSlotModule } from 'src/inventory/dispatch/user_rentama_equip_slot/user_rentama_equip_slot.module';
 import { DispatchRewardModule } from 'src/static-table/dispatch/dispatch_reward/dispatch_reward.module';
 import { GachaSellModule } from 'src/static-table/shop/gacha_sell/gacha_sell.module';
+import { UserChallengeModule } from 'src/inventory/challenge/user_challenge/user_challenge.module';
 
 export const entities_module = [
   UsersModule,
@@ -250,6 +251,7 @@ export const entities_module = [
   UserRentamaEquipSlotModule,
   DispatchRewardModule,
   GachaSellModule,
+  UserChallengeModule,
 ];
 
 //console.log('[DEBUG] entities_module.ts loaded:', entities_module);
