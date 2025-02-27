@@ -160,20 +160,26 @@ export class UserChallengeService {
     // 각 userChallenge의 mission_routine_id 기준으로 반복
     for (const challenge of userChallenges) {
       const { mission_routine_id, mission_goal, mission_kind } = challenge;
+      console.log('mission_routine_id:', mission_routine_id);
+      console.log('mission_goal:', mission_goal);
 
       // mission_routine_id에 해당하는 mission_goal 값 가져오기
       const missionRoutine = await this.missionRoutineService.getMissionRoutine(
         mission_routine_id,
         qr,
       );
+      console.log('missionRoutine:', missionRoutine);
 
       if (!missionRoutine) continue; // 해당 mission_routine이 없으면 넘어감
 
+      console.log('mission_goal:', mission_goal);
+      console.log('missionRoutine.mission_goal:', missionRoutine.mission_goal);
       // 유저의 mission_goal이 missionRoutine의 mission_goal보다 크면 카운트 증가
       if (mission_goal > missionRoutine.mission_goal) {
         completedCounts += 1;
       }
     }
+    console.log('completedCounts:', completedCounts);
 
     return completedCounts;
   }
