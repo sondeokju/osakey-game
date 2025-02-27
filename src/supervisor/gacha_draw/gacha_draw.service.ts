@@ -293,13 +293,9 @@ export class GachaDrawService {
 
     console.log(gachaItemData);
 
-    let reward;
+    //let reward;
     if (['E'].includes(itemKind)) {
-      reward = await this.rewardOfferService.rewardEquipArray(
-        user_id,
-        gachaItem,
-        qr,
-      );
+      await this.rewardOfferService.rewardEquipArray(user_id, gachaItem, qr);
 
       // reward = reward.map(({ item_count, ...rest }) => ({
       //   ...rest,
@@ -311,32 +307,26 @@ export class GachaDrawService {
         gachaItem,
         qr,
       );
+    }
 
-      const itemCountMap: Record<number, number> = {};
-      for (const item_id of gachaItem) {
-        itemCountMap[item_id] = (itemCountMap[item_id] || 0) + 1;
-      }
+    const itemCountMap: Record<number, number> = {};
+    for (const item_id of gachaItem) {
+      itemCountMap[item_id] = (itemCountMap[item_id] || 0) + 1;
+    }
 
-      // 객체를 원하는 형태의 배열로 변환
-      for (const [item_id, item_count] of Object.entries(itemCountMap)) {
-        gachaItemData.push({
-          item_id: Number(item_id),
-          item_count: Number(item_count),
-        });
-      }
+    // 객체를 원하는 형태의 배열로 변환
+    for (const [item_id, item_count] of Object.entries(itemCountMap)) {
+      gachaItemData.push({
+        item_id: Number(item_id),
+        item_count: Number(item_count),
+      });
+    }
 
-      reward = {
+    return {
+      reward: {
         userItemData: gachaItemData,
-      };
-    }
-
-    console.log('reward', reward);
-
-    if (!reward) {
-      //throw new BadRequestException('Failed to process reward.');
-    }
-
-    return { reward };
+      },
+    };
     //return {};
   }
 
