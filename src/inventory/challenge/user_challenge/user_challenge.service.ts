@@ -175,7 +175,7 @@ export class UserChallengeService {
       console.log('mission_goal:', mission_goal);
       console.log('missionRoutine.mission_goal:', missionRoutine.mission_goal);
       // 유저의 mission_goal이 missionRoutine의 mission_goal보다 크면 카운트 증가
-      if (mission_goal > missionRoutine.mission_goal) {
+      if (mission_goal >= missionRoutine.mission_goal) {
         completedCounts += 1;
       }
     }
