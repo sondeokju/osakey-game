@@ -43,17 +43,18 @@ export class GachaDrawController {
   async equipGachaDrawRandom(
     @User() user: Users,
     @Body('gacha_id') gacha_id: number,
+    @Body('gacha_count') gacha_count: number,
     @QueryRunner() qr: QR,
   ) {
     const result = await this.gachaDrawService.equipGachaDrawRandom(
       user.user_id,
       gacha_id,
+      gacha_count,
       qr,
     );
 
     return JSON.stringify(result);
   }
-
 
   // @Post('draw')
   // @UseInterceptors(TransactionInterceptor)
