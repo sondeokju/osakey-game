@@ -178,24 +178,10 @@ export class GachaDrawService {
       if (['E'].includes(gacha_type)) {
         equipData = await this.equipService.getEquip(item, qr);
         item_grade = equipData.equip_grade;
-        console.log('E item_grade:', item_grade);
       } else {
         itemData = await this.itemService.getItem(item, qr);
         item_grade = itemData.item_grade;
-        console.log('M item_grade:', item_grade);
       }
-
-      console.log('fixedGacha :item_grade', item_grade);
-
-      console.log(
-        'gachaCostData.fixed_item_grade_1',
-        gachaCostData.fixed_item_grade_1,
-      );
-
-      console.log(
-        'gachaCostData.fixed_item_grade_2',
-        gachaCostData.fixed_item_grade_2,
-      );
 
       if (item_grade === gachaCostData.fixed_item_grade_1) {
         console.log(
@@ -224,8 +210,11 @@ export class GachaDrawService {
       }
     }
 
-    console.log('grade4:', grade4);
-    if (!grade4) {
+    if (
+      !grade4 &&
+      gachaCheckData.fixed_item_grade_1_count <= 1 &&
+      gachaCheckData.fixed_item_grade_2_count > 1
+    ) {
       const gradeRandomData = await this.itemGradeRandom(
         gacha_id,
         gachaCostData.fixed_item_grade_1,
@@ -236,11 +225,21 @@ export class GachaDrawService {
         const replaceIndex = Math.floor(Math.random() * gachaItem.length);
         gachaItem[replaceIndex] = gradeRandomData.item_id;
       }
+
+      await this.userGachaCheckService.gachaDrawReset(
+        user_id,
+        gacha_id,
+        gachaCostData.fixed_item_grade_1,
+        gachaCostData.fixed_item_grade_1_count,
+        qr,
+      );
     }
 
-    console.log('grade5:', grade5);
-
-    if (!grade5) {
+    if (
+      !grade5 &&
+      gachaCheckData.fixed_item_grade_2_count <= 1 &&
+      gachaCheckData.fixed_item_grade_1_count > 1
+    ) {
       const gradeRandomData = await this.itemGradeRandom(
         gacha_id,
         gachaCostData.fixed_item_grade_2,
@@ -251,6 +250,14 @@ export class GachaDrawService {
         const replaceIndex = Math.floor(Math.random() * gachaItem.length);
         gachaItem[replaceIndex] = gradeRandomData.item_id;
       }
+
+      await this.userGachaCheckService.gachaDrawReset(
+        user_id,
+        gacha_id,
+        gachaCostData.fixed_item_grade_2,
+        gachaCostData.fixed_item_grade_2_count,
+        qr,
+      );
     }
 
     return gachaItem;
