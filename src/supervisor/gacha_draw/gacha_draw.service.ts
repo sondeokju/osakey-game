@@ -263,6 +263,11 @@ export class GachaDrawService {
     const itemKind = calcuGachaItem.item_kind;
     const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
 
+    console.log('calcuGachaItem:', calcuGachaItem);
+    console.log('gachaItem:', gachaItem);
+    console.log('itemKind:', itemKind);
+    console.log('gachaCostData:', gachaCostData);
+
     await this.resourceManagerService.validateAndDeductResources(
       user_id,
       {
