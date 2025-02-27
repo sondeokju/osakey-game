@@ -6,6 +6,7 @@ import { UserChallenge } from './entities/user_challenge.entity';
 import { RewardOfferModule } from 'src/supervisor/reward_offer/reward_offer.module';
 import { MissionRoutineBonusModule } from 'src/static-table/mission_routine_bonus/mission_routine_bonus.module';
 import { MissionRoutineModule } from 'src/static-table/mission_routine/mission_routine.module';
+import { UserChallengeExtraModule } from '../user_challenge_extra/user_challenge_extra.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { MissionRoutineModule } from 'src/static-table/mission_routine/mission_r
     RewardOfferModule,
     MissionRoutineBonusModule,
     MissionRoutineModule,
+    UserChallengeExtraModule,
   ],
   exports: [UserChallengeService],
   controllers: [UserChallengeController],

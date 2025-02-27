@@ -13,6 +13,7 @@ import { UserChallenge } from './entities/user_challenge.entity';
 import { MissionRoutineBonusService } from 'src/static-table/mission_routine_bonus/mission_routine_bonus.service';
 import { MissionRoutineService } from 'src/static-table/mission_routine/mission_routine.service';
 import { MissionRoutine } from 'src/static-table/mission_routine/entities/mission_routine.entity';
+import { UserChallengeExtraService } from '../user_challenge_extra/user_challenge_extra.service';
 
 @Injectable()
 export class UserChallengeService {
@@ -22,6 +23,7 @@ export class UserChallengeService {
     private readonly rewardOfferService: RewardOfferService,
     private readonly missionRoutineBonusService: MissionRoutineBonusService,
     private readonly missionRoutineService: MissionRoutineService,
+    private readonly userChallengeExtraService: UserChallengeExtraService,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -136,6 +138,12 @@ export class UserChallengeService {
       user_id,
       missionRoutineBonus.reward_id,
       qr,
+    );
+
+    await this.userChallengeExtraService.challengeExtraRewardCheck(
+      user_id,
+      mission_kind,
+      completeCount,
     );
 
     return {

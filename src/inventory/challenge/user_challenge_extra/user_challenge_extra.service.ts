@@ -35,6 +35,30 @@ export class UserChallengeExtraService {
     return userChallengeExtra;
   }
 
+  async challengeExtraRewardCheck(
+    user_id: string,
+    mission_kind: string,
+    complete_count: number,
+    qr?: QueryRunner,
+  ) {
+    const userChallengeExtraRepository =
+      this.getUserChallengeExtraRepository(qr);
+
+    // userChallengeExtra 조회
+    const userChallengeExtra = await userChallengeExtraRepository.findOne({
+      where: { user_id, mission_kind, complete_count },
+    });
+
+    // userChallengeExtra가 존재하면 reward_yn을 'Y'로 업데이트
+    if (userChallengeExtra) {
+      userChallengeExtra.reward_yn = 'Y';
+
+      await userChallengeExtraRepository.save(userChallengeExtra);
+    }
+
+    return userChallengeExtra;
+  }
+
   // async challengeQuest(
   //   user_id: string,
   //   mission_routine_id: number,
