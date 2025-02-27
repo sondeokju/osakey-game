@@ -11,7 +11,7 @@ import { DataSource } from 'typeorm';
 import { UserChallengeExtra } from './entities/user_challenge_extra.entity';
 
 @Injectable()
-export class UserChallengeService {
+export class UserChallengeExtraService {
   constructor(
     @InjectRepository(UserChallengeExtra)
     private readonly userChallengeExtraRepository: Repository<UserChallengeExtra>,
