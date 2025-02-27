@@ -35,102 +35,102 @@ export class UserChallengeService {
     return userChallengeExtra;
   }
 
-  async challengeQuest(
-    user_id: string,
-    mission_routine_id: number,
-    count: number,
-    qr?: QueryRunner,
-  ) {
-    const userChallengeRepository = this.getUserChallengeRepository(qr);
+  // async challengeQuest(
+  //   user_id: string,
+  //   mission_routine_id: number,
+  //   count: number,
+  //   qr?: QueryRunner,
+  // ) {
+  //   const userChallengeRepository = this.getUserChallengeRepository(qr);
 
-    let userChallenge = await userChallengeRepository.findOne({
-      where: { user_id, mission_routine_id },
-    });
+  //   let userChallenge = await userChallengeRepository.findOne({
+  //     where: { user_id, mission_routine_id },
+  //   });
 
-    if (!userChallenge) {
-      userChallenge = userChallengeRepository.create({
-        user_id,
-        mission_routine_id,
-        mission_goal: count, // 처음부터 count 값을 설정
-      });
+  //   if (!userChallenge) {
+  //     userChallenge = userChallengeRepository.create({
+  //       user_id,
+  //       mission_routine_id,
+  //       mission_goal: count, // 처음부터 count 값을 설정
+  //     });
 
-      userChallenge = await userChallengeRepository.save(userChallenge);
-    } else {
-      await userChallengeRepository.increment(
-        { user_id, mission_routine_id },
-        'mission_goal',
-        count,
-      );
+  //     userChallenge = await userChallengeRepository.save(userChallenge);
+  //   } else {
+  //     await userChallengeRepository.increment(
+  //       { user_id, mission_routine_id },
+  //       'mission_goal',
+  //       count,
+  //     );
 
-      userChallenge = await userChallengeRepository.findOne({
-        where: { user_id, mission_routine_id },
-      });
-    }
+  //     userChallenge = await userChallengeRepository.findOne({
+  //       where: { user_id, mission_routine_id },
+  //     });
+  //   }
 
-    return userChallenge;
-  }
+  //   return userChallenge;
+  // }
 
-  async challengeQuestReward(
-    user_id: string,
-    mission_routine_id: number,
-    count: number,
-    qr?: QueryRunner,
-  ) {
-    const userChallengeRepository = this.getUserChallengeRepository(qr);
-    const userChallenge = await userChallengeRepository.findOne({
-      where: { user_id, mission_routine_id },
-    });
+  // async challengeQuestReward(
+  //   user_id: string,
+  //   mission_routine_id: number,
+  //   count: number,
+  //   qr?: QueryRunner,
+  // ) {
+  //   const userChallengeRepository = this.getUserChallengeRepository(qr);
+  //   const userChallenge = await userChallengeRepository.findOne({
+  //     where: { user_id, mission_routine_id },
+  //   });
 
-    const missionRoutine = await this.missionRoutineService.getMissionRoutine(
-      mission_routine_id,
-      qr,
-    );
+  //   const missionRoutine = await this.missionRoutineService.getMissionRoutine(
+  //     mission_routine_id,
+  //     qr,
+  //   );
 
-    const rewardData = await this.rewardOfferService.reward(
-      user_id,
-      missionRoutine.reward_id,
-      qr,
-    );
+  //   const rewardData = await this.rewardOfferService.reward(
+  //     user_id,
+  //     missionRoutine.reward_id,
+  //     qr,
+  //   );
 
-    userChallenge.reward_yn = 'Y';
-    const result = await userChallengeRepository.save(userChallenge);
+  //   userChallenge.reward_yn = 'Y';
+  //   const result = await userChallengeRepository.save(userChallenge);
 
-    return {
-      reward: {
-        userItemData: rewardData,
-      },
-      userChallenge: result,
-    };
-  }
+  //   return {
+  //     reward: {
+  //       userItemData: rewardData,
+  //     },
+  //     userChallenge: result,
+  //   };
+  // }
 
-  async challengeQuestextraReward(
-    user_id: string,
-    mission_kind: string,
-    complete_count: number,
-    qr?: QueryRunner,
-  ) {
-    const userChallengeRepository = this.getUserChallengeRepository(qr);
-    const userChallenge = await userChallengeRepository.find({
-      where: { user_id, mission_kind },
-    });
+  // async challengeQuestextraReward(
+  //   user_id: string,
+  //   mission_kind: string,
+  //   complete_count: number,
+  //   qr?: QueryRunner,
+  // ) {
+  //   const userChallengeRepository = this.getUserChallengeRepository(qr);
+  //   const userChallenge = await userChallengeRepository.find({
+  //     where: { user_id, mission_kind },
+  //   });
 
-    const missionRoutineBonus =
-      await this.missionRoutineBonusService.getMissionRoutineBonus(
-        mission_kind,
-        complete_count,
-      );
+  //   const missionRoutineBonus =
+  //     await this.missionRoutineBonusService.getMissionRoutineBonus(
+  //       mission_kind,
+  //       complete_count,
+  //     );
 
-    const rewardData = await this.rewardOfferService.reward(
-      user_id,
-      missionRoutineBonus.reward_id,
-      qr,
-    );
+  //   const rewardData = await this.rewardOfferService.reward(
+  //     user_id,
+  //     missionRoutineBonus.reward_id,
+  //     qr,
+  //   );
 
-    return {
-      reward: {
-        userItemData: rewardData,
-      },
-      userChallenge: userChallenge,
-    };
-  }
+  //   return {
+  //     reward: {
+  //       userItemData: rewardData,
+  //     },
+  //     userChallenge: userChallenge,
+  //   };
+  // }
 }
