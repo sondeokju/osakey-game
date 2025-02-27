@@ -22,6 +22,24 @@ export class UserRentamaEquipSlotController {
   //   return result;
   // }
 
+  // 장비 강화
+  @Post('equip/level-up')
+  @UseInterceptors(TransactionInterceptor)
+  async equipBoost(
+    @User() user: Users,
+    @Body('user_equip_id') user_equip_id: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userRentamaEquipSlotService.equipBoost(
+      user.user_id,
+      user_equip_id,
+      qr,
+    );
+
+    return result;
+  }
+
+  // 장비 자동 착용
   @Post('auto/equip')
   @UseInterceptors(TransactionInterceptor)
   async autoEquipGear(@User() user: Users, @QueryRunner() qr: QR) {
@@ -33,6 +51,7 @@ export class UserRentamaEquipSlotController {
     return JSON.stringify(result);
   }
 
+  // 장비 교체
   @Post('equip/change')
   @UseInterceptors(TransactionInterceptor)
   async rentamaEquipSlotChange(

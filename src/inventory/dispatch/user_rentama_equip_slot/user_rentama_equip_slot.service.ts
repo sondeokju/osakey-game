@@ -32,6 +32,15 @@ export class UserRentamaEquipSlotService {
   }
 
   // 장비 강화
+  async equipBoost(user_id: string, user_equip_id: number, qr?: QueryRunner) {
+    const result = await this.userEquipService.equipLevelUp(
+      user_id,
+      user_equip_id,
+      qr,
+    );
+
+    return result;
+  }
 
   // 장비 자동 착용
   async autoEquip(user_id: string, qr?: QueryRunner) {
@@ -60,7 +69,7 @@ export class UserRentamaEquipSlotService {
               'el.equip_slot AS equip_slot',
               `ROW_NUMBER() OVER (
               PARTITION BY el.equip_slot
-              ORDER BY 
+              ORDER BY
                 el.equip_grade DESC,
                 ue.equip_level_id DESC,
                 el.stat_total DESC,
