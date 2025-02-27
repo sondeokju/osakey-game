@@ -185,21 +185,24 @@ export class GachaDrawService {
         console.log('M item_grade:', item_grade);
       }
       if (item_grade === gachaCostData.fixed_item_grade_1) {
-        await this.userGachaCheckService.gachaDrawItemGradeSave(
+        await this.userGachaCheckService.gachaDrawReset(
           user_id,
+          gacha_id,
           gachaCostData.fixed_item_grade_1,
-          1,
+          gachaCostData.item_grade_1_count,
           qr,
         );
       } else if (item_grade === gachaCostData.fixed_item_grade_2) {
-        await this.userGachaCheckService.gachaDrawItemGradeSave(
+        await this.userGachaCheckService.gachaDrawReset(
           user_id,
-          gachaCostData.fixed_item_grade_2,
-          1,
+          gacha_id,
+          gachaCostData.fixed_item_grade_,
+          gachaCostData.item_grade_2_count,
           qr,
         );
       }
     }
+
     if (!grade4) {
       const gradeRandomData = await this.itemGradeRandom(
         gacha_id,
@@ -224,24 +227,6 @@ export class GachaDrawService {
         gachaItem[replaceIndex] = gradeRandomData.item_id;
       }
     }
-    // if (
-    //   gachaCheckData.fixed_1_draw_count >=
-    //   gachaCostData.fixed_item_grade_1_count
-    // ) {
-    //   await this.userGachaCheckService.gachaDrawItemGradeReset(
-    //     user_id,
-    //     gachaCostData.fixed_item_grade_1,
-    //   );
-    // }
-    // if (
-    //   gachaCheckData.fixed_2_draw_count >=
-    //   gachaCostData.fixed_item_grade_2_count
-    // ) {
-    //   await this.userGachaCheckService.gachaDrawItemGradeReset(
-    //     user_id,
-    //     gachaCostData.fixed_item_grade_2,
-    //   );
-    // }
 
     return gachaItem;
   }

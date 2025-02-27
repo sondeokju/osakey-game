@@ -60,25 +60,27 @@ export class UserGachaCheckService {
     return updatedUserGachaCheck;
   }
 
-  async gachaDrawItemGradeSave(
+  async gachaDrawReset(
     user_id: string,
+    gacha_id: number,
     item_grade_type: number,
-    item_grade_count: number,
+    reset_count: number,
     qr?: QueryRunner,
   ) {
     const userGachaCheckRepository = this.getUserGachaCheckRepository(qr);
     const userGachaCheck = await userGachaCheckRepository.findOne({
       where: {
         user_id,
+        gacha_id,
       },
     });
 
     if (item_grade_type === 4) {
-      userGachaCheck.fixed_item_grade_1_count += item_grade_count;
-      userGachaCheck.fixed_1_draw_count += 1;
+      userGachaCheck.fixed_item_grade_1_count = reset_count;
+      userGachaCheck.fixed_1_draw_count = 0;
     } else if (item_grade_type === 5) {
-      userGachaCheck.fixed_item_grade_2_count += item_grade_count;
-      userGachaCheck.fixed_2_draw_count += 1;
+      userGachaCheck.fixed_item_grade_2_count = reset_count;
+      userGachaCheck.fixed_2_draw_count = 0;
     }
 
     const updatedUserGachaCheck =
