@@ -35,6 +35,7 @@ export class UserHeroService {
       throw new NotFoundException('level up exp not enough.');
     }
 
+    console.log('heroLevelData:', heroLevelData);
     if (currentExp >= heroLevelData.total_exp) {
       updateLevel = currentLevel + 1;
     }
