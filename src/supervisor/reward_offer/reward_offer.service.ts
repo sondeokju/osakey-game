@@ -277,6 +277,7 @@ export class RewardOfferService {
       userEquipData: equipList, // 이중 배열 없이 반환
     };
   }
+
   async rewardCurrency(
     user_id: string,
     item_name: string,
@@ -295,6 +296,8 @@ export class RewardOfferService {
       if (!userData) {
         throw new NotFoundException(`User ${user_id} not found.`);
       }
+
+      console.log('------------item_name-----------', item_name);
 
       // 값 업데이트 (switch 문 사용)
       switch (item_name) {
@@ -326,7 +329,7 @@ export class RewardOfferService {
       // 업데이트된 데이터 저장
       await usersRepository.save(userData);
 
-      return [{ item_name, quantity: qty }];
+      return [{ item_name, item_count: qty }];
     } catch (error) {
       console.error('❌ Error in rewardCurrency:', error.message);
       throw new InternalServerErrorException(

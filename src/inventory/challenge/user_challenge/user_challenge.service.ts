@@ -119,6 +119,11 @@ export class UserChallengeService {
       where: { user_id, mission_kind },
     });
 
+    const missionRoutine = await this.missionRoutineService.getMissionRoutine(
+      mission_routine_id,
+      qr,
+    );
+
     const missionRoutineBonus =
       await this.missionRoutineBonusService.getMissionRoutineBonus(
         mission_kind,
