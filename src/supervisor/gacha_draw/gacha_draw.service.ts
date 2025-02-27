@@ -136,6 +136,10 @@ export class GachaDrawService {
     const gachaCheckData =
       await this.userGachaCheckService.getGachaDrawItemGrade(user_id, qr);
 
+    console.log('gacha_id:', gacha_id);
+    console.log('gachaItem:', gachaItem);
+    console.log('gachaCostData:', gachaCostData);
+    console.log('gacha_type:', gacha_type);
     const [grade4, grade5] = await Promise.all([
       this.itemGradeCheck(gachaItem, gachaCostData.fixed_item_grade_1, qr),
       this.itemGradeCheck(gachaItem, gachaCostData.fixed_item_grade_2, qr),
