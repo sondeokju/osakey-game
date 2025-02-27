@@ -126,6 +126,7 @@ export class GachaDrawService {
   async itemGradeRandom(
     gacha_id: number,
     item_grade: number,
+    gacha_type: string,
     qr?: QueryRunner,
   ) {
     const query = `
@@ -141,14 +142,13 @@ export class GachaDrawService {
         LEFT JOIN item i ON go.item_kind = 'M' AND go.item_id = i.item_id
         WHERE go.gacha_id = ?
         AND (
-            (go.item_kind = 'E' AND e.equip_grade = ?)
-            OR (go.item_kind = 'M' AND i.item_grade = ?)
+            (go.item_kind = ? AND e.equip_grade = ?)            
         )
         ORDER BY RAND()
         LIMIT 1;
     `;
 
-    const params = [gacha_id, item_grade, item_grade];
+    const params = [gacha_id, gacha_type, item_grade];
 
     let result;
     if (qr) {
@@ -237,6 +237,7 @@ export class GachaDrawService {
       const gradeRandomData = await this.itemGradeRandom(
         gacha_id,
         gachaCostData.fixed_item_grade_1,
+        gacha_type,
         qr,
       );
       if (gradeRandomData) {
@@ -262,6 +263,7 @@ export class GachaDrawService {
       const gradeRandomData = await this.itemGradeRandom(
         gacha_id,
         gachaCostData.fixed_item_grade_2,
+        gacha_type,
         qr,
       );
       if (gradeRandomData) {
