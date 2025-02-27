@@ -120,7 +120,9 @@ export class UserGachaCheckService {
       await userGachaCheckRepository.insert({
         user_id,
         gacha_id,
+        fixed_1_draw_count: 1,
         fixed_item_grade_1_count,
+        fixed_2_draw_count: 1,
         fixed_item_grade_2_count,
       });
 
