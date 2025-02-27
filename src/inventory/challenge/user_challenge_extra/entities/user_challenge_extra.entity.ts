@@ -31,11 +31,6 @@ export class UserChallengeExtra extends BaseModel {
   complete_count: number;
 
   @Column({
-    default: 0,
-  })
-  reward_id: number;
-
-  @Column({
     type: 'char',
     length: 1,
     default: 'N',
