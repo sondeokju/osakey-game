@@ -24,4 +24,20 @@ export class MissionRoutineBonusService {
     const result = await missionRoutineBonusRepository.find({});
     return result;
   }
+
+  async getMissionRoutineBonus(
+    mission_kind: string,
+    complete_count: number,
+    qr?: QueryRunner,
+  ) {
+    const missionRoutineBonusRepository =
+      this.getMissionRoutineBonusRepository(qr);
+    const result = await missionRoutineBonusRepository.findOne({
+      where: {
+        mission_kind,
+        complete_count,
+      },
+    });
+    return result;
+  }
 }
