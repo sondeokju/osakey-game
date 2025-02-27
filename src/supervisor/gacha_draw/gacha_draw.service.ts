@@ -185,6 +185,10 @@ export class GachaDrawService {
         console.log('M item_grade:', item_grade);
       }
       if (item_grade === gachaCostData.fixed_item_grade_1) {
+        console.log(
+          'gachaCostData.item_grade_1_count:',
+          gachaCostData.item_grade_1_count,
+        );
         await this.userGachaCheckService.gachaDrawReset(
           user_id,
           gacha_id,
