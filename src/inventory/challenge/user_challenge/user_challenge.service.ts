@@ -167,7 +167,7 @@ export class UserChallengeService {
 
     // 각 userChallenge의 mission_routine_id 기준으로 반복
     for (const challenge of userChallenges) {
-      const { mission_routine_id, mission_goal, mission_kind } = challenge;
+      const { mission_routine_id, mission_goal } = challenge;
       console.log('mission_routine_id:', mission_routine_id);
       console.log('mission_goal:', mission_goal);
 

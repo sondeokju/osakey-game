@@ -20,7 +20,7 @@ export class UserChallengeController {
     return result;
   }
 
-  @Post('try')
+  @Post('start')
   @UseInterceptors(TransactionInterceptor)
   async challengeQuest(
     @User() user: Users,
