@@ -34,7 +34,7 @@ export class UserChallengeExtraService {
 
     return userChallengeExtra;
   }
-
+  
   async challengeExtraRewardCheck(
     user_id: string,
     mission_kind: string,
@@ -45,16 +45,25 @@ export class UserChallengeExtraService {
       this.getUserChallengeExtraRepository(qr);
 
     // userChallengeExtra 조회
-    const userChallengeExtra = await userChallengeExtraRepository.findOne({
+    let userChallengeExtra = await userChallengeExtraRepository.findOne({
       where: { user_id, mission_kind, complete_count },
     });
 
-    // userChallengeExtra가 존재하면 reward_yn을 'Y'로 업데이트
     if (userChallengeExtra) {
+      // 존재하면 reward_yn을 'Y'로 업데이트
       userChallengeExtra.reward_yn = 'Y';
-
-      await userChallengeExtraRepository.save(userChallengeExtra);
+    } else {
+      // 존재하지 않으면 새로운 레코드 생성
+      userChallengeExtra = userChallengeExtraRepository.create({
+        user_id,
+        mission_kind,
+        complete_count,
+        reward_yn: 'Y', // 기본값 'Y'
+      });
     }
+
+    // 저장
+    await userChallengeExtraRepository.save(userChallengeExtra);
 
     return userChallengeExtra;
   }
