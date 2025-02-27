@@ -74,11 +74,27 @@ export class GachaDrawService {
     return { items: [], item_kind: null };
   }
 
-  async itemGradeCheck(items: number[], item_grade: number, qr?: QueryRunner) {
-    const itemDataList = await Promise.all(
-      items.map((item) => this.equipService.getEquip(item, qr)),
-    );
-    return itemDataList.some((itemData) => itemData.equip_grade === item_grade);
+  async itemGradeCheck(
+    items: number[],
+    item_grade: number,
+    gacha_type: string,
+    qr?: QueryRunner,
+  ) {
+    if (gacha_type === 'E') {
+      const itemDataList = await Promise.all(
+        items.map((item) => this.equipService.getEquip(item, qr)),
+      );
+      return itemDataList.some(
+        (itemData) => itemData.equip_grade === item_grade,
+      );
+    } else if (gacha_type === 'M') {
+      const itemDataList = await Promise.all(
+        items.map((item) => this.itemService.getItem(item, qr)),
+      );
+      return itemDataList.some(
+        (itemData) => itemData.item_grade === item_grade,
+      );
+    }
   }
 
   // async itemGradeCheck(items: number[], item_grade: number, qr?: QueryRunner) {
@@ -141,8 +157,18 @@ export class GachaDrawService {
     console.log('gachaCostData:', gachaCostData);
     console.log('gacha_type:', gacha_type);
     const [grade4, grade5] = await Promise.all([
-      this.itemGradeCheck(gachaItem, gachaCostData.fixed_item_grade_1, qr),
-      this.itemGradeCheck(gachaItem, gachaCostData.fixed_item_grade_2, qr),
+      this.itemGradeCheck(
+        gachaItem,
+        gachaCostData.fixed_item_grade_1,
+        gacha_type,
+        qr,
+      ),
+      this.itemGradeCheck(
+        gachaItem,
+        gachaCostData.fixed_item_grade_2,
+        gacha_type,
+        qr,
+      ),
     ]);
     let itemData;
     let equipData;
