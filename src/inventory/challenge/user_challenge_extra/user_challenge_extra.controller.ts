@@ -7,11 +7,9 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { UserChallengeExtraService } from './user_challenge_extra.service';
+// import { UserChallengeExtraService } from './user_challenge_extra.service';
 
 @Controller('user-challenge-extra')
 export class UserChallengeExtraController {
-  constructor(
-    private readonly userChallengeExtraService: UserChallengeExtraService,
-  ) {}
+  constructor() {} //private readonly userChallengeExtraService: UserChallengeExtraService,
 }
