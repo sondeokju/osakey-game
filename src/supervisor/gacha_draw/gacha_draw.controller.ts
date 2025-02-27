@@ -53,7 +53,7 @@ export class GachaDrawController {
       qr,
     );
 
-    return JSON.stringify(result);
+    return result;
   }
 
   // @Post('draw')

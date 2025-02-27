@@ -56,7 +56,8 @@ export class GachaDrawService {
     gacha_count: number,
     qr?: QueryRunner,
   ) {
-    if (gacha_count === 1) {
+    console.log('gacha_count:', gacha_count);
+    if (+gacha_count === 1) {
       return await this.equipGachaDrawRandom(
         user_id,
         gacha_id,
