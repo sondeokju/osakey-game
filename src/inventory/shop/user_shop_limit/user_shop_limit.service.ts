@@ -111,7 +111,7 @@ export class UserShopLimitService {
           deductedCurrency: [],
         };
       }
-      
+
       const limitCheck = await this.shopPurchaseLimitCheck(
         user_id,
         shop_id,
@@ -191,8 +191,6 @@ export class UserShopLimitService {
       secame_credit?: number;
     } = {};
 
-    console.log('price_kind:', shopData.price_kind);
-    console.log('price_count:', shopData.price_count);
     switch (shopData.price_kind) {
       case 'free':
         return { hasError: true, message: 'Free item, no deduction required' };

@@ -292,7 +292,10 @@ export class GachaDrawService {
     console.log('itemKind:', itemKind);
     console.log('gachaCostData:', gachaCostData);
 
-    const deductedCurrency =
+    // 11100003, C, 1, CUR_DIA_PAID, diamond_paid;
+    // 11100004, C, 1, CUR_DIA_FREE, diamond_free;
+
+    const diaPayout =
       await this.resourceManagerService.validateAndDeductResources(
         user_id,
         {
@@ -357,14 +360,25 @@ export class GachaDrawService {
       reward: {
         userItemData: gachaItemData,
       },
-      deductedCurrency,
+      deductedCurrency: [
+        {
+          // diamond_paid
+          item_id: 11100003,
+          item_count: diaPayout.reduceItem.diamond_paid,
+        },
+        {
+          // diamond_free
+          item_id: 11100004,
+          item_count: diaPayout.reduceItem.diamond_free,
+        },
+      ],
     };
 
-    return {
-      reward: {
-        userItemData: gachaItemData,
-      },
-    };
+    // return {
+    //   reward: {
+    //     userItemData: gachaItemData,
+    //   },
+    // };
   }
 
   async equipGachaDraw10Random(
@@ -423,6 +437,56 @@ export class GachaDrawService {
     }
 
     return { gachaItems, reward };
+  }
+
+  async diamondDivision(resourceCheck: any, qr?: QueryRunner) {
+    let deductedCurrency = [];
+    const price_kind = 'diamond_mix';
+
+    if (price_kind === 'diamond_mix') {
+      const dia_free = await this.itemService.getItemName('diamond_free', qr);
+      const dia_paid = await this.itemService.getItemName('diamond_paid', qr);
+
+      deductedCurrency = [
+        {
+          item_id: dia_free.item_id,
+          item_count: resourceCheck['reduceItem'].diamond_free,
+        },
+        {
+          item_id: dia_paid.item_id,
+          item_count: resourceCheck['reduceItem'].diamond_paid,
+        },
+      ];
+    } else if (price_kind === 'diamond_free') {
+      const item = await this.itemService.getItemName('diamond_free', qr);
+
+      deductedCurrency = [
+        {
+          item_id: item.item_id,
+          item_count: 0,
+        },
+      ];
+    } else if (price_kind === 'diamond_paid') {
+      const item = await this.itemService.getItemName('diamond_paid', qr);
+
+      deductedCurrency = [
+        {
+          item_id: item.item_id,
+          item_count: 0,
+        },
+      ];
+    } else if (price_kind === 'gord') {
+      const item = await this.itemService.getItemName('gord', qr);
+
+      deductedCurrency = [
+        {
+          item_id: item.item_id,
+          item_count: 0,
+        },
+      ];
+    }
+
+    return deductedCurrency;
   }
 
   // async equipGachaDrawRandom(
