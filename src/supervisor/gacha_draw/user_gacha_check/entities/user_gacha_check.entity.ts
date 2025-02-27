@@ -15,6 +15,11 @@ export class UserGachaCheck extends BaseModel {
   @Column({
     default: 0,
   })
+  gacha_id: number;
+
+  @Column({
+    default: 0,
+  })
   fixed_1_draw_count: number;
 
   @Column({

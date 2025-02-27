@@ -151,7 +151,6 @@ export class GachaDrawService {
   ) {
     const gachaCheckData =
       await this.userGachaCheckService.getGachaDrawItemGrade(user_id, qr);
-    await this.userGachaCheckService.gachaDrawCountPlus(user_id, qr);
 
     console.log('gacha_id:', gacha_id);
     console.log('gachaItem:', gachaItem);
@@ -262,6 +261,8 @@ export class GachaDrawService {
     const gachaItem = calcuGachaItem.items;
     const itemKind = calcuGachaItem.item_kind;
     const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
+
+    await this.userGachaCheckService.gachaDrawCountPlus(user_id, qr);
 
     console.log('calcuGachaItem:', calcuGachaItem);
     console.log('gachaItem:', gachaItem);
