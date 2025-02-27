@@ -69,4 +69,11 @@ export class GachaSell {
     default: 0,
   })
   target_item_6: number;
+
+  @Column({
+    type: 'varchar',
+    length: 30,
+    default: 0,
+  })
+  box_type: string;
 }
