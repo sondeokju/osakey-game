@@ -56,21 +56,21 @@ export class UserChallengeController {
     return result;
   }
 
-  // @Post('reward/extra')
-  // @UseInterceptors(TransactionInterceptor)
-  // async challengeQuestextraReward(
-  //   @User() user: Users,
-  //   @Body('mission_kind') mission_kind: string,
-  //   @Body('complete_count') complete_count: number,
-  //   @QueryRunner() qr: QR,
-  // ) {
-  //   const result = await this.userChallengeService.challengeQuestextraReward(
-  //     user.user_id,
-  //     mission_kind,
-  //     complete_count,
-  //     qr,
-  //   );
+  @Post('reward/extra')
+  @UseInterceptors(TransactionInterceptor)
+  async challengeQuestextraReward(
+    @User() user: Users,
+    @Body('mission_kind') mission_kind: string,
+    @Body('complete_count') complete_count: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.userChallengeService.challengeQuestextraReward(
+      user.user_id,
+      mission_kind,
+      complete_count,
+      qr,
+    );
 
-  //   return result;
-  // }
+    return result;
+  }
 }
