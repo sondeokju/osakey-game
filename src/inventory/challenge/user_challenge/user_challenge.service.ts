@@ -154,6 +154,7 @@ export class UserChallengeService {
       select: ['mission_routine_id', 'mission_goal', 'mission_kind'],
     });
 
+    console.log('userChallenges:', userChallenges);
     let completedCounts = 0;
 
     // 각 userChallenge의 mission_routine_id 기준으로 반복
