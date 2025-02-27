@@ -43,7 +43,6 @@ export class UserChallengeController {
   async challengeQuestReward(
     @User() user: Users,
     @Body('mission_routine_id') mission_routine_id: number,
-    @Body('count') count: number,
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userChallengeService.challengeQuestReward(

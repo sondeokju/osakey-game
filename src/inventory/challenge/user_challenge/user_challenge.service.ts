@@ -81,7 +81,6 @@ export class UserChallengeService {
   async challengeQuestReward(
     user_id: string,
     mission_routine_id: number,
-    count: number,
     qr?: QueryRunner,
   ) {
     const userChallengeRepository = this.getUserChallengeRepository(qr);
@@ -94,13 +93,16 @@ export class UserChallengeService {
       qr,
     );
 
-    const rewardData = await this.rewardOfferService.reward(
-      user_id,
-      missionRoutine.reward_id,
-      qr,
-    );
+    let rewardData;
+    if (userChallenge.mission_goal >= missionRoutine.mission_goal) {
+      rewardData = await this.rewardOfferService.reward(
+        user_id,
+        missionRoutine.reward_id,
+        qr,
+      );
+      userChallenge.reward_yn = 'Y';
+    }
 
-    userChallenge.reward_yn = 'Y';
     const result = await userChallengeRepository.save(userChallenge);
 
     return {
