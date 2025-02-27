@@ -53,4 +53,21 @@ export class GachaDrawController {
 
     return JSON.stringify(result);
   }
+
+
+  // @Post('draw')
+  // @UseInterceptors(TransactionInterceptor)
+  // async equipGachaDrawRandom(
+  //   @User() user: Users,
+  //   @Body('gacha_id') gacha_id: number,
+  //   @QueryRunner() qr: QR,
+  // ) {
+  //   const result = await this.gachaDrawService.equipGachaDrawRandom(
+  //     user.user_id,
+  //     gacha_id,
+  //     qr,
+  //   );
+
+  //   return JSON.stringify(result);
+  // }
 }

@@ -24,6 +24,7 @@ import { UserNpcFriendshipService } from 'src/inventory/npc/user_npc_friendship/
 import { UserOfflineRewardService } from 'src/inventory/reward/user_offline_reward/user_offline_reward.service';
 import { UserSecameDiaryService } from 'src/inventory/secame/user_secame_diary/user_secame_diary.service';
 import { UserSecameMailService } from 'src/inventory/secame/user_secame_mail/user_secame_mail.service';
+import { UserShopLimitService } from 'src/inventory/shop/user_shop_limit/user_shop_limit.service';
 import { UserTunaTvOnlineService } from 'src/inventory/sns/user-tuna-tv-online/user-tuna-tv-online.service';
 import { UserSnsFollowService } from 'src/inventory/sns/user_sns_follow/user_sns_follow.service';
 import { UserSnsLevelService } from 'src/inventory/sns/user_sns_level/user_sns_level.service';
@@ -65,109 +66,204 @@ export class InvenService {
     private readonly userEquipSlotService: UserEquipSlotService,
     private readonly userEquipOptionService: UserEquipOptionService,
     private readonly userTutorialService: UserTutorialService,
+    private readonly userShopLimitService: UserShopLimitService,
   ) {}
 
   async getUserInventoryAll(user_id: string, qr?: QueryRunner) {
-    const suit = await this.userSuitService.getUserSuit(user_id, qr);
-    const itemExchange = await this.userItemExchangeService.getItemExchange(
-      user_id,
-      qr,
-    );
-    const secameDiary = await this.userSecameDiaryService.getUserSecameDiary(
-      user_id,
-      qr,
-    );
-    const secameMail = await this.userSecameMailService.getUserSecameMail(
-      user_id,
-      qr,
-    );
-    const membership = await this.userMembershipService.getUserMembership(
-      user_id,
-      qr,
-    );
-    const dispatch = await this.userDispatchService.getUserDispatch(
-      user_id,
-      qr,
-    );
-    const dispatchRentama =
-      await this.userDispatchRentamaService.getUserDispatchRentama(user_id, qr);
-    // const dispatchRentama =
-    //   await this.userBattlePassService.(user_id, qr);
+    try {
+      const [
+        suit,
+        itemExchange,
+        secameDiary,
+        secameMail,
+        membership,
+        dispatch,
+        dispatchRentama,
+        memorize,
+        memorizeShare,
+        ingameReward,
+        tunaTv,
+        snsLevel,
+        follow,
+        achieve,
+        offlineReward,
+        collection,
+        npcFriendship,
+        mail,
+        mission,
+        attendance,
+        equip,
+        equipSlot,
+        equipOption,
+        tutorial,
+        shopLimit,
+      ] = await Promise.all([
+        this.userSuitService.getUserSuit(user_id, qr),
+        this.userItemExchangeService.getItemExchange(user_id, qr),
+        this.userSecameDiaryService.getUserSecameDiary(user_id, qr),
+        this.userSecameMailService.getUserSecameMail(user_id, qr),
+        this.userMembershipService.getUserMembership(user_id, qr),
+        this.userDispatchService.getUserDispatch(user_id, qr),
+        this.userDispatchRentamaService.getUserDispatchRentama(user_id, qr),
+        this.userMemorizeService.getUserMemorize(user_id, qr),
+        this.userMemoryShareService.getUserMemorizeShare(user_id, qr),
+        this.userIngameRewardService.getIngameReward(user_id, qr),
+        this.userTunaTvService.TunaTvList(user_id, qr),
+        this.userSnsLevelService.getSnsLevelAll(user_id, qr),
+        this.userSnsFollowService.getUserFollowAll(user_id, qr),
+        this.userAchievementsService.getUserAchieveAll(user_id, qr),
+        this.userOfflineRewardService.getUserOfflineRewardAll(user_id, qr),
+        this.userCollectionService.userCollectionList(user_id, qr),
+        this.userNpcFriendshipService.getUserNpcFriendship(user_id, qr),
+        this.userMailService.getUserMailAll(user_id, qr),
+        this.userMissionService.missionList(user_id, qr),
+        this.userAttendanceService.getAttendanceAll(user_id, qr),
+        this.userEquipService.equipList(user_id, qr),
+        this.userEquipSlotService.getEquipSlot(user_id, qr),
+        this.userEquipOptionService.equipOptionList(user_id, qr),
+        this.userTutorialService.getUserTutorialAll(user_id, qr),
+        this.userShopLimitService.getUserShopLimitAll(user_id, qr),
+      ]);
 
-    const memorize = await this.userMemorizeService.getUserMemorize(
-      user_id,
-      qr,
-    );
-    const memorizeShare =
-      await this.userMemoryShareService.getUserMemorizeShare(user_id, qr);
-    const ingameReward = await this.userIngameRewardService.getIngameReward(
-      user_id,
-      qr,
-    );
-    const tunaTv = await this.userTunaTvService.TunaTvList(user_id, qr);
-    //const snsReward = await this.userSnsRewardService.(user_id, qr);
-    const snsLevel = await this.userSnsLevelService.getSnsLevelAll(user_id, qr);
-    const follow = await this.userSnsFollowService.getUserFollowAll(
-      user_id,
-      qr,
-    );
-    const achieve = await this.userAchievementsService.getUserAchieveAll(
-      user_id,
-      qr,
-    );
-    const offlineReward =
-      await this.userOfflineRewardService.getUserOfflineRewardAll(user_id, qr);
-    const collection = await this.userCollectionService.userCollectionList(
-      user_id,
-      qr,
-    );
-    const npcFriendship =
-      await this.userNpcFriendshipService.getUserNpcFriendship(user_id, qr);
-    const mail = await this.userMailService.getUserMailAll(user_id, qr);
-    const mission = await this.userMissionService.missionList(user_id, qr);
-    const attendance = await this.userAttendanceService.getAttendanceAll(
-      user_id,
-      qr,
-    );
-    const equip = await this.userEquipService.equipList(user_id, qr);
-    const equipSlot = await this.userEquipSlotService.getEquipSlot(user_id, qr);
-    const equipOption = await this.userEquipOptionService.equipOptionList(
-      user_id,
-      qr,
-    );
-
-    const tutorial = await this.userTutorialService.getUserTutorialAll(
-      user_id,
-      qr,
-    );
-
-    const inven = {
-      suit,
-      itemExchange,
-      secameDiary,
-      secameMail,
-      membership,
-      dispatch,
-      dispatchRentama,
-      memorize,
-      memorizeShare,
-      ingameReward,
-      tunaTv,
-      snsLevel,
-      follow,
-      achieve,
-      offlineReward,
-      collection,
-      npcFriendship,
-      mail,
-      mission,
-      attendance,
-      equip,
-      equipSlot,
-      equipOption,
-      tutorial,
-    };
-
-    return inven;
+      return {
+        suit,
+        itemExchange,
+        secameDiary,
+        secameMail,
+        membership,
+        dispatch,
+        dispatchRentama,
+        memorize,
+        memorizeShare,
+        ingameReward,
+        tunaTv,
+        snsLevel,
+        follow,
+        achieve,
+        offlineReward,
+        collection,
+        npcFriendship,
+        mail,
+        mission,
+        attendance,
+        equip,
+        equipSlot,
+        equipOption,
+        tutorial,
+        shopLimit,
+      };
+    } catch (error) {
+      // throw new BadRequestException(
+      //   '유저 인벤토리 데이터를 불러오는 중 오류 발생',
+      // );
+    }
   }
+
+  // async getUserInventoryAll(user_id: string, qr?: QueryRunner) {
+  //   const suit = await this.userSuitService.getUserSuit(user_id, qr);
+  //   const itemExchange = await this.userItemExchangeService.getItemExchange(
+  //     user_id,
+  //     qr,
+  //   );
+  //   const secameDiary = await this.userSecameDiaryService.getUserSecameDiary(
+  //     user_id,
+  //     qr,
+  //   );
+  //   const secameMail = await this.userSecameMailService.getUserSecameMail(
+  //     user_id,
+  //     qr,
+  //   );
+  //   const membership = await this.userMembershipService.getUserMembership(
+  //     user_id,
+  //     qr,
+  //   );
+  //   const dispatch = await this.userDispatchService.getUserDispatch(
+  //     user_id,
+  //     qr,
+  //   );
+  //   const dispatchRentama =
+  //     await this.userDispatchRentamaService.getUserDispatchRentama(user_id, qr);
+
+  //   const memorize = await this.userMemorizeService.getUserMemorize(
+  //     user_id,
+  //     qr,
+  //   );
+  //   const memorizeShare =
+  //     await this.userMemoryShareService.getUserMemorizeShare(user_id, qr);
+  //   const ingameReward = await this.userIngameRewardService.getIngameReward(
+  //     user_id,
+  //     qr,
+  //   );
+  //   const tunaTv = await this.userTunaTvService.TunaTvList(user_id, qr);
+  //   //const snsReward = await this.userSnsRewardService.(user_id, qr);
+  //   const snsLevel = await this.userSnsLevelService.getSnsLevelAll(user_id, qr);
+  //   const follow = await this.userSnsFollowService.getUserFollowAll(
+  //     user_id,
+  //     qr,
+  //   );
+  //   const achieve = await this.userAchievementsService.getUserAchieveAll(
+  //     user_id,
+  //     qr,
+  //   );
+  //   const offlineReward =
+  //     await this.userOfflineRewardService.getUserOfflineRewardAll(user_id, qr);
+  //   const collection = await this.userCollectionService.userCollectionList(
+  //     user_id,
+  //     qr,
+  //   );
+  //   const npcFriendship =
+  //     await this.userNpcFriendshipService.getUserNpcFriendship(user_id, qr);
+  //   const mail = await this.userMailService.getUserMailAll(user_id, qr);
+  //   const mission = await this.userMissionService.missionList(user_id, qr);
+  //   const attendance = await this.userAttendanceService.getAttendanceAll(
+  //     user_id,
+  //     qr,
+  //   );
+  //   const equip = await this.userEquipService.equipList(user_id, qr);
+  //   const equipSlot = await this.userEquipSlotService.getEquipSlot(user_id, qr);
+  //   const equipOption = await this.userEquipOptionService.equipOptionList(
+  //     user_id,
+  //     qr,
+  //   );
+
+  //   const tutorial = await this.userTutorialService.getUserTutorialAll(
+  //     user_id,
+  //     qr,
+  //   );
+
+  //   const shopLimit = await this.userShopLimitService.getUserShopLimitAll(
+  //     user_id,
+  //     qr,
+  //   );
+
+  //   const inven = {
+  //     suit,
+  //     itemExchange,
+  //     secameDiary,
+  //     secameMail,
+  //     membership,
+  //     dispatch,
+  //     dispatchRentama,
+  //     memorize,
+  //     memorizeShare,
+  //     ingameReward,
+  //     tunaTv,
+  //     snsLevel,
+  //     follow,
+  //     achieve,
+  //     offlineReward,
+  //     collection,
+  //     npcFriendship,
+  //     mail,
+  //     mission,
+  //     attendance,
+  //     equip,
+  //     equipSlot,
+  //     equipOption,
+  //     tutorial,
+  //     shopLimit,
+  //   };
+
+  //   return inven;
+  // }
 }

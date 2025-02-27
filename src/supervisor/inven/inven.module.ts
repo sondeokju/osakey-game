@@ -29,6 +29,7 @@ import { UserSnsRewardModule } from 'src/inventory/sns/user_sns_reward/user_sns_
 import { UserTunaTvModule } from 'src/inventory/sns/user_tuna_tv/user_tuna_tv.module';
 import { UserIngameRewardModule } from 'src/inventory/stage/user_ingame_reward/user_ingame_reward.module';
 import { UserTutorialModule } from 'src/inventory/tutorial/user_tutorial/user_tutorial.module';
+import { UserShopLimitModule } from 'src/inventory/shop/user_shop_limit/user_shop_limit.module';
 //import { entities_module } from 'src/entity_group/entity_module';
 
 // console.log('[DEBUG] imported entities_module:', entities_module);
@@ -65,6 +66,7 @@ import { UserTutorialModule } from 'src/inventory/tutorial/user_tutorial/user_tu
     UserEquipSlotModule,
     UserEquipOptionModule,
     UserTutorialModule,
+    UserShopLimitModule,
   ],
   exports: [InvenService],
   controllers: [InvenController],
