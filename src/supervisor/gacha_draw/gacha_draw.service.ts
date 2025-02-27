@@ -276,79 +276,80 @@ export class GachaDrawService {
     console.log('itemKind:', itemKind);
     console.log('gachaCostData:', gachaCostData);
 
-    await this.resourceManagerService.validateAndDeductResources(
-      user_id,
-      {
-        dia: {
-          amount: gachaCostData.dia_1,
-          mode: 'mixed',
-        },
-        item: {
-          item_id: gachaCostData.item_id_1,
-          count: gachaCostData.item_id_1_count,
-        },
-      },
-      qr,
-    );
+    // await this.resourceManagerService.validateAndDeductResources(
+    //   user_id,
+    //   {
+    //     dia: {
+    //       amount: gachaCostData.dia_1,
+    //       mode: 'mixed',
+    //     },
+    //     item: {
+    //       item_id: gachaCostData.item_id_1,
+    //       count: gachaCostData.item_id_1_count,
+    //     },
+    //   },
+    //   qr,
+    // );
 
-    await this.fixedGacha(
-      user_id,
-      gacha_id,
-      gachaItem,
-      gachaCostData,
-      calcuGachaItem.item_kind,
-      qr,
-    );
+    // await this.fixedGacha(
+    //   user_id,
+    //   gacha_id,
+    //   gachaItem,
+    //   gachaCostData,
+    //   calcuGachaItem.item_kind,
+    //   qr,
+    // );
 
-    // 중복된 item_id를 합쳐서 { item_id, item_count } 형태로 변환
-    const gachaItemData: { item_id: number; item_count: number }[] = [];
+    // // 중복된 item_id를 합쳐서 { item_id, item_count } 형태로 변환
+    // const gachaItemData: { item_id: number; item_count: number }[] = [];
 
-    console.log(gachaItemData);
+    // console.log(gachaItemData);
 
-    let reward;
-    if (['E'].includes(itemKind)) {
-      reward = await this.rewardOfferService.rewardEquipArray(
-        user_id,
-        gachaItem,
-        qr,
-      );
+    // let reward;
+    // if (['E'].includes(itemKind)) {
+    //   reward = await this.rewardOfferService.rewardEquipArray(
+    //     user_id,
+    //     gachaItem,
+    //     qr,
+    //   );
 
-      // reward = reward.map(({ item_count, ...rest }) => ({
-      //   ...rest,
-      //   item_count: item_count,
-      // }));
-    } else if (['M', 'S'].includes(itemKind)) {
-      await this.rewardOfferService.rewardSameItemNumberArray(
-        user_id,
-        gachaItem,
-        qr,
-      );
+    //   // reward = reward.map(({ item_count, ...rest }) => ({
+    //   //   ...rest,
+    //   //   item_count: item_count,
+    //   // }));
+    // } else if (['M', 'S'].includes(itemKind)) {
+    //   await this.rewardOfferService.rewardSameItemNumberArray(
+    //     user_id,
+    //     gachaItem,
+    //     qr,
+    //   );
 
-      const itemCountMap: Record<number, number> = {};
-      for (const item_id of gachaItem) {
-        itemCountMap[item_id] = (itemCountMap[item_id] || 0) + 1;
-      }
+    //   const itemCountMap: Record<number, number> = {};
+    //   for (const item_id of gachaItem) {
+    //     itemCountMap[item_id] = (itemCountMap[item_id] || 0) + 1;
+    //   }
 
-      // 객체를 원하는 형태의 배열로 변환
-      for (const [item_id, item_count] of Object.entries(itemCountMap)) {
-        gachaItemData.push({
-          item_id: Number(item_id),
-          item_count: Number(item_count),
-        });
-      }
+    //   // 객체를 원하는 형태의 배열로 변환
+    //   for (const [item_id, item_count] of Object.entries(itemCountMap)) {
+    //     gachaItemData.push({
+    //       item_id: Number(item_id),
+    //       item_count: Number(item_count),
+    //     });
+    //   }
 
-      reward = {
-        userItemData: gachaItemData,
-      };
-    }
+    //   reward = {
+    //     userItemData: gachaItemData,
+    //   };
+    // }
 
-    console.log('reward', reward);
+    // console.log('reward', reward);
 
-    if (!reward) {
-      //throw new BadRequestException('Failed to process reward.');
-    }
+    // if (!reward) {
+    //   //throw new BadRequestException('Failed to process reward.');
+    // }
 
-    return { reward };
+    //return { reward };
+    return {};
   }
 
   async equipGachaDraw10Random(
