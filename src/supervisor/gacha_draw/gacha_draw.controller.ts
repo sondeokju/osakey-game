@@ -46,7 +46,7 @@ export class GachaDrawController {
     @Body('gacha_count') gacha_count: number,
     @QueryRunner() qr: QR,
   ) {
-    const result = await this.gachaDrawService.equipGachaDrawRandom(
+    const result = await this.gachaDrawService.gacha(
       user.user_id,
       gacha_id,
       gacha_count,

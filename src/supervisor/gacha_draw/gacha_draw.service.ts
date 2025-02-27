@@ -50,6 +50,23 @@ export class GachaDrawService {
   //   return resultCount;
   // }
 
+  async gacha(
+    user_id: string,
+    gacha_id: number,
+    gacha_count: number,
+    qr?: QueryRunner,
+  ) {
+    if (gacha_count === 1) {
+      return await this.equipGachaDrawRandom(
+        user_id,
+        gacha_id,
+        gacha_count,
+        qr,
+      );
+    } else if (gacha_count === 10) {
+    }
+  }
+
   async calculEquipGachaDrawRandom(gacha_id: number, qr?: QueryRunner) {
     const gachaList = await this.gachaOutputService.getGachaOutputList(
       gacha_id,
