@@ -64,7 +64,8 @@ import { RedisModule } from './redis/redis.module';
       //synchronize: true,
       // keepConnectionAlive: true,
       //logging: ['schema'],
-      logging: process.env[LOGGING] === 'true' ? true : false,
+      logging: true,
+      //logging: process.env[LOGGING] === 'true' ? true : false,
       synchronize: process.env[ENV_SYNCHRONIZE_KEY] === 'true' ? true : false,
       keepConnectionAlive:
         process.env[ENV_KEEPCONNECTIONALIVE_KEY] === 'true' ? true : false,
