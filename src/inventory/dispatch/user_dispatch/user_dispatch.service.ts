@@ -119,6 +119,7 @@ export class UserDispatchService {
         const reward = await this.greateReward(
           user_id,
           missionSub.mission_rank,
+          qr,
         );
         if (reward) {
           greatSuccessRewards = Array.isArray(reward) ? reward : [reward];
