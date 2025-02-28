@@ -33,11 +33,6 @@ export class UserChallengeExtraService {
     });
 
     return userChallengeExtra ?? [];
-
-    // return userChallengeExtra.map((item) => ({
-    //   ...item,
-    //   rentamaEquipSlot: item.rentamaEquipSlot ?? [],
-    // }));
   }
 
   async challengeExtraRewardCheck(
