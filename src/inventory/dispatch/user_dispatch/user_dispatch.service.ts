@@ -55,8 +55,8 @@ export class UserDispatchService {
     return result;
   }
 
-  async dispatchOutcome(user_id: string, mission_id: number) {
-    const qr = this.dataSource.createQueryRunner();
+  async dispatchOutcome(user_id: string, mission_id: number, qr?: QueryRunner) {
+    qr = this.dataSource.createQueryRunner();
     await qr.connect();
     await qr.startTransaction();
 
