@@ -519,6 +519,7 @@ export class UserDispatchService {
       user_id,
       reward.item_id,
       reward.item_count,
+      qr,
     );
 
     return reward;
