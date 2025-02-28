@@ -74,7 +74,9 @@ export class UserShopLimitService {
         },
       ];
     } else if (shopData.price_kind.trim() === 'gord') {
-      const item = await this.itemService.getItemName('gord', qr);
+      //const item = await this.itemService.getItemName('gord', qr);
+      const item_id = 11100002;
+      const item = await this.itemService.getItem(item_id, qr);
       console.log('resourceReturn ---------shopData.price_kind gord', item);
 
       deductedCurrency = [
