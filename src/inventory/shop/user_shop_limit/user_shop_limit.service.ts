@@ -39,10 +39,12 @@ export class UserShopLimitService {
     let deductedCurrency = [];
 
     if (shopData.price_kind.trim() === 'diamond_mix') {
-      const dia_free = await this.itemService.getItemName('diamond_free', qr);
+      const diamond_free_item_id = 11100004;
+      const dia_free = await this.itemService.getItem(diamond_free_item_id, qr);
 
       console.log('dia_free:', dia_free);
-      const dia_paid = await this.itemService.getItemName('diamond_paid', qr);
+      const diamond_paid_item_id = 11100003;
+      const dia_paid = await this.itemService.getItem(diamond_paid_item_id, qr);
       console.log('dia_paid:', dia_paid);
 
       deductedCurrency = [
@@ -56,7 +58,8 @@ export class UserShopLimitService {
         },
       ];
     } else if (shopData.price_kind.trim() === 'diamond_free') {
-      const item = await this.itemService.getItemName('diamond_free', qr);
+      const diamond_free_item_id = 11100004;
+      const item = await this.itemService.getItem(diamond_free_item_id, qr);
 
       deductedCurrency = [
         {
@@ -65,7 +68,8 @@ export class UserShopLimitService {
         },
       ];
     } else if (shopData.price_kind.trim() === 'diamond_paid') {
-      const item = await this.itemService.getItemName('diamond_paid', qr);
+      const diamond_paid_item_id = 11100003;
+      const item = await this.itemService.getItem(diamond_paid_item_id, qr);
 
       deductedCurrency = [
         {
@@ -74,10 +78,8 @@ export class UserShopLimitService {
         },
       ];
     } else if (shopData.price_kind.trim() === 'gord') {
-      //const item = await this.itemService.getItemName('gord', qr);
       const item_id = 11100002;
       const item = await this.itemService.getItem(item_id, qr);
-      console.log('resourceReturn ---------shopData.price_kind gord', item);
 
       deductedCurrency = [
         {

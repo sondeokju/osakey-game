@@ -569,8 +569,11 @@ export class GachaDrawService {
     const price_kind = 'diamond_mix';
 
     if (price_kind === 'diamond_mix') {
-      const dia_free = await this.itemService.getItemName('diamond_free', qr);
-      const dia_paid = await this.itemService.getItemName('diamond_paid', qr);
+      const diamond_free_item_id = 11100004;
+      const dia_free = await this.itemService.getItem(diamond_free_item_id, qr);
+
+      const diamond_paid_item_id = 11100003;
+      const dia_paid = await this.itemService.getItem(diamond_paid_item_id, qr);
 
       deductedCurrency = [
         {
@@ -583,7 +586,8 @@ export class GachaDrawService {
         },
       ];
     } else if (price_kind === 'diamond_free') {
-      const item = await this.itemService.getItemName('diamond_free', qr);
+      const diamond_free_item_id = 11100004;
+      const item = await this.itemService.getItem(diamond_free_item_id, qr);
 
       deductedCurrency = [
         {
@@ -592,7 +596,8 @@ export class GachaDrawService {
         },
       ];
     } else if (price_kind === 'diamond_paid') {
-      const item = await this.itemService.getItemName('diamond_paid', qr);
+      const diamond_paid_item_id = 11100003;
+      const item = await this.itemService.getItem(diamond_paid_item_id, qr);
 
       deductedCurrency = [
         {
@@ -601,8 +606,8 @@ export class GachaDrawService {
         },
       ];
     } else if (price_kind === 'gord') {
-      const item = await this.itemService.getItemName('gord', qr);
-      console.log('diamondDivision---------price_kind gord', item);
+      const item_id = 11100002;
+      const item = await this.itemService.getItem(item_id, qr);
 
       deductedCurrency = [
         {
