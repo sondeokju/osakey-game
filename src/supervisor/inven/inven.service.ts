@@ -35,6 +35,10 @@ import { UserSuitService } from 'src/inventory/suit/user_suit/user_suit.service'
 import { UserTutorialService } from 'src/inventory/tutorial/user_tutorial/user_tutorial.service';
 import { QueryRunner, Repository } from 'typeorm';
 import { UserGachaCheckService } from '../gacha_draw/user_gacha_check/user_gacha_check.service';
+import { UserRentamaService } from 'src/inventory/dispatch/user_rentama/user_rentama.service';
+import { UserRentamaEquipSlotService } from 'src/inventory/dispatch/user_rentama_equip_slot/user_rentama_equip_slot.service';
+import { UserChallengeService } from 'src/inventory/challenge/user_challenge/user_challenge.service';
+import { UserChallengeExtraService } from 'src/inventory/challenge/user_challenge_extra/user_challenge_extra.service';
 
 @Injectable()
 export class InvenService {
@@ -69,6 +73,10 @@ export class InvenService {
     private readonly userTutorialService: UserTutorialService,
     private readonly userShopLimitService: UserShopLimitService,
     private readonly userGachaCheckService: UserGachaCheckService,
+    private readonly userRentamaService: UserRentamaService,
+    private readonly userRentamaEquipSlotService: UserRentamaEquipSlotService,
+    private readonly userChallengeService: UserChallengeService,
+    private readonly userChallengeExtraService: UserChallengeExtraService,
   ) {}
 
   async getUserInventoryAll(user_id: string, qr?: QueryRunner) {
@@ -100,6 +108,10 @@ export class InvenService {
         tutorial,
         shopLimit,
         gachaCheck,
+        rentama,
+        rentamaEquipSlot,
+        challenge,
+        challengeExtra,
       ] = await Promise.all([
         this.userSuitService.getUserSuit(user_id, qr),
         this.userItemExchangeService.getItemExchange(user_id, qr),
@@ -127,6 +139,10 @@ export class InvenService {
         this.userTutorialService.getUserTutorialAll(user_id, qr),
         this.userShopLimitService.getUserShopLimitAll(user_id, qr),
         this.userGachaCheckService.getUserGachaCheckAll(user_id, qr),
+        this.userRentamaService.dispatchList(user_id, qr),
+        this.userRentamaEquipSlotService.getRentamaEquipSlot(user_id, qr),
+        this.userChallengeService.getUserChallengeAll(user_id, qr),
+        this.userChallengeExtraService.getUserChallengeExtraAll(user_id, qr),
       ]);
 
       return {
@@ -156,6 +172,10 @@ export class InvenService {
         tutorial,
         shopLimit,
         gachaCheck,
+        rentama,
+        rentamaEquipSlot,
+        challenge,
+        challengeExtra,
       };
     } catch (error) {
       // throw new BadRequestException(

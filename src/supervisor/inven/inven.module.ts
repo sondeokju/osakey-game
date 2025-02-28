@@ -31,6 +31,10 @@ import { UserIngameRewardModule } from 'src/inventory/stage/user_ingame_reward/u
 import { UserTutorialModule } from 'src/inventory/tutorial/user_tutorial/user_tutorial.module';
 import { UserShopLimitModule } from 'src/inventory/shop/user_shop_limit/user_shop_limit.module';
 import { UserGachaCheckModule } from '../gacha_draw/user_gacha_check/user_gacha_check.module';
+import { UserRentamaModule } from 'src/inventory/dispatch/user_rentama/user_rentama.module';
+import { UserRentamaEquipSlotModule } from 'src/inventory/dispatch/user_rentama_equip_slot/user_rentama_equip_slot.module';
+import { UserChallengeModule } from 'src/inventory/challenge/user_challenge/user_challenge.module';
+import { UserChallengeExtraModule } from 'src/inventory/challenge/user_challenge_extra/user_challenge_extra.module';
 //import { entities_module } from 'src/entity_group/entity_module';
 
 // console.log('[DEBUG] imported entities_module:', entities_module);
@@ -69,6 +73,10 @@ import { UserGachaCheckModule } from '../gacha_draw/user_gacha_check/user_gacha_
     UserTutorialModule,
     UserShopLimitModule,
     UserGachaCheckModule,
+    UserRentamaModule,
+    UserRentamaEquipSlotModule,
+    UserChallengeModule,
+    UserChallengeExtraModule,
   ],
   exports: [InvenService],
   controllers: [InvenController],
