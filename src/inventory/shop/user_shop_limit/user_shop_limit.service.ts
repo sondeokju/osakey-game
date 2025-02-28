@@ -38,7 +38,7 @@ export class UserShopLimitService {
     const shopData = await this.shopService.getShop(shop_id, qr);
     let deductedCurrency = [];
 
-    if (shopData.price_kind === 'diamond_mix') {
+    if (shopData.price_kind.trim() === 'diamond_mix') {
       const dia_free = await this.itemService.getItemName('diamond_free', qr);
 
       console.log('dia_free:', dia_free);
@@ -55,7 +55,7 @@ export class UserShopLimitService {
           item_count: resourceCheck['reduceItem'].diamond_paid,
         },
       ];
-    } else if (shopData.price_kind === 'diamond_free') {
+    } else if (shopData.price_kind.trim() === 'diamond_free') {
       const item = await this.itemService.getItemName('diamond_free', qr);
 
       deductedCurrency = [
@@ -64,7 +64,7 @@ export class UserShopLimitService {
           item_count: shopData.price_count,
         },
       ];
-    } else if (shopData.price_kind === 'diamond_paid') {
+    } else if (shopData.price_kind.trim() === 'diamond_paid') {
       const item = await this.itemService.getItemName('diamond_paid', qr);
 
       deductedCurrency = [
@@ -73,7 +73,7 @@ export class UserShopLimitService {
           item_count: shopData.price_count,
         },
       ];
-    } else if (shopData.price_kind === 'gord') {
+    } else if (shopData.price_kind.trim() === 'gord') {
       const item = await this.itemService.getItemName('gord', qr);
 
       deductedCurrency = [
@@ -82,9 +82,9 @@ export class UserShopLimitService {
           item_count: shopData.price_count,
         },
       ];
-    } else if (shopData.price_kind === 'free') {
+    } else if (shopData.price_kind.trim() === 'free') {
       //deductedCurrency = [{}];
-    } else if (shopData.price_kind === 'cash') {
+    } else if (shopData.price_kind.trim() === 'cash') {
       //deductedCurrency = [{}];
     }
 
@@ -102,7 +102,7 @@ export class UserShopLimitService {
 
     try {
       const shopData = await this.shopService.getShop(shop_id, qr);
-      if (shopData.price_kind === 'cash') {
+      if (shopData.price_kind.trim() === 'cash') {
         return {
           reward: {
             userItemData: {},
@@ -191,7 +191,7 @@ export class UserShopLimitService {
       secame_credit?: number;
     } = {};
 
-    switch (shopData.price_kind) {
+    switch (shopData.price_kind.trim()) {
       case 'free':
         return { hasError: true, message: 'Free item, no deduction required' };
 
@@ -242,7 +242,7 @@ export class UserShopLimitService {
       where: { user_id, shop_id },
     });
 
-    if (!userShopLimit || userShopLimit.buy_limit_type === 'NONE') {
+    if (!userShopLimit || userShopLimit.buy_limit_type.trim() === 'NONE') {
       return { hasError: true, message: 'Purchase allowed' };
     }
 
