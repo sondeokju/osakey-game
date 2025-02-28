@@ -356,7 +356,7 @@ export class UserEquipService {
     }
 
     // 최상 등급 확인
-    const equip_grade = await this.equipGradeService.getEquipGrade('True');
+    const equip_grade = await this.equipGradeService.getEquipGrade('1', qr);
     if (
       parseInt(equipLevel.equip_grade, 10) === equip_grade.id &&
       equipLevel.level >= equipLevel.level_max
