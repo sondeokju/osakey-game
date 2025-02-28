@@ -88,6 +88,14 @@ export class UserChallengeService {
       where: { user_id, mission_routine_id },
     });
 
+    if (userChallenge.reward_yn === 'Y') {
+      return {
+        code: 0,
+        message: `${mission_routine_id} The reward has already been claimed.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
+    }
     const missionRoutine = await this.missionRoutineService.getMissionRoutine(
       mission_routine_id,
       qr,

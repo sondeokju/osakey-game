@@ -34,7 +34,7 @@ export class UserChallengeExtraService {
 
     return userChallengeExtra;
   }
-  
+
   async challengeExtraRewardCheck(
     user_id: string,
     mission_kind: string,

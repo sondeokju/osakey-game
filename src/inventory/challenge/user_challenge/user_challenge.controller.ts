@@ -12,7 +12,7 @@ export class UserChallengeController {
 
   @Get('challenge')
   @UseInterceptors(TransactionInterceptor)
-  async getUserShopLimitAll(@User() user: Users, @QueryRunner() qr: QR) {
+  async getUserChallengeAll(@User() user: Users, @QueryRunner() qr: QR) {
     const result = this.userChallengeService.getUserChallengeAll(
       user.user_id,
       qr,

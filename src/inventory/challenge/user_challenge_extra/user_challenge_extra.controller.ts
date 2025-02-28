@@ -12,15 +12,15 @@ export class UserChallengeExtraController {
     private readonly userChallengeService: UserChallengeExtraService,
   ) {}
 
-  // @Get('challenge')
-  // @UseInterceptors(TransactionInterceptor)
-  // async getUserShopLimitAll(@User() user: Users, @QueryRunner() qr: QR) {
-  //   const result = this.userChallengeService.getUserChallengeAll(
-  //     user.user_id,
-  //     qr,
-  //   );
-  //   return result;
-  // }
+  @Get('challenge/extra')
+  @UseInterceptors(TransactionInterceptor)
+  async getUserChallengeExtraAll(@User() user: Users, @QueryRunner() qr: QR) {
+    const result = this.userChallengeService.getUserChallengeExtraAll(
+      user.user_id,
+      qr,
+    );
+    return result;
+  }
 
   // @Post('try')
   // @UseInterceptors(TransactionInterceptor)
