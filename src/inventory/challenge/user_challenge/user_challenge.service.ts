@@ -144,6 +144,9 @@ export class UserChallengeService {
         completeCount,
       );
 
+    if (!missionRoutineBonus) {
+      missionRoutineBonus.reward_id = 0;
+    }
     const rewardData = await this.rewardOfferService.reward(
       user_id,
       missionRoutineBonus.reward_id,
