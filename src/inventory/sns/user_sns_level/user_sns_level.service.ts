@@ -48,6 +48,7 @@ export class UserSnsLevelService {
       tunaTvData.like_cnt,
       qr,
     );
+
     if (!snsReward) {
       return {
         code: 0,
@@ -56,17 +57,13 @@ export class UserSnsLevelService {
         hasError: false,
       };
     }
+
     const levelUpExp =
       (updateUserSnsLevelData?.sns_exp || 0) + snsReward.sns_reward_exp;
 
     const snsLevel = await this.snsLevelService.getSnsExp(levelUpExp, qr);
     const updateSnsLevel = snsLevel?.sns_level || 1;
     const updateRewardId = snsLevel?.reward_id || 0;
-    //11600001
-    console.log('levelUpExp:', levelUpExp);
-    console.log('snsLevel:', snsLevel);
-    console.log('updateSnsLevel:', updateSnsLevel);
-    console.log('updateRewardId:', updateRewardId);
 
     await userSnsLevelRepository.save({
       ...updateUserSnsLevelData,
