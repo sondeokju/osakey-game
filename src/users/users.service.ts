@@ -156,6 +156,12 @@ export class UsersService {
       [user_id, 1],
     );
 
+    // 렌타마 장비 슬롯
+    await this.dataSource.query(
+      `INSERT INTO user_rentama_equip_slot (user_id) VALUES (?)`,
+      [user_id],
+    );
+
     // 미션 세팅
     const mission_id = 12200001;
     const mission_kind = 'MM';
