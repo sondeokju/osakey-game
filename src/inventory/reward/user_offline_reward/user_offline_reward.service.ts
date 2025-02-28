@@ -59,11 +59,14 @@ export class UserOfflineRewardService {
         1014,
         qr,
       );
+      console.log('adRewardCountLimit:', adRewardCountLimit);
 
       // 유저 보상 데이터 가져오기
       let userOfflineReward = await userOfflineRewardRepository.findOne({
         where: { user_id },
       });
+
+      console.log('userOfflineReward:', userOfflineReward);
 
       if (!userOfflineReward) {
         userOfflineReward = userOfflineRewardRepository.create({
@@ -80,6 +83,9 @@ export class UserOfflineRewardService {
         offlineData,
         is_ad,
       );
+
+      console.log('rewardCount:', rewardCount);
+      console.log('currencyCount:', currencyCount);
 
       if (is_ad === 'false') {
         userOfflineReward.last_reward_date = new Date(); // 마지막 보상 날짜 갱신
