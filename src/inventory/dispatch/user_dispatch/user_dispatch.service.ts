@@ -179,7 +179,9 @@ export class UserDispatchService {
     // 생성 혹은 업데이트된 객체를 저장합니다.
     const result = await userDispatchRepository.save(userDispatch);
 
-    return result;
+    return {
+      userDispatch: result,
+    };
   }
 
   async calcuSuccessRate(
