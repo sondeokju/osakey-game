@@ -31,4 +31,14 @@ export class EquipGradeService {
     });
     return result;
   }
+
+  async getEquipGradeId(id: number, qr?: QueryRunner) {
+    const equipGradeRepository = this.getEquipGradeRepository(qr);
+    const result = await equipGradeRepository.findOne({
+      where: {
+        id,
+      },
+    });
+    return result;
+  }
 }
