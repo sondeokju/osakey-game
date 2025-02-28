@@ -165,7 +165,7 @@ export class UserChallengeService {
     );
 
     const result = await userChallengeRepository.find({
-      where: { user_id, mission_kind },
+      where: { user_id },
     });
 
     return {
