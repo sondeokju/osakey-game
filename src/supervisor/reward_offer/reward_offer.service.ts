@@ -60,14 +60,14 @@ export class RewardOfferService {
 
       const itemData = await this.itemService.getItem(+obj['item_id']);
 
-      if (['C'].includes(itemData.item_type)) {
+      if (['C'].includes(itemData.item_type.trim())) {
         await this.rewardCurrency(
           user_id,
           itemData.item_name.trim(),
           reward.item_count,
           qr,
         );
-      } else if (['M', 'S'].includes(itemData.item_type)) {
+      } else if (['M', 'S'].includes(itemData.item_type.trim())) {
         await this.userItemService.rewardItem(
           user_id,
           itemData.item_id,
@@ -103,7 +103,7 @@ export class RewardOfferService {
       throw new NotFoundException(`Item ${item_id} not found.`);
     }
 
-    switch (itemData.item_type) {
+    switch (itemData.item_type.trim()) {
       case 'C': // 화폐 보상
         await this.rewardCurrency(user_id, itemData.item_name, qty, qr);
         break;
@@ -114,7 +114,7 @@ export class RewardOfferService {
           user_id,
           itemData.item_id,
           itemData.item_grade,
-          itemData.item_type,
+          itemData.item_type.trim(),
           qty,
           qr,
         );
@@ -150,14 +150,14 @@ export class RewardOfferService {
     for (const { item_id, item_count } of items) {
       const itemData = await this.itemService.getItem(item_id);
 
-      switch (itemData.item_type) {
+      switch (itemData.item_type.trim()) {
         case 'M':
         case 'S':
           await this.userItemService.rewardItem(
             user_id,
             itemData.item_id,
             itemData.item_grade,
-            itemData.item_type,
+            itemData.item_type.trim(),
             item_count,
             qr,
           );
@@ -203,12 +203,12 @@ export class RewardOfferService {
       itemId = item_id;
       const itemData = await this.itemService.getItem(item_id);
 
-      if (['M', 'S'].includes(itemData.item_type)) {
+      if (['M', 'S'].includes(itemData.item_type.trim())) {
         await this.userItemService.rewardItem(
           user_id,
           itemData.item_id,
           itemData.item_grade,
-          itemData.item_type,
+          itemData.item_type.trim(),
           item_count,
           qr,
         );
@@ -236,12 +236,12 @@ export class RewardOfferService {
       itemId = item_id;
       const itemData = await this.itemService.getItem(item_id);
 
-      if (['M', 'S'].includes(itemData.item_type)) {
+      if (['M', 'S'].includes(itemData.item_type.trim())) {
         await this.userItemService.rewardItem(
           user_id,
           itemData.item_id,
           itemData.item_grade,
-          itemData.item_type,
+          itemData.item_type.trim(),
           item_count,
           qr,
         );
