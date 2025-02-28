@@ -163,23 +163,12 @@ export class UserOfflineRewardService {
         exp: totalExp,
       });
 
-      // const rewardData = await this.rewardService.getReward(
-      //   offlineData.reward_id,
-      // );
+      rewardItems.push({ item_id: 11100002, item_count: +totalGord });
+      rewardItems.push({ item_id: 11100005, item_count: +totalExp });
 
       return {
         reward: {
-          userItemData: [
-            rewardItems,
-            {
-              item_id: 11100002,
-              item_count: totalGord,
-            },
-            {
-              item_id: 11100005,
-              item_count: totalExp,
-            },
-          ],
+          userItemData: rewardItems,
         },
       };
     } catch (error) {
