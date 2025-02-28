@@ -92,24 +92,43 @@ export class UserDispatchService {
       qr,
     );
 
+    let successRewards = [];
+    let greatSuccessRewards = [];
+
     // 성공 보상
     if (success === 'COMPLETED') {
-      await this.rewardOfferService.reward(user_id, missionSub.reward_id, qr);
+      const reward = await this.rewardOfferService.reward(
+        user_id,
+        missionSub.reward_id,
+        qr,
+      );
+      if (reward) {
+        successRewards = Array.isArray(reward) ? reward : [reward];
+      }
     }
+
     // 대성공 보상
     if (greateSuccess === 'GREATCOMPLETED') {
-      const greateReward = await this.greateReward(
-        user_id,
-        missionSub.mission_rank,
-      );
+      const reward = await this.greateReward(user_id, missionSub.mission_rank);
+      if (reward) {
+        greatSuccessRewards = Array.isArray(reward) ? reward : [reward];
+      }
     }
+
+    const finalRewards = [...successRewards, ...greatSuccessRewards];
+
+    const userDispatchData = await userDispatchRepository.findOne({
+      where: {
+        user_id,
+        mission_id,
+      },
+    });
 
     return {
       reward: {
-        userItemData: {},
+        userItemData: finalRewards,
       },
-      //userShopLimit,
-      //deductedCurrency,
+      userDispatch: userDispatchData,
     };
   }
 
