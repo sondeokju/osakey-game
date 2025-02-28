@@ -231,28 +231,29 @@ export class UserOfflineRewardService {
       return { rewardCount, currencyCount };
     }
   }
+
   calculateOfflineRewards(
     lastRewardDate: Date,
     offlineRewardPeriod: number, // 보상 주기 (분 단위)
   ): number {
     const currentTime = new Date(); // 현재 시간
     const timeDifference = currentTime.getTime() - lastRewardDate.getTime(); // 경과 시간 (밀리초 단위)
-    const periodInMilliseconds = offlineRewardPeriod * 60 * 1000; // 보상 주기 (밀리초 단위)
 
-    // 전체 날짜, 시간, 분 계산
-    const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24)); // 일 단위
-    const remainingHours = Math.floor(
-      (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
-    ); // 남은 시간
-    const remainingMinutes = Math.floor(
-      (timeDifference % (1000 * 60 * 60)) / (1000 * 60),
-    ); // 남은 분
+    // lastRewardDate가 미래일 경우 보상 계산 X
+    if (timeDifference < 0) {
+      console.warn(
+        'lastRewardDate가 현재 시간보다 미래입니다. 보상은 0으로 설정됩니다.',
+      );
+      return 0;
+    }
 
-    console.log(`경과 일수: ${days}일`);
-    console.log(`남은 시간: ${remainingHours}시간`);
-    console.log(`남은 분: ${remainingMinutes}분`);
-    console.log(`경과 시간(밀리초): ${timeDifference}`);
-    console.log(`보상 주기(밀리초): ${periodInMilliseconds}`);
+    // 시간 단위 변환 상수
+    const MINUTE_IN_MS = 60 * 1000; // 1분 = 60초 * 1000ms
+    // const HOUR_IN_MS = 60 * MINUTE_IN_MS; // 1시간 = 60분
+    // const DAY_IN_MS = 24 * HOUR_IN_MS; // 1일 = 24시간
+
+    // 보상 주기를 밀리초 단위로 변환
+    const periodInMilliseconds = offlineRewardPeriod * MINUTE_IN_MS;
 
     // 전체 경과 시간(밀리초) / 보상 주기(밀리초)로 보상 횟수 계산
     const totalRewards = Math.floor(timeDifference / periodInMilliseconds);
@@ -260,6 +261,59 @@ export class UserOfflineRewardService {
 
     return totalRewards;
   }
+
+  // calculateOfflineRewards(
+  //   lastRewardDate: Date,
+  //   offlineRewardPeriod: number, // 보상 주기 (분 단위)
+  // ): number {
+  //   const currentTime = new Date(); // 현재 시간
+  //   const timeDifference = currentTime.getTime() - lastRewardDate.getTime(); // 경과 시간 (밀리초 단위)
+
+  //   // lastRewardDate가 미래일 경우 보상 계산 X
+  //   if (timeDifference < 0) {
+  //     console.warn(
+  //       'lastRewardDate가 현재 시간보다 미래입니다. 보상은 0으로 설정됩니다.',
+  //     );
+  //     return 0;
+  //   }
+
+  //   const periodInMilliseconds = offlineRewardPeriod * 60 * 1000; // 보상 주기 (밀리초 단위)
+
+  //   // 보상 횟수 계산
+  //   const totalRewards = Math.floor(timeDifference / periodInMilliseconds);
+
+  //   return totalRewards;
+  // }
+
+  // calculateOfflineRewards(
+  //   lastRewardDate: Date,
+  //   offlineRewardPeriod: number, // 보상 주기 (분 단위)
+  // ): number {
+  //   const currentTime = new Date(); // 현재 시간
+  //   const timeDifference = currentTime.getTime() - lastRewardDate.getTime(); // 경과 시간 (밀리초 단위)
+  //   const periodInMilliseconds = offlineRewardPeriod * 60 * 1000; // 보상 주기 (밀리초 단위)
+
+  //   // 전체 날짜, 시간, 분 계산
+  //   const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24)); // 일 단위
+  //   const remainingHours = Math.floor(
+  //     (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+  //   ); // 남은 시간
+  //   const remainingMinutes = Math.floor(
+  //     (timeDifference % (1000 * 60 * 60)) / (1000 * 60),
+  //   ); // 남은 분
+
+  //   // console.log(`경과 일수: ${days}일`);
+  //   // console.log(`남은 시간: ${remainingHours}시간`);
+  //   // console.log(`남은 분: ${remainingMinutes}분`);
+  //   // console.log(`경과 시간(밀리초): ${timeDifference}`);
+  //   // console.log(`보상 주기(밀리초): ${periodInMilliseconds}`);
+
+  //   // 전체 경과 시간(밀리초) / 보상 주기(밀리초)로 보상 횟수 계산
+  //   const totalRewards = Math.floor(timeDifference / periodInMilliseconds);
+  //   console.log(`totalRewards: ${totalRewards}`);
+
+  //   return totalRewards;
+  // }
 
   async getUserOfflineReward(user_id: string, qr?: QueryRunner) {
     const userOfflineRewardRepository = this.getUserOfflineRewardRepository(qr);
