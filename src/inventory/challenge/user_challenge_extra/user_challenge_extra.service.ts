@@ -32,7 +32,12 @@ export class UserChallengeExtraService {
       where: { user_id },
     });
 
-    return userChallengeExtra ?? {};
+    return userChallengeExtra ?? [];
+
+    // return userChallengeExtra.map((item) => ({
+    //   ...item,
+    //   rentamaEquipSlot: item.rentamaEquipSlot ?? [],
+    // }));
   }
 
   async challengeExtraRewardCheck(
