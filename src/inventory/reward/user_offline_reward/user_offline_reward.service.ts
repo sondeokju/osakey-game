@@ -163,22 +163,6 @@ export class UserOfflineRewardService {
         exp: totalExp,
       });
 
-      if (Array.isArray(data)) {
-        data.forEach(({ item_id, item_count }) => {
-          const existingItem = rewardItems.find(
-            (item) => item.item_id === +item_id,
-          );
-
-          if (existingItem) {
-            // 이미 존재하면 item_count 누적
-            existingItem.item_count += +item_count;
-          } else {
-            // 존재하지 않으면 새로 추가
-            rewardItems.push({ item_id: +item_id, item_count: +item_count });
-          }
-        });
-      }
-
       // rewardItems.push({ item_id: 11100002, item_count: +totalGord });
       // rewardItems.push({ item_id: 11100005, item_count: +totalExp });
 
