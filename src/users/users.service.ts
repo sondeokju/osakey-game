@@ -156,6 +156,12 @@ export class UsersService {
       [user_id, 1],
     );
 
+    // 파견 정보
+    // await this.dataSource.query(
+    //   `INSERT INTO user_dispatch (user_id) VALUES (?)`,
+    //   [user_id],
+    // );
+
     // 렌타마 장비 슬롯
     await this.dataSource.query(
       `INSERT INTO user_rentama_equip_slot (user_id) VALUES (?)`,

@@ -286,13 +286,16 @@ export class UserDispatchService {
         dispatch_status: 'IN_PROGRESS',
         dispatch_unlock: 'Y',
       });
+
+      // 생성 혹은 업데이트된 객체를 저장합니다.
+      userDispatch = await userDispatchRepository.save(userDispatch);
+    } else {
+      // 생성 혹은 업데이트된 객체를 저장합니다.
+      userDispatch = await userDispatchRepository.save(userDispatch);
     }
 
-    // 생성 혹은 업데이트된 객체를 저장합니다.
-    const result = await userDispatchRepository.save(userDispatch);
-
     return {
-      userDispatch: result,
+      userDispatch: userDispatch,
     };
   }
 
