@@ -12,7 +12,7 @@ export class UserDispatchRentamaController {
     private readonly userDispatchRentamaService: UserDispatchRentamaService,
   ) {}
 
-  @Get()
+  @Get('rentama')
   @UseInterceptors(TransactionInterceptor)
   async getUserDispatchRentama(@User() user: Users, @QueryRunner() qr: QR) {
     const result = this.userDispatchRentamaService.getUserDispatchRentama(
