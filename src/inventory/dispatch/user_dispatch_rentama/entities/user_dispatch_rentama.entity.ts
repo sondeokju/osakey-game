@@ -24,9 +24,9 @@ export class UserDispatchRentama extends BaseModel {
   @Index({ unique: false })
   current_rentama_exp: number;
 
-  @Column({
-    default: '0',
-  })
-  @Index({ unique: false })
-  rentama_equip_id: number;
+  // @Column({
+  //   default: '0',
+  // })
+  // @Index({ unique: false })
+  // rentama_equip_id: number;
 }

@@ -150,6 +150,12 @@ export class UsersService {
     //   [user_id],
     // );
 
+    // user_dispatch_rentama
+    await this.dataSource.query(
+      `INSERT INTO user_dispatch_rentama (user_id, rentama_level) VALUES (?, ?)`,
+      [user_id, 1],
+    );
+
     // 미션 세팅
     const mission_id = 12200001;
     const mission_kind = 'MM';
