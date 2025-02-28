@@ -107,6 +107,8 @@ export class UserDispatchService {
       }
     }
 
+    console.log('성공 보상 successRewards:', successRewards);
+
     // 대성공 보상
     if (greateSuccess === 'GREATCOMPLETED') {
       const reward = await this.greateReward(user_id, missionSub.mission_rank);
@@ -114,6 +116,8 @@ export class UserDispatchService {
         greatSuccessRewards = Array.isArray(reward) ? reward : [reward];
       }
     }
+
+    console.log('대성공 보상 greatSuccessRewards:', greatSuccessRewards);
 
     const finalRewards = [...successRewards, ...greatSuccessRewards];
 
