@@ -131,7 +131,7 @@ export class UserRentamaEquipSlotService {
       },
     });
 
-    return userRentamaEquipSlot;
+    return userRentamaEquipSlot ?? {};
   }
 
   async rentamaEquipSlotChange(
