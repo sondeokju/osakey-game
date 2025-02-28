@@ -102,13 +102,31 @@ export class UserOfflineRewardService {
         userOfflineReward.ad_reward_count += 1;
       }
 
+      const rewardItems: { item_id: number; item_count: number }[] = [];
+
       // 보상 처리
       for (let i = 0; i < rewardCount; i++) {
-        await this.rewardOfferService.reward(
+        const data = await this.rewardOfferService.reward(
           user_id,
           offlineData.reward_id,
           qr,
         );
+
+        if (Array.isArray(data)) {
+          data.forEach(({ item_id, item_count }) => {
+            const existingItem = rewardItems.find(
+              (item) => item.item_id === +item_id,
+            );
+
+            if (existingItem) {
+              // 이미 존재하면 item_count 누적
+              existingItem.item_count += +item_count;
+            } else {
+              // 존재하지 않으면 새로 추가
+              rewardItems.push({ item_id: +item_id, item_count: +item_count });
+            }
+          });
+        }
       }
 
       // 화폐 보상 처리
@@ -145,17 +163,14 @@ export class UserOfflineRewardService {
         exp: totalExp,
       });
 
-      const rewardData = await this.rewardService.getReward(
-        offlineData.reward_id,
-      );
+      // const rewardData = await this.rewardService.getReward(
+      //   offlineData.reward_id,
+      // );
 
       return {
         reward: {
           userItemData: [
-            {
-              item_id: rewardData[0].item_id,
-              item_count: rewardCount,
-            },
+            rewardItems,
             {
               item_id: 11100002,
               item_count: totalGord,
