@@ -48,7 +48,14 @@ export class UserSnsLevelService {
       tunaTvData.like_cnt,
       qr,
     );
-
+    if (!snsReward) {
+      return {
+        code: 0,
+        message: `sns_reward 테이블에 like_cnt : ${tunaTvData.like_cnt} 가 범위에 없습니다. `,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
+    }
     const levelUpExp =
       (updateUserSnsLevelData?.sns_exp || 0) + snsReward.sns_reward_exp;
 
