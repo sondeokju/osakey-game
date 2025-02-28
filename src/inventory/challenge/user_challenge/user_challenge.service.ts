@@ -145,7 +145,12 @@ export class UserChallengeService {
       );
 
     if (!missionRoutineBonus) {
-      missionRoutineBonus.reward_id = 0;
+      return {
+        reward: {
+          userItemData: [],
+        },
+        userChallenge: {},
+      };
     }
     const rewardData = await this.rewardOfferService.reward(
       user_id,
