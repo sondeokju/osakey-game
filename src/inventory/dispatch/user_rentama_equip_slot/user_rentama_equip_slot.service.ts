@@ -228,7 +228,9 @@ export class UserRentamaEquipSlotService {
         user_id,
         qr,
       );
+      if (equipSlotId <= 0) continue;
       const equip = await this.equipService.getEquip(userEquip.equip_id);
+
       equipGrades.push(equip.equip_grade);
     }
 
@@ -254,6 +256,7 @@ export class UserRentamaEquipSlotService {
         user_id,
         qr,
       );
+      if (!userEquip) continue;
       const equipLevel = await this.equipLevelService.getEquipLevel(
         userEquip.equip_level_id,
       );
