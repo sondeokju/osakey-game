@@ -432,9 +432,12 @@ export class UserEquipService {
     });
 
     if (!userEquip) {
-      throw new NotFoundException(
-        `User equip with ID ${user_equip_id} not found.`,
-      );
+      return {
+        code: 0,
+        message: `User equip with ID ${user_equip_id} not found.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
     const equipLevel = this.equipLevelService.getEquipLevel(
@@ -442,9 +445,12 @@ export class UserEquipService {
     );
 
     if (!equipLevel) {
-      throw new NotFoundException(
-        `Equip level with ID ${userEquip.equip_level_id} not found.`,
-      );
+      return {
+        code: 0,
+        message: `Equip level with ID ${userEquip.equip_level_id} not found.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
     const baseEquipId = await this.getBaseEquipId(userEquip.equip_level_id);

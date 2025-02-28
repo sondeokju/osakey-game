@@ -14,6 +14,7 @@ import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.ser
 import { DataSource } from 'typeorm';
 import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager.service';
 import { ItemService } from 'src/static-table/item/item.service';
+import { ResourceType } from 'src/common/resource/resource';
 
 @Injectable()
 export class UserShopLimitService {
@@ -38,6 +39,7 @@ export class UserShopLimitService {
     const shopData = await this.shopService.getShop(shop_id, qr);
     let deductedCurrency = [];
 
+    //if (shopData.price_kind.trim() === ResourceType.DIAMOND_MIX) {
     if (shopData.price_kind.trim() === 'diamond_mix') {
       const diamond_free_item_id = 11100004;
       const dia_free = await this.itemService.getItem(diamond_free_item_id, qr);
