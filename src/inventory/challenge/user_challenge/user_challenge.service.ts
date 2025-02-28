@@ -144,10 +144,10 @@ export class UserChallengeService {
         qr,
       );
 
-    if (extraReward.reward_yn === 'Y') {
+    if (!extraReward || extraReward.reward_yn === 'Y') {
       return {
         code: 0,
-        message: `mission_kind: ${mission_kind}, complete_count: ${completeCount} 이미 추가 보상을 획득 했습니다.`,
+        message: `mission_kind: ${mission_kind}, complete_count: ${completeCount} 이미 추가 보상을 획득 했거나, 미션완료 조건이 맞지 않습니다. `,
         utcTimeString: new Date().toISOString(),
         hasError: false,
       };
