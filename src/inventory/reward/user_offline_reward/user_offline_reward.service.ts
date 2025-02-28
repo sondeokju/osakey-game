@@ -206,6 +206,10 @@ export class UserOfflineRewardService {
       console.log('false');
       console.log('----------- is_ad ------------', false);
       // 광고를 시청하지 않은 경우: 실제 경과 시간 기준으로 보상 지급
+      console.log(
+        '----------- offlineData.offline_reward_peirod ------------',
+        offlineData.offline_reward_peirod,
+      );
       const rewardCount = this.calculateOfflineRewards(
         lastRewardDate,
         offlineData.offline_reward_peirod,
