@@ -26,7 +26,7 @@ export class EquipGradeService {
     const equipGradeRepository = this.getEquipGradeRepository(qr);
     const result = await equipGradeRepository.findOne({
       where: {
-        equip_grade_max,
+        equip_grade_max: equip_grade_max.trim(),
       },
     });
     return result;

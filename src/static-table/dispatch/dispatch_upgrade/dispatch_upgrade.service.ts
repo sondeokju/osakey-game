@@ -26,7 +26,7 @@ export class DispatchUpgradeService {
     const dispatchUpgradeRepository = this.getDispatchUpgradeRepository(qr);
     const result = await dispatchUpgradeRepository.findOne({
       where: {
-        suit_piece_grade,
+        suit_piece_grade: suit_piece_grade.trim(),
       },
     });
 

@@ -42,7 +42,7 @@ export class UserMissionController {
       user.user_id,
       mission_id,
       mission_goal,
-      mission_kind,
+      mission_kind.trim(),
       //clear_count,
       reward_id,
       qr,

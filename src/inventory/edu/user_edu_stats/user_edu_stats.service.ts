@@ -117,9 +117,9 @@ export class UserEduStatsService {
     await this.getUserEduStatsRepository(qr).insert({
       user_id,
       edu_list_id: eduList.edu_list_id,
-      edu_type: eduList.edu_type,
+      edu_type: eduList.edu_type.trim(),
       edu_curriculum_cnt: 1,
-      edu_buff_type: eduList.edu_buff_type,
+      edu_buff_type: eduList.edu_buff_type.trim(),
       edu_buff_value: eduList.edu_buff_value,
       edu_time: eduCurriculum.edu_time,
       edu_start_date: updatedDate,

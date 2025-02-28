@@ -26,7 +26,7 @@ export class SnsConfigService {
     const snsConfigRepository = this.getSnsConfigRepository(qr);
     const result = await snsConfigRepository.findOne({
       where: {
-        config_type,
+        config_type: config_type.trim(),
       },
     });
 

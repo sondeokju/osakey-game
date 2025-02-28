@@ -140,7 +140,7 @@ export class UserChallengeService {
 
     const missionRoutineBonus =
       await this.missionRoutineBonusService.getMissionRoutineBonus(
-        mission_kind,
+        mission_kind.trim(),
         completeCount,
       );
 
@@ -160,7 +160,7 @@ export class UserChallengeService {
 
     await this.userChallengeExtraService.challengeExtraRewardCheck(
       user_id,
-      mission_kind,
+      mission_kind.trim(),
       completeCount,
     );
 

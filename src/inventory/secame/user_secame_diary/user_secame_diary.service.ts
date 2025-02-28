@@ -99,7 +99,7 @@ export class UserSecameDiaryService {
 
       if (
         nextSecameDiaryData &&
-        ((currentSecameDiaryData.is_repeat === 'TRUE' &&
+        ((currentSecameDiaryData.is_repeat.toLowerCase() === 'true' &&
           nextSecameDiaryData.hero_rank.trim() === heroData.rank.trim() &&
           userData.secame_credit >= nextSecameDiaryData.credit_goal_qty) ||
           (typeof currentSecameDiaryData.credit_goal_qty === 'number' &&
@@ -121,7 +121,7 @@ export class UserSecameDiaryService {
       if (
         shouldInsertNextDiary &&
         nextSecameDiaryData &&
-        currentSecameDiaryData.is_repeat !== 'TRUE'
+        currentSecameDiaryData.is_repeat.toLowerCase() !== 'true'
       ) {
         await userSecameDiaryRepository.insert({
           user_id,
@@ -130,7 +130,7 @@ export class UserSecameDiaryService {
       }
 
       if (!nextSecameDiaryData) {
-        if (currentSecameDiaryData.is_repeat === 'TRUE') {
+        if (currentSecameDiaryData.is_repeat.toLowerCase() === 'true') {
           isRepeatReward = true;
         }
       }

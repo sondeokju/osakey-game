@@ -26,7 +26,7 @@ export class DispatchConfigService {
     const dispatchRepository = this.getDispatchConfigRepository(qr);
     const result = await dispatchRepository.findOne({
       where: {
-        config_type,
+        config_type: config_type.trim(),
       },
     });
 

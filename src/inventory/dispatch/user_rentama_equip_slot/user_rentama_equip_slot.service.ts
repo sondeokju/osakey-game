@@ -192,7 +192,7 @@ export class UserRentamaEquipSlotService {
         weapon: 'weapon',
       };
 
-      const equipSlotKey = equip.equip_slot.toLowerCase();
+      const equipSlotKey = equip.equip_slot.trim().toLowerCase();
       existingEquip = userRentamaEquipSlot[equipSlotMap[equipSlotKey]];
       userRentamaEquipSlot[equipSlotMap[equipSlotKey]] = +user_equip_id;
     }

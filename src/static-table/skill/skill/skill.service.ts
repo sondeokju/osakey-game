@@ -35,7 +35,7 @@ export class SkillService {
     const skillRepository = this.getSkillRepository(qr);
     const result = await skillRepository.find({
       where: {
-        skill_equip_category,
+        skill_equip_category: skill_equip_category.trim(),
       },
     });
 

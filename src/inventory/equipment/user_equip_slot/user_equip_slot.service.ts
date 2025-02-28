@@ -114,7 +114,7 @@ export class UserEquipSlotService {
         weapon: 'weapon',
       };
 
-      const equipSlotKey = equip.equip_slot.toLowerCase();
+      const equipSlotKey = equip.equip_slot.trim().toLowerCase();
       userEquipSlot[equipSlotMap[equipSlotKey]] = +user_equip_id;
     }
 

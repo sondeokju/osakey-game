@@ -35,7 +35,7 @@ export class UserEquipController {
   ) {
     console.log('skill_equip_category', skill_equip_category);
     const result = await this.userEquipService.simulateEquipSkillRandom(
-      skill_equip_category,
+      skill_equip_category.trim(),
       count,
       qr,
     );

@@ -64,8 +64,8 @@ export class UserEquipOptionService {
       user_id,
       origin_equip_id,
       option_grade,
-      option_type: equipOption.option_type,
-      option_value: equipOption.option_value,
+      option_type: equipOption.option_type.trim(),
+      option_value: equipOption.option_value.trim(),
     });
 
     return this.getUserEquipOptionRepository(qr).find({ where: { user_id } });
@@ -96,8 +96,8 @@ export class UserEquipOptionService {
       user_id,
       origin_equip_id,
       option_grade: equipOption.option_grade,
-      option_type: equipOption.option_type,
-      option_value: equipOption.option_value,
+      option_type: equipOption.option_type.trim(),
+      option_value: equipOption.option_value.trim(),
     }));
     await this.getUserEquipOptionRepository(qr).save(newEquipOptions);
 

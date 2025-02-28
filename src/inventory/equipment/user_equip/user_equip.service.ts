@@ -74,7 +74,7 @@ export class UserEquipService {
 
     for (let i = 0; i < iterations; i++) {
       const skillId = await this.calculEquipSkillRandom(
-        skill_equip_category,
+        skill_equip_category.trim(),
         qr,
       );
       //console.log('skillId', skillId);
@@ -91,7 +91,7 @@ export class UserEquipService {
 
   async calculEquipSkillRandom(skill_equip_category: string, qr?: QueryRunner) {
     const skills = await this.skillService.getSkillCategory(
-      skill_equip_category,
+      skill_equip_category.trim(),
       qr,
     );
 
@@ -134,7 +134,9 @@ export class UserEquipService {
     }
 
     const equip = await this.equipService.getEquip(userEquip.equip_id, qr);
-    const equipSkillId = await this.calculEquipSkillRandom(equip.equip_slot);
+    const equipSkillId = await this.calculEquipSkillRandom(
+      equip.equip_slot.trim(),
+    );
     console.log('equipSkillId', equipSkillId);
 
     userEquip.equip_skill_id = equipSkillId;
