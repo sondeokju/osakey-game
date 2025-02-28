@@ -212,7 +212,8 @@ export class UserOfflineRewardService {
       );
       const rewardCount = this.calculateOfflineRewards(
         lastRewardDate,
-        offlineData.offline_reward_peirod,
+        //offlineData.offline_reward_peirod,
+        1, //test
       );
 
       console.log('calculateRewards rewardCount:', rewardCount);
