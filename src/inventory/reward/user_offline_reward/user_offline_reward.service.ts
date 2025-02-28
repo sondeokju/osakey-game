@@ -208,6 +208,8 @@ export class UserOfflineRewardService {
         offlineData.offline_reward_peirod,
       );
 
+      console.log('calculateRewards rewardCount:', rewardCount);
+
       let currencyCount = this.calculateOfflineRewards(lastRewardDate, 1); // 1분 기준
       currencyCount = Math.min(currencyCount, 480); // 480 제한
 
