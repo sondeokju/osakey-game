@@ -49,8 +49,6 @@ export class RewardOfferService {
     const rewardData = await this.rewardService.getReward(reward_id);
     console.log('rewardData', rewardData);
 
-    console.log('----------reward--------------');
-
     let result = [];
 
     for (const reward of rewardData) {
@@ -61,9 +59,6 @@ export class RewardOfferService {
       });
 
       const itemData = await this.itemService.getItem(+obj['item_id']);
-      console.log('----------itemData--------------', itemData);
-
-      console.log('----------item_type--------------', itemData.item_type);
 
       if (['C'].includes(itemData.item_type)) {
         await this.rewardCurrency(
