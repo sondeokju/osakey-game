@@ -32,7 +32,7 @@ export class UserChallengeExtraService {
       where: { user_id },
     });
 
-    return userChallengeExtra;
+    return userChallengeExtra ?? {};
   }
 
   async challengeExtraRewardCheck(
