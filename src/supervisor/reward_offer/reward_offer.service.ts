@@ -105,7 +105,7 @@ export class RewardOfferService {
 
     switch (itemData.item_type.trim()) {
       case 'C': // 화폐 보상
-        await this.rewardCurrency(user_id, itemData.item_name, qty, qr);
+        await this.rewardCurrency(user_id, itemData.item_name.trim(), qty, qr);
         break;
 
       case 'M':
@@ -165,7 +165,7 @@ export class RewardOfferService {
         case 'C':
           await this.rewardCurrency(
             user_id,
-            itemData.item_name,
+            itemData.item_name.trim(),
             item_count,
             qr,
           );
@@ -299,7 +299,7 @@ export class RewardOfferService {
       console.log('------------item_name-----------', item_name);
 
       // 값 업데이트 (switch 문 사용)
-      switch (item_name) {
+      switch (item_name.trim()) {
         case 'secame_credit':
           userData.secame_credit += qty;
           break;
