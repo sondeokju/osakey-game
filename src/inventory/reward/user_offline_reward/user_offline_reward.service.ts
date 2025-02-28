@@ -163,8 +163,27 @@ export class UserOfflineRewardService {
         exp: totalExp,
       });
 
-      rewardItems.push({ item_id: 11100002, item_count: +totalGord });
-      rewardItems.push({ item_id: 11100005, item_count: +totalExp });
+      if (Array.isArray(data)) {
+        data.forEach(({ item_id, item_count }) => {
+          const existingItem = rewardItems.find(
+            (item) => item.item_id === +item_id,
+          );
+
+          if (existingItem) {
+            // 이미 존재하면 item_count 누적
+            existingItem.item_count += +item_count;
+          } else {
+            // 존재하지 않으면 새로 추가
+            rewardItems.push({ item_id: +item_id, item_count: +item_count });
+          }
+        });
+      }
+
+      // rewardItems.push({ item_id: 11100002, item_count: +totalGord });
+      // rewardItems.push({ item_id: 11100005, item_count: +totalExp });
+
+      this.addOrUpdateRewardItem(rewardItems, 11100002, +totalGord);
+      this.addOrUpdateRewardItem(rewardItems, 11100005, +totalExp);
 
       return {
         reward: {
@@ -278,5 +297,21 @@ export class UserOfflineRewardService {
     });
 
     return userOfflineReward;
+  }
+
+  async addOrUpdateRewardItem(
+    rewardItems: { item_id: number; item_count: number }[],
+    item_id: number,
+    item_count: number,
+  ) {
+    const existingItem = rewardItems.find((item) => item.item_id === item_id);
+
+    if (existingItem) {
+      // 이미 존재하면 item_count만 증가
+      existingItem.item_count += item_count;
+    } else {
+      // 존재하지 않으면 새로 추가
+      rewardItems.push({ item_id, item_count });
+    }
   }
 }
