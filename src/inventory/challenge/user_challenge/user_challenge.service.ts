@@ -164,11 +164,15 @@ export class UserChallengeService {
       completeCount,
     );
 
+    const result = await userChallengeRepository.find({
+      where: { user_id, mission_kind },
+    });
+
     return {
       reward: {
         userItemData: rewardData,
       },
-      userChallenge: userChallenge,
+      userChallenge: result,
     };
   }
 
