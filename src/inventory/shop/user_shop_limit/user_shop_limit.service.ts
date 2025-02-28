@@ -102,6 +102,7 @@ export class UserShopLimitService {
 
     try {
       const shopData = await this.shopService.getShop(shop_id, qr);
+      console.log('shopData:', shopData);
       if (shopData.price_kind.trim() === 'cash') {
         return {
           reward: {
@@ -112,6 +113,7 @@ export class UserShopLimitService {
         };
       }
 
+      console.log('shopPurchase 01');
       const limitCheck = await this.shopPurchaseLimitCheck(
         user_id,
         shop_id,
@@ -122,6 +124,7 @@ export class UserShopLimitService {
         return limitCheck;
       }
 
+      console.log('shopPurchase 02');
       const resourceCheck = await this.resourceCheckAndDeduct(
         user_id,
         shop_id,
@@ -134,11 +137,13 @@ export class UserShopLimitService {
         return resourceCheck;
       }
 
+      console.log('shopPurchase 03');
       const deductedCurrency = await this.resourceReturn(
         resourceCheck,
         shop_id,
       );
 
+      console.log('shopPurchase 04');
       const shopRewardData = await this.shopPurchaseReward(
         user_id,
         shop_id,
@@ -146,12 +151,14 @@ export class UserShopLimitService {
       );
       console.log('shopRewardData:', shopRewardData);
 
+      console.log('shopPurchase 05');
       const userShopLimit = await this.shopPurchaseLimitCalcu(
         user_id,
         shop_id,
         qr,
       );
 
+      console.log('shopPurchase 06');
       if (shouldRelease) {
         await qrInstance.commitTransaction();
       }
