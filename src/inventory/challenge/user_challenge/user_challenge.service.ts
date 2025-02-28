@@ -136,6 +136,22 @@ export class UserChallengeService {
       qr,
     );
 
+    const extraReward =
+      await this.userChallengeExtraService.getUserChallengeExtra(
+        user_id,
+        mission_kind,
+        completeCount,
+        qr,
+      );
+
+    if (extraReward.reward_yn === 'Y') {
+      return {
+        code: 0,
+        message: `mission_kind: ${mission_kind}, complete_count: ${completeCount} 이미 추가 보상을 획득 했습니다.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
+    }
     console.log('completeCount:', completeCount);
 
     const missionRoutineBonus =

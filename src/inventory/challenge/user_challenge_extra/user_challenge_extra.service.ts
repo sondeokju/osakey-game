@@ -24,6 +24,22 @@ export class UserChallengeExtraService {
       : this.userChallengeExtraRepository;
   }
 
+  async getUserChallengeExtra(
+    user_id: string,
+    mission_kind: string,
+    complete_count: number,
+    qr?: QueryRunner,
+  ) {
+    const userChallengeExtraRepository =
+      this.getUserChallengeExtraRepository(qr);
+
+    const userChallengeExtra = await userChallengeExtraRepository.findOne({
+      where: { user_id, mission_kind, complete_count },
+    });
+
+    return userChallengeExtra;
+  }
+
   async getUserChallengeExtraAll(user_id: string, qr?: QueryRunner) {
     const userChallengeExtraRepository =
       this.getUserChallengeExtraRepository(qr);
