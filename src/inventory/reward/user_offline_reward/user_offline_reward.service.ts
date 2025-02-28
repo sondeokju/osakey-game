@@ -190,7 +190,9 @@ export class UserOfflineRewardService {
     offlineData: any,
     is_ad: string,
   ): { rewardCount: number; currencyCount: number } {
+    console.log('----------- is_ad ------------', is_ad);
     if (is_ad === 'true') {
+      console.log('----------- is_ad ------------', true);
       console.log('true');
       // 광고를 시청한 경우: 최대 보상 시간 기준으로 보상 지급
       const rewardCount = Math.floor(
@@ -202,6 +204,7 @@ export class UserOfflineRewardService {
       return { rewardCount, currencyCount };
     } else {
       console.log('false');
+      console.log('----------- is_ad ------------', false);
       // 광고를 시청하지 않은 경우: 실제 경과 시간 기준으로 보상 지급
       const rewardCount = this.calculateOfflineRewards(
         lastRewardDate,
