@@ -13,7 +13,7 @@ import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
 import { QueryRunner as QR } from 'typeorm';
 import { Users } from 'src/users/entity/users.entity';
 
-@Controller('rentama')
+@Controller('renta')
 export class UserRentamaController {
   constructor(private readonly userRentamaService: UserRentamaService) {}
 

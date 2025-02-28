@@ -6,13 +6,13 @@ import { QueryRunner as QR } from 'typeorm';
 import { Users } from 'src/users/entity/users.entity';
 import { UserDispatchRentamaService } from './user_dispatch_rentama.service';
 
-@Controller('dispatch')
+@Controller('rentama')
 export class UserDispatchRentamaController {
   constructor(
     private readonly userDispatchRentamaService: UserDispatchRentamaService,
   ) {}
 
-  @Get('rentama')
+  @Get('')
   @UseInterceptors(TransactionInterceptor)
   async getUserDispatchRentama(@User() user: Users, @QueryRunner() qr: QR) {
     const result = this.userDispatchRentamaService.getUserDispatchRentama(
