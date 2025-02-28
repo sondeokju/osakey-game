@@ -34,9 +34,10 @@ export class ItemService {
 
   async getItemName(item_name: string, qr?: QueryRunner) {
     const itemRepository = this.getItemRepository(qr);
+    const name = item_name.trim();
     const result = await itemRepository.findOne({
       where: {
-        item_name,
+        item_name: name,
       },
     });
     return result;
