@@ -102,6 +102,15 @@ export class UserShopLimitService {
 
     try {
       const shopData = await this.shopService.getShop(shop_id, qr);
+      if (!shopData) {
+        return {
+          code: 0,
+          message: `${shop_id} 상점 정보가 존재 하지 않습니다.`,
+          utcTimeString: new Date().toISOString(),
+          hasError: false,
+        };
+      }
+
       console.log('shopData:', shopData);
       if (shopData.price_kind.trim() === 'cash') {
         return {
