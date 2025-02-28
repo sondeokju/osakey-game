@@ -19,6 +19,7 @@ import {
   ENV_DB_USERNAME_KEY,
   ENV_SYNCHRONIZE_KEY,
   ENV_KEEPCONNECTIONALIVE_KEY,
+  LOGGING,
 } from './common/const/env-keys.const';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { PUBLIC_FOLDER_PATH } from './common/const/path.const';
@@ -63,7 +64,7 @@ import { RedisModule } from './redis/redis.module';
       //synchronize: true,
       // keepConnectionAlive: true,
       //logging: ['schema'],
-      logging: false,
+      logging: process.env[LOGGING] === 'true' ? true : false,
       synchronize: process.env[ENV_SYNCHRONIZE_KEY] === 'true' ? true : false,
       keepConnectionAlive:
         process.env[ENV_KEEPCONNECTIONALIVE_KEY] === 'true' ? true : false,

@@ -8,6 +8,7 @@ import {
   ENV_SYNCHRONIZE_KEY,
   ENV_KEEPCONNECTIONALIVE_KEY,
   SERVER_DESC_KEY,
+  //LOGGING,
 } from './common/const/env-keys.const';
 
 async function bootstrap() {
@@ -30,6 +31,7 @@ async function bootstrap() {
   const SYNCHRONIZE = process.env[ENV_SYNCHRONIZE_KEY];
   const KEEPCONNECTIONALIVE = process.env[ENV_KEEPCONNECTIONALIVE_KEY];
   const SERVERDESC = process.env[SERVER_DESC_KEY];
+  //const LOGGING = process.env[LOGGING];
 
   await app.listen(PORT);
   const text =
@@ -38,6 +40,9 @@ async function bootstrap() {
     ' / ' +
     'SCHEMA: ' +
     SCHEMA +
+    ' / ' +
+    // 'LOGGING: ' +
+    // LOGGING +
     ' / ' +
     'SYNCHRONIZE: ' +
     SYNCHRONIZE +
