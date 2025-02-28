@@ -127,9 +127,9 @@ export class UserChallengeService {
     qr?: QueryRunner,
   ) {
     const userChallengeRepository = this.getUserChallengeRepository(qr);
-    const userChallenge = await userChallengeRepository.find({
-      where: { user_id, mission_kind },
-    });
+    // const userChallenge = await userChallengeRepository.find({
+    //   where: { user_id, mission_kind },
+    // });
 
     const completeCount = await this.getCompletedMissionCountPerRoutine(
       user_id,
