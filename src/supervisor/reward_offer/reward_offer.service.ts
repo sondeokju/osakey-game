@@ -79,8 +79,6 @@ export class RewardOfferService {
       }
 
       obj['item_id'] = itemData.item_id;
-      //obj['item_type'] = itemData.item_type;
-      //obj['item_name'] = itemData.item_name;
       obj['item_count'] = reward.item_count;
 
       result.push(obj);
@@ -134,7 +132,7 @@ export class RewardOfferService {
       {
         item_id: itemData.item_id,
         item_type: itemData.item_type,
-        item_name: itemData.item_name,
+        item_name: itemData.item_name.trim(),
         //item_count: qty, // 보상 개수 추가
       },
     ];
@@ -182,8 +180,6 @@ export class RewardOfferService {
 
       result.push({
         item_id: itemData.item_id,
-        //item_type: itemData.item_type,
-        //item_name: itemData.item_name,
         item_count,
       });
     }
@@ -296,8 +292,6 @@ export class RewardOfferService {
         throw new NotFoundException(`User ${user_id} not found.`);
       }
 
-      console.log('------------item_name-----------', item_name);
-
       // 값 업데이트 (switch 문 사용)
       switch (item_name.trim()) {
         case 'secame_credit':
@@ -322,7 +316,9 @@ export class RewardOfferService {
           userData.revive_coin += qty;
           break;
         default:
-          throw new BadRequestException(`Invalid currency type: ${item_name}`);
+          throw new BadRequestException(
+            `Invalid currency type: ${item_name.trim()}`,
+          );
       }
 
       // 업데이트된 데이터 저장

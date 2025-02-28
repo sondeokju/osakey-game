@@ -602,6 +602,7 @@ export class GachaDrawService {
       ];
     } else if (price_kind === 'gord') {
       const item = await this.itemService.getItemName('gord', qr);
+      console.log('diamondDivision---------price_kind gord', item);
 
       deductedCurrency = [
         {
