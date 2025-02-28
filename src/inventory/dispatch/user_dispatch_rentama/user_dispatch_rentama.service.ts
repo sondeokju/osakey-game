@@ -60,7 +60,7 @@ export class UserDispatchRentamaService {
       qr,
     );
 
-    userDispatchRentama.rentama_level = dispatch.dispatch_level;
+    userDispatchRentama.rentama_level = dispatch.id;
     userDispatchRentama.current_rentama_exp = levelUpExp;
 
     const result =
