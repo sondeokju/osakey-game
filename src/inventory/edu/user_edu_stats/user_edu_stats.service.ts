@@ -84,7 +84,7 @@ export class UserEduStatsService {
         throw new NotFoundException('edu_curriculum_max over');
       }
 
-      await this.updateEduLearn(user_id, eduList, userEduStats, qr);
+      await this.updateEduLearn(user_id, edu_list_id, userEduStats, qr);
 
       eduCurriculum = await this.eduCurriculumService.getEduCurriculum(
         eduList.edu_list_id,
@@ -145,16 +145,21 @@ export class UserEduStatsService {
 
   private async updateEduLearn(
     user_id: string,
-    eduList: any,
+    edu_list_id: number,
     userEduStats: any,
     qr?: QueryRunner,
   ) {
     const nextCurriculumCnt = userEduStats.edu_curriculum_cnt + 1;
     const eduCurriculum = await this.eduCurriculumService.getEduCurriculum(
-      eduList.id,
+      edu_list_id,
       nextCurriculumCnt,
       qr,
     );
+
+    const eduList = await this.eduListService.getEduList(edu_list_id, qr);
+    if (!eduList) {
+      throw new NotFoundException('edu_list not found');
+    }
 
     if (userEduStats.edu_learn_yn === 'N') {
       return this.getUserEduStatsRepository(qr).find({ where: { user_id } });
