@@ -81,7 +81,12 @@ export class UserEduStatsService {
     } else {
       // 기존 교육 과정 업데이트
       if (userEduStats.edu_curriculum_cnt >= eduList.edu_curriculum_max) {
-        throw new NotFoundException('edu_curriculum_max over');
+        return {
+          code: 0,
+          message: `${userEduStats.edu_curriculum_cnt} 교육 커리큘럼이 edu_curriculum_max 값을 초과 했습니다. `,
+          utcTimeString: new Date().toISOString(),
+          hasError: false,
+        };
       }
 
       await this.updateEduLearn(user_id, edu_list_id, userEduStats, qr);
@@ -158,7 +163,12 @@ export class UserEduStatsService {
 
     const eduList = await this.eduListService.getEduList(edu_list_id, qr);
     if (!eduList) {
-      throw new NotFoundException('edu_list not found');
+      return {
+        code: 0,
+        message: `edu_list 테이블에 ${edu_list_id} 값이 없습니다. `,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
     if (userEduStats.edu_learn_yn === 'N') {
@@ -181,7 +191,6 @@ export class UserEduStatsService {
       edu_curriculum_cnt: nextCurriculumCnt,
       edu_buff_value: userEduStats.edu_buff_value + eduList.edu_buff_value,
       edu_start_date: new Date(),
-      //edu_end_date: eduEndDate,
       edu_end_date: new Date(
         eduEndDate.getTime() + eduCurriculum.edu_time * 60000,
       ),
@@ -218,7 +227,12 @@ export class UserEduStatsService {
 
     if (eduCurriculum.gord > 0) {
       if (userData.gord < eduCurriculum.gord) {
-        throw new BadRequestException('gord not enough');
+        return {
+          code: 0,
+          message: `유저의 gord: ${eduCurriculum.gord} 충분하지 않습니다.`,
+          utcTimeString: new Date().toISOString(),
+          hasError: false,
+        };
       }
       await this.usersService.reduceGord(user_id, eduCurriculum.gord, qr);
     }
