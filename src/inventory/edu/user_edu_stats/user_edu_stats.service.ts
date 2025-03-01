@@ -161,14 +161,18 @@ export class UserEduStatsService {
     }
     // Update education end date
     const eduEndDate = new Date();
-    eduEndDate.setMinutes(eduEndDate.getMinutes() + eduCurriculum.edu_time);
+    eduEndDate.setMilliseconds(0);
+    //eduEndDate.setMinutes(eduEndDate.getMinutes() + eduCurriculum.edu_time);
 
     await this.getUserEduStatsRepository(qr).save({
       ...userEduStats,
       edu_curriculum_cnt: nextCurriculumCnt,
       edu_buff_value: userEduStats.edu_buff_value + eduList.edu_buff_value,
       edu_start_date: new Date(),
-      edu_end_date: eduEndDate,
+      //edu_end_date: eduEndDate,
+      edu_end_date: new Date(
+        eduEndDate.getTime() + eduCurriculum.edu_time * 60000,
+      ),
       edu_learn_yn: 'N',
     });
 
