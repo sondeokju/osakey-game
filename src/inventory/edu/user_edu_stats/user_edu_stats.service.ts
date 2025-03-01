@@ -164,6 +164,13 @@ export class UserEduStatsService {
     eduEndDate.setMilliseconds(0);
     //eduEndDate.setMinutes(eduEndDate.getMinutes() + eduCurriculum.edu_time);
 
+    console.log('eduCurriculum:', eduCurriculum);
+    console.log('eduCurriculum.edu_time:', eduCurriculum.edu_time);
+    console.log(
+      'edu_end_date:',
+      new Date(eduEndDate.getTime() + eduCurriculum.edu_time * 60000),
+    );
+
     await this.getUserEduStatsRepository(qr).save({
       ...userEduStats,
       edu_curriculum_cnt: nextCurriculumCnt,
