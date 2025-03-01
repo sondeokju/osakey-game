@@ -18,6 +18,12 @@ export class UserEduStats extends BaseModel {
   @Index({ unique: false })
   edu_list_id: number;
 
+  // @Column({
+  //   default: '0',
+  // })
+  // @Index({ unique: false })
+  // curriculum_level: number;
+
   @Column({
     default: '',
   })

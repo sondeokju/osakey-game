@@ -45,20 +45,24 @@ export class UserEduStatsService {
       throw new NotFoundException('edu_list not found');
     }
 
-    const eduCurriculum = await this.eduCurriculumService.getEduCurriculum(
-      eduList.edu_list_id,
-      1,
-      qr,
-    );
-
     // 사용자 교육 상태 조회
     const userEduStats = await userEduStatsRepository.findOne({
       where: { user_id, edu_list_id },
     });
 
-    const price_item_qty = eduCurriculum.price_item_qty;
+    let eduCurriculum;
+    let price_item_qty;
+
     // 새 교육 과정 생성
     if (!userEduStats) {
+      eduCurriculum = await this.eduCurriculumService.getEduCurriculum(
+        eduList.edu_list_id,
+        1,
+        qr,
+      );
+
+      price_item_qty = eduCurriculum.price_item_qty;
+
       await this.createEduLearn(user_id, eduList, qr);
       const edu = await userEduStatsRepository.findOne({
         where: { user_id, edu_list_id },
@@ -74,14 +78,22 @@ export class UserEduStatsService {
         },
         edu,
       };
+    } else {
+      // 기존 교육 과정 업데이트
+      if (userEduStats.edu_curriculum_cnt >= eduList.edu_curriculum_max) {
+        throw new NotFoundException('edu_curriculum_max over');
+      }
+
+      await this.updateEduLearn(user_id, eduList, userEduStats, qr);
+
+      eduCurriculum = await this.eduCurriculumService.getEduCurriculum(
+        eduList.edu_list_id,
+        userEduStats.edu_curriculum_cnt,
+        qr,
+      );
+      price_item_qty = eduCurriculum.price_item_qty;
     }
 
-    // 기존 교육 과정 업데이트
-    if (userEduStats.edu_curriculum_cnt >= eduList.edu_curriculum_max) {
-      throw new NotFoundException('edu_curriculum_max over');
-    }
-
-    await this.updateEduLearn(user_id, eduList, userEduStats, qr);
     const edu = await userEduStatsRepository.findOne({
       where: { user_id, edu_list_id },
     });
@@ -403,7 +415,12 @@ export class UserEduStatsService {
     });
 
     if (!userEduStats) {
-      throw new NotFoundException('user_edu_stats not found');
+      return {
+        code: 0,
+        message: `curriculum_id ${edu_list_id} 해당 교육이 없습니다.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
     await userEduStatsRepository.save({
