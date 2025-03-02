@@ -8,6 +8,7 @@ import Redis from 'ioredis';
 import { HeroService } from 'src/static-table/hero/hero.service';
 import { User } from './decorator/user.decorator';
 import { randomBytes } from 'crypto';
+import { UserChallengeService } from 'src/inventory/challenge/user_challenge/user_challenge.service';
 
 @Injectable()
 export class UsersService {
@@ -19,6 +20,7 @@ export class UsersService {
     //private readonly redisService: RedisService,
     private readonly heroService: HeroService,
     private readonly dataSource: DataSource,
+    private readonly userChallengeService: UserChallengeService,
   ) {
     //this.redisClient = redisService.getClient();
   }
@@ -959,6 +961,9 @@ export class UsersService {
       if (qr) {
         await qr.commitTransaction();
       }
+
+      // 배터리 사용 퀘스트
+      await this.userChallengeService.challengeQuest(user_id, 12400003, 1);
 
       const userData = await usersRepository.findOne({
         where: {
