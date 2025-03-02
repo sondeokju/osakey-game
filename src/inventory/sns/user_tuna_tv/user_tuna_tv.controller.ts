@@ -51,6 +51,7 @@ export class UserTunaTvController {
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userTunaTvService.tunaTvUpload(
+      user.user_id,
       tunaTv_id,
       upload_txt,
       qr,

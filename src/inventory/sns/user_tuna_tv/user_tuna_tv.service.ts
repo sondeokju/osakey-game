@@ -66,7 +66,12 @@ export class UserTunaTvService {
     return tunaTvData;
   }
 
-  async tunaTvUpload(tunaTv_id: number, upload_txt: string, qr?: QueryRunner) {
+  async tunaTvUpload(
+    user_id: string,
+    tunaTv_id: number,
+    upload_txt: string,
+    qr?: QueryRunner,
+  ) {
     const userTunaTvRepository = this.getUserTunaTvRepository(qr);
     const userTunaTvData = await userTunaTvRepository.findOne({
       where: {
@@ -90,11 +95,7 @@ export class UserTunaTvService {
       });
 
       // 게시물 업로드 퀘스트
-      await this.userChallengeService.challengeQuest(
-        userTunaTvData.user_id,
-        12400006,
-        1,
-      );
+      await this.userChallengeService.challengeQuest(user_id, 12400006, 1);
 
       return result;
     }
