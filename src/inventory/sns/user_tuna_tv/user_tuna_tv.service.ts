@@ -4,6 +4,7 @@ import { UserTunaTv } from './entities/user_tuna_tv.entity';
 import { QueryRunner, Repository } from 'typeorm';
 import { SnsConfigService } from 'src/static-table/sns/sns_config/sns_config.service';
 import { UserSnsLikesService } from '../user_sns_likes/user_sns_likes.service';
+import { UserChallengeService } from 'src/inventory/challenge/user_challenge/user_challenge.service';
 
 @Injectable()
 export class UserTunaTvService {
@@ -12,6 +13,7 @@ export class UserTunaTvService {
     private readonly userTunaTvRepository: Repository<UserTunaTv>,
     private readonly snsConfigService: SnsConfigService,
     private readonly userSnsLikesService: UserSnsLikesService,
+    private readonly userChallengeService: UserChallengeService,
   ) {}
 
   getUserTunaTvRepository(qr?: QueryRunner) {
@@ -86,6 +88,13 @@ export class UserTunaTvService {
           user_id: userTunaTvData.user_id,
         },
       });
+
+      // 게시물 업로드 퀘스트
+      await this.userChallengeService.challengeQuest(
+        userTunaTvData.user_id,
+        12400006,
+        1,
+      );
 
       return result;
     }
