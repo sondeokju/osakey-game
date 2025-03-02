@@ -109,13 +109,24 @@ export class UserSecameDiaryService {
       ) {
         if (userSecameDiary.reward_yn === 'Y') {
           return {
-            message:
-              'This is not a repeatable Secame Diary. You have already claimed the reward.',
+            code: 0,
+            message: `이미 세카메 다이어리 보상을 획득 했습니다.`,
+            utcTimeString: new Date().toISOString(),
+            hasError: false,
           };
         }
 
         shouldInsertNextDiary = true;
         isRepeatReward = true;
+      } else {
+        return {
+          code: 0,
+          message: `userHeroRank: ${
+            heroData.rank
+          } / nextSecameDiary heroRank: ${nextSecameDiaryData.hero_rank.trim()}  `,
+          utcTimeString: new Date().toISOString(),
+          hasError: false,
+        };
       }
 
       if (
