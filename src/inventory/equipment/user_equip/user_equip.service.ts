@@ -951,6 +951,7 @@ export class UserEquipService {
       const equipIdList = await userEquipRepository
         .createQueryBuilder('ue')
         .select('ue.equip_id', 'equip_id')
+        .addSelect('ue.id', 'id')
         .where('ue.id IN (:...ids)', {
           ids: [user_equip_id_01, user_equip_id_02, user_equip_id_03],
         })
@@ -968,8 +969,7 @@ export class UserEquipService {
 
       console.log('userEquipData', userEquipData);
       const equipIds = equipIdList.map((item) => item.equip_id);
-      const deleteEquipIds = equipIds;
-      //const deleteEquipIds = equipIdList.map((item) => item.id);
+      const deleteEquipIds = equipIdList.map((item) => item.id);
 
       // 배열 길이 검증
       if (equipIds.length < 3) {
