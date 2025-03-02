@@ -250,7 +250,7 @@ export class UserOfflineRewardService {
     const totalRewards = Math.floor(timeDifference / periodInMilliseconds);
     console.log(`totalRewards: ${totalRewards}`);
 
-    return totalRewards;
+    return totalRewards - 1;
   }
 
   // calculateOfflineRewards(
