@@ -68,6 +68,10 @@ export class UserIngameRewardService {
 
     if (!existingReward) {
       firstClear = true;
+    } else {
+      if (existingReward.first_clear_yn === 'N') {
+        firstClear = true;
+      }
     }
 
     switch (game_mode) {

@@ -163,9 +163,6 @@ export class UserOfflineRewardService {
         exp: totalExp,
       });
 
-      // rewardItems.push({ item_id: 11100002, item_count: +totalGord });
-      // rewardItems.push({ item_id: 11100005, item_count: +totalExp });
-
       this.addOrUpdateRewardItem(rewardItems, 11100002, +totalGord);
       this.addOrUpdateRewardItem(rewardItems, 11100005, +totalExp);
 
@@ -197,10 +194,7 @@ export class UserOfflineRewardService {
     offlineData: any,
     is_ad: string,
   ): { rewardCount: number; currencyCount: number } {
-    console.log('----------- is_ad ------------', is_ad);
     if (is_ad === 'true') {
-      console.log('----------- is_ad ------------', true);
-      console.log('true');
       // 광고를 시청한 경우: 최대 보상 시간 기준으로 보상 지급
       const rewardCount = Math.floor(
         offlineData.time_max / offlineData.offline_reward_peirod,
@@ -210,20 +204,12 @@ export class UserOfflineRewardService {
 
       return { rewardCount, currencyCount };
     } else {
-      console.log('false');
-      console.log('----------- is_ad ------------', false);
       // 광고를 시청하지 않은 경우: 실제 경과 시간 기준으로 보상 지급
-      console.log(
-        '----------- offlineData.offline_reward_peirod ------------',
-        offlineData.offline_reward_peirod,
-      );
       const rewardCount = this.calculateOfflineRewards(
         lastRewardDate,
         offlineData.offline_reward_peirod,
         //30, //test
       );
-
-      console.log('calculateRewards rewardCount:', rewardCount);
 
       let currencyCount = this.calculateOfflineRewards(lastRewardDate, 1); // 1분 기준
       currencyCount = Math.min(currencyCount, 480); // 480 제한
