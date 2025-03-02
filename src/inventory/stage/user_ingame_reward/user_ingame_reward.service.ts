@@ -139,6 +139,11 @@ export class UserIngameRewardService {
       await this.userChallengeService.challengeQuest(user_id, 12400004, 1);
     }
 
+    // 인게임 오브젝트 파괴
+    if (etc > 0) {
+      await this.userChallengeService.challengeQuest(user_id, 12400010, 1);
+    }
+
     const newReward = userIngameRewardRepository.create({
       user_id,
       game_mode,
