@@ -172,8 +172,8 @@ export class UserSecameDiaryService {
 
       if (
         shouldInsertNextDiary &&
-        nextSecameDiaryData &&
-        nextSecameDiaryData.is_repeat.toLowerCase() !== 'true'
+        nextSecameDiaryData
+        //nextSecameDiaryData.is_repeat.toLowerCase() !== 'true'
       ) {
         console.log('-------------insert-------------------');
         await userSecameDiaryRepository.insert({
