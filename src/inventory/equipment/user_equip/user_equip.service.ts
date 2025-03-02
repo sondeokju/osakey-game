@@ -968,7 +968,8 @@ export class UserEquipService {
 
       console.log('userEquipData', userEquipData);
       const equipIds = equipIdList.map((item) => item.equip_id);
-      const deleteEquipIds = equipIdList.map((item) => item.id);
+      const deleteEquipIds = equipIds;
+      //const deleteEquipIds = equipIdList.map((item) => item.id);
 
       // 배열 길이 검증
       if (equipIds.length < 3) {
