@@ -40,4 +40,15 @@ export class MissionRoutineBonusService {
     });
     return result;
   }
+
+  async getMissionRoutineBonusKind(mission_kind: string, qr?: QueryRunner) {
+    const missionRoutineBonusRepository =
+      this.getMissionRoutineBonusRepository(qr);
+    const result = await missionRoutineBonusRepository.find({
+      where: {
+        mission_kind: mission_kind.trim(),
+      },
+    });
+    return result;
+  }
 }
