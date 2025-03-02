@@ -998,6 +998,8 @@ export class UserEquipService {
         equip_level_id: +equipLevelId,
       });
 
+      console.log('deleteEquipIds', deleteEquipIds);
+
       // 기존 장비 삭제
       await userEquipRepository.delete({
         user_id,
