@@ -171,6 +171,7 @@ export class UserChallengeService {
         hasError: false,
       };
     }
+
     const rewardData = await this.rewardOfferService.reward(
       user_id,
       missionRoutineBonus.reward_id,

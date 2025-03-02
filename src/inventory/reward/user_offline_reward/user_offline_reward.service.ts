@@ -107,6 +107,8 @@ export class UserOfflineRewardService {
       const rewardItems: { item_id: number; item_count: number }[] = [];
 
       let count;
+      console.log('offlineData.time_max:', offlineData.time_max);
+      console.log('rewardCount:', rewardCount);
       if (offlineData.time_max === rewardCount) {
         count = rewardCount - 1;
       }
