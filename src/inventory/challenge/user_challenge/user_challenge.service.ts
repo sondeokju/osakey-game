@@ -245,14 +245,14 @@ export class UserChallengeService {
         completeCount,
       );
 
-    if (!missionRoutineBonus) {
-      return {
-        code: 0,
-        message: `mission_kind: ${mission_kind}, complete_count: ${completeCount} 추가 보상 카운트에 맞지 않습니다.`,
-        utcTimeString: new Date().toISOString(),
-        hasError: false,
-      };
-    }
+    // if (!missionRoutineBonus) {
+    //   return {
+    //     code: 0,
+    //     message: `mission_kind: ${mission_kind}, complete_count: ${completeCount} 추가 보상 카운트에 맞지 않습니다.`,
+    //     utcTimeString: new Date().toISOString(),
+    //     hasError: false,
+    //   };
+    // }
 
     const rewardData = await this.rewardOfferService.reward(
       user_id,
