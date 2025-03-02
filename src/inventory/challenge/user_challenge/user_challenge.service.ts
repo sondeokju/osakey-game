@@ -185,14 +185,16 @@ export class UserChallengeService {
           bonus.complete_count,
         );
 
-        rewards.push({ completeCount: bonus.complete_count, rewardData });
+        rewards.push({ rewardData });
       }
     }
 
     const result = await userChallengeRepository.find({ where: { user_id } });
 
     return {
-      rewards,
+      reward: {
+        userItemData: rewards,
+      },
       userChallenge: result,
     };
   }
