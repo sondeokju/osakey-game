@@ -136,6 +136,13 @@ export class UserSecameDiaryService {
         isRepeatReward = true;
       }
 
+      console.log('shouldInsertNextDiary:', shouldInsertNextDiary);
+      console.log('nextSecameDiaryData:', nextSecameDiaryData);
+      console.log(
+        'currentSecameDiaryData.is_repeat:',
+        currentSecameDiaryData.is_repeat.toLowerCase(),
+      );
+
       if (
         shouldInsertNextDiary &&
         nextSecameDiaryData &&
@@ -168,13 +175,6 @@ export class UserSecameDiaryService {
         // 🔹 6️⃣ `reward_yn` 업데이트
         userSecameDiary.reward_yn = 'Y';
         result = await userSecameDiaryRepository.save(userSecameDiary);
-      } else {
-        // return {
-        //   message:
-        //     'This is not a repeatable Secame Diary. You have already claimed the reward.',
-        //   user_secame_diary: {},
-        //   reward: {},
-        // };
       }
 
       // 7️⃣ 트랜잭션 커밋
