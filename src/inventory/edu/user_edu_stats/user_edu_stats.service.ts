@@ -14,6 +14,7 @@ import { ItemService } from 'src/static-table/item/item.service';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { UsersService } from 'src/users/users.service';
 import { DataSource } from 'typeorm';
+import { UserChallengeService } from 'src/inventory/challenge/user_challenge/user_challenge.service';
 
 @Injectable()
 export class UserEduStatsService {
@@ -27,6 +28,7 @@ export class UserEduStatsService {
     //private readonly rewardOfferService: RewardOfferService,
     private readonly userItemService: UserItemService,
     private readonly usersService: UsersService,
+    private readonly userChallengeService: UserChallengeService,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -463,6 +465,9 @@ export class UserEduStatsService {
         user_id,
       },
     });
+
+    // 수업 듣기 완료 퀘스트
+    await this.userChallengeService.challengeQuest(user_id, 12400005, 1);
 
     return result;
   }

@@ -134,6 +134,7 @@ export class UserIngameRewardService {
 
     if (stage_clear_yn === 'Y') {
       await this.incrementMissionClearCount(user_id, mission_id);
+      // 인게임 클리어 퀘스트
       await this.userChallengeService.challengeQuest(user_id, 12400004, 1);
     }
 
