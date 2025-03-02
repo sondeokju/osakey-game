@@ -55,10 +55,16 @@ export class UserChallengeService {
       where: { user_id, mission_routine_id },
     });
 
+    const missionRoutine = await this.missionRoutineService.getMissionRoutine(
+      mission_routine_id,
+      qr,
+    );
+
     if (!userChallenge) {
       userChallenge = userChallengeRepository.create({
         user_id,
         mission_routine_id,
+        mission_kind: missionRoutine.mission_kind,
         mission_goal: count, // 처음부터 count 값을 설정
       });
 
