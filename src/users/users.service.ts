@@ -962,7 +962,7 @@ export class UsersService {
       }
 
       // 배터리 사용 퀘스트
-      await this.challengeQuest(user_id, 12400003, 1);
+      await this.challengeQuest(user_id, 12400003, 5);
 
       const userData = await usersRepository.findOne({
         where: {
