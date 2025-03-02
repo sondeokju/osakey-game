@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { UserChallengeService } from './user_challenge.service';
 import { UserChallengeController } from './user_challenge.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -8,6 +8,7 @@ import { MissionRoutineBonusModule } from 'src/static-table/mission_routine_bonu
 import { MissionRoutineModule } from 'src/static-table/mission_routine/mission_routine.module';
 import { UserChallengeExtraModule } from '../user_challenge_extra/user_challenge_extra.module';
 
+@Global()
 @Module({
   imports: [
     TypeOrmModule.forFeature([UserChallenge]),

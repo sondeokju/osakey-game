@@ -11,6 +11,7 @@ import { QueryRunner, Repository } from 'typeorm';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { AttendanceService } from 'src/static-table/attendance/attendance/attendance.service';
 import { UsersService } from 'src/users/users.service';
+import { UserChallengeService } from 'src/inventory/challenge/user_challenge/user_challenge.service';
 
 @Injectable()
 export class UserAttendanceService {
@@ -20,6 +21,7 @@ export class UserAttendanceService {
     private readonly rewardOfferService: RewardOfferService,
     private readonly attendanceService: AttendanceService,
     private readonly usersService: UsersService,
+    private readonly userChallengeService: UserChallengeService,
   ) {}
 
   getUserAttendanceRepository(qr?: QueryRunner) {
