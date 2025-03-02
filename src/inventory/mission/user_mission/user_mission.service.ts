@@ -8,6 +8,7 @@ import { UserMission } from './entities/user_mission.entity';
 import { DataSource } from 'typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
+import { UserChallengeService } from 'src/inventory/challenge/user_challenge/user_challenge.service';
 
 @Injectable()
 export class UserMissionService {
@@ -16,6 +17,7 @@ export class UserMissionService {
     private readonly userMissionRepository: Repository<UserMission>,
     private readonly dataSource: DataSource,
     private readonly rewardOfferService: RewardOfferService,
+    private readonly userChallengeService: UserChallengeService,
   ) {}
 
   getUserMissionRepository(qr?: QueryRunner) {
@@ -48,6 +50,9 @@ export class UserMissionService {
         user_id,
       },
     });
+
+    // 아무 NPC 미션 클리어 횟수
+    await this.userChallengeService.challengeQuest(user_id, 12400008, 1);
 
     return result;
   }
