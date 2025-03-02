@@ -215,6 +215,8 @@ export class UserOfflineRewardService {
         offlineData.time_max / offlineData.offline_reward_peirod,
       );
 
+      console.log('offlineData.time_max:', offlineData.offline_reward_peirod);
+
       const currencyCount = offlineData.time_max;
 
       return { rewardCount, currencyCount };
