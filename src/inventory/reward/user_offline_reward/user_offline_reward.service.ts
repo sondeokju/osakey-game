@@ -14,6 +14,7 @@ import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.ser
 import { UsersService } from 'src/users/users.service';
 import { ServerConfigService } from 'src/static-table/config/server_config/server_config.service';
 import { RewardService } from 'src/static-table/reward/reward.service';
+import { UserChallengeService } from 'src/inventory/challenge/user_challenge/user_challenge.service';
 
 @Injectable()
 export class UserOfflineRewardService {
@@ -26,6 +27,7 @@ export class UserOfflineRewardService {
     private readonly usersService: UsersService,
     private readonly serverConfigService: ServerConfigService,
     private readonly rewardService: RewardService,
+    private readonly userChallengeService: UserChallengeService,
   ) {}
 
   getUserOfflineRewardRepository(qr?: QueryRunner) {
@@ -165,6 +167,9 @@ export class UserOfflineRewardService {
 
       this.addOrUpdateRewardItem(rewardItems, 11100002, +totalGord);
       this.addOrUpdateRewardItem(rewardItems, 11100005, +totalExp);
+
+      // 오프라인 보상 받기
+      await this.userChallengeService.challengeQuest(user_id, 12400007, 1);
 
       return {
         reward: {
