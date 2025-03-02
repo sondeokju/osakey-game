@@ -112,8 +112,6 @@ export class UserSecameDiaryService {
         'nextSecameDiaryData.credit_goal_qty:',
         nextSecameDiaryData.credit_goal_qty,
       );
-      console.log('nuserData.secame_credit:', userData.secame_credit);
-      console.log('nuserData.secame_credit:', userData.secame_credit);
 
       if (
         nextSecameDiaryData &&
@@ -161,6 +159,7 @@ export class UserSecameDiaryService {
         reward = await this.rewardOfferService.reward(
           user_id,
           currentSecameDiaryData.reward_id,
+          qr,
         );
 
         //세카메 크레딧 0으로 초기화
