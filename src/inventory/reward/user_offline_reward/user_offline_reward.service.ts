@@ -163,7 +163,7 @@ export class UserOfflineRewardService {
 
       console.log('Offline reward saved successfully:', {
         rewardId: offlineData.reward_id,
-        count,
+        rewardCount,
         gord: totalGord,
         exp: totalExp,
       });
