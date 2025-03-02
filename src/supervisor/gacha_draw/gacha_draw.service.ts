@@ -15,6 +15,7 @@ import { UserGachaCheckService } from './user_gacha_check/user_gacha_check.servi
 import { ItemService } from 'src/static-table/item/item.service';
 import { EquipService } from 'src/static-table/equipment/equip/equip.service';
 import { ResourceManagerService } from '../resource_manager/resource_manager.service';
+import { UserChallengeService } from 'src/inventory/challenge/user_challenge/user_challenge.service';
 
 @Injectable()
 export class GachaDrawService {
@@ -26,6 +27,7 @@ export class GachaDrawService {
     private readonly userGachaCheckService: UserGachaCheckService,
     private readonly equipService: EquipService,
     private readonly resourceManagerService: ResourceManagerService,
+    private readonly userChallengeService: UserChallengeService,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -377,6 +379,9 @@ export class GachaDrawService {
       });
     }
 
+    // 뽑기 횟수 퀘스트
+    await this.userChallengeService.challengeQuest(user_id, 12400002, 1);
+
     return {
       reward: {
         userItemData: gachaItemData,
@@ -394,12 +399,6 @@ export class GachaDrawService {
         },
       ],
     };
-
-    // return {
-    //   reward: {
-    //     userItemData: gachaItemData,
-    //   },
-    // };
   }
 
   async gacha10(

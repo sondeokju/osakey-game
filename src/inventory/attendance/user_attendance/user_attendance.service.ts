@@ -295,6 +295,7 @@ export class UserAttendanceService {
     const updatedUserAttendance =
       await userAttendanceRepository.save(userAttendanceData);
 
+    // 출석 보상 퀘스트
     await this.userChallengeService.challengeQuest(user_id, 12400001, 1);
 
     return {

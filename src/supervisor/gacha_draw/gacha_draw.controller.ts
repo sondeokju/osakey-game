@@ -10,34 +10,6 @@ import { GachaDrawService } from './gacha_draw.service';
 export class GachaDrawController {
   constructor(private readonly gachaDrawService: GachaDrawService) {}
 
-  // @Get('')
-  // @UseInterceptors(TransactionInterceptor)
-  // async achieve(@User() user: Users, @QueryRunner() qr: QR) {
-  //   //console.log('achievements get');
-  //   const result = this.userAchievementsService.getUserAchieveAll(
-  //     user.user_id,
-  //     qr,
-  //   );
-  //   return result;
-  // }
-
-  // @Post('simul')
-  // @UseInterceptors(TransactionInterceptor)
-  // async simulateGachaDraws(
-  //   @User() user: Users,
-  //   @Body('gacha_id') gacha_id: number,
-  //   @Body('count') count: number,
-  //   @QueryRunner() qr: QR,
-  // ) {
-  //   const result = await this.gachaDrawService.simulateGachaDraws(
-  //     gacha_id,
-  //     count,
-  //     qr,
-  //   );
-
-  //   return result;
-  // }
-
   @Post('draw')
   @UseInterceptors(TransactionInterceptor)
   async equipGachaDrawRandom(
@@ -55,6 +27,23 @@ export class GachaDrawController {
 
     return result;
   }
+
+  // @Post('simul')
+  // @UseInterceptors(TransactionInterceptor)
+  // async simulateGachaDraws(
+  //   @User() user: Users,
+  //   @Body('gacha_id') gacha_id: number,
+  //   @Body('count') count: number,
+  //   @QueryRunner() qr: QR,
+  // ) {
+  //   const result = await this.gachaDrawService.simulateGachaDraws(
+  //     gacha_id,
+  //     count,
+  //     qr,
+  //   );
+
+  //   return result;
+  // }
 
   // @Post('draw')
   // @UseInterceptors(TransactionInterceptor)
