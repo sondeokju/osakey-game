@@ -133,9 +133,6 @@ export class UserChallengeService {
     qr?: QueryRunner,
   ) {
     const userChallengeRepository = this.getUserChallengeRepository(qr);
-    // const userChallenge = await userChallengeRepository.find({
-    //   where: { user_id, mission_kind },
-    // });
 
     const completeCount = await this.getCompletedMissionCountPerRoutine(
       user_id,
@@ -150,7 +147,7 @@ export class UserChallengeService {
         qr,
       );
 
-    if (!extraReward || extraReward.reward_yn === 'Y') {
+    if (!extraReward) {
       return {
         code: 0,
         message: `mission_kind: ${mission_kind}, complete_count: ${completeCount} 이미 추가 보상을 획득 했거나, 미션완료 조건이 맞지 않습니다. `,

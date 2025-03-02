@@ -106,8 +106,13 @@ export class UserOfflineRewardService {
 
       const rewardItems: { item_id: number; item_count: number }[] = [];
 
+      let count;
+      if (offlineData.time_max === rewardCount) {
+        count = rewardCount - 1;
+      }
+
       // 보상 처리
-      for (let i = 0; i < rewardCount; i++) {
+      for (let i = 0; i < count; i++) {
         const data = await this.rewardOfferService.reward(
           user_id,
           offlineData.reward_id,
@@ -125,7 +130,10 @@ export class UserOfflineRewardService {
               existingItem.item_count += +item_count;
             } else {
               // 존재하지 않으면 새로 추가
-              rewardItems.push({ item_id: +item_id, item_count: +item_count });
+              rewardItems.push({
+                item_id: +item_id,
+                item_count: +item_count,
+              });
             }
           });
         }
@@ -160,7 +168,7 @@ export class UserOfflineRewardService {
 
       console.log('Offline reward saved successfully:', {
         rewardId: offlineData.reward_id,
-        rewardCount,
+        count,
         gord: totalGord,
         exp: totalExp,
       });
