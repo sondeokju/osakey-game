@@ -15,6 +15,7 @@ import { DataSource } from 'typeorm';
 import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager.service';
 import { ItemService } from 'src/static-table/item/item.service';
 import { ResourceType } from 'src/common/resource/resource';
+import { UserChallengeService } from 'src/inventory/challenge/user_challenge/user_challenge.service';
 
 @Injectable()
 export class UserShopLimitService {
@@ -26,6 +27,7 @@ export class UserShopLimitService {
     private readonly rewardOfferService: RewardOfferService,
     private readonly resourceManagerService: ResourceManagerService,
     private readonly itemService: ItemService,
+    private readonly userChallengeService: UserChallengeService,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -173,6 +175,9 @@ export class UserShopLimitService {
         shop_id,
         qr,
       );
+
+      // 아무 상품이나 구매
+      await this.userChallengeService.challengeQuest(user_id, 12400009, 1);
 
       console.log('shopPurchase 06');
       if (shouldRelease) {
