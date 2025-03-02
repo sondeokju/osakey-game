@@ -136,18 +136,20 @@ export class UserSecameDiaryService {
         isRepeatReward = true;
       }
 
+      console.log('--------------------------------');
       console.log('shouldInsertNextDiary:', shouldInsertNextDiary);
       console.log('nextSecameDiaryData:', nextSecameDiaryData);
       console.log(
-        'currentSecameDiaryData.is_repeat:',
-        currentSecameDiaryData.is_repeat.toLowerCase(),
+        'nextSecameDiaryData.is_repeat:',
+        nextSecameDiaryData.is_repeat.toLowerCase(),
       );
 
       if (
         shouldInsertNextDiary &&
         nextSecameDiaryData &&
-        currentSecameDiaryData.is_repeat.toLowerCase() !== 'true'
+        nextSecameDiaryData.is_repeat.toLowerCase() !== 'true'
       ) {
+        console.log('-------------insert-------------------');
         await userSecameDiaryRepository.insert({
           user_id,
           mission_id: nextSecameDiaryData.secame_diary_id,
