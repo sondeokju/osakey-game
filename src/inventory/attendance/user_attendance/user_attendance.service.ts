@@ -295,6 +295,8 @@ export class UserAttendanceService {
     const updatedUserAttendance =
       await userAttendanceRepository.save(userAttendanceData);
 
+    await this.userChallengeService.challengeQuest(user_id, 12400001, 1);
+
     return {
       reward: {
         userItemData: rewardData,
