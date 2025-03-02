@@ -97,6 +97,24 @@ export class UserSecameDiaryService {
       let shouldInsertNextDiary = false;
       let isRepeatReward = false;
 
+      console.log('nextSecameDiaryData:', nextSecameDiaryData);
+      console.log(
+        'currentSecameDiaryData.is_repeat:',
+        currentSecameDiaryData.is_repeat.toLowerCase(),
+      );
+      console.log(
+        'nextSecameDiaryData.hero_rank:',
+        nextSecameDiaryData.hero_rank,
+      );
+      console.log('heroData.rank:', heroData.rank);
+      console.log('userData.secame_credit:', userData.secame_credit);
+      console.log(
+        'nextSecameDiaryData.credit_goal_qty:',
+        nextSecameDiaryData.credit_goal_qty,
+      );
+      console.log('nuserData.secame_credit:', userData.secame_credit);
+      console.log('nuserData.secame_credit:', userData.secame_credit);
+
       if (
         nextSecameDiaryData &&
         ((currentSecameDiaryData.is_repeat.toLowerCase() === 'true' &&
@@ -118,15 +136,6 @@ export class UserSecameDiaryService {
 
         shouldInsertNextDiary = true;
         isRepeatReward = true;
-      } else {
-        return {
-          code: 0,
-          message: `userHeroRank: ${
-            heroData.rank
-          } / nextSecameDiary heroRank: ${nextSecameDiaryData.hero_rank.trim()}  `,
-          utcTimeString: new Date().toISOString(),
-          hasError: false,
-        };
       }
 
       if (
