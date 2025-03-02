@@ -106,15 +106,8 @@ export class UserOfflineRewardService {
 
       const rewardItems: { item_id: number; item_count: number }[] = [];
 
-      let count;
-      console.log('offlineData.time_max:', offlineData.time_max);
-      console.log('rewardCount:', rewardCount);
-      if (offlineData.time_max === rewardCount) {
-        count = rewardCount - 1;
-      }
-
       // 보상 처리
-      for (let i = 0; i < count; i++) {
+      for (let i = 0; i < rewardCount; i++) {
         const data = await this.rewardOfferService.reward(
           user_id,
           offlineData.reward_id,
@@ -211,17 +204,12 @@ export class UserOfflineRewardService {
   ): { rewardCount: number; currencyCount: number } {
     if (is_ad === 'true') {
       // 광고를 시청한 경우: 최대 보상 시간 기준으로 보상 지급
-      const rewardCount = Math.floor(
+      const count = Math.floor(
         offlineData.time_max / offlineData.offline_reward_peirod,
       );
 
-      console.log('offlineData.time_max:', offlineData.time_max);
-      console.log(
-        'offlineData.offline_reward_peirod:',
-        offlineData.offline_reward_peirod,
-      );
-
-      const currencyCount = offlineData.time_max;
+      const currencyCount = offlineData.time_max - 1;
+      const rewardCount = count - 1;
 
       return { rewardCount, currencyCount };
     } else {
