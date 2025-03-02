@@ -11,10 +11,11 @@ import { UserIngameReward } from './entities/user_ingame_reward.entity';
 import { BattleStageService } from 'src/static-table/stage/battle_stage/battle_stage.service';
 import { RunStageService } from 'src/static-table/stage/run_stage/run_stage.service';
 import { PuzzleStageService } from 'src/static-table/stage/puzzle_stage/puzzle_stage.service';
-import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager.service';
+//import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager.service';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { BountyStageService } from 'src/static-table/stage/bounty_stage/bounty_stage.service';
 import { DataSource } from 'typeorm';
+import { UserChallengeService } from 'src/inventory/challenge/user_challenge/user_challenge.service';
 
 @Injectable()
 export class UserIngameRewardService {
@@ -26,6 +27,7 @@ export class UserIngameRewardService {
     private readonly puzzleStageService: PuzzleStageService,
     private readonly bountyStageService: BountyStageService,
     private readonly rewardOfferService: RewardOfferService,
+    private readonly userChallengeService: UserChallengeService,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -132,6 +134,7 @@ export class UserIngameRewardService {
 
     if (stage_clear_yn === 'Y') {
       await this.incrementMissionClearCount(user_id, mission_id);
+      await this.userChallengeService.challengeQuest(user_id, 12400004, 1);
     }
 
     const newReward = userIngameRewardRepository.create({
@@ -144,8 +147,7 @@ export class UserIngameRewardService {
       reward_id: cacluRewardData.group_id,
     });
 
-    const updatedUserIngameRewardData =
-      await userIngameRewardRepository.save(newReward);
+    await userIngameRewardRepository.save(newReward);
 
     return {
       user,
