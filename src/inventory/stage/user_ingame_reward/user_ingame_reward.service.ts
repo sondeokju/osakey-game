@@ -56,6 +56,7 @@ export class UserIngameRewardService {
     stage_clear_yn: string,
     secame_credit: number,
     mission_id: number,
+    etc: any,
     qr?: QueryRunner,
   ) {
     let rewardData = {};
