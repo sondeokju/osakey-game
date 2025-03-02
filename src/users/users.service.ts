@@ -19,9 +19,8 @@ export class UsersService {
     private readonly usersRepository: Repository<Users>,
     //private readonly redisService: RedisService,
     private readonly heroService: HeroService,
-    private readonly dataSource: DataSource,
-  ) //private readonly userChallengeService: UserChallengeService,
-  {
+    private readonly dataSource: DataSource, //private readonly userChallengeService: UserChallengeService,
+  ) {
     //this.redisClient = redisService.getClient();
   }
 
@@ -963,7 +962,7 @@ export class UsersService {
       }
 
       // 배터리 사용 퀘스트
-      //await this.userChallengeService.challengeQuest(user_id, 12400003, 1);
+      await this.challengeQuest(user_id, 12400003, 1);
 
       const userData = await usersRepository.findOne({
         where: {
@@ -977,6 +976,61 @@ export class UsersService {
         await qr.rollbackTransaction();
       }
       throw error;
+    }
+  }
+
+  async challengeQuest(
+    user_id: string,
+    mission_routine_id: number,
+    count: number,
+  ) {
+    // 기존 유저 챌린지 데이터 조회
+    const userChallenge = await this.dataSource.query(
+      `SELECT * FROM user_challenge 
+     WHERE user_id = ? AND mission_routine_id = ? 
+     LIMIT 1`,
+      [user_id, mission_routine_id],
+    );
+
+    // mission_routine 정보 가져오기
+    // const missionRoutine =
+    //   await this.missionRoutineService.getMissionRoutine(mission_routine_id);
+
+    if (userChallenge.length === 0) {
+      // 새로운 유저 챌린지 생성
+      await this.dataSource.query(
+        `INSERT INTO user_challenge (user_id, mission_routine_id, mission_kind, mission_goal)
+       VALUES (?, ?, ?, ?)`,
+        [user_id, mission_routine_id, 'MD', count],
+      );
+
+      // 삽입된 데이터 조회
+      const newUserChallenge = await this.dataSource.query(
+        `SELECT * FROM user_challenge 
+       WHERE user_id = ? AND mission_routine_id = ? 
+       LIMIT 1`,
+        [user_id, mission_routine_id],
+      );
+
+      return newUserChallenge[0];
+    } else {
+      // 기존 챌린지의 mission_goal 증가
+      await this.dataSource.query(
+        `UPDATE user_challenge 
+       SET mission_goal = mission_goal + ? 
+       WHERE user_id = ? AND mission_routine_id = ?`,
+        [count, user_id, mission_routine_id],
+      );
+
+      // 업데이트된 데이터 조회
+      const updatedUserChallenge = await this.dataSource.query(
+        `SELECT * FROM user_challenge 
+       WHERE user_id = ? AND mission_routine_id = ? 
+       LIMIT 1`,
+        [user_id, mission_routine_id],
+      );
+
+      return updatedUserChallenge[0];
     }
   }
 
