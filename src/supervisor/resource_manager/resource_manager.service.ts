@@ -60,8 +60,6 @@ export class ResourceManagerService {
         }
       }
 
-      console.log('resources.gord:', resources.gord);
-      console.log('userCurrency.gord:', userCurrency.gord);
       // 🔹 고드(Gord) 차감
       if (resources.gord) {
         if (resources.gord < 0 || resources.gord > userCurrency.gord) {
@@ -79,7 +77,6 @@ export class ResourceManagerService {
       }
 
       // 🔹 다이아몬드 차감
-      console.log('resources.dia.amount:', resources.dia.amount);
       if (resources.dia?.amount && resources.dia.amount > 0) {
         const userDiaBalance = await this.usersService.getMe(user_id, qr);
         if (
@@ -134,10 +131,8 @@ export class ResourceManagerService {
         }
       }
 
-      console.log('errorMessage:', errorMessage);
       // ✅ 차감할 자원이 부족하면 오류 반환
       if (errorMessage) {
-        console.log('차감할 자원이 부족하면 오류 반환');
         return {
           code: 0,
           message: errorMessage,
