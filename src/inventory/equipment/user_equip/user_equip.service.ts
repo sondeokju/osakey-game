@@ -72,7 +72,7 @@ export class UserEquipService {
       order: { id: 'DESC' }, // 가장 최근에 삽입된 데이터를 찾기 위한 정렬
     });
 
-    return userEquip ? userEquip.equip_id : null;
+    return userEquip;
   }
 
   async simulateEquipSkillRandom(
