@@ -310,11 +310,6 @@ export class GachaDrawService {
       qr,
     );
 
-    console.log('calcuGachaItem:', calcuGachaItem);
-    console.log('gachaItem:', gachaItem);
-    console.log('itemKind:', itemKind);
-    console.log('gachaCostData:', gachaCostData);
-
     // 11100003, C, 1, CUR_DIA_PAID, diamond_paid;
     // 11100004, C, 1, CUR_DIA_FREE, diamond_free;
 
@@ -343,40 +338,41 @@ export class GachaDrawService {
       qr,
     );
 
-    console.log('-------------gachaItem:', gachaItem);
+    const itemCountMap: Record<number, number> = {};
+    for (const item_id of gachaItem) {
+      itemCountMap[item_id] = (itemCountMap[item_id] || 0) + 1;
+    }
 
     // 중복된 item_id를 합쳐서 { item_id, item_count } 형태로 변환
+    //const gachaItemData: { item_id: number; item_count: number }[] = [];
     const gachaItemData: { item_id: number; item_count: number }[] = [];
-
-    console.log(gachaItemData);
+    const gachaEquipData: { equip_id: number; equip_count: number }[] = [];
 
     //let reward;
     if (['E'].includes(itemKind)) {
       await this.rewardOfferService.rewardEquipArray(user_id, gachaItem, qr);
 
-      // reward = reward.map(({ item_count, ...rest }) => ({
-      //   ...rest,
-      //   item_count: item_count,
-      // }));
+      // 객체를 원하는 형태의 배열로 변환
+      for (const [item_id, item_count] of Object.entries(itemCountMap)) {
+        gachaEquipData.push({
+          equip_id: Number(item_id),
+          equip_count: Number(item_count),
+        });
+      }
     } else if (['M', 'S'].includes(itemKind)) {
       await this.rewardOfferService.rewardSameItemNumberArray(
         user_id,
         gachaItem,
         qr,
       );
-    }
 
-    const itemCountMap: Record<number, number> = {};
-    for (const item_id of gachaItem) {
-      itemCountMap[item_id] = (itemCountMap[item_id] || 0) + 1;
-    }
-
-    // 객체를 원하는 형태의 배열로 변환
-    for (const [item_id, item_count] of Object.entries(itemCountMap)) {
-      gachaItemData.push({
-        item_id: Number(item_id),
-        item_count: Number(item_count),
-      });
+      // 객체를 원하는 형태의 배열로 변환
+      for (const [item_id, item_count] of Object.entries(itemCountMap)) {
+        gachaItemData.push({
+          item_id: Number(item_id),
+          item_count: Number(item_count),
+        });
+      }
     }
 
     // 뽑기 횟수 퀘스트
@@ -385,6 +381,7 @@ export class GachaDrawService {
     return {
       reward: {
         userItemData: gachaItemData,
+        userEquipData: gachaEquipData,
       },
       deductedCurrency: [
         {
