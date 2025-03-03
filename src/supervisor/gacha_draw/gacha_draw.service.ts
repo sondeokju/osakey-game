@@ -416,12 +416,13 @@ export class GachaDrawService {
         {
           // diamond_paid
           item_id: 11100003,
-          item_count: diaPayout.reduceItem.diamond_paid,
+          item_count: diaPayout.reduceItem.diamond_paid ?? 0,
         },
         {
           // diamond_free
           item_id: 11100004,
-          item_count: diaPayout.reduceItem.diamond_free,
+          item_count: diaPayout.reduceItem.diamond_free ?? 0,
+          s,
         },
       ],
     };
