@@ -69,12 +69,10 @@ export class UserIngameRewardService {
       where: { user_id, game_mode, stage_id },
     });
 
-    if (!existingReward && stage_clear_yn === 'Y') {
+    if (!existingReward) {
+      firstClear = stage_clear_yn === 'Y';
+    } else if (existingReward?.first_clear_yn === 'N') {
       firstClear = true;
-    } else {
-      if (existingReward.first_clear_yn === 'N') {
-        firstClear = true;
-      }
     }
 
     switch (game_mode) {
