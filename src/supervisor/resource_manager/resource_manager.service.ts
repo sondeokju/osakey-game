@@ -79,6 +79,7 @@ export class ResourceManagerService {
       }
 
       // 🔹 다이아몬드 차감
+      console.log('resources.dia.amount:', resources.dia.amount);
       if (resources.dia?.amount && resources.dia.amount > 0) {
         const userDiaBalance = await this.usersService.getMe(user_id, qr);
         if (
