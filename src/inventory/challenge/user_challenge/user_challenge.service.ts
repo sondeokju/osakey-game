@@ -203,13 +203,18 @@ export class UserChallengeService {
       }
     }
 
-    const result = await userChallengeRepository.find({ where: { user_id } });
+    //const result = await userChallengeRepository.find({ where: { user_id } });
+    const result =
+      await this.userChallengeExtraService.getUserChallengeExtraAll(
+        user_id,
+        qr,
+      );
 
     return {
       reward: {
         userItemData: rewards,
       },
-      userChallenge: result,
+      userChallengeExtra: result,
     };
   }
 
