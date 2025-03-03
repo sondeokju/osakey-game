@@ -228,7 +228,7 @@ export class UserChallengeService {
         completeCount,
         qr,
       );
-    s;
+
     if (!extraReward) {
       return {
         code: 0,
