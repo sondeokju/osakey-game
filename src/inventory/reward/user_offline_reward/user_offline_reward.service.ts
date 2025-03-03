@@ -208,20 +208,39 @@ export class UserOfflineRewardService {
         offlineData.time_max / offlineData.offline_reward_peirod,
       );
 
-      const currencyCount = offlineData.time_max - 1;
-      const rewardCount = count - 1;
+      const currencyCount = offlineData.time_max;
+      const rewardCount = count;
 
       return { rewardCount, currencyCount };
     } else {
       // 광고를 시청하지 않은 경우: 실제 경과 시간 기준으로 보상 지급
-      const rewardCount = this.calculateOfflineRewards(
+      const maxCount = offlineData.time_max / offlineData.offline_reward_peirod;
+
+      const count = this.calculateOfflineRewards(
         lastRewardDate,
         offlineData.offline_reward_peirod,
         //30, //test
       );
 
-      let currencyCount = this.calculateOfflineRewards(lastRewardDate, 1); // 1분 기준
-      currencyCount = Math.min(currencyCount, 480); // 480 제한
+      let rewardCount;
+      if (count >= maxCount) {
+        rewardCount = maxCount;
+      } else {
+        rewardCount = count;
+      }
+
+      let currencyCount = this.calculateOfflineRewards(
+        lastRewardDate,
+        offlineData.offline_reward_peirod,
+      );
+
+      if (currencyCount >= maxCount) {
+        currencyCount = maxCount;
+      } else {
+        currencyCount = count;
+      }
+
+      //currencyCount = Math.min(currencyCount, 480); // 480 제한
 
       return { rewardCount, currencyCount };
     }
@@ -254,7 +273,7 @@ export class UserOfflineRewardService {
     const totalRewards = Math.floor(timeDifference / periodInMilliseconds);
     console.log(`totalRewards: ${totalRewards}`);
 
-    return totalRewards - 1;
+    return totalRewards;
   }
 
   // calculateOfflineRewards(
