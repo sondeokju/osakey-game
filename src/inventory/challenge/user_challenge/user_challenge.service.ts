@@ -186,13 +186,16 @@ export class UserChallengeService {
         );
 
         const existingReward = rewards.find(
-          (r) => r.rewardData.item_id === rewardData['item_id'],
+          (r) => r.item_id === rewardData['item_id'], // 🔹 rewardData 배열 구조 제거
         );
 
         if (existingReward) {
-          existingReward.rewardData.item_count += rewardData['item_count'];
+          existingReward.item_count += rewardData['item_count'];
         } else {
-          rewards.push({ rewardData });
+          rewards.push({
+            item_id: rewardData['item_id'],
+            item_count: rewardData['item_count'],
+          });
         }
       }
     }
