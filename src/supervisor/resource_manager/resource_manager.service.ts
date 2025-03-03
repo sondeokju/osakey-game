@@ -101,6 +101,7 @@ export class ResourceManagerService {
             resources.dia.mode,
             qr,
           );
+          console.log('reduceItem:', reduceItem);
         }
       }
 
