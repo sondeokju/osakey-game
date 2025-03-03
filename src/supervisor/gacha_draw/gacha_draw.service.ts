@@ -16,6 +16,7 @@ import { ItemService } from 'src/static-table/item/item.service';
 import { EquipService } from 'src/static-table/equipment/equip/equip.service';
 import { ResourceManagerService } from '../resource_manager/resource_manager.service';
 import { UserChallengeService } from 'src/inventory/challenge/user_challenge/user_challenge.service';
+import { UserEquipService } from 'src/inventory/equipment/user_equip/user_equip.service';
 
 @Injectable()
 export class GachaDrawService {
@@ -28,6 +29,7 @@ export class GachaDrawService {
     private readonly equipService: EquipService,
     private readonly resourceManagerService: ResourceManagerService,
     private readonly userChallengeService: UserChallengeService,
+    private readonly userEquipService: UserEquipService,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -347,6 +349,7 @@ export class GachaDrawService {
     //const gachaItemData: { item_id: number; item_count: number }[] = [];
     const gachaItemData: { item_id: number; item_count: number }[] = [];
     const gachaEquipData: { equip_id: number; equip_count: number }[] = [];
+    const userEquip = [];
 
     //let reward;
     if (['E'].includes(itemKind)) {
@@ -358,6 +361,14 @@ export class GachaDrawService {
           equip_id: Number(item_id),
           equip_count: Number(item_count),
         });
+
+        const equip = await this.userEquipService.getUserLastInsertEquip(
+          user_id,
+          Number(item_id),
+          qr,
+        );
+
+        userEquip.push(equip);
       }
     } else if (['M', 'S'].includes(itemKind)) {
       await this.rewardOfferService.rewardSameItemNumberArray(
@@ -381,7 +392,7 @@ export class GachaDrawService {
     return {
       reward: {
         userItemData: gachaItemData,
-        userEquipData: gachaEquipData,
+        userEquipData: userEquip,
       },
       deductedCurrency: [
         {

@@ -8,6 +8,7 @@ import { GachaOutputModule } from 'src/static-table/draw/gacha_output/gacha_outp
 import { UserGachaCheckModule } from './user_gacha_check/user_gacha_check.module';
 import { ItemModule } from 'src/static-table/item/item.module';
 import { EquipModule } from 'src/static-table/equipment/equip/equip.module';
+import { UserEquipModule } from 'src/inventory/equipment/user_equip/user_equip.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { EquipModule } from 'src/static-table/equipment/equip/equip.module';
     ItemModule,
     EquipModule,
     ResourceManagerModule,
+    UserEquipModule,
   ],
   exports: [GachaDrawService],
   controllers: [GachaDrawController],
