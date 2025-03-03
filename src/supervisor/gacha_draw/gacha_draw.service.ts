@@ -331,6 +331,7 @@ export class GachaDrawService {
         qr,
       );
 
+    console.log('diaPayout:', diaPayout);
     gachaItem = await this.fixedGacha(
       user_id,
       gacha_id,
