@@ -231,10 +231,8 @@ export class UserOfflineRewardService {
 
       let currencyCount = this.calculateOfflineRewards(lastRewardDate, 1);
 
-      if (currencyCount >= maxCount) {
-        currencyCount = maxCount;
-      } else {
-        currencyCount = count;
+      if (currencyCount >= offlineData.time_max) {
+        currencyCount = offlineData.time_max;
       }
 
       //currencyCount = Math.min(currencyCount, 480); // 480 제한
