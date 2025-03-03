@@ -50,7 +50,7 @@ export class UserChallengeExtraService {
 
     console.log('--------userChallengeExtra:', userChallengeExtra);
 
-    return userChallengeExtra ?? [];
+    return userChallengeExtra;
   }
 
   async challengeExtraRewardCheck(

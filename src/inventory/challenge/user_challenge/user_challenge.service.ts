@@ -203,11 +203,16 @@ export class UserChallengeService {
       }
     }
 
-    const result =
-      await this.userChallengeExtraService.getUserChallengeExtraAll(
-        user_id,
-        qr,
-      );
+    // const result =
+    //   await this.userChallengeExtraService.getUserChallengeExtraAll(
+    //     user_id,
+    //     qr,
+    //   );
+
+    const result = await qr?.query(
+      'SELECT * FROM user_challenge_extra WHERE user_id = ?',
+      [user_id],
+    );
 
     console.log('--------userChallengeExtra result :', result);
 
