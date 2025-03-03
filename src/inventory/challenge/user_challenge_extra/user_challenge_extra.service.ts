@@ -62,7 +62,7 @@ export class UserChallengeExtraService {
 
     // userChallengeExtra 조회
     let userChallengeExtra = await userChallengeExtraRepository.findOne({
-      where: { user_id, mission_kind: mission_kind.trim(), complete_count },
+      where: { user_id, mission_kind: mission_kind, complete_count },
     });
 
     if (userChallengeExtra) {
@@ -72,7 +72,7 @@ export class UserChallengeExtraService {
       // 존재하지 않으면 새로운 레코드 생성
       userChallengeExtra = userChallengeExtraRepository.create({
         user_id,
-        mission_kind: mission_kind.trim(),
+        mission_kind: mission_kind,
         complete_count,
         reward_yn: 'Y', // 기본값 'Y'
       });

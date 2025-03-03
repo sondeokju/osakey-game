@@ -34,7 +34,7 @@ export class MissionRoutineBonusService {
       this.getMissionRoutineBonusRepository(qr);
     const result = await missionRoutineBonusRepository.findOne({
       where: {
-        mission_kind: mission_kind.trim(),
+        mission_kind: mission_kind,
         complete_count,
       },
     });
@@ -46,7 +46,7 @@ export class MissionRoutineBonusService {
       this.getMissionRoutineBonusRepository(qr);
     const result = await missionRoutineBonusRepository.find({
       where: {
-        mission_kind: mission_kind.trim(),
+        mission_kind: mission_kind,
       },
     });
     return result;
