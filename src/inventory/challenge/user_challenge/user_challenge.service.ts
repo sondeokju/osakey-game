@@ -209,6 +209,8 @@ export class UserChallengeService {
         qr,
       );
 
+    console.log('--------userChallengeExtra result :', result);
+
     return {
       reward: {
         userItemData: rewards,
