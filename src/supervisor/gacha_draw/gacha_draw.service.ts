@@ -422,7 +422,6 @@ export class GachaDrawService {
           // diamond_free
           item_id: 11100004,
           item_count: diaPayout.reduceItem.diamond_free ?? 0,
-          s,
         },
       ],
     };
