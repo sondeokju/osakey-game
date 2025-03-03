@@ -77,6 +77,8 @@ export class UserIngameRewardService {
       }
     }
 
+    console.log('-----------firstClear:', firstClear);
+
     switch (game_mode) {
       case 'BATTLE':
         rewardData = await this.battleStageService.getBattleStage(stage_id, qr);
@@ -101,15 +103,13 @@ export class UserIngameRewardService {
       throw new Error('Stage not found');
     }
 
-    console.log('rewardData', rewardData);
-
     const cacluRewardData = await this.calculateRewards(
       rewardData,
       firstClear,
       stage_clear_yn,
     );
 
-    console.log('cacluRewardData', cacluRewardData);
+    console.log('--------cacluRewardData:', cacluRewardData);
 
     await this.rewardOfferService.rewardCurrencyAll(
       user_id,
