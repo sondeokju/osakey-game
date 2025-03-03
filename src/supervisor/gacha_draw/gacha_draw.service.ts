@@ -323,10 +323,10 @@ export class GachaDrawService {
             amount: gachaCostData.dia_1,
             mode: 'mixed',
           },
-          // item: {
-          //   item_id: gachaCostData.item_id_1,
-          //   count: gachaCostData.item_id_1_count,
-          // },
+          item: {
+            item_id: gachaCostData.item_id_1,
+            count: gachaCostData.item_id_1_count,
+          },
         },
         qr,
       );
