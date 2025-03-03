@@ -221,22 +221,22 @@ export class UserChallengeService {
       qr,
     );
 
-    // const extraReward =
-    //   await this.userChallengeExtraService.getUserChallengeExtra(
-    //     user_id,
-    //     mission_kind,
-    //     completeCount,
-    //     qr,
-    //   );
-
-    // if (!extraReward) {
-    //   return {
-    //     code: 0,
-    //     message: `mission_kind: ${mission_kind}, complete_count: ${completeCount} 이미 추가 보상을 획득 했거나, 미션완료 조건이 맞지 않습니다. `,
-    //     utcTimeString: new Date().toISOString(),
-    //     hasError: false,
-    //   };
-    // }
+    const extraReward =
+      await this.userChallengeExtraService.getUserChallengeExtra(
+        user_id,
+        mission_kind,
+        completeCount,
+        qr,
+      );
+    s;
+    if (!extraReward) {
+      return {
+        code: 0,
+        message: `mission_kind: ${mission_kind}, complete_count: ${completeCount} 미션완료 조건이 맞지 않습니다. `,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
+    }
     console.log('completeCount:', completeCount);
 
     const missionRoutineBonus =
