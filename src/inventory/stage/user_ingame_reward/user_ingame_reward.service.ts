@@ -117,23 +117,18 @@ export class UserIngameRewardService {
       qr,
     );
 
-    const rewarItemdData = await this.rewardOfferService.reward(
+    let rewarItemdData = await this.rewardOfferService.reward(
       user_id,
       cacluRewardData.group_id,
       qr,
     );
-    rewarItemdData.push({
-      item_id: 11100002, //gord
-      item_count: cacluRewardData.gold,
-    });
-    rewarItemdData.push({
-      item_id: 11100005, //exp
-      item_count: cacluRewardData.gold,
-    });
-    rewarItemdData.push({
-      item_id: 11100004, //dia
-      item_count: cacluRewardData.gold,
-    });
+
+    rewarItemdData = [
+      ...rewarItemdData,
+      { item_id: 11100002, item_count: cacluRewardData.gold }, // gold
+      { item_id: 11100005, item_count: cacluRewardData.exp }, // exp
+      { item_id: 11100004, item_count: cacluRewardData.dia }, // dia
+    ];
 
     const user = await this.rewardOfferService.secameCreditReward(
       user_id,
