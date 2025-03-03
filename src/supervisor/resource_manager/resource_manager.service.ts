@@ -77,7 +77,7 @@ export class ResourceManagerService {
       }
 
       // 🔹 다이아몬드 차감
-      if (resources.dia?.amount && resources.dia.amount > 0) {
+      if (resources.dia?.amount && resources.dia.amount >= 0) {
         const userDiaBalance = await this.usersService.getMe(user_id, qr);
         if (
           resources.dia.mode === 'paid' &&
