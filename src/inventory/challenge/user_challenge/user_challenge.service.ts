@@ -186,18 +186,21 @@ export class UserChallengeService {
           bonus.complete_count,
         );
 
-        const existingReward = rewards.find(
-          (r) => r.item_id === rewardData['item_id'], // 🔹 rewardData 배열 구조 제거
-        );
+        // rewardData가 배열이므로 각 요소에 대해 처리
+        rewardData.forEach((reward) => {
+          const existingReward = rewards.find(
+            (r) => r.item_id === reward.item_id,
+          );
 
-        if (existingReward) {
-          existingReward.item_count += rewardData['item_count'];
-        } else {
-          rewards.push({
-            item_id: rewardData['item_id'],
-            item_count: rewardData['item_count'],
-          });
-        }
+          if (existingReward) {
+            existingReward.item_count += reward.item_count;
+          } else {
+            rewards.push({
+              item_id: reward.item_id,
+              item_count: reward.item_count,
+            });
+          }
+        });
       }
     }
 
