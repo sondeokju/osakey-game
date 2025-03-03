@@ -410,16 +410,6 @@ export class GachaDrawService {
     // 뽑기 횟수 퀘스트
     await this.userChallengeService.challengeQuest(user_id, 12400002, 1);
 
-    let diaPaidCount = 0;
-    let diaFreeCount = 0;
-    if (!diaPayout) {
-      diaPaidCount = 0;
-      diaFreeCount = 0;
-    } else {
-      diaPaidCount = diaPayout.reduceItem.diamond_paid;
-      diaFreeCount = diaPayout.reduceItem.diamond_free;
-    }
-
     return {
       reward: {
         userItemData: gachaItemData,
@@ -434,12 +424,12 @@ export class GachaDrawService {
         {
           // diamond_paid
           item_id: 11100003,
-          item_count: diaPaidCount ?? 0,
+          item_count: diaPayout.reduceItem.diamond_paid ?? 0,
         },
         {
           // diamond_free
           item_id: 11100004,
-          item_count: diaFreeCount ?? 0,
+          item_count: diaPayout.reduceItem.diamond_free ?? 0,
         },
       ],
     };
