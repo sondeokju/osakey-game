@@ -105,6 +105,8 @@ export class UserIngameRewardService {
       stage_clear_yn,
     );
 
+    console.log('----------acluRewardData:', cacluRewardData);
+
     await this.rewardOfferService.rewardCurrencyAll(
       user_id,
       {
