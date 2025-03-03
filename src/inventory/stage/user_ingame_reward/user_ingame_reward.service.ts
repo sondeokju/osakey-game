@@ -69,15 +69,9 @@ export class UserIngameRewardService {
       where: { user_id, game_mode, stage_id },
     });
 
-    if (!existingReward) {
+    if (!existingReward && stage_clear_yn === 'Y') {
       firstClear = true;
-    } else {
-      if (existingReward.first_clear_yn === 'N') {
-        firstClear = true;
-      }
     }
-
-    console.log('-----------firstClear:', firstClear);
 
     switch (game_mode) {
       case 'BATTLE':
@@ -108,8 +102,6 @@ export class UserIngameRewardService {
       firstClear,
       stage_clear_yn,
     );
-
-    console.log('--------cacluRewardData:', cacluRewardData);
 
     await this.rewardOfferService.rewardCurrencyAll(
       user_id,
