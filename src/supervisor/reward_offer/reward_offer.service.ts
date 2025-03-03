@@ -90,56 +90,56 @@ export class RewardOfferService {
     return result;
   }
 
-  // async reward(user_id: string, reward_id: number, qr?: QueryRunner) {
-  //   const rewardData = await this.rewardService.getReward(reward_id);
-  //   console.log('rewardData', rewardData);
+  async rewardCustom(user_id: string, reward_id: number, qr?: QueryRunner) {
+    const rewardData = await this.rewardService.getReward(reward_id);
+    console.log('rewardData', rewardData);
 
-  //   let result = new Map<number, { item_id: number; item_count: number }>();
+    let result = new Map<number, { item_id: number; item_count: number }>();
 
-  //   for (const reward of rewardData) {
-  //     let obj = {};
+    for (const reward of rewardData) {
+      let obj = {};
 
-  //     Object.entries(reward).forEach(([key, value]) => {
-  //       obj[`${key}`] = `${value}`;
-  //     });
+      Object.entries(reward).forEach(([key, value]) => {
+        obj[`${key}`] = `${value}`;
+      });
 
-  //     const itemData = await this.itemService.getItem(+obj['item_id']);
+      const itemData = await this.itemService.getItem(+obj['item_id']);
 
-  //     if (['C'].includes(itemData.item_type.trim())) {
-  //       await this.rewardCurrency(
-  //         user_id,
-  //         itemData.item_name.trim(),
-  //         reward.item_count,
-  //         qr,
-  //       );
-  //     } else if (['M', 'S'].includes(itemData.item_type.trim())) {
-  //       await this.userItemService.rewardItem(
-  //         user_id,
-  //         itemData.item_id,
-  //         itemData.item_grade,
-  //         itemData.item_type.trim(),
-  //         reward.item_count,
-  //         qr,
-  //       );
-  //     }
+      if (['C'].includes(itemData.item_type.trim())) {
+        await this.rewardCurrency(
+          user_id,
+          itemData.item_name.trim(),
+          reward.item_count,
+          qr,
+        );
+      } else if (['M', 'S'].includes(itemData.item_type.trim())) {
+        await this.userItemService.rewardItem(
+          user_id,
+          itemData.item_id,
+          itemData.item_grade,
+          itemData.item_type.trim(),
+          reward.item_count,
+          qr,
+        );
+      }
 
-  //     const item_id = itemData.item_id;
-  //     const item_count = reward.item_count;
+      const item_id = itemData.item_id;
+      const item_count = reward.item_count;
 
-  //     // 기존 데이터가 있으면 item_count 누적
-  //     if (result.has(item_id)) {
-  //       result.get(item_id)!.item_count += item_count;
-  //     } else {
-  //       result.set(item_id, { item_id, item_count });
-  //     }
-  //   }
+      // 기존 데이터가 있으면 item_count 누적
+      if (result.has(item_id)) {
+        result.get(item_id)!.item_count += item_count;
+      } else {
+        result.set(item_id, { item_id, item_count });
+      }
+    }
 
-  //   // 결과 배열 변환
-  //   const finalResult = Array.from(result.values());
+    // 결과 배열 변환
+    const finalResult = Array.from(result.values());
 
-  //   console.log('finalResult:', finalResult);
-  //   return finalResult;
-  // }
+    console.log('finalResult:', finalResult);
+    return finalResult;
+  }
 
   async rewardItem(
     user_id: string,
