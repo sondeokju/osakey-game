@@ -209,18 +209,18 @@ export class UserChallengeService {
     //     qr,
     //   );
 
-    const result = await qr?.query(
+    const userChallengeExtraData = await qr?.query(
       'SELECT * FROM user_challenge_extra WHERE user_id = ?',
       [user_id],
     );
 
-    console.log('--------userChallengeExtra result :', result);
+    console.log('--------userChallengeExtra result :', userChallengeExtraData);
 
     return {
       reward: {
         userItemData: rewards,
       },
-      userChallengeExtra: result,
+      userChallengeExtra: userChallengeExtraData,
     };
   }
 
