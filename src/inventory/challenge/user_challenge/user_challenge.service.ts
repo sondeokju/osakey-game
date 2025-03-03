@@ -223,7 +223,7 @@ export class UserChallengeService {
       reward: {
         userItemData: rewards,
       },
-      userChallengeExtra: userChallengeExtraData,
+      userChallenge: userChallengeExtraData,
     };
   }
 
