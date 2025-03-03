@@ -232,7 +232,7 @@ export class UserChallengeService {
     if (!extraReward) {
       return {
         code: 0,
-        message: `mission_kind: ${mission_kind}, complete_count: ${completeCount} 미션완료 조건이 맞지 않습니다. `,
+        message: `mission_kind: ${mission_kind}, complete_count: ${completeCount} 추가 미션완료 조건이 맞지 않습니다. `,
         utcTimeString: new Date().toISOString(),
         hasError: false,
       };
