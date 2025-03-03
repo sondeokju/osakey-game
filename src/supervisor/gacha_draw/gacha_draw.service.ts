@@ -357,6 +357,9 @@ export class GachaDrawService {
       qr,
     );
 
+    console.log('gachaItem:', gachaItem);
+    console.log('itemKind:', itemKind);
+
     const itemCountMap: Record<number, number> = {};
     for (const item_id of gachaItem) {
       itemCountMap[item_id] = (itemCountMap[item_id] || 0) + 1;
