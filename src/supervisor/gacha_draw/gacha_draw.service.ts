@@ -304,6 +304,19 @@ export class GachaDrawService {
     const itemKind = calcuGachaItem.item_kind;
     const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
 
+    let cost_item_id = 0;
+    let cost_item_count = 0;
+    let cost_dia_1 = 0;
+
+    if (gachaCostData.item_id_1 > 0) {
+      cost_item_id = gachaCostData.item_id_1;
+      cost_item_count = gachaCostData.item_id_1_count;
+    }
+
+    if (gachaCostData.dia_1 > 0) {
+      cost_dia_1 = gachaCostData.dia_1;
+    }
+
     await this.userGachaCheckService.defaultGachaCountSetting(
       user_id,
       gacha_id,
@@ -320,12 +333,12 @@ export class GachaDrawService {
         user_id,
         {
           dia: {
-            amount: gachaCostData.dia_1,
+            amount: cost_dia_1,
             mode: 'mixed',
           },
           item: {
-            item_id: gachaCostData.item_id_1,
-            count: gachaCostData.item_id_1_count,
+            item_id: cost_item_id,
+            count: cost_item_count,
           },
         },
         qr,
@@ -397,8 +410,8 @@ export class GachaDrawService {
       deductedCurrency: [
         {
           // item
-          item_id: gachaCostData.item_id_1,
-          item_count: gachaCostData.item_id_1_count,
+          item_id: cost_item_id,
+          item_count: cost_item_count,
         },
         {
           // diamond_paid
