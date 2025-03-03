@@ -122,6 +122,18 @@ export class UserIngameRewardService {
       cacluRewardData.group_id,
       qr,
     );
+    rewarItemdData.push({
+      item_id: 11100002, //gord
+      item_count: cacluRewardData.gold,
+    });
+    rewarItemdData.push({
+      item_id: 11100005, //exp
+      item_count: cacluRewardData.gold,
+    });
+    rewarItemdData.push({
+      item_id: 11100004, //dia
+      item_count: cacluRewardData.gold,
+    });
 
     const user = await this.rewardOfferService.secameCreditReward(
       user_id,
