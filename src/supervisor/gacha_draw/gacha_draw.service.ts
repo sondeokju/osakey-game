@@ -314,22 +314,35 @@ export class GachaDrawService {
 
     // 11100003, C, 1, CUR_DIA_PAID, diamond_paid;
     // 11100004, C, 1, CUR_DIA_FREE, diamond_free;
+    // 11720001 아이템 가챠
 
-    const diaPayout =
-      await this.resourceManagerService.validateAndDeductResources(
+    let costItemCount = gachaCostData.item_id_1_count;
+    let diaPayout;
+
+    diaPayout = await this.resourceManagerService.validateAndDeductResources(
+      user_id,
+      {
+        item: {
+          item_id: gachaCostData.item_id_1,
+          count: gachaCostData.item_id_1_count,
+        },
+      },
+      qr,
+    );
+
+    if (!diaPayout.hasError && gachaCostData.gacha_id != 11720001) {
+      costItemCount = 0;
+      diaPayout = await this.resourceManagerService.validateAndDeductResources(
         user_id,
         {
           dia: {
             amount: gachaCostData.dia_1,
             mode: 'mixed',
           },
-          item: {
-            item_id: gachaCostData.item_id_1,
-            count: gachaCostData.item_id_1_count,
-          },
         },
         qr,
       );
+    }
 
     if (!diaPayout.hasError) {
       return diaPayout;
@@ -402,7 +415,7 @@ export class GachaDrawService {
         {
           // item
           item_id: gachaCostData.item_id_1,
-          item_count: gachaCostData.item_id_1_count,
+          item_count: costItemCount,
         },
         {
           // diamond_paid
@@ -417,6 +430,136 @@ export class GachaDrawService {
       ],
     };
   }
+
+  // async equipGachaDrawRandom(
+  //   user_id: string,
+  //   gacha_id: number,
+  //   gacha_count: number,
+  //   qr?: QueryRunner,
+  // ) {
+  //   // if (gacha_count === 1) {
+
+  //   // } else if (gacha_count === 10) {
+  //   // }
+
+  //   const calcuGachaItem = await this.calculEquipGachaDrawRandom(gacha_id);
+  //   let gachaItem = calcuGachaItem.items;
+  //   const itemKind = calcuGachaItem.item_kind;
+  //   const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
+
+  //   await this.userGachaCheckService.defaultGachaCountSetting(
+  //     user_id,
+  //     gacha_id,
+  //     gachaCostData.fixed_item_grade_1_count,
+  //     gachaCostData.fixed_item_grade_2_count,
+  //     qr,
+  //   );
+
+  //   // 11100003, C, 1, CUR_DIA_PAID, diamond_paid;
+  //   // 11100004, C, 1, CUR_DIA_FREE, diamond_free;
+
+  //   const diaPayout =
+  //     await this.resourceManagerService.validateAndDeductResources(
+  //       user_id,
+  //       {
+  //         dia: {
+  //           amount: gachaCostData.dia_1,
+  //           mode: 'mixed',
+  //         },
+  //         item: {
+  //           item_id: gachaCostData.item_id_1,
+  //           count: gachaCostData.item_id_1_count,
+  //         },
+  //       },
+  //       qr,
+  //     );
+
+  //   if (!diaPayout.hasError) {
+  //     return diaPayout;
+  //   }
+  //   console.log('diaPayout:', diaPayout);
+  //   gachaItem = await this.fixedGacha(
+  //     user_id,
+  //     gacha_id,
+  //     gachaItem,
+  //     gachaCostData,
+  //     calcuGachaItem.item_kind,
+  //     qr,
+  //   );
+
+  //   const itemCountMap: Record<number, number> = {};
+  //   for (const item_id of gachaItem) {
+  //     itemCountMap[item_id] = (itemCountMap[item_id] || 0) + 1;
+  //   }
+
+  //   // 중복된 item_id를 합쳐서 { item_id, item_count } 형태로 변환
+  //   //const gachaItemData: { item_id: number; item_count: number }[] = [];
+  //   const gachaItemData: { item_id: number; item_count: number }[] = [];
+  //   const gachaEquipData: { equip_id: number; equip_count: number }[] = [];
+  //   const userEquip = [];
+
+  //   //let reward;
+  //   if (['E'].includes(itemKind)) {
+  //     await this.rewardOfferService.rewardEquipArray(user_id, gachaItem, qr);
+
+  //     // 객체를 원하는 형태의 배열로 변환
+  //     for (const [item_id, item_count] of Object.entries(itemCountMap)) {
+  //       gachaEquipData.push({
+  //         equip_id: Number(item_id),
+  //         equip_count: Number(item_count),
+  //       });
+
+  //       const equip = await this.userEquipService.getUserLastInsertEquip(
+  //         user_id,
+  //         Number(item_id),
+  //         qr,
+  //       );
+
+  //       userEquip.push(equip);
+  //     }
+  //   } else if (['M', 'S'].includes(itemKind)) {
+  //     await this.rewardOfferService.rewardSameItemNumberArray(
+  //       user_id,
+  //       gachaItem,
+  //       qr,
+  //     );
+
+  //     // 객체를 원하는 형태의 배열로 변환
+  //     for (const [item_id, item_count] of Object.entries(itemCountMap)) {
+  //       gachaItemData.push({
+  //         item_id: Number(item_id),
+  //         item_count: Number(item_count),
+  //       });
+  //     }
+  //   }
+
+  //   // 뽑기 횟수 퀘스트
+  //   await this.userChallengeService.challengeQuest(user_id, 12400002, 1);
+
+  //   return {
+  //     reward: {
+  //       userItemData: gachaItemData,
+  //       userEquipData: userEquip,
+  //     },
+  //     deductedCurrency: [
+  //       {
+  //         // item
+  //         item_id: gachaCostData.item_id_1,
+  //         item_count: gachaCostData.item_id_1_count,
+  //       },
+  //       {
+  //         // diamond_paid
+  //         item_id: 11100003,
+  //         item_count: diaPayout.reduceItem.diamond_paid ?? 0,
+  //       },
+  //       {
+  //         // diamond_free
+  //         item_id: 11100004,
+  //         item_count: diaPayout.reduceItem.diamond_free ?? 0,
+  //       },
+  //     ],
+  //   };
+  // }
 
   async gacha10(
     user_id: string,
