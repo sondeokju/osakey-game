@@ -63,7 +63,6 @@ export class ResourceManagerService {
       // 🔹 고드(Gord) 차감
       if (resources.gord) {
         if (resources.gord < 0 || resources.gord > userCurrency.gord) {
-          console.log('고드(Gord) 차감.gord');
           errorCode = 'INSUFFICIENT_GORD';
           errorMessage = 'Not enough Gord.';
           //errorMessage = `${resources.gord} gord가 부족 합니다. `;
