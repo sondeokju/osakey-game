@@ -209,7 +209,7 @@ export class UserChallengeService {
     //     qr,
     //   );
 
-    const userChallengeExtraData = await qr?.query(
+    const userChallengeExtraData = await this.dataSource.query(
       'SELECT * FROM user_challenge_extra WHERE user_id = ?',
       [user_id],
     );
