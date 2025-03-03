@@ -396,6 +396,11 @@ export class GachaDrawService {
       },
       deductedCurrency: [
         {
+          // item
+          item_id: gachaCostData.item_id_1,
+          item_count: gachaCostData.item_id_1_count,
+        },
+        {
           // diamond_paid
           item_id: 11100003,
           item_count: diaPayout.reduceItem.diamond_paid,
