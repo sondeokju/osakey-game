@@ -214,10 +214,10 @@ export class UserChallengeService {
       [user_id],
     );
 
-    console.log(
-      '--------userChallengeExtra result :',
-      JSON.stringify(userChallengeExtraData),
-    );
+    // console.log(
+    //   '--------userChallengeExtra result :',
+    //   JSON.stringify(userChallengeExtraData),
+    // );
 
     return {
       reward: {
