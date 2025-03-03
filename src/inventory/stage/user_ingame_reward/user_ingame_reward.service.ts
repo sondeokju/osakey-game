@@ -66,7 +66,7 @@ export class UserIngameRewardService {
 
     // 기존 보상 내역 확인
     const existingReward = await userIngameRewardRepository.findOne({
-      where: { user_id, game_mode, stage_id },
+      where: { user_id, game_mode, stage_id, first_clear_yn: 'Y' },
     });
 
     if (!existingReward) {
