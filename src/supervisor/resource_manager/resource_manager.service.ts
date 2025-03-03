@@ -48,7 +48,8 @@ export class ResourceManagerService {
         );
         if (!userItemData || resources.item.count > userItemData.item_count) {
           errorCode = 'INSUFFICIENT_ITEM';
-          errorMessage = 'Not enough items.';
+          //errorMessage = 'Not enough items.';
+          errorMessage = `${resources.item.item_id} Not enough items.`;
         } else {
           reduceItem = await this.userItemService.reduceItem(
             user_id,
@@ -67,6 +68,7 @@ export class ResourceManagerService {
           console.log('고드(Gord) 차감.gord');
           errorCode = 'INSUFFICIENT_GORD';
           errorMessage = 'Not enough Gord.';
+          //errorMessage = `${resources.gord} gord가 부족 합니다. `;
         } else {
           reduceItem = await this.usersService.reduceGord(
             user_id,
