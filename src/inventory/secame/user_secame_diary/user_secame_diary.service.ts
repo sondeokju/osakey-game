@@ -101,7 +101,7 @@ export class UserSecameDiaryService {
       const rankOrder = { E: 1, D: 2, C: 3, B: 4, R: 5 };
       // 현재 다이어리가 반복되는 경우인지 확인
       if (
-        currentSecameDiaryData.is_repeat.toLowerCase() === 'true' // true 이면 반복
+        Boolean(currentSecameDiaryData.is_repeat) // true 이면 반복
       ) {
         // 반복 보상을 받을 수 있음
         isRepeatReward = true;
@@ -120,31 +120,23 @@ export class UserSecameDiaryService {
         isRepeatReward = true;
       }
 
-      console.log('--------------------------------');
-      console.log('shouldInsertNextDiary:', shouldInsertNextDiary);
-      console.log('nextSecameDiaryData:', nextSecameDiaryData);
-      console.log(
-        'nextSecameDiaryData.is_repeat:',
-        nextSecameDiaryData.is_repeat.toLowerCase(),
-      );
-
       if (
         shouldInsertNextDiary &&
         nextSecameDiaryData
         //nextSecameDiaryData.is_repeat.toLowerCase() !== 'true'
       ) {
-        console.log('-------------insert-------------------');
         await userSecameDiaryRepository.insert({
           user_id,
           mission_id: nextSecameDiaryData.secame_diary_id,
         });
       }
 
-      if (!nextSecameDiaryData) {
-        if (currentSecameDiaryData.is_repeat.toLowerCase() === 'true') {
-          isRepeatReward = true;
-        }
-      }
+      // if (!nextSecameDiaryData) {
+      //   if (currentSecameDiaryData.is_repeat.toLowerCase() === 'true') {
+      //     isRepeatReward = true;
+      //   }
+      // }
+
       let reward;
       let result;
       if (isRepeatReward) {
