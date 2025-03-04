@@ -179,8 +179,6 @@ export class UserChallengeService {
           qr,
         );
 
-        console.log('rewardData:', rewardData);
-
         await this.userChallengeExtraService.challengeExtraRewardCheck(
           user_id,
           mission_kind,
@@ -205,11 +203,7 @@ export class UserChallengeService {
       }
     }
 
-    // const result =
-    //   await this.userChallengeExtraService.getUserChallengeExtraAll(
-    //     user_id,
-    //     qr,
-    //   );
+    console.log('---------------rewards:', rewards);
 
     const userChallengeExtraData = await this.dataSource.query(
       'SELECT * FROM user_challenge_extra WHERE user_id = ?',
