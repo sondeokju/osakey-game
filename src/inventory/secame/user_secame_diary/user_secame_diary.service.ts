@@ -116,6 +116,8 @@ export class UserSecameDiaryService {
       ) {
         // 새로운 다이어리 생성
         shouldInsertNextDiary = true;
+        // 반복 및 일반 보상 지급
+        isRepeatReward = true;
       }
 
       console.log('--------------------------------');
