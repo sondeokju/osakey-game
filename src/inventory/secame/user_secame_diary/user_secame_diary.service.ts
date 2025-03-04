@@ -131,12 +131,6 @@ export class UserSecameDiaryService {
         });
       }
 
-      // if (!nextSecameDiaryData) {
-      //   if (currentSecameDiaryData.is_repeat.toLowerCase() === 'true') {
-      //     isRepeatReward = true;
-      //   }
-      // }
-
       let reward;
       let result;
       if (isRepeatReward) {
