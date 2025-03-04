@@ -106,7 +106,7 @@ export class UserSecameDiaryService {
         // 반복 보상을 받을 수 있음
         isRepeatReward = true;
         if (
-          rankOrder[heroData.rank] >= rankOrder[nextSecameDiaryData.hero_rank]
+          rankOrder[heroData.rank] > rankOrder[nextSecameDiaryData.hero_rank]
         ) {
           // 새로운 다이어리 생성
           shouldInsertNextDiary = true;
@@ -120,11 +120,7 @@ export class UserSecameDiaryService {
         isRepeatReward = true;
       }
 
-      if (
-        shouldInsertNextDiary &&
-        nextSecameDiaryData
-        //nextSecameDiaryData.is_repeat.toLowerCase() !== 'true'
-      ) {
+      if (shouldInsertNextDiary && nextSecameDiaryData) {
         await userSecameDiaryRepository.insert({
           user_id,
           mission_id: nextSecameDiaryData.secame_diary_id,
