@@ -146,10 +146,13 @@ export class UserChallengeService {
         qr,
       );
 
+    console.log('---------------------missionBonusList:', missionBonusList);
+
     // 유저가 받을 수 있는 추가 보상 목록 필터링
     const eligibleBonuses = missionBonusList.filter(
       (bonus) => bonus.complete_count <= completeCount,
     );
+    console.log('---------------------eligibleBonuses:', eligibleBonuses);
 
     if (eligibleBonuses.length === 0) {
       return {
@@ -171,12 +174,18 @@ export class UserChallengeService {
           bonus.complete_count,
           qr,
         );
+      console.log('---------------------extraRewardExists:', extraRewardExists);
 
       if (!extraRewardExists) {
         const rewardData = await this.rewardOfferService.reward(
           user_id,
           bonus.reward_id,
           qr,
+        );
+
+        console.log(
+          '---------------------extraRewardExists rewardData:',
+          rewardData,
         );
 
         await this.userChallengeExtraService.challengeExtraRewardCheck(
@@ -209,11 +218,6 @@ export class UserChallengeService {
       'SELECT * FROM user_challenge_extra WHERE user_id = ?',
       [user_id],
     );
-
-    // console.log(
-    //   '--------userChallengeExtra result :',
-    //   JSON.stringify(userChallengeExtraData),
-    // );
 
     return {
       reward: {
