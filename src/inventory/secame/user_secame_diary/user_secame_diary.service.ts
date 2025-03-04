@@ -115,7 +115,7 @@ export class UserSecameDiaryService {
           rankOrder[nextSecameDiaryData.hero_rank],
         );
         if (
-          rankOrder[heroData.rank] > rankOrder[nextSecameDiaryData.hero_rank]
+          rankOrder[heroData.rank] >= rankOrder[nextSecameDiaryData.hero_rank]
         ) {
           // 새로운 다이어리 생성
           shouldInsertNextDiary = true;
