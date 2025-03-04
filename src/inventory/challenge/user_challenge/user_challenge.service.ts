@@ -223,83 +223,56 @@ export class UserChallengeService {
     };
   }
 
-  // async challengeQuestextraReward(
-  //   user_id: string,
-  //   mission_kind: string,
-  //   qr?: QueryRunner,
-  // ) {
-  //   const userChallengeRepository = this.getUserChallengeRepository(qr);
+  async challengeQuestextraReward2(
+    user_id: string,
+    mission_kind: string,
+    qr?: QueryRunner,
+  ) {
+    const userChallengeRepository = this.getUserChallengeRepository(qr);
 
-  //   // const missionKindList =
-  //   //   await this.missionRoutineBonusService.getMissionRoutineBonusKind(
-  //   //     'MD',
-  //   //     qr,
-  //   //   );
+    const completeCount = await this.getCompletedMissionCountPerRoutine(
+      user_id,
+      qr,
+    );
 
-  //   // for (const mission of missionKindList) {
-  //   //   mission.complete_count
-  //   // }
+    const missionRoutineBonus =
+      await this.missionRoutineBonusService.getMissionRoutineBonus(
+        mission_kind,
+        completeCount,
+      );
 
-  //   const completeCount = await this.getCompletedMissionCountPerRoutine(
-  //     user_id,
-  //     qr,
-  //   );
+    if (!missionRoutineBonus) {
+      return {
+        code: 0,
+        message: `mission_kind: ${mission_kind}, complete_count: ${completeCount} missionRoutineBonus 테이블에 정보가 없습니다.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
+    }
 
-  //   // const extraReward =
-  //   //   await this.userChallengeExtraService.getUserChallengeExtra(
-  //   //     user_id,
-  //   //     mission_kind,
-  //   //     completeCount,
-  //   //     qr,
-  //   //   );
+    const rewardData = await this.rewardOfferService.reward(
+      user_id,
+      missionRoutineBonus.reward_id,
+      qr,
+    );
 
-  //   // if (!extraReward) {
-  //   //   return {
-  //   //     code: 0,
-  //   //     message: `mission_kind: ${mission_kind}, complete_count: ${completeCount} 추가 미션완료 조건이 맞지 않습니다. `,
-  //   //     utcTimeString: new Date().toISOString(),
-  //   //     hasError: false,
-  //   //   };
-  //   // }
+    await this.userChallengeExtraService.challengeExtraRewardCheck(
+      user_id,
+      mission_kind,
+      completeCount,
+    );
 
-  //   const missionRoutineBonus =
-  //     await this.missionRoutineBonusService.getMissionRoutineBonus(
-  //       mission_kind,
-  //       completeCount,
-  //     );
+    const result = await userChallengeRepository.find({
+      where: { user_id },
+    });
 
-  //   if (!missionRoutineBonus) {
-  //     return {
-  //       code: 0,
-  //       message: `mission_kind: ${mission_kind}, complete_count: ${completeCount} missionRoutineBonus 테이블에 정보가 없습니다.`,
-  //       utcTimeString: new Date().toISOString(),
-  //       hasError: false,
-  //     };
-  //   }
-
-  //   const rewardData = await this.rewardOfferService.reward(
-  //     user_id,
-  //     missionRoutineBonus.reward_id,
-  //     qr,
-  //   );
-
-  //   await this.userChallengeExtraService.challengeExtraRewardCheck(
-  //     user_id,
-  //     mission_kind,
-  //     completeCount,
-  //   );
-
-  //   const result = await userChallengeRepository.find({
-  //     where: { user_id },
-  //   });
-
-  //   return {
-  //     reward: {
-  //       userItemData: rewardData,
-  //     },
-  //     userChallenge: result,
-  //   };
-  // }
+    return {
+      reward: {
+        userItemData: rewardData,
+      },
+      userChallenge: result,
+    };
+  }
 
   async getCompletedMissionCountPerRoutine(user_id: string, qr?: QueryRunner) {
     const userChallengeRepository = this.getUserChallengeRepository(qr);

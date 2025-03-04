@@ -61,7 +61,7 @@ export class UserChallengeController {
     @Body('mission_kind') mission_kind: string,
     @QueryRunner() qr: QR,
   ) {
-    const result = await this.userChallengeService.challengeQuestextraReward(
+    const result = await this.userChallengeService.challengeQuestextraReward2(
       user.user_id,
       mission_kind,
       qr,
