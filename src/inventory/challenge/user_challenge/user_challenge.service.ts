@@ -146,6 +146,7 @@ export class UserChallengeService {
         qr,
       );
 
+    console.log('---------------------mission_kind:', mission_kind);
     console.log('---------------------missionBonusList:', missionBonusList);
 
     // 유저가 받을 수 있는 추가 보상 목록 필터링
