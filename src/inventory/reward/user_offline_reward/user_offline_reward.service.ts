@@ -265,6 +265,8 @@ export class UserOfflineRewardService {
     const periodInMilliseconds = offlineRewardPeriod * MINUTE_IN_MS;
 
     // 전체 경과 시간(밀리초) / 보상 주기(밀리초)로 보상 횟수 계산
+    console.log(`timeDifference: ${timeDifference}`);
+    console.log(`periodInMilliseconds: ${periodInMilliseconds}`);
     const totalRewards = Math.floor(timeDifference / periodInMilliseconds);
     console.log(`totalRewards: ${totalRewards}`);
 
