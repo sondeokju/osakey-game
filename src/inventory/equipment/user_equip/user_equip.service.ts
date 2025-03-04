@@ -155,9 +155,9 @@ export class UserEquipService {
 
     userEquip.equip_skill_id = equipSkillId;
     userEquip.skill_roll_count += 1;
-    const result = await userEquipRepository.save(userEquip);
+    const userEquipData = await userEquipRepository.save(userEquip);
 
-    return result;
+    return userEquipData;
   }
 
   async equipLevelReset(
@@ -1024,7 +1024,7 @@ export class UserEquipService {
       console.log('equipIds', equipIds);
 
       // 남은 장비 조회
-      const userEquip = await userEquipRepository.find({
+      const result = await userEquipRepository.find({
         where: {
           user_id,
         },
@@ -1033,7 +1033,9 @@ export class UserEquipService {
       // 트랜잭션 커밋
       await queryRunner.commitTransaction();
 
-      return userEquip;
+      return {
+        userEquipData: result,
+      };
     } catch (error) {
       // 오류 발생 시 트랜잭션 롤백
       await queryRunner.rollbackTransaction();
