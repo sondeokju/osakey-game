@@ -100,11 +100,20 @@ export class UserSecameDiaryService {
       // rank E->D->C->B->R
       const rankOrder = { E: 1, D: 2, C: 3, B: 4, R: 5 };
       // 현재 다이어리가 반복되는 경우인지 확인
+      console.log(
+        'Boolean(currentSecameDiaryData.is_repeat):',
+        Boolean(currentSecameDiaryData.is_repeat),
+      );
       if (
         Boolean(currentSecameDiaryData.is_repeat) // true 이면 반복
       ) {
         // 반복 보상을 받을 수 있음
         isRepeatReward = true;
+        console.log('rankOrder[heroData.rank]:', rankOrder[heroData.rank]);
+        console.log(
+          'rrankOrder[nextSecameDiaryData.hero_rank]:',
+          rankOrder[nextSecameDiaryData.hero_rank],
+        );
         if (
           rankOrder[heroData.rank] > rankOrder[nextSecameDiaryData.hero_rank]
         ) {
