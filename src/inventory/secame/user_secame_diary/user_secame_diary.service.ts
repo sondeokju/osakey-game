@@ -113,42 +113,17 @@ export class UserSecameDiaryService {
         nextSecameDiaryData.credit_goal_qty,
       );
 
-      if (
-        nextSecameDiaryData && // 다음 세카메 다이어리 데이터가 존재하는지 확인
-        ((currentSecameDiaryData.is_repeat.toLowerCase() === 'true' && // 현재 다이어리가 반복되는 경우인지 확인
-          nextSecameDiaryData.hero_rank >= heroData.rank && // 다음 다이어리의 영웅 랭크와 현재 사용자의 영웅 랭크가 동일한지 확인
-          userData.secame_credit >= currentSecameDiaryData.credit_goal_qty) || // 사용자의 세카메 크레딧이 다음 다이어리 목표 크레딧 이상인지 확인
-          (typeof currentSecameDiaryData.credit_goal_qty === 'number' && // 현재 다이어리의 목표 크레딧이 숫자인지 확인
-            !isNaN(userData.secame_credit) && // 사용자의 세카메 크레딧이 숫자인지 확인
-            nextSecameDiaryData.hero_rank >= heroData.rank && // 다음 다이어리의 영웅 랭크와 현재 사용자의 영웅 랭크가 동일한지 확인
-            userData.secame_credit >= currentSecameDiaryData.credit_goal_qty)) // 사용자의 세카메 크레딧이 현재 다이어리 목표 크레딧 이상인지 확인
-      ) {
-        // 만약 이미 보상을 받은 경우
-        if (userSecameDiary.reward_yn === 'Y') {
-          return {
-            code: 0,
-            message: `이미 세카메 다이어리 보상을 획득 했습니다.`,
-            utcTimeString: new Date().toISOString(),
-            hasError: false,
-          };
-        }
-
-        // 다음 세카메 다이어리를 삽입해야 함
-        shouldInsertNextDiary = true;
-        // 반복 보상을 받을 수 있음
-        isRepeatReward = true;
-      }
-
       // if (
-      //   nextSecameDiaryData &&
-      //   ((currentSecameDiaryData.is_repeat.toLowerCase() === 'true' &&
-      //     nextSecameDiaryData.hero_rank.trim() === heroData.rank.trim() &&
-      //     userData.secame_credit >= nextSecameDiaryData.credit_goal_qty) ||
-      //     (typeof currentSecameDiaryData.credit_goal_qty === 'number' &&
-      //       !isNaN(userData.secame_credit) &&
-      //       nextSecameDiaryData.hero_rank.trim() === heroData.rank.trim() &&
-      //       userData.secame_credit >= currentSecameDiaryData.credit_goal_qty))
+      //   nextSecameDiaryData && // 다음 세카메 다이어리 데이터가 존재하는지 확인
+      //   ((currentSecameDiaryData.is_repeat.toLowerCase() === 'true' && // 현재 다이어리가 반복되는 경우인지 확인
+      //     nextSecameDiaryData.hero_rank >= heroData.rank && // 다음 다이어리의 영웅 랭크와 현재 사용자의 영웅 랭크가 동일한지 확인
+      //     userData.secame_credit >= currentSecameDiaryData.credit_goal_qty) || // 사용자의 세카메 크레딧이 다음 다이어리 목표 크레딧 이상인지 확인
+      //     (typeof currentSecameDiaryData.credit_goal_qty === 'number' && // 현재 다이어리의 목표 크레딧이 숫자인지 확인
+      //       !isNaN(userData.secame_credit) && // 사용자의 세카메 크레딧이 숫자인지 확인
+      //       nextSecameDiaryData.hero_rank >= heroData.rank && // 다음 다이어리의 영웅 랭크와 현재 사용자의 영웅 랭크가 동일한지 확인
+      //       userData.secame_credit >= currentSecameDiaryData.credit_goal_qty)) // 사용자의 세카메 크레딧이 현재 다이어리 목표 크레딧 이상인지 확인
       // ) {
+      //   // 만약 이미 보상을 받은 경우
       //   if (userSecameDiary.reward_yn === 'Y') {
       //     return {
       //       code: 0,
@@ -158,9 +133,27 @@ export class UserSecameDiaryService {
       //     };
       //   }
 
+      //   // 다음 세카메 다이어리를 삽입해야 함
       //   shouldInsertNextDiary = true;
+      //   // 반복 보상을 받을 수 있음
       //   isRepeatReward = true;
       // }
+
+      // 현재 다이어리가 반복되는 경우인지 확인
+      if (
+        currentSecameDiaryData.is_repeat.toLowerCase() === 'true' &&
+        heroData.rank !== nextSecameDiaryData.hero_rank
+      ) {
+        // 반복 보상을 받을 수 있음
+        isRepeatReward = true;
+      } else if (heroData.rank === nextSecameDiaryData.hero_rank) {
+      }
+
+      if (currentSecameDiaryData.is_repeat.toLowerCase() === 'true') {
+        // 반복 보상을 받을 수 있음
+        //isRepeatReward = true;
+        shouldInsertNextDiary = true;
+      }
 
       console.log('--------------------------------');
       console.log('shouldInsertNextDiary:', shouldInsertNextDiary);

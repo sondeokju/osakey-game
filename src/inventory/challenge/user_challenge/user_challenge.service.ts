@@ -179,6 +179,8 @@ export class UserChallengeService {
           qr,
         );
 
+        console.log('rewardData:', rewardData);
+
         await this.userChallengeExtraService.challengeExtraRewardCheck(
           user_id,
           mission_kind,
