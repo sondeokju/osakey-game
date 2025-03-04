@@ -97,61 +97,24 @@ export class UserSecameDiaryService {
       let shouldInsertNextDiary = false;
       let isRepeatReward = false;
 
-      console.log('nextSecameDiaryData:', nextSecameDiaryData);
-      console.log(
-        'currentSecameDiaryData.is_repeat:',
-        currentSecameDiaryData.is_repeat.toLowerCase(),
-      );
-      console.log(
-        'nextSecameDiaryData.hero_rank:',
-        nextSecameDiaryData.hero_rank,
-      );
-      console.log('heroData.rank:', heroData.rank);
-      console.log('userData.secame_credit:', userData.secame_credit);
-      console.log(
-        'nextSecameDiaryData.credit_goal_qty:',
-        nextSecameDiaryData.credit_goal_qty,
-      );
-
-      // if (
-      //   nextSecameDiaryData && // 다음 세카메 다이어리 데이터가 존재하는지 확인
-      //   ((currentSecameDiaryData.is_repeat.toLowerCase() === 'true' && // 현재 다이어리가 반복되는 경우인지 확인
-      //     nextSecameDiaryData.hero_rank >= heroData.rank && // 다음 다이어리의 영웅 랭크와 현재 사용자의 영웅 랭크가 동일한지 확인
-      //     userData.secame_credit >= currentSecameDiaryData.credit_goal_qty) || // 사용자의 세카메 크레딧이 다음 다이어리 목표 크레딧 이상인지 확인
-      //     (typeof currentSecameDiaryData.credit_goal_qty === 'number' && // 현재 다이어리의 목표 크레딧이 숫자인지 확인
-      //       !isNaN(userData.secame_credit) && // 사용자의 세카메 크레딧이 숫자인지 확인
-      //       nextSecameDiaryData.hero_rank >= heroData.rank && // 다음 다이어리의 영웅 랭크와 현재 사용자의 영웅 랭크가 동일한지 확인
-      //       userData.secame_credit >= currentSecameDiaryData.credit_goal_qty)) // 사용자의 세카메 크레딧이 현재 다이어리 목표 크레딧 이상인지 확인
-      // ) {
-      //   // 만약 이미 보상을 받은 경우
-      //   if (userSecameDiary.reward_yn === 'Y') {
-      //     return {
-      //       code: 0,
-      //       message: `이미 세카메 다이어리 보상을 획득 했습니다.`,
-      //       utcTimeString: new Date().toISOString(),
-      //       hasError: false,
-      //     };
-      //   }
-
-      //   // 다음 세카메 다이어리를 삽입해야 함
-      //   shouldInsertNextDiary = true;
-      //   // 반복 보상을 받을 수 있음
-      //   isRepeatReward = true;
-      // }
-
+      // rank E->D->C->B->R
+      const rankOrder = { E: 1, D: 2, C: 3, B: 4, R: 5 };
       // 현재 다이어리가 반복되는 경우인지 확인
       if (
-        currentSecameDiaryData.is_repeat.toLowerCase() === 'true' &&
-        heroData.rank !== nextSecameDiaryData.hero_rank
+        currentSecameDiaryData.is_repeat.toLowerCase() === 'true' // true 이면 반복
       ) {
         // 반복 보상을 받을 수 있음
         isRepeatReward = true;
-      } else if (heroData.rank === nextSecameDiaryData.hero_rank) {
-      }
-
-      if (currentSecameDiaryData.is_repeat.toLowerCase() === 'true') {
-        // 반복 보상을 받을 수 있음
-        //isRepeatReward = true;
+        if (
+          rankOrder[heroData.rank] >= rankOrder[nextSecameDiaryData.hero_rank]
+        ) {
+          // 새로운 다이어리 생성
+          shouldInsertNextDiary = true;
+        }
+      } else if (
+        userData.secame_credit >= currentSecameDiaryData.credit_goal_qty
+      ) {
+        // 새로운 다이어리 생성
         shouldInsertNextDiary = true;
       }
 
@@ -221,3 +184,29 @@ export class UserSecameDiaryService {
     }
   }
 }
+
+// if (
+//   nextSecameDiaryData && // 다음 세카메 다이어리 데이터가 존재하는지 확인
+//   ((currentSecameDiaryData.is_repeat.toLowerCase() === 'true' && // 현재 다이어리가 반복되는 경우인지 확인
+//     nextSecameDiaryData.hero_rank >= heroData.rank && // 다음 다이어리의 영웅 랭크와 현재 사용자의 영웅 랭크가 동일한지 확인
+//     userData.secame_credit >= currentSecameDiaryData.credit_goal_qty) || // 사용자의 세카메 크레딧이 다음 다이어리 목표 크레딧 이상인지 확인
+//     (typeof currentSecameDiaryData.credit_goal_qty === 'number' && // 현재 다이어리의 목표 크레딧이 숫자인지 확인
+//       !isNaN(userData.secame_credit) && // 사용자의 세카메 크레딧이 숫자인지 확인
+//       nextSecameDiaryData.hero_rank >= heroData.rank && // 다음 다이어리의 영웅 랭크와 현재 사용자의 영웅 랭크가 동일한지 확인
+//       userData.secame_credit >= currentSecameDiaryData.credit_goal_qty)) // 사용자의 세카메 크레딧이 현재 다이어리 목표 크레딧 이상인지 확인
+// ) {
+//   // 만약 이미 보상을 받은 경우
+//   if (userSecameDiary.reward_yn === 'Y') {
+//     return {
+//       code: 0,
+//       message: `이미 세카메 다이어리 보상을 획득 했습니다.`,
+//       utcTimeString: new Date().toISOString(),
+//       hasError: false,
+//     };
+//   }
+
+//   // 다음 세카메 다이어리를 삽입해야 함
+//   shouldInsertNextDiary = true;
+//   // 반복 보상을 받을 수 있음
+//   isRepeatReward = true;
+// }
