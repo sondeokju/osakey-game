@@ -41,14 +41,33 @@ export class MissionRoutineBonusService {
     return result;
   }
 
-  async getMissionRoutineBonusKind(mission_kind: string, qr?: QueryRunner) {
+  async getMissionRoutineBonusKind(mission_kind?: string, qr?: QueryRunner) {
     const missionRoutineBonusRepository =
       this.getMissionRoutineBonusRepository(qr);
-    const result = await missionRoutineBonusRepository.find({
-      where: {
-        mission_kind: mission_kind,
-      },
-    });
-    return result;
+    const query = missionRoutineBonusRepository.createQueryBuilder(
+      'mission_routine_bonus',
+    );
+
+    if (mission_kind) {
+      query.where('mission_routine_bonus.mission_kind = :mission_kind', {
+        mission_kind,
+      });
+    } else {
+      // mission_kind가 없으면 항상 false가 되도록 설정
+      query.where('1 = 0');
+    }
+
+    return query.getMany();
   }
+
+  // async getMissionRoutineBonusKind(mission_kind: string, qr?: QueryRunner) {
+  //   const missionRoutineBonusRepository =
+  //     this.getMissionRoutineBonusRepository(qr);
+  //   const result = await missionRoutineBonusRepository.find({
+  //     where: {
+  //       mission_kind: mission_kind,
+  //     },
+  //   });
+  //   return result;
+  // }
 }
