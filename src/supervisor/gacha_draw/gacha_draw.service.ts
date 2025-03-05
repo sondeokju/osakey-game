@@ -681,8 +681,8 @@ export class GachaDrawService {
       const itemType = String(calcuResult[i].item_type);
 
       if (['E'].includes(itemType)) {
-        console.log(`-------------------itemType: ${itemType}}`);
-        await this.rewardOfferService.rewardItem(user_id, +itemId, 1, qr);
+        console.log(`-------------------itemType: ${itemType}`);
+        await this.rewardOfferService.createEquipQuery(user_id, +itemId, qr);
 
         userEquip = await this.userEquipService.getUserLastInsertEquipList(
           user_id,
