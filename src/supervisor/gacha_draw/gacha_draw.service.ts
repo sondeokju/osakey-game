@@ -668,7 +668,7 @@ export class GachaDrawService {
     // 중복된 item_id를 합쳐서 { item_id, item_count } 형태로 변환
     const gachaItemData: { item_id: number; item_count: number }[] = [];
     const gachaEquipData: { equip_id: number; equip_count: number }[] = [];
-    let userEquip;
+    let userEquip = [];
 
     //let reward;
 
@@ -682,13 +682,13 @@ export class GachaDrawService {
 
       if (['E'].includes(itemType)) {
         console.log(`-------------------itemType: ${itemType}`);
-        await this.rewardOfferService.createEquipQuery(user_id, +itemId, qr);
-
-        userEquip = await this.userEquipService.getUserLastInsertEquipList(
+        const result = await this.rewardOfferService.createEquipQuery(
           user_id,
-          Number(itemId),
+          +itemId,
           qr,
         );
+
+        userEquip.push(result);
       } else if (['M', 'S'].includes(itemType)) {
         console.log(`-------------------itemType: ${itemType}}`);
         await this.rewardOfferService.rewardItem(user_id, +itemId, 1, qr);
