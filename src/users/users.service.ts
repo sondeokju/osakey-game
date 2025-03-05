@@ -1427,7 +1427,7 @@ export class UsersService {
         return await usersRepository.save({
           ...user,
           update_at: new Date(),
-          language,
+          //language,
         });
       }
     }
@@ -1457,7 +1457,7 @@ export class UsersService {
       return this.createUserID(savedUser.id, queryRunner); // 생성된 ID를 사용
     } else {
       userData.provider = provider;
-      userData.language = language;
+      //userData.language = language;
       return await usersRepository.save({
         ...userData,
         update_at: new Date(),
@@ -1492,7 +1492,7 @@ export class UsersService {
       return result;
     } else {
       userData.update_at = new Date();
-      userData.language = language;
+      //userData.language = language;
       const result = await usersRepository.save(userData);
       return result;
     }
