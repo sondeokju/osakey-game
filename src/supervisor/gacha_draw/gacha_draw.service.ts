@@ -649,21 +649,13 @@ export class GachaDrawService {
       if (['E'].includes(item.item_type)) {
         await this.rewardOfferService.rewardEquipArray(user_id, gachaItem, qr);
 
-        // 객체를 원하는 형태의 배열로 변환
-        for (const [item_id, item_count] of Object.entries(itemCountMap)) {
-          gachaEquipData.push({
-            equip_id: Number(item_id),
-            equip_count: Number(item_count),
-          });
+        const equip = await this.userEquipService.getUserLastInsertEquip(
+          user_id,
+          Number(itemId),
+          qr,
+        );
 
-          const equip = await this.userEquipService.getUserLastInsertEquip(
-            user_id,
-            Number(item_id),
-            qr,
-          );
-
-          userEquip.push(equip);
-        }
+        userEquip.push(equip);
       } else if (['M', 'S'].includes(item.item_type)) {
         await this.rewardOfferService.rewardSameItemNumberArray(
           user_id,
