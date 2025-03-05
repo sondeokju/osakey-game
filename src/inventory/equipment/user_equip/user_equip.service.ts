@@ -75,6 +75,20 @@ export class UserEquipService {
     return userEquip;
   }
 
+  async getUserLastInsertEquipList(
+    user_id: string,
+    equip_id: number,
+    qr?: QueryRunner,
+  ) {
+    const userEquipRepository = this.getUserEquipRepository(qr);
+    const userEquip = await userEquipRepository.find({
+      where: { user_id, equip_id },
+      order: { id: 'DESC' }, // 가장 최근에 삽입된 데이터를 찾기 위한 정렬
+    });
+
+    return userEquip;
+  }
+
   async simulateEquipSkillRandom(
     skill_equip_category: string,
     iterations: number,
