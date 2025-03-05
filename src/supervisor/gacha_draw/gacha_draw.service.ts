@@ -571,6 +571,7 @@ export class GachaDrawService {
 
     for (let i = 0; i < 10; i++) {
       const calcuGachaItem = await this.calculEquipGachaDrawRandom(gacha_id);
+      console.log('calcuGachaItem:', calcuGachaItem);
 
       // 뽑기 횟수 퀘스트
       await this.userChallengeService.challengeQuest(user_id, 12400002, 1);
