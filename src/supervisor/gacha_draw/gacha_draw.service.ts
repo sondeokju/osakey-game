@@ -688,6 +688,8 @@ export class GachaDrawService {
           qr,
         );
 
+        console.log(`-------------------result: ${result}`);
+
         userEquip.push(result);
       } else if (['M', 'S'].includes(itemType)) {
         console.log(`-------------------itemType: ${itemType}}`);
