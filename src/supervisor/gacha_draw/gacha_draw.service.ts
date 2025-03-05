@@ -700,6 +700,7 @@ export class GachaDrawService {
       }
     }
 
+    console.log(`-------------------userEquip: ${userEquip}}`);
     return {
       reward: {
         userItemData: gachaItemData,
