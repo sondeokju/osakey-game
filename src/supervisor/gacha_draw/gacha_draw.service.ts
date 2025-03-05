@@ -606,8 +606,8 @@ export class GachaDrawService {
 
       //itemCountMap['item_id'] = (calcuGachaItem.items[0].item_id || 0) + 1;
 
-      for (const item_id of calcuGachaItem.items) {
-        itemCountMap[item_id] = (itemCountMap[item_id] || 0) + 1;
+      for (const item of calcuGachaItem.items) {
+        itemCountMap[item.item_id] = (itemCountMap[item.item_id] || 0) + 1;
       }
     }
 
