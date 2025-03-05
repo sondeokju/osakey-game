@@ -631,7 +631,11 @@ export class GachaDrawService {
       qr,
     );
 
-    if (!diaPayout.hasError && gachaCostData.gacha_id != 11720001) {
+    if (
+      !diaPayout.hasError &&
+      !diaPayout.reduceItem &&
+      gachaCostData.gacha_id != 11720001
+    ) {
       costItemCount = 0;
       diaPayout = await this.resourceManagerService.validateAndDeductResources(
         user_id,
@@ -646,7 +650,7 @@ export class GachaDrawService {
     }
 
     console.log('--------------- diaPayout:', diaPayout);
-    if (!diaPayout.hasError) {
+    if (!diaPayout.hasError || !diaPayout.reduceItem) {
       return diaPayout;
     }
     console.log('diaPayout:', diaPayout);

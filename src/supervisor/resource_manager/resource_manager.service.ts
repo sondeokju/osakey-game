@@ -38,6 +38,7 @@ export class ResourceManagerService {
       let errorMessage = '';
       let errorCode = '';
       let reduceItem;
+      let isSuccess = false;
 
       console.log('--------------- validateAndDeductResources');
 
@@ -59,6 +60,8 @@ export class ResourceManagerService {
             resources.item.count,
             qr,
           );
+
+          isSuccess = true;
         }
       }
 
@@ -74,6 +77,8 @@ export class ResourceManagerService {
             resources.gord,
             qr,
           );
+
+          isSuccess = true;
         }
       }
 
@@ -114,6 +119,8 @@ export class ResourceManagerService {
             resources.dia.mode,
             qr,
           );
+
+          isSuccess = true;
           console.log(
             '--------------- validateAndDeductResources reduceItem:',
             reduceItem,
@@ -132,6 +139,8 @@ export class ResourceManagerService {
             resources.exp,
             qr,
           );
+
+          isSuccess = true;
         }
       }
 
@@ -146,6 +155,8 @@ export class ResourceManagerService {
             resources.secame_credit,
             qr,
           );
+
+          isSuccess = true;
         }
       }
 
@@ -159,7 +170,7 @@ export class ResourceManagerService {
         };
       }
 
-      return { hasError: true, reduceItem };
+      return { hasError: isSuccess, reduceItem };
     } catch (error) {
       console.error('❌ Error in validateAndDeductResources:', error.message);
 
