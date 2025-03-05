@@ -642,8 +642,9 @@ export class GachaDrawService {
     //let reward;
 
     for (const [itemId, count] of Object.entries(itemCountMap)) {
-      console.log(`Item ID: ${itemId}, Count: ${count}`);
+      console.log(`-------------------Item ID: ${itemId}, Count: ${count}`);
       const item = await this.itemService.getItem(+itemId, qr);
+      console.log('------------- item: ', item);
 
       if (['E'].includes(item.item_type)) {
         await this.rewardOfferService.rewardEquipArray(user_id, gachaItem, qr);
