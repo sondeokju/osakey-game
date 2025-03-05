@@ -77,10 +77,18 @@ export class ResourceManagerService {
         }
       }
 
+      console.log(
+        '--------------- validateAndDeductResources 다이아몬드 차감1',
+      );
+      console.log(
+        '--------------- validateAndDeductResources 다이아몬드 차감1 resources ',
+        resources,
+      );
+
       // 🔹 다이아몬드 차감
       if (resources.dia?.amount && resources.dia.amount > 0) {
         console.log(
-          '--------------- validateAndDeductResources 다이아몬드 차감',
+          '--------------- validateAndDeductResources 다이아몬드 차감2',
         );
         const userDiaBalance = await this.usersService.getMe(user_id, qr);
         if (
