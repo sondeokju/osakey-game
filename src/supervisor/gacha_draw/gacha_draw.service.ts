@@ -625,7 +625,7 @@ export class GachaDrawService {
       {
         item: {
           item_id: gachaCostData.item_id_1,
-          count: gachaCostData.item_id_1_count,
+          count: gachaCostData.item_id_10_count,
         },
       },
       qr,
@@ -637,7 +637,7 @@ export class GachaDrawService {
         user_id,
         {
           dia: {
-            amount: gachaCostData.dia_1,
+            amount: gachaCostData.dia_10,
             mode: 'mixed',
           },
         },
