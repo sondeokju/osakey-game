@@ -672,10 +672,16 @@ export class GachaDrawService {
 
     //let reward;
 
-    for (const [itemId, count] of Object.entries(itemCountMap)) {
-      console.log(`-------------------Item ID: ${itemId}, Count: ${count}`);
+    for (let i = 0; i < calcuResult.length; i++) {
+      console.log(
+        `-------------------Item ID: ${calcuResult[i].item_id}, Count: ${calcuResult[i].count}, Count: ${calcuResult[i].item_type}`,
+      );
 
-      if (['E'].includes(item.item_type)) {
+      const itemId = calcuResult[i].item_id;
+      const count = calcuResult[i].item_id;
+      const itemType = calcuResult[i].item_type;
+
+      if (['E'].includes(itemType)) {
         await this.rewardOfferService.rewardItem(user_id, +itemId, count, qr);
 
         userEquip = await this.userEquipService.getUserLastInsertEquipList(
@@ -683,7 +689,7 @@ export class GachaDrawService {
           Number(itemId),
           qr,
         );
-      } else if (['M', 'S'].includes(item.item_type)) {
+      } else if (['M', 'S'].includes(itemType)) {
         await this.rewardOfferService.rewardItem(user_id, +itemId, count, qr);
 
         // 객체를 원하는 형태의 배열로 변환
