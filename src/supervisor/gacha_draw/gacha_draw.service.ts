@@ -674,15 +674,14 @@ export class GachaDrawService {
 
     for (let i = 0; i < calcuResult.length; i++) {
       console.log(
-        `-------------------Item ID: ${calcuResult[i].item_id}, Count: ${calcuResult[i].count}, Count: ${calcuResult[i].item_type}`,
+        `-------------------Item ID: ${calcuResult[i].item_id}, Count: ${calcuResult[i].item_type}`,
       );
 
       const itemId = calcuResult[i].item_id;
-      const count = calcuResult[i].item_id;
       const itemType = calcuResult[i].item_type;
 
       if (['E'].includes(itemType)) {
-        await this.rewardOfferService.rewardItem(user_id, +itemId, count, qr);
+        await this.rewardOfferService.rewardItem(user_id, +itemId, 1, qr);
 
         userEquip = await this.userEquipService.getUserLastInsertEquipList(
           user_id,
@@ -690,15 +689,12 @@ export class GachaDrawService {
           qr,
         );
       } else if (['M', 'S'].includes(itemType)) {
-        await this.rewardOfferService.rewardItem(user_id, +itemId, count, qr);
+        await this.rewardOfferService.rewardItem(user_id, +itemId, 1, qr);
 
-        // 객체를 원하는 형태의 배열로 변환
-        for (const [item_id, item_count] of Object.entries(itemCountMap)) {
-          gachaItemData.push({
-            item_id: Number(item_id),
-            item_count: Number(item_count),
-          });
-        }
+        gachaItemData.push({
+          item_id: Number(itemId),
+          item_count: 1,
+        });
       }
     }
 
