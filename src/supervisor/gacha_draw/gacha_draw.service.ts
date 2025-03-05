@@ -60,7 +60,6 @@ export class GachaDrawService {
     gacha_count: number,
     qr?: QueryRunner,
   ) {
-    console.log('-----------gacha_count:', gacha_count);
     if (+gacha_count === 1) {
       return await this.equipGachaDrawRandom(
         user_id,
@@ -69,7 +68,6 @@ export class GachaDrawService {
         qr,
       );
     } else if (+gacha_count === 10) {
-      console.log('----------- 10 gacha_count:', gacha_count);
       return await this.gacha10(user_id, gacha_id, gacha_count, qr);
     }
   }
@@ -594,7 +592,7 @@ export class GachaDrawService {
     gacha_count: number,
     qr?: QueryRunner,
   ) {
-    const itemCountMap: Record<number, number> = {};
+    //const itemCountMap: Record<number, number> = {};
     const calcuResult = [];
 
     for (let i = 0; i < 10; i++) {
@@ -605,15 +603,10 @@ export class GachaDrawService {
       // 뽑기 횟수 퀘스트
       await this.userChallengeService.challengeQuest(user_id, 12400002, 1);
 
-      //itemCountMap['item_id'] = (calcuGachaItem.items[0].item_id || 0) + 1;
-
-      for (const item of calcuGachaItem.items) {
-        itemCountMap[item.item_id] = (itemCountMap[item.item_id] || 0) + 1;
-      }
+      // for (const item of calcuGachaItem.items) {
+      //   itemCountMap[item.item_id] = (itemCountMap[item.item_id] || 0) + 1;
+      // }
     }
-
-    console.log('--------------------itemCountMap :', itemCountMap);
-    console.log('--------------------calcuResult :', calcuResult);
     const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
 
     await this.userGachaCheckService.defaultGachaCountSetting(
@@ -667,32 +660,24 @@ export class GachaDrawService {
 
     // 중복된 item_id를 합쳐서 { item_id, item_count } 형태로 변환
     const gachaItemData: { item_id: number; item_count: number }[] = [];
-    const gachaEquipData: { equip_id: number; equip_count: number }[] = [];
-    let userEquip = [];
+    //const gachaEquipData: { equip_id: number; equip_count: number }[] = [];
+    const userEquip = [];
 
     //let reward;
 
     for (let i = 0; i < calcuResult.length; i++) {
-      console.log(
-        `-------------------Item ID: ${calcuResult[i].item_id}, item_type: ${calcuResult[i].item_type}`,
-      );
-
       const itemId = calcuResult[i].item_id;
       const itemType = String(calcuResult[i].item_type);
 
       if (['E'].includes(itemType)) {
-        console.log(`-------------------itemType: ${itemType}`);
         const result = await this.rewardOfferService.createEquipQuery(
           user_id,
           +itemId,
           qr,
         );
 
-        console.log(`-------------------result: ${JSON.stringify(result)}`);
-
         userEquip.push(result);
       } else if (['M', 'S'].includes(itemType)) {
-        console.log(`-------------------itemType: ${itemType}}`);
         await this.rewardOfferService.rewardItem(user_id, +itemId, 1, qr);
 
         gachaItemData.push({
@@ -702,7 +687,6 @@ export class GachaDrawService {
       }
     }
 
-    console.log(`-------------------userEquip: ${JSON.stringify(userEquip)}`);
     return {
       reward: {
         userItemData: gachaItemData,
