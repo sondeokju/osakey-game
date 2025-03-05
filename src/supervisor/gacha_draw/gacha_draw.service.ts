@@ -645,6 +645,7 @@ export class GachaDrawService {
       );
     }
 
+    console.log('--------------- diaPayout:', diaPayout);
     if (!diaPayout.hasError) {
       return diaPayout;
     }
