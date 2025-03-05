@@ -98,6 +98,34 @@ export class GachaDrawService {
     return { items: [], item_kind: null };
   }
 
+  async calculEquipGachaDrawRandom10(gacha_id: number, qr?: QueryRunner) {
+    const gachaList = await this.gachaOutputService.getGachaOutputList(
+      gacha_id,
+      qr,
+    );
+    const totalWeight = gachaList.reduce(
+      (sum, gacha) => sum + gacha.item_rate,
+      0,
+    );
+    let random = Math.random() * totalWeight;
+
+    for (const gacha of gachaList) {
+      random -= gacha.item_rate;
+      if (random <= 0) {
+        return {
+          items: Array(gacha.item_qty)
+            .fill(null)
+            .map(() => ({
+              item_id: gacha.item_id,
+              item_type: gacha.item_kind,
+            })),
+        };
+      }
+    }
+
+    return { items: [] };
+  }
+
   async itemGradeCheck(
     items: number[],
     item_grade: number,
@@ -567,10 +595,10 @@ export class GachaDrawService {
     qr?: QueryRunner,
   ) {
     const itemCountMap: Record<number, number> = {};
-    let gachaItem;
+    //let gachaItem;
 
     for (let i = 0; i < 10; i++) {
-      const calcuGachaItem = await this.calculEquipGachaDrawRandom(gacha_id);
+      const calcuGachaItem = await this.calculEquipGachaDrawRandom10(gacha_id);
       console.log('calcuGachaItem:', calcuGachaItem);
 
       // 뽑기 횟수 퀘스트
