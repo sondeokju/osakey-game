@@ -595,11 +595,12 @@ export class GachaDrawService {
     qr?: QueryRunner,
   ) {
     const itemCountMap: Record<number, number> = {};
-    //let gachaItem;
+    let calcuResult = [];
 
     for (let i = 0; i < 10; i++) {
       const calcuGachaItem = await this.calculEquipGachaDrawRandom10(gacha_id);
       console.log('calcuGachaItem:', calcuGachaItem);
+      calcuResult.push(calcuGachaItem[0]);
 
       // 뽑기 횟수 퀘스트
       await this.userChallengeService.challengeQuest(user_id, 12400002, 1);
@@ -612,7 +613,7 @@ export class GachaDrawService {
     }
 
     console.log('--------------------itemCountMap :', itemCountMap);
-    console.log('--------------------calcuGachaItem :', calcuGachaItem);
+    console.log('--------------------calcuResult :', calcuResult);
     const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
 
     await this.userGachaCheckService.defaultGachaCountSetting(
@@ -673,8 +674,6 @@ export class GachaDrawService {
 
     for (const [itemId, count] of Object.entries(itemCountMap)) {
       console.log(`-------------------Item ID: ${itemId}, Count: ${count}`);
-      const item = await this.itemService.getItem(+itemId, qr);
-      console.log('------------- item: ', item);
 
       if (['E'].includes(item.item_type)) {
         await this.rewardOfferService.rewardItem(user_id, +itemId, count, qr);
