@@ -595,12 +595,12 @@ export class GachaDrawService {
     qr?: QueryRunner,
   ) {
     const itemCountMap: Record<number, number> = {};
-    let calcuResult = [];
+    const calcuResult = [];
 
     for (let i = 0; i < 10; i++) {
       const calcuGachaItem = await this.calculEquipGachaDrawRandom10(gacha_id);
       console.log('calcuGachaItem:', calcuGachaItem);
-      calcuResult.push(calcuGachaItem[0]);
+      calcuResult.push(calcuGachaItem.items[0]);
 
       // 뽑기 횟수 퀘스트
       await this.userChallengeService.challengeQuest(user_id, 12400002, 1);
