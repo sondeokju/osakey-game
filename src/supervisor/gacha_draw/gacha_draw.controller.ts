@@ -21,7 +21,7 @@ export class GachaDrawController {
     const result = await this.gachaDrawService.gacha(
       user.user_id,
       gacha_id,
-      1,
+      gacha_count,
       qr,
     );
 
