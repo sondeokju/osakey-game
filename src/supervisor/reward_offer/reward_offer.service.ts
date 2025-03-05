@@ -344,7 +344,7 @@ export class RewardOfferService {
       }
 
       // 값 업데이트 (switch 문 사용)
-      switch (item_name.trim()) {
+      switch (item_name) {
         case 'secame_credit':
           userData.secame_credit += qty;
           break;

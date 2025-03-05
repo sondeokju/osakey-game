@@ -631,6 +631,10 @@ export class GachaDrawService {
       qr,
     );
 
+    // if (!diaPayout.hasError && gachaCostData.gacha_id === 11720001) {
+    //   return diaPayout;
+    // }
+
     if (
       !diaPayout.hasError &&
       !diaPayout.reduceItem &&
