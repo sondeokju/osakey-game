@@ -688,7 +688,7 @@ export class GachaDrawService {
           qr,
         );
 
-        console.log(`-------------------result: ${result}`);
+        console.log(`-------------------result: ${JSON.stringify(result)}`);
 
         userEquip.push(result);
       } else if (['M', 'S'].includes(itemType)) {
@@ -702,7 +702,7 @@ export class GachaDrawService {
       }
     }
 
-    console.log(`-------------------userEquip: ${userEquip}}`);
+    console.log(`-------------------userEquip: ${JSON.stringify(userEquip)}`);
     return {
       reward: {
         userItemData: gachaItemData,
