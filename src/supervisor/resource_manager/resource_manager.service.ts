@@ -39,6 +39,8 @@ export class ResourceManagerService {
       let errorCode = '';
       let reduceItem;
 
+      console.log('--------------- validateAndDeductResources');
+
       // 🔹 아이템 차감
       if (resources.item?.count && resources.item.count > 0) {
         const userItemData = await this.userItemService.getItem(
@@ -77,6 +79,9 @@ export class ResourceManagerService {
 
       // 🔹 다이아몬드 차감
       if (resources.dia?.amount && resources.dia.amount > 0) {
+        console.log(
+          '--------------- validateAndDeductResources 다이아몬드 차감',
+        );
         const userDiaBalance = await this.usersService.getMe(user_id, qr);
         if (
           resources.dia.mode === 'paid' &&
@@ -92,13 +97,19 @@ export class ResourceManagerService {
           errorCode = 'INSUFFICIENT_DIA_MIXED';
           errorMessage = 'Not enough mixed diamonds.';
         } else {
+          console.log(
+            '--------------- validateAndDeductResources deductDiamonds',
+          );
           reduceItem = await this.usersService.deductDiamonds(
             user_id,
             resources.dia.amount,
             resources.dia.mode,
             qr,
           );
-          console.log('reduceItem:', reduceItem);
+          console.log(
+            '--------------- validateAndDeductResources reduceItem:',
+            reduceItem,
+          );
         }
       }
 
