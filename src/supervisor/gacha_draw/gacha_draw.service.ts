@@ -674,13 +674,14 @@ export class GachaDrawService {
 
     for (let i = 0; i < calcuResult.length; i++) {
       console.log(
-        `-------------------Item ID: ${calcuResult[i].item_id}, Count: ${calcuResult[i].item_type}`,
+        `-------------------Item ID: ${calcuResult[i].item_id}, item_type: ${calcuResult[i].item_type}`,
       );
 
       const itemId = calcuResult[i].item_id;
-      const itemType = calcuResult[i].item_type;
+      const itemType = String(calcuResult[i].item_type);
 
       if (['E'].includes(itemType)) {
+        console.log(`-------------------itemType: ${itemType}}`);
         await this.rewardOfferService.rewardItem(user_id, +itemId, 1, qr);
 
         userEquip = await this.userEquipService.getUserLastInsertEquipList(
@@ -689,6 +690,7 @@ export class GachaDrawService {
           qr,
         );
       } else if (['M', 'S'].includes(itemType)) {
+        console.log(`-------------------itemType: ${itemType}}`);
         await this.rewardOfferService.rewardItem(user_id, +itemId, 1, qr);
 
         gachaItemData.push({
