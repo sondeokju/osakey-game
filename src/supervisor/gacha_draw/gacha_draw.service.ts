@@ -617,7 +617,7 @@ export class GachaDrawService {
       qr,
     );
 
-    let costItemCount = gachaCostData.item_id_1_count;
+    let costItemCount = gachaCostData.item_id_10_count;
     let diaPayout;
 
     diaPayout = await this.resourceManagerService.validateAndDeductResources(
@@ -695,7 +695,7 @@ export class GachaDrawService {
       deductedCurrency: [
         {
           // item
-          item_id: gachaCostData.item_id_1,
+          item_id: gachaCostData.item_id_10,
           item_count: costItemCount,
         },
         {
