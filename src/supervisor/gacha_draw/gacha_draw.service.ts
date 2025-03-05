@@ -579,7 +579,7 @@ export class GachaDrawService {
       }
     }
 
-    console.log(itemCountMap);
+    console.log('--------------------itemCountMap :', itemCountMap);
     const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
 
     await this.userGachaCheckService.defaultGachaCountSetting(
