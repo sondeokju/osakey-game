@@ -107,19 +107,19 @@ export class AuthService {
     );
     const login = await this.loginUser(userData);
 
-    let lastLoginlog = await this.zLoginLogService.getLoginLog(
-      userData.user_id,
-    );
+    // let lastLoginlog = await this.zLoginLogService.getLoginLog(
+    //   userData.user_id,
+    // );
 
     // if (!lastLoginlog) {
     //   lastLoginlog.update_at = new Date();
     // }
-    await this.zLoginLogService.loginLog(
-      userData.user_id,
-      member_id,
-      social_user_id,
-      provider,
-    );
+    // await this.zLoginLogService.loginLog(
+    //   userData.user_id,
+    //   member_id,
+    //   social_user_id,
+    //   provider,
+    // );
 
     // console.log('lastLoginlog.update_at :', lastLoginlog.update_at);
     // await this.usersService.userAccountTypeModify(
@@ -131,6 +131,13 @@ export class AuthService {
       this.invenService.getUserInventoryAll(userData.user_id),
       this.getUser(userData.user_id),
     ]);
+
+    await this.zLoginLogService.loginLog(
+      userData.user_id,
+      member_id,
+      social_user_id,
+      provider,
+    );
 
     return {
       accessToken: login.accessToken,
