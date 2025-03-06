@@ -179,4 +179,65 @@ export class UserGachaCheckService {
 
     return userGachaCheck;
   }
+
+  async defaultGachaCountSetting10(
+    user_id: string,
+    gacha_id: number,
+    fixed_item_grade_1_count: number,
+    fixed_item_grade_2_count: number,
+    qr?: QueryRunner,
+  ) {
+    const userGachaCheckRepository = this.getUserGachaCheckRepository(qr);
+    let userGachaCheck = await userGachaCheckRepository.findOne({
+      where: { user_id, gacha_id },
+    });
+
+    if (!userGachaCheck) {
+      // userGachaCheck가 없으면 새로운 데이터 삽입
+      await userGachaCheckRepository.insert({
+        user_id,
+        gacha_id,
+        fixed_1_draw_count: 10,
+        fixed_item_grade_1_count: fixed_item_grade_1_count - 10,
+        fixed_2_draw_count: 10,
+        fixed_item_grade_2_count: fixed_item_grade_2_count - 10,
+      });
+
+      // 삽입된 데이터 다시 조회
+      userGachaCheck = await userGachaCheckRepository.findOne({
+        where: { user_id, gacha_id },
+      });
+    } else {
+      await userGachaCheckRepository.increment(
+        { user_id, gacha_id },
+        'fixed_1_draw_count',
+        10,
+      );
+
+      await userGachaCheckRepository.decrement(
+        { user_id, gacha_id },
+        'fixed_item_grade_1_count',
+        10,
+      );
+
+      await userGachaCheckRepository.increment(
+        { user_id, gacha_id },
+        'fixed_2_draw_count',
+        10,
+      );
+
+      await userGachaCheckRepository.decrement(
+        { user_id, gacha_id },
+        'fixed_item_grade_2_count',
+        10,
+      );
+
+      // 업데이트된 데이터 다시 조회
+      userGachaCheck = await userGachaCheckRepository.findOne({
+        where: { user_id, gacha_id },
+      });
+    }
+
+    return userGachaCheck;
+  }
 }

@@ -610,7 +610,7 @@ export class GachaDrawService {
     await this.userChallengeService.challengeQuest(user_id, 12400002, 10);
     const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
 
-    await this.userGachaCheckService.defaultGachaCountSetting(
+    await this.userGachaCheckService.defaultGachaCountSetting10(
       user_id,
       gacha_id,
       gachaCostData.fixed_item_grade_1_count,
