@@ -153,7 +153,9 @@ export class UserMissionService {
       mission_try_yn,
     });
 
-    return user;
+    return {
+      user,
+    };
   }
 
   async missionList(user_id: string, qr?: QueryRunner) {
