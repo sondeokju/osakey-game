@@ -151,6 +151,8 @@ export class GachaDrawService {
       return itemDataList.some(
         (itemData) => itemData.item_grade === item_grade,
       );
+    } else {
+      return null;
     }
   }
 
@@ -228,7 +230,7 @@ export class GachaDrawService {
       ),
     ]);
 
-    console.log('fixedGacha 1---------');
+    console.log('fixedGacha 1---------', grade4, grade5);
     let itemData;
     let equipData;
     let item_grade = 0;
