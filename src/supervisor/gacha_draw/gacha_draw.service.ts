@@ -144,6 +144,13 @@ export class GachaDrawService {
       return itemDataList.some(
         (itemData) => itemData.item_grade === item_grade,
       );
+    } else if (gacha_type === 'S') {
+      const itemDataList = await Promise.all(
+        items.map((item) => this.itemService.getItem(item, qr)),
+      );
+      return itemDataList.some(
+        (itemData) => itemData.item_grade === item_grade,
+      );
     }
   }
 
