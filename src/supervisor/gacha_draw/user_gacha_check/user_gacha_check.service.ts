@@ -159,6 +159,18 @@ export class UserGachaCheckService {
         1,
       );
 
+      // 감소 후 값이 0보다 작으면 0으로 업데이트
+      userGachaCheck = await userGachaCheckRepository.findOne({
+        where: { user_id, gacha_id },
+      });
+
+      if (userGachaCheck && userGachaCheck.fixed_item_grade_1_count < 0) {
+        await userGachaCheckRepository.update(
+          { user_id, gacha_id },
+          { fixed_item_grade_1_count: 0 },
+        );
+      }
+
       await userGachaCheckRepository.increment(
         { user_id, gacha_id },
         'fixed_2_draw_count',
@@ -170,6 +182,18 @@ export class UserGachaCheckService {
         'fixed_item_grade_2_count',
         1,
       );
+
+      // 감소 후 값이 0보다 작으면 0으로 업데이트
+      userGachaCheck = await userGachaCheckRepository.findOne({
+        where: { user_id, gacha_id },
+      });
+
+      if (userGachaCheck && userGachaCheck.fixed_item_grade_1_count < 0) {
+        await userGachaCheckRepository.update(
+          { user_id, gacha_id },
+          { fixed_item_grade_1_count: 0 },
+        );
+      }
 
       // 업데이트된 데이터 다시 조회
       userGachaCheck = await userGachaCheckRepository.findOne({
