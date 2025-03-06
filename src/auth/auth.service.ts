@@ -129,10 +129,11 @@ export class AuthService {
 
     const inven = await this.invenService.getUserInventoryAll(userData.user_id);
     const user = await this.getUser(userData.user_id);
-    const loginObj = await JSON.parse(login);
+    //const loginObj = login;
+    //const loginObj = await JSON.parse(login);
 
     return {
-      accessToken: loginObj.accessToken,
+      accessToken: login.accessToken,
       user,
       inven: inven,
     };
@@ -415,20 +416,26 @@ export class AuthService {
     });
   }
 
-  //loginUser(user: Pick<Users, 'email' | 'id'>) {
   async loginUser(user: Users) {
-    const result = {
+    return {
       accessToken: this.signToken(user, false),
     };
-
-    //console.log('uuid', uuidv4());
-
-    return JSON.stringify(result);
-    // return {
-    //   accessToken: this.signToken(user, false),
-    //   //refreshToken: this.signToken(user, true),
-    // };
   }
+
+  //loginUser(user: Pick<Users, 'email' | 'id'>) {
+  // async loginUser(user: Users) {
+  //   const result = {
+  //     accessToken: this.signToken(user, false),
+  //   };
+
+  //   //console.log('uuid', uuidv4());
+
+  //   return JSON.stringify(result);
+  //   // return {
+  //   //   accessToken: this.signToken(user, false),
+  //   //   //refreshToken: this.signToken(user, true),
+  //   // };
+  // }
 
   loginUserID(user: Pick<Users, 'user_id' | 'id'>) {
     const result = {
