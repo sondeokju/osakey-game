@@ -317,6 +317,7 @@ export class GachaDrawService {
     }
 
     console.log('fixedGacha 4---------');
+    console.log('gachaItem:', gachaItem);
     return gachaItem;
   }
 
@@ -678,6 +679,9 @@ export class GachaDrawService {
         qr,
       );
 
+      console.log('fixedGacha:', fixedGacha);
+
+      console.log('gacha10 01 --------------');
       if (['E'].includes(itemType)) {
         const result = await this.rewardOfferService.createEquipQuery(
           user_id,
@@ -686,6 +690,7 @@ export class GachaDrawService {
         );
 
         userEquip.push(result);
+        console.log('gacha10 02 --------------');
       } else if (['M', 'S'].includes(itemType)) {
         await this.rewardOfferService.rewardItem(
           user_id,
@@ -698,9 +703,11 @@ export class GachaDrawService {
           item_id: fixedGacha['item_id'],
           item_count: 1,
         });
+        console.log('gacha10 03 --------------');
       }
     }
 
+    console.log('gacha10 04 --------------');
     return {
       reward: {
         userItemData: gachaItemData,
