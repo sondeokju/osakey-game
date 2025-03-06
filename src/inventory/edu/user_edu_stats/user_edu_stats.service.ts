@@ -69,6 +69,9 @@ export class UserEduStatsService {
       const edu = await userEduStatsRepository.findOne({
         where: { user_id, edu_list_id },
       });
+
+      const user = await this.usersService.getMe(user_id, qr);
+
       return {
         reward: {
           userItemData: [
@@ -79,6 +82,7 @@ export class UserEduStatsService {
           ],
         },
         edu,
+        user,
       };
     } else {
       // 기존 교육 과정 업데이트
