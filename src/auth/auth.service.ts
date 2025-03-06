@@ -105,6 +105,7 @@ export class AuthService {
       provider,
       language,
     );
+    const login = await this.loginUser(userData);
 
     let lastLoginlog = await this.zLoginLogService.getLoginLog(
       userData.user_id,
@@ -126,12 +127,9 @@ export class AuthService {
     //   lastLoginlog.update_at,
     // );
 
-    //const inven = await this.getUserInvens(userData.user_id);
     const inven = await this.invenService.getUserInventoryAll(userData.user_id);
     const user = await this.getUser(userData.user_id);
-    const login = this.loginUser(userData);
-    const loginObj = JSON.parse(login);
-    //const shopLimit = 
+    const loginObj = await JSON.parse(login);
 
     return {
       accessToken: loginObj.accessToken,
@@ -418,7 +416,7 @@ export class AuthService {
   }
 
   //loginUser(user: Pick<Users, 'email' | 'id'>) {
-  loginUser(user: Users) {
+  async loginUser(user: Users) {
     const result = {
       accessToken: this.signToken(user, false),
     };
