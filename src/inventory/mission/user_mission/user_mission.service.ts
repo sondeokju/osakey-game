@@ -9,6 +9,7 @@ import { DataSource } from 'typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { UserChallengeService } from 'src/inventory/challenge/user_challenge/user_challenge.service';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class UserMissionService {
@@ -18,6 +19,7 @@ export class UserMissionService {
     private readonly dataSource: DataSource,
     private readonly rewardOfferService: RewardOfferService,
     private readonly userChallengeService: UserChallengeService,
+    private readonly usersService: UsersService,
   ) {}
 
   getUserMissionRepository(qr?: QueryRunner) {
@@ -134,6 +136,7 @@ export class UserMissionService {
     user_id: string,
     mission_id: number,
     mission_try_yn: string,
+    battery: number,
     qr?: QueryRunner,
   ) {
     const userMissionRepository = this.getUserMissionRepository(qr);
@@ -144,6 +147,7 @@ export class UserMissionService {
       },
     });
 
+    await this.usersService.reduceBattery(user_id, +battery, qr);
     const savedMission = await userMissionRepository.save({
       ...userMission,
       mission_try_yn,
