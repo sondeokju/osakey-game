@@ -340,32 +340,25 @@ export class RewardOfferService {
       throw new NotFoundException(`User ${user_id} not found.`);
     }
 
-    // 값 업데이트 (switch 문 사용)
-    switch (item_name) {
-      case 'secame_credit':
-        userData.secame_credit += qty;
-        break;
-      case 'gord':
-        userData.gord += qty;
-        break;
-      case 'diamond_paid':
-        userData.diamond_paid += qty;
-        break;
-      case 'diamond_free':
-        userData.diamond_free += qty;
-        break;
-      case 'exp':
-        userData.exp += qty;
-        break;
-      case 'battery':
-        userData.battery += qty;
-        break;
-      case 'revive_coin':
-        userData.revive_coin += qty;
-        break;
-      default:
-        throw new BadRequestException(`Invalid currency type: ${item_name}`);
+    // 아이템 필드 매핑
+    const fieldMap: Record<string, keyof typeof userData> = {
+      secame_credit: 'secame_credit',
+      gord: 'gord',
+      diamond_paid: 'diamond_paid',
+      diamond_free: 'diamond_free',
+      exp: 'exp',
+      battery: 'battery',
+      revive_coin: 'revive_coin',
+    };
+
+    if (!(item_name in fieldMap)) {
+      throw new BadRequestException(`Invalid currency type: ${item_name}`);
     }
+
+    const field = fieldMap[item_name] as keyof typeof userData;
+
+    // 타입 단언하여 숫자로 처리
+    (userData[field] as number) += qty;
 
     // 업데이트된 데이터 저장
     await usersRepository.save(userData);
