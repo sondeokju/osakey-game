@@ -105,8 +105,6 @@ export class UserIngameRewardService {
       stage_clear_yn,
     );
 
-    console.log('----------acluRewardData:', cacluRewardData);
-
     await this.rewardOfferService.rewardCurrencyAll(
       user_id,
       {
@@ -117,14 +115,14 @@ export class UserIngameRewardService {
       qr,
     );
 
-    let rewarItemdData = await this.rewardOfferService.reward(
+    let rewardItemdData = await this.rewardOfferService.reward(
       user_id,
       cacluRewardData.group_id,
       qr,
     );
 
-    rewarItemdData = [
-      ...rewarItemdData,
+    rewardItemdData = [
+      ...rewardItemdData,
       { item_id: 11100002, item_count: cacluRewardData.gold }, // gold
       { item_id: 11100005, item_count: cacluRewardData.exp }, // exp
       { item_id: 11100004, item_count: cacluRewardData.dia }, // dia
@@ -164,8 +162,8 @@ export class UserIngameRewardService {
 
     return {
       user,
-      rewward: {
-        userItemData: rewarItemdData,
+      reward: {
+        userItemData: rewardItemdData,
       },
     };
 
