@@ -207,36 +207,42 @@ export class UserGachaCheckService {
       userGachaCheck = await userGachaCheckRepository.findOne({
         where: { user_id, gacha_id },
       });
-    } else {
-      await userGachaCheckRepository.increment(
-        { user_id, gacha_id },
-        'fixed_1_draw_count',
-        10,
-      );
-
-      await userGachaCheckRepository.decrement(
-        { user_id, gacha_id },
-        'fixed_item_grade_1_count',
-        10,
-      );
-
-      await userGachaCheckRepository.increment(
-        { user_id, gacha_id },
-        'fixed_2_draw_count',
-        10,
-      );
-
-      await userGachaCheckRepository.decrement(
-        { user_id, gacha_id },
-        'fixed_item_grade_2_count',
-        10,
-      );
-
-      // 업데이트된 데이터 다시 조회
-      userGachaCheck = await userGachaCheckRepository.findOne({
-        where: { user_id, gacha_id },
-      });
     }
+    // } else {
+    //   await userGachaCheckRepository.increment(
+    //     { user_id, gacha_id },
+    //     'fixed_1_draw_count',
+    //     10,
+    //   );
+
+    //   await userGachaCheckRepository.decrement(
+    //     { user_id, gacha_id },
+    //     'fixed_item_grade_1_count',
+    //     10,
+    //   );
+
+    //   await userGachaCheckRepository.increment(
+    //     { user_id, gacha_id },
+    //     'fixed_2_draw_count',
+    //     10,
+    //   );
+
+    //   await userGachaCheckRepository.decrement(
+    //     { user_id, gacha_id },
+    //     'fixed_item_grade_2_count',
+    //     10,
+    //   );
+
+    //   // 업데이트된 데이터 다시 조회
+    //   userGachaCheck = await userGachaCheckRepository.findOne({
+    //     where: { user_id, gacha_id },
+    //   });
+    // }
+
+    // 업데이트된 데이터 다시 조회
+    userGachaCheck = await userGachaCheckRepository.findOne({
+      where: { user_id, gacha_id },
+    });
 
     return userGachaCheck;
   }
