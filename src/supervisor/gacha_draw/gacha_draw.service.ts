@@ -123,37 +123,33 @@ export class GachaDrawService {
 
     return { items: [] };
   }
-
   async itemGradeCheck(
     items: number[],
     item_grade: number,
     gacha_type: string,
     qr?: QueryRunner,
   ) {
+    let itemDataList;
+
     if (gacha_type === 'E') {
-      const itemDataList = await Promise.all(
+      itemDataList = await Promise.all(
         items.map((item) => this.equipService.getEquip(item, qr)),
       );
       return itemDataList.some(
         (itemData) => itemData.equip_grade === item_grade,
       );
-    } else if (gacha_type === 'M') {
-      const itemDataList = await Promise.all(
-        items.map((item) => this.itemService.getItem(item, qr)),
-      );
-      return itemDataList.some(
-        (itemData) => itemData.item_grade === item_grade,
-      );
-    } else if (gacha_type === 'S') {
-      const itemDataList = await Promise.all(
-        items.map((item) => this.itemService.getItem(item, qr)),
-      );
-      return itemDataList.some(
-        (itemData) => itemData.item_grade === item_grade,
-      );
-    } else {
-      return null;
     }
+
+    if (['M', 'S'].includes(gacha_type)) {
+      itemDataList = await Promise.all(
+        items.map((item) => this.itemService.getItem(item, qr)),
+      );
+      return itemDataList.some(
+        (itemData) => itemData.item_grade === item_grade,
+      );
+    }
+
+    return false;
   }
 
   // async itemGradeCheck(items: number[], item_grade: number, qr?: QueryRunner) {
