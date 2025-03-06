@@ -221,52 +221,70 @@ export class UserGachaCheckService {
       await userGachaCheckRepository.insert({
         user_id,
         gacha_id,
-        fixed_1_draw_count: 10,
-        fixed_item_grade_1_count: fixed_item_grade_1_count - 10,
-        fixed_2_draw_count: 10,
-        fixed_item_grade_2_count: fixed_item_grade_2_count - 10,
+        fixed_1_draw_count: 1,
+        fixed_item_grade_1_count: Math.max(0, fixed_item_grade_1_count - 1), // 0보다 작아지지 않도록 처리,
+        fixed_2_draw_count: 1,
+        fixed_item_grade_2_count: Math.max(0, fixed_item_grade_2_count - 1), // 0보다 작아지지 않도록 처리
       });
 
       // 삽입된 데이터 다시 조회
       userGachaCheck = await userGachaCheckRepository.findOne({
         where: { user_id, gacha_id },
       });
+    } else {
+      await userGachaCheckRepository.increment(
+        { user_id, gacha_id },
+        'fixed_1_draw_count',
+        10,
+      );
+
+      await userGachaCheckRepository.decrement(
+        { user_id, gacha_id },
+        'fixed_item_grade_1_count',
+        10,
+      );
+
+      // 감소 후 값이 0보다 작으면 0으로 업데이트
+      userGachaCheck = await userGachaCheckRepository.findOne({
+        where: { user_id, gacha_id },
+      });
+
+      if (userGachaCheck && userGachaCheck.fixed_item_grade_1_count < 0) {
+        await userGachaCheckRepository.update(
+          { user_id, gacha_id },
+          { fixed_item_grade_1_count: 0 },
+        );
+      }
+
+      await userGachaCheckRepository.increment(
+        { user_id, gacha_id },
+        'fixed_2_draw_count',
+        10,
+      );
+
+      await userGachaCheckRepository.decrement(
+        { user_id, gacha_id },
+        'fixed_item_grade_2_count',
+        10,
+      );
+
+      // 감소 후 값이 0보다 작으면 0으로 업데이트
+      userGachaCheck = await userGachaCheckRepository.findOne({
+        where: { user_id, gacha_id },
+      });
+
+      if (userGachaCheck && userGachaCheck.fixed_item_grade_2_count < 0) {
+        await userGachaCheckRepository.update(
+          { user_id, gacha_id },
+          { fixed_item_grade_2_count: 0 },
+        );
+      }
+
+      // 업데이트된 데이터 다시 조회
+      userGachaCheck = await userGachaCheckRepository.findOne({
+        where: { user_id, gacha_id },
+      });
     }
-    // } else {
-    //   await userGachaCheckRepository.increment(
-    //     { user_id, gacha_id },
-    //     'fixed_1_draw_count',
-    //     10,
-    //   );
-
-    //   await userGachaCheckRepository.decrement(
-    //     { user_id, gacha_id },
-    //     'fixed_item_grade_1_count',
-    //     10,
-    //   );
-
-    //   await userGachaCheckRepository.increment(
-    //     { user_id, gacha_id },
-    //     'fixed_2_draw_count',
-    //     10,
-    //   );
-
-    //   await userGachaCheckRepository.decrement(
-    //     { user_id, gacha_id },
-    //     'fixed_item_grade_2_count',
-    //     10,
-    //   );
-
-    //   // 업데이트된 데이터 다시 조회
-    //   userGachaCheck = await userGachaCheckRepository.findOne({
-    //     where: { user_id, gacha_id },
-    //   });
-    // }
-
-    // 업데이트된 데이터 다시 조회
-    userGachaCheck = await userGachaCheckRepository.findOne({
-      where: { user_id, gacha_id },
-    });
 
     return userGachaCheck;
   }
