@@ -80,15 +80,17 @@ export class UserMissionController {
     @User() user: Users,
     @Body('mission_id') mission_id: number,
     @Body('mission_try_yn') mission_try_yn: string,
+    @Body('battery') battery: number,
     @QueryRunner() qr: QR,
   ) {
     const result = await this.userMissionService.missionTry(
       user.user_id,
       mission_id,
       mission_try_yn,
+      battery,
       qr,
     );
 
-    return JSON.stringify(result);
+    return result;
   }
 }
