@@ -943,7 +943,6 @@ export class UsersService {
       throw error;
     }
   }
-
   async reduceBattery(user_id: string, battery: number, qr?: QueryRunner) {
     const usersRepository = this.getUsersRepository(qr);
     const userData = await usersRepository.findOne({
@@ -954,15 +953,14 @@ export class UsersService {
 
     if (userData.battery < battery) {
       return {
-        message: 'The battery is low.',
+        code: 0,
+        message: `${battery} 'The battery is low.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
       };
     }
 
     try {
-      if (qr) {
-        await qr.startTransaction();
-      }
-
       await usersRepository
         .createQueryBuilder()
         .update('users')
@@ -970,24 +968,17 @@ export class UsersService {
         .where('user_id = :user_id', { user_id })
         .execute();
 
-      if (qr) {
-        await qr.commitTransaction();
-      }
-
       // 배터리 사용 퀘스트
       await this.challengeQuest(user_id, 12400003, 5);
 
-      const userData = await usersRepository.findOne({
+      const updatedUserData = await usersRepository.findOne({
         where: {
           user_id,
         },
       });
 
-      return userData;
+      return updatedUserData;
     } catch (error) {
-      if (qr) {
-        await qr.rollbackTransaction();
-      }
       throw error;
     }
   }
