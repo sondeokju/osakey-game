@@ -332,56 +332,45 @@ export class RewardOfferService {
   ) {
     const usersRepository = this.usersService.getUsersRepository(qr);
 
-    try {
-      // 사용자 정보 가져오기 (트랜잭션 내에서 실행)
-      const userData = await usersRepository.findOne({
-        where: { user_id },
-        lock: { mode: 'pessimistic_write' }, // 동시 수정 방지
-      });
+    const userData = await usersRepository.findOne({
+      where: { user_id },
+    });
 
-      if (!userData) {
-        throw new NotFoundException(`User ${user_id} not found.`);
-      }
-
-      // 값 업데이트 (switch 문 사용)
-      switch (item_name) {
-        case 'secame_credit':
-          userData.secame_credit += qty;
-          break;
-        case 'gord':
-          userData.gord += qty;
-          break;
-        case 'diamond_paid':
-          userData.diamond_paid += qty;
-          break;
-        case 'diamond_free':
-          userData.diamond_free += qty;
-          break;
-        case 'exp':
-          userData.exp += qty;
-          break;
-        case 'battery':
-          userData.battery += qty;
-          break;
-        case 'revive_coin':
-          userData.revive_coin += qty;
-          break;
-        default:
-          throw new BadRequestException(
-            `Invalid currency type: ${item_name.trim()}`,
-          );
-      }
-
-      // 업데이트된 데이터 저장
-      await usersRepository.save(userData);
-
-      return [{ item_name, item_count: qty }];
-    } catch (error) {
-      console.error('❌ Error in rewardCurrency:', error.message);
-      throw new InternalServerErrorException(
-        'Failed to process currency reward.',
-      );
+    if (!userData) {
+      throw new NotFoundException(`User ${user_id} not found.`);
     }
+
+    // 값 업데이트 (switch 문 사용)
+    switch (item_name) {
+      case 'secame_credit':
+        userData.secame_credit += qty;
+        break;
+      case 'gord':
+        userData.gord += qty;
+        break;
+      case 'diamond_paid':
+        userData.diamond_paid += qty;
+        break;
+      case 'diamond_free':
+        userData.diamond_free += qty;
+        break;
+      case 'exp':
+        userData.exp += qty;
+        break;
+      case 'battery':
+        userData.battery += qty;
+        break;
+      case 'revive_coin':
+        userData.revive_coin += qty;
+        break;
+      default:
+        throw new BadRequestException(`Invalid currency type: ${item_name}`);
+    }
+
+    // 업데이트된 데이터 저장
+    await usersRepository.save(userData);
+
+    return [{ item_name, item_count: qty }];
   }
 
   async rewardCurrencyAll(
