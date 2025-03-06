@@ -20,6 +20,15 @@ export class HeroService {
     return result;
   }
 
+  async getHeroMaxLevel(qr?: QueryRunner) {
+    const heroRepository = this.getHeroRepository(qr);
+    const result = await heroRepository.find({
+      order: { level: 'DESC' },
+      take: 1,
+    });
+    return result[0] || null; // 첫 번째 결과 반환 (없으면 null)
+  }
+
   async getHeroLevel(level: number, qr?: QueryRunner) {
     const heroRepository = this.getHeroRepository(qr);
     const result = await heroRepository.findOne({
