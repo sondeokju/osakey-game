@@ -659,13 +659,15 @@ export class GachaDrawService {
     const userEquip = [];
 
     for (let i = 0; i < calcuResult.length; i++) {
-      const itemId = calcuResult[i].item_id;
+      //const itemId = calcuResult[i].item_id;
       const itemType = String(calcuResult[i].item_type);
+      const item = [];
+      item.push(calcuResult[i].item_id);
 
       const fixedGacha = await this.fixedGacha(
         user_id,
         gacha_id,
-        calcuResult[i],
+        item,
         gachaCostData,
         itemType,
         qr,
