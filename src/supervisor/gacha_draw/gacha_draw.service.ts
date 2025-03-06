@@ -221,6 +221,7 @@ export class GachaDrawService {
       ),
     ]);
 
+    console.log('fixedGacha 1---------');
     let itemData;
     let equipData;
     let item_grade = 0;
@@ -259,6 +260,8 @@ export class GachaDrawService {
         );
       }
     }
+
+    console.log('fixedGacha 2---------');
 
     if (
       !grade4 &&
