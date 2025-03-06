@@ -599,14 +599,9 @@ export class GachaDrawService {
       const calcuGachaItem = await this.calculEquipGachaDrawRandom10(gacha_id);
       console.log('calcuGachaItem:', calcuGachaItem);
       calcuResult.push(calcuGachaItem.items[0]);
-
-      // 뽑기 횟수 퀘스트
-      await this.userChallengeService.challengeQuest(user_id, 12400002, 1);
-
-      // for (const item of calcuGachaItem.items) {
-      //   itemCountMap[item.item_id] = (itemCountMap[item.item_id] || 0) + 1;
-      // }
     }
+    // 뽑기 횟수 퀘스트
+    await this.userChallengeService.challengeQuest(user_id, 12400002, 10);
     const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
 
     await this.userGachaCheckService.defaultGachaCountSetting(
@@ -658,39 +653,42 @@ export class GachaDrawService {
       return diaPayout;
     }
     console.log('diaPayout:', diaPayout);
-    // gachaItem = await this.fixedGacha(
-    //   user_id,
-    //   gacha_id,
-    //   gachaItem,
-    //   gachaCostData,
-    //   calcuGachaItem.item_kind,
-    //   qr,
-    // );
 
     // 중복된 item_id를 합쳐서 { item_id, item_count } 형태로 변환
     const gachaItemData: { item_id: number; item_count: number }[] = [];
-    //const gachaEquipData: { equip_id: number; equip_count: number }[] = [];
     const userEquip = [];
-
-    //let reward;
 
     for (let i = 0; i < calcuResult.length; i++) {
       const itemId = calcuResult[i].item_id;
       const itemType = String(calcuResult[i].item_type);
 
+      const fixedGacha = await this.fixedGacha(
+        user_id,
+        gacha_id,
+        calcuResult[i],
+        gachaCostData,
+        itemType,
+        qr,
+      );
+
       if (['E'].includes(itemType)) {
         const result = await this.rewardOfferService.createEquipQuery(
           user_id,
-          +itemId,
+          +fixedGacha['item_id'],
           qr,
         );
 
         userEquip.push(result);
       } else if (['M', 'S'].includes(itemType)) {
-        await this.rewardOfferService.rewardItem(user_id, +itemId, 1, qr);
+        await this.rewardOfferService.rewardItem(
+          user_id,
+          +fixedGacha['item_id'],
+          1,
+          qr,
+        );
 
         gachaItemData.push({
-          item_id: Number(itemId),
+          item_id: fixedGacha['item_id'],
           item_count: 1,
         });
       }
