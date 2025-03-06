@@ -127,10 +127,10 @@ export class AuthService {
     //   lastLoginlog.update_at,
     // );
 
-    const inven = await this.invenService.getUserInventoryAll(userData.user_id);
-    const user = await this.getUser(userData.user_id);
-    //const loginObj = login;
-    //const loginObj = await JSON.parse(login);
+    const [inven, user] = await Promise.all([
+      this.invenService.getUserInventoryAll(userData.user_id),
+      this.getUser(userData.user_id),
+    ]);
 
     return {
       accessToken: login.accessToken,
