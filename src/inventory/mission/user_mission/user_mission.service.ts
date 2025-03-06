@@ -148,13 +148,14 @@ export class UserMissionService {
     });
 
     const user = await this.usersService.reduceBattery(user_id, +battery, qr);
-    await userMissionRepository.save({
+    const mission = await userMissionRepository.save({
       ...userMission,
       mission_try_yn,
     });
 
     return {
       user,
+      mission,
     };
   }
 
