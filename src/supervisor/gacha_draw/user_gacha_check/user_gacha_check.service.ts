@@ -221,10 +221,10 @@ export class UserGachaCheckService {
       await userGachaCheckRepository.insert({
         user_id,
         gacha_id,
-        fixed_1_draw_count: 1,
-        fixed_item_grade_1_count: Math.max(0, fixed_item_grade_1_count - 1), // 0보다 작아지지 않도록 처리,
-        fixed_2_draw_count: 1,
-        fixed_item_grade_2_count: Math.max(0, fixed_item_grade_2_count - 1), // 0보다 작아지지 않도록 처리
+        fixed_1_draw_count: 10,
+        fixed_item_grade_1_count: Math.max(0, fixed_item_grade_1_count - 10), // 0보다 작아지지 않도록 처리,
+        fixed_2_draw_count: 10,
+        fixed_item_grade_2_count: Math.max(0, fixed_item_grade_2_count - 10), // 0보다 작아지지 않도록 처리
       });
 
       // 삽입된 데이터 다시 조회
