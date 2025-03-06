@@ -188,10 +188,10 @@ export class UserGachaCheckService {
         where: { user_id, gacha_id },
       });
 
-      if (userGachaCheck && userGachaCheck.fixed_item_grade_1_count < 0) {
+      if (userGachaCheck && userGachaCheck.fixed_item_grade_2_count < 0) {
         await userGachaCheckRepository.update(
           { user_id, gacha_id },
-          { fixed_item_grade_1_count: 0 },
+          { fixed_item_grade_2_count: 0 },
         );
       }
 
