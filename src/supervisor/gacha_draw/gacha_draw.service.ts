@@ -685,7 +685,7 @@ export class GachaDrawService {
       if (['E'].includes(itemType)) {
         const result = await this.rewardOfferService.createEquipQuery(
           user_id,
-          +fixedGacha['item_id'],
+          +fixedGacha[0],
           qr,
         );
 
@@ -694,13 +694,13 @@ export class GachaDrawService {
       } else if (['M', 'S'].includes(itemType)) {
         await this.rewardOfferService.rewardItem(
           user_id,
-          +fixedGacha['item_id'],
+          +fixedGacha[0],
           1,
           qr,
         );
 
         gachaItemData.push({
-          item_id: fixedGacha['item_id'],
+          item_id: fixedGacha[0],
           item_count: 1,
         });
         console.log('gacha10 03 --------------');
