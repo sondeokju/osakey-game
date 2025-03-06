@@ -289,6 +289,7 @@ export class GachaDrawService {
       );
     }
 
+    console.log('fixedGacha 3---------');
     if (
       !grade5 &&
       gachaCheckData.fixed_item_grade_2_count <= 1 &&
@@ -315,6 +316,7 @@ export class GachaDrawService {
       );
     }
 
+    console.log('fixedGacha 4---------');
     return gachaItem;
   }
 
