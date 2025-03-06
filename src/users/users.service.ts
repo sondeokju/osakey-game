@@ -225,6 +225,22 @@ export class UsersService {
       `INSERT INTO user_equip_slot (user_id, acc, engine, armor, boost, shoes, weapon) VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [user_id, 0, 0, 0, 0, 0, 0],
     );
+
+    // 장비 지급
+    // const equips = [
+    //   [user_id, 111, 0, 'N'],
+    //   [user_id, 112, 0, 'N'],
+    //   [user_id, 113, 0, 'N'],
+    //   [user_id, 114, 0, 'N'],
+    // ];
+
+    // const placeholders = equips.map(() => '(?, ?, ?, ?)').join(', ');
+    // const values = equips.flat();
+
+    // await this.dataSource.query(
+    //   `INSERT INTO user_equip (user_id, equip_id, equip_level_id, mount_yn) VALUES ${placeholders}`,
+    //   values,
+    // );
   }
 
   async createUserID(id: number, qr?: QueryRunner) {

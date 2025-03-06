@@ -29,6 +29,25 @@ export class GachaDrawController {
     return result;
   }
 
+  @Post('draw2')
+  @UseInterceptors(TransactionInterceptor)
+  async gacha(
+    @User() user: Users,
+    @Body('gacha_id') gacha_id: number,
+    @Body('gacha_count') gacha_count: number,
+    @QueryRunner() qr: QR,
+  ) {
+    const result = await this.gachaDrawService.gacha(
+      user.user_id,
+      gacha_id,
+      //gacha_count,
+      10,
+      qr,
+    );
+
+    return result;
+  }
+
   // @Post('simul')
   // @UseInterceptors(TransactionInterceptor)
   // async simulateGachaDraws(
