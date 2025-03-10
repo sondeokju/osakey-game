@@ -109,6 +109,7 @@ export class UserEduStatsService {
       where: { user_id, edu_list_id },
     });
 
+    const user = await this.usersService.getMe(user_id, qr);
     return {
       reward: {
         userItemData: [
@@ -119,6 +120,7 @@ export class UserEduStatsService {
         ],
       },
       edu,
+      user,
     };
   }
 
