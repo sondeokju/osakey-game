@@ -132,6 +132,33 @@ export class UserMissionService {
     return result;
   }
 
+  // async missionTry(
+  //   user_id: string,
+  //   mission_id: number,
+  //   mission_try_yn: string,
+  //   battery: number,
+  //   qr?: QueryRunner,
+  // ) {
+  //   const userMissionRepository = this.getUserMissionRepository(qr);
+  //   const userMission = await userMissionRepository.findOne({
+  //     where: {
+  //       user_id,
+  //       mission_id,
+  //     },
+  //   });
+
+  //   const user = await this.usersService.reduceBattery(user_id, +battery, qr);
+  //   const mission = await userMissionRepository.save({
+  //     ...userMission,
+  //     mission_try_yn,
+  //   });
+
+  //   return {
+  //     user,
+  //     mission,
+  //   };
+  // }
+
   async missionTry(
     user_id: string,
     mission_id: number,
@@ -139,19 +166,36 @@ export class UserMissionService {
     battery: number,
     qr?: QueryRunner,
   ) {
+    if (!mission_id || mission_id === 0) {
+      return {
+        code: 0,
+        message: ` Invalid mission_id: mission_id ${mission_id} cannot be 0, undefined, or empty`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
+    }
+
     const userMissionRepository = this.getUserMissionRepository(qr);
-    const userMission = await userMissionRepository.findOne({
-      where: {
-        user_id,
-        mission_id,
-      },
+
+    let userMission = await userMissionRepository.findOne({
+      where: { user_id, mission_id },
     });
 
     const user = await this.usersService.reduceBattery(user_id, +battery, qr);
-    const mission = await userMissionRepository.save({
-      ...userMission,
-      mission_try_yn,
-    });
+
+    if (!userMission) {
+      // mission_id가 없으면 새로 생성 (insert)
+      userMission = userMissionRepository.create({
+        user_id,
+        mission_id,
+        mission_try_yn,
+      });
+    } else {
+      // 기존 데이터가 있으면 업데이트 (save)
+      userMission.mission_try_yn = mission_try_yn;
+    }
+
+    const mission = await userMissionRepository.save(userMission);
 
     return {
       user,
