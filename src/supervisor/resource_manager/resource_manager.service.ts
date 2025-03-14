@@ -145,7 +145,7 @@ export class ResourceManagerService {
       }
 
       // 🔹 세카메 크레딧 차감
-      if (resources.secame_credit && resources.secame_credit > 0) {
+      if (resources.secame_credit && +resources.secame_credit > 0) {
         if (resources.secame_credit > userCurrency.secame_credit) {
           errorCode = 'INSUFFICIENT_SECAME_CREDIT';
           errorMessage = 'Not enough Secame Credit.';

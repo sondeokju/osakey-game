@@ -1565,45 +1565,80 @@ export class UsersService {
     secame_credit: number,
     qr?: QueryRunner,
   ) {
+    if (secame_credit < 0) {
+      return {
+        code: 0,
+        message: `${secame_credit} secame_credit is negative.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
+    }
+
     const usersRepository = this.getUsersRepository(qr);
     const user = await usersRepository.findOne({ where: { user_id } });
 
     if (!user) {
-      throw new Error('User not found');
+      return {
+        code: 0,
+        message: `${user_id} User not found.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
-    console.log('user.secame_credit : ', user.secame_credit);
-    console.log('secame_credit : ', secame_credit);
-
-    const newCredit = user.secame_credit + +secame_credit;
-    console.log('newCredit : ', newCredit);
+    // 크레딧이 0 이하로 내려가지 않도록 Math.max 사용
+    const newCredit = Math.max(0, user.secame_credit + secame_credit);
 
     await usersRepository.update(user_id, { secame_credit: newCredit });
 
-    return await usersRepository.findOne({ where: { user_id } });
+    const result = await usersRepository.findOne({ where: { user_id } });
+    return {
+      user: result,
+    };
   }
-
+  
   async secameCreditDeduct(user_id: string, amount: number, qr?: QueryRunner) {
+    if (amount < 0) {
+      return {
+        code: 0,
+        message: `${amount} amount is negative.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
+    }
+
     const usersRepository = this.getUsersRepository(qr);
     const user = await usersRepository.findOne({
       where: { user_id },
     });
 
     if (!user) {
-      throw new Error('User not found');
+      return {
+        code: 0,
+        message: `${user_id} User not found.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
     if (user.secame_credit < amount) {
-      throw new BadRequestException('Not enough secame credit.');
+      return {
+        code: 0,
+        message: `${amount} Not enough secame credit.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
-    await usersRepository.update(user_id, {
-      secame_credit: user.secame_credit - amount,
-    });
+    // 크레딧이 0 이하로 내려가지 않도록 Math.max 적용
+    const newCredit = Math.max(0, user.secame_credit - amount);
 
-    return await usersRepository.findOne({
-      where: { user_id },
-    });
+    await usersRepository.update(user_id, { secame_credit: newCredit });
+
+    const result = await usersRepository.findOne({ where: { user_id } });
+    return {
+      user: result,
+    };
   }
 
   async getUserWithDia(user_id: string, qr?: QueryRunner) {
