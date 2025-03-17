@@ -40,6 +40,7 @@ import { UserRentamaEquipSlotService } from 'src/inventory/dispatch/user_rentama
 import { UserChallengeService } from 'src/inventory/challenge/user_challenge/user_challenge.service';
 import { UserChallengeExtraService } from 'src/inventory/challenge/user_challenge_extra/user_challenge_extra.service';
 import { UserEduStatsService } from 'src/inventory/edu/user_edu_stats/user_edu_stats.service';
+import { UserItemService } from 'src/user_item/user_item.service';
 
 @Injectable()
 export class InvenService {
@@ -79,6 +80,7 @@ export class InvenService {
     private readonly userChallengeService: UserChallengeService,
     private readonly userChallengeExtraService: UserChallengeExtraService,
     private readonly userEduStatsService: UserEduStatsService,
+    private readonly userItemService: UserItemService,
   ) {}
 
   async getUserInventoryAll(user_id: string, qr?: QueryRunner) {
@@ -115,6 +117,7 @@ export class InvenService {
         challenge,
         challengeExtra,
         edu,
+        item,
       ] = await Promise.all([
         this.userSuitService.getUserSuit(user_id, qr),
         this.userItemExchangeService.getItemExchange(user_id, qr),
@@ -147,6 +150,7 @@ export class InvenService {
         this.userChallengeService.getUserChallengeAll(user_id, qr),
         this.userChallengeExtraService.getUserChallengeExtraAll(user_id, qr),
         this.userEduStatsService.userEduList(user_id, qr),
+        this.userItemService.getUserItemAll(user_id, qr),
       ]);
 
       return {
@@ -181,6 +185,7 @@ export class InvenService {
         challenge,
         challengeExtra,
         edu,
+        item,
       };
     } catch (error) {
       // throw new BadRequestException(
