@@ -35,6 +35,7 @@ import { UserRentamaModule } from 'src/inventory/dispatch/user_rentama/user_rent
 import { UserRentamaEquipSlotModule } from 'src/inventory/dispatch/user_rentama_equip_slot/user_rentama_equip_slot.module';
 import { UserChallengeModule } from 'src/inventory/challenge/user_challenge/user_challenge.module';
 import { UserChallengeExtraModule } from 'src/inventory/challenge/user_challenge_extra/user_challenge_extra.module';
+import { UserEduStatsModule } from 'src/inventory/edu/user_edu_stats/user_edu_stats.module';
 //import { entities_module } from 'src/entity_group/entity_module';
 
 // console.log('[DEBUG] imported entities_module:', entities_module);
@@ -77,6 +78,7 @@ import { UserChallengeExtraModule } from 'src/inventory/challenge/user_challenge
     UserRentamaEquipSlotModule,
     UserChallengeModule,
     UserChallengeExtraModule,
+    UserEduStatsModule,
   ],
   exports: [InvenService],
   controllers: [InvenController],
