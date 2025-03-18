@@ -27,7 +27,7 @@ export class UserGateway implements OnGatewayConnection {
     @MessageBody() message: any,
   ) {
     console.log('✅ 메시지 이벤트 수신!');
-    console.log('📌 socket 객체 확인:', client); // 이제 client가 정상적으로 출력됨
+    //console.log('📌 socket 객체 확인:', client); // 이제 client가 정상적으로 출력됨
 
     if (!client) {
       console.error('⛔ client 객체가 undefined 상태입니다!');
