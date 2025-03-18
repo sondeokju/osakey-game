@@ -4,6 +4,7 @@ import {
   WebSocketGateway,
   OnGatewayConnection,
   WebSocketServer,
+  ConnectedSocket,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 
@@ -21,23 +22,20 @@ export class UserGateway implements OnGatewayConnection {
   }
 
   @SubscribeMessage('message')
-  sendMessage(socket: Socket, @MessageBody() message: any) {
+  sendMessage(
+    @ConnectedSocket() client: Socket, // ✅ `@ConnectedSocket()`으로 명확하게 선언
+    @MessageBody() message: any,
+  ) {
     console.log('✅ 메시지 이벤트 수신!');
-    console.log('📌 socket 객체 확인:', socket);
+    console.log('📌 socket 객체 확인:', client); // 이제 client가 정상적으로 출력됨
 
-    if (!socket) {
-      console.error('⛔ socket 객체가 undefined 상태입니다!');
+    if (!client) {
+      console.error('⛔ client 객체가 undefined 상태입니다!');
       return;
     }
 
-    // ✅ 특정 클라이언트에게 응답
-    socket.emit('message', {
+    client.emit('message', {
       message: `서버에서 받은 메시지: ${message?.data || message}`,
-    });
-
-    // ✅ 전체 클라이언트에게 메시지 브로드캐스트
-    this.server.emit('message', {
-      message: `Broadcast: ${message?.data || message}`,
     });
   }
 
