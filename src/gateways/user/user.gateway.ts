@@ -15,7 +15,7 @@ export class UserGateway implements OnGatewayConnection {
     console.log(`✅ User WebSocket 연결됨: ${socket.id}`);
 
     // ✅ 클라이언트에게 연결 성공 메시지 전송
-    socket.emit('server_message', {
+    socket.emit('message', {
       message: 'Welcome to the WebSocket server!',
     });
   }
@@ -25,8 +25,8 @@ export class UserGateway implements OnGatewayConnection {
     console.log(`✅ 메시지 수신:`, message);
 
     // 모든 클라이언트에게 메시지 브로드캐스트
-    // this.server.emit('server_message', {
-    //   message: `서버에서 받은 메시지: ${message.data}`,
-    // });
+    this.server.emit('message', {
+      message: `서버에서 받은 메시지: ${message.data}`,
+    });
   }
 }
