@@ -88,8 +88,6 @@ export class UserRentamaEquipSlotService {
         .where('ranked.rankNumber = 1')
         .getRawMany();
 
-      console.log(`장비 조회 완료. 장비 수: ${bestEquipList.length}`);
-
       // 장비 장착 처리
       await Promise.all(
         bestEquipList.map((equip) =>
@@ -156,11 +154,12 @@ export class UserRentamaEquipSlotService {
     const equip_id = userEquip?.equip_id ?? 0;
 
     if (userEquip.mount_yn === 'Y') {
-      return createError(
-        0,
-        equip_id,
-        'The equipment has already been installed.',
-      );
+      return {
+        code: 0,
+        message: `The equipment equip_id: ${equip_id} has already been installed.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
     if (!userRentamaEquipSlot) {

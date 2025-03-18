@@ -32,7 +32,12 @@ export class UserRentamaService {
     if (!userRentama) {
       return this.createRentama(user_id, progress_mission_id, qr);
     } else {
-      throw new NotFoundException('userRentama mission dispatch exist');
+      return {
+        code: 0,
+        message: `user rentama mission dispatch exist.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
   }
 
@@ -44,7 +49,12 @@ export class UserRentamaService {
     const userRentamaRepository = this.getUserRentamaRepository(qr);
     const dispatchTest = await this.dispatchTestService.getDispatchTest(1, qr);
     if (!dispatchTest) {
-      throw new NotFoundException('dispatchTest not found');
+      return {
+        code: 0,
+        message: `dispatchTest not found`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
     const updatedDate = new Date();
@@ -76,7 +86,12 @@ export class UserRentamaService {
     });
 
     if (!userRentama) {
-      throw new NotFoundException('userRentama not found');
+      return {
+        code: 0,
+        message: `user rentama not found`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
     await userRentamaRepository.save({
@@ -98,7 +113,12 @@ export class UserRentamaService {
     });
 
     if (!userRentama) {
-      throw new NotFoundException('userRentama not found');
+      return {
+        code: 0,
+        message: `user rentama not found`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
     return userRentama;

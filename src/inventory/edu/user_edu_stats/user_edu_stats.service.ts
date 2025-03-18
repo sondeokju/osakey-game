@@ -44,7 +44,12 @@ export class UserEduStatsService {
     // 교육 리스트 확인
     const eduList = await this.eduListService.getEduList(edu_list_id, qr);
     if (!eduList) {
-      throw new NotFoundException('edu_list not found');
+      return {
+        code: 0,
+        message: `edu list not found edu_list_id: ${edu_list_id}`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
     // 사용자 교육 상태 조회
@@ -173,7 +178,7 @@ export class UserEduStatsService {
     if (!eduList) {
       return {
         code: 0,
-        message: `edu_list 테이블에 ${edu_list_id} 값이 없습니다. `,
+        message: `edu_list edu_list_id: ${edu_list_id} not found. `,
         utcTimeString: new Date().toISOString(),
         hasError: false,
       };
@@ -186,13 +191,6 @@ export class UserEduStatsService {
     const eduEndDate = new Date();
     eduEndDate.setMilliseconds(0);
     //eduEndDate.setMinutes(eduEndDate.getMinutes() + eduCurriculum.edu_time);
-
-    console.log('eduCurriculum:', eduCurriculum);
-    console.log('eduCurriculum.edu_time:', eduCurriculum.edu_time);
-    console.log(
-      'edu_end_date:',
-      new Date(eduEndDate.getTime() + eduCurriculum.edu_time * 60000),
-    );
 
     await this.getUserEduStatsRepository(qr).save({
       ...userEduStats,
@@ -237,7 +235,7 @@ export class UserEduStatsService {
       if (userData.gord < eduCurriculum.gord) {
         return {
           code: 0,
-          message: `유저의 gord: ${eduCurriculum.gord} 충분하지 않습니다.`,
+          message: `user gord: ${eduCurriculum.gord} It is not sufficient.`,
           utcTimeString: new Date().toISOString(),
           hasError: false,
         };
@@ -284,7 +282,12 @@ export class UserEduStatsService {
     });
 
     if (!userEduStats) {
-      throw new NotFoundException('user_edu_stats not found');
+      return {
+        code: 0,
+        message: `edu_list_id: ${edu_list_id}  not found`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
     const eduReduceTime = await this.eduReduceTimeService.getEduReduceTime(
@@ -293,14 +296,24 @@ export class UserEduStatsService {
     );
 
     if (!eduReduceTime) {
-      throw new NotFoundException('edu_reduce_time not found');
+      return {
+        code: 0,
+        message: `edu_reduce_time_id: ${edu_reduce_time_id}  not found`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
     const item = await this.itemService.getItem(
       eduReduceTime.reduce_item_id,
       qr,
     );
     if (!item) {
-      throw new NotFoundException('item not found');
+      return {
+        code: 0,
+        message: `eduReduceTime.reduce_item_id: ${eduReduceTime.reduce_item_id} item not found`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
     await this.userItemService.reduceItem(
@@ -371,7 +384,12 @@ export class UserEduStatsService {
       );
 
       if (!eduReduceTime) {
-        throw new NotFoundException('edu_reduce_time not found');
+        return {
+          code: 0,
+          message: `edu_reduce_time_id: ${edu_reduce_time_id} not found`,
+          utcTimeString: new Date().toISOString(),
+          hasError: false,
+        };
       }
 
       const item = await this.itemService.getItem(
@@ -379,7 +397,12 @@ export class UserEduStatsService {
         queryRunner,
       );
       if (!item) {
-        throw new NotFoundException('item not found');
+        return {
+          code: 0,
+          message: `eduReduceTime.reduce_item_id: ${eduReduceTime.reduce_item_id} not found`,
+          utcTimeString: new Date().toISOString(),
+          hasError: false,
+        };
       }
 
       const userData = await this.usersService.getMe(user_id, queryRunner);
@@ -387,7 +410,12 @@ export class UserEduStatsService {
         userData.gord < eduReduceTime.gord ||
         userData.diamond_free < eduReduceTime.diamond_free
       ) {
-        throw new NotFoundException('gord, diamond_free not enough');
+        return {
+          code: 0,
+          message: `gord: ${eduReduceTime.gord} , diamond_free: ${eduReduceTime.diamond_free} not enough`,
+          utcTimeString: new Date().toISOString(),
+          hasError: false,
+        };
       }
 
       await this.usersService.reduceGord(
@@ -455,7 +483,7 @@ export class UserEduStatsService {
     if (!userEduStats) {
       return {
         code: 0,
-        message: `curriculum_id ${edu_list_id} 해당 교육이 없습니다.`,
+        message: `curriculum_id ${edu_list_id} The corresponding training does not exist.`,
         utcTimeString: new Date().toISOString(),
         hasError: false,
       };

@@ -68,7 +68,12 @@ export class UserDispatchService {
       });
 
       if (!userDispatch) {
-        throw new Error('User dispatch not found');
+        return {
+          code: 0,
+          message: `User dispatch not found`,
+          utcTimeString: new Date().toISOString(),
+          hasError: false,
+        };
       }
 
       let success;
@@ -112,7 +117,6 @@ export class UserDispatchService {
           successRewards = Array.isArray(reward) ? reward : [reward];
         }
       }
-      console.log('성공 보상 successRewards:', successRewards);
 
       // 대성공 보상
       if (greateSuccess === 'GREATCOMPLETED') {
@@ -125,7 +129,6 @@ export class UserDispatchService {
           greatSuccessRewards = Array.isArray(reward) ? reward : [reward];
         }
       }
-      console.log('대성공 보상 greatSuccessRewards:', greatSuccessRewards);
 
       const finalRewards = [...successRewards, ...greatSuccessRewards];
 
@@ -137,8 +140,12 @@ export class UserDispatchService {
       };
     } catch (error) {
       await qr.rollbackTransaction();
-      console.error('dispatchOutcome error:', error);
-      throw error;
+      return {
+        code: 0,
+        message: `dispatchOutcome error: ${error}`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     } finally {
       await qr.release();
     }
@@ -488,9 +495,12 @@ export class UserDispatchService {
     );
 
     if (!rewards.length) {
-      throw new Error(
-        `mission_rank ${mission_rank} 에 해당하는 보상이 존재하지 않습니다.`,
-      );
+      return {
+        code: 0,
+        message: `mission_rank ${mission_rank} The corresponding reward does not exist.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
     // reward_rate의 총합을 계산합니다.
