@@ -30,7 +30,6 @@ import { RequestLoggingMiddleware } from './common/middleware/request-logging.mi
 import { entities } from './entity_group/entity';
 import { entities_module } from './entity_group/entity_module';
 import { RedisModule } from './redis/redis.module';
-//import { UserModule } from './gateways/user/user.module';
 import { WebSocketModule } from './gateways/websocket.module';
 
 @Module({
@@ -76,7 +75,6 @@ import { WebSocketModule } from './gateways/websocket.module';
     }),
     ...entities_module,
     RedisModule,
-    //UserModule,
   ],
   controllers: [AppController],
   providers: [
