@@ -12,7 +12,7 @@ export class UserGateway implements OnGatewayConnection {
   //@WebSocketServer() server: Server;
 
   handleConnection(socket: Socket) {
-    console.log(`✅ User WebSocket 연결됨: ${socket.id}`);
+    console.log(`✅ User WebSocket 연결됨 1: ${socket.id}`);
 
     // ✅ 클라이언트에게 연결 성공 메시지 전송
     // socket.emit('message', {

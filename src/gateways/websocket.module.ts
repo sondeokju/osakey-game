@@ -12,7 +12,7 @@ export class WebSocketModule implements OnModuleInit {
       @WebSocketGateway({ namespace })
       class DynamicGateway {
         handleConnection(socket) {
-          console.log(`✅ ${namespace} WebSocket 연결됨: ${socket.id}`);
+          console.log(`✅ ${namespace} WebSocket 연결됨 2: ${socket.id}`);
         }
       }
       return DynamicGateway;
