@@ -14,7 +14,7 @@ export class UserGateway implements OnGatewayConnection {
     console.log(`✅ User WebSocket 연결됨: ${socket.id}`);
   }
 
-  @SubscribeMessage('send_message')
+  @SubscribeMessage('message')
   sendMessage(@MessageBody() message: any) {
     console.log(`✅ send_message`);
     if (typeof message === 'string') {
