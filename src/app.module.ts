@@ -35,7 +35,8 @@ import { WebSocketModule } from './gateways/websocket.module';
 
 @Module({
   imports: [
-    WebSocketModule.register(),
+    //WebSocketModule.register(),
+    WebSocketModule,
     ServeStaticModule.forRoot({
       rootPath: PUBLIC_FOLDER_PATH,
       //rootPath: join(__dirname, '..', 'public'), // src와 dist 모두 지원
