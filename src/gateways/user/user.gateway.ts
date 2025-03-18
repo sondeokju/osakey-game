@@ -24,6 +24,19 @@ export class UserGateway implements OnGatewayConnection {
   sendMessage(@MessageBody() message: any) {
     console.log(`✅ 메시지 수신:`, message);
 
+    if (typeof message === 'string') {
+      try {
+        const parsedMessage = JSON.parse(message);
+        console.log('send_message:', parsedMessage.data);
+      } catch (error) {
+        console.error('Invalid JSON string:', message);
+      }
+    } else if (typeof message === 'object' && message !== null) {
+      console.log('send_message:', message.data);
+    } else {
+      console.error('Unexpected message format:', message);
+    }
+
     // 모든 클라이언트에게 메시지 브로드캐스트
     this.server.emit('message', {
       message: `서버에서 받은 메시지: ${message.data}`,
