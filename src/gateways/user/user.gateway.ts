@@ -6,17 +6,16 @@ import {
 } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 
-@WebSocketGateway({ namespace: 'user' })
+@WebSocketGateway({
+  namespace: 'user',
+})
 export class UserGateway implements OnGatewayConnection {
-  //constructor(private readonly chatService: ChatService) {}
-
   handleConnection(socket: Socket) {
-    console.log(`✅ User WebSocket 연결됨: ${socket.id}`);
+    console.log(`on connect called : ${socket.id}`);
   }
 
-  @SubscribeMessage('message')
+  @SubscribeMessage('send_message')
   sendMessage(@MessageBody() message: any) {
-    console.log(`✅ send_message`);
     if (typeof message === 'string') {
       try {
         const parsedMessage = JSON.parse(message);
