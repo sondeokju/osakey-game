@@ -18,6 +18,6 @@ export class RealTimeGateway implements OnGatewayConnection {
   // sockt.on('send_mesage', (message)=>{console.log(message)}));
   @SubscribeMessage('send_message')
   sendMessage(@MessageBody() message: string) {
-    console.log(message);
+    console.log('send_message:', message);
   }
 }
