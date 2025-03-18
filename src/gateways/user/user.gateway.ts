@@ -1,32 +1,32 @@
 import {
   MessageBody,
-  OnGatewayConnection,
   SubscribeMessage,
   WebSocketGateway,
+  OnGatewayConnection,
+  WebSocketServer,
 } from '@nestjs/websockets';
-import { Socket } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 
-@WebSocketGateway({
-  namespace: 'user',
-})
+@WebSocketGateway({ namespace: 'user' })
 export class UserGateway implements OnGatewayConnection {
+  @WebSocketServer() server: Server;
+
   handleConnection(socket: Socket) {
-    console.log(`on connect called : ${socket.id}`);
+    console.log(`✅ User WebSocket 연결됨: ${socket.id}`);
+
+    // ✅ 클라이언트에게 연결 성공 메시지 전송
+    socket.emit('server_message', {
+      message: 'Welcome to the WebSocket server!',
+    });
   }
 
-  @SubscribeMessage('send_message')
+  @SubscribeMessage('message')
   sendMessage(@MessageBody() message: any) {
-    if (typeof message === 'string') {
-      try {
-        const parsedMessage = JSON.parse(message);
-        console.log('send_message:', parsedMessage.data);
-      } catch (error) {
-        console.error('Invalid JSON string:', message);
-      }
-    } else if (typeof message === 'object' && message !== null) {
-      console.log('send_message:', message.data);
-    } else {
-      console.error('Unexpected message format:', message);
-    }
+    console.log(`✅ 메시지 수신:`, message);
+
+    // 모든 클라이언트에게 메시지 브로드캐스트
+    this.server.emit('server_message', {
+      message: `서버에서 받은 메시지: ${message.data}`,
+    });
   }
 }
