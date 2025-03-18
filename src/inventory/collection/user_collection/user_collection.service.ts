@@ -40,7 +40,12 @@ export class UserCollectionService {
     qr?: QueryRunner,
   ) {
     if (!user_id || typeof user_id !== 'string') {
-      throw new BadRequestException('Invalid user_id provided.');
+      return {
+        code: 0,
+        message: `Invalid user_id provided.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
     const queryRunner = qr || this.dataSource.createQueryRunner();
@@ -82,8 +87,12 @@ export class UserCollectionService {
       if (isTransactionOwner) {
         await queryRunner.rollbackTransaction();
       }
-      console.error('Transaction failed:', error);
-      throw new Error(`Transaction failed: ${error.message}`);
+      return {
+        code: 0,
+        message: `Transaction failed: ${error.message}`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     } finally {
       if (isTransactionOwner) {
         await queryRunner.release();
@@ -162,9 +171,12 @@ export class UserCollectionService {
     }
 
     if (userCollectionData.reward_yn === 'Y') {
-      throw new NotFoundException(
-        'You have already claimed the Collection reward.',
-      );
+      return {
+        code: 0,
+        message: `You have already claimed the Collection reward.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
     const collectionRewardData = await this.collectionType(

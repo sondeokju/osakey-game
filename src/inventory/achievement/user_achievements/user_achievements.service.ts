@@ -339,9 +339,12 @@ export class UserAchievementsService {
     );
 
     if (userAchieve.reward_yn === 'Y') {
-      throw new NotFoundException(
-        'You have already claimed the Achieve reward.',
-      );
+      return {
+        code: 0,
+        message: `You have already claimed the Achieve reward.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
     const rewardData = await this.rewardOfferService.reward(
       user_id,
@@ -350,7 +353,12 @@ export class UserAchievementsService {
     );
 
     if (!rewardData) {
-      throw new BadRequestException('Failed to process reward.');
+      return {
+        code: 0,
+        message: `Failed to process reward.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
     userAchieve.reward_yn = 'Y';

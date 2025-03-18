@@ -32,7 +32,12 @@ export class UserAttendanceService {
 
   async saveAttendance(user_id: string, qr?: QueryRunner) {
     if (!user_id || typeof user_id !== 'string') {
-      throw new BadRequestException('Invalid user_id provided.');
+      return {
+        code: 0,
+        message: `Invalid user_id provided.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
     const userAttendanceRepository = this.getUserAttendanceRepository(qr);
@@ -49,8 +54,10 @@ export class UserAttendanceService {
       const isCheckUpdate = await this.checkUpdateDate(user_id, qr);
       if (!isCheckUpdate) {
         return {
-          //statusCode: 400,
-          message: '오늘 이미 업데이트가 완료되었습니다.',
+          code: 0,
+          message: `The update has already been completed today.`,
+          utcTimeString: new Date().toISOString(),
+          hasError: false,
         };
       }
 
@@ -88,8 +95,12 @@ export class UserAttendanceService {
         reward_yn: 'N',
       });
     } catch (error) {
-      console.error('Error saving attendance:', error);
-      throw new InternalServerErrorException('Failed to save attendance.');
+      return {
+        code: 0,
+        message: `Failed to save attendance.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
   }
 
@@ -188,9 +199,12 @@ export class UserAttendanceService {
       qr,
     );
     if (!attendanceData) {
-      throw new NotFoundException(
-        `Attendance data not found for board_num: ${board_num}`,
-      );
+      return {
+        code: 0,
+        message: `Attendance data not found for board_num: ${board_num}`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
     return {
       board_num: attendanceData.board_num,
@@ -288,7 +302,12 @@ export class UserAttendanceService {
     );
 
     if (!rewardData) {
-      throw new NotFoundException('Failed to process reward.');
+      return {
+        code: 0,
+        message: `Failed to process reward.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
     userAttendanceData.reward_yn = 'Y';

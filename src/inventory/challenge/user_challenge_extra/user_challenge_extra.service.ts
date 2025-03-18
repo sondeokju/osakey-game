@@ -48,8 +48,6 @@ export class UserChallengeExtraService {
       where: { user_id },
     });
 
-    console.log('--------userChallengeExtra:', userChallengeExtra);
-
     return userChallengeExtra;
   }
 

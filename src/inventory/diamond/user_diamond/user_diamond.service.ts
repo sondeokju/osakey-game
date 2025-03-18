@@ -40,7 +40,12 @@ export class UserDiamondService {
     });
 
     if (diamonds.length < 2) {
-      throw new NotFoundException('유저 다이아몬드 정보 없음');
+      return {
+        code: 0,
+        message: `User diamond information not found.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
     // Google과 Apple 다이아 정보를 분리
@@ -50,7 +55,12 @@ export class UserDiamondService {
     const appleDiamonds = diamonds.find((d) => d.member_id === apple_member_id);
 
     if (!googleDiamonds || !appleDiamonds) {
-      throw new NotFoundException('유저 다이아몬드 정보 없음');
+      return {
+        code: 0,
+        message: `User diamond information not found.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
     let remainingAmount = amount;
@@ -100,7 +110,12 @@ export class UserDiamondService {
     });
 
     if (!diamondRecord) {
-      throw new NotFoundException('해당 유저 다이아몬드 정보 없음');
+      return {
+        code: 0,
+        message: `User diamond information not found.`,
+        utcTimeString: new Date().toISOString(),
+        hasError: false,
+      };
     }
 
     // 2️⃣ 다이아몬드 추가
