@@ -14,15 +14,17 @@ export class UserGateway implements OnGatewayConnection {
   handleConnection(socket: Socket) {
     console.log(`✅ User WebSocket 연결됨 1: ${socket.id}`);
 
-    // ✅ 클라이언트에게 연결 성공 메시지 전송
-    socket.emit('message', {
-      message: 'Welcome to the WebSocket server!',
-    });
+    // ✅ Postman과 같은 기본 WebSocket 클라이언트에서도 받을 수 있도록 send() 사용
+    socket.send(
+      JSON.stringify({
+        message: 'Welcome to the WebSocket server!',
+      }),
+    );
   }
 
   @SubscribeMessage('message')
   sendMessage(@MessageBody() message: any) {
-    console.log(`✅ 메시지 수신:`, message);
+    //console.log(`✅ 메시지 수신:`, message);
 
     if (typeof message === 'string') {
       try {
