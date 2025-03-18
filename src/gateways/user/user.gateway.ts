@@ -9,7 +9,7 @@ import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway({ namespace: 'user' })
 export class UserGateway implements OnGatewayConnection {
-  @WebSocketServer() server: Server;
+  //@WebSocketServer() server: Server;
 
   handleConnection(socket: Socket) {
     console.log(`✅ User WebSocket 연결됨: ${socket.id}`);
