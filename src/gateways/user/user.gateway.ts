@@ -34,6 +34,8 @@ export class UserGateway implements OnGatewayConnection {
       return;
     }
 
+    console.log(`✅ message 메시지 수신:`, message);
+
     client.emit('message', {
       message: `서버에서 받은 메시지: ${message?.data || message}`,
     });
