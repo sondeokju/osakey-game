@@ -16,6 +16,7 @@ export class UserGateway implements OnGatewayConnection {
 
   @SubscribeMessage('send_message')
   sendMessage(@MessageBody() message: any) {
+    console.log(`✅ send_message`);
     if (typeof message === 'string') {
       try {
         const parsedMessage = JSON.parse(message);
