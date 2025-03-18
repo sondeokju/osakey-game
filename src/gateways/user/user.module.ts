@@ -3,6 +3,6 @@ import { UserGateway } from './user.gateway';
 import { UserService } from './user.service';
 
 @Module({
-  providers: [UserGateway, UserService]
+  providers: [UserGateway, UserService],
 })
 export class UserModule {}
