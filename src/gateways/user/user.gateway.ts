@@ -7,7 +7,7 @@ import {
 import { Socket } from 'socket.io';
 
 @WebSocketGateway({ namespace: 'user' })
-export class ChatGateway implements OnGatewayConnection {
+export class UserGateway implements OnGatewayConnection {
   //constructor(private readonly chatService: ChatService) {}
 
   handleConnection(socket: Socket) {
