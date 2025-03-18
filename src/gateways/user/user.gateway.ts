@@ -21,10 +21,10 @@ export class UserGateway implements OnGatewayConnection {
       }),
     );
   }
-
   @SubscribeMessage('message')
-  sendMessage(socket: Socket, @MessageBody() message: any) {
-    //console.log(`✅ 메시지 수신:`, message);
+  sendMessage(client: Socket, @MessageBody() message: any) {
+    // ✅ 첫 번째 인자로 client 추가
+    console.log(`✅ 메시지 수신:`, message);
 
     if (typeof message === 'string') {
       try {
@@ -39,15 +39,15 @@ export class UserGateway implements OnGatewayConnection {
       console.error('Unexpected message format:', message);
     }
 
-    socket.send(
+    client.send(
       JSON.stringify({
         message: `서버에서 받은 메시지: ${message.data}`,
       }),
     );
-
-    // 모든 클라이언트에게 메시지 브로드캐스트
-    // this.server.emit('message', {
-    //   message: `서버에서 받은 메시지: ${message.data}`,
-    // });
   }
 }
+
+// 모든 클라이언트에게 메시지 브로드캐스트
+// this.server.emit('message', {
+//   message: `서버에서 받은 메시지: ${message.data}`,
+// });
