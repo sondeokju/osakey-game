@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { UserGateway } from './user/user.gateway';
 import { UserModule } from './user/user.module';
+import { ZLoginLogModule } from 'src/game_log/login/z_login_log/z_login_log.module';
 
 @Module({
-  imports: [UserModule],
+  imports: [UserModule, ZLoginLogModule],
   providers: [UserGateway], // ✅ UserGateway는 제외!
   exports: [UserGateway],
 })
