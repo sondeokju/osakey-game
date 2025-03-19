@@ -24,11 +24,13 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
 
     this.connectedClients.set(socket.id, socket);
-    console.log(`✅ WebSocket 연결됨: ${socket.id}`);
 
-    socket.emit('message', {
-      message: 'Welcome to the WebSocket server!',
-    });
+    console.log(`✅ WebSocket 연결됨: ${socket.id}`);
+    console.log(`✅ connectedClients : ${this.connectedClients}`);
+
+    // socket.emit('message', {
+    //   message: 'Welcome to the WebSocket server!',
+    // });
   }
 
   handleDisconnect(socket: Socket) {
