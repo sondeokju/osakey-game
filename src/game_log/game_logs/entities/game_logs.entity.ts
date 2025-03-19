@@ -17,8 +17,12 @@ export class GameLogs {
   @Column({ type: 'varchar', length: 128 })
   log_type: string; // 로그 유형 (예: "quest", "battle", "shop")
 
-  @Column({ type: 'bigint' })
-  user_id: number; // 유저 ID
+  @Column({
+    length: 10,
+    type: 'char',
+  })
+  @Index({ unique: false })
+  user_id: string;
 
   @Column({ type: 'json' })
   content: any; // JSON 데이터 저장
