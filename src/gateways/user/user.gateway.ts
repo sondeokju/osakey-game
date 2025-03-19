@@ -23,6 +23,8 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   async handleConnection(socket: Socket) {
     console.log(`✅ WebSocket 1`);
+    const userId = socket.handshake.auth.userId;
+    console.log(`⛔ userId: ${userId}`);
 
     if (this.connectedClients.has(socket.id) || !socket.connected) {
       console.log(`⛔ 이미 연결된 WebSocket: ${socket.id}`);
