@@ -13,11 +13,18 @@ import { UserService } from './user.service';
 @WebSocketGateway({ namespace: 'user' })
 export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
+  private connectedClients = new Map<string, Socket>(); // ✅ 중복 연결 방지
 
   constructor(private readonly userService: UserService) {}
 
   handleConnection(socket: Socket) {
-    console.log(`✅ WebSocket 연결됨 : ${socket.id}`);
+    if (this.connectedClients.has(socket.id)) {
+      console.log(`⛔ 이미 연결된 WebSocket: ${socket.id}`);
+      return;
+    }
+
+    this.connectedClients.set(socket.id, socket);
+    console.log(`✅ WebSocket 연결됨: ${socket.id}`);
 
     socket.emit('message', {
       message: 'Welcome to the WebSocket server!',
@@ -25,7 +32,10 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   handleDisconnect(socket: Socket) {
-    console.log(`⛔ User WebSocket 연결 종료: ${socket.id}`);
+    if (this.connectedClients.has(socket.id)) {
+      this.connectedClients.delete(socket.id);
+      console.log(`⛔ WebSocket 연결 종료: ${socket.id}`);
+    }
   }
 
   @SubscribeMessage('message')
