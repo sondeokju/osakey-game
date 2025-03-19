@@ -19,6 +19,7 @@ import { QueryRunner } from 'typeorm';
 import { ZLoginLogService } from 'src/game_log/login/z_login_log/z_login_log.service';
 import { DataSource } from 'typeorm';
 import { InvenService } from 'src/supervisor/inven/inven.service';
+import { GameLogsService } from 'src/game_log/game_logs/game_logs.service';
 
 @Injectable()
 export class AuthService {
@@ -31,6 +32,7 @@ export class AuthService {
     private readonly zLoginLogService: ZLoginLogService,
     private readonly dataSource: DataSource,
     private readonly invenService: InvenService,
+    private readonly gameLogsService: GameLogsService,
   ) {}
 
   /**
@@ -132,6 +134,14 @@ export class AuthService {
       social_user_id,
       provider,
     );
+
+    const loginLog = {
+      member_id: member_id,
+      social_user_id: social_user_id,
+      provider: provider,
+    };
+
+    await this.gameLogsService.insertLog('login', userData.user_id, loginLog);
 
     return {
       accessToken: login.accessToken,
