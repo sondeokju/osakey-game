@@ -18,6 +18,7 @@ export class UserService {
         userId = parsed.user_id || parsed.userId;
       } else if (typeof decoded === 'object') {
         userId = decoded.user_id || decoded.userId;
+        console.log('⛔ verifyToken userId:', userId);
       } else {
         console.error('⛔ JWT 반환값이 예상과 다릅니다:', decoded);
       }
