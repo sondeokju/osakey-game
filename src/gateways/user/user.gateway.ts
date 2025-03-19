@@ -18,10 +18,13 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(private readonly userService: UserService) {}
 
   handleConnection(socket: Socket) {
+    console.log(`✅ WebSocket 1`);
     if (this.connectedClients.has(socket.id)) {
       console.log(`⛔ 이미 연결된 WebSocket: ${socket.id}`);
       return;
     }
+
+    console.log(`✅ WebSocket 2`);
 
     this.connectedClients.set(socket.id, socket);
 
