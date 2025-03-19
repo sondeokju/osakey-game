@@ -20,6 +20,7 @@ import { ZLoginLogService } from 'src/game_log/login/z_login_log/z_login_log.ser
 import { DataSource } from 'typeorm';
 import { InvenService } from 'src/supervisor/inven/inven.service';
 import { GameLogsService } from 'src/game_log/game_logs/game_logs.service';
+import { LogType } from 'src/common/const/log-type.enum';
 
 @Injectable()
 export class AuthService {
@@ -141,7 +142,11 @@ export class AuthService {
       provider: provider,
     };
 
-    await this.gameLogsService.insertLog('login', userData.user_id, loginLog);
+    await this.gameLogsService.insertLog(
+      LogType.PLAYER_LOGIN,
+      userData.user_id,
+      loginLog,
+    );
 
     return {
       accessToken: login.accessToken,
