@@ -56,19 +56,25 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
 
     // ✅ Redis에 유저 ID와 소켓 ID 저장
-    await this.redisService.set(`user:${userId}`, socket.id);
-    await this.redisService.set(`socket:${socket.id}`, userId);
+    // ✅ 특정 Redis DB (예: 3번 DB) 선택 후 저장
+    const redisDB = 3;
+    await this.redisService.setWithDB(redisDB, `user:${userId}`, socket.id);
+    await this.redisService.setWithDB(redisDB, `socket:${socket.id}`, userId);
 
     console.log(`✅ WebSocket 연결됨: ${socket.id}, User ID: ${userId}`);
   }
 
   async handleDisconnect(socket: Socket) {
-    const userId = await this.redisService.get(`socket:${socket.id}`);
+    const redisDB = 3;
+    const userId = await this.redisService.getWithDB(
+      redisDB,
+      `socket:${socket.id}`,
+    );
 
     if (userId) {
       // ✅ Redis에서 삭제
-      await this.redisService.del(`user:${userId}`);
-      await this.redisService.del(`socket:${socket.id}`);
+      await this.redisService.delWithDB(redisDB, `user:${userId}`);
+      await this.redisService.delWithDB(redisDB, `socket:${socket.id}`);
 
       console.log(`⛔ WebSocket 연결 종료: ${socket.id}, User ID: ${userId}`);
 
