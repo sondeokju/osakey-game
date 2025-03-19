@@ -33,7 +33,9 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
     // const token =
     //   socket.handshake.headers['token'] ||
     //   socket.handshake.headers['authorization'];
-    const token = socket.handshake.headers['token'] as string;
+    const rawToken = socket.handshake.headers['token'] as string;
+    console.log('rawToken:', rawToken);
+    const token = this.authService.extractTokenFromHeader(rawToken, true);
     console.log('token:', token);
 
     let userId = '';
