@@ -29,23 +29,28 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
   async handleConnection(socket: Socket) {
     console.log(`✅ WebSocket 1`);
 
-    // 헤더에서 accessToken 가져오기 (소문자로 접근)
-    // const token =
-    //   socket.handshake.headers['token'] ||
-    //   socket.handshake.headers['authorization'];
+    // 헤더에서 token 가져오기 (소문자로 접근)
     const token = socket.handshake.headers['token'] as string;
     console.log('token:', token);
-    // const token = this.authService.extractTokenFromHeader(rawToken, true);
-    // console.log('token:', token);
 
     let userId = '';
 
     if (token) {
       try {
+        // JWT 검증
         const decoded = await this.authService.verifyToken(token);
-        const parsed = JSON.parse(decoded);
-        console.log(`⛔ parsedMessage: ${parsed}`);
-        userId = parsed.userId;
+        console.log('✅ Decoded Token:', decoded);
+
+        // decoded가 객체인지 확인 후 userId 추출
+        if (typeof decoded === 'string') {
+          const parsed = JSON.parse(decoded);
+          console.log('⛔ Parsed:', parsed);
+          userId = parsed.user_id || parsed.userId;
+        } else if (typeof decoded === 'object') {
+          userId = decoded.user_id || decoded.userId;
+        } else {
+          console.error('⛔ JWT 반환값이 예상과 다릅니다:', decoded);
+        }
       } catch (error) {
         console.error('⛔ JWT 검증 실패:', error.message);
       }
