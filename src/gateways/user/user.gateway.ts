@@ -10,6 +10,7 @@ import {
 import { Server, Socket } from 'socket.io';
 import { UserService } from './user.service';
 import { ZLoginLogService } from 'src/game_log/login/z_login_log/z_login_log.service';
+import { AuthService } from 'src/auth/auth.service';
 
 @WebSocketGateway({ namespace: 'user' })
 export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -22,16 +23,32 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(
     private readonly userService: UserService,
     private readonly zLoginLogService: ZLoginLogService,
+    private readonly authService: AuthService,
   ) {}
 
   async handleConnection(socket: Socket) {
     console.log(`✅ WebSocket 1`);
 
-    //const userId = socket.handshake.query.userId as string; // ✅ 쿼리스트링에서 userId 가져오기
-    const token = socket.handshake.headers['token'];
+    // 헤더에서 accessToken 가져오기 (소문자로 접근)
+    // const token =
+    //   socket.handshake.headers['token'] ||
+    //   socket.handshake.headers['authorization'];
+    const token = socket.handshake.headers['token'] as string;
     console.log('token:', token);
 
-    const userId = '';
+    let userId = '';
+
+    if (token) {
+      try {
+        const decoded = await this.authService.verifyToken(token);
+        // const decoded = jwt.verify(token, process.env.JWT_SECRET) as {
+        //   userId: string;
+        // };
+        userId = decoded.userId;
+      } catch (error) {
+        console.error('⛔ JWT 검증 실패:', error.message);
+      }
+    }
 
     console.log(`⛔ userId: ${userId}`);
 
@@ -46,7 +63,7 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
       return;
     }
 
-    this.connectedClients.set(userId, { socket, userId }); // ✅ userId 기준으로 저장
+    this.connectedClients.set(userId, { socket, userId });
     console.log(`✅ WebSocket 연결됨: ${socket.id}, User ID: ${userId}`);
   }
 
