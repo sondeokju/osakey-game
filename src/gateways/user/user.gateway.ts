@@ -19,6 +19,10 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   handleConnection(socket: Socket) {
     console.log(`✅ WebSocket 1`);
+    console.log(
+      'this.connectedClients.has(socket.id)',
+      this.connectedClients.has(socket.id),
+    );
     if (this.connectedClients.has(socket.id)) {
       console.log(`⛔ 이미 연결된 WebSocket: ${socket.id}`);
       return;
@@ -29,10 +33,10 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.connectedClients.set(socket.id, socket);
 
     console.log(`✅ WebSocket 연결됨: ${socket.id}`);
-    console.log(
-      `✅ connectedClients :`,
-      Array.from(this.connectedClients.entries()),
-    );
+    // console.log(
+    //   `✅ connectedClients :`,
+    //   Array.from(this.connectedClients.entries()),
+    // );
 
     // socket.emit('message', {
     //   message: 'Welcome to the WebSocket server!',
