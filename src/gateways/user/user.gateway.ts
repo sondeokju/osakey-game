@@ -33,18 +33,19 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
     // const token =
     //   socket.handshake.headers['token'] ||
     //   socket.handshake.headers['authorization'];
-    const rawToken = socket.handshake.headers['token'] as string;
-    console.log('rawToken:', rawToken);
-    const token = this.authService.extractTokenFromHeader(rawToken, true);
+    const token = socket.handshake.headers['token'] as string;
     console.log('token:', token);
+    // const token = this.authService.extractTokenFromHeader(rawToken, true);
+    // console.log('token:', token);
 
     let userId = '';
 
     if (token) {
       try {
         const decoded = await this.authService.verifyToken(token);
-        console.log(`⛔ decoded: ${decoded}`);
-        userId = decoded.userId;
+        const parsed = JSON.parse(decoded);
+        console.log(`⛔ parsedMessage: ${parsed}`);
+        userId = parsed.userId;
       } catch (error) {
         console.error('⛔ JWT 검증 실패:', error.message);
       }
