@@ -11,32 +11,26 @@ export class RedisService {
   constructor(@InjectRedis('default') private readonly redisClient: Redis) {}
 
   // 소켓 관리
-  // ✅ 특정 DB를 사용하여 값을 설정하는 메서드
+  // ✅ 특정 DB 선택 후 값을 저장
   async setWithDB(dbNumber: number, key: string, value: string) {
-    const dbClient = this.redisClient.duplicate(); // 새 클라이언트 생성
-    await dbClient.connect();
-    await dbClient.select(dbNumber); // 🔥 SELECT 사용
+    const dbClient = this.redisClient.duplicate({ db: dbNumber }); // ✅ 새 클라이언트에서 DB 선택
     await dbClient.set(key, value);
-    await dbClient.quit(); // 연결 종료
+    dbClient.disconnect(); // 연결 종료 (quit 대신 disconnect 사용)
   }
 
-  // ✅ 특정 DB를 사용하여 값을 가져오는 메서드
+  // ✅ 특정 DB 선택 후 값 조회
   async getWithDB(dbNumber: number, key: string): Promise<string | null> {
-    const dbClient = this.redisClient.duplicate(); // 새 클라이언트 생성
-    await dbClient.connect();
-    await dbClient.select(dbNumber); // 🔥 SELECT 사용
+    const dbClient = this.redisClient.duplicate({ db: dbNumber }); // ✅ 새 클라이언트에서 DB 선택
     const value = await dbClient.get(key);
-    await dbClient.quit(); // 연결 종료
+    dbClient.disconnect(); // 연결 종료 (quit 대신 disconnect 사용)
     return value;
   }
 
   // ✅ 특정 DB에서 키 삭제
   async delWithDB(dbNumber: number, key: string) {
-    const dbClient = this.redisClient.duplicate(); // 새 클라이언트 생성
-    await dbClient.connect();
-    await dbClient.select(dbNumber); // 🔥 SELECT 사용
+    const dbClient = this.redisClient.duplicate({ db: dbNumber }); // ✅ 새 클라이언트에서 DB 선택
     await dbClient.del(key);
-    await dbClient.quit(); // 연결 종료
+    dbClient.disconnect(); // 연결 종료 (quit 대신 disconnect 사용)
   }
 
   // async getTable(guildId: number, score: number, name: string) {
