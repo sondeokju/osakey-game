@@ -41,9 +41,7 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
     if (token) {
       try {
         const decoded = await this.authService.verifyToken(token);
-        // const decoded = jwt.verify(token, process.env.JWT_SECRET) as {
-        //   userId: string;
-        // };
+        console.log(`⛔ decoded: ${decoded}`);
         userId = decoded.userId;
       } catch (error) {
         console.error('⛔ JWT 검증 실패:', error.message);
