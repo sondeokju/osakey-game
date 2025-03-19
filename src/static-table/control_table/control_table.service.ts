@@ -60,7 +60,6 @@ import { BountyStageService } from '../stage/bounty_stage/bounty_stage.service';
 import { ShopPackageService } from '../shop/shop_package/shop_package.service';
 import { ShopService } from '../shop/shop/shop.service';
 import { GachaSellService } from '../shop/gacha_sell/gacha_sell.service';
-import { RedisService } from 'src/redis/redis.service';
 //import { encode, decode } from '@msgpack/msgpack';
 
 @Injectable()

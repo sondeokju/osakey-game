@@ -1,5 +1,5 @@
 import { Controller, Get, Query, Param, Body, Post } from '@nestjs/common';
-import { RedisService } from './redis.service';
+import { RedisService } from './services/redis.service';
 
 @Controller('redis')
 export class RedisController {
