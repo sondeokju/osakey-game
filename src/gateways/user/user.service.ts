@@ -9,6 +9,8 @@ export class UserService {
   async verifyToken(token: string): Promise<any> {
     let userId = '';
 
+    console.log('⛔ JWT_SECRET:', process.env.JWT_SECRET);
+
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       // decoded가 객체인지 확인 후 userId 추출
