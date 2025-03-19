@@ -10,6 +10,19 @@ export class RedisService {
 
   constructor(@InjectRedis('default') private readonly redisClient: Redis) {}
 
+  // 소켓 관리
+  async set(key: string, value: string) {
+    await this.redisClient.set(key, value);
+  }
+
+  async get(key: string): Promise<string | null> {
+    return await this.redisClient.get(key);
+  }
+
+  async del(key: string) {
+    await this.redisClient.del(key);
+  }
+
   // async getTable(guildId: number, score: number, name: string) {
   //   await this.redisClient.zadd(this.RANKING_KEY, score, guildId.toString());
   //   await this.redisClient.hset(this.GUILD_NAMES_KEY, guildId.toString(), name); // 길드명 저장

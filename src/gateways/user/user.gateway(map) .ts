@@ -10,7 +10,6 @@ import {
 import { Server, Socket } from 'socket.io';
 import { UserService } from './user.service';
 import { ZLoginLogService } from 'src/game_log/login/z_login_log/z_login_log.service';
-import { RedisService } from 'src/redis/redis.service';
 
 @WebSocketGateway({ namespace: 'user' })
 export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -23,7 +22,6 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(
     private readonly userService: UserService,
     private readonly zLoginLogService: ZLoginLogService,
-    private readonly redisService: RedisService,
   ) {}
 
   async handleConnection(socket: Socket) {
@@ -47,33 +45,34 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
       return;
     }
 
-    // ✅ 기존 연결 확인 후 중복 연결 방지
-    const existingSocketId = await this.redisService.get(`user:${userId}`);
-    console.log(`existingSocketId: ${existingSocketId}`);
-    if (existingSocketId) {
+    if (this.connectedClients.has(userId)) {
       console.log(`⛔ 이미 연결된 WebSocket (User ID): ${userId}`);
       return;
     }
 
-    // ✅ Redis에 유저 ID와 소켓 ID 저장
-    await this.redisService.set(`user:${userId}`, socket.id);
-    await this.redisService.set(`socket:${socket.id}`, userId);
-
+    this.connectedClients.set(userId, { socket, userId });
     console.log(`✅ WebSocket 연결됨: ${socket.id}, User ID: ${userId}`);
   }
 
   async handleDisconnect(socket: Socket) {
-    const userId = await this.redisService.get(`socket:${socket.id}`);
+    let userIdToDelete: string | undefined;
 
-    if (userId) {
-      // ✅ Redis에서 삭제
-      await this.redisService.del(`user:${userId}`);
-      await this.redisService.del(`socket:${socket.id}`);
+    // ✅ userId를 찾기 위해 Map을 검색
+    for (const [userId, clientInfo] of this.connectedClients.entries()) {
+      if (clientInfo.socket.id === socket.id) {
+        userIdToDelete = userId;
+        break;
+      }
+    }
 
-      console.log(`⛔ WebSocket 연결 종료: ${socket.id}, User ID: ${userId}`);
+    if (userIdToDelete) {
+      this.connectedClients.delete(userIdToDelete);
+      console.log(
+        `⛔ WebSocket 연결 종료: ${socket.id}, User ID: ${userIdToDelete}`,
+      );
 
       // ✅ 로그아웃 로그 기록
-      await this.zLoginLogService.logoutLog(userId);
+      await this.zLoginLogService.logoutLog(userIdToDelete);
     } else {
       console.warn(
         `⚠️ 연결 종료된 소켓에 대한 userId를 찾을 수 없음: ${socket.id}`,
