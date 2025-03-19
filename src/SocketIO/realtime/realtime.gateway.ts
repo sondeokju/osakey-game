@@ -37,3 +37,8 @@ export class RealTimeGateway implements OnGatewayConnection {
     }
   }
 }
+
+// 모든 클라이언트에게 메시지 브로드캐스트
+// this.server.emit('message', {
+//   message: `서버에서 받은 메시지: ${message.data}`,
+// });
