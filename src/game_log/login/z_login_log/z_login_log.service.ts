@@ -27,7 +27,7 @@ export class ZLoginLogService {
 
     const latestLog = await loginLogRepository.findOne({
       where: { user_id },
-      order: { update_at: 'DESC' },
+      order: { created_at: 'DESC' },
     });
 
     return latestLog;
