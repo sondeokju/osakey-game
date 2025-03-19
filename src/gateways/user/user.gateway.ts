@@ -10,7 +10,6 @@ import {
 import { Server, Socket } from 'socket.io';
 import { UserService } from './user.service';
 import { ZLoginLogService } from 'src/game_log/login/z_login_log/z_login_log.service';
-import { AuthService } from 'src/auth/auth.service';
 
 @WebSocketGateway({ namespace: 'user' })
 export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -18,12 +17,11 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private connectedClients = new Map<
     string,
     { socket: Socket; userId: string }
-  >(); // ✅ 올바른 타입 지정
+  >();
 
   constructor(
     private readonly userService: UserService,
     private readonly zLoginLogService: ZLoginLogService,
-    private readonly authService: AuthService,
   ) {}
 
   async handleConnection(socket: Socket) {
@@ -37,8 +35,8 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     if (token) {
       try {
-        // JWT 검증
-        const decoded = await this.authService.verifyToken(token);
+        // UserService를 통해 JWT 검증
+        const decoded = await this.userService.verifyToken(token);
         console.log('✅ Decoded Token:', decoded);
 
         // decoded가 객체인지 확인 후 userId 추출
@@ -99,43 +97,9 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
   }
 
-  // async handleDisconnect(socket: Socket) {
-  //   if (this.connectedClients.has(socket.id)) {
-  //     this.connectedClients.delete(socket.id);
-  //     console.log(`⛔ WebSocket 연결 종료: ${socket.id}`);
-  //   }
-
-  //   await this.zLoginLogService.logoutLog('0000000012');
-  // }
-
-  // handleConnection(socket: Socket) {
-  //   console.log(`✅ WebSocket 1`);
-  //   console.log(
-  //     'this.connectedClients.has(socket.id)',
-  //     this.connectedClients.has(socket.id),
-  //   );
-  //   if (this.connectedClients.has(socket.id)) {
-  //     console.log(`⛔ 이미 연결된 WebSocket: ${socket.id}`);
-  //     return;
-  //   }
-
-  //   console.log(`✅ WebSocket 2`);
-
-  //   this.connectedClients.set(socket.id, socket);
-
-  //   console.log(`✅ WebSocket 연결됨: ${socket.id}`);
-  //   // console.log(
-  //   //   `✅ connectedClients :`,
-  //   //   Array.from(this.connectedClients.entries()),
-  //   // );
-
-  //   // socket.emit('message', {
-  //   //   message: 'Welcome to the WebSocket server!',
-  //
-
   @SubscribeMessage('message')
   async sendMessage(
-    @ConnectedSocket() client: Socket, // ✅ `@ConnectedSocket()`으로 명확하게 선언
+    @ConnectedSocket() client: Socket,
     @MessageBody() message: any,
   ) {
     console.log('✅ 메시지 이벤트 수신!');
