@@ -39,7 +39,10 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const userId = await this.sessionRedisService.getSessionBySocketId(
       socket.id,
     );
-    if (userId) await this.sessionRedisService.deleteSession(userId, socket.id);
+    if (userId) {
+      await this.sessionRedisService.deleteSession(userId, socket.id);
+      await this.zLoginLogService.logoutLog(userId);
+    }
   }
 
   // async handleConnection(socket: Socket) {
