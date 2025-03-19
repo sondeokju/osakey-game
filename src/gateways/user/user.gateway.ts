@@ -27,7 +27,12 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
   async handleConnection(socket: Socket) {
     console.log(`✅ WebSocket 1`);
 
-    const userId = socket.handshake.query.userId as string; // ✅ 쿼리스트링에서 userId 가져오기
+    //const userId = socket.handshake.query.userId as string; // ✅ 쿼리스트링에서 userId 가져오기
+    const accessToken = socket.handshake.headers['accessToken'] as string;
+    console.log('accessToken:', accessToken);
+
+    const userId = '';
+
     console.log(`⛔ userId: ${userId}`);
 
     if (!userId) {
