@@ -125,6 +125,7 @@ import { DispatchRewardModule } from 'src/static-table/dispatch/dispatch_reward/
 import { GachaSellModule } from 'src/static-table/shop/gacha_sell/gacha_sell.module';
 import { UserChallengeModule } from 'src/inventory/challenge/user_challenge/user_challenge.module';
 import { UserChallengeExtraModule } from 'src/inventory/challenge/user_challenge_extra/user_challenge_extra.module';
+import { LogsModule } from 'src/game_log/logs/logs.module';
 
 export const entities_module = [
   UsersModule,
@@ -254,6 +255,7 @@ export const entities_module = [
   GachaSellModule,
   UserChallengeModule,
   UserChallengeExtraModule,
+  LogsModule,
 ];
 
 //console.log('[DEBUG] entities_module.ts loaded:', entities_module);

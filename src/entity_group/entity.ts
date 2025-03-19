@@ -117,6 +117,7 @@ import { UserRentamaEquipSlot } from 'src/inventory/dispatch/user_rentama_equip_
 import { GachaSell } from 'src/static-table/shop/gacha_sell/entities/gacha_sell.entity';
 import { UserChallenge } from 'src/inventory/challenge/user_challenge/entities/user_challenge.entity';
 import { UserChallengeExtra } from 'src/inventory/challenge/user_challenge_extra/entities/user_challenge_extra.entity';
+import { Log } from 'src/game_log/logs/entities/log.entity';
 
 export const entities = [
   Users,
@@ -238,4 +239,5 @@ export const entities = [
   GachaSell,
   UserChallenge,
   UserChallengeExtra,
+  Log,
 ];
