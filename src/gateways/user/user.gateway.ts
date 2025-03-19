@@ -39,7 +39,7 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
       console.log(`⛔ WebSocket 연결 종료: ${socket.id}`);
     }
 
-    await this.zLoginLogService.logoutLog('0000000048');
+    await this.zLoginLogService.logoutLog('0000000012');
   }
 
   // handleConnection(socket: Socket) {
