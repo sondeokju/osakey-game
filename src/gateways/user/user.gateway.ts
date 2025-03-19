@@ -61,6 +61,7 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
     for (const [userId, clientInfo] of this.connectedClients.entries()) {
       if (clientInfo.socket.id === socket.id) {
         userIdToDelete = userId;
+        console.log('clientInfo', clientInfo);
         break;
       }
     }
