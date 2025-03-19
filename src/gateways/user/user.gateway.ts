@@ -5,18 +5,19 @@ import {
   OnGatewayConnection,
   WebSocketServer,
   ConnectedSocket,
+  OnGatewayDisconnect,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { UserService } from './user.service';
 
 @WebSocketGateway({ namespace: 'user' })
-export class UserGateway implements OnGatewayConnection {
+export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
 
   constructor(private readonly userService: UserService) {}
 
   handleConnection(socket: Socket) {
-    console.log(`✅ User WebSocket 연결됨 1: ${socket.id}`);
+    console.log(`✅ WebSocket 연결됨 : ${socket.id}`);
 
     socket.emit('message', {
       message: 'Welcome to the WebSocket server!',
