@@ -18,7 +18,7 @@ export class GameLogsService {
 
   async insertLog(
     logType: string,
-    userId: number,
+    userId: string,
     content: any,
     qr?: QueryRunner,
   ): Promise<void> {
