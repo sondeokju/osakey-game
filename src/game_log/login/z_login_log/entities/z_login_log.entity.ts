@@ -33,4 +33,10 @@ export class ZLoginLog extends BaseModel {
     default: '',
   })
   social_type: string;
+
+  @Column({
+    type: 'timestamp',
+    nullable: true,
+  })
+  disconnected_at: Date | null;
 }

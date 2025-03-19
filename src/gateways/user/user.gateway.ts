@@ -9,15 +9,19 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { UserService } from './user.service';
+import { ZLoginLogService } from 'src/game_log/login/z_login_log/z_login_log.service';
 
 @WebSocketGateway({ namespace: 'user' })
 export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
   private connectedClients = new Map<string, Socket>(); // ✅ 중복 연결 방지
 
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly zLoginLogService: ZLoginLogService,
+  ) {}
 
-  handleConnection(socket: Socket) {
+  async handleConnection(socket: Socket) {
     console.log(`✅ WebSocket 1`);
 
     if (this.connectedClients.has(socket.id) || !socket.connected) {
@@ -27,6 +31,15 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     this.connectedClients.set(socket.id, socket);
     console.log(`✅ WebSocket 연결됨: ${socket.id}`);
+  }
+
+  async handleDisconnect(socket: Socket) {
+    if (this.connectedClients.has(socket.id)) {
+      this.connectedClients.delete(socket.id);
+      console.log(`⛔ WebSocket 연결 종료: ${socket.id}`);
+    }
+
+    await this.zLoginLogService.logoutLog('0000000048');
   }
 
   // handleConnection(socket: Socket) {
@@ -52,18 +65,10 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   //   // socket.emit('message', {
   //   //   message: 'Welcome to the WebSocket server!',
-  //   // });
-  // }
-
-  handleDisconnect(socket: Socket) {
-    if (this.connectedClients.has(socket.id)) {
-      this.connectedClients.delete(socket.id);
-      console.log(`⛔ WebSocket 연결 종료: ${socket.id}`);
-    }
-  }
+  //
 
   @SubscribeMessage('message')
-  sendMessage(
+  async sendMessage(
     @ConnectedSocket() client: Socket, // ✅ `@ConnectedSocket()`으로 명확하게 선언
     @MessageBody() message: any,
   ) {
