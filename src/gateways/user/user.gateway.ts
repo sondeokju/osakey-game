@@ -46,9 +46,13 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
       socket.disconnect();
       return;
     }
+    const redisDB = 3;
 
     // ✅ 기존 연결 확인 후 중복 연결 방지
-    const existingSocketId = await this.redisService.get(`user:${userId}`);
+    const existingSocketId = await this.redisService.getWithDB(
+      redisDB,
+      `user:${userId}`,
+    );
     console.log(`existingSocketId: ${existingSocketId}`);
     if (existingSocketId) {
       console.log(`⛔ 이미 연결된 WebSocket (User ID): ${userId}`);
@@ -57,7 +61,7 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     // ✅ Redis에 유저 ID와 소켓 ID 저장
     // ✅ 특정 Redis DB (예: 3번 DB) 선택 후 저장
-    const redisDB = 3;
+
     await this.redisService.setWithDB(redisDB, `user:${userId}`, socket.id);
     await this.redisService.setWithDB(redisDB, `socket:${socket.id}`, userId);
 
