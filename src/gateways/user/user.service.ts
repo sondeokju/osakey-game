@@ -6,7 +6,6 @@ import * as jwt from 'jsonwebtoken';
 export class UserService {
   constructor(private readonly dataSource: DataSource) {}
 
-  // ✅ JWT 검증 메서드 추가
   async verifyToken(token: string): Promise<any> {
     let userId = '';
 
