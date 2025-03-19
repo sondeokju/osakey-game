@@ -1,9 +1,11 @@
 import { Module, Global } from '@nestjs/common';
-import { RedisModule as NestRedisModule } from '@liaoliaots/nestjs-redis';
-import { RedisService } from './redis.service';
+import {
+  RedisModule as NestRedisModule,
+  RedisService,
+} from '@liaoliaots/nestjs-redis';
 import { RedisController } from './redis.controller';
-import { SessionRedisService } from './session-redis.service';
-import { CacheRedisService } from './cache-redis.service';
+import { CacheRedisService } from './services/cache-redis.service';
+import { SessionRedisService } from './services/session-redis.service';
 
 @Global()
 @Module({

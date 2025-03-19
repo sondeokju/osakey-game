@@ -10,7 +10,7 @@ import {
 import { Server, Socket } from 'socket.io';
 import { UserService } from './user.service';
 import { ZLoginLogService } from 'src/game_log/login/z_login_log/z_login_log.service';
-import { SessionRedisService } from 'src/redis/session-redis.service';
+import { SessionRedisService } from 'src/redis/services/session-redis.service';
 
 @WebSocketGateway({ namespace: 'user' })
 export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -27,21 +27,70 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
   ) {}
 
   async handleConnection(socket: Socket) {
-    const userId = await this.userService.verifyToken(
-      socket.handshake.headers['token'] as string,
-    );
-    if (!userId) return socket.disconnect();
+    try {
+      const token = socket.handshake.headers['token'] as string;
+      if (!token) {
+        console.error(`⛔ [WebSocket] 토큰 없음 - 연결 종료: ${socket.id}`);
+        return socket.disconnect();
+      }
 
-    await this.sessionRedisService.saveSession(userId, socket.id);
+      const userId = await this.userService.verifyToken(token);
+      if (!userId) {
+        console.error(
+          `⛔ [WebSocket] 유효하지 않은 토큰 - 연결 종료: ${socket.id}`,
+        );
+        return socket.disconnect();
+      }
+
+      await this.sessionRedisService.saveSession(userId, socket.id);
+      console.log(
+        `✅ [WebSocket] 연결 성공 - User ID: ${userId}, Socket ID: ${socket.id}`,
+      );
+    } catch (error) {
+      console.error(
+        `❌ [WebSocket] 연결 처리 중 오류 발생 - Socket ID: ${socket.id}`,
+        error,
+      );
+      socket.disconnect(); // 에러 발생 시 연결 종료
+    }
   }
 
   async handleDisconnect(socket: Socket) {
-    const userId = await this.sessionRedisService.getSessionBySocketId(
-      socket.id,
-    );
-    if (userId) {
-      await this.sessionRedisService.deleteSession(userId, socket.id);
-      await this.zLoginLogService.logoutLog(userId);
+    try {
+      const userId = await this.sessionRedisService.getSessionBySocketId(
+        socket.id,
+      );
+      if (!userId) {
+        console.warn(`⚠️ [WebSocket] 세션 정보 없음 - Socket ID: ${socket.id}`);
+        return;
+      }
+
+      try {
+        await this.sessionRedisService.deleteSession(userId, socket.id);
+      } catch (redisError) {
+        console.error(
+          `❌ [Redis] 세션 삭제 실패 - User ID: ${userId}, Socket ID: ${socket.id}`,
+          redisError,
+        );
+      }
+
+      try {
+        await this.zLoginLogService.logoutLog(userId);
+      } catch (dbError) {
+        console.error(
+          `❌ [DB] 로그아웃 로그 저장 실패 - User ID: ${userId}`,
+          dbError,
+        );
+      }
+
+      console.log(
+        `⛔ [WebSocket] 연결 종료 - User ID: ${userId}, Socket ID: ${socket.id}`,
+      );
+    } catch (error) {
+      console.error(
+        `❌ [WebSocket] 연결 종료 처리 중 오류 발생 - Socket ID: ${socket.id}`,
+        error,
+      );
     }
   }
 
