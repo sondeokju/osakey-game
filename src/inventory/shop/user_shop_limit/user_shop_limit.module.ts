@@ -8,6 +8,7 @@ import { ShopModule } from 'src/static-table/shop/shop/shop.module';
 import { ShopPackageModule } from 'src/static-table/shop/shop_package/shop_package.module';
 import { ResourceManagerModule } from 'src/supervisor/resource_manager/resource_manager.module';
 import { ItemModule } from 'src/static-table/item/item.module';
+import { GameLogsModule } from 'src/game_log/game_logs/game_logs.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { ItemModule } from 'src/static-table/item/item.module';
     RewardOfferModule,
     ResourceManagerModule,
     ItemModule,
+    GameLogsModule,
   ],
   exports: [UserShopLimitService],
   controllers: [UserShopLimitController],

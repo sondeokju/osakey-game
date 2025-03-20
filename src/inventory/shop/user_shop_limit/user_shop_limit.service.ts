@@ -16,6 +16,8 @@ import { ResourceManagerService } from 'src/supervisor/resource_manager/resource
 import { ItemService } from 'src/static-table/item/item.service';
 import { ResourceType } from 'src/common/resource/resource';
 import { UserChallengeService } from 'src/inventory/challenge/user_challenge/user_challenge.service';
+import { GameLogsService } from 'src/game_log/game_logs/game_logs.service';
+import { LogType } from 'src/common/const/log-type.enum';
 
 @Injectable()
 export class UserShopLimitService {
@@ -29,6 +31,7 @@ export class UserShopLimitService {
     private readonly itemService: ItemService,
     private readonly userChallengeService: UserChallengeService,
     private readonly dataSource: DataSource,
+    private readonly gameLogsService: GameLogsService,
   ) {}
 
   getUserShopLimitRepository(qr?: QueryRunner) {
@@ -120,7 +123,6 @@ export class UserShopLimitService {
         };
       }
 
-      console.log('shopData:', shopData);
       if (shopData.price_kind.trim() === 'cash') {
         return {
           reward: {
@@ -131,7 +133,6 @@ export class UserShopLimitService {
         };
       }
 
-      console.log('shopPurchase 01');
       const limitCheck = await this.shopPurchaseLimitCheck(
         user_id,
         shop_id,
@@ -142,34 +143,27 @@ export class UserShopLimitService {
         return limitCheck;
       }
 
-      console.log('shopPurchase 02');
       const resourceCheck = await this.resourceCheckAndDeduct(
         user_id,
         shop_id,
         qr,
       );
 
-      console.log('resourceCheck:', resourceCheck);
-
       if (!resourceCheck.hasError) {
         return resourceCheck;
       }
 
-      console.log('shopPurchase 03');
       const deductedCurrency = await this.resourceReturn(
         resourceCheck,
         shop_id,
       );
 
-      console.log('shopPurchase 04');
       const shopRewardData = await this.shopPurchaseReward(
         user_id,
         shop_id,
         qr,
       );
-      console.log('shopRewardData:', shopRewardData);
 
-      console.log('shopPurchase 05');
       const userShopLimit = await this.shopPurchaseLimitCalcu(
         user_id,
         shop_id,
@@ -179,10 +173,23 @@ export class UserShopLimitService {
       // 아무 상품이나 구매
       await this.userChallengeService.challengeQuest(user_id, 12400009, 1);
 
-      console.log('shopPurchase 06');
       if (shouldRelease) {
         await qrInstance.commitTransaction();
       }
+
+      // 상점 로그
+      const shopLog = {
+        shop_id,
+        userItemData: shopRewardData,
+        deductedCurrency,
+      };
+
+      await this.gameLogsService.insertLog(
+        LogType.SHOP_PURCHASE,
+        user_id,
+        shopLog,
+      );
+
       return {
         reward: {
           userItemData: shopRewardData,
