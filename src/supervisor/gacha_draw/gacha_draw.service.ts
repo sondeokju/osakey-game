@@ -405,7 +405,7 @@ export class GachaDrawService {
       await this.rewardOfferService.rewardEquipArray(user_id, gachaItem, qr);
 
       gachaEquipData.push({
-        equip_id: Number(gachaItem[0].item_id),
+        equip_id: Number(gachaItem[0]),
         equip_count: Number(itemCount),
       });
 
@@ -419,7 +419,7 @@ export class GachaDrawService {
     } else if (['M', 'S'].includes(itemKind)) {
       await this.rewardOfferService.rewardItem(
         user_id,
-        gachaItem[0].item_id,
+        gachaItem[0],
         itemCount,
         qr,
       );
