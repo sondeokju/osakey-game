@@ -9,6 +9,7 @@ export enum LogType {
   PLAYER_MOVE = 'player_move',
   PLAYER_TUTORIAL = 'player_tutorial',
   PLAYER_STAGE_REWARD = 'player_stage_reward',
+  PLAYER_ACHIEVEMENT = 'player_achievemen',
   PLAYER_DISCONNECT = 'player_disconnect',
 
   // 🔴 전투 관련

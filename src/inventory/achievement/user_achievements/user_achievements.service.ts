@@ -369,16 +369,16 @@ export class UserAchievementsService {
       await userAchievementsRepository.save(userAchieve);
 
     // 업적 로그
-    const tutorialLog = {
+    const achievementLog = {
       user_achievements_id,
       userItemData: rewardData,
       userAchieve: updatedUserAchieve,
     };
 
     await this.gameLogsService.insertLog(
-      LogType.PLAYER_TUTORIAL,
+      LogType.PLAYER_ACHIEVEMENT,
       user_id,
-      tutorialLog,
+      achievementLog,
     );
 
     return {
