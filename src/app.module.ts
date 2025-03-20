@@ -34,7 +34,6 @@ import { WebSocketModule } from './gateways/websocket.module';
 
 @Module({
   imports: [
-    //WebSocketModule.register(),
     WebSocketModule,
     ServeStaticModule.forRoot({
       rootPath: PUBLIC_FOLDER_PATH,
@@ -45,15 +44,6 @@ import { WebSocketModule } from './gateways/websocket.module';
       envFilePath: '.env',
       isGlobal: true,
     }),
-
-    // RedisModule.forRoot({
-    //   readyLog: true,
-    //   config: {
-    //     host: 'localhost',
-    //     port: 6379,
-    //     //password: 'bitnami',
-    //   },
-    // }),
 
     TypeOrmModule.forRoot({
       type: 'mysql',

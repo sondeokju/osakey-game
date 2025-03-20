@@ -11,6 +11,8 @@ import { Server, Socket } from 'socket.io';
 import { UserService } from './user.service';
 import { ZLoginLogService } from 'src/game_log/login/z_login_log/z_login_log.service';
 import { SessionRedisService } from 'src/redis/services/session-redis.service';
+import { GameLogsService } from 'src/game_log/game_logs/game_logs.service';
+import { LogType } from 'src/common/const/log-type.enum';
 
 @WebSocketGateway({ namespace: 'user' })
 export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -24,6 +26,7 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private readonly userService: UserService,
     private readonly zLoginLogService: ZLoginLogService,
     private readonly sessionRedisService: SessionRedisService, // ✅ WebSocket 전용 Redis 서비스 사용
+    private readonly gameLogsService: GameLogsService,
   ) {}
 
   async handleConnection(socket: Socket) {
@@ -76,6 +79,14 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
       try {
         await this.zLoginLogService.logoutLog(userId);
+
+        const logoutLog = {};
+
+        await this.gameLogsService.insertLog(
+          LogType.PLAYER_LOGOUT,
+          userId,
+          logoutLog,
+        );
       } catch (dbError) {
         console.error(
           `❌ [DB] 로그아웃 로그 저장 실패 - User ID: ${userId}`,
