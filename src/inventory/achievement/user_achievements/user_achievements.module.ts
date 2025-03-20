@@ -17,6 +17,7 @@ import { UserAchievements } from './entities/user_achievements.entity';
 import { AchieveListService } from 'src/static-table/achieve/achieve_list/achieve_list.service';
 import { AchieveList } from 'src/static-table/achieve/achieve_list/entities/achieve_list.entity';
 import { UserAchieveRankingModule } from '../user_achieve_ranking/user_achieve_ranking.module';
+import { GameLogsModule } from 'src/game_log/game_logs/game_logs.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { UserAchieveRankingModule } from '../user_achieve_ranking/user_achieve_r
       AchieveList,
     ]),
     UserAchieveRankingModule,
+    GameLogsModule,
   ],
   exports: [UserAchievementsService],
   controllers: [UserAchievementsController],

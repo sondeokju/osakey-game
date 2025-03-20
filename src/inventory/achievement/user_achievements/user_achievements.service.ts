@@ -11,6 +11,8 @@ import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.ser
 import { UserAchievements } from './entities/user_achievements.entity';
 import { AchieveListService } from 'src/static-table/achieve/achieve_list/achieve_list.service';
 import { UserAchieveRankingService } from '../user_achieve_ranking/user_achieve_ranking.service';
+import { GameLogsService } from 'src/game_log/game_logs/game_logs.service';
+import { LogType } from 'src/common/const/log-type.enum';
 
 @Injectable()
 export class UserAchievementsService {
@@ -21,6 +23,7 @@ export class UserAchievementsService {
     private readonly achieveListService: AchieveListService,
     private readonly userAchieveRankingService: UserAchieveRankingService,
     private readonly dataSource: DataSource,
+    private readonly gameLogsService: GameLogsService,
   ) {}
 
   getUserAchievementsRepository(qr?: QueryRunner) {
@@ -364,6 +367,19 @@ export class UserAchievementsService {
     userAchieve.reward_yn = 'Y';
     const updatedUserAchieve =
       await userAchievementsRepository.save(userAchieve);
+
+    // 업적 로그
+    const tutorialLog = {
+      user_achievements_id,
+      userItemData: rewardData,
+      userAchieve: updatedUserAchieve,
+    };
+
+    await this.gameLogsService.insertLog(
+      LogType.PLAYER_TUTORIAL,
+      user_id,
+      tutorialLog,
+    );
 
     return {
       reward: {
