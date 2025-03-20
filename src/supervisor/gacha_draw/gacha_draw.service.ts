@@ -119,6 +119,7 @@ export class GachaDrawService {
             .map(() => ({
               item_id: gacha.item_id,
               item_type: gacha.item_kind,
+              item_count: gacha.item_qty,
             })),
         };
       }
@@ -639,6 +640,8 @@ export class GachaDrawService {
       console.log('calcuGachaItem:', calcuGachaItem);
       calcuResult.push(calcuGachaItem.items[0]);
     }
+
+    console.log('calculEquipGachaDrawRandom10:', calcuResult);
     // 뽑기 횟수 퀘스트
     await this.userChallengeService.challengeQuest(user_id, 12400002, 10);
     const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
