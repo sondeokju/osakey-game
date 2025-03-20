@@ -30,6 +30,9 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
   ) {}
 
   async handleConnection(socket: Socket) {
+    if (socket.data.isConnecting) return;
+    socket.data.isConnecting = true;
+
     try {
       const token = socket.handshake.headers['token'] as string;
       if (!token) {
