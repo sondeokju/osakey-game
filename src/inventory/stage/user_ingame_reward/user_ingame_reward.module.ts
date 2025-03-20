@@ -8,6 +8,7 @@ import { RunStageModule } from 'src/static-table/stage/run_stage/run_stage.modul
 import { PuzzleStageModule } from 'src/static-table/stage/puzzle_stage/puzzle_stage.module';
 import { RewardOfferModule } from 'src/supervisor/reward_offer/reward_offer.module';
 import { BountyStageModule } from 'src/static-table/stage/bounty_stage/bounty_stage.module';
+import { GameLogsModule } from 'src/game_log/game_logs/game_logs.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { BountyStageModule } from 'src/static-table/stage/bounty_stage/bounty_st
     PuzzleStageModule,
     BountyStageModule,
     RewardOfferModule,
+    GameLogsModule,
   ],
   exports: [UserIngameRewardService],
   controllers: [UserIngameRewardController],

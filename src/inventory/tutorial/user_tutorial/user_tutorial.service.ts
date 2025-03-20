@@ -98,7 +98,7 @@ export class UserTutorialService {
         await queryRunner.commitTransaction();
       }
 
-      // 가챠 로그
+      // 투토리얼 로그
       const tutorialLog = {
         tutorial_id,
         tutorial_sub_id,

@@ -16,6 +16,8 @@ import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.ser
 import { BountyStageService } from 'src/static-table/stage/bounty_stage/bounty_stage.service';
 import { DataSource } from 'typeorm';
 import { UserChallengeService } from 'src/inventory/challenge/user_challenge/user_challenge.service';
+import { GameLogsService } from 'src/game_log/game_logs/game_logs.service';
+import { LogType } from 'src/common/const/log-type.enum';
 
 @Injectable()
 export class UserIngameRewardService {
@@ -28,6 +30,7 @@ export class UserIngameRewardService {
     private readonly bountyStageService: BountyStageService,
     private readonly rewardOfferService: RewardOfferService,
     private readonly userChallengeService: UserChallengeService,
+    private readonly gameLogsService: GameLogsService,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -159,6 +162,23 @@ export class UserIngameRewardService {
     });
 
     await userIngameRewardRepository.save(newReward);
+
+    // 전투결과 로그
+    const ingameBattleLog = {
+      game_mode,
+      stage_id,
+      stage_clear_yn,
+      secame_credit,
+      mission_id,
+      etc,
+      userItemData: rewardItemdData,
+    };
+
+    await this.gameLogsService.insertLog(
+      LogType.PLAYER_BATTLE_REWARD,
+      user_id,
+      ingameBattleLog,
+    );
 
     return {
       user,
