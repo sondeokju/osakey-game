@@ -445,6 +445,7 @@ export class GachaDrawService {
     // 뽑기 횟수 퀘스트
     await this.userChallengeService.challengeQuest(user_id, 12400002, 1);
 
+    // 가챠 로그
     const gachaLog = {
       userItemData: gachaItemData,
       userEquipData: userEquip,
@@ -686,7 +687,6 @@ export class GachaDrawService {
       );
     }
 
-    console.log('--------------- diaPayout:', diaPayout);
     if (!diaPayout.hasError || !diaPayout.reduceItem) {
       return diaPayout;
     }
@@ -711,9 +711,6 @@ export class GachaDrawService {
         qr,
       );
 
-      console.log('fixedGacha:', fixedGacha);
-
-      console.log('gacha10 01 --------------');
       if (['E'].includes(itemType)) {
         const result = await this.rewardOfferService.createEquipQuery(
           user_id,
@@ -722,7 +719,6 @@ export class GachaDrawService {
         );
 
         userEquip.push(result);
-        console.log('gacha10 02 --------------');
       } else if (['M', 'S'].includes(itemType)) {
         await this.rewardOfferService.rewardItem(
           user_id,
@@ -735,11 +731,34 @@ export class GachaDrawService {
           item_id: fixedGacha[0],
           item_count: 1,
         });
-        console.log('gacha10 03 --------------');
       }
     }
 
-    console.log('gacha10 04 --------------');
+    // 가챠 로그
+    const gachaLog = {
+      userItemData: gachaItemData,
+      userEquipData: userEquip,
+      deductedCurrency: [
+        {
+          // item
+          item_id: gachaCostData.item_id_10,
+          item_count: costItemCount,
+        },
+        {
+          // diamond_paid
+          item_id: 11100003,
+          item_count: diaPayout.reduceItem.diamond_paid ?? 0,
+        },
+        {
+          // diamond_free
+          item_id: 11100004,
+          item_count: diaPayout.reduceItem.diamond_free ?? 0,
+        },
+      ],
+    };
+
+    await this.gameLogsService.insertLog(LogType.GACHA_01, user_id, gachaLog);
+
     return {
       reward: {
         userItemData: gachaItemData,
