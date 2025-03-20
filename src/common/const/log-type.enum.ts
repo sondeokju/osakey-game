@@ -11,6 +11,7 @@ export enum LogType {
   PLAYER_STAGE_REWARD = 'player_stage_reward',
   PLAYER_ACHIEVEMENT_REWARD = 'player_achievement_reward',
   PLAYER_ACHIEVEMENT_ENROLL = 'player_achievement_enroll',
+  PLAYER_ATTENDANCE_REWARD = 'player_attendance_reward',
   PLAYER_DISCONNECT = 'player_disconnect',
 
   // 🔴 전투 관련

@@ -12,6 +12,8 @@ import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.ser
 import { AttendanceService } from 'src/static-table/attendance/attendance/attendance.service';
 import { UsersService } from 'src/users/users.service';
 import { UserChallengeService } from 'src/inventory/challenge/user_challenge/user_challenge.service';
+import { GameLogsService } from 'src/game_log/game_logs/game_logs.service';
+import { LogType } from 'src/common/const/log-type.enum';
 
 @Injectable()
 export class UserAttendanceService {
@@ -22,6 +24,7 @@ export class UserAttendanceService {
     private readonly attendanceService: AttendanceService,
     private readonly usersService: UsersService,
     private readonly userChallengeService: UserChallengeService,
+    private readonly gameLogsService: GameLogsService,
   ) {}
 
   getUserAttendanceRepository(qr?: QueryRunner) {
@@ -316,6 +319,18 @@ export class UserAttendanceService {
 
     // 출석 보상 퀘스트
     await this.userChallengeService.challengeQuest(user_id, 12400001, 1);
+
+    // 출석 보상 로그
+    const attendanceLog = {
+      userItemData: rewardData,
+      userAttendance: updatedUserAttendance,
+    };
+
+    await this.gameLogsService.insertLog(
+      LogType.PLAYER_ATTENDANCE_REWARD,
+      user_id,
+      attendanceLog,
+    );
 
     return {
       reward: {

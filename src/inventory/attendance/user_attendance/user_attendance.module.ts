@@ -16,6 +16,7 @@ import { UsersService } from 'src/users/users.service';
 import { UserAttendance } from './entities/user_attendance.entity';
 import { AttendanceService } from 'src/static-table/attendance/attendance/attendance.service';
 import { Attendance } from 'src/static-table/attendance/attendance/entities/attendance.entity';
+import { GameLogsModule } from 'src/game_log/game_logs/game_logs.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { Attendance } from 'src/static-table/attendance/attendance/entities/atte
       Hero,
       Attendance,
     ]),
+    GameLogsModule,
   ],
   exports: [UserAttendanceService],
   controllers: [UserAttendanceController],
