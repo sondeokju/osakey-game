@@ -771,63 +771,63 @@ export class GachaDrawService {
     };
   }
 
-  async equipGachaDraw10Random(
-    user_id: string,
-    gacha_id: number,
-    //gacha_count?: number,
-    qr?: QueryRunner,
-  ) {
-    const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
-    let gachaItems: number[] = [];
-    let itemKind: string | null = null;
-    const gacha_count = 10;
+  // async equipGachaDraw10Random(
+  //   user_id: string,
+  //   gacha_id: number,
+  //   //gacha_count?: number,
+  //   qr?: QueryRunner,
+  // ) {
+  //   const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
+  //   let gachaItems: number[] = [];
+  //   let itemKind: string | null = null;
+  //   const gacha_count = 10;
 
-    for (let i = 0; i < gacha_count; i++) {
-      const calcuGachaItem = await this.calculEquipGachaDrawRandom(gacha_id);
-      gachaItems.push(...calcuGachaItem.items);
-      if (!itemKind) {
-        itemKind = calcuGachaItem.item_kind; // 첫 번째 아이템의 종류를 저장
-      }
-    }
+  //   for (let i = 0; i < gacha_count; i++) {
+  //     const calcuGachaItem = await this.calculEquipGachaDrawRandom(gacha_id);
+  //     gachaItems.push(...calcuGachaItem.item_id);
+  //     if (!itemKind) {
+  //       itemKind = calcuGachaItem.item_kind; // 첫 번째 아이템의 종류를 저장
+  //     }
+  //   }
 
-    await this.resourceManagerService.validateAndDeductResources(
-      user_id,
-      {
-        dia: {
-          amount: gachaCostData.dia_1 * gacha_count, // 가챠 횟수만큼 비용 적용
-          mode: 'mixed',
-        },
-        item: {
-          item_id: gachaCostData.item_id_1,
-          count: gachaCostData.item_id_1_count * gacha_count, // 가챠 횟수만큼 비용 적용
-        },
-      },
-      qr,
-    );
+  //   await this.resourceManagerService.validateAndDeductResources(
+  //     user_id,
+  //     {
+  //       dia: {
+  //         amount: gachaCostData.dia_1 * gacha_count, // 가챠 횟수만큼 비용 적용
+  //         mode: 'mixed',
+  //       },
+  //       item: {
+  //         item_id: gachaCostData.item_id_1,
+  //         count: gachaCostData.item_id_1_count * gacha_count, // 가챠 횟수만큼 비용 적용
+  //       },
+  //     },
+  //     qr,
+  //   );
 
-    let reward;
-    if (['E'].includes(itemKind)) {
-      reward = await this.rewardOfferService.rewardEquipArray(
-        user_id,
-        gachaItems,
-        qr,
-      );
-    } else if (['M', 'S'].includes(itemKind)) {
-      reward = await this.rewardOfferService.rewardSameItemNumberArray(
-        user_id,
-        gachaItems,
-        qr,
-      );
-    }
+  //   let reward;
+  //   if (['E'].includes(itemKind)) {
+  //     reward = await this.rewardOfferService.rewardEquipArray(
+  //       user_id,
+  //       gachaItems,
+  //       qr,
+  //     );
+  //   } else if (['M', 'S'].includes(itemKind)) {
+  //     reward = await this.rewardOfferService.rewardSameItemNumberArray(
+  //       user_id,
+  //       gachaItems,
+  //       qr,
+  //     );
+  //   }
 
-    console.log('reward', reward);
+  //   console.log('reward', reward);
 
-    if (!reward) {
-      throw new BadRequestException('Failed to process reward.');
-    }
+  //   if (!reward) {
+  //     throw new BadRequestException('Failed to process reward.');
+  //   }
 
-    return { gachaItems, reward };
-  }
+  //   return { gachaItems, reward };
+  // }
 
   async diamondDivision(resourceCheck: any, qr?: QueryRunner) {
     let deductedCurrency = [];
