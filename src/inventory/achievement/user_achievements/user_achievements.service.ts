@@ -376,7 +376,7 @@ export class UserAchievementsService {
     };
 
     await this.gameLogsService.insertLog(
-      LogType.PLAYER_ACHIEVEMENT,
+      LogType.PLAYER_ACHIEVEMENT_REWARD,
       user_id,
       achievementLog,
     );
