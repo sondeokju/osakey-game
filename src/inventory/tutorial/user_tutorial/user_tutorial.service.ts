@@ -10,6 +10,8 @@ import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { UserTutorial } from './entities/user_tutorial.entity';
 import { TutorialRewardService } from 'src/static-table/tutorial/tutorial_reward/tutorial_reward.service';
+import { GameLogsService } from 'src/game_log/game_logs/game_logs.service';
+import { LogType } from 'src/common/const/log-type.enum';
 
 @Injectable()
 export class UserTutorialService {
@@ -19,6 +21,7 @@ export class UserTutorialService {
     private readonly rewardOfferService: RewardOfferService,
     private readonly tutorialRewardService: TutorialRewardService,
     private readonly dataSource: DataSource,
+    private readonly gameLogsService: GameLogsService,
   ) {}
 
   getUserTutorialRepository(qr?: QueryRunner) {
@@ -71,8 +74,6 @@ export class UserTutorialService {
         throw new BadRequestException('No tutorial data found.');
       }
 
-      console.log('tutorialRewardData', tutorialRewardData);
-
       // console.log('tutorialRewardData.reward_id', tutorialRewardData.reward_id);
       if (tutorialRewardData.reward_id && tutorialRewardData.reward_id > 0) {
         rewardData = await this.rewardOfferService.reward(
@@ -96,6 +97,20 @@ export class UserTutorialService {
       if (isTransactionOwner) {
         await queryRunner.commitTransaction();
       }
+
+      // 가챠 로그
+      const tutorialLog = {
+        tutorial_id,
+        tutorial_sub_id,
+        userItemData: rewardData ?? [],
+        userTutorial: updatedUserTutorial,
+      };
+
+      await this.gameLogsService.insertLog(
+        LogType.PLAYER_TUTORIAL,
+        user_id,
+        tutorialLog,
+      );
 
       return {
         reward: {
