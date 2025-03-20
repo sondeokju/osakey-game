@@ -411,7 +411,7 @@ export class GachaDrawService {
 
       const equip = await this.userEquipService.getUserLastInsertEquip(
         user_id,
-        Number(gachaItem[0].item_id),
+        Number(gachaItem[0]),
         qr,
       );
 
@@ -425,7 +425,7 @@ export class GachaDrawService {
       );
 
       gachaItemData.push({
-        item_id: Number(gachaItem[0].item_id),
+        item_id: Number(gachaItem[0]),
         item_count: Number(itemCount),
       });
     }
