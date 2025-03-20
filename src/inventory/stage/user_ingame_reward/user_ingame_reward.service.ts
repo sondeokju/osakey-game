@@ -175,7 +175,7 @@ export class UserIngameRewardService {
     };
 
     await this.gameLogsService.insertLog(
-      LogType.PLAYER_BATTLE_REWARD,
+      LogType.PLAYER_STAGE_REWARD,
       user_id,
       ingameBattleLog,
     );

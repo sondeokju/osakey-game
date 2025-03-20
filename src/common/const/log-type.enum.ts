@@ -8,7 +8,7 @@ export enum LogType {
   PLAYER_RESPAWN = 'player_respawn',
   PLAYER_MOVE = 'player_move',
   PLAYER_TUTORIAL = 'player_tutorial',
-  PLAYER_BATTLE_REWARD = 'player_battle_reward',
+  PLAYER_STAGE_REWARD = 'player_stage_reward',
   PLAYER_DISCONNECT = 'player_disconnect',
 
   // 🔴 전투 관련
