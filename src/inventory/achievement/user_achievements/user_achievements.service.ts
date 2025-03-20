@@ -245,6 +245,19 @@ export class UserAchievementsService {
         await queryRunner.commitTransaction();
       }
 
+      // 업적 등록 로그
+      const achievementLog = {
+        achieve_id,
+        achieve_count,
+        progress_status,
+      };
+
+      await this.gameLogsService.insertLog(
+        LogType.PLAYER_ACHIEVEMENT_ENROLL,
+        user_id,
+        achievementLog,
+      );
+
       return result;
     } catch (error) {
       if (isTransactionOwner) {
