@@ -59,6 +59,7 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   async handleDisconnect(socket: Socket) {
+    let logFlag = false;
     try {
       const userId = await this.sessionRedisService.getSessionBySocketId(
         socket.id,
@@ -78,15 +79,18 @@ export class UserGateway implements OnGatewayConnection, OnGatewayDisconnect {
       }
 
       try {
-        await this.zLoginLogService.logoutLog(userId);
+        if (!logFlag) {
+          logFlag = true;
+          await this.zLoginLogService.logoutLog(userId);
 
-        const logoutLog = {};
+          const logoutLog = {};
 
-        await this.gameLogsService.insertLog(
-          LogType.PLAYER_LOGOUT,
-          userId,
-          logoutLog,
-        );
+          await this.gameLogsService.insertLog(
+            LogType.PLAYER_LOGOUT,
+            userId,
+            logoutLog,
+          );
+        }
       } catch (dbError) {
         console.error(
           `❌ [DB] 로그아웃 로그 저장 실패 - User ID: ${userId}`,
