@@ -17,6 +17,8 @@ import { EquipService } from 'src/static-table/equipment/equip/equip.service';
 import { ResourceManagerService } from '../resource_manager/resource_manager.service';
 import { UserChallengeService } from 'src/inventory/challenge/user_challenge/user_challenge.service';
 import { UserEquipService } from 'src/inventory/equipment/user_equip/user_equip.service';
+import { GameLogsService } from 'src/game_log/game_logs/game_logs.service';
+import { LogType } from 'src/common/const/log-type.enum';
 
 @Injectable()
 export class GachaDrawService {
@@ -31,6 +33,7 @@ export class GachaDrawService {
     private readonly userChallengeService: UserChallengeService,
     private readonly userEquipService: UserEquipService,
     private readonly dataSource: DataSource,
+    private readonly gameLogsService: GameLogsService,
   ) {}
 
   // async simulateGachaDraws(
@@ -441,6 +444,30 @@ export class GachaDrawService {
 
     // 뽑기 횟수 퀘스트
     await this.userChallengeService.challengeQuest(user_id, 12400002, 1);
+
+    const gachaLog = {
+      userItemData: gachaItemData,
+      userEquipData: userEquip,
+      deductedCurrency: [
+        {
+          // item
+          item_id: gachaCostData.item_id_1,
+          item_count: costItemCount,
+        },
+        {
+          // diamond_paid
+          item_id: 11100003,
+          item_count: diaPayout.reduceItem.diamond_paid ?? 0,
+        },
+        {
+          // diamond_free
+          item_id: 11100004,
+          item_count: diaPayout.reduceItem.diamond_free ?? 0,
+        },
+      ],
+    };
+
+    await this.gameLogsService.insertLog(LogType.GACHA_01, user_id, gachaLog);
 
     return {
       reward: {

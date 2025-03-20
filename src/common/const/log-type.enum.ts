@@ -67,6 +67,10 @@ export enum LogType {
   MATCH_QUEUE_JOIN = 'match_queue_join',
   MATCH_QUEUE_LEAVE = 'match_queue_leave',
 
+  // 가챠  로그
+  GACHA_01 = 'gacha_01',
+  GACHA_10 = 'gacha_10',
+
   // 📝 기타 로그
   CHAT_MESSAGE = 'chat_message',
   FRIEND_REQUEST = 'friend_request',

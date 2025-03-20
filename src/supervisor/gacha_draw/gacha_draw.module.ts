@@ -9,6 +9,7 @@ import { UserGachaCheckModule } from './user_gacha_check/user_gacha_check.module
 import { ItemModule } from 'src/static-table/item/item.module';
 import { EquipModule } from 'src/static-table/equipment/equip/equip.module';
 import { UserEquipModule } from 'src/inventory/equipment/user_equip/user_equip.module';
+import { GameLogsModule } from 'src/game_log/game_logs/game_logs.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { UserEquipModule } from 'src/inventory/equipment/user_equip/user_equip.m
     EquipModule,
     ResourceManagerModule,
     UserEquipModule,
+    GameLogsModule,
   ],
   exports: [GachaDrawService],
   controllers: [GachaDrawController],
