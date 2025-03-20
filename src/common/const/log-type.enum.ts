@@ -15,6 +15,7 @@ export enum LogType {
   PLAYER_EDU_LEARN = 'player_edu_learn',
   PLAYER_EDU_COMPLETE = 'player_edu_complete',
   PLAYER_EDU_REDUCE_ITEM = 'player_edu_reduce_item',
+  PLAYER_EDU_REDUCE_CURRENCY = 'player_edu_reduce_currency',
   PLAYER_DISCONNECT = 'player_disconnect',
 
   // 🔴 전투 관련

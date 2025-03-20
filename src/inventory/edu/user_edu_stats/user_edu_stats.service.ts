@@ -512,6 +512,23 @@ export class UserEduStatsService {
         await queryRunner.commitTransaction();
       }
 
+      // 교육 아이템 차감 로그
+      const eduLearnLog = {
+        edu_list_id,
+        edu_reduce_time_id,
+        deductedCurrency: [
+          { item_id: 11100004, item_count: eduReduceTime.diamond_free },
+          { item_id: 11100002, item_count: eduReduceTime.gord },
+        ],
+        userEdu: userEduData,
+      };
+
+      await this.gameLogsService.insertLog(
+        LogType.PLAYER_EDU_REDUCE_CURRENCY,
+        user_id,
+        eduLearnLog,
+      );
+
       return { reward: { result }, userEduData };
     } catch (error) {
       if (isTransactionStarted) {
