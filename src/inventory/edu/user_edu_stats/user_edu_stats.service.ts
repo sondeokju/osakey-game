@@ -380,6 +380,20 @@ export class UserEduStatsService {
       },
     });
 
+    // 교육 아이템 차감 로그
+    const eduLearnLog = {
+      edu_list_id,
+      edu_reduce_time_id,
+      deductedCurrency: { item_id: item.item_id, item_count: -1 },
+      userEdu: userEduData,
+    };
+
+    await this.gameLogsService.insertLog(
+      LogType.PLAYER_EDU_REDUCE_ITEM,
+      user_id,
+      eduLearnLog,
+    );
+
     return {
       reward: {
         userItemData: [{ item_id: item.item_id, item_count: -1 }],
