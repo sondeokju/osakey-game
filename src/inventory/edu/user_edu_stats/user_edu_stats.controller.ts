@@ -31,8 +31,6 @@ export class UserEduStatsController {
       qr,
     );
 
-    console.log('eduLearn:', result);
-
     return JSON.stringify(result);
   }
 

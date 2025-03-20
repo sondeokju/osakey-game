@@ -15,6 +15,8 @@ import { UserItemService } from 'src/user_item/user_item.service';
 import { UsersService } from 'src/users/users.service';
 import { DataSource } from 'typeorm';
 import { UserChallengeService } from 'src/inventory/challenge/user_challenge/user_challenge.service';
+import { GameLogsService } from 'src/game_log/game_logs/game_logs.service';
+import { LogType } from 'src/common/const/log-type.enum';
 
 @Injectable()
 export class UserEduStatsService {
@@ -30,6 +32,7 @@ export class UserEduStatsService {
     private readonly usersService: UsersService,
     private readonly userChallengeService: UserChallengeService,
     private readonly dataSource: DataSource,
+    private readonly gameLogsService: GameLogsService,
   ) {}
 
   getUserEduStatsRepository(qr?: QueryRunner) {
@@ -77,6 +80,24 @@ export class UserEduStatsService {
 
       const user = await this.usersService.getMe(user_id, qr);
 
+      // 교육 등록 로그
+      const eduLearnLog = {
+        edu,
+        user,
+        userItemData: [
+          {
+            item_id: eduCurriculum.price_item_id,
+            item_count: Math.max(-price_item_qty, 0),
+          },
+        ],
+      };
+
+      await this.gameLogsService.insertLog(
+        LogType.PLAYER_EDU_LEARN,
+        user_id,
+        eduLearnLog,
+      );
+
       return {
         reward: {
           userItemData: [
@@ -115,6 +136,25 @@ export class UserEduStatsService {
     });
 
     const user = await this.usersService.getMe(user_id, qr);
+
+    // 교육 등록 로그
+    const eduLearnLog = {
+      edu,
+      user,
+      userItemData: [
+        {
+          item_id: eduCurriculum.price_item_id,
+          item_count: Math.max(-price_item_qty, 0),
+        },
+      ],
+    };
+
+    await this.gameLogsService.insertLog(
+      LogType.PLAYER_EDU_LEARN,
+      user_id,
+      eduLearnLog,
+    );
+
     return {
       reward: {
         userItemData: [

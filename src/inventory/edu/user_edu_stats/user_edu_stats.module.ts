@@ -21,6 +21,7 @@ import { UserItem } from 'src/user_item/entities/user_item.entity';
 import { Hero } from 'src/static-table/hero/entities/hero.entity';
 import { HeroService } from 'src/static-table/hero/hero.service';
 import { UserItemService } from 'src/user_item/user_item.service';
+import { GameLogsModule } from 'src/game_log/game_logs/game_logs.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { UserItemService } from 'src/user_item/user_item.service';
       UserItem,
       Hero,
     ]),
+    GameLogsModule,
   ],
   exports: [UserEduStatsService],
   controllers: [UserEduStatsController],
