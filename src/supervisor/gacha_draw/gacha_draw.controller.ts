@@ -15,14 +15,13 @@ export class GachaDrawController {
   async equipGachaDrawRandom(
     @User() user: Users,
     @Body('gacha_id') gacha_id: number,
-    @Body('gacha_count') gacha_count: number,
+    @Body('gacha_count') gacha_count: number = 1, // 기본값 1 설정
     @QueryRunner() qr: QR,
   ) {
     const result = await this.gachaDrawService.gacha(
       user.user_id,
       gacha_id,
-      //gacha_count,
-      1,
+      gacha_count || 1, // 입력이 없거나 0일 경우 기본값 1 사용
       qr,
     );
 
