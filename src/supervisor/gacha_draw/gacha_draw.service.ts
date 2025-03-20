@@ -334,6 +334,8 @@ export class GachaDrawService {
     const calcuGachaItem = await this.calculEquipGachaDrawRandom(gacha_id);
     let gachaItem = [];
     gachaItem.push(calcuGachaItem.item_id);
+    console.log('calcuGachaItem.item_id:', calcuGachaItem.item_id);
+    console.log('gachaItem:', gachaItem);
     const itemKind = calcuGachaItem.item_kind;
     const itemCount = calcuGachaItem.item_count;
     const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
