@@ -13,6 +13,7 @@ export enum LogType {
   PLAYER_ACHIEVEMENT_ENROLL = 'player_achievement_enroll',
   PLAYER_ATTENDANCE_REWARD = 'player_attendance_reward',
   PLAYER_EDU_LEARN = 'player_edu_learn',
+  PLAYER_EDU_COMPLETE = 'player_edu_complete',
   PLAYER_DISCONNECT = 'player_disconnect',
 
   // 🔴 전투 관련

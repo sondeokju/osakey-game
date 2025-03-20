@@ -543,6 +543,15 @@ export class UserEduStatsService {
     // 수업 듣기 완료 퀘스트
     await this.userChallengeService.challengeQuest(user_id, 12400005, 1);
 
+    // 교육 완료 로그
+    const eduLearnLog = { edu_list_id, userEdu: result };
+
+    await this.gameLogsService.insertLog(
+      LogType.PLAYER_EDU_COMPLETE,
+      user_id,
+      eduLearnLog,
+    );
+
     return result;
   }
 
