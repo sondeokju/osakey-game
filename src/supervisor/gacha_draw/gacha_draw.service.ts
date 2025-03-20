@@ -90,13 +90,14 @@ export class GachaDrawService {
       random -= gacha.item_rate;
       if (random <= 0) {
         return {
-          items: Array(gacha.item_qty).fill(gacha.item_id),
+          item_id: gacha.item_id,
           item_kind: gacha.item_kind,
+          item_count: gacha.item_qty,
         };
       }
     }
 
-    return { items: [], item_kind: null };
+    return { item_id: null, item_kind: null, item_count: null };
   }
 
   async calculEquipGachaDrawRandom10(gacha_id: number, qr?: QueryRunner) {
@@ -230,7 +231,6 @@ export class GachaDrawService {
       ),
     ]);
 
-    console.log('fixedGacha 1---------', grade4, grade5);
     let itemData;
     let equipData;
     let item_grade = 0;
@@ -270,8 +270,6 @@ export class GachaDrawService {
       }
     }
 
-    console.log('fixedGacha 2---------');
-
     if (
       !grade4 &&
       gachaCheckData.fixed_item_grade_1_count <= 1 &&
@@ -298,7 +296,6 @@ export class GachaDrawService {
       );
     }
 
-    console.log('fixedGacha 3---------');
     if (
       !grade5 &&
       gachaCheckData.fixed_item_grade_2_count <= 1 &&
@@ -325,8 +322,6 @@ export class GachaDrawService {
       );
     }
 
-    console.log('fixedGacha 4---------');
-    console.log('gachaItem:', gachaItem);
     return gachaItem;
   }
 
@@ -337,8 +332,10 @@ export class GachaDrawService {
     qr?: QueryRunner,
   ) {
     const calcuGachaItem = await this.calculEquipGachaDrawRandom(gacha_id);
-    let gachaItem = calcuGachaItem.items;
+    let gachaItem = [];
+    gachaItem.push(calcuGachaItem.item_id);
     const itemKind = calcuGachaItem.item_kind;
+    const itemCount = calcuGachaItem.item_count;
     const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
 
     await this.userGachaCheckService.defaultGachaCountSetting(
@@ -348,10 +345,6 @@ export class GachaDrawService {
       gachaCostData.fixed_item_grade_2_count,
       qr,
     );
-
-    // 11100003, C, 1, CUR_DIA_PAID, diamond_paid;
-    // 11100004, C, 1, CUR_DIA_FREE, diamond_free;
-    // 11720001 아이템 가챠
 
     let costItemCount = gachaCostData.item_id_1_count;
     let diaPayout;
@@ -384,7 +377,7 @@ export class GachaDrawService {
     if (!diaPayout.hasError) {
       return diaPayout;
     }
-    console.log('diaPayout:', diaPayout);
+
     gachaItem = await this.fixedGacha(
       user_id,
       gacha_id,
@@ -394,13 +387,10 @@ export class GachaDrawService {
       qr,
     );
 
-    console.log('gachaItem:', gachaItem);
-    console.log('itemKind:', itemKind);
-
-    const itemCountMap: Record<number, number> = {};
-    for (const item_id of gachaItem) {
-      itemCountMap[item_id] = (itemCountMap[item_id] || 0) + 1;
-    }
+    // const itemCountMap: Record<number, number> = {};
+    // for (const item_id of gachaItem) {
+    //   itemCountMap[item_id] = (itemCountMap[item_id] || 0) + 1;
+    // }
 
     // 중복된 item_id를 합쳐서 { item_id, item_count } 형태로 변환
     //const gachaItemData: { item_id: number; item_count: number }[] = [];
@@ -412,35 +402,30 @@ export class GachaDrawService {
     if (['E'].includes(itemKind)) {
       await this.rewardOfferService.rewardEquipArray(user_id, gachaItem, qr);
 
-      // 객체를 원하는 형태의 배열로 변환
-      for (const [item_id, item_count] of Object.entries(itemCountMap)) {
-        gachaEquipData.push({
-          equip_id: Number(item_id),
-          equip_count: Number(item_count),
-        });
+      gachaEquipData.push({
+        equip_id: Number(gachaItem[0].item_id),
+        equip_count: Number(itemCount),
+      });
 
-        const equip = await this.userEquipService.getUserLastInsertEquip(
-          user_id,
-          Number(item_id),
-          qr,
-        );
-
-        userEquip.push(equip);
-      }
-    } else if (['M', 'S'].includes(itemKind)) {
-      await this.rewardOfferService.rewardSameItemNumberArray(
+      const equip = await this.userEquipService.getUserLastInsertEquip(
         user_id,
-        gachaItem,
+        Number(gachaItem[0].item_id),
         qr,
       );
 
-      // 객체를 원하는 형태의 배열로 변환
-      for (const [item_id, item_count] of Object.entries(itemCountMap)) {
-        gachaItemData.push({
-          item_id: Number(item_id),
-          item_count: Number(item_count),
-        });
-      }
+      userEquip.push(equip);
+    } else if (['M', 'S'].includes(itemKind)) {
+      await this.rewardOfferService.rewardItem(
+        user_id,
+        gachaItem[0].item_id,
+        itemCount,
+        qr,
+      );
+
+      gachaItemData.push({
+        item_id: Number(gachaItem[0].item_id),
+        item_count: Number(itemCount),
+      });
     }
 
     // 뽑기 횟수 퀘스트
@@ -637,11 +622,11 @@ export class GachaDrawService {
 
     for (let i = 0; i < 10; i++) {
       const calcuGachaItem = await this.calculEquipGachaDrawRandom10(gacha_id);
-      console.log('calcuGachaItem:', calcuGachaItem);
+      //console.log('calcuGachaItem:', calcuGachaItem);
       calcuResult.push(calcuGachaItem.items[0]);
     }
 
-    console.log('calculEquipGachaDrawRandom10:', calcuResult);
+    //console.log('calculEquipGachaDrawRandom10:', calcuResult);
     // 뽑기 횟수 퀘스트
     await this.userChallengeService.challengeQuest(user_id, 12400002, 10);
     const gachaCostData = await this.gachaService.getGacha(gacha_id, qr);
@@ -693,7 +678,6 @@ export class GachaDrawService {
     if (!diaPayout.hasError || !diaPayout.reduceItem) {
       return diaPayout;
     }
-    console.log('diaPayout:', diaPayout);
 
     // 중복된 item_id를 합쳐서 { item_id, item_count } 형태로 변환
     const gachaItemData: { item_id: number; item_count: number }[] = [];
@@ -726,13 +710,13 @@ export class GachaDrawService {
         await this.rewardOfferService.rewardItem(
           user_id,
           +fixedGacha[0],
-          1,
+          calcuResult[i].item_count,
           qr,
         );
 
         gachaItemData.push({
           item_id: fixedGacha[0],
-          item_count: 1,
+          item_count: calcuResult[i].item_count,
         });
       }
     }
