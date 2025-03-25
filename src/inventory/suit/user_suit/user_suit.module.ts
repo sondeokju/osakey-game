@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SuitModule } from 'src/static-table/suit/suit/suit.module';
 import { UserItemModule } from 'src/user_item/user_item.module';
 import { ResourceManagerModule } from 'src/supervisor/resource_manager/resource_manager.module';
+import { GameLogsModule } from 'src/game_log/game_logs/game_logs.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ResourceManagerModule } from 'src/supervisor/resource_manager/resource_
     SuitModule,
     UserItemModule,
     ResourceManagerModule,
+    GameLogsModule,
   ],
   exports: [UserSuitService],
   controllers: [UserSuitController],

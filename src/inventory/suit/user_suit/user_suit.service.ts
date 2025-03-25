@@ -9,6 +9,8 @@ import { UserSuit } from './entities/user_suit.entity';
 import { SuitService } from 'src/static-table/suit/suit/suit.service';
 import { UserItemService } from 'src/user_item/user_item.service';
 import { ResourceManagerService } from 'src/supervisor/resource_manager/resource_manager.service';
+import { GameLogsService } from 'src/game_log/game_logs/game_logs.service';
+import { LogType } from 'src/common/const/log-type.enum';
 
 @Injectable()
 export class UserSuitService {
@@ -18,6 +20,7 @@ export class UserSuitService {
     private readonly suitService: SuitService,
     private readonly userItemService: UserItemService,
     private readonly resourceManagerService: ResourceManagerService,
+    private readonly gameLogsService: GameLogsService,
   ) {}
 
   getUserSuitRepository(qr?: QueryRunner) {
@@ -77,6 +80,17 @@ export class UserSuitService {
     userSuit.suit_level += 1;
     const result = await userSuitRepository.save(userSuit);
 
+    // suitLevelUp 로그
+    const suitLog = {
+      userSuit: result,
+    };
+
+    await this.gameLogsService.insertLog(
+      LogType.PLAYER_SUIT_LEVELUP,
+      user_id,
+      suitLog,
+    );
+
     return result;
   }
 
@@ -98,10 +112,17 @@ export class UserSuitService {
     userSuit.suit_special_level += 1;
     const suitData = await userSuitRepository.save(userSuit);
 
-    const result = {
-      item_id: suitData.suit_id,
-      item_count: 1,
+    // suitSpecialLevelUp 로그
+    const suitLog = {
+      userSuit: suitData,
     };
+
+    await this.gameLogsService.insertLog(
+      LogType.PLAYER_SUIT_SPECIAL_LEVELUP,
+      user_id,
+      suitLog,
+    );
+
     return suitData;
   }
 

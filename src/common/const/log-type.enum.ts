@@ -18,6 +18,8 @@ export enum LogType {
   PLAYER_EDU_REDUCE_CURRENCY = 'player_edu_reduce_currency',
   PLAYER_MISSION_CLEAR = 'player_mission_clear',
   PLAYER_MISSION_REWARD = 'player_mission_reward',
+  PLAYER_SUIT_LEVELUP = 'player_suit_levelup',
+  PLAYER_SUIT_SPECIAL_LEVELUP = 'player_suit_special_levelup',
   PLAYER_DISCONNECT = 'player_disconnect',
 
   // 🔴 전투 관련
