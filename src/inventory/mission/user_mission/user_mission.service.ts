@@ -321,7 +321,7 @@ export class UserMissionService {
     };
 
     await this.gameLogsService.insertLog(
-      LogType.PLAYER_REWARD_CLEAR,
+      LogType.PLAYER_MISSION_REWARD,
       user_id,
       missionLog,
     );
