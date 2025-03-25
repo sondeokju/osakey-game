@@ -17,14 +17,13 @@ export class UserMissionController {
     @Body('user_mission_id') user_mission_id: number,
     @QueryRunner() qr: QR,
   ) {
-    console.log('user_mission_id', user_mission_id);
     const result = await this.userMissionService.clearMission(
       user.user_id,
       user_mission_id,
       qr,
     );
 
-    return JSON.stringify(result);
+    return result;
   }
 
   @Post('save')
@@ -42,13 +41,13 @@ export class UserMissionController {
       user.user_id,
       mission_id,
       mission_goal,
-      mission_kind.trim(),
+      mission_kind,
       //clear_count,
       reward_id,
       qr,
     );
 
-    return JSON.stringify(result);
+    return result;
   }
 
   @Get()
@@ -61,7 +60,7 @@ export class UserMissionController {
   @Post('reward')
   @UseInterceptors(TransactionInterceptor)
   async missionReward(
-    @User() user: Users,
+    @User() user: Users, 
     @Body('user_mission_id') user_mission_id: number,
     @QueryRunner() qr: QR,
   ) {
@@ -71,7 +70,7 @@ export class UserMissionController {
       qr,
     );
 
-    return JSON.stringify(result);
+    return result;
   }
 
   @Post('try')

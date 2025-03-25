@@ -15,6 +15,7 @@ import { UserItemService } from 'src/user_item/user_item.service';
 import { Users } from 'src/users/entity/users.entity';
 import { UsersService } from 'src/users/users.service';
 import { UsersModule } from 'src/users/users.module';
+import { GameLogsModule } from 'src/game_log/game_logs/game_logs.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { UsersModule } from 'src/users/users.module';
       Hero,
     ]),
     UsersModule,
+    GameLogsModule,
   ],
   exports: [UserMissionService],
   controllers: [UserMissionController],

@@ -10,6 +10,8 @@ import { QueryRunner, Repository } from 'typeorm';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { UserChallengeService } from 'src/inventory/challenge/user_challenge/user_challenge.service';
 import { UsersService } from 'src/users/users.service';
+import { GameLogsService } from 'src/game_log/game_logs/game_logs.service';
+import { LogType } from 'src/common/const/log-type.enum';
 
 @Injectable()
 export class UserMissionService {
@@ -20,6 +22,7 @@ export class UserMissionService {
     private readonly rewardOfferService: RewardOfferService,
     private readonly userChallengeService: UserChallengeService,
     private readonly usersService: UsersService,
+    private readonly gameLogsService: GameLogsService,
   ) {}
 
   getUserMissionRepository(qr?: QueryRunner) {
@@ -47,7 +50,7 @@ export class UserMissionService {
       { clear_count: () => 'clear_count + 1' }, // `clear_count` 증가
     );
 
-    const result = await userMissionRepository.find({
+    const userMission = await userMissionRepository.find({
       where: {
         user_id,
       },
@@ -56,7 +59,19 @@ export class UserMissionService {
     // 아무 NPC 미션 클리어 횟수
     await this.userChallengeService.challengeQuest(user_id, 12400008, 1);
 
-    return result;
+    // 미션 등록 로그
+    const missionLog = {
+      user_mission_id,
+      userMission,
+    };
+
+    await this.gameLogsService.insertLog(
+      LogType.PLAYER_MISSION_CLEAR,
+      user_id,
+      missionLog,
+    );
+
+    return userMission;
   }
 
   async insertMission(user_id: string, mission_id: number, qr?: QueryRunner) {
