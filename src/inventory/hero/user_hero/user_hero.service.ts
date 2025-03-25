@@ -71,7 +71,7 @@ export class UserHeroService {
 
     // heroLevelUp 로그
     const heroLog = {
-      userItemData: rewardData,
+      reward: rewardData,
       user: updatedUserData,
     };
 
