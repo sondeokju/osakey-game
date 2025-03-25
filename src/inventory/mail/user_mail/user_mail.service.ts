@@ -10,6 +10,8 @@ import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { UserMail } from './entities/user_mail.entity';
 import { RewardService } from 'src/static-table/reward/reward.service';
+import { GameLogsService } from 'src/game_log/game_logs/game_logs.service';
+import { LogType } from 'src/common/const/log-type.enum';
 
 @Injectable()
 export class UserMailService {
@@ -19,6 +21,7 @@ export class UserMailService {
     private readonly rewardOfferService: RewardOfferService,
     private readonly rewardService: RewardService,
     private readonly dataSource: DataSource,
+    private readonly gameLogsService: GameLogsService,
   ) {}
 
   getUserMailRepository(qr?: QueryRunner) {
@@ -312,6 +315,17 @@ export class UserMailService {
 
     userMailData.reward_yn = 'Y';
     const updatedUserMail = await userMailRepository.save(userMailData);
+
+    // mailReward 로그
+    const mailLog = {
+      userMail: updatedUserMail,
+    };
+
+    await this.gameLogsService.insertLog(
+      LogType.PLAYER_MAIL_REWARD,
+      user_id,
+      mailLog,
+    );
 
     return {
       reward: {

@@ -22,6 +22,7 @@ export enum LogType {
   PLAYER_SUIT_SPECIAL_LEVELUP = 'player_suit_special_levelup',
   PLAYER_SECAMEDIARY_REWARD = 'player_secamediary_reward',
   PLAYER_HERO_LEVELUP = 'player_hero_levelup',
+  PLAYER_MAIL_REWARD = 'player_mail_reward',
   PLAYER_DISCONNECT = 'player_disconnect',
 
   // 🔴 전투 관련
