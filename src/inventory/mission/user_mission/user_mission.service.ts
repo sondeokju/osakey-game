@@ -50,9 +50,16 @@ export class UserMissionService {
       { clear_count: () => 'clear_count + 1' }, // `clear_count` 증가
     );
 
-    const userMission = await userMissionRepository.find({
+    const result = await userMissionRepository.find({
       where: {
         user_id,
+      },
+    });
+
+    const userMission = await userMissionRepository.findOne({
+      where: {
+        user_id,
+        id: user_mission_id,
       },
     });
 
@@ -71,7 +78,7 @@ export class UserMissionService {
       missionLog,
     );
 
-    return userMission;
+    return result;
   }
 
   async insertMission(user_id: string, mission_id: number, qr?: QueryRunner) {
