@@ -9,6 +9,8 @@ import { HeroService } from 'src/static-table/hero/hero.service';
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { UsersService } from 'src/users/users.service';
 import { QueryRunner, Repository } from 'typeorm';
+import { GameLogsService } from 'src/game_log/game_logs/game_logs.service';
+import { LogType } from 'src/common/const/log-type.enum';
 
 @Injectable()
 export class UserHeroService {
@@ -17,6 +19,7 @@ export class UserHeroService {
     private readonly heroService: HeroService,
     private readonly rewardOfferService: RewardOfferService,
     private readonly userDispatchService: UserDispatchService,
+    private readonly gameLogsService: GameLogsService,
   ) {}
 
   async heroLevelUp(user_id: string, qr?: QueryRunner) {
@@ -65,6 +68,18 @@ export class UserHeroService {
 
     // //영웅 등급 파견 해금
     // await this.dispatchUnlock(user_id, qr);
+
+    // heroLevelUp 로그
+    const heroLog = {
+      userItemData: rewardData,
+      user: updatedUserData,
+    };
+
+    await this.gameLogsService.insertLog(
+      LogType.PLAYER_HERO_LEVELUP,
+      user_id,
+      heroLog,
+    );
 
     return {
       reward: {
