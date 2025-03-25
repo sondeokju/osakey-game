@@ -7,6 +7,7 @@ import { SecameDiaryModule } from 'src/static-table/secame/secame_diary/secame_d
 import { RewardOfferModule } from 'src/supervisor/reward_offer/reward_offer.module';
 import { HeroModule } from 'src/static-table/hero/hero.module';
 import { UsersModule } from 'src/users/users.module';
+import { GameLogsModule } from 'src/game_log/game_logs/game_logs.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { UsersModule } from 'src/users/users.module';
     RewardOfferModule,
     UsersModule,
     HeroModule,
+    GameLogsModule,
   ],
   exports: [UserSecameDiaryService],
   controllers: [UserSecameDiaryController],

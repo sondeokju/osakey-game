@@ -12,6 +12,8 @@ import { SecameDiaryService } from 'src/static-table/secame/secame_diary/secame_
 import { RewardOfferService } from 'src/supervisor/reward_offer/reward_offer.service';
 import { UsersService } from 'src/users/users.service';
 import { HeroService } from 'src/static-table/hero/hero.service';
+import { GameLogsService } from 'src/game_log/game_logs/game_logs.service';
+import { LogType } from 'src/common/const/log-type.enum';
 
 @Injectable()
 export class UserSecameDiaryService {
@@ -22,6 +24,7 @@ export class UserSecameDiaryService {
     private readonly rewardOfferService: RewardOfferService,
     private readonly usersService: UsersService,
     private readonly heroService: HeroService,
+    private readonly gameLogsService: GameLogsService,
   ) {}
 
   getUserSecameDiaryRepository(qr?: QueryRunner) {
@@ -158,6 +161,18 @@ export class UserSecameDiaryService {
       if (!isExternalTransaction) {
         await qr.commitTransaction();
       }
+
+      // secameDiaryReward 로그
+      const secameLog = {
+        reward,
+        user_secame_diary: result,
+      };
+
+      await this.gameLogsService.insertLog(
+        LogType.PLAYER_SECAMEDIARY_REWARD,
+        user_id,
+        secameLog,
+      );
 
       return {
         reward: {
