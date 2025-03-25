@@ -66,7 +66,7 @@ export class UserMissionService {
     // 아무 NPC 미션 클리어 횟수
     await this.userChallengeService.challengeQuest(user_id, 12400008, 1);
 
-    // 미션 등록 로그
+    // 미션 clear 로그
     const missionLog = {
       user_mission_id,
       userMission,
@@ -120,9 +120,6 @@ export class UserMissionService {
     if (!mission_kind || typeof mission_kind !== 'string') {
       throw new BadRequestException('Invalid mission_kind provided.');
     }
-    // if (!clear_count || isNaN(clear_count)) {
-    //   throw new BadRequestException('Invalid clear_count provided.');
-    // }
 
     const userMissionRepository = this.getUserMissionRepository(qr);
     let userMission = await userMissionRepository.findOne({
@@ -151,6 +148,7 @@ export class UserMissionService {
         user_id,
       },
     });
+
     return result;
   }
 
@@ -314,6 +312,19 @@ export class UserMissionService {
     // userMission 업데이트
     userMission.reward_yn = 'Y';
     const updatedMission = await userMissionRepository.save(userMission);
+
+    // 미션 reward 로그
+    const missionLog = {
+      user_mission_id,
+      rewardData,
+      updatedMission,
+    };
+
+    await this.gameLogsService.insertLog(
+      LogType.PLAYER_REWARD_CLEAR,
+      user_id,
+      missionLog,
+    );
 
     return { reward: { userItemData: rewardData } };
   }
